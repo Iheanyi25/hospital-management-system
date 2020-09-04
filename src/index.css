@@ -8,8 +8,8 @@ body {
 
 :root {
 	--color-primary: #191d2d;
-	--color-secondary: "#473D40";
-	--color-tertiary: "#fff";
+	--color-secondary: #473D40;
+	--color-tertiary: #fff;
 	--color-background-primary: #d4ccac;
 	--primary-font: "Muli", "Helvetica", "Arial", sans-serif;
 	--border-radius-default: 5px;
