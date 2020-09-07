@@ -5,14 +5,16 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
 import LoginPage from "./Containers/Login/JS/login";
+import Home from "./Containers/Home/JS/home";
 
 const App = () => (
 	<BrowserRouter>
 		<Switch>
 			<Route path="/login" component={LoginPage} />
+			<Route path="/" component={Home} />
 		</Switch>
 	</BrowserRouter>
-)
+);
 
 ReactDOM.render(
 	<React.StrictMode>
