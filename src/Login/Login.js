@@ -94,7 +94,7 @@ class Login extends Component {
 										: false
 								}
 							>
-								Login
+								<span class="btn-icon icofont-location-arrow mr-2"></span> Login
 							</button>
 						</form>
 					</div>
