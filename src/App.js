@@ -1,25 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Login from './Login/Login'
+import AdminDashboard from './Admin/Dashboard'
+import DoctorDashboard from './Doctor/Dashboard'
+import PatientDashboard from './Patient/Dashboard'
+import AccountantDashboard from './Accountant/Dashboard'
+import PharmacyDashboard from './Pharmacy/Dashboard'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <Router>
+
+      {/* Register the routes here */}
+      <Route exact path="/" component={Login} />
+      <Route exact path="/AdminDashboard" component={AdminDashboard} />
+      <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
+      <Route exact path="/PatientDashboard" component={PatientDashboard} />
+      <Route exact path="/AccountantDashboard" component={AccountantDashboard} />
+      <Route exact path="/PharmacyDashboard" component={PharmacyDashboard} />
+      
+
+    </Router>
+    
   );
 }
 
