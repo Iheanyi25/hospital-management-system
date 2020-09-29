@@ -4,9 +4,14 @@ import AdminDashboard from './Admin/Dashboard'
 import DoctorDashboard from './Doctor/Dashboard'
 import PatientDashboard from './Patient/Dashboard'
 import AccountantDashboard from './Accountant/Dashboard'
+
 import PharmacyDashboard from './Pharmacy/Dashboard'
 import PharmacyCreateDrugCategories from './Pharmacy/CreateCategories'
+import PharmacyManageDrugCategories from './Pharmacy/ManageCategories'
+
 import PharmacyCreateDrugSubCategories from './Pharmacy/CreateSubCategories'
+import PharmacyManageDrugSubCategories from './Pharmacy/ManageSubCategories'
+
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
@@ -33,7 +38,9 @@ function App() {
       {/* Register the pharmacy routes here */}
       <Route exact path="/PharmacyDashboard" component={PharmacyDashboard} />
       <Route exact path="/PharmacyCreateDrugCategories" component={PharmacyCreateDrugCategories} />
+      <Route exact path="/PharmacyManageDrugCategories" component={PharmacyManageDrugCategories} />
       <Route exact path="/PharmacyCreateDrugSubCategories" component={PharmacyCreateDrugSubCategories} />
+      <Route exact path="/PharmacyManageDrugSubCategories" component={PharmacyManageDrugSubCategories} />
       
 
     </Router>

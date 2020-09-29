@@ -32,7 +32,9 @@ class Sidebar extends React.Component {
                             <nav className="main-menu-wrap">
                                 <ul className="menu-ul">
                                     <li className="menu-item"><span className="group-title">My Office</span></li>
-                                    <li className="menu-item"><a className="item-link" href="index.html"><span className="link-icon icofont-thermometer-alt" /> <span className="link-text">Dashboard</span></a></li>
+                                    <li className="menu-item"> 
+                                        <Link className="item-link" to="/PharmacyDashboard"><span className="link-icon icofont-thermometer-alt" /> <span className="link-text">Dashboard</span> </Link>
+                                    </li>
                                     <li className="menu-item"><a className="item-link" href="appointments.html"><span className="link-icon icofont-stethoscope-alt" /> <span className="link-text">Patients</span></a></li>
                                     <li className="menu-item"><a className="item-link" href="doctors.html"><span className="link-icon icofont-doctor" /> <span className="link-text">Prescriptions</span></a></li>
                                     <li className="menu-item"><a className="item-link" href="doctors.html"><span className="link-icon icofont-doctor" /> <span className="link-text">Pharmasists</span></a></li>
@@ -42,15 +44,15 @@ class Sidebar extends React.Component {
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Drug Categories</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
                                             <li className="menu-item"><Link className="item-link" to="/PharmacyCreateDrugCategories"><span className="link-text">Add Categories</span></Link></li>
-                                            <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Categories</span></a></li>
-                                        
+                                            <li className="menu-item"><Link className="item-link" to="/PharmacyManageDrugCategories"><span className="link-text">Manage SubCategories</span></Link></li>
+                                    
                                         </ul>
                                     </li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Drug Sub Categories</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
                                             <li className="menu-item"><Link className="item-link" to="/PharmacyCreateDrugSubCategories"><span className="link-text">Add SubCategories</span></Link></li>
-                                            <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Sub Categories</span></a></li>
-                                        
+                                            <li className="menu-item"><Link className="item-link" to="/PharmacyManageDrugSubCategories"><span className="link-text">Manage SubCategories</span></Link></li>
+                                    
                                         </ul>
                                     </li>
 
