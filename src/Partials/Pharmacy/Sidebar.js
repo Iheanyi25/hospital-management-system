@@ -41,14 +41,14 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><span className="group-title">Drug Management</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Drug Categories</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">Add Categories</span></a></li>
+                                            <li className="menu-item"><Link className="item-link" to="/PharmacyCreateDrugCategories"><span className="link-text">Add Categories</span></Link></li>
                                             <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Categories</span></a></li>
                                         
                                         </ul>
                                     </li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Drug Sub Categories</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">Add Sub Categories</span></a></li>
+                                            <li className="menu-item"><Link className="item-link" to="/PharmacyCreateDrugSubCategories"><span className="link-text">Add SubCategories</span></Link></li>
                                             <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Sub Categories</span></a></li>
                                         
                                         </ul>
