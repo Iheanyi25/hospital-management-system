@@ -15,12 +15,21 @@ function App() {
 
       {/* Register the routes here */}
       <Route exact path="/" component={Login} />
+
+      {/* Register the admin routes here */}
       <Route exact path="/AdminDashboard" component={AdminDashboard} />
+
+      {/* Register the doctor routes here */}
       <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
+
+      {/* Register the patients routes here */}
       <Route exact path="/PatientDashboard" component={PatientDashboard} />
+
+      {/* Register the admin accountant here */}
       <Route exact path="/AccountantDashboard" component={AccountantDashboard} />
+
+      {/* Register the pharmacy routes here */}
       <Route exact path="/PharmacyDashboard" component={PharmacyDashboard} />
-      
 
     </Router>
     
