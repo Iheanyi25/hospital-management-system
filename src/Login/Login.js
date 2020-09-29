@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "./CSS/Login.module.css";
+import styles from "./css/Login.module.css";
 
 class Login extends Component {
 	constructor(props) {
@@ -62,52 +62,42 @@ class Login extends Component {
 		const { email, password, submitting } = this.state;
 		return (
 			<>
-				<div className={styles.background}></div>
-				<div className={styles.div}>
-					<h1>
-						<img src="./assets/img/logo.svg" alt width={147} height={33} className="logo-img" />Hospital Management Solution
-					</h1>
-					<h2>Login</h2>
-					<form
-						className={styles.form}
-						onSubmit={(e) => this.login(e)}
-					>
-						<label htmlFor="email">Email</label>
-						<input
-							id="email"
-							className={["input", styles.input].join(" ")}
-							value={this.state.email}
-							onChange={(e) => this.handleChange("email", e)}
-							type="email"
-							name="email"
-							placeholder="Enter email"
-							required
-						/>
-						<label htmlFor="password">Password</label>
-						<input
-							id="password"
-							className={["input", styles.input].join(" ")}
-							value={password}
-							onChange={(e) => this.handleChange("password", e)}
-							type="password"
-							name="password"
-							placeholder="Enter password"
-							required
-						/>
-						<button
-							className={["primary_btn", styles.submit_btn].join(
-								" "
-							)}
-							type="submit"
-							disabled={
-								email === "" || password === "" || submitting
-									? true
-									: false
-							}
+				<div className={styles.background}>
+					<div className={styles.div}>
+						<h1>
+							<img src="./assets/img/logo.svg" width={147} height={33} className="logo-img" />Hospital Management Solution
+						</h1>
+						<h2>Login</h2>
+						<form
+							className={styles.form}
+							onSubmit={(e) => this.login(e)}
 						>
-							Sign In
-						</button>
-					</form>
+							<div class="form-group">
+								<label>Email Address</label>
+								 <input class="form-control" type="email" name="email" value={this.state.email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
+								 
+							</div>
+
+							<div class="form-group">
+								<label>Password</label>
+								 <input class="form-control" type="password" name="password" value={password} onChange={(e) => this.handleChange("password", e)} placeholder="Your Email Address" required />
+								 
+							</div>
+							
+							
+							<button
+								className="btn btn-primary"
+								type="submit"
+								disabled={
+									email === "" || password === "" || submitting
+										? true
+										: false
+								}
+							>
+								Login
+							</button>
+						</form>
+					</div>
 				</div>
 			</>
 		);

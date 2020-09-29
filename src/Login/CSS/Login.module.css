@@ -63,24 +63,23 @@
 	display: block;
 }
 
-@media (min-width: 600px) {
-	.background {
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		background: url("../IMG/login.jpg");
-		filter: contrast(40%) blur(1px);
-		z-index: -1;
-	}
-	.div {
-		max-height: 500px;
-		padding-top: 7vh;
-		margin-top: 12vh;
-	}
-	.div h1 {
-		font-size: 19px;
-	}
+.background {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0; 
+	width: 100vw;
+	height: 100vh;
+	background: url("../img/login.jpg");
+	/* filter: contrast(90%) blur(1px); */
+	/* z-index: -1; */
 }
+.div {
+	max-height: 500px;
+	padding-top: 7vh;
+	margin-top: 12vh;
+}
+.div h1 {
+	font-size: 19px;
+}
+
