@@ -20,16 +20,16 @@ class Dashboard extends React.Component {
         return (
 
             <>
-                
-                <PageLoader/>
+
+                <PageLoader />
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
                         <Header></Header>
-                       
+
                         {/* Vertical navbar */}
                         <Sidebar></Sidebar>
-                       
+
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
@@ -99,7 +99,26 @@ class Dashboard extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                             
+
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-6">
+                                            <div class="card bg-light">
+                                                <div class="card-header">Welcome Phar. Michae</div>
+                                                <div class="card-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolore enim,
+                                                nemo nihil non omnis temporibus? Blanditiis culpa labore velit.Lorem ipsum dolor sit amet, consectetur
+               adipisicing elit. Dicta, provident?</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="card text-white bg-dark">
+                                                <div class="card-header">Important Notes</div>
+                                                <div class="card-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolore enim,
+                                                nemo nihil non omnis temporibus? Blanditiis culpa labore velit.Lorem ipsum dolor sit amet, consectetur
+               adipisicing elit. Dicta, provident?</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className="card mb-0">
                                         <div className="card-header">Recent Prescriptions</div>
                                         <div className="card-body">
@@ -403,7 +422,7 @@ class Dashboard extends React.Component {
                 </div>{/* end Add patients modals */}
             </>
 
-        
+
         )
     }
 }
