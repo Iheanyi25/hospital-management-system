@@ -42,7 +42,6 @@ function App() {
       <Route exact path="/PharmacyCreateDrugSubCategories" component={PharmacyCreateDrugSubCategories} />
       <Route exact path="/PharmacyManageDrugSubCategories" component={PharmacyManageDrugSubCategories} />
       
-
     </Router>
     
   );

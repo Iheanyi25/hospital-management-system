@@ -7,6 +7,7 @@ import PageLoader from '../Partials/PageLoader'
 class ManageCategories extends React.Component {
 
     constructor(props) {
+        
         super(props);
 
         this.state = {
