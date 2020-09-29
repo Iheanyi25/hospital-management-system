@@ -64,7 +64,7 @@ class Header extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="dropdown item"><button className="no-style dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0, 10"><span className="d-flex align-items-center"><img src="./assets/content/user-400-1.jpg" alt width={40} height={40} className="rounded-500 mr-1" /> <i className="icofont-simple-down" /></span></button>
+                            <div className="dropdown item"><button className="no-style dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0, 10"><span className="d-flex align-items-center"><img src="./assets/content/user-400-1.jpg" width={40} height={40} className="rounded-500 mr-1" /> <i className="icofont-simple-down" /></span></button>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
                                     <ul className="list">
                                         <li><a href="#" className="align-items-center"><span className="icon icofont-ui-home" /> Edit account</a></li>

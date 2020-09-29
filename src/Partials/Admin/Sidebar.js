@@ -26,7 +26,7 @@ class Sidebar extends React.Component {
                 <div id="navbar2" className="app-navbar vertical">
                     <div className="navbar-wrap"><button className="no-style navbar-toggle navbar-close icofont-close-line d-lg-none" />
                         <div className="app-logo">
-                            <div className="logo-wrap"><img src="./assets/img/logo.svg" alt width={147} height={33} className="logo-img" /></div>
+                            <div className="logo-wrap"><img src="./assets/img/logo.svg" width={147} height={33} className="logo-img" /></div>
                         </div>
                         <div className="main-menu">
                             <nav className="main-menu-wrap">

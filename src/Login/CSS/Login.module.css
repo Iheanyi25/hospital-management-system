@@ -63,7 +63,7 @@
 	display: block;
 }
 
-.background {
+/* .background {
 	display: block;
 	position: absolute;
 	top: 0;
@@ -73,7 +73,7 @@
 	background: url("../img/login.jpg");
 	/* filter: contrast(90%) blur(1px); */
 	/* z-index: -1; */
-}
+/* }
 .div {
 	max-height: 500px;
 	padding-top: 7vh;
@@ -81,5 +81,5 @@
 }
 .div h1 {
 	font-size: 19px;
-}
+} */ 
 
