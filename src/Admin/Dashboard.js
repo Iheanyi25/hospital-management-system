@@ -626,10 +626,7 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="modal-body">
                                 <form>
-                                    <div className="form-group"><label>Layout</label> <select className="selectpicker" title="Layout" id="layout">
-                                        <option value="horizontal-layout">Horizontal</option>
-                                        <option value="vertical-layout">Vertical</option>
-                                    </select></div>
+                                  
                                     <div className="form-group"><label>Light/dark topbar</label>
                                         <div className="custom-control custom-switch"><input type="checkbox" className="custom-control-input" id="topbar" /> <label className="custom-control-label" htmlFor="topbar" /></div>
                                     </div>
