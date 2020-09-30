@@ -6,8 +6,11 @@ class Login extends Component {
 		super(props);
 
 		this.state = {
+			apiUrl: process.env.REACT_APP_API_URL,
 			email: "",
 			password: "",
+			errorMessage: "",
+			showErrorMessage: false,
 			submitting: false
 		};
 
@@ -17,17 +20,18 @@ class Login extends Component {
 
 	handleChange(name, e) {
 		const value = e.target.value;
-
 		this.setState({
 			[name]: value
 		});
 	}
 
 	async login(e) {
+
 		e.preventDefault();
 		this.setState({ submitting: true });
 		const { email, password } = this.state;
-		const url = process.env.REACT_APP_URL;
+		const url = this.state.apiUrl;
+
 		try {
 			const request = await fetch(`${url}/Auth/Login`, {
 				method: "POST",
@@ -41,25 +45,53 @@ class Login extends Component {
 			});
 
 			if (!request.ok) {
-				this.setState({ submitting: false });
 				const error = await request.json();
+				this.setState({ submitting: false });
 				throw Error(error.message);
 			}
 
 			const data = await request.json();
+			
 			localStorage.setItem("token", data.token);
-			localStorage.setItem(
-				"account",
-				JSON.stringify(data.authenticatedUser)
-			);
-			this.props.history.push("/");
+			localStorage.setItem("authenticatedUser", JSON.stringify(data.authenticatedUser));
+
+			if (data.authenticatedUser.userType == "admin") {
+				this.props.history.push("/AdminDashboard");
+
+			} else if (data.authenticatedUser.userType == "patient") {
+				this.props.history.push("/PatientDashboard");
+
+			} else if (data.authenticatedUser.userType == "doctor") {
+				this.props.history.push("/DoctorDashboard");
+
+			} else if (data.authenticatedUser.userType == "accountant") {
+				this.props.history.push("/AccountantDashboard");
+
+			} else if (data.authenticatedUser.userType == "pharmacy") {
+				this.props.history.push("/PharmacyDashboard");
+
+			} else if (data.authenticatedUser.userType == "lab") {
+				this.props.history.push("/LabDashboard");
+			}
+
 		} catch (err) {
-			console.log(err);
+			console.log(err.message)
+			this.setState({ showErrorMessage: true, errorMessage: err.message });
 		}
 	}
 
 	render() {
 		const { email, password, submitting } = this.state;
+		var displayError
+
+		if (this.state.showErrorMessage) {
+			displayError =
+				<div className="alert alert-warning with-after-icon" role="alert">
+					<div className="alert-content">{this.state.errorMessage}</div>
+					<div className="alert-icon"><i className="icofont-alarm" /></div>
+				</div>;
+		}
+
 		return (
 			<>
 				<div className={styles.background}>
@@ -74,17 +106,18 @@ class Login extends Component {
 						>
 							<div class="form-group">
 								<label>Email Address</label>
-								 <input class="form-control" type="email" name="email" value={this.state.email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
-								 
+								<input class="form-control" type="email" name="email" value={this.state.email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
+
 							</div>
 
 							<div class="form-group">
 								<label>Password</label>
-								 <input class="form-control" type="password" name="password" value={password} onChange={(e) => this.handleChange("password", e)} placeholder="Your Email Address" required />
-								 
+								<input class="form-control" type="password" name="password" value={password} onChange={(e) => this.handleChange("password", e)} placeholder="Your Password" required />
+
 							</div>
-							
-							
+
+							{displayError}
+
 							<button
 								className="btn btn-primary"
 								type="submit"
