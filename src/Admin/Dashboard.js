@@ -587,6 +587,7 @@ class Dashboard extends React.Component {
 
                 {/* Register Patient Component */}
                 <RegisterPatient/>
+                              
                 {/* App Settings modals */}
                 <div className="modal fade" id="settings" tabIndex={-1} role="dialog" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered">

@@ -17,7 +17,7 @@ class RegisterPatient extends React.Component {
             healthPlan:"",
                       
 			showErrorMessage: false,
-			submitting: false
+			showSuccessMessage: false
 		};
 
 		this.registerPatient = this.registerPatient.bind(this);
@@ -61,8 +61,8 @@ class RegisterPatient extends React.Component {
 
             const data = await request.json();
             console.log(data)
-            
-			//localStorage.setItem("authenticatedUser", JSON.stringify(data.authenticatedUser));
+            this.setState({ showSuccessMessage: true, successMessage: data.message });
+			localStorage.setItem("registeredPatient", JSON.stringify(data.authenticatedUser));
 
 		} catch (err) {
 			console.log(err.message)
@@ -74,6 +74,7 @@ class RegisterPatient extends React.Component {
 
         const { email,firstName,lastName,password, roleName } = this.state;
         var displayError
+        var displaySuccess
 
 		if (this.state.showErrorMessage) {
 			displayError =
@@ -81,7 +82,22 @@ class RegisterPatient extends React.Component {
 					<div className="alert-content">{this.state.errorMessage}</div>
 					<div className="alert-icon"><i className="icofont-alarm" /></div>
 				</div>;
-		}
+        }
+       
+
+		if (this.state.showSuccessMessage) {
+			displaySuccess =
+				<div className="alert alert-info with-after-icon" role="alert">
+					<div className="alert-content text-center">
+                        {this.state.successMessage}.
+                        <p class="mb-0 ">Would you like to update his profile?
+                          <Link class="btn btn-outline-light"><span class="btn-icon icon icofont-ui-edit mr-2"></span>Update Profile</Link>
+                        </p>
+                    </div>
+					<div className="alert-icon"><i className="icon icofont-ui-check" /></div>
+				</div>
+        }
+        
         return (
 
             <>
@@ -133,6 +149,7 @@ class RegisterPatient extends React.Component {
                                         </div>
                                     </div>
                                     {displayError}
+                                    {displaySuccess}
                                    
                                 </form>
                             </div>
@@ -152,8 +169,8 @@ class RegisterPatient extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* end Add patients modals */}
+              </div>
+             {/* end Add patients modals */}
                
                
             </>
