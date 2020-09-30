@@ -40,7 +40,7 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><span className="group-title">User Management</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Patients</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">Register Patient</span></a></li>
+                                            <li className="menu-item"><a className="item-link" data-toggle="modal" data-target="#add-patient"><span className="link-text">Register Patient</span></a></li>
                                             <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Patients</span></a></li>
                                         </ul>
                                     </li>
@@ -84,8 +84,7 @@ class Sidebar extends React.Component {
                                 </ul>
                             </nav>
                         </div>
-                        <div className="add-patient"><button className="btn btn-primary" data-toggle="modal" data-target="#add-patient"><span className="btn-icon icofont-plus mr-2" /> Add
-        Patient</button></div>
+                        <div className="add-patient"><button className="btn btn-primary" data-toggle="modal" data-target="#add-patient"><span className="btn-icon icofont-plus mr-2" /> Register Patient</button></div>
                         <div className="assistant-menu"><a className="link" href="#"><span className="link-icon icofont-ui-settings" />Settings </a><a className="link" href="#"><span className="link-icon icofont-question-square" />FAQ &amp; Support</a></div>
                         <div className="navbar-skeleton vertical">
                             <div className="top-part">

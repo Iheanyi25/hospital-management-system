@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from '../Partials/Admin/Header';
 import Sidebar from '../Partials/Admin/Sidebar';
+import RegisterPatient from '../Partials/Admin/RegisterPatient'
 import PageLoader from '../Partials/PageLoader'
 
 class Dashboard extends React.Component {
@@ -582,42 +583,11 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="content-overlay" />
                     </div>
-                </div>{/* Add patients modals */}
-                <div className="modal fade" id="add-patient" tabIndex={-1} role="dialog" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Add new patient</h5>
-                            </div>
-                            <div className="modal-body">
-                                <form>
-                                    <div className="form-group avatar-box d-flex"><img src="./assets/content/anonymous-400.jpg" width={40} height={40} className="rounded-500 mr-4" /> <button className="btn btn-outline-primary" type="button">Select image<span className="btn-icon icofont-ui-user ml-2" /></button></div>
-                                    <div className="form-group"><input className="form-control" type="text" placeholder="Name" /></div>
-                                    <div className="form-group"><input className="form-control" type="number" placeholder="Number" /></div>
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="form-group"><input className="form-control" type="number" placeholder="Age" />
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="form-group"><select className="selectpicker" title="Gender">
-                                                <option className="d-none">Gender</option>
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                            </select></div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group mb-0"><textarea className="form-control" placeholder="Address" rows={3} defaultValue={""} /></div>
-                                </form>
-                            </div>
-                            <div className="modal-footer d-block">
-                                <div className="actions justify-content-between"><button type="button" className="btn btn-error" data-dismiss="modal">Cancel</button> <button type="button" className="btn btn-info">Add
-              patient</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>{/* end Add patients modals */}
-                {/* Add patients modals */}
+                </div>
+
+                {/* Register Patient Component */}
+                <RegisterPatient/>
+                {/* App Settings modals */}
                 <div className="modal fade" id="settings" tabIndex={-1} role="dialog" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
