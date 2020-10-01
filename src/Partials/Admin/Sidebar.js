@@ -31,24 +31,26 @@ class Sidebar extends React.Component {
                         <div className="main-menu">
                             <nav className="main-menu-wrap">
                                 <ul className="menu-ul">
+                                    
                                     <li className="menu-item"><span className="group-title">My Office</span></li>
-                                    <li className="menu-item"><a className="item-link" href="index.html"><span className="link-icon icofont-thermometer-alt" /> <span className="link-text">Dashboard</span></a></li>
-                                    <li className="menu-item"><a className="item-link" href="appointments.html"><span className="link-icon icofont-stethoscope-alt" /> <span className="link-text">Appointments</span></a></li>
-                                    <li className="menu-item"><a className="item-link" href="doctors.html"><span className="link-icon icofont-doctor" /> <span className="link-text">Doctors</span></a></li>
-                                    <li className="menu-item"><Link className="item-link" to="/AdminAllPatients"><span className="link-icon icofont-paralysis-disability" /> <span className="link-text">Patients</span></Link></li>
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/AdminDashboard'} className="item-link" to="/AdminDashboard"><span className="link-icon icofont-thermometer-alt" /> <span className="link-text">Dashboard</span></Link></li>                                
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/AdminAppointments'} className="item-link" to="/AdminAppointments"><span className="link-icon icofont-stethoscope-alt" /> <span className="link-text">Appointments</span></Link></li>
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/AdminAllDoctors'} className="item-link" to="/AdminAllDoctors"><span className="link-icon icofont-doctor" /> <span className="link-text">Doctors</span></Link></li>
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/AdminAllPatients'} className="item-link" to="/AdminAllPatients"><span className="link-icon icofont-paralysis-disability" /> <span className="link-text">Patients</span></Link></li>
                                     
                                   
                                     <li className="menu-item"><span className="group-title">User Management</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Patients</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
                                             <li className="menu-item"><a className="item-link" data-toggle="modal" data-target="#add-patient"><span className="link-text">Register Patient</span></a></li>
-                                            <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Patients</span></a></li>
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/AdminAllPatients'} className="item-link" to="/AdminAllPatients"><span className="link-text">Manage Patients</span></Link></li>
+                                   
                                         </ul>
                                     </li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Doctors</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
                                             <li className="menu-item"><a className="item-link" href="icons-sli.html"><span className="link-text">Register Doctors</span></a></li>
-                                            <li className="menu-item"><a className="item-link" href="icons-if.html"><span className="link-text">Manage Doctors</span></a></li>
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/AdminAllDoctors'} className="item-link" to="/AdminAllDoctors"><span className="link-text">Manage Doctors</span></Link></li>
                                         </ul>
                                     </li>
                                     

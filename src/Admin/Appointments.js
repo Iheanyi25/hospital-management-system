@@ -7,7 +7,7 @@ import TemplateSettings from '../Partials/TemplateSettings'
 import RegisterPatient from '../Partials/Admin/RegisterPatient'
 import PageLoader from '../Partials/PageLoader'
 
-class AllPatients extends React.Component {
+class Appointments extends React.Component {
 
     constructor(props) {
         super(props);
@@ -39,7 +39,7 @@ class AllPatients extends React.Component {
                             </div>
                             <div className="main-content-wrap">
                                 <header className="page-header">
-                                    <h4 className="page-title">Our Patients</h4>
+                                    <h4 className="page-title">Appointments</h4>
                                 </header>
                                 <div className="page-content">
                                     <div className="card-body"></div>
@@ -351,4 +351,4 @@ class AllPatients extends React.Component {
     }
 }
 
-export default AllPatients;
+export default Appointments;

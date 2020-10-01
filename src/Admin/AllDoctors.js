@@ -7,17 +7,17 @@ import TemplateSettings from '../Partials/TemplateSettings'
 import RegisterPatient from '../Partials/Admin/RegisterPatient'
 import PageLoader from '../Partials/PageLoader'
 
-class AllPatients extends React.Component {
+class AllDoctors extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.forceUpdate() 
         this.state = {
 
         };
 
     }
-
+    
     render() {
 
         return (
@@ -39,7 +39,7 @@ class AllPatients extends React.Component {
                             </div>
                             <div className="main-content-wrap">
                                 <header className="page-header">
-                                    <h4 className="page-title">Our Patients</h4>
+                                    <h4 className="page-title">Our Doctors</h4>
                                 </header>
                                 <div className="page-content">
                                     <div className="card-body"></div>
@@ -58,7 +58,7 @@ class AllPatients extends React.Component {
                                                         { "data": "actions" }
                                                     ]' data-paging="true" data-info="true">
                                                     <thead>
-                                                        <tr className="bg-primary text-white">
+                                                        <tr>
                                                             <th>Photo</th>
                                                             <th>Name</th>
                                                             <th>Email</th>
@@ -105,9 +105,6 @@ class AllPatients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-stethoscope-alt" />
-                                                                    </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
                                                                     </button>
@@ -152,9 +149,6 @@ class AllPatients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-stethoscope-alt" />
-                                                                    </Link> 
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
                                                                     </button>
@@ -199,9 +193,6 @@ class AllPatients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-stethoscope-alt" />
-                                                                    </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
                                                                     </button>
@@ -246,9 +237,6 @@ class AllPatients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-stethoscope-alt" />
-                                                                    </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
                                                                     </button>
@@ -293,10 +281,6 @@ class AllPatients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-stethoscope-alt" />
-                                                                    </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
                                                                     </button>
@@ -306,15 +290,6 @@ class AllPatients extends React.Component {
                                                                 </div>
                                                             </td>
                                                         </tr>
-
-
-
-
-
-
-
-
-
 
                                                     </tbody>
                                                 </table>
@@ -351,4 +326,4 @@ class AllPatients extends React.Component {
     }
 }
 
-export default AllPatients;
+export default AllDoctors;
