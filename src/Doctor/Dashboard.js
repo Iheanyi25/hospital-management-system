@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from '../Partials/Admin/Header';
-import Sidebar from '../Partials/Admin/Sidebar';
+import Header from '../Partials/Doctor/Header';
+import Sidebar from '../Partials/Doctor/Sidebar';
 import PageLoader from '../Partials/PageLoader'
 
 class Dashboard extends React.Component {
@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
                                                             </div>
                                                         </div>
                                                         <div className="col col-7">
-                                                            <h6 className="mt-0 mb-1">New patients</h6>
+                                                            <h6 className="mt-0 mb-1">My Patients</h6>
                                                             <div className="count text-primary fs-20">104</div>
                                                         </div>
                                                     </div>
@@ -75,7 +75,7 @@ class Dashboard extends React.Component {
                                                             <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                                                         </div>
                                                         <div className="col col-7">
-                                                            <h6 className="mt-0 mb-1">Operations</h6>
+                                                            <h6 className="mt-0 mb-1">My Prescriptions</h6>
                                                             <div className="count text-primary fs-20">24</div>
                                                         </div>
                                                     </div>
@@ -87,70 +87,48 @@ class Dashboard extends React.Component {
                                                 <div className="card-body">
                                                     <div className="row align-items-center">
                                                         <div className="col col-5">
-                                                            <div className="icon p-0 fs-48 text-primary opacity-50 icofont-dollar-true">
+                                                            <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list">
                                                             </div>
                                                         </div>
                                                         <div className="col col-7">
-                                                            <h6 className="mt-0 mb-1 text-nowrap">Hospital Earning</h6>
-                                                            <div className="count text-primary fs-20">$5238</div>
+                                                            <h6 className="mt-0 mb-1 text-nowrap">Schedules</h6>
+                                                            <div className="count text-primary fs-20">5238</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="card">
-                                        <div className="card-header">Hospital survey</div>
-                                        <div className="card-body">
-                                            <div id="surveyEcharts" className="chat-container container-h-400" />
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                        <div class="card bg-light">
+                                            <div class="card-header">Welcome Dr. Michae</div>
+                                            <div class="card-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                                            elit. Distinctio dolore enim, nemo nihil non omnis
+                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
+                                            dolor sit amet, consectetur adipisicing elit. Dicta,
+                                            provident?
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                        <div class="card text-white bg-primary">
+                                            <div class="card-header">Important Updates</div>
+                                            <div class="card-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                                            elit. Distinctio dolore enim, nemo nihil non omnis
+                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
+                                            dolor sit amet, consectetur adipisicing elit. Dicta,
+                                            provident?
+                                            </div>
+                                        </div>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col col-12 col-md-6">
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h4 className="mt-0 mb-1">$25038</h4>
-                                                    <p className="text-muted mb-0">Income in current month</p>
-                                                    <div id="incomeEcharts" className="chat-container" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-6">
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h4 className="mt-0 mb-1">$2195</h4>
-                                                    <p className="text-muted mb-0">Income in current week</p>
-                                                    <div id="income2Echarts" className="chat-container" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-4">
-                                            <div className="card">
-                                                <div className="card-header">Patients age</div>
-                                                <div className="card-body">
-                                                    <div id="ageEcharts" className="chat-container container-h-300" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-4">
-                                            <div className="card">
-                                                <div className="card-header">Patients gender</div>
-                                                <div className="card-body">
-                                                    <div id="genderEcharts" className="chat-container container-h-300" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-4">
-                                            <div className="card">
-                                                <div className="card-header">Departments</div>
-                                                <div className="card-body">
-                                                    <div id="departmentsEcharts" className="chat-container container-h-300" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                 
+                                   
                                     <div className="card mb-0">
-                                        <div className="card-header">Last appointments</div>
+                                        <div className="card-header">Recent appointments</div>
                                         <div className="card-body">
                                             <div className="table-responsive">
                                                 <table className="table table-hover">

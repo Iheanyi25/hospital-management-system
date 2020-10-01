@@ -231,6 +231,7 @@ class Dashboard extends React.Component {
                       </div>
                     </div>
                   </div>
+                 
                   <div className="card mb-0">
                     <div className="card-header">Recent Prescriptions</div>
                     <div className="card-body">
