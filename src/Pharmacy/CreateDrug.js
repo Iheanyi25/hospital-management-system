@@ -1,61 +1,98 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
+import DataTable from "react-data-table-component";
 
-class CreateSubCategories extends React.Component {
+const data = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
+const columns = [
+  {
+    name: "Title",
+    selector: "title",
+    sortable: true,
+  },
+  {
+    name: "Year",
+    selector: "year",
+    sortable: true,
+    right: true,
+  },
+];
+
+class CreateDrug extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       url: process.env.REACT_APP_API_URL,
-      drugSubCategoryName: "",
-      drugSubCategoryDescription: "",
-      selectedDrugCategory: null,
+      drugName: "",
+      drugDescription: "",
+      drugPrice: "",
     };
-  }
-
-  async componentDidMount() {
-    const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetAllDrugCategories`);
-    const data = await response.json();
-    this.setState({ drugCategories: data });
   }
 
   clearForm = async (e) => {
     e.preventDefault();
-    this.setState({
-      drugSubCategoryName: "",
-      drugSubCategoryDescription: "",
-      selectedDrugCategory: "select drug category",
-    });
+    this.setState({ drugName: "", drugDescription: "", drugPrice: "" });
   };
 
-  createDrugSubCategory = async (e) => {
+  createDrug = async (e) => {
     e.preventDefault();
     const { url } = this.state;
-    const { drugSubCategoryName, selectedDrugCategory } = this.state;
-    console.log(selectedDrugCategory);
+    this.setState({ submittingDrug: true });
+    const { drugName, drugDescription, drugPrice } = this.state;
+    try {
+      var name = drugName;
+      var price = drugPrice;
+      var description = drugDescription;
 
-    var drugCategoryId = selectedDrugCategory.id;
-    var name = drugSubCategoryName;
+      console.log(name);
+      console.log(price);
+      console.log(description);
 
-    const request = await fetch(`${url}/Pharmacy/CreateDrugSubCategory`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        drugCategoryId,
-      }),
-    });
-    if (!request.ok) {
-      const error = await request.json();
-      throw Error(error.message);
+      const request = await fetch(`${url}/Pharmacy/CreateDrug`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          price,
+          description,
+        }),
+      });
+      if (!request.ok) {
+        const error = await request.json();
+        throw Error(error.message);
+      }
+
+      //Drug successfully added
+
+      const data = await request.json();
+      console.log(data);
+      this.setState({ submittingDrug: false, success: true });
+      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
+      const data1 = await response.json();
+      setTimeout(
+        () =>
+          this.setState({
+            drugs: data1,
+            displaying: "all drugs",
+            showModal: false,
+          }),
+        300
+      );
+    } catch (error) {
+      console.log(error);
+
+      this.setState((state) => ({
+        submittingDrug: false,
+        error: { ...state.error, error: true, message: error.message },
+      }));
+
+      //set state to initial values after 3 seconds.
     }
-    const data = await request.json();
   };
 
   handleChange = async (name, e) => {
@@ -65,7 +102,6 @@ class CreateSubCategories extends React.Component {
   };
 
   render() {
-    const { drugCategories } = this.state;
     return (
       <>
         <PageLoader />
@@ -73,17 +109,17 @@ class CreateSubCategories extends React.Component {
           <div className="app-container">
             {/* Horizontal navbar---Header */}
             <Header></Header>
-
             {/* Vertical navbar */}
             <Sidebar></Sidebar>
-            <form onSubmit={(e) => this.createDrugSubCategory(e)}>
+            <DataTable title="Arnold Movies" columns={columns} data={data} />;
+            <form onSubmit={(e) => this.createDrug(e)}>
               <main className="main-content">
                 <div className="app-loader">
                   <i className="icofont-spinner-alt-4 rotate" />
                 </div>
                 <div className="main-content-wrap">
                   <header className="page-header mt-5">
-                    <h2 className="page-title">Create Drug SubCategory</h2>
+                    <h2 className="page-title">Create Drug</h2>
                   </header>
 
                   <div className="page-content ">
@@ -91,61 +127,45 @@ class CreateSubCategories extends React.Component {
                       <div className="col col-12 col-xl-8">
                         <form className="mb-4 mt-4">
                           <div className="form-group">
-                            <label>Category Name</label>
+                            <label>Drug Name</label>{" "}
                             <input
-                              id={"drugSubCategoryName"}
-                              className="form-control"
+                              id="drugName"
+                              name="drugName"
                               type="text"
-                              placeholder="Enter sub category name"
-                              value={this.state.drugSubCategoryName}
-                              onChange={(e) =>
-                                this.handleChange("drugSubCategoryName", e)
-                              }
+                              value={this.state.drugName}
+                              onChange={(e) => this.handleChange("drugName", e)}
+                              placeholder="Enter drug name"
+                              className="form-control"
                             />
                           </div>
 
-                          <label>Attach to a Category</label>
-
-                          <select
-                            id={"drugCategory"}
-                            className="form-control"
-                            title="Status"
-                            tabIndex="-98"
-                            value={this.state.selectedDrugCategory}
-                            onChange={(e) =>
-                              this.handleChange("selectedDrugCategory", e)
-                            }
-                          >
-                            <option>select drug category</option>
-                            {drugCategories
-                              ? drugCategories.map((drugCategory) => (
-                                  <option
-                                    key={drugCategory.id}
-                                    value={drugCategory.id}
-                                  >
-                                    {drugCategory.name}
-                                  </option>
-                                ))
-                              : null}
-
-                            <option class="bs-title-option" value=""></option>
-                          </select>
-
-                          <div class="form-group">
-                            <label>Description</label>
-                            <textarea
-                              id={"drugSubCategoryDescription"}
-                              className="form-control"
-                              rows="5"
-                              placeholder=" Enter Sub Category Description"
-                              value={this.state.drugSubCategoryDescription}
+                          <div className="form-group">
+                            <label>Drug Description</label>{" "}
+                            <input
+                              id="drugDescription"
+                              name="drugDescription"
+                              type="text"
+                              value={this.state.drugDescription}
                               onChange={(e) =>
-                                this.handleChange(
-                                  "drugSubCategoryDescription",
-                                  e
-                                )
+                                this.handleChange("drugDescription", e)
                               }
-                            ></textarea>
+                              placeholder="Enter drug description"
+                              className="form-control"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Drug Price</label>{" "}
+                            <input
+                              id="drugPrice"
+                              name="drugPrice"
+                              type="number"
+                              value={this.state.drugPrice}
+                              onChange={(e) =>
+                                this.handleChange("drugPrice", e)
+                              }
+                              placeholder="Enter drug price"
+                              className="form-control"
+                            />
                           </div>
 
                           <div className="row">
@@ -406,4 +426,4 @@ class CreateSubCategories extends React.Component {
   }
 }
 
-export default CreateSubCategories;
+export default CreateDrug;
