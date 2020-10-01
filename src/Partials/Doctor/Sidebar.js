@@ -43,7 +43,9 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><span className="group-title">My Schedule</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Schedules</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">Create Schedules</span></a></li>
+                                           
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorCreateSchedule'} className="item-link" to="/DoctorCreateSchedule"><span className="link-text">Create Schedule</span></Link></li>
+                            
                                             <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorSchedules'} className="item-link" to="/DoctorSchedules"><span className="link-text">Manage Schedules</span></Link></li>
                             
                                             
