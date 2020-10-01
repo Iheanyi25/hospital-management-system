@@ -4,114 +4,14 @@ import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
 
-class Dashboard extends React.Component {
+class ManageDrugs extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      drugName: "",
-      drugDescription: "",
-      drugPrice: "",
-      numberOfDrugs: 0,
-      numberOfDrugCategories: 0,
-      numberOfDrugSubCategories: 0,
-      url: process.env.REACT_APP_API_URL,
-    };
+    this.state = {};
   }
-
-  async componentDidMount() {
-    const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetDrugsCount`);
-    const data = await response.json();
-    console.log(data);
-    const response1 = await fetch(`${url}/Pharmacy/GetDrugGategoryTotalNumber`);
-    const data1 = await response1.json();
-    const response2 = await fetch(
-      `${url}/Pharmacy/GetDrugSubCategoryTotalNumber`
-    );
-    const data2 = await response2.json();
-    this.setState({
-      url: process.env.REACT_APP_API_URL,
-      numberOfDrugs: data,
-      numberOfDrugCategories: data1,
-      numberOfDrugSubCategories: data2,
-    });
-  }
-
-  createDrug = async (e) => {
-    e.preventDefault();
-    const { url } = this.state;
-    this.setState({ submittingDrug: true });
-    const { drugName, drugDescription, drugPrice } = this.state;
-    try {
-      var name = drugName;
-      var price = drugPrice;
-      var description = drugDescription;
-
-      console.log(name);
-      console.log(price);
-      console.log(description);
-
-      const request = await fetch(`${url}/Pharmacy/CreateDrug`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          price,
-          description,
-        }),
-      });
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      //Drug successfully added
-
-      const data = await request.json();
-      console.log(data);
-      this.setState({ submittingDrug: false, success: true });
-      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
-      const data1 = await response.json();
-      setTimeout(
-        () =>
-          this.setState({
-            drugs: data1,
-            displaying: "all drugs",
-            showModal: false,
-          }),
-        300
-      );
-    } catch (error) {
-      console.log(error);
-
-      this.setState((state) => ({
-        submittingDrug: false,
-        error: { ...state.error, error: true, message: error.message },
-      }));
-
-      //set state to initial values after 3 seconds.
-    }
-  };
-
-  clearForm = async (e) => {
-    e.preventDefault();
-    this.setState({ drugName: "", drugDescription: "", drugPrice: "" });
-  };
-  handleChange = async (name, e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    this.setState({ [name]: value });
-  };
 
   render() {
-    const {
-      numberOfDrugs,
-      numberOfDrugCategories,
-      numberOfDrugSubCategories,
-    } = this.state;
     return (
       <>
         <PageLoader />
@@ -128,109 +28,14 @@ class Dashboard extends React.Component {
                 <i className="icofont-spinner-alt-4 rotate" />
               </div>
               <div className="main-content-wrap">
+                <header className="page-header">
+                  <h2 className="page-title">Manage Drug Categories</h2>
+                </header>
                 <div className="page-content">
-                  <div className="row">
-                    <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-01s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1">Drug Categories</h6>
-                              <div className="count text-primary fs-20">
-                                {numberOfDrugCategories}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-02s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1">SubCategories</h6>
-                              <div className="count text-primary fs-20">
-                                {numberOfDrugSubCategories}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-03s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1">Drugs</h6>
-                              <div className="count text-primary fs-20">
-                                {" "}
-                                {numberOfDrugs}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-04s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-dollar-true"></div>
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1 text-nowrap">
-                                Pharmasists
-                              </h6>
-                              <div className="count text-primary fs-20">
-                                5238
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-12 col-md-6">
-                      <div class="card bg-light">
-                        <div class="card-header">Welcome Phar. Michae</div>
-                        <div class="card-body">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Distinctio dolore enim, nemo nihil non omnis
-                          temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                          dolor sit amet, consectetur adipisicing elit. Dicta,
-                          provident?
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <div class="card text-white bg-dark">
-                        <div class="card-header">Important Notes</div>
-                        <div class="card-body">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Distinctio dolore enim, nemo nihil non omnis
-                          temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                          dolor sit amet, consectetur adipisicing elit. Dicta,
-                          provident?
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <div class="card-body"></div>
+                </div>
+                <div className="page-content">
                   <div className="card mb-0">
-                    <div className="card-header">Recent Prescriptions</div>
                     <div className="card-body">
                       <div className="table-responsive">
                         <table className="table table-hover">
@@ -252,6 +57,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-1.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -299,6 +105,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-2.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -346,6 +153,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-3.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -393,6 +201,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-4.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -440,6 +249,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-5.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -487,6 +297,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-6.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -534,6 +345,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <img
                                   src="./assets/content/user-40-7.jpg"
+                                  alt
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -577,14 +389,203 @@ class Dashboard extends React.Component {
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <img
+                                  src="./assets/content/user-40-8.jpg"
+                                  alt
+                                  width={40}
+                                  height={40}
+                                  className="rounded-500"
+                                />
+                              </td>
+                              <td>
+                                <strong>Mia</strong>
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
+                                  mia000@gmail.com
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  17 Mar 2018
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  11:30 - 11:40
+                                </div>
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
+                                  0126595743
+                                </div>
+                              </td>
+                              <td>Dr. Emma</td>
+                              <td>hypothermia</td>
+                              <td>
+                                <div className="actions">
+                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                    <span className="btn-icon icofont-ui-edit" />
+                                  </button>
+                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                    <span className="btn-icon icofont-ui-delete" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <img
+                                  src="./assets/content/user-40-9.jpg"
+                                  alt
+                                  width={40}
+                                  height={40}
+                                  className="rounded-500"
+                                />
+                              </td>
+                              <td>
+                                <strong>William</strong>
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
+                                  william@gmail.com
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  18 Apl 2018
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  12:15 - 12:45
+                                </div>
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
+                                  0126595743
+                                </div>
+                              </td>
+                              <td>Dr. Olivia</td>
+                              <td>sunburn</td>
+                              <td>
+                                <div className="actions">
+                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                    <span className="btn-icon icofont-ui-edit" />
+                                  </button>
+                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                    <span className="btn-icon icofont-ui-delete" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <img
+                                  src="./assets/content/user-40-10.jpg"
+                                  alt
+                                  width={40}
+                                  height={40}
+                                  className="rounded-500"
+                                />
+                              </td>
+                              <td>
+                                <strong>James</strong>
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
+                                  james@gmail.com
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  6 Apl 2018
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  16:00 - 16:20
+                                </div>
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
+                                  0126595743
+                                </div>
+                              </td>
+                              <td>Dr. Logan</td>
+                              <td>mumps</td>
+                              <td>
+                                <div className="actions">
+                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                    <span className="btn-icon icofont-ui-edit" />
+                                  </button>
+                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                    <span className="btn-icon icofont-ui-delete" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
+                      <nav className="mt-4">
+                        <ul className="pagination">
+                          <li className="page-item disabled">
+                            <a
+                              className="page-link"
+                              href="#"
+                              aria-label="Previous"
+                              tabIndex={-1}
+                              aria-disabled="true"
+                            >
+                              <span className="icofont-simple-left" />
+                            </a>
+                          </li>
+                          <li className="page-item active" aria-current="page">
+                            <a className="page-link" href="#">
+                              1
+                            </a>
+                          </li>
+                          <li className="page-item">
+                            <a className="page-link" href="#">
+                              2
+                            </a>
+                          </li>
+                          <li className="page-item">
+                            <a className="page-link" href="#">
+                              3
+                            </a>
+                          </li>
+                          <li className="page-item">
+                            <a className="page-link" href="#" aria-label="Next">
+                              <span className="icofont-simple-right" />
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
+                  </div>
+                  <div className="add-action-box">
+                    <button
+                      className="btn btn-primary btn-lg btn-square rounded-pill"
+                      data-toggle="modal"
+                      data-target="#add-appointment"
+                    >
+                      <span className="btn-icon icofont-stethoscope-alt" />
+                    </button>
                   </div>
                 </div>
               </div>
             </main>
+
             <div className="app-footer">
               <div className="footer-wrap">
                 <div className="row h-100 align-items-center">
@@ -646,13 +647,13 @@ class Dashboard extends React.Component {
           role="dialog"
           aria-hidden="true"
         >
-          <form onSubmit={(e) => this.createDrug(e)}>
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Add new drug</h5>
-                </div>
-                <div className="modal-body">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add new patient</h5>
+              </div>
+              <div className="modal-body">
+                <form>
                   <div className="form-group avatar-box d-flex">
                     <img
                       src="./assets/content/anonymous-400.jpg"
@@ -667,10 +668,6 @@ class Dashboard extends React.Component {
                   </div>
                   <div className="form-group">
                     <input
-                      id="drugName"
-                      name="drugName"
-                      value={this.state.drugName}
-                      onChange={(e) => this.handleChange("drugName", e)}
                       className="form-control"
                       type="text"
                       placeholder="Name"
@@ -678,49 +675,57 @@ class Dashboard extends React.Component {
                   </div>
                   <div className="form-group">
                     <input
-                      id="drugDescription"
-                      name="drugDescription"
-                      value={this.state.drugDescription}
-                      onChange={(e) => this.handleChange("drugDescription", e)}
                       className="form-control"
-                      type="text"
-                      placeholder="description"
+                      type="number"
+                      placeholder="Number"
                     />
                   </div>
                   <div className="row">
                     <div className="col-12 col-sm-6">
                       <div className="form-group">
                         <input
-                          id="drugPrice"
-                          name="drugPrice"
-                          value={this.state.drugPrice}
-                          onChange={(e) => this.handleChange("drugPrice", e)}
                           className="form-control"
                           type="number"
-                          placeholder="price"
+                          placeholder="Age"
                         />
                       </div>
                     </div>
+                    <div className="col-12 col-sm-6">
+                      <div className="form-group">
+                        <select className="selectpicker" title="Gender">
+                          <option className="d-none">Gender</option>
+                          <option>Male</option>
+                          <option>Female</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="modal-footer d-block">
-                  <div className="actions justify-content-between">
-                    <button
-                      type="button"
-                      className="btn btn-error"
-                      data-dismiss="modal"
-                      onClick={(e) => this.clearForm(e)}
-                    >
-                      Cancel
-                    </button>{" "}
-                    <button type="submit" className="btn btn-info">
-                      Add drug
-                    </button>
+                  <div className="form-group mb-0">
+                    <textarea
+                      className="form-control"
+                      placeholder="Address"
+                      rows={3}
+                      defaultValue={""}
+                    />
                   </div>
+                </form>
+              </div>
+              <div className="modal-footer d-block">
+                <div className="actions justify-content-between">
+                  <button
+                    type="button"
+                    className="btn btn-error"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>{" "}
+                  <button type="button" className="btn btn-info">
+                    Add patient
+                  </button>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
         {/* end Add patients modals */}
         {/* Add patients modals */}
@@ -814,4 +819,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default ManageDrugs;
