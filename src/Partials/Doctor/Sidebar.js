@@ -33,25 +33,21 @@ class Sidebar extends React.Component {
                                 <ul className="menu-ul">
                                     <li className="menu-item"><span className="group-title">My Office</span></li>
                                     <li className="menu-item"><a className="item-link" href="index.html"><span className="link-icon icofont-thermometer-alt" /> <span className="link-text">Dashboard</span></a></li>
-                                    <li className="menu-item"><a className="item-link" href="appointments.html"><span className="link-icon icofont-stethoscope-alt" /> <span className="link-text">My Appointments</span></a></li>
-
-                                    <li className="menu-item"><a className="item-link" href="patients.html"><span className="link-icon icofont-paralysis-disability" /> <span className="link-text">Patients</span></a></li>
-
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorAppointments'} className="item-link" to="/DoctorAppointments"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Appointments</span></Link></li>
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorPatientsList'} className="item-link" to="/DoctorPatientsList"><span className="link-icon icofont-paralysis-disability" /><span className="link-text">Patients List</span></Link></li>
+                            
+                                   
                                     <li className="menu-item"><span className="group-title">My Schedule</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Schedules</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">View Schedules</span></a></li>
-                                            <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">Manage Schedules</span></a></li>
+                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">Create Schedules</span></a></li>
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorSchedules'} className="item-link" to="/DoctorSchedules"><span className="link-text">Manage Schedules</span></Link></li>
+                            
+                                            
                                          </ul>
                                     </li>
                                     
-                                    <li className="menu-item"><span className="group-title">My Appointments</span></li>
-                                    <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Appointments</span> <span className="link-caret icofont-thin-right" /></a>
-                                        <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="icons-sli.html"><span className="link-text">View Appointments</span></a></li>
-                                            <li className="menu-item"><a className="item-link" href="icons-if.html"><span className="link-text">Manage Appointments</span></a></li>
-                                        </ul>
-                                    </li>
+                                
 
                                     <li className="menu-item"><span className="group-title">Profile Mgt</span></li>
                                     

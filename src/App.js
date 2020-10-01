@@ -8,6 +8,13 @@ import AdminAllPatients from './Admin/AllPatients'
 import AdminAllDoctors from './Admin/AllDoctors'
 
 import DoctorDashboard from "./Doctor/Dashboard";
+import DoctorPatientsList from "./Doctor/Patients";
+import DoctorAppointments from "./Doctor/Appointments";
+import DoctorSchedules from "./Doctor/Schedules";
+import DoctorPatientProfile from "./Doctor/PatientProfile";
+import DoctorPatientMedicalHistory from "./Doctor/PatientMedicalHistory";
+
+
 import PatientDashboard from "./Patient/Dashboard";
 import AccountantDashboard from "./Accountant/Dashboard";
 
@@ -39,6 +46,12 @@ function App() {
 
       {/* Register the doctor routes here */}
       <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
+      <Route exact path="/DoctorPatientsList" component={DoctorPatientsList} />
+      <Route exact path="/DoctorAppointments" component={DoctorAppointments} />
+      <Route exact path="/DoctorSchedules" component={DoctorSchedules} />
+      <Route exact path="/DoctorPatientProfile" component={DoctorPatientProfile} />
+      <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory} />
+
 
       {/* Register the patients routes here */}
       <Route exact path="/PatientDashboard" component={PatientDashboard} />
