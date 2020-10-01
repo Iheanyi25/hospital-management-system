@@ -35,7 +35,8 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><a className="item-link" href="index.html"><span className="link-icon icofont-thermometer-alt" /> <span className="link-text">Dashboard</span></a></li>
                                     <li className="menu-item"><a className="item-link" href="appointments.html"><span className="link-icon icofont-stethoscope-alt" /> <span className="link-text">Appointments</span></a></li>
                                     <li className="menu-item"><a className="item-link" href="doctors.html"><span className="link-icon icofont-doctor" /> <span className="link-text">Doctors</span></a></li>
-                                    <li className="menu-item"><a className="item-link" href="patients.html"><span className="link-icon icofont-paralysis-disability" /> <span className="link-text">Patients</span></a></li>
+                                    <li className="menu-item"><Link className="item-link" to="/AdminAllPatients"><span className="link-icon icofont-paralysis-disability" /> <span className="link-text">Patients</span></Link></li>
+                                    
                                   
                                     <li className="menu-item"><span className="group-title">User Management</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Patients</span> <span className="link-caret icofont-thin-right" /></a>
