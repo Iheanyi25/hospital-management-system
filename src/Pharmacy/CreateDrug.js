@@ -120,7 +120,7 @@ class CreateDrug extends React.Component {
                 </div>
                 <div className="main-content-wrap">
                   <header className="page-header mt-5">
-                    <h2 className="page-title">Create Drug</h2>
+                    <h4 className="page-title">Create Drug</h4>
                   </header>
 
                   <div className="page-content ">
