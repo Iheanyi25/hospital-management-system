@@ -65,13 +65,28 @@ class UpdatePatientProfile extends React.Component {
                                                             </div>
                                                         </div>
 
-                                                        <div className="form-group"><label>Email address</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
+                                                        <div className="form-group"><label>Other Name</label> <input className="form-control" type="text" placeholder="Other Name" /></div>
 
+                                                         <div className="row">
+                                                            <div className="col-12 col-sm-6">
+                                                                <div className="form-group"><label>Date of Birth</label> <input className="form-control" type="date" placeholder="Age" defaultValue={25} /></div>
+                                                            </div>
+                                                            <div className="col-12 col-sm-6">
+                                                                <div className="form-group"><label>Gender</label>
+                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
+                                                                        <option className="bs-title-option" value />
+                                                                        <option selected="selected">Male</option>
+                                                                        <option>Female</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div className="row">
                                                             <div className="col"><button type="button" className="btn btn-success">Save Core Details</button></div>
                                                             <div className="col text-right">
                                                                 <button type="button" className="btn btn-outline-danger">
-                                                                    <span className="d-none d-sm-block">Delete account</span> <span className="d-sm-none">Cancel</span>
+                                                                    <span className="d-none d-sm-block">Cancel</span> <span className="d-sm-none">Cancel</span>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -85,25 +100,40 @@ class UpdatePatientProfile extends React.Component {
                                                 <div class="card-body">
                                                     <form className="mb-4">
 
-                                                        <h4>Core Details</h4>
-                                                        <div className="row">
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>First name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
+                                                        <h4>Contact Details</h4>
+                                                       
 
+                                                        <div className="form-group"><label>Phone Number</label> <input className="form-control" type="text" placeholder="Phone Number" /></div>
+                                                        <div className="form-group"><label>Email address</label> <input className="form-control" type="text" placeholder="Email Address"/></div>
+                                                        <div className="form-group"><label>Address</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
+                                                        <div className="row">
+                                                            
+                                                            <div className="col-12 col-sm-6">
+                                                                <div className="form-group"><label>State of Origin</label>
+                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
+                                                                        <option className="bs-title-option" value />
+                                                                        <option selected="selected">Male</option>
+                                                                        <option>Female</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Last name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
-
+                                                                <div className="form-group"><label>Country</label>
+                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
+                                                                        <option className="bs-title-option" value />
+                                                                        <option selected="selected">Male</option>
+                                                                        <option>Female</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-
-                                                        <div className="form-group"><label>Email address</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
-
                                                         <div className="row">
-                                                            <div className="col"><button type="button" className="btn btn-success">Save Core Details</button></div>
+                                                            <div className="col"><button type="button" className="btn btn-success">Save Contact Details</button></div>
                                                             <div className="col text-right">
                                                                 <button type="button" className="btn btn-outline-danger">
-                                                                    <span className="d-none d-sm-block">Delete account</span> <span className="d-sm-none">Cancel</span>
+                                                                    <span className="d-none d-sm-block">Cancel</span> <span className="d-sm-none">Cancel</span>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -113,21 +143,26 @@ class UpdatePatientProfile extends React.Component {
                                             </div>
 
                                         </div>
-                                        <div className="col col-md-6">
+                                        <div className="col col-md-12">
                                             <div class="card border-light">
 
                                                 <div class="card-body">
 
                                                     <form className="mb-4">
-                                                        <h4>Basic Details</h4>
-                                                        <div className="form-group"><label>First name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
-                                                        <div className="form-group"><label>Last name</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
+                                                        <h4>Basic Health Details</h4>
                                                         <div className="row">
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Age</label> <input className="form-control" type="number" placeholder="Age" defaultValue={25} /></div>
+                                                        <div className="col-12 col-sm-6">
+                                                            <div className="form-group"><label>Blood Group</label>
+                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
+                                                                        <option className="bs-title-option" value />
+                                                                        <option selected="selected">Male</option>
+                                                                        <option>Female</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Gender</label>
+                                                                <div className="form-group"><label>Genotype</label>
                                                                     <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
                                                                         <option className="bs-title-option" value />
                                                                         <option selected="selected">Male</option>
@@ -137,128 +172,29 @@ class UpdatePatientProfile extends React.Component {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="form-group"><label>Phone number</label> <input className="form-control" type="number" placeholder="Age" defaultValue={"0126596578"} /></div>
-                                                        <div className="form-group"><label>Address</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
-                                                        <div className="form-group"><label>Last visit</label> <input className="form-control" type="text" placeholder="Last visit" defaultValue="18 Dec 2019" readOnly="readonly" /></div>
-
-
-                                                        <div className="row">
-                                                            <div className="col"><button type="button" className="btn btn-success">Save changes</button></div>
-                                                            <div className="col text-right"><button type="button" className="btn btn-outline-danger"><span className="d-none d-sm-block">Delete account</span> <span className="d-sm-none">Delete</span></button></div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div className="col col-md-6">
-                                            <div class="card border-light">
-
-                                                <div class="card-body border-info">
-
-                                                    <form className="mb-4">
-                                                        <h4>Basic Details</h4>
-                                                        <div className="form-group"><label>First name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
-                                                        <div className="form-group"><label>Last name</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
-                                                        <div className="row">
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Age</label> <input className="form-control" type="number" placeholder="Age" defaultValue={25} /></div>
-                                                            </div>
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Gender</label>
-                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
-                                                                        <option className="bs-title-option" value />
-                                                                        <option selected="selected">Male</option>
-                                                                        <option>Female</option>
-                                                                    </select>
-                                                                    </div>
-                                                                </div>
+                                                        <div className="form-group"><label>Diabetic</label>
+                                                            <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
+                                                                <option className="bs-title-option" value />
+                                                                <option selected="selected">Yes</option>
+                                                                <option>No</option>
+                                                            </select>
                                                             </div>
                                                         </div>
-                                                        <div className="form-group"><label>Phone number</label> <input className="form-control" type="number" placeholder="Age" defaultValue={"0126596578"} /></div>
-                                                        <div className="form-group"><label>Address</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
-                                                        <div className="form-group"><label>Last visit</label> <input className="form-control" type="text" placeholder="Last visit" defaultValue="18 Dec 2019" readOnly="readonly" /></div>
-
-
                                                         <div className="row">
-                                                            <div className="col"><button type="button" className="btn btn-success">Save changes</button></div>
-                                                            <div className="col text-right"><button type="button" className="btn btn-outline-danger"><span className="d-none d-sm-block">Delete account</span> <span className="d-sm-none">Delete</span></button></div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div className="col col-md-6">
-                                            <div class="card border-light">
-
-                                                <div class="card-body">
-
-                                                    <form className="mb-4">
-                                                        <h4>Basic Details</h4>
-                                                        <div className="form-group"><label>First name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
-                                                        <div className="form-group"><label>Last name</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
-                                                        <div className="row">
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Age</label> <input className="form-control" type="number" placeholder="Age" defaultValue={25} /></div>
+                                                        <div className="col-12 col-sm-6">
+                                                        <div className="form-group"><label>Allergies</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
                                                             </div>
                                                             <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Gender</label>
-                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
-                                                                        <option className="bs-title-option" value />
-                                                                        <option selected="selected">Male</option>
-                                                                        <option>Female</option>
-                                                                    </select>
-                                                                    </div>
-                                                                </div>
+                                                            <div className="form-group"><label>Disabilities </label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
                                                             </div>
                                                         </div>
-                                                        <div className="form-group"><label>Phone number</label> <input className="form-control" type="number" placeholder="Age" defaultValue={"0126596578"} /></div>
-                                                        <div className="form-group"><label>Address</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
-                                                        <div className="form-group"><label>Last visit</label> <input className="form-control" type="text" placeholder="Last visit" defaultValue="18 Dec 2019" readOnly="readonly" /></div>
-
-
-                                                        <div className="row">
-                                                            <div className="col"><button type="button" className="btn btn-success">Save changes</button></div>
-                                                            <div className="col text-right"><button type="button" className="btn btn-outline-danger"><span className="d-none d-sm-block">Delete account</span> <span className="d-sm-none">Delete</span></button></div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div className="col col-md-6">
-                                            <div class="card border-light">
-
-                                                <div class="card-body">
-
-                                                    <form className="mb-4">
-                                                        <h4>Basic Details</h4>
-                                                        <div className="form-group"><label>First name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
-                                                        <div className="form-group"><label>Last name</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
-                                                        <div className="row">
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Age</label> <input className="form-control" type="number" placeholder="Age" defaultValue={25} /></div>
-                                                            </div>
-                                                            <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Gender</label>
-                                                                    <div className="dropdown bootstrap-select"><select className="selectpicker" title="Gender" tabIndex={-98}>
-                                                                        <option className="bs-title-option" value />
-                                                                        <option selected="selected">Male</option>
-                                                                        <option>Female</option>
-                                                                    </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="form-group"><label>Phone number</label> <input className="form-control" type="number" placeholder="Age" defaultValue={"0126596578"} /></div>
-                                                        <div className="form-group"><label>Address</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
-                                                        <div className="form-group"><label>Last visit</label> <input className="form-control" type="text" placeholder="Last visit" defaultValue="18 Dec 2019" readOnly="readonly" /></div>
-
+                                                        
+                                                        
+                                                        
 
                                                         <div className="row">
-                                                            <div className="col"><button type="button" className="btn btn-success">Save changes</button></div>
-                                                            <div className="col text-right"><button type="button" className="btn btn-outline-danger"><span className="d-none d-sm-block">Delete account</span> <span className="d-sm-none">Delete</span></button></div>
+                                                            <div className="col"><button type="button" className="btn btn-success">Save Health Details</button></div>
+                                                            <div className="col text-right"><button type="button" className="btn btn-outline-danger"><span className="d-none d-sm-block">Cancel</span> <span className="d-sm-none">Cancel</span></button></div>
                                                         </div>
                                                     </form>
                                                 </div>

@@ -75,10 +75,10 @@ class Sidebar extends React.Component {
                     <span className="group-title">Drug Management</span>
                   </li>
                   <li className="menu-item has-sub">
-                    <a className="item-link" href="#">
+                    <Link className="item-link" >
                       <span className="link-text">Drug Categories</span>{" "}
                       <span className="link-caret icofont-thin-right" />
-                    </a>
+                    </Link>
                     <ul className="sub">
                       <li className="menu-item">
                         <Link
@@ -94,7 +94,7 @@ class Sidebar extends React.Component {
                           to="/PharmacyManageDrugCategories"
                         >
                           <span className="link-text">
-                            Manage SubCategories
+                            Manage Categories
                           </span>
                         </Link>
                       </li>

@@ -70,7 +70,7 @@
 	left: 0; 
 	width: 100vw;
 	height: 100vh;
-	background: url("../IMG/login.jpg");
+	background: url("../img/login.jpg");
 	/* filter: contrast(90%) blur(1px); */
 	/* z-index: -1; */
 }
