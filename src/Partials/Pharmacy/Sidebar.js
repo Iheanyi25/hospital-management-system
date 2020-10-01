@@ -90,6 +90,7 @@ class Sidebar extends React.Component {
                       </li>
                       <li className="menu-item">
                         <Link
+                          onClick={() => window.location.href = '/PharmacyManageDrugCategories'}
                           className="item-link"
                           to="/PharmacyManageDrugCategories"
                         >
@@ -116,6 +117,7 @@ class Sidebar extends React.Component {
                       </li>
                       <li className="menu-item">
                         <Link
+                          onClick={() => window.location.href = '/PharmacyManageDrugSubCategories'}
                           className="item-link"
                           to="/PharmacyManageDrugSubCategories"
                         >
