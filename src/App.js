@@ -15,6 +15,8 @@ import DoctorSchedules from "./Doctor/Schedules";
 import DoctorPatientProfile from "./Doctor/PatientProfile";
 import DoctorPatientMedicalHistory from "./Doctor/PatientMedicalHistory";
 import DoctorManageSchedule from "./Doctor/ManageSchedule";
+import DoctorConsultation from "./Doctor/Consultation";
+
 
 
 import PatientDashboard from "./Patient/Dashboard";
@@ -60,9 +62,9 @@ function App() {
       <Route exact path="/DoctorAppointments" component={DoctorAppointments} />
       <Route exact path="/DoctorCreateSchedule" component={DoctorCreateSchedule} />
       <Route exact path="/DoctorSchedules" component={DoctorSchedules} />
+      <Route exact path="/DoctorConsultation" component={DoctorConsultation} />
       <Route exact path="/DoctorPatientProfile" component={DoctorPatientProfile} />
       <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory} />
-
       <Route exact path="/DoctorManageSchedule" component={DoctorManageSchedule}/>
 
       {/* Register the patients routes here */}
