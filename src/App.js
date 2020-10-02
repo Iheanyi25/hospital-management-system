@@ -17,18 +17,18 @@ import DoctorPatientMedicalHistory from "./Doctor/PatientMedicalHistory";
 import DoctorManageSchedule from "./Doctor/ManageSchedule";
 import DoctorConsultation from "./Doctor/Consultation";
 
-
-
 import PatientDashboard from "./Patient/Dashboard";
+import PatientAppointments from "./Patient/Appointments";
+import PatientDoctorList from "./Patient/DoctorList";
+
+
 import AccountantDashboard from "./Accountant/Dashboard";
 
 import PharmacyDashboard from "./Pharmacy/Dashboard";
 import PharmacyCreateDrugCategories from "./Pharmacy/CreateCategories";
 import PharmacyManageDrugCategories from "./Pharmacy/ManageCategories";
-
 import PharmacyCreateDrugSubCategories from "./Pharmacy/CreateSubCategories";
 import PharmacyManageDrugSubCategories from "./Pharmacy/ManageSubCategories";
-
 import PharmacyCreateDrug from "./Pharmacy/CreateDrug";
 import PharmacyManageDrugs from "./Pharmacy/ManageDrugs";
 
@@ -53,6 +53,8 @@ function App() {
         component={AdminPreConsultation}
       />
       <Route path="/AdminAllPatients" component={AdminAllPatients} />
+
+
       <Route path="/AdminAllDoctors" component={AdminAllDoctors} />
       <Route exact path="/AdminAppointments" component={AdminAppointments} />
 
@@ -69,6 +71,8 @@ function App() {
 
       {/* Register the patients routes here */}
       <Route exact path="/PatientDashboard" component={PatientDashboard} />
+      <Route exact path="/PatientAppointments" component={PatientAppointments} />
+      <Route exact path="/PatientDoctorList" component={PatientDoctorList} />
 
       {/* Register the admin accountant here */}
       <Route
