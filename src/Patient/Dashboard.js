@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from '../Partials/Patient/Header';
 import Sidebar from '../Partials/Patient/Sidebar';
 import PageLoader from '../Partials/PageLoader'
+import Footer from "../Partials/Footer";
+import TemplateSettings from "../Partials/TemplateSettings";
+import DoctorSearch from "../Partials/Patient/SearchDoctors";
 
 class Dashboard extends React.Component {
 
@@ -35,7 +38,7 @@ class Dashboard extends React.Component {
                             <div className="main-content-wrap">
                                 <div className="page-content">
                                     <div className="row">
-                                        <div className="col col-12 col-md-6 col-xl-3">
+                                        <div className="col col-12 col-md-6 col-xl-4">
                                             <div className="card animated fadeInUp delay-01s bg-light">
                                                 <div className="card-body">
                                                     <div className="row align-items-center">
@@ -51,7 +54,7 @@ class Dashboard extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col col-12 col-md-6 col-xl-3">
+                                        <div className="col col-12 col-md-6 col-xl-4">
                                             <div className="card animated fadeInUp delay-02s bg-light">
                                                 <div className="card-body">
                                                     <div className="row align-items-center">
@@ -60,14 +63,14 @@ class Dashboard extends React.Component {
                                                             </div>
                                                         </div>
                                                         <div className="col col-7">
-                                                            <h6 className="mt-0 mb-1">New patients</h6>
+                                                            <h6 className="mt-0 mb-1">Prescriptions</h6>
                                                             <div className="count text-primary fs-20">104</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col col-12 col-md-6 col-xl-3">
+                                        <div className="col col-12 col-md-6 col-xl-4">
                                             <div className="card animated fadeInUp delay-03s bg-light">
                                                 <div className="card-body">
                                                     <div className="row align-items-center">
@@ -75,82 +78,44 @@ class Dashboard extends React.Component {
                                                             <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                                                         </div>
                                                         <div className="col col-7">
-                                                            <h6 className="mt-0 mb-1">Operations</h6>
+                                                            <h6 className="mt-0 mb-1">Notifications</h6>
                                                             <div className="count text-primary fs-20">24</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col col-12 col-md-6 col-xl-3">
-                                            <div className="card animated fadeInUp delay-04s bg-light">
-                                                <div className="card-body">
-                                                    <div className="row align-items-center">
-                                                        <div className="col col-5">
-                                                            <div className="icon p-0 fs-48 text-primary opacity-50 icofont-dollar-true">
-                                                            </div>
-                                                        </div>
-                                                        <div className="col col-7">
-                                                            <h6 className="mt-0 mb-1 text-nowrap">Hospital Earning</h6>
-                                                            <div className="count text-primary fs-20">$5238</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                       
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                        <div class="card bg-light">
+                                            <div class="card-header">Welcome Mr. Vitalis</div>
+                                            <div class="card-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                                            elit. Distinctio dolore enim, nemo nihil non omnis
+                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
+                                            dolor sit amet, consectetur adipisicing elit. Dicta,
+                                            provident?
+                                                                </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                        <div class="card text-white bg-info">
+                                            <div class="card-header">Important Updates</div>
+                                            <div class="card-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                                            elit. Distinctio dolore enim, nemo nihil non omnis
+                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
+                                            dolor sit amet, consectetur adipisicing elit. Dicta,
+                                            provident?
                                             </div>
+                                        </div>
                                         </div>
                                     </div>
-                                    <div className="card">
-                                        <div className="card-header">Hospital survey</div>
-                                        <div className="card-body">
-                                            <div id="surveyEcharts" className="chat-container container-h-400" />
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col col-12 col-md-6">
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h4 className="mt-0 mb-1">$25038</h4>
-                                                    <p className="text-muted mb-0">Income in current month</p>
-                                                    <div id="incomeEcharts" className="chat-container" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-6">
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h4 className="mt-0 mb-1">$2195</h4>
-                                                    <p className="text-muted mb-0">Income in current week</p>
-                                                    <div id="income2Echarts" className="chat-container" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-4">
-                                            <div className="card">
-                                                <div className="card-header">Patients age</div>
-                                                <div className="card-body">
-                                                    <div id="ageEcharts" className="chat-container container-h-300" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-4">
-                                            <div className="card">
-                                                <div className="card-header">Patients gender</div>
-                                                <div className="card-body">
-                                                    <div id="genderEcharts" className="chat-container container-h-300" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col col-12 col-md-4">
-                                            <div className="card">
-                                                <div className="card-header">Departments</div>
-                                                <div className="card-body">
-                                                    <div id="departmentsEcharts" className="chat-container container-h-300" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  
                                     <div className="card mb-0">
-                                        <div className="card-header">Last appointments</div>
+                                        <div className="card-header">Recent Appointments</div>
                                         <div className="card-body">
                                             <div className="table-responsive">
                                                 <table className="table table-hover">
@@ -173,7 +138,7 @@ class Dashboard extends React.Component {
                                                             <td><strong>Liam</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
-                          </div>
+                                                             </div>
                                                             </td>
                                                             <td>
                                                                 <div className="text-muted text-nowrap">10 Feb 2018</div>
@@ -183,7 +148,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
+                                                             </div>
                                                             </td>
                                                             <td>Dr. Benjamin</td>
                                                             <td>mumps</td>
@@ -198,7 +163,7 @@ class Dashboard extends React.Component {
                                                             <td><strong>Emma</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> emma@gmail.com
-                          </div>
+                                                             </div>
                                                             </td>
                                                             <td>
                                                                 <div className="text-muted text-nowrap">5 Dec 2018</div>
@@ -351,105 +316,12 @@ class Dashboard extends React.Component {
                                 </div>
                             </div>
                         </main>
-                        <div className="app-footer">
-                            <div className="footer-wrap">
-                                <div className="row h-100 align-items-center">
-                                    <div className="col-12 col-md-6 d-none d-md-block">
-                                        <ul className="page-breadcrumbs">
-                                            <li className="item"><a href="#" className="link">Dashboards</a> <i className="separator icofont-thin-right" /></li>
-                                            <li className="item"><a href="#" className="link">Default</a> <i className="separator icofont-thin-right" /></li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-12 col-md-6 text-right">
-                                        <div className="d-flex align-items-center justify-content-center justify-content-md-end">
-                                            <span>Version 1.0.0</span> <button className="no-style ml-2 settings-btn" data-toggle="modal" data-target="#settings"><span className="icon icofont-ui-settings text-primary" /></button></div>
-                                    </div>
-                                </div>
-                                <div className="footer-skeleton">
-                                    <div className="row align-items-center">
-                                        <div className="col-12 col-md-6 d-none d-md-block">
-                                            <ul className="page-breadcrumbs">
-                                                <li className="item bg-1 animated-bg" />
-                                                <li className="item bg animated-bg" />
-                                            </ul>
-                                        </div>
-                                        <div className="col-12 col-md-6">
-                                            <div className="info justify-content-center justify-content-md-end">
-                                                <div className="version bg animated-bg" />
-                                                <div className="settings animated-bg" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="content-overlay" />
-                    </div>
-                </div>{/* Add patients modals */}
-                <div className="modal fade" id="add-patient" tabIndex={-1} role="dialog" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Add new patient</h5>
-                            </div>
-                            <div className="modal-body">
-                                <form>
-                                    <div className="form-group avatar-box d-flex"><img src="./assets/content/anonymous-400.jpg" width={40} height={40} className="rounded-500 mr-4" /> <button className="btn btn-outline-primary" type="button">Select image<span className="btn-icon icofont-ui-user ml-2" /></button></div>
-                                    <div className="form-group"><input className="form-control" type="text" placeholder="Name" /></div>
-                                    <div className="form-group"><input className="form-control" type="number" placeholder="Number" /></div>
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="form-group"><input className="form-control" type="number" placeholder="Age" />
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="form-group"><select className="selectpicker" title="Gender">
-                                                <option className="d-none">Gender</option>
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                            </select></div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group mb-0"><textarea className="form-control" placeholder="Address" rows={3} defaultValue={""} /></div>
-                                </form>
-                            </div>
-                            <div className="modal-footer d-block">
-                                <div className="actions justify-content-between"><button type="button" className="btn btn-error" data-dismiss="modal">Cancel</button> <button type="button" className="btn btn-info">Add
-              patient</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>{/* end Add patients modals */}
-                {/* Add patients modals */}
-                <div className="modal fade" id="settings" tabIndex={-1} role="dialog" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Application's settings</h5>
-                            </div>
-                            <div className="modal-body">
-                                <form>
-                                    <div className="form-group"><label>Layout</label> <select className="selectpicker" title="Layout" id="layout">
-                                        <option value="horizontal-layout">Horizontal</option>
-                                        <option value="vertical-layout">Vertical</option>
-                                    </select></div>
-                                    <div className="form-group"><label>Light/dark topbar</label>
-                                        <div className="custom-control custom-switch"><input type="checkbox" className="custom-control-input" id="topbar" /> <label className="custom-control-label" htmlFor="topbar" /></div>
-                                    </div>
-                                    <div className="form-group"><label>Light/dark sidebar</label>
-                                        <div className="custom-control custom-switch"><input type="checkbox" className="custom-control-input" id="sidebar" /> <label className="custom-control-label" htmlFor="sidebar" /></div>
-                                    </div>
-                                    <div className="form-group mb-0"><label>Boxed/fullwidth mode</label>
-                                        <div className="custom-control custom-switch"><input type="checkbox" className="custom-control-input" id="boxed" defaultChecked="checked" /> <label className="custom-control-label" htmlFor="boxed" /></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="modal-footer d-block">
-                                <div className="actions justify-content-between"><button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button> <button id="reset-to-default" type="button" className="btn btn-error">Reset to default</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>{/* end Add patients modals */}
+                       {/* Footer */}
+                    <Footer />
+                </div>
+                </div>
+                <TemplateSettings />  
+                <DoctorSearch/>
             </>
 
         

@@ -285,11 +285,76 @@ class Consultation extends React.Component {
                                                                 <div class="card-body">
 
                                                                     <form className="mb-4">
-                                                                        <h4>Patient Prescriptions</h4>
+                                                                        <h4> Prescribe Drugs</h4>
                                                                         <div className="row border-primary">
                                                                             <div className="col-md-6">
                                                                                 <div className="form-group">
                                                                                     <label>Drug</label> 
+                                                                                    <input className="form-control" type="text"  />
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div className="col-md-6">
+                                                                                <div className="form-group">
+                                                                                    <label>Quantity</label> 
+                                                                                    <input className="form-control" type="text"  />
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div className="col-md-6">
+                                                                                <div className="form-group">
+                                                                                    <label>Dosage</label> 
+                                                                                    <input className="form-control" type="text"  />
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div className="col-md-6">
+                                                                                <div className="form-group">
+                                                                                    <label>Frequency</label> 
+                                                                                    <input className="form-control" type="text"  />
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div className="col-md-12">
+                                                                                <div className="form-group">
+                                                                                    <label>Doctor Note</label>
+                                                                                    <textarea className="form-control" placeholder="Enter Comments Here" rows={3} />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="col-md-12 text-right mb-5">
+                                                                                <button type="button" className="btn btn-outline-primary ">
+                                                                                        <span className="d-none d-sm-block">+</span> <span className="d-sm-none">+</span>
+                                                                                </button>
+                                                                            </div>
+                                                                                                                                                
+                                                                        </div>
+
+
+
+                                                                        <div className="row">
+                                                                            <div className="col"><button type="button" className="btn btn-success">Prrescribe Drugs</button></div>
+                                                                            <div className="col text-right">
+                                                                                <button type="button" className="btn btn-outline-danger">
+                                                                                    <span className="d-none d-sm-block">Cancel</span> <span className="d-sm-none">Cancel</span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-md-12">
+                                                            <div class="card border-light">
+
+                                                                <div class="card-body">
+
+                                                                    <form className="mb-4">
+                                                                        <h4> Prescribe LabTest</h4>
+                                                                        <div className="row border-primary">
+                                                                            <div className="col-md-6">
+                                                                                <div className="form-group">
+                                                                                    <label>Lab</label> 
                                                                                     <input className="form-control" type="text"  />
                                                                                 </div>
 
@@ -337,7 +402,7 @@ class Consultation extends React.Component {
 
 
                                                                         <div className="row">
-                                                                            <div className="col"><button type="button" className="btn btn-success">Prrescribe Drugs</button></div>
+                                                                            <div className="col"><button type="button" className="btn btn-success">Prrescribe LabTest</button></div>
                                                                             <div className="col text-right">
                                                                                 <button type="button" className="btn btn-outline-danger">
                                                                                     <span className="d-none d-sm-block">Cancel</span> <span className="d-sm-none">Cancel</span>
@@ -348,6 +413,7 @@ class Consultation extends React.Component {
                                                                 </div>
                                                             </div>
                                                         </div>
+
 
 
                                                     </div>
