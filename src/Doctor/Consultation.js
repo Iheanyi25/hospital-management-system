@@ -270,7 +270,7 @@ class Consultation extends React.Component {
                                         <div className="card">
                                             <div className="card-header" id="headingThree">
                                                 <h5 className="mb-0">
-                                                    <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                         Drug Prescriptions
                                                     </button>
                                                 </h5>
@@ -286,7 +286,7 @@ class Consultation extends React.Component {
 
                                                                     <form className="mb-4">
                                                                         <h4>Patient Prescriptions</h4>
-                                                                        <div className="row">
+                                                                        <div className="row border-primary">
                                                                             <div className="col-md-6">
                                                                                 <div className="form-group">
                                                                                     <label>Drug</label> 
@@ -296,46 +296,40 @@ class Consultation extends React.Component {
                                                                             </div>
                                                                             <div className="col-md-6">
                                                                                 <div className="form-group">
-                                                                                    <label>History of Presenting Complains</label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={3} />
+                                                                                    <label>Quantity</label> 
+                                                                                    <input className="form-control" type="text"  />
                                                                                 </div>
+
                                                                             </div>
                                                                             <div className="col-md-6">
                                                                                 <div className="form-group">
-                                                                                    <label>Review of System</label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={3} />
+                                                                                    <label>Dosage</label> 
+                                                                                    <input className="form-control" type="text"  />
                                                                                 </div>
+
                                                                             </div>
                                                                             <div className="col-md-6">
                                                                                 <div className="form-group">
-                                                                                    <label>Physical Examination</label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={3} />
+                                                                                    <label>Frequency</label> 
+                                                                                    <input className="form-control" type="text"  />
                                                                                 </div>
+
                                                                             </div>
-                                                                            <div className="col-md-6">
+                                                                            <div className="col-md-12">
                                                                                 <div className="form-group">
-                                                                                    <label>Diagnosis</label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={3} />
+                                                                                    <label>Doctor Note</label>
+                                                                                    <textarea className="form-control" placeholder="Enter Comments Here" rows={3} />
                                                                                 </div>
                                                                             </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="form-group">
-                                                                                    <label>Treatment Plan</label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={3} />
-                                                                                </div>
+                                                                            <div className="col-md-12 text-right mb-5">
+                                                                                <button type="button" className="btn btn-outline-primary ">
+                                                                                        <span className="d-none d-sm-block">+</span> <span className="d-sm-none">+</span>
+                                                                                </button>
                                                                             </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="form-group">
-                                                                                    <label>Obstetrics(For Female Patients Only) </label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={2} />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-md-6">
-                                                                                <div className="form-group">
-                                                                                    <label>Gynecology(For Female Patients Only)</label>
-                                                                                    <textarea className="form-control" placeholder="Enter Social History Here" rows={2} />
-                                                                                </div>
-                                                                            </div>
+                                                                            
+                                                                            
+                                                                        
+                                                                    
                                                                         </div>
 
 
@@ -343,7 +337,7 @@ class Consultation extends React.Component {
 
 
                                                                         <div className="row">
-                                                                            <div className="col"><button type="button" className="btn btn-success">Record Social History</button></div>
+                                                                            <div className="col"><button type="button" className="btn btn-success">Prrescribe Drugs</button></div>
                                                                             <div className="col text-right">
                                                                                 <button type="button" className="btn btn-outline-danger">
                                                                                     <span className="d-none d-sm-block">Cancel</span> <span className="d-sm-none">Cancel</span>
