@@ -104,7 +104,7 @@ class Patients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/DoctorConsultation'} to="/DoctorConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
@@ -151,7 +151,7 @@ class Patients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/DoctorConsultation'} to="/DoctorConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link> 
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
@@ -198,7 +198,7 @@ class Patients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/DoctorConsultation'} to="/DoctorConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
@@ -245,7 +245,7 @@ class Patients extends React.Component {
 
                                                             <td>
                                                                 <div className="actions">
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/DoctorConsultation'} to="/DoctorConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
@@ -293,7 +293,7 @@ class Patients extends React.Component {
                                                             <td>
                                                                 <div className="actions">
                                                                 
-                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/DoctorConsultation'} to="/DoctorConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
                                                                     <button className="btn btn-info btn-sm btn-square rounded-pill">
