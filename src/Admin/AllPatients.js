@@ -108,9 +108,10 @@ class AllPatients extends React.Component {
                                                                     <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminUpdatePatientProfile'} to="/AdminUpdatePatientProfile" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
+                                                                    </Link>
+                                                                   
                                                                     <button className="btn btn-error btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-delete" />
                                                                     </button>
@@ -155,9 +156,9 @@ class AllPatients extends React.Component {
                                                                     <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link> 
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminUpdatePatientProfile'} to="/AdminUpdatePatientProfile" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
+                                                                    </Link>
                                                                     <button className="btn btn-error btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-delete" />
                                                                     </button>
@@ -202,9 +203,9 @@ class AllPatients extends React.Component {
                                                                     <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminUpdatePatientProfile'} to="/AdminUpdatePatientProfile" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
+                                                                    </Link>
                                                                     <button className="btn btn-error btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-delete" />
                                                                     </button>
@@ -249,9 +250,9 @@ class AllPatients extends React.Component {
                                                                     <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminUpdatePatientProfile'} to="/AdminUpdatePatientProfile" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
+                                                                    </Link>
                                                                     <button className="btn btn-error btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-delete" />
                                                                     </button>
@@ -297,28 +298,17 @@ class AllPatients extends React.Component {
                                                                     <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminPreConsultation'} to="/AdminPreConsultation" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-stethoscope-alt" />
                                                                     </Link>
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                                    <Link title="Pre-consultation" onClick={() => window.location.href = '/AdminUpdatePatientProfile'} to="/AdminUpdatePatientProfile" className="btn btn-secondary btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
+                                                                    </Link>
                                                                     <button className="btn btn-error btn-sm btn-square rounded-pill">
                                                                         <span className="btn-icon icofont-ui-delete" />
                                                                     </button>
                                                                 </div>
                                                             </td>
                                                         </tr>
-
-
-
-
-
-
-
-
-
-
                                                     </tbody>
                                                 </table>
-
 
                                             </div>
 
