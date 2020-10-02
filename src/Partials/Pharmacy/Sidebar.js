@@ -75,7 +75,7 @@ class Sidebar extends React.Component {
                     <span className="group-title">Drug Management</span>
                   </li>
                   <li className="menu-item has-sub">
-                    <Link className="item-link" >
+                    <Link className="item-link">
                       <span className="link-text">Drug Categories</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </Link>
@@ -90,13 +90,14 @@ class Sidebar extends React.Component {
                       </li>
                       <li className="menu-item">
                         <Link
-                          onClick={() => window.location.href = '/PharmacyManageDrugCategories'}
+                          onClick={() =>
+                            (window.location.href =
+                              "/PharmacyManageDrugCategories")
+                          }
                           className="item-link"
                           to="/PharmacyManageDrugCategories"
                         >
-                          <span className="link-text">
-                            Manage Categories
-                          </span>
+                          <span className="link-text">Manage Categories</span>
                         </Link>
                       </li>
                     </ul>
@@ -117,7 +118,10 @@ class Sidebar extends React.Component {
                       </li>
                       <li className="menu-item">
                         <Link
-                          onClick={() => window.location.href = '/PharmacyManageDrugSubCategories'}
+                          onClick={() =>
+                            (window.location.href =
+                              "/PharmacyManageDrugSubCategories")
+                          }
                           className="item-link"
                           to="/PharmacyManageDrugSubCategories"
                         >
@@ -176,7 +180,7 @@ class Sidebar extends React.Component {
               <button
                 className="btn btn-primary"
                 data-toggle="modal"
-                data-target="#add-patient"
+                data-target="#add-drug"
               >
                 <span className="btn-icon icofont-plus mr-2" /> Add Drugs
               </button>

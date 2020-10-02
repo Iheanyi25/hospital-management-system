@@ -3,17 +3,15 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
+import AddDrug from "../Partials/Pharmacy/AddDrug";
+import Footer from "../Partials/Footer";
+import TemplateSettings from "../Partials/TemplateSettings";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drugName: "",
-      drugDescription: "",
-      drugPrice: "",
       numberOfDrugs: 0,
       numberOfDrugCategories: 0,
       numberOfDrugSubCategories: 0,
@@ -25,7 +23,6 @@ class Dashboard extends React.Component {
     const { url } = this.state;
     const response = await fetch(`${url}/Pharmacy/GetDrugsCount`);
     const data = await response.json();
-    console.log(data);
     const response1 = await fetch(`${url}/Pharmacy/GetDrugGategoryTotalNumber`);
     const data1 = await response1.json();
     const response2 = await fetch(
@@ -39,74 +36,6 @@ class Dashboard extends React.Component {
       numberOfDrugSubCategories: data2,
     });
   }
-
-  createDrug = async (e) => {
-    e.preventDefault();
-    const { url } = this.state;
-    this.setState({ submittingDrug: true });
-    const { drugName, drugDescription, drugPrice } = this.state;
-    try {
-      var name = drugName;
-      var price = drugPrice;
-      var description = drugDescription;
-
-      console.log(name);
-      console.log(price);
-      console.log(description);
-
-      const request = await fetch(`${url}/Pharmacy/CreateDrug`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          price,
-          description,
-        }),
-      });
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      //Drug successfully added
-
-      const data = await request.json();
-      console.log(data);
-      this.setState({ submittingDrug: false, success: true });
-      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
-      const data1 = await response.json();
-      setTimeout(
-        () =>
-          this.setState({
-            drugs: data1,
-            displaying: "all drugs",
-            showModal: false,
-          }),
-        300
-      );
-    } catch (error) {
-      console.log(error);
-
-      this.setState((state) => ({
-        submittingDrug: false,
-        error: { ...state.error, error: true, message: error.message },
-      }));
-
-      //set state to initial values after 3 seconds.
-    }
-  };
-
-  clearForm = async (e) => {
-    e.preventDefault();
-    this.setState({ drugName: "", drugDescription: "", drugPrice: "" });
-  };
-  handleChange = async (name, e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    this.setState({ [name]: value });
-  };
 
   render() {
     const {
@@ -231,7 +160,7 @@ class Dashboard extends React.Component {
                       </div>
                     </div>
                   </div>
-                 
+
                   <div className="card mb-0">
                     <div className="card-header">Recent Prescriptions</div>
                     <div className="card-body">
@@ -593,81 +522,10 @@ class Dashboard extends React.Component {
             <Footer />
           </div>
         </div>
-        {/* Add patients modals */}
-        <div
-          className="modal fade"
-          id="add-patient"
-          tabIndex={-1}
-          role="dialog"
-          aria-hidden="true"
-        >
-          <form onSubmit={(e) => this.createDrug(e)}>
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Add Drug</h5>
-                </div>
-                <div className="modal-body">
-
-                  <div className="form-group">
-                    <input
-                      id="drugName"
-                      name="drugName"
-                      value={this.state.drugName}
-                      onChange={(e) => this.handleChange("drugName", e)}
-                      className="form-control"
-                      type="text"
-                      placeholder="Name"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      id="drugDescription"
-                      name="drugDescription"
-                      value={this.state.drugDescription}
-                      onChange={(e) => this.handleChange("drugDescription", e)}
-                      className="form-control"
-                      type="text"
-                      placeholder="Description"
-                    />
-                  </div>
-
-                
-                    <div className="form-group">
-                      <input
-                        id="drugPrice"
-                        name="drugPrice"
-                        value={this.state.drugPrice}
-                        onChange={(e) => this.handleChange("drugPrice", e)}
-                        className="form-control"
-                        type="number"
-                        placeholder="Price"
-                      />
-                    </div>
-
-              
-                </div>
-                <div className="modal-footer d-block">
-                  <div className="actions justify-content-between">
-                    <button
-                      type="button"
-                      className="btn btn-error"
-                      data-dismiss="modal"
-                      onClick={(e) => this.clearForm(e)}
-                    >
-                      Cancel
-                    </button>{" "}
-                    <button type="submit" className="btn btn-info">
-                      Add Drug
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        {/* end Add Drugs */}
-
+        {/* Add Drug Modal */}
+        <AddDrug />
+        {/* App Settings modals */}
+        <TemplateSettings />
       </>
     );
   }

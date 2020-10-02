@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
-
+import AddDrug from "../Partials/Pharmacy/AddDrug";
+import Footer from "../Partials/Footer";
+import TemplateSettings from "../Partials/TemplateSettings";
 
 class CreateSubCategories extends React.Component {
   constructor(props) {
@@ -79,103 +79,105 @@ class CreateSubCategories extends React.Component {
 
             {/* Vertical navbar */}
             <Sidebar></Sidebar>
-          
-              <main className="main-content">
-                <div className="app-loader">
-                  <i className="icofont-spinner-alt-4 rotate" />
-                </div>
-                <div className="main-content-wrap">
-                  <header className="page-header mt-5">
-                    <h4 className="page-title">Create Drug SubCategory</h4>
-                  </header>
 
-                  <div className="page-content ">
-                    <div className="row justify-content-center">
-                      <div className="col col-12 col-xl-8">
-                        <form className="mb-4 mt-4" onSubmit={(e) => this.createDrugSubCategory(e)}>
-                          <div className="form-group">
-                            <label>Category Name</label>
-                            <input
-                              id={"drugSubCategoryName"}
-                              className="form-control"
-                              type="text"
-                              placeholder="Enter sub category name"
-                              value={this.state.drugSubCategoryName}
-                              onChange={(e) =>
-                                this.handleChange("drugSubCategoryName", e)
-                              }
-                            />
-                          </div>
+            <main className="main-content">
+              <div className="app-loader">
+                <i className="icofont-spinner-alt-4 rotate" />
+              </div>
+              <div className="main-content-wrap">
+                <header className="page-header mt-5">
+                  <h4 className="page-title">Create Drug SubCategory</h4>
+                </header>
 
-                          <label>Attach to a Category</label>
-
-                          <select
-                            id={"drugCategory"}
+                <div className="page-content ">
+                  <div className="row justify-content-center">
+                    <div className="col col-12 col-xl-8">
+                      <form
+                        className="mb-4 mt-4"
+                        onSubmit={(e) => this.createDrugSubCategory(e)}
+                      >
+                        <div className="form-group">
+                          <label>Category Name</label>
+                          <input
+                            id={"drugSubCategoryName"}
                             className="form-control"
-                            title="Status"
-                            tabIndex="-98"
-                            value={this.state.selectedDrugCategory}
+                            type="text"
+                            placeholder="Enter sub category name"
+                            value={this.state.drugSubCategoryName}
                             onChange={(e) =>
-                              this.handleChange("selectedDrugCategory", e)
+                              this.handleChange("drugSubCategoryName", e)
                             }
-                          >
-                            <option>select drug category</option>
-                            {drugCategories
-                              ? drugCategories.map((drugCategory) => (
-                                  <option
-                                    key={drugCategory.id}
-                                    value={drugCategory.id}
-                                  >
-                                    {drugCategory.name}
-                                  </option>
-                                ))
-                              : null}
+                          />
+                        </div>
 
-                            <option class="bs-title-option" value=""></option>
-                          </select>
+                        <label>Attach to a Category</label>
 
-                          <div class="form-group">
-                            <label>Description</label>
-                            <textarea
-                              id={"drugSubCategoryDescription"}
-                              className="form-control"
-                              rows="5"
-                              placeholder=" Enter Sub Category Description"
-                              value={this.state.drugSubCategoryDescription}
-                              onChange={(e) =>
-                                this.handleChange(
-                                  "drugSubCategoryDescription",
-                                  e
-                                )
-                              }
-                            ></textarea>
+                        <select
+                          id={"drugCategory"}
+                          className="form-control"
+                          title="Status"
+                          tabIndex="-98"
+                          value={this.state.selectedDrugCategory}
+                          onChange={(e) =>
+                            this.handleChange("selectedDrugCategory", e)
+                          }
+                        >
+                          <option>select drug category</option>
+                          {drugCategories
+                            ? drugCategories.map((drugCategory) => (
+                                <option
+                                  key={drugCategory.id}
+                                  value={drugCategory.id}
+                                >
+                                  {drugCategory.name}
+                                </option>
+                              ))
+                            : null}
+
+                          <option class="bs-title-option" value=""></option>
+                        </select>
+
+                        <div class="form-group">
+                          <label>Description</label>
+                          <textarea
+                            id={"drugSubCategoryDescription"}
+                            className="form-control"
+                            rows="5"
+                            placeholder=" Enter Sub Category Description"
+                            value={this.state.drugSubCategoryDescription}
+                            onChange={(e) =>
+                              this.handleChange("drugSubCategoryDescription", e)
+                            }
+                          ></textarea>
+                        </div>
+
+                        <div className="row">
+                          <div className="col">
+                            <button type="submit" className="btn btn-success">
+                              Save Category
+                            </button>
                           </div>
-
-                          <div className="row">
-                            <div className="col">
-                              <button type="submit" className="btn btn-success">
-                                Save Category
-                              </button>
-                            </div>
-                            <div className="col text-right">
-                              <button
-                                type="button"
-                                className="btn btn-outline-danger"
-                                onClick={(e) => this.clearForm(e)}
-                              >
-                                <span className="d-none d-sm-block">Clear</span>{" "}
-                                <span className="d-sm-none">Delete</span>
-                              </button>
-                            </div>
+                          <div className="col text-right">
+                            <button
+                              type="button"
+                              className="btn btn-outline-danger"
+                              onClick={(e) => this.clearForm(e)}
+                            >
+                              <span className="d-none d-sm-block">Clear</span>{" "}
+                              <span className="d-sm-none">Delete</span>
+                            </button>
                           </div>
-                        </form>
-                        <hr />
-                      </div>
+                        </div>
+                      </form>
+                      <hr />
                     </div>
                   </div>
                 </div>
-              </main>
-            
+              </div>
+            </main>
+
+            {/* Add Drug Modal */}
+            <AddDrug />
             {/* Footer */}
             <Footer />
           </div>

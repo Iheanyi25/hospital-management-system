@@ -1,13 +1,14 @@
-import React from 'react';
-import Login from './Login/Login'
-import AdminDashboard from './Admin/Dashboard'
-import AdminUpdatePatientProfile from './Admin/UpdatePatientProfile'
-import AdminAppointments from './Admin/Appointments'
-import AdminPreConsultation from './Admin/PreConsultation'
-import AdminAllPatients from './Admin/AllPatients'
-import AdminAllDoctors from './Admin/AllDoctors'
+import React from "react";
+import Login from "./Login/Login";
+import AdminDashboard from "./Admin/Dashboard";
+import AdminUpdatePatientProfile from "./Admin/UpdatePatientProfile";
+import AdminAppointments from "./Admin/Appointments";
+import AdminPreConsultation from "./Admin/PreConsultation";
+import AdminAllPatients from "./Admin/AllPatients";
+import AdminAllDoctors from "./Admin/AllDoctors";
 
 import DoctorDashboard from "./Doctor/Dashboard";
+import DoctorManageSchedule from "./Doctor/ManageSchedule";
 import PatientDashboard from "./Patient/Dashboard";
 import AccountantDashboard from "./Accountant/Dashboard";
 
@@ -31,14 +32,27 @@ function App() {
 
       {/* Register the admin routes here */}
       <Route exact path="/AdminDashboard" component={AdminDashboard} />
-      <Route exact path="/AdminUpdatePatientProfile" component={AdminUpdatePatientProfile} />
-      <Route exact path="/AdminPreConsultation" component={AdminPreConsultation} />
-      <Route  path="/AdminAllPatients" component={AdminAllPatients} />
-      <Route  path="/AdminAllDoctors" component={AdminAllDoctors} />
+      <Route
+        exact
+        path="/AdminUpdatePatientProfile"
+        component={AdminUpdatePatientProfile}
+      />
+      <Route
+        exact
+        path="/AdminPreConsultation"
+        component={AdminPreConsultation}
+      />
+      <Route path="/AdminAllPatients" component={AdminAllPatients} />
+      <Route path="/AdminAllDoctors" component={AdminAllDoctors} />
       <Route exact path="/AdminAppointments" component={AdminAppointments} />
 
       {/* Register the doctor routes here */}
       <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
+      <Route
+        exact
+        path="/DoctorManageSchedule"
+        component={DoctorManageSchedule}
+      />
 
       {/* Register the patients routes here */}
       <Route exact path="/PatientDashboard" component={PatientDashboard} />
