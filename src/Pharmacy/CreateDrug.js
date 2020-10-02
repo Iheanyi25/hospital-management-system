@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
+import Footer from "../Partials/Footer";
+import AddDrug from "../Partials/Pharmacy/AddDrug";
+import TemplateSettings from "../Partials/TemplateSettings";
 
 const data = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
 const columns = [
@@ -112,88 +113,90 @@ class CreateDrug extends React.Component {
             <Header></Header>
             {/* Vertical navbar */}
             <Sidebar></Sidebar>
-          
-            
-              <main className="main-content">
-                <div className="app-loader">
-                  <i className="icofont-spinner-alt-4 rotate" />
-                </div>
-                <div className="main-content-wrap">
-                  <header className="page-header mt-5">
-                    <h4 className="page-title">Create Drug</h4>
-                  </header>
 
-                  <div className="page-content ">
-                    <div className="row justify-content-center">
-                      <div className="col col-12 col-xl-8">
-                        <form className="mb-4 mt-4" onSubmit={(e) => this.createDrug(e)}>
-                          <div className="form-group">
-                            <label>Drug Name</label>{" "}
-                            <input
-                              id="drugName"
-                              name="drugName"
-                              type="text"
-                              value={this.state.drugName}
-                              onChange={(e) => this.handleChange("drugName", e)}
-                              placeholder="Enter drug name"
-                              className="form-control"
-                            />
-                          </div>
+            <main className="main-content">
+              <div className="app-loader">
+                <i className="icofont-spinner-alt-4 rotate" />
+              </div>
+              <div className="main-content-wrap">
+                <header className="page-header mt-5">
+                  <h4 className="page-title">Create Drug</h4>
+                </header>
 
-                          <div className="form-group">
-                            <label>Drug Description</label>{" "}
-                            <input
-                              id="drugDescription"
-                              name="drugDescription"
-                              type="text"
-                              value={this.state.drugDescription}
-                              onChange={(e) =>
-                                this.handleChange("drugDescription", e)
-                              }
-                              placeholder="Enter drug description"
-                              className="form-control"
-                            />
-                          </div>
-                          <div className="form-group">
-                            <label>Drug Price</label>{" "}
-                            <input
-                              id="drugPrice"
-                              name="drugPrice"
-                              type="number"
-                              value={this.state.drugPrice}
-                              onChange={(e) =>
-                                this.handleChange("drugPrice", e)
-                              }
-                              placeholder="Enter drug price"
-                              className="form-control"
-                            />
-                          </div>
+                <div className="page-content ">
+                  <div className="row justify-content-center">
+                    <div className="col col-12 col-xl-8">
+                      <form
+                        className="mb-4 mt-4"
+                        onSubmit={(e) => this.createDrug(e)}
+                      >
+                        <div className="form-group">
+                          <label>Drug Name</label>{" "}
+                          <input
+                            id="drugName"
+                            name="drugName"
+                            type="text"
+                            value={this.state.drugName}
+                            onChange={(e) => this.handleChange("drugName", e)}
+                            placeholder="Enter drug name"
+                            className="form-control"
+                          />
+                        </div>
 
-                          <div className="row">
-                            <div className="col">
-                              <button type="submit" className="btn btn-success">
-                                Save Category
-                              </button>
-                            </div>
-                            <div className="col text-right">
-                              <button
-                                type="button"
-                                className="btn btn-outline-danger"
-                                onClick={(e) => this.clearForm(e)}
-                              >
-                                <span className="d-none d-sm-block">Clear</span>{" "}
-                                <span className="d-sm-none">Delete</span>
-                              </button>
-                            </div>
+                        <div className="form-group">
+                          <label>Drug Description</label>{" "}
+                          <input
+                            id="drugDescription"
+                            name="drugDescription"
+                            type="text"
+                            value={this.state.drugDescription}
+                            onChange={(e) =>
+                              this.handleChange("drugDescription", e)
+                            }
+                            placeholder="Enter drug description"
+                            className="form-control"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Drug Price</label>{" "}
+                          <input
+                            id="drugPrice"
+                            name="drugPrice"
+                            type="number"
+                            value={this.state.drugPrice}
+                            onChange={(e) => this.handleChange("drugPrice", e)}
+                            placeholder="Enter drug price"
+                            className="form-control"
+                          />
+                        </div>
+
+                        <div className="row">
+                          <div className="col">
+                            <button type="submit" className="btn btn-success">
+                              Save Category
+                            </button>
                           </div>
-                        </form>
-                        <hr />
-                      </div>
+                          <div className="col text-right">
+                            <button
+                              type="button"
+                              className="btn btn-outline-danger"
+                              onClick={(e) => this.clearForm(e)}
+                            >
+                              <span className="d-none d-sm-block">Clear</span>{" "}
+                              <span className="d-sm-none">Delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <hr />
                     </div>
                   </div>
                 </div>
-              </main>
-            
+              </div>
+            </main>
+
+            {/* Add Drug Modal */}
+            <AddDrug />
             {/* Footer */}
             <Footer />
           </div>

@@ -1,27 +1,25 @@
-import React from 'react'
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Sidebar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      endpoint: process.env.REACT_APP_API_URL,
+    };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            endpoint: process.env.REACT_APP_API_URL,
-        };
+    this.logOut = this.logOut.bind(this);
+  }
 
-        this.logOut = this.logOut.bind(this);
-    }
+  logOut(props) {
+    this.props.history.push("/");
+    localStorage.clear();
+  }
 
-    logOut(props) {
-        this.props.history.push('/');
-        localStorage.clear();
-    }
-
-    render() {
-
-        return (
-
-            <>
+  render() {
+    return (
+      <>
+      
                 {/* Vertical navbar */}
                 <div id="navbar2" className="app-navbar vertical">
                     <div className="navbar-wrap"><button className="no-style navbar-toggle navbar-close icofont-close-line d-lg-none" />
@@ -47,6 +45,7 @@ class Sidebar extends React.Component {
                                             <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorCreateSchedule'} className="item-link" to="/DoctorCreateSchedule"><span className="link-text">Create Schedule</span></Link></li>
                             
                                             <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorSchedules'} className="item-link" to="/DoctorSchedules"><span className="link-text">Manage Schedules</span></Link></li>
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorManageSchedule'} className="item-link" to="/DoctorManageSchedule"><span className="link-text">Manage Schedules</span></Link></li>
                             
                                             
                                          </ul>
@@ -85,12 +84,10 @@ class Sidebar extends React.Component {
                         </div>
                     </div>
                 </div>{/* end Vertical navbar */}
-
-            </>
-
-        )
-    }
-
+                
+      </>
+    );
+  }
 }
 
-export default Sidebar
+export default Sidebar;

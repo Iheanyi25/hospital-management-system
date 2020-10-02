@@ -1,65 +1,59 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from "../Partials/Pharmacy/Header";
-import Sidebar from "../Partials/Pharmacy/Sidebar";
+import Header from "../Partials/Doctor/Header";
+import Sidebar from "../Partials/Doctor/Sidebar";
 import PageLoader from "../Partials/PageLoader";
 import Footer from "../Partials/Footer";
-import AddDrug from "../Partials/Pharmacy/AddDrug";
+import CreateSchedule from "../Partials/Doctor/SearchPatient";
 import TemplateSettings from "../Partials/TemplateSettings";
 
-class ManageDrugs extends React.Component {
+function getTime(date) {
+  let _date = new Date(date);
+  return _date.toTimeString().split("GMT")[0];
+}
+
+function getDate(date) {
+  let _date = new Date(date);
+  return _date.toDateString();
+}
+
+class ManageSchedule extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drugs: null,
+      doctorId: JSON.parse(localStorage.getItem("account")).id,
+      schedule: null,
       url: process.env.REACT_APP_API_URL,
     };
   }
 
   async componentDidMount() {
     const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
-    const data = await response.json();
-    this.setState({ drugs: data });
+    const response = await fetch(
+      `${url}/Doctor/ViewDoctorSchedule?DoctorId=${this.state.doctorId}`
+    );
+    const { schedule: _schedule } = await response.json();
+
+    const schedule = _schedule.map((schedule) => {
+      const date = schedule.doctorSchedules.date;
+
+      const checkIn = schedule.doctorSchedules.checkIn;
+      const checkOut = schedule.doctorSchedules.checkOut;
+
+      return {
+        checkIn: getTime(schedule.doctorSchedules.checkIn),
+        checkOut: getTime(schedule.doctorSchedules.checkOut),
+        date: getDate(schedule.doctorSchedules.date),
+        available: schedule.doctorSchedules.available,
+      };
+    });
+
+    this.setState({ schedule });
   }
 
-  deleteDrug = async (id) => {
-    try {
-      const { url } = this.state;
-      var Id = id;
-      const request = await fetch(`${url}/Pharmacy/DeleteDrug?Id=${Id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      //Drug successfully deleted
-
-      const data = await request.json();
-      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
-      const data1 = await response.json();
-      console.log("i work");
-      setTimeout(
-        () =>
-          this.setState({
-            drugs: data1,
-          }),
-        300
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   render() {
-    const { drugs } = this.state;
+    const { schedule } = this.state;
     return (
       <>
         <PageLoader />
@@ -77,7 +71,7 @@ class ManageDrugs extends React.Component {
               </div>
               <div className="main-content-wrap">
                 <header className="page-header">
-                  <h4 className="page-title">Manage Drugs</h4>
+                  <h4 className="page-title">Manage Schedule</h4>
                 </header>
                 <div className="page-content">
                   <div className="card-body"></div>
@@ -110,12 +104,12 @@ class ManageDrugs extends React.Component {
                             </tr>
                           </thead>
                           <tbody>
-                            {drugs
-                              ? drugs.map((drug) => (
+                            {schedule
+                              ? schedule.map((schedule) => (
                                   <tr>
-                                    <td>{drug.name}</td>
-                                    <td>{drug.description}</td>
-                                    <td>{drug.price}</td>
+                                    <td>{schedule.date}</td>
+                                    <td>{schedule.checkIn}</td>
+                                    <td>{schedule.checkOut}</td>
                                     <td>Age</td>
                                     <td>Date</td>
                                     <td>
@@ -125,7 +119,7 @@ class ManageDrugs extends React.Component {
                                         </button>
                                         <button
                                           onClick={() =>
-                                            this.deleteDrug(drug.id)
+                                            this.deleteSchedule(schedule.id)
                                           }
                                           className="btn btn-error btn-sm btn-square rounded-pill"
                                         >
@@ -155,7 +149,7 @@ class ManageDrugs extends React.Component {
             </main>
 
             {/* Add Drug Modal */}
-            <AddDrug />
+            <CreateSchedule />
             {/* footer here */}
             <Footer />
           </div>
@@ -167,4 +161,4 @@ class ManageDrugs extends React.Component {
   }
 }
 
-export default ManageDrugs;
+export default ManageSchedule;

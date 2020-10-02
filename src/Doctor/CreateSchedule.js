@@ -6,16 +6,82 @@ import Footer from '../Partials/Footer'
 import TemplateSettings from '../Partials/TemplateSettings'
 import PageLoader from '../Partials/PageLoader'
 
+function getTime(date) {
+    let _date = new Date(date);
+    return _date.toTimeString().split("GMT")[0];
+  }
+  
+  function getDate(date) {
+    let _date = new Date(date);
+    return _date.toDateString();
+  }
+
 class CreateSchedules extends React.Component {
 
     constructor(props) {
         super(props);
-
+    
         this.state = {
-
+          apiUrl: process.env.REACT_APP_API_URL,
+          doctorId: JSON.parse(localStorage.getItem("account")).id,
+          checkInTime: "10:00",
+          checkOutTime: "10:00",
+          date: new Date(),
+          schedule: null,
+          showErrorMessage: false,
+          showSuccessMessage: false,
         };
-
     }
+    
+      createSchedule = async (e) => {
+        e.preventDefault();
+        const { apiUrl } = this.state;
+        const { date, checkInTime, checkOutTime, doctorId } = this.state;
+    
+        try {
+          var checkIn = checkInTime;
+          var checkOut = checkOutTime;
+          var available = true;
+    
+          const request = await fetch(`${apiUrl}/Doctor/CreateSchedule`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+    
+            body: JSON.stringify({
+              checkIn,
+              checkOut,
+              date,
+              available,
+              doctorId,
+            }),
+          });
+          if (!request.ok) {
+            const error = await request.json();
+            throw Error(error.message);
+          }
+          const data = await request.json();
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    
+      clearForm = async (e) => {
+        e.preventDefault();
+        this.setState({
+          checkInTime: "10:00",
+          checkOutTime: "10:00",
+          date: new Date(),
+        });
+      };
+    
+      handleChange = async (name, e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        this.setState({ [name]: value });
+      };
 
     render() {
 
@@ -31,44 +97,64 @@ class CreateSchedules extends React.Component {
 
                         {/* Vertical navbar */}
                         <Sidebar></Sidebar>
-                        
+
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
-                                <header className="page-header">
+                                <header className="page-header mt-4">
                                     <h4 className="page-title">Create Consultation Schedule</h4>
                                 </header>
                                 <div className="page-content">
                                     <div className="row justify-content-center">
                                         <div className="col col-12 col-xl-8">
-                                            <form className="mb-4">
-                                                <div className="form-group"><label>First name</label> <input className="form-control" type="text" placeholder="First name" defaultValue="Liam" /></div>
-                                                <div className="form-group"><label>Last name</label> <input className="form-control" type="text" placeholder="Last name" defaultValue="Jouns" /></div>
-                                                <div className="row">
-                                                    <div className="col-12 col-sm-6">
-                                                        <div className="form-group"><label>Age</label> <input className="form-control" type="number" placeholder="Age" defaultValue={25} /></div>
-                                                    </div>
-                                                    <div className="col-12 col-sm-6">
-                                                        <div className="form-group"><label>Gender</label> <select className="selectpicker" title="Gender">
-                                                            <option selected="selected">Male</option>
-                                                            <option>Female</option>
-                                                        </select></div>
-                                                    </div>
+                                            
+                                           
+                                            <form className="mb-4" onSubmit={(e) => this.createSchedule(e)}>
+                                                <div className="form-group">
+                                                    <label>Pick a Date</label>
+                                                    <input
+                                                        id="date"
+                                                        name="date"
+                                                        className="form-control"
+                                                        type="date"
+                                                        placeholder="Date"
+                                                        onChange={(e) => this.handleChange("date", e)}
+                                                    />
                                                 </div>
-                                                <div className="form-group"><label>Phone number</label> <input className="form-control" type="number" placeholder="Age" defaultValue={"0126596578"} /></div>
-                                                <div className="form-group"><label>Address</label> <textarea className="form-control" placeholder="Address" rows={3} defaultValue={"71 Pilgrim Avenue Chevy Chase, MD 20815"} /></div>
-                                                <div className="form-group"><label>Last visit</label> <input className="form-control" type="text" placeholder="Last visit" defaultValue="18 Dec 2019" readOnly="readonly" /></div>
-                                                <div className="form-group"><label>Status</label> <select className="selectpicker" title="Status">
-                                                    <option selected="selected">Approved</option>
-                                                    <option>Pending</option>
-                                                </select></div>
+                                                <div className="form-group">
+                                                    <label>Session Starts At</label>
+                                                    <input
+                                                        id="checkInTime"
+                                                        name="checkInTime"
+                                                        className="form-control"
+                                                        type="time"
+                                                        placeholder="Check In"
+                                                        onChange={(e) => this.handleChange("checkInTime", e)}
+                                                    />
+                                                </div>
+                                                
+                                                <div className="form-group">
+                                                    <label>Session Ends At</label>
+                                                    <input
+                                                        id="checkOutTime"
+                                                        name="checkOutTime"
+                                                        className="form-control"
+                                                        type="time"
+                                                        placeholder="Check Out"
+                                                        onChange={(e) => this.handleChange("checkOutTime", e)}
+                                                    />
+                                                </div>
+                                                <hr/>
                                                 <div className="row">
-                                                    <div className="col"><button type="button" className="btn btn-success">Save
+                                                    <div className="col"><button type="submit" className="btn btn-success">Save
                                                          Schedule</button></div>
                                                     <div className="col text-right"><button type="button" className="btn btn-outline-danger"><span className="d-none d-sm-block">Clear
                                                     </span> <span className="d-sm-none">Clear</span></button></div>
                                                 </div>
                                             </form>
+                                       
+                                       
+                                       
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +166,7 @@ class CreateSchedules extends React.Component {
                         <Footer />
                     </div>
                 </div>
-              
+
                 <TemplateSettings />
 
             </>
