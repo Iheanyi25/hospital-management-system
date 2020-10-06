@@ -25,6 +25,7 @@ class Appointments extends React.Component {
 
   async componentDidMount() {
     const { apiUrl, doctorId } = this.state;
+    console.log(this.state);
     var acceptedAppointments = [];
     var acceptedAppointmentsCount = 0;
     var activeAppointments = [];
