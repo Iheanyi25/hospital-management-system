@@ -71,6 +71,9 @@ class PreConsultation extends React.Component {
                                                             </div>
                                                         </div>
 
+                                                        <div className="form-group"><label>Temperature(Celcius)</label> <input className="form-control" type="text"  /></div>
+
+
                                         
                                                         
                                                         <div className="row">
@@ -94,11 +97,11 @@ class PreConsultation extends React.Component {
                                                         <h4>Patient BMI</h4>
                                                         <div className="row">
                                                             <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Blood Pressure</label> <input className="form-control" type="text"  /></div>
+                                                                <div className="form-group"><label>Weigth(Kg)</label> <input className="form-control" type="text"  /></div>
 
                                                             </div>
                                                             <div className="col-12 col-sm-6">
-                                                                <div className="form-group"><label>Respiration</label> <input className="form-control" type="text"  /></div>
+                                                                <div className="form-group"><label>Height(M)</label> <input className="form-control" type="text"  /></div>
 
                                                             </div>
                                                         </div>

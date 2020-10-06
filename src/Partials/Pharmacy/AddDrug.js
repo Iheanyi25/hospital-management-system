@@ -18,7 +18,7 @@ class AddDrug extends React.Component {
 
   createDrug = async (e) => {
     e.preventDefault();
-    const { url } = this.state;
+    const { apiUrl } = this.state;
     this.setState({ submittingDrug: true });
     const { drugName, drugDescription, drugPrice } = this.state;
     try {
@@ -26,7 +26,7 @@ class AddDrug extends React.Component {
       var price = drugPrice;
       var description = drugDescription;
 
-      const request = await fetch(`${url}/Pharmacy/CreateDrug`, {
+      const request = await fetch(`${apiUrl}/Pharmacy/CreateDrug`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ class AddDrug extends React.Component {
 
       const data = await request.json();
       this.setState({ submittingDrug: false, success: true });
-      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
+      const response = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`);
       const data1 = await response.json();
       setTimeout(
         () =>
