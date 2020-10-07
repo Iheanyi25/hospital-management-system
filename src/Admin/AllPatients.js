@@ -7,6 +7,9 @@ import TemplateSettings from "../Partials/TemplateSettings";
 import RegisterPatient from "../Partials/Admin/RegisterPatient";
 import PageLoader from "../Partials/PageLoader";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net")
+
 class AllPatients extends React.Component {
   constructor(props) {
     super(props);
@@ -17,14 +20,24 @@ class AllPatients extends React.Component {
     };
   }
 
-  async componentDidMount() {
+
+  async getAllPatients() {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Admin/GetPatients`);
     const data = await response.json();
     this.setState({ patients: data.patientProfiles });
-
-    console.log(this.state.patients);
+   
   }
+
+  componentDidMount() {
+    this.getAllPatients().then(() => this.sync());
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+  }
+
 
   render() {
     return (
@@ -52,18 +65,25 @@ class AllPatients extends React.Component {
                 <div className="page-content">
                   <div className="card mb-0">
                     <div className="card-body">
+                    
                       <div className="table-responsive">
+                       
+
+
+                      
+
                         <table
-                          class="table data-table"
+                          ref={(el) => (this.el = el)}
+                          class="table"
                           data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                                          { "data": "photo" },
+                                          { "data": "name" },
+                                          { "data": "email" },
+                                          { "data": "phone" },
+                                          { "data": "date-of-birth" },
+                                          { "data": "address" },
+                                          { "data": "actions" }
+                                      ]'
                           data-paging="true"
                           data-info="true"
                         >
@@ -78,7 +98,9 @@ class AllPatients extends React.Component {
                               <th>Actions</th>
                             </tr>
                           </thead>
-                          <tbody>
+                                 
+
+                        <tbody>
                             {this.state.patients.map((patient) => (
                               <tr>
                                 <td>
@@ -143,8 +165,20 @@ class AllPatients extends React.Component {
                               </tr>
                             ))}
                           </tbody>
+
+
+
+
+                                  
+
                         </table>
+
+                       
+                       
+                        
                       </div>
+                    
+                          
                     </div>
                   </div>
                   <div className="add-action-box">
