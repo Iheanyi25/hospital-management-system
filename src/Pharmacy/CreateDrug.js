@@ -31,6 +31,7 @@ class CreateDrug extends React.Component {
       drugName: "",
       drugDescription: "",
       drugPrice: "",
+      displayNotification: false,
     };
   }
 
@@ -48,10 +49,6 @@ class CreateDrug extends React.Component {
       var name = drugName;
       var price = drugPrice;
       var description = drugDescription;
-
-      console.log(name);
-      console.log(price);
-      console.log(description);
 
       const request = await fetch(`${url}/Pharmacy/CreateDrug`, {
         method: "POST",
@@ -76,14 +73,15 @@ class CreateDrug extends React.Component {
       this.setState({ submittingDrug: false, success: true });
       const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
       const data1 = await response.json();
+      this.setState({
+        displayNotification: true,
+      });
       setTimeout(
         () =>
           this.setState({
-            drugs: data1,
-            displaying: "all drugs",
-            showModal: false,
+            displayNotification: false,
           }),
-        300
+        1500
       );
     } catch (error) {
       console.log(error);
@@ -104,6 +102,7 @@ class CreateDrug extends React.Component {
   };
 
   render() {
+    const { displayNotification } = this.state;
     return (
       <>
         <PageLoader />
@@ -118,7 +117,31 @@ class CreateDrug extends React.Component {
               <div className="app-loader">
                 <i className="icofont-spinner-alt-4 rotate" />
               </div>
+
               <div className="main-content-wrap">
+                {displayNotification === true ? (
+                  <div class="col-12 col-md-6">
+                    <div class="card">
+                      <div class="card-header">Removable</div>
+                      <div class="card-body">
+                        <div
+                          class="alert alert-primary alert-dismissible fade show mb-0"
+                          role="alert"
+                        >
+                          Drug successfully Added{" "}
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                          >
+                            <span class="icofont-close-line"></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
                 <header className="page-header mt-5">
                   <h4 className="page-title">Create Drug</h4>
                 </header>

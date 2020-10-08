@@ -7,24 +7,28 @@ import Footer from "../Partials/Footer";
 import AddDrug from "../Partials/Pharmacy/AddDrug";
 import TemplateSettings from "../Partials/TemplateSettings";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
+
 class ManageSubCategories extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       drugSubCategories: null,
-      url: process.env.REACT_APP_API_URL,
+      apiUrl: process.env.REACT_APP_API_URL,
     };
   }
 
   async componentDidMount() {
-    const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetDrugAllSubCategories`);
-    const data = await response.json();
+    this.getAllDrugSubCategories().then(() => this.sync());
+  }
 
-    this.setState({
-      drugSubCategories: data,
-    });
+  async getAllDrugSubCategories() {
+    const { apiUrl } = this.state;
+    const response = await fetch(`${apiUrl}/Pharmacy/GetDrugAllSubCategories`);
+    const data = await response.json();
+    this.setState({ drugSubCategories: data });
   }
 
   async deleteDrugSubCategory(id) {
@@ -63,6 +67,11 @@ class ManageSubCategories extends React.Component {
     }
   }
 
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+  }
+
   render() {
     const { drugSubCategories } = this.state;
     return (
@@ -92,7 +101,8 @@ class ManageSubCategories extends React.Component {
                     <div className="card-body">
                       <div className="table-responsive">
                         <table
-                          class="table data-table"
+                          ref={(el) => (this.el = el)}
+                          class="table"
                           data-columns='[
                         { "data": "name" },
                         { "data": "position" },

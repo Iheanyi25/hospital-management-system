@@ -7,21 +7,33 @@ import Footer from "../Partials/Footer";
 import AddDrug from "../Partials/Pharmacy/AddDrug";
 import TemplateSettings from "../Partials/TemplateSettings";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
+
 class ManageDrugs extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drugs: null,
-      url: process.env.REACT_APP_API_URL,
+      drugs: [],
+      apiUrl: process.env.REACT_APP_API_URL,
     };
   }
 
   async componentDidMount() {
-    const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
+    this.getAllDrugs().then(() => this.sync());
+  }
+
+  async getAllDrugs() {
+    const { apiUrl } = this.state;
+    const response = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`);
     const data = await response.json();
     this.setState({ drugs: data });
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   deleteDrug = async (id) => {
@@ -75,6 +87,7 @@ class ManageDrugs extends React.Component {
               <div className="app-loader">
                 <i className="icofont-spinner-alt-4 rotate" />
               </div>
+
               <div className="main-content-wrap">
                 <header className="page-header">
                   <h4 className="page-title">Manage Drugs</h4>
@@ -87,14 +100,13 @@ class ManageDrugs extends React.Component {
                     <div className="card-body">
                       <div className="table-responsive">
                         <table
-                          class="table data-table"
+                          ref={(el) => (this.el = el)}
+                          class="table"
                           data-columns='[
                         { "data": "name" },
                         { "data": "description" },
-                        { "data": "office" },
-                        { "data": "age" },
-                        { "data": "start-date" },
-                        { "data": "salary" }
+                        { "data": "price" },
+                        { "data": "actions" }
                       ]'
                           data-paging="true"
                           data-info="true"
@@ -102,11 +114,9 @@ class ManageDrugs extends React.Component {
                           <thead>
                             <tr>
                               <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Date</th>
-                              <th>Salary</th>
+                              <th>Description</th>
+                              <th>Price</th>
+                              <th>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -116,13 +126,13 @@ class ManageDrugs extends React.Component {
                                     <td>{drug.name}</td>
                                     <td>{drug.description}</td>
                                     <td>{drug.price}</td>
-                                    <td>Age</td>
-                                    <td>Date</td>
+
                                     <td>
                                       <div className="actions">
                                         <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>
+
                                         <button
                                           onClick={() =>
                                             this.deleteDrug(drug.id)
