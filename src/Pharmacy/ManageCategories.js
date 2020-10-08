@@ -7,21 +7,33 @@ import Footer from "../Partials/Footer";
 import AddDrug from "../Partials/Pharmacy/AddDrug";
 import TemplateSettings from "../Partials/TemplateSettings";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
+
 class ManageCategories extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drugCategories: null,
-      url: process.env.REACT_APP_API_URL,
+      drugCategories: [],
+      apiUrl: process.env.REACT_APP_API_URL,
     };
   }
 
   async componentDidMount() {
-    const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetAllDrugCategories`);
+    this.getAllDrugCategories().then(() => this.sync());
+  }
+
+  async getAllDrugCategories() {
+    const { apiUrl } = this.state;
+    const response = await fetch(`${apiUrl}/Pharmacy/GetAllDrugCategories`);
     const data = await response.json();
     this.setState({ drugCategories: data });
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   deleteDrugCategory = async (id) => {
@@ -91,14 +103,12 @@ class ManageCategories extends React.Component {
                     <div className="card-body">
                       <div className="table-responsive">
                         <table
-                          class="table data-table"
+                          ref={(el) => (this.el = el)}
+                          class="table"
                           data-columns='[
                         { "data": "name" },
                         { "data": "description" },
-                        { "data": "office" },
-                        { "data": "age" },
-                        { "data": "start-date" },
-                        { "data": "salary" }
+                        { "data": "actions" }
                       ]'
                           data-paging="true"
                           data-info="true"
@@ -106,11 +116,8 @@ class ManageCategories extends React.Component {
                           <thead>
                             <tr>
                               <th>Name</th>
-                              <th>Position</th>
-                              <th>Office</th>
-                              <th>Age</th>
-                              <th>Date</th>
-                              <th>Salary</th>
+                              <th>Description</th>
+                              <th>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -118,10 +125,7 @@ class ManageCategories extends React.Component {
                               ? drugCategories.map((drugCategory) => (
                                   <tr>
                                     <td>{drugCategory.name}</td>
-                                    <td>hello</td>
-                                    <td>Office</td>
-                                    <td>Age</td>
-                                    <td>Date</td>
+                                    <td>not available</td>
                                     <td>
                                       <div className="actions">
                                         <button className="btn btn-info btn-sm btn-square rounded-pill">

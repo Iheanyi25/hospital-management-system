@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from '../Partials/Admin/Header';
 import Sidebar from '../Partials/Admin/Sidebar';
 import RegisterPatient from '../Partials/Admin/RegisterPatient'
+import RegisterUser from '../Partials/Admin/RegisterUser'
 import TemplateSettings from '../Partials/TemplateSettings'
 import PageLoader from '../Partials/PageLoader'
 
@@ -588,6 +589,7 @@ class Dashboard extends React.Component {
 
                 {/* Register Patient Component */}
                 <RegisterPatient/>
+                <RegisterUser/>
                               
                 {/* App Settings modals */}
                 <TemplateSettings />
