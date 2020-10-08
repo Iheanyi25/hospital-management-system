@@ -221,7 +221,7 @@ class RegisterUser extends React.Component {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Register a new user</h5>
+                <h5 className="modal-title text-center">Onboard a New User</h5>
               </div>
               <div className="modal-body">
                 <form>
@@ -253,8 +253,7 @@ class RegisterUser extends React.Component {
                     />
                   </div>
 
-                  <div className="row">
-                    <div className="col-12 col-sm-6">
+                  
                       <div className="form-group">
                         <label>User Type</label>
                         <select
@@ -272,8 +271,7 @@ class RegisterUser extends React.Component {
                           <option value="lab">Lab</option>
                         </select>
                       </div>
-                    </div>
-                  </div>
+                    
                   {displayError}
                   {displaySuccess}
                 </form>

@@ -124,7 +124,7 @@ class Sidebar extends React.Component {
                     </a>
                     <ul className="sub">
                       <li className="menu-item">
-                        <a className="item-link" href="icons-sli.html">
+                        <a className="item-link" data-toggle="modal" data-target="#add-user">
                           <span className="link-text">Register Doctors</span>
                         </a>
                       </li>
@@ -149,7 +149,7 @@ class Sidebar extends React.Component {
                     </a>
                     <ul className="sub">
                       <li className="menu-item">
-                        <a className="item-link" href="bootstrap-tables.html">
+                        <a className="item-link" data-toggle="modal" data-target="#add-user">
                           <span className="link-text">
                             Register Pharmacists
                           </span>
@@ -170,7 +170,7 @@ class Sidebar extends React.Component {
                     </a>
                     <ul className="sub">
                       <li className="menu-item">
-                        <a className="item-link" href="bootstrap-tables.html">
+                      <a className="item-link" data-toggle="modal" data-target="#add-user">
                           <span className="link-text">
                             Register Accountants
                           </span>
@@ -191,7 +191,7 @@ class Sidebar extends React.Component {
                     </a>
                     <ul className="sub">
                       <li className="menu-item">
-                        <a className="item-link" href="bootstrap-tables.html">
+                        <a className="item-link" data-toggle="modal" data-target="#add-user">
                           <span className="link-text">
                             Register Other Admins
                           </span>
@@ -237,15 +237,7 @@ class Sidebar extends React.Component {
                 <span className="btn-icon icofont-plus mr-2" /> Register Patient
               </button>
             </div>
-            <div className="add-patient">
-              <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#add-user"
-              >
-                <span className="btn-icon icofont-plus mr-2" /> Register User
-              </button>
-            </div>
+            
             <div className="assistant-menu">
               <a className="link" href="#">
                 <span className="link-icon icofont-ui-settings" />
