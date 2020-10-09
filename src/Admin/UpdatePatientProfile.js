@@ -180,7 +180,7 @@ class UpdatePatientProfile extends React.Component {
         disabilities,
         patientId,
       } = this.state;
-      console.log(this.state);
+
       const request = await fetch(
         `${apiUrl}/Admin/UpdatePatientHealthDetails`,
         {

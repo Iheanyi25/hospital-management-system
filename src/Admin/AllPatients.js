@@ -8,7 +8,7 @@ import RegisterPatient from "../Partials/Admin/RegisterPatient";
 import PageLoader from "../Partials/PageLoader";
 
 const $ = require("jquery");
-$.Datatable = require("datatables.net")
+$.Datatable = require("datatables.net");
 
 class AllPatients extends React.Component {
   constructor(props) {
@@ -20,13 +20,12 @@ class AllPatients extends React.Component {
     };
   }
 
-
   async getAllPatients() {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Admin/GetPatients`);
     const data = await response.json();
+    console.log(data);
     this.setState({ patients: data.patientProfiles });
-   
   }
 
   componentDidMount() {
@@ -37,7 +36,6 @@ class AllPatients extends React.Component {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
-
 
   render() {
     return (
@@ -65,13 +63,7 @@ class AllPatients extends React.Component {
                 <div className="page-content">
                   <div className="card mb-0">
                     <div className="card-body">
-                    
                       <div className="table-responsive">
-                       
-
-
-                      
-
                         <table
                           ref={(el) => (this.el = el)}
                           class="table"
@@ -98,9 +90,8 @@ class AllPatients extends React.Component {
                               <th>Actions</th>
                             </tr>
                           </thead>
-                                 
 
-                        <tbody>
+                          <tbody>
                             {this.state.patients.map((patient) => (
                               <tr>
                                 <td>
@@ -138,10 +129,9 @@ class AllPatients extends React.Component {
                                     <Link
                                       title="Pre-consultation"
                                       onClick={() =>
-                                        (window.location.href =
-                                          "/AdminPreConsultation")
+                                        (window.location.href = `/AdminPreConsultation/${patient.id}`)
                                       }
-                                      to="/AdminPreConsultation"
+                                      to={`/AdminPreConsultation/${patient.id}`}
                                       className="btn btn-secondary btn-sm btn-square rounded-pill"
                                     >
                                       <span className="btn-icon icofont-stethoscope-alt" />
@@ -151,7 +141,7 @@ class AllPatients extends React.Component {
                                       onClick={() =>
                                         (window.location.href = `/AdminUpdatePatientProfile/${patient.id}`)
                                       }
-                                      to ={`/AdminUpdatePatientProfile/${patient.id}`}
+                                      to={`/AdminUpdatePatientProfile/${patient.id}`}
                                       className="btn btn-secondary btn-sm btn-square rounded-pill"
                                     >
                                       <span className="btn-icon icofont-ui-edit" />
@@ -165,20 +155,8 @@ class AllPatients extends React.Component {
                               </tr>
                             ))}
                           </tbody>
-
-
-
-
-                                  
-
                         </table>
-
-                       
-                       
-                        
                       </div>
-                    
-                          
                     </div>
                   </div>
                   <div className="add-action-box">
