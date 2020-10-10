@@ -48,7 +48,7 @@ function App() {
       />
       <Route
         exact
-        path="/AdminPreConsultation"
+        path="/AdminPreConsultation/:id"
         component={AdminPreConsultation}
       />
       <Route path="/AdminAllPatients" component={AdminAllPatients} />
