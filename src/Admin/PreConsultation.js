@@ -25,6 +25,12 @@ class PreConsultation extends React.Component {
       weight: "",
       height: "",
       calculatedBMI: "",
+
+      displayVitalsSuccessNotification: null,
+      displayVitalsFailureNotification: null,
+
+      displayBMISuccessNotification: null,
+      displayBMIFailureNotification: null,
     };
   }
 
@@ -42,19 +48,19 @@ class PreConsultation extends React.Component {
     });
   }
 
-  handleChange(name, e) {
+  handleChange = async (name, e) => {
     const value = e.target.value;
-    this.setState({
+    await this.setState({
       [name]: value,
     });
-
-    if (this.state.weight != "" || this.state.height != "") {
+    if (this.state.weight != "" && this.state.height != "") {
       this.setState({
-        calculatedBMI:
-          this.state.weight / (this.state.height * this.state.height),
+        calculatedBMI: parseFloat(
+          this.state.weight / Math.pow(this.state.height, 2)
+        ).toFixed(2),
       });
     }
-  }
+  };
 
   updatePatientVitals = async (e) => {
     e.preventDefault();
@@ -69,7 +75,7 @@ class PreConsultation extends React.Component {
         temperature,
         patientId,
       } = this.state;
-
+      //
       const request = await fetch(
         `${apiUrl}/PatientPreConsultation/UpdatePatientVitals`,
         {
@@ -93,11 +99,29 @@ class PreConsultation extends React.Component {
       }
 
       //patient vitals successfully updated
-
       const data = await request.json();
-      console.log(data);
+      this.setState({
+        displayVitalsSuccessNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayVitalsSuccessNotification: false,
+          }),
+        1500
+      );
     } catch (error) {
       console.log(error);
+      this.setState({
+        displayVitalsFailureNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayVitalsFailureNotification: false,
+          }),
+        1500
+      );
     }
   };
 
@@ -130,9 +154,29 @@ class PreConsultation extends React.Component {
       //patient BMI successfully updated
 
       const data = await request.json();
-      console.log(data);
+
+      this.setState({
+        displayBMISuccessNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayBMISuccessNotification: false,
+          }),
+        1500
+      );
     } catch (error) {
       console.log(error);
+      this.setState({
+        displayBMIFailureNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayBMIFailureNotification: false,
+          }),
+        1500
+      );
     }
   };
 
@@ -147,6 +191,10 @@ class PreConsultation extends React.Component {
       weight,
       height,
       calculatedBMI,
+      displayBMISuccessNotification,
+      displayBMIFailureNotification,
+      displayVitalsSuccessNotification,
+      displayVitalsFailureNotification,
     } = this.state;
     return (
       <>
@@ -164,6 +212,96 @@ class PreConsultation extends React.Component {
                   <i className="icofont-spinner-alt-4 rotate" />
                 </div>
                 <div className="main-content-wrap">
+                  {displayBMISuccessNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            BMI successfully Updated{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {displayBMIFailureNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            There was an error{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {displayVitalsSuccessNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            Patient Vitals successfully Updated{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {displayVitalsFailureNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            There was an error{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                   <header className="page-header">
                     <h3 className="page-title">Patient Preconsultation</h3>
                   </header>
@@ -180,7 +318,7 @@ class PreConsultation extends React.Component {
                                     <label>Blood Pressure</label>{" "}
                                     <input
                                       className="form-control"
-                                      type="text"
+                                      type="number"
                                       value={
                                         bloodPressure ? bloodPressure : null
                                       }
@@ -195,7 +333,7 @@ class PreConsultation extends React.Component {
                                     <label>Respiration</label>{" "}
                                     <input
                                       className="form-control"
-                                      type="text"
+                                      type="number"
                                       value={respiration ? respiration : null}
                                       onChange={(e) =>
                                         this.handleChange("respiration", e)
@@ -210,7 +348,7 @@ class PreConsultation extends React.Component {
                                     <label>Pulse</label>{" "}
                                     <input
                                       className="form-control"
-                                      type="text"
+                                      type="number"
                                       value={pulse ? pulse : null}
                                       onChange={(e) =>
                                         this.handleChange("pulse", e)
@@ -223,7 +361,7 @@ class PreConsultation extends React.Component {
                                     <label>SPO2</label>{" "}
                                     <input
                                       className="form-control"
-                                      type="text"
+                                      type="number"
                                       value={spo2 ? spo2 : null}
                                       onChange={(e) =>
                                         this.handleChange("spo2", e)
@@ -237,7 +375,7 @@ class PreConsultation extends React.Component {
                                 <label>Temperature(Celcius)</label>{" "}
                                 <input
                                   className="form-control"
-                                  type="text"
+                                  type="number"
                                   value={temperature ? temperature : null}
                                   onChange={(e) =>
                                     this.handleChange("temperature", e)
@@ -282,8 +420,8 @@ class PreConsultation extends React.Component {
                                     <label>Weigth(Kg)</label>{" "}
                                     <input
                                       className="form-control"
-                                      type="text"
-                                      value={weight ? weight : null}
+                                      type="number"
+                                      value={weight}
                                       onChange={(e) =>
                                         this.handleChange("weight", e)
                                       }
@@ -295,8 +433,8 @@ class PreConsultation extends React.Component {
                                     <label>Height(M)</label>{" "}
                                     <input
                                       className="form-control"
-                                      type="text"
-                                      value={height ? height : null}
+                                      type="number"
+                                      value={height}
                                       onChange={(e) =>
                                         this.handleChange("height", e)
                                       }
@@ -309,8 +447,8 @@ class PreConsultation extends React.Component {
                                 <label>Calculated BMI</label>{" "}
                                 <input
                                   className="form-control"
-                                  type="text"
-                                  value={calculatedBMI ? calculatedBMI : null}
+                                  type="number"
+                                  value={calculatedBMI}
                                   onChange={(e) =>
                                     this.handleChange("calculatedBMI", e)
                                   }

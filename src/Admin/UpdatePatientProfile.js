@@ -32,6 +32,15 @@ class UpdatePatientProfile extends React.Component {
       diabetic: false,
       allergies: "",
       disabilities: "",
+
+      displayCoreDetailsSuccessNotification: null,
+      displayCoreDetailsFailureNotification: null,
+
+      displayContactDetailsSuccessNotification: null,
+      displayContactDetailsFailureNotification: null,
+
+      displayHealthDetailsSuccessNotification: null,
+      displayHealthDetailsFailureNotification: null,
     };
   }
 
@@ -117,8 +126,28 @@ class UpdatePatientProfile extends React.Component {
       //patient profile successfully updated
 
       const data = await request.json();
+      this.setState({
+        displayCoreDetailsSuccessNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayCoreDetailsSuccessNotification: false,
+          }),
+        1500
+      );
     } catch (error) {
       console.log(error);
+      this.setState({
+        displayCoreDetailsFailureNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayCoreDetailsFailureNotification: false,
+          }),
+        1500
+      );
     }
   };
 
@@ -161,9 +190,28 @@ class UpdatePatientProfile extends React.Component {
       //patient contact details successfully updated
 
       const data = await request.json();
-      console.log(data);
+      this.setState({
+        displayContactDetailsSuccessNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayContactDetailsSuccessNotification: false,
+          }),
+        1500
+      );
     } catch (error) {
       console.log(error);
+      this.setState({
+        displayContactDetailsFailureNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayContactDetailsFailureNotification: false,
+          }),
+        1500
+      );
     }
   };
 
@@ -206,9 +254,28 @@ class UpdatePatientProfile extends React.Component {
       //patient contact details successfully updated
 
       const data = await request.json();
-      console.log(data);
+      this.setState({
+        displayHealthDetailsSuccessNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayHealthDetailsSuccessNotification: false,
+          }),
+        1500
+      );
     } catch (error) {
       console.log(error);
+      this.setState({
+        displayHealthDetailsFailureNotification: true,
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            displayHealthDetailsFailureNotification: false,
+          }),
+        1500
+      );
     }
   };
 
@@ -226,6 +293,15 @@ class UpdatePatientProfile extends React.Component {
       diabetic,
       allergies,
       disabilities,
+
+      displayCoreDetailsSuccessNotification,
+      displayCoreDetailsFailureNotification,
+
+      displayContactDetailsSuccessNotification,
+      displayContactDetailsFailureNotification,
+
+      displayHealthDetailsSuccessNotification,
+      displayHealthDetailsFailureNotification,
     } = this.state;
     return (
       <>
@@ -244,6 +320,72 @@ class UpdatePatientProfile extends React.Component {
                   <i className="icofont-spinner-alt-4 rotate" />
                 </div>
                 <div className="main-content-wrap">
+                  {displayCoreDetailsSuccessNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            Core Details successfully Updated{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {displayContactDetailsSuccessNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            Contact Details successfully Updated{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {displayHealthDetailsSuccessNotification === true ? (
+                    <div class="col-12 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div
+                            class="alert alert-primary alert-dismissible fade show mb-0"
+                            role="alert"
+                          >
+                            Health Details successfully Updated{" "}
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="alert"
+                              aria-label="Close"
+                            >
+                              <span class="icofont-close-line"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                   <header className="page-header">
                     <h3 className="page-title">Update Patient Profile</h3>
                   </header>

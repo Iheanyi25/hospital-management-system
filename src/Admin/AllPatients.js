@@ -24,7 +24,6 @@ class AllPatients extends React.Component {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Admin/GetPatients`);
     const data = await response.json();
-    console.log(data);
     this.setState({ patients: data.patientProfiles });
   }
 
@@ -103,14 +102,22 @@ class AllPatients extends React.Component {
                                     className="rounded-500"
                                   />
                                 </td>
-                                <td>{patient.firstName}</td>
                                 <td>
-                                  <strong>{patient.lastName}</strong>
+                                  {patient.firstName} {patient.lastName}
+                                </td>
+                                <td>
+                                  <strong>
+                                    {" "}
+                                    <div className="d-flex align-items-center nowrap text-primary">
+                                      <span className="icofont-ui-email p-0 mr-2" />
+                                      {patient.email}
+                                    </div>
+                                  </strong>
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap text-primary">
                                     <span className="icofont-ui-email p-0 mr-2" />
-                                    {patient.email}
+                                    {patient.phoneNumber}
                                   </div>
                                 </td>
                                 <td>
@@ -137,7 +144,7 @@ class AllPatients extends React.Component {
                                       <span className="btn-icon icofont-stethoscope-alt" />
                                     </Link>
                                     <Link
-                                      title="Pre-consultation"
+                                      title="Update Profile"
                                       onClick={() =>
                                         (window.location.href = `/AdminUpdatePatientProfile/${patient.id}`)
                                       }
