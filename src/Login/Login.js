@@ -54,23 +54,24 @@ class Login extends Component {
 			
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("authenticatedUser", JSON.stringify(data.authenticatedUser));
+			 console.log(data)
 
-			if (data.authenticatedUser.userType == "admin") {
+			if (data.authenticatedUser.userType == "Admin" || "admin") {
 				this.props.history.push("/AdminDashboard");
 
-			} else if (data.authenticatedUser.userType == "patient") {
+			} else if (data.authenticatedUser.userType == "Patient" || "patient") {
 				this.props.history.push("/PatientDashboard");
 
-			} else if (data.authenticatedUser.userType == "doctor") {
+			} else if (data.authenticatedUser.userType == "Doctor" || "doctor") {
 				this.props.history.push("/DoctorDashboard");
 
-			} else if (data.authenticatedUser.userType == "accountant") {
+			} else if (data.authenticatedUser.userType == "Accountant" || "accountant") {
 				this.props.history.push("/AccountantDashboard");
 
-			} else if (data.authenticatedUser.userType == "pharmacy") {
+			} else if (data.authenticatedUser.userType == "Pharmacy" || "pharmacy") {
 				this.props.history.push("/PharmacyDashboard");
 
-			} else if (data.authenticatedUser.userType == "lab") {
+			} else if (data.authenticatedUser.userType == "Lab" || "lab") {
 				this.props.history.push("/LabDashboard");
 			}
 
