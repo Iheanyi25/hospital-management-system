@@ -32,13 +32,14 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><span className="group-title">My Office</span></li>
                                     
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorDashboard'} className="item-link" to="/DoctorDashboard"><span className="link-icon icofont-thermometer-alt" /><span className="link-text">Dashboard</span></Link></li>
-                                 
                                     
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorConsultationQueue'} className="item-link" to="/DoctorConsultationQueue"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">Consultation Queue</span></Link></li>
+                                 
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorAppointments'} className="item-link" to="/DoctorAppointments"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Appointments</span></Link></li>
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorPatientsList'} className="item-link" to="/DoctorPatientsList"><span className="link-icon icofont-paralysis-disability" /><span className="link-text">Patients List</span></Link></li>
                             
                                    
-                                    <li className="menu-item"><span className="group-title">My Schedule</span></li>
+                                    {/* <li className="menu-item"><span className="group-title">My Schedule</span></li>
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Schedules</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
                                            
@@ -49,7 +50,7 @@ class Sidebar extends React.Component {
                             
                                             
                                          </ul>
-                                    </li>
+                                    </li> */}
                                     
                                 
 

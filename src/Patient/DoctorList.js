@@ -46,9 +46,24 @@ class DoctorList extends React.Component {
                                                 <div className="info-box">
                                                     <h4 className="name">Dr. Sophie</h4>
                                                     <p className="role">Gynecologist</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
+                                                    <div className="custom-control custom-switch mb-3">
+                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
+                                                        <label className="custom-control-label">Avalible for Consultation</label>
+                                                    </div>
                                                     <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
+                                                    <div className="button-box">
+                                                      
+                                                        <Link onClick={() => window.location.href = '/PatientDoctorProfile'} className="btn btn-primary mr-2" to="/PatientDoctorProfile">
+                                                            <span className="link-icon icofont-doctor" />
+                                                            <span className="link-text">View profile</span>
+                                                        </Link>
+                                    
+                                                        <Link onClick={() => window.location.href = '/PatientBookConsultation'} className="btn btn-info" to="/PatientBookConsultation">
+                                                            <span className="link-icon icofont-doctor" />
+                                                            <span className="link-text">Book Consultation</span>
+                                                        </Link>
+                                    
+                                                    </div>
                                                     
                                                 </div>
                                             </div>
@@ -59,10 +74,15 @@ class DoctorList extends React.Component {
                                                 <div className="info-box">
                                                     <h4 className="name">Dr. Liam</h4>
                                                     <p className="role">Dentist</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
+                                                    <div className="custom-control custom-switch mb-3">
+                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
+                                                        <label className="custom-control-label">Avalible for Consultation</label>
+                                                    </div>
                                                     <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
+                                                    <div className="button-box">
+                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
+                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -72,10 +92,15 @@ class DoctorList extends React.Component {
                                                 <div className="info-box">
                                                     <h4 className="name">Dr. Noah</h4>
                                                     <p className="role">Nursing</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
+                                                    <div className="custom-control custom-switch mb-3">
+                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
+                                                        <label className="custom-control-label">Avalible for Consultation</label>
+                                                    </div>
                                                     <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
+                                                    <div className="button-box">
+                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
+                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,10 +110,15 @@ class DoctorList extends React.Component {
                                                 <div className="info-box">
                                                     <h4 className="name">Dr. Emma</h4>
                                                     <p className="role">Audiology</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
+                                                    <div className="custom-control custom-switch mb-3">
+                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
+                                                        <label className="custom-control-label">Avalible for Consultation</label>
+                                                    </div>
                                                     <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
+                                                    <div className="button-box">
+                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
+                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,10 +128,15 @@ class DoctorList extends React.Component {
                                                 <div className="info-box">
                                                     <h4 className="name">Dr. James</h4>
                                                     <p className="role">Physical Therapy</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
+                                                    <div className="custom-control custom-switch mb-3">
+                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
+                                                        <label className="custom-control-label">Avalible for Consultation</label>
+                                                    </div>
                                                     <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
+                                                    <div className="button-box">
+                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
+                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,53 +146,19 @@ class DoctorList extends React.Component {
                                                 <div className="info-box">
                                                     <h4 className="name">Dr. Olivia</h4>
                                                     <p className="role">Dentist</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
+                                                    <div className="custom-control custom-switch mb-3">
+                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
+                                                        <label className="custom-control-label">Avalible for Consultation</label>
+                                                    </div>
                                                     <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
+                                                    <div className="button-box">
+                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
+                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact mb-md-0">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-7.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Logan</h4>
-                                                    <p className="role">Physical Therapy</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact mb-md-0">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-8.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Benjamin</h4>
-                                                    <p className="role">Nursing</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact mb-0">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-9.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Mason</h4>
-                                                    <p className="role">Dentist</p>
-                                                    <div className="social"><a href="#" className="link icofont-instagram" /> <a href="#" className="link icofont-facebook" /> <a href="#" className="link icofont-twitter" /></div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box"><a href="doctor.html" className="btn btn-primary">View profile</a> <a href="doctor.html" className="btn btn-info">View Schedule</a></div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                     </div>
                                     <div className="add-action-box"><button className="btn btn-dark btn-lg btn-square rounded-pill" data-toggle="modal" data-target="#add-doctor"><span className="btn-icon icofont-contact-add" /></button></div>
                                 </div>
                             </div>

@@ -22,7 +22,7 @@ class ManageSchedule extends React.Component {
     super(props);
 
     this.state = {
-      doctorId: JSON.parse(localStorage.getItem("account")).id,
+      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       schedule: null,
       url: process.env.REACT_APP_API_URL,
     };

@@ -125,32 +125,45 @@ class AllPatients extends React.Component {
                                 </td>
 
                                 <td>
-                                  <div className="actions">
-                                    <Link
-                                      title="Pre-consultation"
-                                      onClick={() =>
-                                        (window.location.href = `/AdminPreConsultation/${patient.id}`)
-                                      }
-                                      to={`/AdminPreConsultation/${patient.id}`}
-                                      className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                    >
-                                      <span className="btn-icon icofont-stethoscope-alt" />
-                                    </Link>
-                                    <Link
-                                      title="Pre-consultation"
-                                      onClick={() =>
-                                        (window.location.href = `/AdminUpdatePatientProfile/${patient.id}`)
-                                      }
-                                      to={`/AdminUpdatePatientProfile/${patient.id}`}
-                                      className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                    >
-                                      <span className="btn-icon icofont-ui-edit" />
-                                    </Link>
-
-                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span className="btn-icon icofont-ui-delete" />
+                                  <div className="btn-group">
+                                    <button type="button" className="btn btn-primary btn-sm btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Action
                                     </button>
+                                    <div className="dropdown-menu text-left">
+                                      <Link
+                                        title="Pre-consultation"
+                                        onClick={() =>
+                                          (window.location.href = `/AdminPreConsultation/${patient.id}`)
+                                        }
+                                        to={`/AdminPreConsultation/${patient.id}`}
+                                        className="btn btn-sm btn-block"
+                                      >
+                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />Go for Pre-Consultation
+                                      </Link>
+                                      <Link
+                                        title="Pre-consultation"
+                                        onClick={() =>
+                                          (window.location.href = `/AdminPreConsultation/${patient.id}`)
+                                        }
+                                        to={`/AdminPreConsultation/${patient.id}`}
+                                        className="btn btn-sm btn-block"
+                                      >
+                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />Pre-Consultation History
+                                      </Link>
+                                      <Link
+                                        title="Pre-consultation"
+                                        onClick={() =>
+                                          (window.location.href = `/AdminUpdatePatientProfile/${patient.id}`)
+                                        }
+                                        to={`/AdminUpdatePatientProfile/${patient.id}`}
+                                        className="btn btn-sm btn-block"
+                                      >
+                                        <span className="btn-icon icofont-ui-edit  mr-2" /> Update Profile
+                                      </Link>
+                                     
+                                    </div>
                                   </div>
+                                 
                                 </td>
                               </tr>
                             ))}
