@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Admin/Header";
 import Sidebar from "../Partials/Admin/Sidebar";
 import Footer from "../Partials/Footer";
@@ -116,7 +116,7 @@ class UpdatePatientProfile extends React.Component {
 
       //patient profile successfully updated
 
-      const data = await request.json();
+    //   const data = await request.json();
     } catch (error) {
       console.log(error);
     }
@@ -258,7 +258,7 @@ class UpdatePatientProfile extends React.Component {
                                 src="../assets/content/user-400-1.jpg"
                                 width={100}
                                 height={100}
-                                alt
+                                alt="user avatar"
                                 className="rounded-500 mr-4"
                               />
                               <button
@@ -587,7 +587,6 @@ class UpdatePatientProfile extends React.Component {
                                       className="form-control"
                                       placeholder="Address"
                                       rows={3}
-                                      placeholder={"Enter Patient Allergies"}
                                       value={allergies ? allergies : null}
                                       onChange={(e) =>
                                         this.handleChange("allergies", e)
