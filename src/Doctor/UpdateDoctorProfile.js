@@ -1,5 +1,5 @@
 import React from "react";
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Admin/Header";
 import Sidebar from "../Partials/Admin/Sidebar";
 import Footer from "../Partials/Footer";
@@ -7,7 +7,7 @@ import TemplateSettings from "../Partials/TemplateSettings";
 import RegisterPatient from "../Partials/Admin/RegisterPatient";
 import PageLoader from "../Partials/PageLoader";
 
-class UpdatePatientProfile extends React.Component {
+class UpdateDoctorProfile extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,15 +32,6 @@ class UpdatePatientProfile extends React.Component {
       diabetic: false,
       allergies: "",
       disabilities: "",
-
-      displayCoreDetailsSuccessNotification: null,
-      displayCoreDetailsFailureNotification: null,
-
-      displayContactDetailsSuccessNotification: null,
-      displayContactDetailsFailureNotification: null,
-
-      displayHealthDetailsSuccessNotification: null,
-      displayHealthDetailsFailureNotification: null,
     };
   }
 
@@ -126,28 +117,8 @@ class UpdatePatientProfile extends React.Component {
       //patient profile successfully updated
 
       const data = await request.json();
-      this.setState({
-        displayCoreDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayCoreDetailsSuccessNotification: false,
-          }),
-        1500
-      );
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayCoreDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayCoreDetailsFailureNotification: false,
-          }),
-        1500
-      );
     }
   };
 
@@ -190,28 +161,9 @@ class UpdatePatientProfile extends React.Component {
       //patient contact details successfully updated
 
       const data = await request.json();
-      this.setState({
-        displayContactDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayContactDetailsSuccessNotification: false,
-          }),
-        1500
-      );
+      console.log(data);
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayContactDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayContactDetailsFailureNotification: false,
-          }),
-        1500
-      );
     }
   };
 
@@ -254,28 +206,9 @@ class UpdatePatientProfile extends React.Component {
       //patient contact details successfully updated
 
       const data = await request.json();
-      this.setState({
-        displayHealthDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayHealthDetailsSuccessNotification: false,
-          }),
-        1500
-      );
+      console.log(data);
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayHealthDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayHealthDetailsFailureNotification: false,
-          }),
-        1500
-      );
     }
   };
 
@@ -293,15 +226,6 @@ class UpdatePatientProfile extends React.Component {
       diabetic,
       allergies,
       disabilities,
-
-      displayCoreDetailsSuccessNotification,
-      displayCoreDetailsFailureNotification,
-
-      displayContactDetailsSuccessNotification,
-      displayContactDetailsFailureNotification,
-
-      displayHealthDetailsSuccessNotification,
-      displayHealthDetailsFailureNotification,
     } = this.state;
     return (
       <>
@@ -320,72 +244,6 @@ class UpdatePatientProfile extends React.Component {
                   <i className="icofont-spinner-alt-4 rotate" />
                 </div>
                 <div className="main-content-wrap">
-                  {displayCoreDetailsSuccessNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            Core Details successfully Updated{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {displayContactDetailsSuccessNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            Contact Details successfully Updated{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {displayHealthDetailsSuccessNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            Health Details successfully Updated{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
                   <header className="page-header">
                     <h3 className="page-title">Update Patient Profile</h3>
                   </header>
@@ -400,7 +258,7 @@ class UpdatePatientProfile extends React.Component {
                                 src="../assets/content/user-400-1.jpg"
                                 width={100}
                                 height={100}
-                                alt="user avatar"
+                                alt
                                 className="rounded-500 mr-4"
                               />
                               <button
@@ -729,6 +587,7 @@ class UpdatePatientProfile extends React.Component {
                                       className="form-control"
                                       placeholder="Address"
                                       rows={3}
+                                      placeholder={"Enter Patient Allergies"}
                                       value={allergies ? allergies : null}
                                       onChange={(e) =>
                                         this.handleChange("allergies", e)
@@ -794,4 +653,4 @@ class UpdatePatientProfile extends React.Component {
   }
 }
 
-export default UpdatePatientProfile;
+export default UpdateDoctorProfile;
