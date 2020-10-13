@@ -149,8 +149,9 @@ class Dashboard extends React.Component {
                               <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
                               <td><strong>Liam</strong></td>
                               <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
-                          </div>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
+                                </div>
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">10 Feb 2018</div>
@@ -159,167 +160,73 @@ class Dashboard extends React.Component {
                                 <div className="text-muted text-nowrap">9:15 - 9:45</div>
                               </td>
                               <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
+                                <div className="d-flex align-items-center nowrap text-primary">
+                                  <span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
+                                </div>
                               </td>
                               <td>Dr. Benjamin</td>
                               <td>mumps</td>
+                              
                               <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
+                                <div className="btn-group">
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                  >Action</button>
+                                  <div className="dropdown-menu text-left">
+                                    <Link
+                                      title="Pre-consultation"
+                                      onClick={() =>
+                                        (window.location.href = `/DoctorConsultation`)
+                                      }
+                                      to={`/DoctorConsultation`}
+                                      className="btn btn-sm btn-block"
+                                    >
+                                      <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        Go for Clarking
+                                    </Link>
+                                    <Link
+                                      title="Pre-consultation"
+                                      onClick={() =>
+                                        (window.location.href = `/AdminPreConsultation`)
+                                      }
+                                      to={`/AdminPreConsultation`}
+                                      className="btn btn-sm btn-block"
+                                    >
+                                      <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        Consultation History
+                                    </Link>
+                                    <Link
+                                      title="Pre-consultation"
+                                      onClick={() =>
+                                        (window.location.href = `/AdminPreConsultation`)
+                                      }
+                                      to={`/AdminPreConsultation`}
+                                      className="btn btn-sm btn-block"
+                                    >
+                                      <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        Pre-Consultation History
+                                    </Link>
+                                    <Link
+                                      title="Pre-consultation"
+                                      onClick={() =>
+                                        (window.location.href = `/AdminUpdatePatientProfile`)
+                                      }
+                                      to={`/AdminUpdatePatientProfile`}
+                                      className="btn btn-sm btn-block"
+                                    >
+                                      <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                        View Profile
+                                    </Link>
+                                  </div>
                                 </div>
                               </td>
+
                             </tr>
-                            <tr>
-                              <td><img src="./assets/content/user-40-2.jpg" width={40} height={40} className="rounded-500" /></td>
-                              <td><strong>Emma</strong></td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> emma@gmail.com
-                          </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">5 Dec 2018</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">9:00 - 9:30</div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                              </td>
-                              <td>Dr. Liam</td>
-                              <td>arthritis</td>
-                              <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td><img src="./assets/content/user-40-3.jpg" width={40} height={40} className="rounded-500" /></td>
-                              <td><strong>Olivia</strong></td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> olivia@gmail.com
-                          </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">13 Oct 2018</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">12:00 - 12:45</div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                              </td>
-                              <td>Dr. Noah</td>
-                              <td>depression</td>
-                              <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td><img src="./assets/content/user-40-4.jpg" width={40} height={40} className="rounded-500" /></td>
-                              <td><strong>Ava</strong></td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> ava@gmail.com
-                          </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">26 Dec 2018</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">14:15 - 14:30</div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                              </td>
-                              <td>Dr. Emma</td>
-                              <td>diarrhoea</td>
-                              <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td><img src="./assets/content/user-40-5.jpg" width={40} height={40} className="rounded-500" /></td>
-                              <td><strong>Noah</strong></td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> noah@gmail.co
-                          </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">15 Jun 2018</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">17:30 - 18:00</div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                              </td>
-                              <td>Dr. James</td>
-                              <td>dyslexia</td>
-                              <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td><img src="./assets/content/user-40-6.jpg" width={40} height={40} className="rounded-500" /></td>
-                              <td><strong>Isabella</strong></td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> isabella@gmail.com
-                          </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">2 Jul 2018</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">10:00 - 10:15</div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                              </td>
-                              <td>Dr. Noah</td>
-                              <td>flu</td>
-                              <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td><img src="./assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
-                              <td><strong>Sophia</strong></td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> sophia@gmail.com
-                          </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">9 Oct 2018</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">8:30 - 8:45</div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                              </td>
-                              <td>Dr. Olivia</td>
-                              <td>fracture</td>
-                              <td>
-                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                </div>
-                              </td>
-                            </tr>
+
                           </tbody>
                         </table>
                       </div>

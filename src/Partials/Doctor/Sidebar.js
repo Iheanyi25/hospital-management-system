@@ -38,28 +38,14 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorAppointments'} className="item-link" to="/DoctorAppointments"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Appointments</span></Link></li>
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorPatientsList'} className="item-link" to="/DoctorPatientsList"><span className="link-icon icofont-paralysis-disability" /><span className="link-text">Patients List</span></Link></li>
                             
-                                   
-                                    {/* <li className="menu-item"><span className="group-title">My Schedule</span></li>
-                                    <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Schedules</span> <span className="link-caret icofont-thin-right" /></a>
-                                        <ul className="sub">
-                                           
-                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorCreateSchedule'} className="item-link" to="/DoctorCreateSchedule"><span className="link-text">Create Schedule</span></Link></li>
-                            
-                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorSchedules'} className="item-link" to="/DoctorSchedules"><span className="link-text">Manage Schedules</span></Link></li>
-                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorManageSchedule'} className="item-link" to="/DoctorManageSchedule"><span className="link-text">Manage Schedules</span></Link></li>
-                            
-                                            
-                                         </ul>
-                                    </li> */}
-                                    
-                                
 
                                     <li className="menu-item"><span className="group-title">Profile Mgt</span></li>
                                     
                                     <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Profile</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><a className="item-link" href="bootstrap-tables.html"><span className="link-text">View Profile</span></a></li>
-                                            <li className="menu-item"><a className="item-link" href="data-tables.html"><span className="link-text">Update Profile</span></a></li>
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorProfile'} className="item-link" to="/DoctorProfile"><span className="link-text">View Profile</span></Link> </li>
+                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorUpdateProfile'} className="item-link" to="/DoctorUpdateProfile"><span className="link-text">Update Profile</span></Link> </li>
+                                           
                                         </ul>
                                     </li>
                                    

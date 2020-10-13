@@ -17,6 +17,8 @@ import DoctorPatientProfile from "./Doctor/PatientProfile";
 import DoctorPatientMedicalHistory from "./Doctor/PatientMedicalHistory";
 import DoctorManageSchedule from "./Doctor/ManageSchedule";
 import DoctorConsultation from "./Doctor/Consultation";
+import DoctorProfile from "./Doctor/DoctorProfile";
+import DoctorUpdateProfile from "./Doctor/UpdateDoctorProfile";
 
 import PatientDashboard from "./Patient/Dashboard";
 import PatientAppointments from "./Patient/Appointments";
@@ -64,7 +66,9 @@ function App() {
       <Route exact path="/DoctorConsultation" component={DoctorConsultation} />
       <Route exact path="/DoctorPatientProfile" component={DoctorPatientProfile} />
       <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory}/>
-      <Route exact path="/DoctorManageSchedule" component={DoctorManageSchedule}/>
+      <Route exact path="/DoctorProfile" component={DoctorProfile}/>
+      <Route exact path="/DoctorUpdateProfile" component={DoctorUpdateProfile}/>
+
 
       {/* Register the patients routes here */}
       <Route exact path="/PatientDashboard" component={PatientDashboard} />

@@ -1,10 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from '../Partials/Patient/Header';
-import Sidebar from '../Partials/Patient/Sidebar';
+import Header from '../Partials/Doctor/Header';
+import Sidebar from '../Partials/Doctor/Sidebar';
 import Footer from '../Partials/Footer'
 import TemplateSettings from "../Partials/TemplateSettings";
-import DoctorSearch from "../Partials/Patient/SearchDoctors";
 import PageLoader from '../Partials/PageLoader'
 
 class DoctorProfile extends React.Component {
@@ -33,8 +32,6 @@ class DoctorProfile extends React.Component {
                         {/* Vertical navbar */}
                         <Sidebar></Sidebar>
 
-
-
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
@@ -51,13 +48,9 @@ class DoctorProfile extends React.Component {
                                                          
                                                          <Link onClick={() => window.location.href = '/PatientBookAppointment'} className="btn btn-primary rounded-500" to="/PatientBookAppointment">
                                                             <span className="link-icon icofont-doctor" />
-                                                            <span className="link-text">Book Appointment</span>
+                                                            <span className="link-text">Update Profile</span>
                                                         </Link>
-                                    
-                                                        <Link onClick={() => window.location.href = '/PatientBookConsultation'} className="btn btn-danger rounded-500" to="/PatientBookConsultation">
-                                                            <span className="link-icon icofont-doctor" />
-                                                            <span className="link-text">Book Consultation</span>
-                                                        </Link>
+                            
                                                         
                                                     </div>
                                                     <div className="d-flex align-items-center justify-content-between">
@@ -320,7 +313,6 @@ class DoctorProfile extends React.Component {
                 </div>
 
                 <TemplateSettings />
-                <DoctorSearch />
 
             </>
 
