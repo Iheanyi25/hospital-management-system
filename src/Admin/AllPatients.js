@@ -24,7 +24,6 @@ class AllPatients extends React.Component {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Admin/GetPatients`);
     const data = await response.json();
-    console.log(data);
     this.setState({ patients: data.patientProfiles });
   }
 
@@ -103,14 +102,22 @@ class AllPatients extends React.Component {
                                     className="rounded-500"
                                   />
                                 </td>
-                                <td>{patient.firstName}</td>
                                 <td>
-                                  <strong>{patient.lastName}</strong>
+                                  {patient.firstName} {patient.lastName}
+                                </td>
+                                <td>
+                                  <strong>
+                                    {" "}
+                                    <div className="d-flex align-items-center nowrap text-primary">
+                                      <span className="icofont-ui-email p-0 mr-2" />
+                                      {patient.email}
+                                    </div>
+                                  </strong>
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap text-primary">
                                     <span className="icofont-ui-email p-0 mr-2" />
-                                    {patient.email}
+                                    {patient.phoneNumber}
                                   </div>
                                 </td>
                                 <td>
@@ -126,7 +133,13 @@ class AllPatients extends React.Component {
 
                                 <td>
                                   <div className="btn-group">
-                                    <button type="button" className="btn btn-primary btn-sm btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                    >
                                       Action
                                     </button>
                                     <div className="dropdown-menu text-left">
@@ -138,7 +151,8 @@ class AllPatients extends React.Component {
                                         to={`/AdminPreConsultation/${patient.id}`}
                                         className="btn btn-sm btn-block"
                                       >
-                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />Go for Pre-Consultation
+                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        Go for Pre-Consultation
                                       </Link>
                                       <Link
                                         title="Pre-consultation"
@@ -148,7 +162,8 @@ class AllPatients extends React.Component {
                                         to={`/AdminPreConsultation/${patient.id}`}
                                         className="btn btn-sm btn-block"
                                       >
-                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />Pre-Consultation History
+                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        Pre-Consultation History
                                       </Link>
                                       <Link
                                         title="Pre-consultation"
@@ -158,12 +173,11 @@ class AllPatients extends React.Component {
                                         to={`/AdminUpdatePatientProfile/${patient.id}`}
                                         className="btn btn-sm btn-block"
                                       >
-                                        <span className="btn-icon icofont-ui-edit  mr-2" /> Update Profile
+                                        <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                        Update Profile
                                       </Link>
-                                     
                                     </div>
                                   </div>
-                                 
                                 </td>
                               </tr>
                             ))}
