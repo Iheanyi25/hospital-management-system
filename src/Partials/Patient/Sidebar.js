@@ -34,6 +34,8 @@ class Sidebar extends React.Component {
                                     <li className="menu-item"><span className="group-title">Medicine</span></li>
                                      
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/PatientDashboard'} className="item-link" to="/PatientDashboard"><span className="link-icon icofont-thermometer-alt" /><span className="link-text">Dashboard</span></Link></li>
+                                    
+                                    <li className="menu-item"><Link onClick={() => window.location.href = '/PatientConsultations'} className="item-link" to="/PatientConsultations"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Consultations </span></Link></li>
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/PatientAppointments'} className="item-link" to="/PatientAppointments"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Appointments </span></Link></li>
                              
                                     <li className="menu-item"><Link onClick={() => window.location.href = '/PatientDoctorList'} className="item-link" to="/PatientDoctorList"><span className="link-icon icofont-doctor" /><span className="link-text">Doctors</span></Link></li>

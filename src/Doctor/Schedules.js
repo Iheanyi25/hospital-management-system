@@ -22,7 +22,7 @@ class Schedules extends React.Component {
 
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
-      doctorId: JSON.parse(localStorage.getItem("account")).id,
+      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       availableSchedule: [],
       bookedSchedule: [],
       availableScheduleCount: 0,
