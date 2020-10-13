@@ -6,6 +6,10 @@ import AdminAppointments from "./Admin/Appointments";
 import AdminPreConsultation from "./Admin/PreConsultation";
 import AdminAllPatients from "./Admin/AllPatients";
 import AdminAllDoctors from "./Admin/AllDoctors";
+import AdminBookConsultation from "./Admin/BookConsultation";
+import AdminConsultationQueue from "./Admin/ConsultationQueue";
+
+
 
 import DoctorDashboard from "./Doctor/Dashboard";
 import DoctorPatientsList from "./Doctor/Patients";
@@ -54,7 +58,11 @@ function App() {
       <Route path="/AdminAllPatients" component={AdminAllPatients} />
       <Route path="/AdminAllDoctors" component={AdminAllDoctors} />
       <Route exact path="/AdminAppointments" component={AdminAppointments} />
+      <Route exact path="/AdminBookConsultation" component={AdminBookConsultation} />
+      <Route exact path="/AdminConsultationQueue" component={AdminConsultationQueue} />
 
+
+      
 
       {/* Register the doctor routes here */}
       <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
@@ -68,7 +76,7 @@ function App() {
       <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory}/>
       <Route exact path="/DoctorProfile" component={DoctorProfile}/>
       <Route exact path="/DoctorUpdateProfile" component={DoctorUpdateProfile}/>
-
+      
 
       {/* Register the patients routes here */}
       <Route exact path="/PatientDashboard" component={PatientDashboard} />

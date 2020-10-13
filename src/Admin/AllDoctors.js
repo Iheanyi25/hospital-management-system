@@ -58,7 +58,8 @@ class AllDoctors extends React.Component {
                                                         { "data": "actions" }
                                                     ]' data-paging="true" data-info="true">
                                                     <thead>
-                                                        <tr>
+                                                        
+                                                        <tr className="bg-primary text-white">
                                                             <th>Photo</th>
                                                             <th>Name</th>
                                                             <th>Email</th>
@@ -103,194 +104,68 @@ class AllDoctors extends React.Component {
                                                             </td>
 
 
+                                                           
                                                             <td>
-                                                                <div className="actions">
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-edit" />
+                                                                <div className="btn-group">
+                                                                    <button
+                                                                    type="button"
+                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    >
+                                                                    Action
                                                                     </button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-delete" />
-                                                                    </button>
+                                                                    <div className="dropdown-menu text-left">
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                            (window.location.href = `/AdminBookConsultation`)
+                                                                            }
+                                                                            to={`/AdminBookConsultation`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            Book Consultation
+                                                                        </Link>
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                            (window.location.href = `/AdminConsultationQueue`)
+                                                                            }
+                                                                            to={`/AdminConsultationQueue`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            View Consultation Queue
+                                                                        </Link>
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                            (window.location.href = `/AdminConsultationQueue`)
+                                                                            }
+                                                                            to={`/AdminAppointments`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            View Appointment List
+                                                                        </Link>
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                            (window.location.href = `/AdminUpdatePatientProfile`)
+                                                                            }
+                                                                            to={`/AdminUpdatePatientProfile`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                                                            View Profile
+                                                                        </Link>
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                         
-                                                        <tr>
-                                                            
-                                                            <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
-                                                            </td>
-                                                            <td>Ogbona</td>
-                                                            <td>
-                                                                <strong>Liam</strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
-                                                                    <span className="icofont-ui-email p-0 mr-2" />liam@gmail.com
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    10 Feb 2018
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    9:15 - 9:45
-                                                                 </div>
-                                                            </td>
-
-
-                                                            <td>
-                                                                <div className="actions">
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-delete" />
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                         
-                                                        <tr>
-                                                            
-                                                            <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
-                                                            </td>
-                                                            <td>Ogbona</td>
-                                                            <td>
-                                                                <strong>Liam</strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
-                                                                    <span className="icofont-ui-email p-0 mr-2" />liam@gmail.com
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    10 Feb 2018
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    9:15 - 9:45
-                                                                 </div>
-                                                            </td>
-
-
-                                                            <td>
-                                                                <div className="actions">
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-delete" />
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                         
-                                                        <tr>
-                                                            
-                                                            <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
-                                                            </td>
-                                                            <td>Ogbona</td>
-                                                            <td>
-                                                                <strong>Liam</strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
-                                                                    <span className="icofont-ui-email p-0 mr-2" />liam@gmail.com
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    10 Feb 2018
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    9:15 - 9:45
-                                                                 </div>
-                                                            </td>
-
-
-                                                            <td>
-                                                                <div className="actions">
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-delete" />
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                         
-                                                        <tr>
-                                                            
-                                                            <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
-                                                            </td>
-                                                            <td>Ogbona</td>
-                                                            <td>
-                                                                <strong>Liam</strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
-                                                                    <span className="icofont-ui-email p-0 mr-2" />liam@gmail.com
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    10 Feb 2018
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    9:15 - 9:45
-                                                                 </div>
-                                                            </td>
-
-
-                                                            <td>
-                                                                <div className="actions">
-                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-edit" />
-                                                                    </button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                        <span className="btn-icon icofont-ui-delete" />
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
+                                                     
                                                     </tbody>
                                                 </table>
 
