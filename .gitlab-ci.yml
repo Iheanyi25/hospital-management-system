@@ -1,7 +1,7 @@
 heroku:
- stage: deploy
- only:
- - master
- script:
- - git remote add heroku https://heroku:67517fe3-ea5b-4c5a-bab3-ae032d7d11bc@git.heroku.com/hms-ten.git
- - git push -f heroku master
+    stage: deploy
+    only:
+        - master
+    script:
+        - git remote add heroku https://heroku:67517fe3-ea5b-4c5a-bab3-ae032d7d11bc@git.heroku.com/hms-ten.git
+        - git push -f heroku master
