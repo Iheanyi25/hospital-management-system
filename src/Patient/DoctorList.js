@@ -11,12 +11,23 @@ class DoctorList extends React.Component {
 
     constructor(props) {
         super(props);
-
+    
         this.state = {
-
+          doctors: [],
+          apiUrl: process.env.REACT_APP_API_URL,
         };
+      }
+    
 
+    async getAllDoctors() {
+        const data = await (await fetch(`${this.state.apiUrl}/Patient/GetDoctors`)).json()
+        this.setState({ doctors: data.doctors });
+      }
+    
+    componentDidMount() {
+        this.getAllDoctors();
     }
+    
 
     render() {
 
@@ -40,124 +51,38 @@ class DoctorList extends React.Component {
                                 </header>
                                 <div className="page-content">
                                     <div className="row">
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-1.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Sophie</h4>
-                                                    <p className="role">Gynecologist</p>
-                                                    <div className="custom-control custom-switch mb-3">
-                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
-                                                        <label className="custom-control-label">Avalible for Consultation</label>
-                                                    </div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box">
-                                                      
-                                                        <Link onClick={() => window.location.href = '/PatientDoctorProfile'} className="btn btn-primary mr-2" to="/PatientDoctorProfile">
-                                                            <span className="link-icon icofont-doctor" />
-                                                            <span className="link-text">View profile</span>
-                                                        </Link>
-                                    
-                                                        <Link onClick={() => window.location.href = '/PatientBookConsultation'} className="btn btn-info" to="/PatientBookConsultation">
-                                                            <span className="link-icon icofont-doctor" />
-                                                            <span className="link-text">Book Consultation</span>
-                                                        </Link>
-                                    
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-2.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Liam</h4>
-                                                    <p className="role">Dentist</p>
-                                                    <div className="custom-control custom-switch mb-3">
-                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
-                                                        <label className="custom-control-label">Avalible for Consultation</label>
-                                                    </div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box">
-                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
-                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
+                                        {this.state.doctors.map((doctor) => (
+                                            <div className="col-12 col-md-4">
+                                                <div className="contact">
+                                                    <div className="img-box"><img src="./assets/content/doctor-400-1.jpg" width={400} height={400} alt /></div>
+                                                    <div className="info-box">
+                                                        <h4 className="name">Dr. {doctor.applicationUser.firstName} {doctor.applicationUser.lastName}</h4>
+                                                        <p className="role">{doctor.doctorProfile.specialization}</p>
+                                                        <div className="custom-control custom-switch mb-3">
+                                                            <input type="checkbox" className="custom-control-input" defaultChecked={doctor.doctorProfile.isAvaliable ? 'checked' : ' '} />
+                                                            <label className="custom-control-label">Avalible for Consultation</label>
+                                                        </div>
+                                                        <p className="address">{doctor.doctorProfile.about}</p>
+                                                        <div className="button-box">
+                                                        
+                                                            <Link onClick={() => window.location.href = `/PatientDoctorProfile/${doctor.applicationUser.id}`} className="btn btn-primary mr-2" to= {`/PatientDoctorProfile/${doctor.applicationUser.id}`}>
+                                                                <span className="link-icon icofont-doctor" />
+                                                                <span className="link-text">View profile</span>
+                                                            </Link>
+                                        
+                                                            <Link onClick={() => window.location.href = `/PatientBookConsultation/${doctor.applicationUser.id}`} className="btn btn-info" to={`/PatientBookConsultation/${doctor.applicationUser.id}`}>
+                                                                <span className="link-icon icofont-doctor" />
+                                                                <span className="link-text">Book Consultation</span>
+                                                            </Link>
+                                        
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-3.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Noah</h4>
-                                                    <p className="role">Nursing</p>
-                                                    <div className="custom-control custom-switch mb-3">
-                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
-                                                        <label className="custom-control-label">Avalible for Consultation</label>
-                                                    </div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box">
-                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
-                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-4.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Emma</h4>
-                                                    <p className="role">Audiology</p>
-                                                    <div className="custom-control custom-switch mb-3">
-                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
-                                                        <label className="custom-control-label">Avalible for Consultation</label>
-                                                    </div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box">
-                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
-                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-5.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. James</h4>
-                                                    <p className="role">Physical Therapy</p>
-                                                    <div className="custom-control custom-switch mb-3">
-                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
-                                                        <label className="custom-control-label">Avalible for Consultation</label>
-                                                    </div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box">
-                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
-                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-4">
-                                            <div className="contact">
-                                                <div className="img-box"><img src="./assets/content/doctor-400-6.jpg" width={400} height={400} alt /></div>
-                                                <div className="info-box">
-                                                    <h4 className="name">Dr. Olivia</h4>
-                                                    <p className="role">Dentist</p>
-                                                    <div className="custom-control custom-switch mb-3">
-                                                        <input type="checkbox" className="custom-control-input" defaultChecked="checked" />
-                                                        <label className="custom-control-label">Avalible for Consultation</label>
-                                                    </div>
-                                                    <p className="address">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                                    <div className="button-box">
-                                                        <a href="doctor.html" className="btn btn-primary mr-2">View profile</a> 
-                                                        <a href="doctor.html" className="btn btn-info">Book Consultation</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
+                                        ))}
+                                       
                                      </div>
                                     <div className="add-action-box"><button className="btn btn-dark btn-lg btn-square rounded-pill" data-toggle="modal" data-target="#add-doctor"><span className="btn-icon icofont-contact-add" /></button></div>
                                 </div>

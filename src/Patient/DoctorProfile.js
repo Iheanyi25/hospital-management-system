@@ -14,11 +14,27 @@ class DoctorProfile extends React.Component {
 
         this.state = {
 
+            apiUrl: process.env.REACT_APP_API_URL,
+            doctor: "",
+            doctorProfile: "",
+            doctorId: "",
+
         };
 
     }
 
+    async componentDidMount() {
+
+        const { params } = this.props.match;
+        const data = await (await fetch(`${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
+        this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
+       
+        
+    }
+
     render() {
+
+        let {doctor} = this.state
 
         return (
 
@@ -39,7 +55,7 @@ class DoctorProfile extends React.Component {
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
                                 <header className="page-header">
-                                    <h3 className="page-title">Dr. Emene's profile</h3>
+                                    <h3 className="page-title">Dr. {doctor.firstName} {doctor.lastName}  Profile</h3>
                                 </header>
                                 <div className="page-content">
                                     <div className="row">
@@ -49,12 +65,15 @@ class DoctorProfile extends React.Component {
                                                     <div className="d-flex align-items-center justify-content-between mb-3 user-actions">
                                                         <img src="../assets/content/user-400-1.jpg" width={100} height={100} alt className="rounded-500 mr-4" />
                                                          
-                                                         <Link onClick={() => window.location.href = '/PatientBookAppointment'} className="btn btn-primary rounded-500" to="/PatientBookAppointment">
+                                                        <Link onClick={() => window.location.href = `/PatientBookAppointment/${doctor.id}`} className="btn btn-primary rounded-500" to={`/PatientBookAppointment/${doctor.id}`}>
+                                                        
+                                                         
                                                             <span className="link-icon icofont-doctor" />
                                                             <span className="link-text">Book Appointment</span>
                                                         </Link>
-                                    
-                                                        <Link onClick={() => window.location.href = '/PatientBookConsultation'} className="btn btn-danger rounded-500" to="/PatientBookConsultation">
+
+                                                        <Link onClick={() => window.location.href = `/PatientBookConsultation/${doctor.id}`} className="btn btn-danger rounded-500" to={`/PatientBookConsultation/${doctor.id}`}>
+                                                        
                                                             <span className="link-icon icofont-doctor" />
                                                             <span className="link-text">Book Consultation</span>
                                                         </Link>

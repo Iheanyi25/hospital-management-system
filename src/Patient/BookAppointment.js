@@ -7,32 +7,34 @@ import TemplateSettings from "../Partials/TemplateSettings";
 import PageLoader from "../Partials/PageLoader";
 
 class BookAppointment extends React.Component {
+   
     constructor(props) {
         super(props);
 
         this.state = {
+
             apiUrl: process.env.REACT_APP_API_URL,
-            patientId: "",
+            doctor: "",
+            doctorProfile: "",
+            doctorId: "",
 
             bloodGroup: "",
             genoType: "",
             diabetic: false,
             allergies: "",
             disabilities: "",
+
         };
+
     }
 
     async componentDidMount() {
-        const { apiUrl } = this.state;
+
         const { params } = this.props.match;
-        await this.setState({ patientId: params.id });
-        const response = await fetch(
-            `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
-        );
-        const data = await response.json();
-
-
-
+        const data = await (await fetch(`${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
+        this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
+       
+        
     }
 
     handleChange(name, e) {
@@ -45,6 +47,7 @@ class BookAppointment extends React.Component {
 
 
     render() {
+        let {doctor} = this.state
       
         return (
             <>
@@ -64,7 +67,7 @@ class BookAppointment extends React.Component {
                                 </div>
                                 <div className="main-content-wrap">
                                     <header className="page-header">
-                                        <h3 className="page-title">Book Appointment With Dr. Okom</h3>
+                                        <h3 className="page-title">Book Appointment With Dr. {doctor.firstName} {doctor.lastName}</h3>
                                     </header>
                                     <div className="page-content">
                                         <div className="row justify-content-center">
@@ -79,6 +82,7 @@ class BookAppointment extends React.Component {
                                                                         <label>Appointment Date</label>
 
                                                                         <input
+                                                                            type="date"
                                                                             className="form-control"
                                                                             title="diabetic"
                                                                             tabIndex={-98}
@@ -92,6 +96,7 @@ class BookAppointment extends React.Component {
                                                                         <label>Appointment Time</label>
 
                                                                         <input
+                                                                            type="time"
                                                                             className="form-control"
                                                                             title="diabetic"
                                                                             tabIndex={-98}

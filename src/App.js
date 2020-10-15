@@ -82,9 +82,9 @@ function App() {
       <Route exact path="/PatientAppointments" component={PatientAppointments} />
       <Route exact path="/PatientConsultations" component={PatientConsultations} />
       <Route exact path="/PatientDoctorList" component={PatientDoctorList} />
-      <Route exact path="/PatientBookAppointment" component={PatientBookAppointment} />
-      <Route exact path="/PatientBookConsultation" component={PatientBookConsultation} />
-      <Route exact path="/PatientDoctorProfile" component={PatientDoctorProfile} />
+      <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
+      <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
+      <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
 
       {/* Register the admin accountant here */}
       <Route exact path="/AccountantDashboard" component={AccountantDashboard}/>
