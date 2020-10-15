@@ -14,16 +14,17 @@ class BookAppointment extends React.Component {
         this.state = {
 
             apiUrl: process.env.REACT_APP_API_URL,
+            patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
             doctor: "",
+
             doctorProfile: "",
+
             doctorId: "",
-
-            bloodGroup: "",
-            genoType: "",
-            diabetic: false,
-            allergies: "",
-            disabilities: "",
-
+            appointmentDate: "",
+            appointmentTime: "",
+            appointmentTitle: "",
+            reasonForAppointment: "",
+            
         };
 
     }
@@ -31,6 +32,10 @@ class BookAppointment extends React.Component {
     async componentDidMount() {
 
         const { params } = this.props.match;
+
+        //grab the logged in user
+        this.setState({doctorId: params.doctorId });
+        
         const data = await (await fetch(`${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
         this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
        
@@ -44,10 +49,90 @@ class BookAppointment extends React.Component {
         });
     }
 
+ 
+    async bookAppointment(e) {
+
+        e.preventDefault();
+    
+        const { appointmentDate, appointmentTime,appointmentTitle, reasonForAppointment, patientId,doctorId } = this.state;
+
+        try {
+          const request = await fetch(`${this.state.apiUrl}/Patient/BookAppointment`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                appointmentDate,
+                appointmentTime,
+                appointmentTitle,
+                reasonForAppointment,
+                patientId,
+                doctorId
+            }),
+          });
+    
+          if (!request.ok) {
+            const error = await request.json();
+            throw Error(error.message);
+          }
+    
+          const data = await request.json();
+    
+          this.setState({
+            showSuccessMessage: true,
+            successMessage: data.message,
+            appointmentDate:"",
+            appointmentTime:"",
+            appointmentTitle: "",
+            reasonForAppointment: "",
+
+          });
+         
+         
+        } catch (err) {
+          this.setState({ showErrorMessage: true, errorMessage: err.message });
+        }
+    }
 
 
     render() {
-        let {doctor} = this.state
+
+    let {
+        doctor,
+        appointmentDate,
+        appointmentTime,
+        appointmentTitle,
+        reasonForAppointment
+    } = this.state
+
+    let displayErrorMessage;
+    let displaySuccessMessage;
+
+    if (this.state.showErrorMessage) {
+        displayErrorMessage = (
+        <div className="alert alert-danger with-after-icon" role="alert">
+          <div className="alert-content">{this.state.errorMessage}</div>
+          <div className="alert-icon">
+            <i className="icofont-alarm" />
+          </div>
+        </div>
+      );
+    }
+
+    if (this.state.showSuccessMessage) {
+        displaySuccessMessage = (
+        <div className="alert alert-info with-after-icon" role="alert">
+          <div className="alert-content text-center">
+            {this.state.successMessage}
+          </div>
+          <div className="alert-icon">
+            <i className="icon icofont-ui-check" />
+          </div>
+        </div>
+      );
+
+    }
       
         return (
             <>
@@ -84,10 +169,11 @@ class BookAppointment extends React.Component {
                                                                         <input
                                                                             type="date"
                                                                             className="form-control"
-                                                                            title="diabetic"
                                                                             tabIndex={-98}
+                                                                            placeholder="Appointment Date"                                                                      
+                                                                            onChange={(e) => this.handleChange("appointmentDate", e)}
+                                                                            value={appointmentDate}
                                                                             
-                                                                        
                                                                         />
                                                                     </div>
                                                                 </div>
@@ -96,11 +182,13 @@ class BookAppointment extends React.Component {
                                                                         <label>Appointment Time</label>
 
                                                                         <input
-                                                                            type="time"
+                                                                            type="date"
                                                                             className="form-control"
-                                                                            title="diabetic"
                                                                             tabIndex={-98}
-                                                                            
+                                                                            placeholder="Appointment Time"                                                                      
+                                                                            onChange={(e) => this.handleChange("appointmentTime", e)}
+                                                                            value={appointmentTime}
+                                                                             
                                                                         
                                                                         />
                                                                     </div>
@@ -111,9 +199,12 @@ class BookAppointment extends React.Component {
 
                                                                 <input
                                                                     className="form-control"
-                                                                    title="diabetic"
+                                                                    type="text"
                                                                     tabIndex={-98}
-                                                                    
+                                                                    placeholder="Appointment Title"                                                                      
+                                                                    onChange={(e) => this.handleChange("appointmentTitle", e)}
+                                                                    value={appointmentTitle}
+                                                                                                                                    
                                                                    
                                                                 />
                                                             </div>
@@ -121,22 +212,32 @@ class BookAppointment extends React.Component {
                                                                 <label>Reason for Appointment</label>{" "}
                                                                 <textarea
                                                                     className="form-control"
-                                                                    placeholder="Address"
-                                                                    rows={3}
-                                                                    placeholder={"Enter Patient Allergies"}
-                                                                    
-                                                                    
+                                                                    placeholder="Readon For Appointment"
+                                                                    rows={3}                                                               
+                                                                    onChange={(e) => this.handleChange("reasonForAppointment", e)}
+                                                                    value={reasonForAppointment}
+                                                                                                                                      
                                                                 />
                                                             </div>
+                                                            {displayErrorMessage}
+                                                            {displaySuccessMessage}
                                                             <div className="row">
                                                                 <div className="col">
                                                                     <button
                                                                         type="button"
                                                                         className="btn btn-success"
-                                                                        
+                                                                        onClick={(e) => this.bookAppointment(e)}
+                                                                        disabled={
+                                                                        appointmentDate === "" ||
+                                                                        appointmentTime === "" ||
+                                                                        reasonForAppointment === "" ||
+                                                                        appointmentTitle === ""
+                                                                            ? true
+                                                                            : false
+                                                                        }
                                                                     >
-                                                                        Book Appointment
-                                                                     </button>
+                                                                        Book Appointment 
+                                                                    </button>
                                                                 </div>
                                                                 <div className="col text-right">
                                                                     <button

@@ -49,6 +49,15 @@ class Sidebar extends React.Component {
                                           
                                         </ul>
                                     </li>
+
+                                    <li className="menu-item"><span className="group-title">Health Records Mgt</span></li>
+                                    <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">My Health Records</span> <span className="link-caret icofont-thin-right" /></a>
+                                        <ul className="sub">
+                                            <li className="menu-item"><a className="item-link" href="alerts.html"><span className="link-text">View Pre-Consultations</span></a></li>
+                                            <li className="menu-item"><a className="item-link" href="autocompletes.html"><span className="link-text">View Prescriptions</span></a></li>
+                                          
+                                        </ul>
+                                    </li>
                                     
                                     
                                     
