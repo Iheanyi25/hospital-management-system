@@ -5,7 +5,6 @@ import Sidebar from "../Partials/Patient/Sidebar";
 import Footer from "../Partials/Footer";
 import TemplateSettings from "../Partials/TemplateSettings";
 import PageLoader from "../Partials/PageLoader";
-import Patients from "../Doctor/Patients";
 
 class BookConsultation extends React.Component {
     constructor(props) {
@@ -19,8 +18,8 @@ class BookConsultation extends React.Component {
             doctorProfile: "",
             doctorId: "",
 
-            consulation_title: "",
-            reason_for_consultation: "",
+            consultationTitle: "",
+            reasonForConsultation: "",
             
         };
 
@@ -51,8 +50,8 @@ class BookConsultation extends React.Component {
 
         e.preventDefault();
     
-        const { consulation_title, reason_for_consultation, patientId,doctorId } = this.state;
-        
+        const { consultationTitle, reasonForConsultation, patientId,doctorId } = this.state;
+
         try {
           const request = await fetch(`${this.state.apiUrl}/Patient/AddPatientToQueue`, {
             method: "POST",
@@ -60,8 +59,8 @@ class BookConsultation extends React.Component {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                consulation_title,
-                reason_for_consultation,
+                consultationTitle,
+                reasonForConsultation,
                 patientId,
                 doctorId
             }),
@@ -77,8 +76,8 @@ class BookConsultation extends React.Component {
           this.setState({
             showSuccessMessage: true,
             successMessage: data.message,
-            consulation_title:"",
-            reason_for_consultation:""
+            consultationTitle:"",
+            reasonForConsultation:""
 
           });
          
@@ -94,8 +93,8 @@ class BookConsultation extends React.Component {
 
         let {
             doctor,
-            consulation_title,
-            reason_for_consultation
+            consultationTitle,
+            reasonForConsultation
         } = this.state
 
     let displayErrorMessage;
@@ -161,8 +160,8 @@ class BookConsultation extends React.Component {
                                                                     className="form-control"
                                                                     placeholder="Consulation Title"
                                                                     tabIndex={-98}
-                                                                    onChange={(e) => this.handleChange("consulation_title", e)}
-                                                                    value={consulation_title}
+                                                                    onChange={(e) => this.handleChange("consultationTitle", e)}
+                                                                    value={consultationTitle}
                                                                 />
                                                                    
                                                             </div>
@@ -172,8 +171,8 @@ class BookConsultation extends React.Component {
                                                                     className="form-control"                                                                
                                                                     rows={4}
                                                                     placeholder={"Reason for Consultation"}
-                                                                    onChange={(e) => this.handleChange("reason_for_consultation", e)}                                                                   
-                                                                    value={reason_for_consultation}
+                                                                    onChange={(e) => this.handleChange("reasonForConsultation", e)}                                                                   
+                                                                    value={reasonForConsultation}
                                                                 />
                                                             </div>
                                                             {displayErrorMessage}
@@ -185,8 +184,8 @@ class BookConsultation extends React.Component {
                                                                         className="btn btn-success"
                                                                         onClick={(e) => this.bookConsultation(e)}
                                                                         disabled={
-                                                                        reason_for_consultation === "" ||
-                                                                        consulation_title === ""
+                                                                        reasonForConsultation === "" ||
+                                                                        consultationTitle === ""
                                                                             ? true
                                                                             : false
                                                                         }
