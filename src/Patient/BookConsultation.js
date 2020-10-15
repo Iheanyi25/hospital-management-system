@@ -5,6 +5,7 @@ import Sidebar from "../Partials/Patient/Sidebar";
 import Footer from "../Partials/Footer";
 import TemplateSettings from "../Partials/TemplateSettings";
 import PageLoader from "../Partials/PageLoader";
+import Patients from "../Doctor/Patients";
 
 class BookConsultation extends React.Component {
     constructor(props) {
@@ -13,16 +14,14 @@ class BookConsultation extends React.Component {
         this.state = {
 
             apiUrl: process.env.REACT_APP_API_URL,
+            patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
             doctor: "",
             doctorProfile: "",
             doctorId: "",
 
-            bloodGroup: "",
-            genoType: "",
-            diabetic: false,
-            allergies: "",
-            disabilities: "",
-
+            consulation_title: "",
+            reason_for_consultation: "",
+            
         };
 
     }
@@ -30,6 +29,10 @@ class BookConsultation extends React.Component {
     async componentDidMount() {
 
         const { params } = this.props.match;
+
+        //grab the logged in user
+        this.setState({doctorId: params.doctorId });
+        
         const data = await (await fetch(`${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
         this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
        
@@ -43,11 +46,85 @@ class BookConsultation extends React.Component {
         });
     }
 
+ 
+    async bookConsultation(e) {
+
+        e.preventDefault();
+    
+        const { consulation_title, reason_for_consultation, patientId,doctorId } = this.state;
+        
+        try {
+          const request = await fetch(`${this.state.apiUrl}/Patient/AddPatientToQueue`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                consulation_title,
+                reason_for_consultation,
+                patientId,
+                doctorId
+            }),
+          });
+    
+          if (!request.ok) {
+            const error = await request.json();
+            throw Error(error.message);
+          }
+    
+          const data = await request.json();
+    
+          this.setState({
+            showSuccessMessage: true,
+            successMessage: data.message,
+            consulation_title:"",
+            reason_for_consultation:""
+
+          });
+         
+         
+        } catch (err) {
+          this.setState({ showErrorMessage: true, errorMessage: err.message });
+        }
+      }
+
 
 
     render() {
 
-        let {doctor} = this.state
+        let {
+            doctor,
+            consulation_title,
+            reason_for_consultation
+        } = this.state
+
+    let displayErrorMessage;
+    let displaySuccessMessage;
+
+    if (this.state.showErrorMessage) {
+        displayErrorMessage = (
+        <div className="alert alert-danger with-after-icon" role="alert">
+          <div className="alert-content">{this.state.errorMessage}</div>
+          <div className="alert-icon">
+            <i className="icofont-alarm" />
+          </div>
+        </div>
+      );
+    }
+
+    if (this.state.showSuccessMessage) {
+        displaySuccessMessage = (
+        <div className="alert alert-info with-after-icon" role="alert">
+          <div className="alert-content text-center">
+            {this.state.successMessage}
+          </div>
+          <div className="alert-icon">
+            <i className="icon icofont-ui-check" />
+          </div>
+        </div>
+      );
+
+    }
       
         return (
             <>
@@ -82,33 +159,40 @@ class BookConsultation extends React.Component {
 
                                                                 <input
                                                                     className="form-control"
-                                                                    title="diabetic"
+                                                                    placeholder="Consulation Title"
                                                                     tabIndex={-98}
-                                                                    
-                                                                   
+                                                                    onChange={(e) => this.handleChange("consulation_title", e)}
+                                                                    value={consulation_title}
                                                                 />
                                                                    
                                                             </div>
                                                             <div className="form-group">
                                                                 <label>Reason for Consultation</label>{" "}
                                                                 <textarea
-                                                                    className="form-control"
-                                                                    placeholder="Address"
-                                                                    rows={3}
-                                                                    placeholder={"Enter Patient Allergies"}
-                                                                    
-                                                                    
+                                                                    className="form-control"                                                                
+                                                                    rows={4}
+                                                                    placeholder={"Reason for Consultation"}
+                                                                    onChange={(e) => this.handleChange("reason_for_consultation", e)}                                                                   
+                                                                    value={reason_for_consultation}
                                                                 />
                                                             </div>
+                                                            {displayErrorMessage}
+                                                            {displaySuccessMessage}
                                                             <div className="row">
                                                                 <div className="col">
                                                                     <button
                                                                         type="button"
                                                                         className="btn btn-success"
-                                                                        
+                                                                        onClick={(e) => this.bookConsultation(e)}
+                                                                        disabled={
+                                                                        reason_for_consultation === "" ||
+                                                                        consulation_title === ""
+                                                                            ? true
+                                                                            : false
+                                                                        }
                                                                     >
-                                                                        Book Now
-                                                                     </button>
+                                                                        Book Now 
+                                                                    </button>
                                                                 </div>
                                                                 <div className="col text-right">
                                                                     <button
