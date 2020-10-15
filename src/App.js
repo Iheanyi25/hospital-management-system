@@ -19,10 +19,10 @@ import DoctorCreateSchedule from "./Doctor/CreateSchedule";
 import DoctorSchedules from "./Doctor/Schedules";
 import DoctorPatientProfile from "./Doctor/PatientProfile";
 import DoctorPatientMedicalHistory from "./Doctor/PatientMedicalHistory";
-import DoctorManageSchedule from "./Doctor/ManageSchedule";
 import DoctorConsultation from "./Doctor/Consultation";
 import DoctorProfile from "./Doctor/DoctorProfile";
 import DoctorUpdateProfile from "./Doctor/UpdateDoctorProfile";
+import DoctorAvaliablity from "./Doctor/Avaliablity";
 
 import PatientDashboard from "./Patient/Dashboard";
 import PatientAppointments from "./Patient/Appointments";
@@ -62,8 +62,6 @@ function App() {
       <Route exact path="/AdminConsultationQueue" component={AdminConsultationQueue} />
 
 
-      
-
       {/* Register the doctor routes here */}
       <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
       <Route exact path="/DoctorPatientsList" component={DoctorPatientsList} />
@@ -76,6 +74,7 @@ function App() {
       <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory}/>
       <Route exact path="/DoctorProfile" component={DoctorProfile}/>
       <Route exact path="/DoctorUpdateProfile" component={DoctorUpdateProfile}/>
+      <Route exact path="/DoctorAvaliablity" component={DoctorAvaliablity}/>
       
 
       {/* Register the patients routes here */}

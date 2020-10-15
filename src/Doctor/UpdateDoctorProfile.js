@@ -335,7 +335,7 @@ class UpdateDoctorProfile extends React.Component {
                                         value="select gender"
                                         selected="selected"
                                       >
-                                        select gender
+                                        Select Gender
                                       </option>
                                       <option>Male</option>
                                       <option>Female</option>
@@ -373,7 +373,7 @@ class UpdateDoctorProfile extends React.Component {
                         <div class="card border-light">
                           <div class="card-body">
                             <form className="mb-4">
-                              <h4>Educational Details</h4>
+                              <h4>Contact Details</h4>
 
                               <div className="form-group">
                                 <label>Phone Number</label>{" "}
@@ -434,122 +434,42 @@ class UpdateDoctorProfile extends React.Component {
                         <div class="card border-light">
                           <div class="card-body">
                             <form className="mb-4">
-                              <h4>Basic Health Details</h4>
+                              <h4>Professional Profile</h4>
                               <div className="row">
                                 <div className="col-12 col-sm-6">
                                   <div className="form-group">
-                                    <label>Blood Group</label>
-
-                                    <select
-                                      className="form-control"
-                                      title="bloodGroup"
-                                      tabIndex={-98}
-                                      
-                                    >
-                                      <option
-                                        className="bs-title-option"
-                                        value
-                                      />
-                                      <option selected="selected">
-                                        Select Blood Group
-                                      </option>
-                                      <option>O+</option>
-                                      <option>O-</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Genotype</label>
-
-                                    <select
-                                      className="form-control"
-                                      title="genoType"
-                                     
-                                    >
-                                      <option
-                                        className="bs-title-option"
-                                        value
-                                      />
-                                      <option selected="selected">
-                                        Select Genotype
-                                      </option>
-                                      <option>AA</option>
-                                      <option>AS</option>
-                                      <option>SS</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="form-group">
-                                <label>Diabetic</label>
-
-                                <select
-                                  className="form-control"
-                                  title="diabetic"
-                                  tabIndex={-98}
-                                  
-                                >
-                                  <option
-                                    className="bs-title-option"
-                                    selected="selected"
-                                    value
-                                  >
-                                    Diabetic?
-                                  </option>
-
-                                  <option>True</option>
-                                  <option>False</option>
-                                </select>
-                              </div>
-                              <div className="row">
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Allergies</label>{" "}
+                                    <label>About Me</label>{" "}
                                     <textarea
                                       className="form-control"
-                                      placeholder="Address"
+                                      placeholder="About Me"
                                       rows={3}
-                                      placeholder={"Enter Patient Allergies"}
-                                      
+                                    
                                     />
                                   </div>
                                 </div>
                                 <div className="col-12 col-sm-6">
                                   <div className="form-group">
-                                    <label>Disabilities </label>{" "}
-                                    <textarea
-                                      className="form-control"
-                                      placeholder="Address"
-                                      rows={3}
+                                      <label>Education Background</label>{" "}
+                                      <textarea
+                                        className="form-control"
+                                        placeholder="Educational Background"
+                                        rows={3}
                                       
-                                    />
+                                      />
                                   </div>
                                 </div>
                               </div>
-
-                              <div className="row">
-                                <div className="col">
-                                  <button
-                                    type="button"
-                                    className="btn btn-success"
-                                   
-                                  >
-                                    Save Health Details
-                                  </button>
+                            
+                                <div className="form-group">
+                                    <label>Specialization</label>{" "}
+                                    <textarea
+                                      className="form-control"
+                                      placeholder="Educational Background"
+                                      rows={3}
+                                    
+                                    />
                                 </div>
-                                <div className="col text-right">
-                                  <button
-                                    type="button"
-                                    className="btn btn-outline-danger"
-                                  >
-                                    <span className="d-none d-sm-block">
-                                      Cancel
-                                    </span>{" "}
-                                    <span className="d-sm-none">Cancel</span>
-                                  </button>
-                                </div>
-                              </div>
+                             
                             </form>
                           </div>
                         </div>

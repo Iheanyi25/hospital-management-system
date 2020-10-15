@@ -31,23 +31,30 @@ class Sidebar extends React.Component {
                                 <ul className="menu-ul">
                                     <li className="menu-item"><span className="group-title">My Office</span></li>
                                     
-                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorDashboard'} className="item-link" to="/DoctorDashboard"><span className="link-icon icofont-thermometer-alt" /><span className="link-text">Dashboard</span></Link></li>
+                                    <li className="menu-item"><Link  className="item-link" to="/DoctorDashboard"><span className="link-icon icofont-thermometer-alt" /><span className="link-text">Dashboard</span></Link></li>
                                     
-                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorConsultationQueue'} className="item-link" to="/DoctorConsultationQueue"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">Consultation Queue</span></Link></li>
+                                    <li className="menu-item"><Link  className="item-link" to="/DoctorConsultationQueue"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">Consultation Queue</span></Link></li>
                                  
-                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorAppointments'} className="item-link" to="/DoctorAppointments"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Appointments</span></Link></li>
-                                    <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorPatientsList'} className="item-link" to="/DoctorPatientsList"><span className="link-icon icofont-paralysis-disability" /><span className="link-text">Patients List</span></Link></li>
+                                    <li className="menu-item"><Link  className="item-link" to="/DoctorAppointments"><span className="link-icon icofont-stethoscope-alt" /><span className="link-text">My Appointments</span></Link></li>
+                                    <li className="menu-item"><Link  className="item-link" to="/DoctorPatientsList"><span className="link-icon icofont-paralysis-disability" /><span className="link-text">Patients List</span></Link></li>
                             
 
                                     <li className="menu-item"><span className="group-title">Profile Mgt</span></li>
                                     
-                                    <li className="menu-item has-sub"><a className="item-link" href="#"><span className="link-text">Profile</span> <span className="link-caret icofont-thin-right" /></a>
+                                    <li className="menu-item has-sub"><a className="item-link" href="javascript:void(0)"><span className="link-text">Profile</span> <span className="link-caret icofont-thin-right" /></a>
                                         <ul className="sub">
-                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorProfile'} className="item-link" to="/DoctorProfile"><span className="link-text">View Profile</span></Link> </li>
-                                            <li className="menu-item"><Link onClick={() => window.location.href = '/DoctorUpdateProfile'} className="item-link" to="/DoctorUpdateProfile"><span className="link-text">Update Profile</span></Link> </li>
+                                            <li className="menu-item"><Link  className="item-link" to="/DoctorProfile"><span className="link-text">View Profile</span></Link> </li>
+                                            <li className="menu-item"><Link  className="item-link" to="/DoctorUpdateProfile"><span className="link-text">Update Profile</span></Link> </li>
                                            
                                         </ul>
                                     </li>
+                                    <li className="menu-item has-sub"><a className="item-link" href="javascript:void(0)"><span className="link-text">Avaliability</span> <span className="link-caret icofont-thin-right" /></a>
+                                        <ul className="sub">
+                                            <li className="menu-item"><Link  className="item-link" to="/DoctorAvaliablity"><span className="link-text">Set Avaliablity</span></Link> </li>
+       
+                                        </ul>
+                                    </li>
+                                   
                                    
                             
                                 </ul>
@@ -55,7 +62,7 @@ class Sidebar extends React.Component {
                         </div>
                         <div className="add-patient"><button className="btn btn-primary" data-toggle="modal" data-target="#add-patient"><span className="btn-icon icofont-plus mr-2" /> Search
                              Patient</button></div>
-                        <div className="assistant-menu"><a className="link" href="#"><span className="link-icon icofont-ui-settings" />Settings </a><a className="link" href="#"><span className="link-icon icofont-question-square" />FAQ &amp; Support</a></div>
+                        <div className="assistant-menu"><a className="link" href="javascript:void(0)"><span className="link-icon icofont-ui-settings" />Settings </a><a className="link" href="javascript:void(0)"><span className="link-icon icofont-question-square" />FAQ &amp; Support</a></div>
                         <div className="navbar-skeleton vertical">
                             <div className="top-part">
                                 <div className="sk-logo bg animated-bg" />
