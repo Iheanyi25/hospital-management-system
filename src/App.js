@@ -2,12 +2,18 @@ import React from "react";
 import Login from "./Login/Login";
 import AdminDashboard from "./Admin/Dashboard";
 import AdminUpdatePatientProfile from "./Admin/UpdatePatientProfile";
-import AdminAppointments from "./Admin/Appointments";
 import AdminPreConsultation from "./Admin/PreConsultation";
+
 import AdminAllPatients from "./Admin/AllPatients";
 import AdminAllDoctors from "./Admin/AllDoctors";
+
+import AdminAppointments from "./Admin/Appointments";
+import AdminBookAppointment from "./Admin/BookAppointment";
+import AdminDoctorAppointments from "./Admin/DoctorAppointments";
+
 import AdminBookConsultation from "./Admin/BookConsultation";
 import AdminConsultationQueue from "./Admin/ConsultationQueue";
+import AdminDoctorConsultationQueue from "./Admin/DoctorConsultationQueue";
 
 
 
@@ -58,7 +64,7 @@ function App() {
       <Route path="/AdminAllPatients" component={AdminAllPatients} />
       <Route path="/AdminAllDoctors" component={AdminAllDoctors} />
 
-      <Route exact path="/AdminBoo/:doctorId" component={AdminBookConsultation} />
+      <Route exact path="/AdminBookAppointment/:doctorId" component={AdminBookAppointment} />
       <Route exact path="/AdminAppointments" component={AdminAppointments} />
       <Route exact path="/AdminDoctorAppointments/:doctorId" component={AdminDoctorAppointments} />
 
