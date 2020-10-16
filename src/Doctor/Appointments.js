@@ -6,6 +6,9 @@ import Footer from "../Partials/Footer";
 import TemplateSettings from "../Partials/TemplateSettings";
 import PageLoader from "../Partials/PageLoader";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
+
 class Appointments extends React.Component {
   constructor(props) {
     super(props);
@@ -23,9 +26,9 @@ class Appointments extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  async getDoctorAppointments() {
     const { apiUrl, doctorId } = this.state;
-    console.log(this.state);
+
     var acceptedAppointments = [];
     var acceptedAppointmentsCount = 0;
     var activeAppointments = [];
@@ -37,21 +40,19 @@ class Appointments extends React.Component {
     var rejectedAppointments = [];
     var rejectedAppointmentsCount = 0;
 
-    const response = await fetch(
-      `${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${doctorId}`
-    );
+    const response = await fetch(`${apiUrl}/Admin/GetDoctorAppointments`);
     const data = await response.json();
-    console.log(data);
-    this.setState({ appointments: data });
 
-    data.appointments.forEach((appointment) => {
-      if (appointment.applicationUser.appointment.isActive == true) {
+    this.setState({ appointments: data });
+    console.log(data.doctorAppointments);
+    data.doctorAppointments.forEach((appointment) => {
+      if (appointment.isActive == true) {
         activeAppointments.push(appointment);
-      } else if (appointment.applicationUser.appointment.isAccepted == true) {
+      } else if (appointment.isAccepted == true) {
         acceptedAppointments.push(appointment);
-      } else if (appointment.applicationUser.appointment.isCompleted == true) {
+      } else if (appointment.isCompleted == true) {
         completedAppointments.push(appointment);
-      } else if (appointment.applicationUser.appointment.isRejected == true) {
+      } else if (appointment.isRejected == true) {
         rejectedAppointments.push(appointment);
       } else {
         pendingAppointments.push(appointment);
@@ -75,6 +76,20 @@ class Appointments extends React.Component {
       pendingAppointmentsCount: pendingAppointmentsCount,
       rejectedAppointmentsCount: rejectedAppointmentsCount,
     });
+  }
+  async componentDidMount() {
+    this.getDoctorAppointments().then(() => this.sync());
+  }
+
+  sync() {
+    this.$ek = $(this.ek);
+    this.$ek.DataTable();
+    this.$el = $(this.el);
+    this.$el.DataTable();
+    this.$em = $(this.em);
+    this.$em.DataTable();
+    this.$en = $(this.en);
+    this.$en.DataTable();
   }
 
   render() {
@@ -239,7 +254,8 @@ class Appointments extends React.Component {
                           >
                             <div className="table-responsive">
                               <table
-                                class="table data-table"
+                                ref={(ek) => (this.ek = ek)}
+                                class="table"
                                 data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -341,7 +357,8 @@ class Appointments extends React.Component {
                           >
                             <div className="table-responsive">
                               <table
-                                class="table data-table"
+                                ref={(el) => (this.el = el)}
+                                class="table"
                                 data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -444,7 +461,8 @@ class Appointments extends React.Component {
                           >
                             <div className="table-responsive">
                               <table
-                                class="table data-table"
+                                ref={(em) => (this.em = em)}
+                                class="table"
                                 data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -548,7 +566,8 @@ class Appointments extends React.Component {
                           >
                             <div className="table-responsive">
                               <table
-                                class="table data-table"
+                                ref={(en) => (this.en = en)}
+                                class="table"
                                 data-columns='[
                                                                     { "data": "photo" },
                                                                     { "data": "name" },
@@ -586,21 +605,19 @@ class Appointments extends React.Component {
                                             />
                                           </td>
                                           <td>
-                                            {" "}
-                                            {[
-                                              appointment.applicationUser
-                                                .applicationUser.firstName,
-                                              appointment.applicationUser
-                                                .applicationUser.lastName,
-                                            ].toString(" ")}
-                                          </td>
-                                          <td>
-                                            <strong>Liam</strong>
+                                            {appointment.patient.firstName}{" "}
+                                            {appointment.patient.lastName}
                                           </td>
                                           <td>
                                             <div className="d-flex align-items-center nowrap text-primary">
                                               <span className="icofont-ui-email p-0 mr-2" />
-                                              liam@gmail.com
+                                              {appointment.patient.email}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className="d-flex align-items-center nowrap text-primary">
+                                              <span className="icofont-ui-email p-0 mr-2" />
+                                              {appointment.patient.phoneNumber}
                                             </div>
                                           </td>
                                           <td>
