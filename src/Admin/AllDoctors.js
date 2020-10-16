@@ -143,38 +143,45 @@ class AllDoctors extends React.Component {
                                                                             Action
                                                                     </button>
                                                                         <div className="dropdown-menu">
-                                                                            <Link
+                                                                        <Link
                                                                                 title="Pre-consultation"
-                                                                                
+
                                                                                 to={`/AdminBookConsultation/${doctor.id}`}
                                                                                 className="btn btn-sm btn-block"
                                                                             >
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             Book Consultation
                                                                         </Link>
-                                                                            <Link
+                                                                        <Link
                                                                                 title="Pre-consultation"
-                                                                                onClick={() =>
-                                                                                    (window.location.href = `/AdminConsultationQueue`)
-                                                                                }
-                                                                                to={`/AdminConsultationQueue`}
+
+                                                                                to={`/AdminDoctorConsultationQueue/${doctor.id}`}
                                                                                 className="btn btn-sm btn-block"
                                                                             >
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Consultation Queue
                                                                         </Link>
-                                                                            <Link
+                                                                        <Link
+                                                                                title="Pre-consultation"
+
+                                                                                to={`/AdminBookAppointment/${doctor.id}`}
+                                                                                className="btn btn-sm btn-block"
+                                                                            >
+                                                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            Book Appointment
+                                                                        </Link>
+                                                                        <Link
                                                                                 title="Pre-consultation"
                                                                                 onClick={() =>
                                                                                     (window.location.href = `/AdminConsultationQueue`)
                                                                                 }
-                                                                                to={`/AdminAppointments`}
+                                                                                to={`/AdminDoctorAppointments/${doctor.id}`}
                                                                                 className="btn btn-sm btn-block"
                                                                             >
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Appointment List
                                                                         </Link>
-                                                                            <Link
+                                                                        <Link
                                                                                 title="Pre-consultation"
                                                                                 onClick={() =>
                                                                                     (window.location.href = `/AdminUpdatePatientProfile`)

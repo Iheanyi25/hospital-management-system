@@ -163,7 +163,7 @@ class Appointments extends React.Component {
                 </div>
 
                 <header className="page-header">
-                  <h4 className="page-title">Dr. Okom Appointments</h4>
+                  <h4 className="page-title"> Appointments List</h4>
                 </header>
                 <div className="page-content">
                   <div className="card-body"></div>
