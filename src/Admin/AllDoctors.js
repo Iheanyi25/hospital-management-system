@@ -1,29 +1,44 @@
-import React from 'react'
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from '../Partials/Admin/Header';
-import Sidebar from '../Partials/Admin/Sidebar';
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
-import RegisterPatient from '../Partials/Admin/RegisterPatient'
-import PageLoader from '../Partials/PageLoader'
+import Header from "../Partials/Admin/Header";
+import Sidebar from "../Partials/Admin/Sidebar";
+import Footer from "../Partials/Footer";
+import TemplateSettings from "../Partials/TemplateSettings";
+import RegisterPatient from "../Partials/Admin/RegisterPatient";
+import PageLoader from "../Partials/PageLoader";
+
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
 
 class AllDoctors extends React.Component {
-
     constructor(props) {
         super(props);
-        this.forceUpdate() 
+
         this.state = {
-
+            doctors: [],
+            apiUrl: process.env.REACT_APP_API_URL,
         };
-
     }
-    
+
+    async getAllDoctors() {
+        const { apiUrl } = this.state;
+        const response = await fetch(`${apiUrl}/Admin/GetDoctors`);
+        const data = await response.json();
+        this.setState({ doctors: data.doctors });
+    }
+
+    componentDidMount() {
+        this.getAllDoctors().then(() => this.sync());
+    }
+
+    sync() {
+        this.$el = $(this.el);
+        this.$el.DataTable();
+    }
+
     render() {
-
         return (
-
             <>
-
                 <PageLoader />
                 <div className="page-box">
                     <div className="app-container">
@@ -48,17 +63,22 @@ class AllDoctors extends React.Component {
                                     <div className="card mb-0">
                                         <div className="card-body">
                                             <div className="table-responsive">
-                                                <table class="table data-table" data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]' data-paging="true" data-info="true">
+                                                <table
+                                                    ref={(el) => (this.el = el)}
+                                                    class="table"
+                                                    data-columns='[
+                                          { "data": "photo" },
+                                          { "data": "name" },
+                                          { "data": "email" },
+                                          { "data": "phone" },
+                                          { "data": "date-of-birth" },
+                                          { "data": "address" },
+                                          { "data": "actions" }
+                                      ]'
+                                                    data-paging="true"
+                                                    data-info="true"
+                                                >
                                                     <thead>
-                                                        
                                                         <tr className="bg-primary text-white">
                                                             <th>Photo</th>
                                                             <th>Name</th>
@@ -68,110 +88,112 @@ class AllDoctors extends React.Component {
                                                             <th>Address</th>
                                                             <th>Actions</th>
                                                         </tr>
-
                                                     </thead>
+
                                                     <tbody>
-                                                        
-                                                        <tr>
-                                                            
-                                                            <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
-                                                            </td>
-                                                            <td>Ogbona</td>
-                                                            <td>
-                                                                <strong>Liam</strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
-                                                                    <span className="icofont-ui-email p-0 mr-2" />liam@gmail.com
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    10 Feb 2018
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">
-                                                                    9:15 - 9:45
-                                                                 </div>
-                                                            </td>
+                                                        {this.state.doctors.map((doctor) => (
+                                                            <tr>
+                                                                <td>
+                                                                    <img
+                                                                        src="./assets/content/user-40-1.jpg"
+                                                                        alt
+                                                                        width={40}
+                                                                        height={40}
+                                                                        className="rounded-500"
+                                                                    />
+                                                                </td>
+                                                                <td>
+                                                                    {doctor.firstName} {doctor.lastName}
+                                                                </td>
+                                                                <td>
+                                                                    <strong>
+                                                                        {" "}
+                                                                        <div className="d-flex align-items-center nowrap text-primary">
+                                                                            <span className="icofont-ui-email p-0 mr-2" />
+                                                                            {doctor.email}
+                                                                        </div>
+                                                                    </strong>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="d-flex align-items-center nowrap text-primary">
+                                                                        <span className="icofont-ui-email p-0 mr-2" />
+                                                                        {doctor.phoneNumber}
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="text-muted text-nowrap">
+                                                                        10 Feb 2018
+                                  </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="text-muted text-nowrap">
+                                                                        9:15 - 9:45
+                                  </div>
+                                                                </td>
 
-
-                                                           
-                                                            <td>
-                                                                <div className="btn-group">
-                                                                    <button
-                                                                    type="button"
-                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                    data-toggle="dropdown"
-                                                                    aria-haspopup="true"
-                                                                    aria-expanded="false"
-                                                                    >
-                                                                    Action
-                                                                    </button>
-                                                                    <div className="dropdown-menu text-left">
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            onClick={() =>
-                                                                            (window.location.href = `/AdminBookConsultation`)
-                                                                            }
-                                                                            to={`/AdminBookConsultation`}
-                                                                            className="btn btn-sm btn-block"
+                                                                <td>
+                                                                    <div className="btn-group">
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                            data-toggle="dropdown"
+                                                                            aria-haspopup="true"
+                                                                            aria-expanded="false"
                                                                         >
-                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            Action
+                                                                    </button>
+                                                                        <div className="dropdown-menu">
+                                                                            <Link
+                                                                                title="Pre-consultation"
+                                                                                
+                                                                                to={`/AdminBookConsultation/${doctor.id}`}
+                                                                                className="btn btn-sm btn-block"
+                                                                            >
+                                                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             Book Consultation
                                                                         </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            onClick={() =>
-                                                                            (window.location.href = `/AdminConsultationQueue`)
-                                                                            }
-                                                                            to={`/AdminConsultationQueue`}
-                                                                            className="btn btn-sm btn-block"
-                                                                        >
-                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            <Link
+                                                                                title="Pre-consultation"
+                                                                                onClick={() =>
+                                                                                    (window.location.href = `/AdminConsultationQueue`)
+                                                                                }
+                                                                                to={`/AdminConsultationQueue`}
+                                                                                className="btn btn-sm btn-block"
+                                                                            >
+                                                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Consultation Queue
                                                                         </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            onClick={() =>
-                                                                            (window.location.href = `/AdminConsultationQueue`)
-                                                                            }
-                                                                            to={`/AdminAppointments`}
-                                                                            className="btn btn-sm btn-block"
-                                                                        >
-                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                            <Link
+                                                                                title="Pre-consultation"
+                                                                                onClick={() =>
+                                                                                    (window.location.href = `/AdminConsultationQueue`)
+                                                                                }
+                                                                                to={`/AdminAppointments`}
+                                                                                className="btn btn-sm btn-block"
+                                                                            >
+                                                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Appointment List
                                                                         </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            onClick={() =>
-                                                                            (window.location.href = `/AdminUpdatePatientProfile`)
-                                                                            }
-                                                                            to={`/AdminUpdatePatientProfile`}
-                                                                            className="btn btn-sm btn-block"
-                                                                        >
-                                                                            <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                                                            <Link
+                                                                                title="Pre-consultation"
+                                                                                onClick={() =>
+                                                                                    (window.location.href = `/AdminUpdatePatientProfile`)
+                                                                                }
+                                                                                to={`/AdminUpdatePatientProfile`}
+                                                                                className="btn btn-sm btn-block"
+                                                                            >
+                                                                                <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                                             View Profile
                                                                         </Link>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                     
+
+                                                                </td>
+                                                            </tr>
+                                                        ))}
                                                     </tbody>
                                                 </table>
-
-
                                             </div>
-
                                         </div>
                                     </div>
                                     <div className="add-action-box">
@@ -193,11 +215,8 @@ class AllDoctors extends React.Component {
                 </div>
                 <RegisterPatient />
                 <TemplateSettings />
-
             </>
-
-
-        )
+        );
     }
 }
 

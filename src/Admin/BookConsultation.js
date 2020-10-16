@@ -11,28 +11,31 @@ class BookConsultation extends React.Component {
         super(props);
 
         this.state = {
-            apiUrl: process.env.REACT_APP_API_URL,
-            patientId: "",
 
-            bloodGroup: "",
-            genoType: "",
-            diabetic: false,
-            allergies: "",
-            disabilities: "",
+            apiUrl: process.env.REACT_APP_API_URL,
+            patientEmail:"",
+            doctor: "",
+            doctorProfile: "",
+            doctorId: "",
+
+            consultationTitle: "",
+            reasonForConsultation: "",
+            
         };
+
     }
 
     async componentDidMount() {
-        const { apiUrl } = this.state;
+
         const { params } = this.props.match;
-        await this.setState({ patientId: params.id });
-        const response = await fetch(
-            `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
-        );
-        const data = await response.json();
 
-
-
+        //grab the logged in user
+        this.setState({doctorId: params.doctorId });
+        
+        const data = await (await fetch(`${this.state.apiUrl}/Admin/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
+        this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
+       
+        
     }
 
     handleChange(name, e) {
@@ -42,9 +45,86 @@ class BookConsultation extends React.Component {
         });
     }
 
+ 
+    async bookConsultation(e) {
+
+        e.preventDefault();
+    
+        const { consultationTitle, reasonForConsultation, patientEmail,doctorId } = this.state;
+
+        try {
+          const request = await fetch(`${this.state.apiUrl}/Admin/AddPatientToQueue`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                consultationTitle,
+                reasonForConsultation,
+                patientEmail,
+                doctorId
+            }),
+          });
+    
+          if (!request.ok) {
+            const error = await request.json();
+            throw Error(error.message);
+          }
+    
+          const data = await request.json();
+    
+          this.setState({
+            showSuccessMessage: true,
+            successMessage: data.message,
+            consultationTitle:"",
+            reasonForConsultation:""
+
+          });
+         
+         
+        } catch (err) {
+          this.setState({ showErrorMessage: true, errorMessage: err.message });
+        }
+      }
+
 
 
     render() {
+
+        let {
+            doctor,
+            consultationTitle,
+            patientEmail,
+            reasonForConsultation
+        } = this.state
+
+    let displayErrorMessage;
+    let displaySuccessMessage;
+
+    if (this.state.showErrorMessage) {
+        displayErrorMessage = (
+        <div className="alert alert-danger with-after-icon" role="alert">
+          <div className="alert-content">{this.state.errorMessage}</div>
+          <div className="alert-icon">
+            <i className="icofont-alarm" />
+          </div>
+        </div>
+      );
+    }
+
+    if (this.state.showSuccessMessage) {
+        displaySuccessMessage = (
+        <div className="alert alert-info with-after-icon" role="alert">
+          <div className="alert-content text-center">
+            {this.state.successMessage}
+          </div>
+          <div className="alert-icon">
+            <i className="icon icofont-ui-check" />
+          </div>
+        </div>
+      );
+
+    }
       
         return (
             <>
@@ -64,7 +144,7 @@ class BookConsultation extends React.Component {
                                 </div>
                                 <div className="main-content-wrap">
                                     <header className="page-header">
-                                        <h3 className="page-title">Book Consultation With Dr. Okom</h3>
+                                        <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
                                     </header>
                                     <div className="page-content">
                                         <div className="row justify-content-center">
@@ -79,9 +159,10 @@ class BookConsultation extends React.Component {
 
                                                                 <input
                                                                     className="form-control"
-                                                                    title="diabetic"
+                                                                    placeholder="Patient Email"
                                                                     tabIndex={-98}
-                                                     
+                                                                    onChange={(e) => this.handleChange("patientEmail", e)}
+                                                                    value={patientEmail}
                                                                 />
                                                                    
                                                             </div>
@@ -90,32 +171,40 @@ class BookConsultation extends React.Component {
 
                                                                 <input
                                                                     className="form-control"
-                                                                    title="diabetic"
+                                                                    placeholder="Consulation Title"
                                                                     tabIndex={-98}
-                                                                    
-                                                                   
+                                                                    onChange={(e) => this.handleChange("consultationTitle", e)}
+                                                                    value={consultationTitle}
                                                                 />
                                                                    
                                                             </div>
                                                             <div className="form-group">
                                                                 <label>Reason for Consultation</label>{" "}
                                                                 <textarea
-                                                                    className="form-control"
-                                                                    placeholder="Address"
-                                                                    rows={3}
-                                                                    placeholder={"Enter Patient Allergies"}
-                                                                    
-                                                                    
+                                                                    className="form-control"                                                                
+                                                                    rows={4}
+                                                                    placeholder={"Reason for Consultation"}
+                                                                    onChange={(e) => this.handleChange("reasonForConsultation", e)}                                                                   
+                                                                    value={reasonForConsultation}
                                                                 />
                                                             </div>
+                                                            {displayErrorMessage}
+                                                            {displaySuccessMessage}
                                                             <div className="row">
                                                                 <div className="col">
                                                                     <button
                                                                         type="button"
                                                                         className="btn btn-success"
-                                                                        
+                                                                        onClick={(e) => this.bookConsultation(e)}
+                                                                        disabled={
+                                                                        patientEmail === "" ||
+                                                                        reasonForConsultation === "" ||
+                                                                        consultationTitle === ""
+                                                                            ? true
+                                                                            : false
+                                                                        }
                                                                     >
-                                                                        Add to Queue
+                                                                        Book Now 
                                                                     </button>
                                                                 </div>
                                                                 <div className="col text-right">

@@ -57,9 +57,14 @@ function App() {
       <Route exact path="/AdminPreConsultation/:id"  component={AdminPreConsultation}/>
       <Route path="/AdminAllPatients" component={AdminAllPatients} />
       <Route path="/AdminAllDoctors" component={AdminAllDoctors} />
+
+      <Route exact path="/AdminBoo/:doctorId" component={AdminBookConsultation} />
       <Route exact path="/AdminAppointments" component={AdminAppointments} />
-      <Route exact path="/AdminBookConsultation" component={AdminBookConsultation} />
+      <Route exact path="/AdminDoctorAppointments/:doctorId" component={AdminDoctorAppointments} />
+
+      <Route exact path="/AdminBookConsultation/:doctorId" component={AdminBookConsultation} />
       <Route exact path="/AdminConsultationQueue" component={AdminConsultationQueue} />
+      <Route exact path="/AdminDoctorConsultationQueue/:doctorId" component={AdminDoctorConsultationQueue} />
 
 
       {/* Register the doctor routes here */}
