@@ -7,7 +7,7 @@ import Footer from "../Partials/Footer";
 import TemplateSettings from "../Partials/TemplateSettings";
 import PageLoader from "../Partials/PageLoader";
 
-class ConsultationQueue extends React.Component {
+class DoctorConsultationQueue extends React.Component {
   constructor(props) {
     super(props);
 
@@ -659,4 +659,4 @@ class ConsultationQueue extends React.Component {
   }
 }
 
-export default ConsultationQueue;
+export default DoctorConsultationQueue;

@@ -52,6 +52,18 @@ class Sidebar extends React.Component {
                   <li className="menu-item">
                     <Link
                       onClick={() =>
+                        (window.location.href = "/AdminConsultationQueue")
+                      }
+                      className="item-link"
+                      to="/AdminConsultationQueue"
+                    >
+                      <span className="link-icon icofont-stethoscope-alt" />{" "}
+                      <span className="link-text">Consutation Queue</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link
+                      onClick={() =>
                         (window.location.href = "/AdminAppointments")
                       }
                       className="item-link"

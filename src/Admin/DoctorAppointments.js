@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Admin/Header";
@@ -7,7 +6,7 @@ import Footer from "../Partials/Footer";
 import TemplateSettings from "../Partials/TemplateSettings";
 import PageLoader from "../Partials/PageLoader";
 
-class ConsultationQueue extends React.Component {
+class DoctorAppointments extends React.Component {
   constructor(props) {
     super(props);
 
@@ -116,7 +115,7 @@ class ConsultationQueue extends React.Component {
                             <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                           </div>
                           <div className="col col-7">
-                            <h6 className="mt-0 mb-1">Total Patient on Queue</h6>
+                            <h6 className="mt-0 mb-1">Pending Appointments</h6>
                             <div className="count text-primary fs-20">
                               {pendingAppointmentsCount}
                             </div>
@@ -133,7 +132,7 @@ class ConsultationQueue extends React.Component {
                             <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                           </div>
                           <div className="col col-7">
-                            <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
+                            <h6 className="mt-0 mb-1">Accepted Appointments</h6>
                             <div className="count text-primary fs-20">
                               {acceptedAppointmentsCount}
                             </div>
@@ -151,7 +150,7 @@ class ConsultationQueue extends React.Component {
                           </div>
                           <div className="col col-7">
                             <h6 className="mt-0 mb-1 text-nowrap">
-                              Total Patients Attended
+                              Rejected Appointments
                             </h6>
                             <div className="count text-primary fs-20">
                               {rejectedAppointmentsCount}
@@ -164,7 +163,7 @@ class ConsultationQueue extends React.Component {
                 </div>
 
                 <header className="page-header">
-                  <h4 className="page-title">Consultation Queue</h4>
+                  <h4 className="page-title">Dr. Okom Appointments</h4>
                 </header>
                 <div className="page-content">
                   <div className="card-body"></div>
@@ -188,7 +187,7 @@ class ConsultationQueue extends React.Component {
                               aria-controls="pills-active"
                               aria-selected="true"
                             >
-                              Patients Waiting
+                              Active Appointments
                             </a>
                           </li>
                           <li className="nav-item">
@@ -201,7 +200,7 @@ class ConsultationQueue extends React.Component {
                               aria-controls="pills-accepted"
                               aria-selected="false"
                             >
-                               Patients Attended
+                              Accepted Apppointments
                             </a>
                           </li>
                           <li className="nav-item">
@@ -214,10 +213,22 @@ class ConsultationQueue extends React.Component {
                               aria-controls="pills-completed"
                               aria-selected="false"
                             >
-                              All Patients
+                              Completed Appointments
                             </a>
                           </li>
-                         
+                          <li className="nav-item">
+                            <a
+                              className="nav-link"
+                              id="pills-pending-tab"
+                              data-toggle="pill"
+                              href="#pills-pending"
+                              role="tab"
+                              aria-controls="pills-pending"
+                              aria-selected="false"
+                            >
+                              Pending Appointments
+                            </a>
+                          </li>
                         </ul>
                         <div className="tab-content" id="pills-tabContent">
                           <div
@@ -659,4 +670,4 @@ class ConsultationQueue extends React.Component {
   }
 }
 
-export default ConsultationQueue;
+export default DoctorAppointments;

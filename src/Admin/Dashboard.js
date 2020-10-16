@@ -14,10 +14,9 @@ class Dashboard extends React.Component {
         super(props);
 
         this.state = {
-
             apiUrl: process.env.REACT_APP_API_URL,
-            doctorAppointments: "",
-            doctorConsultations: "",
+            doctorAppointments: [],
+            doctorConsultations: []
         };
 
     }
@@ -25,10 +24,13 @@ class Dashboard extends React.Component {
     async componentDidMount() {
 
         const { params } = this.props.match;
-        const data = await (await fetch(`${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
-        this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
-       
-        
+
+        const patientQueue = await (await fetch(`${this.state.apiUrl}/Admin/GetPatientQueue`)).json()
+        this.setState({ doctorConsultations: patientQueue.patientQueue });
+
+        const doctorAppointments = await (await fetch(`${this.state.apiUrl}/Admin/GetDoctorAppointments`)).json()
+        this.setState({ doctorAppointments: doctorAppointments.doctorAppointments });
+
     }
 
     render() {
@@ -36,16 +38,16 @@ class Dashboard extends React.Component {
         return (
 
             <>
-                
-                <PageLoader/>
+
+                <PageLoader />
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
                         <Header></Header>
-                       
+
                         {/* Vertical navbar */}
                         <Sidebar></Sidebar>
-                       
+
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
@@ -149,143 +151,162 @@ class Dashboard extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col col-md-6">
-                                              
-                                             <div className="card mb-0">
-                                        <div className="card-header">Doctor Consultation Queue</div>
-                                        <div className="card-body">
-                                            <div className="table-responsive">
-                                                <table className="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th  className="text-nowrap"  scope="col">Consultation Title</th>
-                                                            <th  className="text-nowrap" scope="col">Patient Name</th>
-                                                            <th  className="text-nowrap" scope="col">Patient Email</th>
-                                                            <th  className="text-nowrap" scope="col">Doctor Name</th>
-                                                            <th  className="text-nowrap" scope="col">Doctor Email</th>
-                                                            <th  className="text-nowrap" scope="col">Date</th>
-                                                            <th  className="text-nowrap" scope="col">Status</th>
-                                                            
-                                                            <th scope="col">Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
-                                                            <td><strong>Liam</strong></td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
-                                                             </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">10 Feb 2018</div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">9:15 - 9:45</div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                                                                </div>
-                                                            </td>
-                                                           
-                                                            <td>mumps</td>
-                                                            <td>
-                                                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                       
-                                                    
-                                                    </tbody>
-                                                </table>
+
+                                            <div className="card mb-0">
+                                                <div className="card-header">Doctor Consultation Queue</div>
+                                                <div className="card-body">
+                                                    <div className="table-responsive">
+                                                        <table className="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th className="text-nowrap" scope="col">Consultation Title</th>
+                                                                    <th className="text-nowrap" scope="col">Patient Name</th>
+                                                                    <th className="text-nowrap" scope="col">Patient Email</th>
+                                                                    <th className="text-nowrap" scope="col">Doctor Name</th>
+                                                                    <th className="text-nowrap" scope="col">Doctor Email</th>
+                                                                    <th className="text-nowrap" scope="col">Date</th>
+                                                                    <th className="text-nowrap" scope="col">Status</th>
+
+                                                                    <th scope="col">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.state.doctorConsultations.map((consultation) => (
+                                                                    <tr>
+                                                                        <td>{consultation.patientQueue.consultationTitle}</td>
+                                                                        <td><strong>{consultation.patient.lastName} {consultation.patient.firstName}</strong></td>
+                                                                        <td>
+                                                                            <div className="d-flex align-items-center nowrap text-primary">
+                                                                                <span className="icofont-ui-email p-0 mr-2" />{consultation.patient.email}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">{consultation.doctor.lastName} {consultation.doctor.firstName}</div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">{consultation.doctor.email}</div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="d-flex align-items-center nowrap text-primary">
+                                                                                <span className="icofont-ui-cell-phone p-0 mr-2" /> {consultation.patientQueue.dateOfConsultation}
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>mumps</td>
+                                                                        <td>
+                                                                            <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
+                                                                                <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+
+
+                                                                ))}
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
 
                                         </div>
 
                                         <div className="col col-md-6">
-                                              
-                                             <div className="card mb-0">
-                                        <div className="card-header">Doctors Appointments</div>
-                                        <div className="card-body">
-                                            <div className="table-responsive">
-                                                <table className="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                        <tr>
-                                                            <th scope="col">Appointment Title</th>
-                                                            <th scope="col">Patient Name</th>
-                                                            <th scope="col">Patient Email</th>
-                                                            <th scope="col">Doctor Name</th>
-                                                            <th scope="col">Doctor Email</th>
-                                                            <th scope="col">Date</th>
-                                                            <th scope="col">Time</th>
-                                                            <th scope="col">Status</th>
-                                                            
-                                                            <th scope="col">Actions</th>
-                                                        </tr>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
-                                                            <td><strong>Liam</strong></td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
-                                                             </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">10 Feb 2018</div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="text-muted text-nowrap">9:15 - 9:45</div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                                                                </div>
-                                                            </td>
-                                                          
-                                                            <td>mumps</td>
-                                                            <td>
-                                                                <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                       
-                                                      
-                                                    </tbody>
-                                                </table>
+
+                                            <div className="card mb-0">
+                                                <div className="card-header">Doctors Appointment List</div>
+                                                <div className="card-body">
+                                                    <div className="table-responsive">
+                                                        <table className="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    
+                                                                    <th className="text-nowrap" scope="col">Appointment Title</th>
+                                                                    <th className="text-nowrap" scope="col">Patient Name</th>
+                                                                    <th className="text-nowrap" scope="col">Patient Email</th>
+                                                                    <th className="text-nowrap" scope="col">Doctor Name</th>
+                                                                    <th className="text-nowrap" scope="col">Doctor Email</th>
+                                                                    <th className="text-nowrap" scope="col">Date</th>
+                                                                    <th className="text-nowrap" scope="col">Time</th>
+                                                                    <th className="text-nowrap" scope="col">Status</th>
+
+                                                                    <th scope="col">Actions</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.state.doctorAppointments.map((appointment) => (
+                                                                    <tr>
+                                                                        <td>{appointment.appointment.appointmentTitle}</td>
+                                                                        <td><strong>{appointment.patient.lastName} {appointment.patient.firstName}</strong></td>
+                                                                        <td>
+                                                                            <div className="d-flex align-items-center nowrap text-primary">
+                                                                                <span className="icofont-ui-email p-0 mr-2" />{appointment.patient.email}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">{appointment.doctor.lastName} {appointment.doctor.firstName}</div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">{appointment.doctor.email}</div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="d-flex align-items-center nowrap text-primary">
+                                                                                <span className="icofont-ui-cell-phone p-0 mr-2" /> {appointment.appointment.appointmentDate}
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div className="d-flex align-items-center nowrap text-primary">
+                                                                                <span className="icofont-ui-cell-phone p-0 mr-2" /> {appointment.appointment.appointmentTime}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div>Not Completed</div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
+                                                                                <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+
+
+                                                                ))}
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
 
                                         </div>
 
 
                                     </div>
 
-                                 
+
 
                                 </div>
                             </div>
                         </main>
-                         {/* Footer */}
-                         <Footer />
+                        {/* Footer */}
+                        <Footer />
                     </div>
                 </div>
 
                 {/* Register Patient Component */}
-                <RegisterPatient/>
-                <RegisterUser/>
-                              
+                <RegisterPatient />
+                <RegisterUser />
+
                 {/* App Settings modals */}
                 <TemplateSettings />
 
             </>
 
-        
+
         )
     }
 }
