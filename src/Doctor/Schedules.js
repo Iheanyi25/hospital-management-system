@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "../Partials/Doctor/Header";
 import Sidebar from "../Partials/Doctor/Sidebar";
 import Footer from "../Partials/Footer";
@@ -35,7 +35,7 @@ class Schedules extends React.Component {
     var bookedSchedule = [];
     var availableScheduleCount = 0;
     var bookedScheduleCount = 0;
-    const { apiUrl, date, checkInTime, checkOutTime, doctorId } = this.state;
+    const { apiUrl, doctorId } = this.state;
     await this.setState({ doctorId: doctorId });
     const response = await fetch(
       `${apiUrl}/Doctor/ViewDoctorSchedule?DoctorId=${this.state.doctorId}`
@@ -43,10 +43,6 @@ class Schedules extends React.Component {
     const { schedule: _schedule } = await response.json();
 
     const schedule = _schedule.map((schedule) => {
-      const date = schedule.doctorSchedules.date;
-
-      const checkIn = schedule.doctorSchedules.checkIn;
-      const checkOut = schedule.doctorSchedules.checkOut;
 
       return {
         checkIn: getTime(schedule.doctorSchedules.checkIn),
@@ -57,7 +53,7 @@ class Schedules extends React.Component {
     });
 
     schedule.forEach((schedule) => {
-      if (schedule.available == true) {
+      if (schedule.available === true) {
         availableSchedule.push(schedule);
       } else {
         bookedSchedule.push(schedule);
@@ -212,54 +208,54 @@ class Schedules extends React.Component {
                                 <tbody>
                                   {availableSchedule
                                     ? availableSchedule.map(
-                                        (availableSchedule) => (
-                                          <tr>
-                                            <td>{availableSchedule.date}</td>
-                                            <td>{availableSchedule.checkIn}</td>
-                                            <td>
-                                              {availableSchedule.checkOut}
-                                            </td>
-                                            <td>
-                                              <div className="d-flex align-items-center nowrap text-primary">
-                                                <span className="icofont-ui-email p-0 mr-2" />
+                                      (availableSchedule) => (
+                                        <tr>
+                                          <td>{availableSchedule.date}</td>
+                                          <td>{availableSchedule.checkIn}</td>
+                                          <td>
+                                            {availableSchedule.checkOut}
+                                          </td>
+                                          <td>
+                                            <div className="d-flex align-items-center nowrap text-primary">
+                                              <span className="icofont-ui-email p-0 mr-2" />
                                                 liam@gmail.com
                                               </div>
-                                            </td>
-                                            <td>
-                                              <div className="text-muted text-nowrap">
-                                                10 Feb 2018
+                                          </td>
+                                          <td>
+                                            <div className="text-muted text-nowrap">
+                                              10 Feb 2018
                                               </div>
-                                            </td>
-                                            <td>
-                                              <div className="text-muted text-nowrap">
-                                                9:15 - 9:45
+                                          </td>
+                                          <td>
+                                            <div className="text-muted text-nowrap">
+                                              9:15 - 9:45
                                               </div>
-                                            </td>
+                                          </td>
 
-                                            <td>
-                                              <div className="actions">
-                                                <Link
-                                                  title="Pre-consultation"
-                                                  onClick={() =>
-                                                    (window.location.href =
-                                                      "/AdminPreConsultation")
-                                                  }
-                                                  to="/AdminPreConsultation"
-                                                  className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                                >
-                                                  <span className="btn-icon icofont-stethoscope-alt" />
-                                                </Link>
-                                                <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                  <span className="btn-icon icofont-ui-edit" />
-                                                </button>
-                                                <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                  <span className="btn-icon icofont-ui-delete" />
-                                                </button>
-                                              </div>
-                                            </td>
-                                          </tr>
-                                        )
+                                          <td>
+                                            <div className="actions">
+                                              <Link
+                                                title="Pre-consultation"
+                                                onClick={() =>
+                                                  (window.location.href =
+                                                    "/AdminPreConsultation")
+                                                }
+                                                to="/AdminPreConsultation"
+                                                className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                              >
+                                                <span className="btn-icon icofont-stethoscope-alt" />
+                                              </Link>
+                                              <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                <span className="btn-icon icofont-ui-edit" />
+                                              </button>
+                                              <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                                <span className="btn-icon icofont-ui-delete" />
+                                              </button>
+                                            </div>
+                                          </td>
+                                        </tr>
                                       )
+                                    )
                                     : null}
                                 </tbody>
                               </table>
@@ -300,50 +296,50 @@ class Schedules extends React.Component {
                                 <tbody>
                                   {bookedSchedule
                                     ? bookedSchedule.map((bookedSchedule) => (
-                                        <tr>
-                                          <td>{bookedSchedule.date}</td>
-                                          <td>{bookedSchedule.checkIn}</td>
-                                          <td>{bookedSchedule.checkOut}</td>
-                                          <td>
-                                            <div className="d-flex align-items-center nowrap text-primary">
-                                              <span className="icofont-ui-email p-0 mr-2" />
+                                      <tr>
+                                        <td>{bookedSchedule.date}</td>
+                                        <td>{bookedSchedule.checkIn}</td>
+                                        <td>{bookedSchedule.checkOut}</td>
+                                        <td>
+                                          <div className="d-flex align-items-center nowrap text-primary">
+                                            <span className="icofont-ui-email p-0 mr-2" />
                                               liam@gmail.com
                                             </div>
-                                          </td>
-                                          <td>
-                                            <div className="text-muted text-nowrap">
-                                              10 Feb 2018
+                                        </td>
+                                        <td>
+                                          <div className="text-muted text-nowrap">
+                                            10 Feb 2018
                                             </div>
-                                          </td>
-                                          <td>
-                                            <div className="text-muted text-nowrap">
-                                              9:15 - 9:45
+                                        </td>
+                                        <td>
+                                          <div className="text-muted text-nowrap">
+                                            9:15 - 9:45
                                             </div>
-                                          </td>
+                                        </td>
 
-                                          <td>
-                                            <div className="actions">
-                                              <Link
-                                                title="Pre-consultation"
-                                                onClick={() =>
-                                                  (window.location.href =
-                                                    "/AdminPreConsultation")
-                                                }
-                                                to="/AdminPreConsultation"
-                                                className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                              >
-                                                <span className="btn-icon icofont-stethoscope-alt" />
-                                              </Link>
-                                              <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                <span className="btn-icon icofont-ui-edit" />
-                                              </button>
-                                              <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                <span className="btn-icon icofont-ui-delete" />
-                                              </button>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      ))
+                                        <td>
+                                          <div className="actions">
+                                            <Link
+                                              title="Pre-consultation"
+                                              onClick={() =>
+                                                (window.location.href =
+                                                  "/AdminPreConsultation")
+                                              }
+                                              to="/AdminPreConsultation"
+                                              className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt" />
+                                            </Link>
+                                            <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                              <span className="btn-icon icofont-ui-edit" />
+                                            </button>
+                                            <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                              <span className="btn-icon icofont-ui-delete" />
+                                            </button>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))
                                     : null}
                                 </tbody>
                               </table>

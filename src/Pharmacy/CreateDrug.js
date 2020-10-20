@@ -108,6 +108,7 @@ class CreateDrug extends React.Component {
         <PageLoader />
         <div className="page-box">
           <div className="app-container">
+
             {/* Horizontal navbar---Header */}
             <Header></Header>
             {/* Vertical navbar */}

@@ -125,7 +125,6 @@ class UpdatePatientProfile extends React.Component {
 
       //patient profile successfully updated
 
-      const data = await request.json();
       this.setState({
         displayCoreDetailsSuccessNotification: true,
       });
@@ -189,7 +188,6 @@ class UpdatePatientProfile extends React.Component {
 
       //patient contact details successfully updated
 
-      const data = await request.json();
       this.setState({
         displayContactDetailsSuccessNotification: true,
       });
@@ -253,7 +251,6 @@ class UpdatePatientProfile extends React.Component {
 
       //patient contact details successfully updated
 
-      const data = await request.json();
       this.setState({
         displayHealthDetailsSuccessNotification: true,
       });
@@ -295,13 +292,10 @@ class UpdatePatientProfile extends React.Component {
       disabilities,
 
       displayCoreDetailsSuccessNotification,
-      displayCoreDetailsFailureNotification,
 
       displayContactDetailsSuccessNotification,
-      displayContactDetailsFailureNotification,
 
       displayHealthDetailsSuccessNotification,
-      displayHealthDetailsFailureNotification,
     } = this.state;
     return (
       <>

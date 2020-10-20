@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "../Partials/Admin/Header";
 import Sidebar from "../Partials/Admin/Sidebar";
 import Footer from "../Partials/Footer";
@@ -96,7 +96,7 @@ class AllPatients extends React.Component {
                                 <td>
                                   <img
                                     src="./assets/content/user-40-1.jpg"
-                                    alt
+                                    alt=""
                                     width={40}
                                     height={40}
                                     className="rounded-500"

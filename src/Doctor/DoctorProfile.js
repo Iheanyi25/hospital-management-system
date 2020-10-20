@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from '../Partials/Doctor/Header';
 import Sidebar from '../Partials/Doctor/Sidebar';
 import Footer from '../Partials/Footer'
@@ -41,17 +41,17 @@ class DoctorProfile extends React.Component {
                                 <div className="page-content">
                                     <div className="row">
                                         <div className="col col-12 col-md-6 mb-md-0">
-                                            <div className="card bg-light personal-info-card"><img src="../assets/content/user-profile.jpg" className="card-img-top" alt />
+                                            <div className="card bg-light personal-info-card"><img src="../assets/content/user-profile.jpg" className="card-img-top" alt="" />
                                                 <div className="card-body">
                                                     <div className="d-flex align-items-center justify-content-between mb-3 user-actions">
-                                                        <img src="../assets/content/user-400-1.jpg" width={100} height={100} alt className="rounded-500 mr-4" />
-                                                         
-                                                         <Link onClick={() => window.location.href = '/PatientBookAppointment'} className="btn btn-primary rounded-500" to="/PatientBookAppointment">
+                                                        <img src="../assets/content/user-400-1.jpg" width={100} height={100} alt="" className="rounded-500 mr-4" />
+
+                                                        <Link onClick={() => window.location.href = '/PatientBookAppointment'} className="btn btn-primary rounded-500" to="/PatientBookAppointment">
                                                             <span className="link-icon icofont-doctor" />
                                                             <span className="link-text">Update Profile</span>
                                                         </Link>
-                            
-                                                        
+
+
                                                     </div>
                                                     <div className="d-flex align-items-center justify-content-between">
                                                         <h5 className="mb-0 mt-0 mr-1">Liam Jouns</h5><select className="rating" data-readonly="true">
@@ -76,7 +76,7 @@ class DoctorProfile extends React.Component {
                                                             <div className="icon icofont-github fs-30 github-color" />
                                                         </div>
                                                         <div className="col">
-                                                            <div>Github</div><a href="#">github.com/liam-jouns</a>
+                                                            <div>Github</div><Link to="#">github.com/liam-jouns</Link>
                                                         </div>
                                                     </div>
                                                     <div className="row align-items-center mb-3">
@@ -84,7 +84,7 @@ class DoctorProfile extends React.Component {
                                                             <div className="icon icofont-twitter fs-30 twitter-color" />
                                                         </div>
                                                         <div className="col">
-                                                            <div>Twitter</div><a href="#">twitter.com/liam-jouns</a>
+                                                            <div>Twitter</div><Link to="#">twitter.com/liam-jouns</Link>
                                                         </div>
                                                     </div>
                                                     <div className="row align-items-center mb-3">
@@ -92,7 +92,7 @@ class DoctorProfile extends React.Component {
                                                             <div className="icon icofont-linkedin fs-30 linkedin-color" />
                                                         </div>
                                                         <div className="col">
-                                                            <div>Linkedin</div><a href="#">linkedin.com/liam-jouns</a>
+                                                            <div>Linkedin</div><Link to="#">linkedin.com/liam-jouns</Link>
                                                         </div>
                                                     </div>
                                                     <div className="row align-items-center">
@@ -100,7 +100,7 @@ class DoctorProfile extends React.Component {
                                                             <div className="icon icofont-youtube fs-30 youtube-color" />
                                                         </div>
                                                         <div className="col">
-                                                            <div>YouTube</div><a href="#">youtube.com/liam-jouns</a>
+                                                            <div>YouTube</div><Link to="#">youtube.com/liam-jouns</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,7 +144,7 @@ class DoctorProfile extends React.Component {
                                             </div>
                                         </div>
                                         <div className="col col-12 col-md-6">
-                                        <div className="card">
+                                            <div className="card">
                                                 <div className="card-header">Office Time</div>
                                                 <div className="card-body">
                                                     <div className="v-timeline dots">
@@ -163,9 +163,9 @@ class DoctorProfile extends React.Component {
                                                                             IronSketch</div>
                                                                     </div>
                                                                 </div>
-                                                                
-                                                                
-                                                               
+
+
+
                                                             </div>
                                                         </div>
                                                     </div>

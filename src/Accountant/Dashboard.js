@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import Header from '../Partials/Admin/Header';
 import Sidebar from '../Partials/Admin/Sidebar';
 import PageLoader from '../Partials/PageLoader'
@@ -20,16 +20,15 @@ class Dashboard extends React.Component {
         return (
 
             <>
-                
-                <PageLoader/>
+                <PageLoader />
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
                         <Header></Header>
-                       
+
                         {/* Vertical navbar */}
                         <Sidebar></Sidebar>
-                       
+
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
@@ -169,7 +168,7 @@ class Dashboard extends React.Component {
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Liam</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
@@ -194,7 +193,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-2.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-2.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Emma</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> emma@gmail.com
@@ -219,7 +218,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-3.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-3.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Olivia</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> olivia@gmail.com
@@ -244,7 +243,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-4.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-4.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Ava</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> ava@gmail.com
@@ -269,7 +268,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-5.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-5.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Noah</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> noah@gmail.co
@@ -294,7 +293,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-6.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-6.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Isabella</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> isabella@gmail.com
@@ -319,7 +318,7 @@ class Dashboard extends React.Component {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><img src="./assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                            <td><img alt="avatar" src="./assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
                                                             <td><strong>Sophia</strong></td>
                                                             <td>
                                                                 <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> sophia@gmail.com
@@ -356,8 +355,8 @@ class Dashboard extends React.Component {
                                 <div className="row h-100 align-items-center">
                                     <div className="col-12 col-md-6 d-none d-md-block">
                                         <ul className="page-breadcrumbs">
-                                            <li className="item"><a href="#" className="link">Dashboards</a> <i className="separator icofont-thin-right" /></li>
-                                            <li className="item"><a href="#" className="link">Default</a> <i className="separator icofont-thin-right" /></li>
+                                            <li className="item"><NavLink to="/#" className="link">Dashboards</NavLink> <i className="separator icofont-thin-right" /></li>
+                                            <li className="item"><NavLink to="#" className="link">Default</NavLink> <i className="separator icofont-thin-right" /></li>
                                         </ul>
                                     </div>
                                     <div className="col-12 col-md-6 text-right">
@@ -394,7 +393,7 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="modal-body">
                                 <form>
-                                    <div className="form-group avatar-box d-flex"><img src="./assets/content/anonymous-400.jpg" width={40} height={40} className="rounded-500 mr-4" /> <button className="btn btn-outline-primary" type="button">Select image<span className="btn-icon icofont-ui-user ml-2" /></button></div>
+                                    <div className="form-group avatar-box d-flex"><img alt="avatar" src="./assets/content/anonymous-400.jpg" width={40} height={40} className="rounded-500 mr-4" /> <button className="btn btn-outline-primary" type="button">Select image<span className="btn-icon icofont-ui-user ml-2" /></button></div>
                                     <div className="form-group"><input className="form-control" type="text" placeholder="Name" /></div>
                                     <div className="form-group"><input className="form-control" type="number" placeholder="Number" /></div>
                                     <div className="row">
@@ -452,7 +451,7 @@ class Dashboard extends React.Component {
                 </div>{/* end Add patients modals */}
             </>
 
-        
+
         )
     }
 }

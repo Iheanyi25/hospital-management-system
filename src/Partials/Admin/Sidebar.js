@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class Sidebar extends React.Component {
                   </li>
                   <li className="menu-item">
                     <Link
-                      onClick={() => (window.location.href = "/AdminDashboard")}
+                      // onClick={() => (window.location.href = "/AdminDashboard")}
                       className="item-link"
                       to="/AdminDashboard"
                     >
@@ -182,7 +182,7 @@ class Sidebar extends React.Component {
                     </a>
                     <ul className="sub">
                       <li className="menu-item">
-                      <a className="item-link" data-toggle="modal" data-target="#add-user">
+                        <a className="item-link" data-toggle="modal" data-target="#add-user">
                           <span className="link-text">
                             Register Accountants
                           </span>
@@ -249,7 +249,7 @@ class Sidebar extends React.Component {
                 <span className="btn-icon icofont-plus mr-2" /> Register Patient
               </button>
             </div>
-            
+
             <div className="assistant-menu">
               <a className="link" href="#">
                 <span className="link-icon icofont-ui-settings" />

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from '../Partials/Doctor/Header';
 import Sidebar from '../Partials/Doctor/Sidebar';
 import PageLoader from '../Partials/PageLoader';
@@ -146,7 +146,7 @@ class Dashboard extends React.Component {
                           </thead>
                           <tbody>
                             <tr>
-                              <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
+                              <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" alt="" /></td>
                               <td><strong>Liam</strong></td>
                               <td>
                                 <div className="d-flex align-items-center nowrap text-primary">
@@ -166,7 +166,7 @@ class Dashboard extends React.Component {
                               </td>
                               <td>Dr. Benjamin</td>
                               <td>mumps</td>
-                              
+
                               <td>
                                 <div className="btn-group">
                                   <button
