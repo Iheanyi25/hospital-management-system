@@ -24,7 +24,7 @@ class CreateCategories extends React.Component {
   createDrugCategory = async (e) => {
     e.preventDefault();
     const { url } = this.state;
-    const { drugCategoryName, drugCategoryDescription } = this.state;
+    const { drugCategoryName } = this.state;
     var name = drugCategoryName;
     const request = await fetch(`${url}/Pharmacy/CreateDrugCategory`, {
       method: "POST",
@@ -41,15 +41,14 @@ class CreateCategories extends React.Component {
     }
 
     //DrugCategory successfully added
-    const data = await request.json();
 
     this.setState({ submittingDrugCategory: false, success: true });
     const response = await fetch(`${url}/Pharmacy/GetAllDrugCategories`);
-    const data1 = await response.json();
+    const data = await response.json();
     setTimeout(
       () =>
         this.setState({
-          drugCategories: data1,
+          drugCategories: data,
           displaying: "drug categories",
           showModal: false,
         }),

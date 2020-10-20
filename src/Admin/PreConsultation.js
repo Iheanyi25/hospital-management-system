@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Admin/Header";
 import Sidebar from "../Partials/Admin/Sidebar";
 import Footer from "../Partials/Footer";
@@ -53,7 +52,7 @@ class PreConsultation extends React.Component {
     await this.setState({
       [name]: value,
     });
-    if (this.state.weight != "" && this.state.height != "") {
+    if (this.state.weight !== "" && this.state.height !== "") {
       this.setState({
         calculatedBMI: parseFloat(
           this.state.weight / Math.pow(this.state.height, 2)
@@ -99,7 +98,6 @@ class PreConsultation extends React.Component {
       }
 
       //patient vitals successfully updated
-      const data = await request.json();
       this.setState({
         displayVitalsSuccessNotification: true,
       });
@@ -152,8 +150,6 @@ class PreConsultation extends React.Component {
       }
 
       //patient BMI successfully updated
-
-      const data = await request.json();
 
       this.setState({
         displayBMISuccessNotification: true,

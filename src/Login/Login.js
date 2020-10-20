@@ -52,7 +52,7 @@ class Login extends Component {
 			}
 
 			const data = await request.json();
-			
+
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("authenticatedUser", JSON.stringify(data.authenticatedUser));
 
@@ -98,7 +98,7 @@ class Login extends Component {
 				<div className={styles.background}>
 					<div className={styles.div}>
 						<h1>
-							<img src="./assets/img/logo.svg" width={147} height={33} className="logo-img" />Hospital Management Solution
+							<img src="./assets/img/logo.svg" alt="logo" width={147} height={33} className="logo-img" />Hospital Management Solution
 						</h1>
 						<h2>Login</h2>
 						<form

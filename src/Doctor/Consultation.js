@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Doctor/Header";
 import Sidebar from "../Partials/Doctor/Sidebar";
 import Footer from "../Partials/Footer";
@@ -28,12 +27,12 @@ class Consultation extends React.Component {
     const response = await fetch(`${apiUrl}/Doctor/GetDoctorQueue`);
     const data = await response.json();
 
-    await this.setState({ doctorQueue: data.patientQueue });
+    this.setState({ doctorQueue: data.patientQueue });
 
     data.patientQueue.forEach((patientQueue) => {
-      if (patientQueue.isCanceled == true) {
+      if (patientQueue.isCanceled === true) {
         canceledConsultations.push(patientQueue);
-      } else if (patientQueue.isCompleted == true) {
+      } else if (patientQueue.isCompleted === true) {
         completedConsultations.push(patientQueue);
       } else {
         pendingConsultations.push(patientQueue);

@@ -1,5 +1,4 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from '../Partials/Admin/Header';
 import Sidebar from '../Partials/Admin/Sidebar';
 import RegisterPatient from '../Partials/Admin/RegisterPatient'
@@ -22,8 +21,6 @@ class Dashboard extends React.Component {
     }
 
     async componentDidMount() {
-
-        const { params } = this.props.match;
 
         const patientQueue = await (await fetch(`${this.state.apiUrl}/Admin/GetPatientQueue`)).json()
         this.setState({ doctorConsultations: patientQueue.patientQueue });
@@ -221,7 +218,7 @@ class Dashboard extends React.Component {
                                                         <table className="table table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    
+
                                                                     <th className="text-nowrap" scope="col">Appointment Title</th>
                                                                     <th className="text-nowrap" scope="col">Patient Name</th>
                                                                     <th className="text-nowrap" scope="col">Patient Email</th>
@@ -232,7 +229,7 @@ class Dashboard extends React.Component {
                                                                     <th className="text-nowrap" scope="col">Status</th>
 
                                                                     <th scope="col">Actions</th>
-                                                                    
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Doctor/Header";
 import Sidebar from "../Partials/Doctor/Sidebar";
 import Footer from "../Partials/Footer";
@@ -40,7 +39,7 @@ class UpdateDoctorProfile extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl, doctorId } = this.state;
+    const { apiUrl } = this.state;
 
     const response = await fetch(
       `${apiUrl}/Doctor/GetDoctor?DoctorId=${this.state.doctorId}`
@@ -64,7 +63,7 @@ class UpdateDoctorProfile extends React.Component {
       email: data.doctor.email,
       phoneNumber: data.doctor.phoneNumber,
     });
-    if (data1.doctorProfile.length != 0) {
+    if (data1.doctorProfile.length !== 0) {
       console.log();
       this.setState({
         dateOfBirth: data1.doctorProfile[0].doctorProfile.dateOfBirth,
@@ -76,7 +75,7 @@ class UpdateDoctorProfile extends React.Component {
         specialization: data1.doctorProfile[0].doctorProfile.specialization,
       });
     }
-    if (data2.doctorSpecialization.length != 0) {
+    if (data2.doctorSpecialization.length !== 0) {
       console.log(data1);
       this.setState({
         dateOfBirth: data1.doctorProfile.patientProfile.dateOfBirth,
@@ -111,12 +110,8 @@ class UpdateDoctorProfile extends React.Component {
         firstName,
         lastName,
         otherNames,
-        phoneNumber,
-        email,
-        address,
         dateOfBirth,
         gender,
-        patientId,
       } = this.state;
 
       const request = await fetch(`${apiUrl}/Doctor/UpdateDoctorBasicInfo`, {
@@ -130,7 +125,7 @@ class UpdateDoctorProfile extends React.Component {
           lastName,
           otherNames,
           dateOfBirth,
-          gender,
+          gender
         }),
       });
       if (!request.ok) {
@@ -140,7 +135,6 @@ class UpdateDoctorProfile extends React.Component {
 
       //patient profile successfully updated
 
-      const data = await request.json();
       this.setState({
         displayCoreDetailsSuccessNotification: true,
       });
@@ -259,7 +253,6 @@ class UpdateDoctorProfile extends React.Component {
 
       //patient contact details successfully updated
 
-      const data = await request.json();
       this.setState({
         displayProfessionalDetailsSuccessNotification: true,
       });
@@ -287,7 +280,6 @@ class UpdateDoctorProfile extends React.Component {
 
   render() {
     const {
-      doctor,
       firstName,
       lastName,
       otherNames,
@@ -399,7 +391,7 @@ class UpdateDoctorProfile extends React.Component {
                               src="../assets/content/user-400-1.jpg"
                               width={100}
                               height={100}
-                              alt
+                              alt=""
                               className="rounded-500 mr-4"
                             />
                             <button

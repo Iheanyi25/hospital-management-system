@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Doctor/Header";
 import Sidebar from "../Partials/Doctor/Sidebar";
 import Footer from "../Partials/Footer";
@@ -115,7 +114,6 @@ class DoctorAvaliablity extends React.Component {
 
       //patient profile successfully updated
 
-      const data = await request.json();
     } catch (error) {
       console.log(error);
     }
@@ -212,20 +210,6 @@ class DoctorAvaliablity extends React.Component {
   };
 
   render() {
-    const {
-      patient,
-      dateOfBirth,
-      gender,
-      phoneNumber,
-      address,
-      state,
-      country,
-      bloodGroup,
-      genoType,
-      diabetic,
-      allergies,
-      disabilities,
-    } = this.state;
     return (
       <>
         <PageLoader />
@@ -256,11 +240,11 @@ class DoctorAvaliablity extends React.Component {
                             <h4>Configure Abaliablity</h4>
                             <div className="row">
                               <div className="col-md-12">
-                               <div className="form-group">
+                                <div className="form-group">
                                   <label>Are you avalibale for consultation? </label>
                                   <div class="form-group">
                                     <div class="custom-control custom-radio mb-3">
-                                      <input type="radio" class="custom-control-input" name="avaliable" id="avaliable" /> 
+                                      <input type="radio" class="custom-control-input" name="avaliable" id="avaliable" />
                                       <label class="custom-control-label" for="avaliable">Yes I am avaliable for consultation</label>
                                     </div>
                                     <div class="custom-control custom-radio mb-3">
