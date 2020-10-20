@@ -25,7 +25,13 @@ class Sidebar extends React.Component {
 						<button className="no-style navbar-toggle navbar-close icofont-close-line d-lg-none" />
 						<div className="app-logo">
 							<div className="logo-wrap">
-								<img src="./assets/img/logo.svg" alt width={147} height={33} className="logo-img" />
+								<img
+									src="./assets/img/logo.svg"
+									width={147}
+									height={33}
+									className="logo-img"
+									alt="hello"
+								/>
 							</div>
 						</div>
 						<div className="main-menu">
@@ -41,25 +47,25 @@ class Sidebar extends React.Component {
 										</Link>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" href="appointments.html">
+										<Link className="item-link" to="appointments.html">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
 											<span className="link-text">Patients</span>
 										</Link>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" href="doctors.html">
+										<Link className="item-link" to="doctors.html">
 											<span className="link-icon icofont-doctor" />{' '}
 											<span className="link-text">Prescriptions</span>
 										</Link>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" href="doctors.html">
+										<Link className="item-link" to="doctors.html">
 											<span className="link-icon icofont-doctor" />{' '}
 											<span className="link-text">Pharmasists</span>
 										</Link>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" href="payments.html">
+										<Link className="item-link" to="payments.html">
 											<span className="link-icon icofont-pay" />{' '}
 											<span className="link-text">Payments</span>
 										</Link>
@@ -82,7 +88,7 @@ class Sidebar extends React.Component {
 											<li className="menu-item">
 												<Link
 													onClick={() =>
-														(window.location.href = '/PharmacyManageDrugCategories')
+														(window.location.to = '/PharmacyManageDrugCategories')
 													}
 													className="item-link"
 													to="/PharmacyManageDrugCategories"
@@ -93,10 +99,10 @@ class Sidebar extends React.Component {
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<a className="item-link" href="#">
+										<Link className="item-link" to="#">
 											<span className="link-text">Drug Sub Categories</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</a>
+										</Link>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link className="item-link" to="/PharmacyCreateDrugSubCategories">
@@ -106,7 +112,7 @@ class Sidebar extends React.Component {
 											<li className="menu-item">
 												<Link
 													onClick={() =>
-														(window.location.href = '/PharmacyManageDrugSubCategories')
+														(window.location.to = '/PharmacyManageDrugSubCategories')
 													}
 													className="item-link"
 													to="/PharmacyManageDrugSubCategories"
@@ -118,20 +124,20 @@ class Sidebar extends React.Component {
 									</li>
 
 									<li className="menu-item has-sub">
-										<a className="item-link" href="#">
+										<Link className="item-link" to="#">
 											<span className="link-text">Drugs</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</a>
+										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<a className="item-link" href="/PharmacyCreateDrug">
+												<Link className="item-link" to="/PharmacyCreateDrug">
 													<span className="link-text">Add Drugs</span>
-												</a>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<a className="item-link" href="/PharmacyManageDrugs">
+												<Link className="item-link" to="/PharmacyManageDrugs">
 													<span className="link-text">Manage Drugs</span>
-												</a>
+												</Link>
 											</li>
 										</ul>
 									</li>
@@ -140,20 +146,20 @@ class Sidebar extends React.Component {
 										<span className="group-title">Profile Settings</span>
 									</li>
 									<li className="menu-item has-sub">
-										<a className="item-link" href="#">
+										<Link className="item-link" to="#">
 											<span className="link-text">My Profile</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</a>
+										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<a className="item-link" href="alerts.html">
+												<Link className="item-link" to="alerts.html">
 													<span className="link-text">View Profile</span>
-												</a>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<a className="item-link" href="autocompletes.html">
+												<Link className="item-link" to="autocompletes.html">
 													<span className="link-text">Update Profile</span>
-												</a>
+												</Link>
 											</li>
 										</ul>
 									</li>
@@ -166,14 +172,14 @@ class Sidebar extends React.Component {
 							</button>
 						</div>
 						<div className="assistant-menu">
-							<a className="link" href="#">
+							<Link className="link" to="#">
 								<span className="link-icon icofont-ui-settings" />
 								Settings{' '}
-							</a>
-							<a className="link" href="#">
+							</Link>
+							<Link className="link" to="#">
 								<span className="link-icon icofont-question-square" />
 								FAQ &amp; Support
-							</a>
+							</Link>
 						</div>
 						<div className="navbar-skeleton vertical">
 							<div className="top-part">

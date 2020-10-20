@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
@@ -57,7 +57,6 @@ class CreateSubCategories extends React.Component {
       const error = await request.json();
       throw Error(error.message);
     }
-    const data = await request.json();
   };
 
   handleChange = async (name, e) => {

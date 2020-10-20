@@ -132,6 +132,7 @@ class Header extends React.Component {
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
+                                            alt="hello"
 										/>{' '}
 										<i className="icofont-simple-down" />
 									</span>

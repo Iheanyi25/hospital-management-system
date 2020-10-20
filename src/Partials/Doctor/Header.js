@@ -129,10 +129,10 @@ class Header extends React.Component {
 									<span className="d-flex align-items-center">
 										<img
 											src="./assets/content/user-400-1.jpg"
-											alt
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
+                                            alt="hello"
 										/>{' '}
 										<i className="icofont-simple-down" />
 									</span>

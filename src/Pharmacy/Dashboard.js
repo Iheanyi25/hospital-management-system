@@ -186,6 +186,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>
@@ -233,6 +234,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>
@@ -280,6 +282,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>
@@ -327,6 +330,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>
@@ -374,6 +378,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>
@@ -421,6 +426,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>
@@ -468,6 +474,7 @@ class Dashboard extends React.Component {
                                   width={40}
                                   height={40}
                                   className="rounded-500"
+                                  alt="hello"
                                 />
                               </td>
                               <td>

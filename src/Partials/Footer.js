@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 class Footer extends React.Component {
 
@@ -24,8 +25,8 @@ class Footer extends React.Component {
                         <div className="row h-100 align-items-center">
                             <div className="col-12 col-md-6 d-none d-md-block">
                                 <ul className="page-breadcrumbs">
-                                    <li className="item"><a href="#" className="link">Dashboards</a> <i className="separator icofont-thin-right" /></li>
-                                    <li className="item"><a href="#" className="link">Default</a> <i className="separator icofont-thin-right" /></li>
+                                    <li className="item"><Link to="#" className="link">Dashboards</Link> <i className="separator icofont-thin-right" /></li>
+                                    <li className="item"><Link to="#" className="link">Default</Link> <i className="separator icofont-thin-right" /></li>
                                 </ul>
                             </div>
                             <div className="col-12 col-md-6 text-right">
