@@ -45,6 +45,7 @@ class Login extends Component {
 			});
 
 			if (!request.ok) {
+				console.log('kfgkgkgfk: ', request.json())
 				const error = await request.json();
 				this.setState({ submitting: false });
 				throw Error(error.message);

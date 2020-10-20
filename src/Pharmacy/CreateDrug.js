@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
@@ -7,20 +6,20 @@ import Footer from "../Partials/Footer";
 import AddDrug from "../Partials/Pharmacy/AddDrug";
 import TemplateSettings from "../Partials/TemplateSettings";
 
-const data = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
-const columns = [
-  {
-    name: "Title",
-    selector: "title",
-    sortable: true,
-  },
-  {
-    name: "Year",
-    selector: "year",
-    sortable: true,
-    right: true,
-  },
-];
+// const data = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
+// const columns = [
+//   {
+//     name: "Title",
+//     selector: "title",
+//     sortable: true,
+//   },
+//   {
+//     name: "Year",
+//     selector: "year",
+//     sortable: true,
+//     right: true,
+//   },
+// ];
 
 class CreateDrug extends React.Component {
   constructor(props) {
@@ -71,8 +70,8 @@ class CreateDrug extends React.Component {
       const data = await request.json();
       console.log(data);
       this.setState({ submittingDrug: false, success: true });
-      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
-      const data1 = await response.json();
+      // const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
+      // const data1 = await response.json();
       this.setState({
         displayNotification: true,
       });

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from '../Partials/Patient/Header';
 import Sidebar from '../Partials/Patient/Sidebar';
 import Footer from '../Partials/Footer'
@@ -54,7 +54,7 @@ class DoctorList extends React.Component {
                                         {this.state.doctors.map((doctor) => (
                                             <div className="col-12 col-md-4">
                                                 <div className="contact">
-                                                    <div className="img-box"><img src="./assets/content/doctor-400-1.jpg" width={400} height={400} alt /></div>
+                                                    <div className="img-box"><img src="./assets/content/doctor-400-1.jpg" width={400} height={400} alt="Hello" /></div>
                                                     <div className="info-box">
                                                         <h4 className="name">Dr. {doctor.applicationUser.firstName} {doctor.applicationUser.lastName}</h4>
                                                         <p className="role">{doctor.doctorProfile.specialization}</p>

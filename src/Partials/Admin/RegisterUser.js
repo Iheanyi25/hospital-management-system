@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class RegisterUser extends React.Component {
   constructor(props) {
@@ -57,25 +57,25 @@ class RegisterUser extends React.Component {
 
       const data = await request.json();
       console.log(roleName);
-      if (roleName == "accountant") {
+      if (roleName === "accountant") {
         this.setState({
           showAccountantSuccessMessage: true,
           successMessage: data.message,
           userId: data.newApplicationUser.id,
         });
-      } else if (roleName == "doctor") {
+      } else if (roleName === "doctor") {
         this.setState({
           showDoctorSuccessMessage: true,
           successMessage: data.message,
           userId: data.newApplicationUser.id,
         });
-      } else if (roleName == "pharmacy") {
+      } else if (roleName === "pharmacy") {
         this.setState({
           showPharmacySuccessMessage: true,
           successMessage: data.message,
           userId: data.newApplicationUser.id,
         });
-      } else if (roleName == "lab") {
+      } else if (roleName === "lab") {
         this.setState({
           showLabSuccessMessage: true,
           successMessage: data.message,
@@ -98,7 +98,6 @@ class RegisterUser extends React.Component {
       email,
       firstName,
       lastName,
-      password,
       roleName,
       userId,
     } = this.state;

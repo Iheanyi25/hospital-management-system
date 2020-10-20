@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class RegisterPatient extends React.Component {
   constructor(props) {
@@ -77,7 +77,6 @@ class RegisterPatient extends React.Component {
       email,
       firstName,
       lastName,
-      password,
       roleName,
       patientId,
     } = this.state;

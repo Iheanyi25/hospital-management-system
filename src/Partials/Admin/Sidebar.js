@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -30,6 +30,7 @@ class Sidebar extends React.Component {
                   width={147}
                   height={33}
                   className="logo-img"
+                  alt="Hello"
                 />
               </div>
             </div>

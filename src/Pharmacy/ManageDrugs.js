@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
@@ -53,8 +52,6 @@ class ManageDrugs extends React.Component {
       }
 
       //Drug successfully deleted
-
-      const data = await request.json();
       const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
       const data1 = await response.json();
       console.log("i work");

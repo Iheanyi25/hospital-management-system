@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Patient/Header";
 import Sidebar from "../Partials/Patient/Sidebar";
 import Footer from "../Partials/Footer";

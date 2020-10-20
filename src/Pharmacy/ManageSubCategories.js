@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Header from "../Partials/Pharmacy/Header";
 import Sidebar from "../Partials/Pharmacy/Sidebar";
 import PageLoader from "../Partials/PageLoader";
@@ -51,8 +50,6 @@ class ManageSubCategories extends React.Component {
       }
 
       //Drug Sub Category successfully deleted
-
-      const data = await request.json();
       const response = await fetch(`${url}/Pharmacy/GetDrugAllSubCategories`);
       const data1 = await response.json();
       setTimeout(

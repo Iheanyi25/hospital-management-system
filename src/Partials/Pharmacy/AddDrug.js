@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class AddDrug extends React.Component {
   constructor(props) {
@@ -43,8 +43,6 @@ class AddDrug extends React.Component {
       }
 
       //Drug successfully added
-
-      const data = await request.json();
       this.setState({ submittingDrug: false, success: true });
       const response = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`);
       const data1 = await response.json();
@@ -81,40 +79,40 @@ class AddDrug extends React.Component {
   };
 
   render() {
-    const { email, firstName, lastName, password, roleName } = this.state;
-    var displayError;
-    var displaySuccess;
+    // const { email, firstName, lastName, password, roleName } = this.state;
+    // var displayError;
+    // var displaySuccess;
 
-    if (this.state.showErrorMessage) {
-      displayError = (
-        <div className="alert alert-danger with-after-icon" role="alert">
-          <div className="alert-content">{this.state.errorMessage}</div>
-          <div className="alert-icon">
-            <i className="icofont-alarm" />
-          </div>
-        </div>
-      );
-    }
+    // if (this.state.showErrorMessage) {
+    //   displayError = (
+    //     <div className="alert alert-danger with-after-icon" role="alert">
+    //       <div className="alert-content">{this.state.errorMessage}</div>
+    //       <div className="alert-icon">
+    //         <i className="icofont-alarm" />
+    //       </div>
+    //     </div>
+    //   );
+    // }
 
-    if (this.state.showSuccessMessage) {
-      displaySuccess = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}.
-            <p class="mb-0 ">
-              Would you like to update his profile?
-              <Link class="btn btn-outline-light">
-                <span class="btn-icon icon icofont-ui-edit mr-2"></span>Update
-                Profile
-              </Link>
-            </p>
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
-      );
-    }
+    // if (this.state.showSuccessMessage) {
+    //   displaySuccess = (
+    //     <div className="alert alert-info with-after-icon" role="alert">
+    //       <div className="alert-content text-center">
+    //         {this.state.successMessage}.
+    //         <p class="mb-0 ">
+    //           Would you like to update his profile?
+    //           <Link class="btn btn-outline-light">
+    //             <span class="btn-icon icon icofont-ui-edit mr-2"></span>Update
+    //             Profile
+    //           </Link>
+    //         </p>
+    //       </div>
+    //       <div className="alert-icon">
+    //         <i className="icon icofont-ui-check" />
+    //       </div>
+    //     </div>
+    //   );
+    // }
 
     return (
       <>
