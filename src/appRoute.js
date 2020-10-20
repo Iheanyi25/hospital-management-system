@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "./Login/Login";
+import Login from "./Pages/Login/Login";
 
 import AdminDashboard from "./Admin/Dashboard";
 import AdminUpdatePatientProfile from "./Admin/UpdatePatientProfile";
@@ -45,7 +45,7 @@ import PharmacyManageDrugSubCategories from "./Pharmacy/ManageSubCategories";
 import PharmacyCreateDrug from "./Pharmacy/CreateDrug";
 import PharmacyManageDrugs from "./Pharmacy/ManageDrugs";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 function AppRoute() {
     return (
@@ -107,6 +107,8 @@ function AppRoute() {
                 <Route exact path="/PharmacyManageDrugSubCategories" component={PharmacyManageDrugSubCategories} />
                 <Route exact path="/PharmacyCreateDrug" component={PharmacyCreateDrug} />
                 <Route exact path="/PharmacyManageDrugs" component={PharmacyManageDrugs} />
+
+                <Route exact path="*" render={() => <Redirect to='/' />} />
 
             </Switch>
         </Router>
