@@ -1,6 +1,8 @@
 import React from "react";
 import Login from "./Pages/Login/Login";
 
+import { AuthRoute, MainRoute } from "./routes";
+
 import AdminDashboard from "./Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "./Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "./Pages/Admin/PreConsultation";
@@ -47,6 +49,13 @@ import PharmacyManageDrugs from "./Pages/Pharmacy/ManageDrugs";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function AppRoute() {
+
+    const [isAuthenticated, setisAuthenticated] = useState(Boolean(JSON.parse(localStorage.getItem("authID"))));
+
+    useEffect(() => {
+        setisAuthenticated(Boolean(JSON.parse(localStorage.getItem("authenticatedUser"))));
+    }, [isAuthenticated]);
+
     return (
         <Router>
             <Switch>
