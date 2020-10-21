@@ -1,5 +1,6 @@
 import React from "react";
 import AppRoute from "./AppRoute";
+import "./App.css"
 
 function App() {
   return (

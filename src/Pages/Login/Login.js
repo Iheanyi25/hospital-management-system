@@ -105,15 +105,15 @@ class Login extends Component {
 							className={styles.form}
 							onSubmit={(e) => this.login(e)}
 						>
-							<div class="form-group">
+							<div className="form-group">
 								<label>Email Address</label>
-								<input class="form-control" type="email" name="email" value={this.state.email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
+								<input className="form-control" type="email" name="email" value={this.state.email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
 
 							</div>
 
-							<div class="form-group">
+							<div className="form-group">
 								<label>Password</label>
-								<input class="form-control" type="password" name="password" value={password} onChange={(e) => this.handleChange("password", e)} placeholder="Your Password" required />
+								<input className="form-control" type="password" name="password" value={password} onChange={(e) => this.handleChange("password", e)} placeholder="Your Password" required />
 
 							</div>
 
@@ -128,7 +128,7 @@ class Login extends Component {
 										: false
 								}
 							>
-								<span class="btn-icon icofont-location-arrow mr-2"></span> Login
+								<span className="btn-icon icofont-location-arrow mr-2"></span> Login
 							</button>
 						</form>
 					</div>
