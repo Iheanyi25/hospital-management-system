@@ -1,49 +1,48 @@
 import React from "react";
-import Login from "./Login/Login";
+import Login from "./Pages/Login/Login";
 
-import AdminDashboard from "./Admin/Dashboard";
-import AdminUpdatePatientProfile from "./Admin/UpdatePatientProfile";
-import AdminPreConsultation from "./Admin/PreConsultation";
-import AdminAllPatients from "./Admin/AllPatients";
-import AdminAllDoctors from "./Admin/AllDoctors";
-import AdminAppointments from "./Admin/Appointments";
-import AdminBookAppointment from "./Admin/BookAppointment";
-import AdminDoctorAppointments from "./Admin/DoctorAppointments";
-import AdminBookConsultation from "./Admin/BookConsultation";
-import AdminConsultationQueue from "./Admin/ConsultationQueue";
-import AdminDoctorConsultationQueue from "./Admin/DoctorConsultationQueue";
+import AdminDashboard from "./Pages/Admin/Dashboard";
+import AdminUpdatePatientProfile from "./Pages/Admin/UpdatePatientProfile";
+import AdminPreConsultation from "./Pages/Admin/PreConsultation";
+import AdminAllPatients from "./Pages/Admin/AllPatients";
+import AdminAllDoctors from "./Pages/Admin/AllDoctors";
+import AdminAppointments from "./Pages/Admin/Appointments";
+import AdminBookAppointment from "./Pages/Admin/BookAppointment";
+import AdminDoctorAppointments from "./Pages/Admin/DoctorAppointments";
+import AdminBookConsultation from "./Pages/Admin/BookConsultation";
+import AdminConsultationQueue from "./Pages/Admin/ConsultationQueue";
+import AdminDoctorConsultationQueue from "./Pages/Admin/DoctorConsultationQueue";
 
-import DoctorDashboard from "./Doctor/Dashboard";
-import DoctorPatientsList from "./Doctor/Patients";
-import DoctorConsultationQueue from "./Doctor/ConsultationQueue";
-import DoctorAppointments from "./Doctor/Appointments";
-import DoctorCreateSchedule from "./Doctor/CreateSchedule";
-import DoctorSchedules from "./Doctor/Schedules";
-import DoctorPatientProfile from "./Doctor/PatientProfile";
-import DoctorPatientMedicalHistory from "./Doctor/PatientMedicalHistory";
-import DoctorConsultation from "./Doctor/Consultation";
-import DoctorProfile from "./Doctor/DoctorProfile";
-import DoctorUpdateProfile from "./Doctor/UpdateDoctorProfile";
-import DoctorAvaliablity from "./Doctor/Avaliablity";
+import DoctorDashboard from "./Pages/Doctor/Dashboard";
+import DoctorPatientsList from "./Pages/Doctor/Patients";
+import DoctorConsultationQueue from "./Pages/Doctor/ConsultationQueue";
+import DoctorAppointments from "./Pages/Doctor/Appointments";
+import DoctorCreateSchedule from "./Pages/Doctor/CreateSchedule";
+import DoctorSchedules from "./Pages/Doctor/Schedules";
+import DoctorPatientProfile from "./Pages/Doctor/PatientProfile";
+import DoctorPatientMedicalHistory from "./Pages/Doctor/PatientMedicalHistory";
+import DoctorConsultation from "./Pages/Doctor/Consultation";
+import DoctorProfile from "./Pages/Doctor/DoctorProfile";
+import DoctorUpdateProfile from "./Pages/Doctor/UpdateDoctorProfile";
+import DoctorAvaliablity from "./Pages/Doctor/Avaliablity";
 
-import PatientDashboard from "./Patient/Dashboard";
-import PatientAppointments from "./Patient/Appointments";
-import PatientConsultations from "./Patient/Consultations";
-import PatientBookAppointment from "./Patient/BookAppointment";
-import PatientBookConsultation from "./Patient/BookConsultation";
-import PatientDoctorList from "./Patient/DoctorList";
-import PatientDoctorProfile from "./Patient/DoctorProfile";
+import PatientDashboard from "./Pages/Patient/Dashboard";
+import PatientAppointments from "./Pages/Patient/Appointments";
+import PatientConsultations from "./Pages/Patient/Consultations";
+import PatientBookAppointment from "./Pages/Patient/BookAppointment";
+import PatientBookConsultation from "./Pages/Patient/BookConsultation";
+import PatientDoctorList from "./Pages/Patient/DoctorList";
+import PatientDoctorProfile from "./Pages/Patient/DoctorProfile";
 
+import AccountantDashboard from "./Pages/Accountant/Dashboard";
 
-import AccountantDashboard from "./Accountant/Dashboard";
-
-import PharmacyDashboard from "./Pharmacy/Dashboard";
-import PharmacyCreateDrugCategories from "./Pharmacy/CreateCategories";
-import PharmacyManageDrugCategories from "./Pharmacy/ManageCategories";
-import PharmacyCreateDrugSubCategories from "./Pharmacy/CreateSubCategories";
-import PharmacyManageDrugSubCategories from "./Pharmacy/ManageSubCategories";
-import PharmacyCreateDrug from "./Pharmacy/CreateDrug";
-import PharmacyManageDrugs from "./Pharmacy/ManageDrugs";
+import PharmacyDashboard from "./Pages/Pharmacy/Dashboard";
+import PharmacyCreateDrugCategories from "./Pages/Pharmacy/CreateCategories";
+import PharmacyManageDrugCategories from "./Pages/Pharmacy/ManageCategories";
+import PharmacyCreateDrugSubCategories from "./Pages/Pharmacy/CreateSubCategories";
+import PharmacyManageDrugSubCategories from "./Pages/Pharmacy/ManageSubCategories";
+import PharmacyCreateDrug from "./Pages/Pharmacy/CreateDrug";
+import PharmacyManageDrugs from "./Pages/Pharmacy/ManageDrugs";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -59,12 +58,14 @@ function AppRoute() {
                 <Route exact path="/AdminDashboard" component={AdminDashboard} />
                 <Route exact path="/AdminUpdatePatientProfile/:id" component={AdminUpdatePatientProfile} />
                 <Route exact path="/AdminPreConsultation/:id" component={AdminPreConsultation} />
-                <Route path="/AdminAllPatients" component={AdminAllPatients} />
-                <Route path="/AdminAllDoctors" component={AdminAllDoctors} />
+                <Route exact path="/AdminAllPatients" component={AdminAllPatients} />
+                <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
+
 
                 <Route exact path="/AdminBookAppointment/:doctorId" component={AdminBookAppointment} />
                 <Route exact path="/AdminAppointments" component={AdminAppointments} />
                 <Route exact path="/AdminDoctorAppointments/:doctorId" component={AdminDoctorAppointments} />
+
 
                 <Route exact path="/AdminBookConsultation/:doctorId" component={AdminBookConsultation} />
                 <Route exact path="/AdminConsultationQueue" component={AdminConsultationQueue} />
@@ -94,6 +95,7 @@ function AppRoute() {
                 <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
                 <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
                 <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
+
 
                 {/* Register the admin accountant here */}
                 <Route exact path="/AccountantDashboard" component={AccountantDashboard} />
