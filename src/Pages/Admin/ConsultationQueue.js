@@ -1,8 +1,8 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../../Components/Admin/Header";
-import Sidebar from "../../Components/Admin/Sidebar";
+import Header from "../../Components/Header/AdminHeader";
+import Sidebar from "../../Components/Sidebar/AdminSidebar";
 import Footer from "../../Components/Footer";
 import TemplateSettings from "../../Components/TemplateSettings";
 import PageLoader from "../../Components/PageLoader";

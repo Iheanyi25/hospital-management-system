@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../Components/Patient/Header';
-import Sidebar from '../../Components/Patient/Sidebar';
+import Header from '../../Components/Header/PatientHeader';
+import Sidebar from '../../Components/Sidebar/PatientSidebar';
 import Footer from '../../Components/Footer';
 import TemplateSettings from '../../Components/TemplateSettings';
 import DoctorSearch from '../../Components/Patient/SearchDoctors';

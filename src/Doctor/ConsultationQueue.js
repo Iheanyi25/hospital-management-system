@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../../Components/Header/DoctorHeader";
-import Sidebar from "../../Components/Sidebar/DoctorSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import PageLoader from "../../Components/PageLoader";
+import Header from "../Components/Header/DoctorHeader";
+import Sidebar from "../Components/Sidebar/DoctorSidebar";
+import Footer from "../Components/Footer";
+import TemplateSettings from "../Components/TemplateSettings";
+import PageLoader from "../Components/PageLoader";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");

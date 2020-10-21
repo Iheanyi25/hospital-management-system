@@ -1,33 +1,33 @@
 import React from "react";
-import Header from "../../Components/Header/PharmacyHeader";
-import Sidebar from "../../Components/Sidebar/PharmacySidebar";
-import PageLoader from "../../Components/PageLoader";
-import Footer from "../../Components/Footer";
-import AddDrug from "../../Components/Pharmacy/AddDrug";
-import TemplateSettings from "../../Components/TemplateSettings";
+import Header from "../Components/Header/PharmacyHeader";
+import Sidebar from "../Components/Sidebar/PharmacySidebar";
+import PageLoader from "../Components/PageLoader";
+import Footer from "../Components/Footer";
+import AddDrug from "../Components/Pharmacy/AddDrug";
+import TemplateSettings from "../Components/TemplateSettings";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
-class ManageCategories extends React.Component {
+class ManageDrugs extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      drugCategories: [],
+      drugs: [],
       apiUrl: process.env.REACT_APP_API_URL,
     };
   }
 
   async componentDidMount() {
-    this.getAllDrugCategories().then(() => this.sync());
+    this.getAllDrugs().then(() => this.sync());
   }
 
-  async getAllDrugCategories() {
+  async getAllDrugs() {
     const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Pharmacy/GetAllDrugCategories`);
+    const response = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`);
     const data = await response.json();
-    this.setState({ drugCategories: data });
+    this.setState({ drugs: data });
   }
 
   sync() {
@@ -35,21 +35,16 @@ class ManageCategories extends React.Component {
     this.$el.DataTable();
   }
 
-  deleteDrugCategory = async (id) => {
-    //e.preventDefault();
-    const { url } = this.state;
+  deleteDrug = async (id) => {
     try {
+      const { url } = this.state;
       var Id = id;
-
-      const request = await fetch(
-        `${url}/Pharmacy/DeleteDrugCategory?Id=${Id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const request = await fetch(`${url}/Pharmacy/DeleteDrug?Id=${Id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!request.ok) {
         const error = await request.json();
@@ -57,12 +52,13 @@ class ManageCategories extends React.Component {
       }
 
       //Drug successfully deleted
-      const response = await fetch(`${url}/Pharmacy/GetAllDrugCategories`);
+      const response = await fetch(`${url}/Pharmacy/GetAllDrugs`);
       const data1 = await response.json();
+      console.log("i work");
       setTimeout(
         () =>
           this.setState({
-            drugCategories: data1,
+            drugs: data1,
           }),
         300
       );
@@ -72,7 +68,7 @@ class ManageCategories extends React.Component {
   };
 
   render() {
-    const { drugCategories } = this.state;
+    const { drugs } = this.state;
     return (
       <>
         <PageLoader />
@@ -88,9 +84,10 @@ class ManageCategories extends React.Component {
               <div className="app-loader">
                 <i className="icofont-spinner-alt-4 rotate" />
               </div>
+
               <div className="main-content-wrap">
                 <header className="page-header">
-                  <h4 className="page-title">Manage Categories</h4>
+                  <h4 className="page-title">Manage Drugs</h4>
                 </header>
                 <div className="page-content">
                   <div className="card-body"></div>
@@ -105,6 +102,7 @@ class ManageCategories extends React.Component {
                           data-columns='[
                         { "data": "name" },
                         { "data": "description" },
+                        { "data": "price" },
                         { "data": "actions" }
                       ]'
                           data-paging="true"
@@ -114,34 +112,36 @@ class ManageCategories extends React.Component {
                             <tr>
                               <th>Name</th>
                               <th>Description</th>
+                              <th>Price</th>
                               <th>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {drugCategories
-                              ? drugCategories.map((drugCategory) => (
-                                <tr>
-                                  <td>{drugCategory.name}</td>
-                                  <td>not available</td>
-                                  <td>
-                                    <div className="actions">
-                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-edit" />
-                                      </button>
-                                      <button
-                                        onClick={() =>
-                                          this.deleteDrugCategory(
-                                            drugCategory.id
-                                          )
-                                        }
-                                        className="btn btn-error btn-sm btn-square rounded-pill"
-                                      >
-                                        <span className="btn-icon icofont-ui-delete" />
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
+                            {drugs
+                              ? drugs.map((drug) => (
+                                  <tr>
+                                    <td>{drug.name}</td>
+                                    <td>{drug.description}</td>
+                                    <td>{drug.price}</td>
+
+                                    <td>
+                                      <div className="actions">
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+
+                                        <button
+                                          onClick={() =>
+                                            this.deleteDrug(drug.id)
+                                          }
+                                          className="btn btn-error btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                               : null}
                           </tbody>
                         </table>
@@ -174,4 +174,4 @@ class ManageCategories extends React.Component {
   }
 }
 
-export default ManageCategories;
+export default ManageDrugs;
