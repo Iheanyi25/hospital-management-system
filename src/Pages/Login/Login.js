@@ -56,24 +56,26 @@ class Login extends Component {
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("authenticatedUser", JSON.stringify(data.authenticatedUser));
 
-			if (data.authenticatedUser.userType === "Admin" || data.authenticatedUser.userType === "admin") {
-				this.props.history.push("/AdminDashboard");
+			this.props.history.push("/dashboard")
 
-			} else if (data.authenticatedUser.userType === "Patient" || data.authenticatedUser.userType === "patient") {
-				this.props.history.push("/PatientDashboard");
+			// if (data.authenticatedUser.userType === "Admin" || data.authenticatedUser.userType === "admin") {
+			// 	this.props.history.push("/AdminDashboard");
 
-			} else if (data.authenticatedUser.userType === "Doctor" || data.authenticatedUser.userType === "doctor") {
-				this.props.history.push("/DoctorDashboard");
+			// } else if (data.authenticatedUser.userType === "Patient" || data.authenticatedUser.userType === "patient") {
+			// 	this.props.history.push("/PatientDashboard");
 
-			} else if (data.authenticatedUser.userType === "Accountant" || data.authenticatedUser.userType === "accountant") {
-				this.props.history.push("/AccountantDashboard");
+			// } else if (data.authenticatedUser.userType === "Doctor" || data.authenticatedUser.userType === "doctor") {
+			// 	this.props.history.push("/DoctorDashboard");
 
-			} else if (data.authenticatedUser.userType === "Pharmacy" || data.authenticatedUser.userType === "pharmacy") {
-				this.props.history.push("/PharmacyDashboard");
+			// } else if (data.authenticatedUser.userType === "Accountant" || data.authenticatedUser.userType === "accountant") {
+			// 	this.props.history.push("/AccountantDashboard");
 
-			} else if (data.authenticatedUser.userType === "Lab" || data.authenticatedUser.userType === "lab") {
-				this.props.history.push("/LabDashboard");
-			}
+			// } else if (data.authenticatedUser.userType === "Pharmacy" || data.authenticatedUser.userType === "pharmacy") {
+			// 	this.props.history.push("/PharmacyDashboard");
+
+			// } else if (data.authenticatedUser.userType === "Lab" || data.authenticatedUser.userType === "lab") {
+			// 	this.props.history.push("/LabDashboard");
+			// }
 
 		} catch (err) {
 			console.log(err.message)

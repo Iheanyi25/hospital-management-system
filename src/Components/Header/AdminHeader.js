@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { logOut } from '../../utils/logout';
 
 class AdminHeader extends React.Component {
 	constructor(props) {
@@ -7,14 +8,8 @@ class AdminHeader extends React.Component {
 		this.state = {
 			endpoint: process.env.REACT_APP_API_URL,
 		};
-
-		this.logOut = this.logOut.bind(this);
 	}
 
-	logOut(props) {
-		this.props.history.push('/');
-		localStorage.clear();
-	}
 
 	render() {
 		return (
@@ -160,7 +155,7 @@ class AdminHeader extends React.Component {
 											</Link>
 										</li>
 										<li>
-											<Link to="#" className="align-items-center">
+											<Link to="#" onClick={()=>logOut(this.props.history)} className="align-items-center">
 												<span className="icon icofont-logout" />
 												Log Out
 											</Link>
