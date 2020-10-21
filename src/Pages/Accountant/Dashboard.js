@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import Header from '../../Components/Admin/Header';
-import Sidebar from '../../Components/Admin/Sidebar';
+import Header from '../../Components/Header/AdminHeader';
+import Sidebar from '../../Components/Sidebar/AdminSidebar';
 import PageLoader from '../../Components/PageLoader'
 
 class Dashboard extends React.Component {
@@ -27,7 +27,7 @@ class Dashboard extends React.Component {
                         <Header></Header>
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <Sidebar />
 
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>

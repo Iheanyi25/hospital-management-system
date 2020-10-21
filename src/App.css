@@ -12,3 +12,8 @@ body {
     width: 100vw;
     height: 100vh;
 }
+
+.activeNavItem {
+    background: transparent;
+    color: #336cfb;
+}

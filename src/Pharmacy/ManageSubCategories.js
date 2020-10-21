@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../../Components/Header/PharmacyHeader";
-import Sidebar from "../../Components/Sidebar/PharmacySidebar";
-import PageLoader from "../../Components/PageLoader";
-import Footer from "../../Components/Footer";
-import AddDrug from "../../Components/Pharmacy/AddDrug";
-import TemplateSettings from "../../Components/TemplateSettings";
+import Header from "../Components/Header/PharmacyHeader";
+import Sidebar from "../Components/Sidebar/PharmacySidebar";
+import PageLoader from "../Components/PageLoader";
+import Footer from "../Components/Footer";
+import AddDrug from "../Components/Pharmacy/AddDrug";
+import TemplateSettings from "../Components/TemplateSettings";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -124,31 +124,31 @@ class ManageSubCategories extends React.Component {
                           <tbody>
                             {drugSubCategories
                               ? drugSubCategories.map((drugSubCategory) => (
-                                <tr>
-                                  <td>{drugSubCategory.name}</td>
-                                  <td>Position</td>
-                                  <td>Office</td>
-                                  <td>Age</td>
-                                  <td>Date</td>
-                                  <td>
-                                    <div className="actions">
-                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-edit" />
-                                      </button>
-                                      <button
-                                        onClick={() =>
-                                          this.deleteDrugSubCategory(
-                                            drugSubCategory.id
-                                          )
-                                        }
-                                        className="btn btn-error btn-sm btn-square rounded-pill"
-                                      >
-                                        <span className="btn-icon icofont-ui-delete" />
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
+                                  <tr>
+                                    <td>{drugSubCategory.name}</td>
+                                    <td>Position</td>
+                                    <td>Office</td>
+                                    <td>Age</td>
+                                    <td>Date</td>
+                                    <td>
+                                      <div className="actions">
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button
+                                          onClick={() =>
+                                            this.deleteDrugSubCategory(
+                                              drugSubCategory.id
+                                            )
+                                          }
+                                          className="btn btn-error btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                               : null}
                           </tbody>
                         </table>
