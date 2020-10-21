@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from "../Partials/Doctor/Header";
-import Sidebar from "../Partials/Doctor/Sidebar";
-import PageLoader from "../Partials/PageLoader";
-import Footer from "../Partials/Footer";
-import CreateSchedule from "../Partials/Doctor/SearchPatient";
-import TemplateSettings from "../Partials/TemplateSettings";
+import Header from "../../Components/Doctor/Header";
+import Sidebar from "../../Components/Doctor/Sidebar";
+import PageLoader from "../../Components/PageLoader";
+import Footer from "../../Components/Footer";
+import CreateSchedule from "../../Components/Doctor/SearchPatient";
+import TemplateSettings from "../../Components/TemplateSettings";
 
 function getTime(date) {
   let _date = new Date(date);

@@ -1,11 +1,11 @@
 import React from 'react'
-import Header from '../Partials/Admin/Header';
-import Sidebar from '../Partials/Admin/Sidebar';
-import RegisterPatient from '../Partials/Admin/RegisterPatient'
-import RegisterUser from '../Partials/Admin/RegisterUser'
-import TemplateSettings from '../Partials/TemplateSettings'
-import PageLoader from '../Partials/PageLoader'
-import Footer from '../Partials/Footer'
+import Header from '../../Components/Admin/Header';
+import Sidebar from '../../Components/Admin/Sidebar';
+import RegisterPatient from '../../Components/Admin/RegisterPatient'
+import RegisterUser from '../../Components/Admin/RegisterUser'
+import TemplateSettings from '../../Components/TemplateSettings'
+import PageLoader from '../../Components/PageLoader'
+import Footer from '../../Components/Footer'
 
 class Dashboard extends React.Component {
 

@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../Partials/Doctor/Header";
-import Sidebar from "../Partials/Doctor/Sidebar";
-import Footer from "../Partials/Footer";
-import TemplateSettings from "../Partials/TemplateSettings";
-import PageLoader from "../Partials/PageLoader";
+import Header from "../../Components/Doctor/Header";
+import Sidebar from "../../Components/Doctor/Sidebar";
+import Footer from "../../Components/Footer";
+import TemplateSettings from "../../Components/TemplateSettings";
+import PageLoader from "../../Components/PageLoader";
 
 class Consultation extends React.Component {
   constructor(props) {

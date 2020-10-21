@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../Partials/Admin/Header";
-import Sidebar from "../Partials/Admin/Sidebar";
-import Footer from "../Partials/Footer";
-import TemplateSettings from "../Partials/TemplateSettings";
-import RegisterPatient from "../Partials/Admin/RegisterPatient";
-import PageLoader from "../Partials/PageLoader";
+import Header from "../../Components/Admin/Header";
+import Sidebar from "../../Components/Admin/Sidebar";
+import Footer from "../../Components/Footer";
+import TemplateSettings from "../../Components/TemplateSettings";
+import RegisterPatient from "../../Components/Admin/RegisterPatient";
+import PageLoader from "../../Components/PageLoader";
 
 class PreConsultation extends React.Component {
   constructor(props) {

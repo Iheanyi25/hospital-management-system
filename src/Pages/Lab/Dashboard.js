@@ -1,10 +1,9 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from '../Partials/Doctor/Header';
-import Sidebar from '../Partials/Doctor/Sidebar';
-import PageLoader from '../Partials/PageLoader';
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
+import Header from '../../Components/Doctor/Header';
+import Sidebar from '../../Components/Doctor/Sidebar';
+import PageLoader from '../../Components/PageLoader';
+import Footer from '../../Components/Footer'
+import TemplateSettings from '../../Components/TemplateSettings'
 
 class Dashboard extends React.Component {
 
@@ -22,16 +21,16 @@ class Dashboard extends React.Component {
         return (
 
             <>
-                
-                <PageLoader/>
+
+                <PageLoader />
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
                         <Header></Header>
-                       
+
                         {/* Vertical navbar */}
                         <Sidebar></Sidebar>
-                       
+
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
@@ -103,32 +102,32 @@ class Dashboard extends React.Component {
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                        <div class="card bg-light">
-                                            <div class="card-header">Welcome Dr. Michae</div>
-                                            <div class="card-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Distinctio dolore enim, nemo nihil non omnis
-                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                                            dolor sit amet, consectetur adipisicing elit. Dicta,
-                                            provident?
+                                            <div class="card bg-light">
+                                                <div class="card-header">Welcome Dr. Michae</div>
+                                                <div class="card-body">
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing
+                                                    elit. Distinctio dolore enim, nemo nihil non omnis
+                                                    temporibus? Blanditiis culpa labore velit.Lorem ipsum
+                                                    dolor sit amet, consectetur adipisicing elit. Dicta,
+                                                    provident?
                                             </div>
-                                        </div>
+                                            </div>
                                         </div>
                                         <div class="col-12 col-md-6">
-                                        <div class="card text-white bg-primary">
-                                            <div class="card-header">Important Updates</div>
-                                            <div class="card-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Distinctio dolore enim, nemo nihil non omnis
-                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                                            dolor sit amet, consectetur adipisicing elit. Dicta,
-                                            provident?
+                                            <div class="card text-white bg-primary">
+                                                <div class="card-header">Important Updates</div>
+                                                <div class="card-body">
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing
+                                                    elit. Distinctio dolore enim, nemo nihil non omnis
+                                                    temporibus? Blanditiis culpa labore velit.Lorem ipsum
+                                                    dolor sit amet, consectetur adipisicing elit. Dicta,
+                                                    provident?
+                                            </div>
                                             </div>
                                         </div>
-                                        </div>
                                     </div>
-                 
-                                   
+
+
                                     <div className="card mb-0">
                                         <div className="card-header">Recent appointments</div>
                                         <div className="card-body">
@@ -344,14 +343,14 @@ class Dashboard extends React.Component {
                             <div className="modal-body">
                                 <form>
                                     <div className="form-group"><input className="form-control" type="text" placeholder="Email" /></div>
-                                   
+
                                 </form>
                             </div>
                             <div className="modal-footer d-block">
                                 <div className="actions justify-content-between">
-                                    <button type="button" className="btn btn-error" data-dismiss="modal">Cancel</button> 
+                                    <button type="button" className="btn btn-error" data-dismiss="modal">Cancel</button>
                                     <button type="button" className="btn btn-info">Fetch Patient</button>
-                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -359,7 +358,7 @@ class Dashboard extends React.Component {
                 <TemplateSettings />
             </>
 
-        
+
         )
     }
 }

@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../Partials/Pharmacy/Header";
-import Sidebar from "../Partials/Pharmacy/Sidebar";
-import PageLoader from "../Partials/PageLoader";
-import Footer from "../Partials/Footer";
-import AddDrug from "../Partials/Pharmacy/AddDrug";
-import TemplateSettings from "../Partials/TemplateSettings";
+import Header from "../../Components/Pharmacy/Header";
+import Sidebar from "../../Components/Pharmacy/Sidebar";
+import PageLoader from "../../Components/PageLoader";
+import Footer from "../../Components/Footer";
+import AddDrug from "../../Components/Pharmacy/AddDrug";
+import TemplateSettings from "../../Components/TemplateSettings";
 
 class CreateCategories extends React.Component {
   constructor(props) {

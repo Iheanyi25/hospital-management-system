@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from '../Partials/Admin/Header';
-import Sidebar from '../Partials/Admin/Sidebar';
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
-import PageLoader from '../Partials/PageLoader'
+import Header from '../../Components/Admin/Header';
+import Sidebar from '../../Components/Admin/Sidebar';
+import Footer from '../../Components/Footer'
+import TemplateSettings from '../../Components/TemplateSettings'
+import PageLoader from '../../Components/PageLoader'
 
 class PatientProfile extends React.Component {
 

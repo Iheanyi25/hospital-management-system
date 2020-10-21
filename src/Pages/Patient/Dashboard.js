@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../Partials/Patient/Header';
-import Sidebar from '../Partials/Patient/Sidebar';
-import PageLoader from '../Partials/PageLoader';
-import Footer from '../Partials/Footer';
-import TemplateSettings from '../Partials/TemplateSettings';
-import DoctorSearch from '../Partials/Patient/SearchDoctors';
+import Header from '../../Components/Patient/Header';
+import Sidebar from '../../Components/Patient/Sidebar';
+import PageLoader from '../../Components/PageLoader';
+import Footer from '../../Components/Footer';
+import TemplateSettings from '../../Components/TemplateSettings';
+import DoctorSearch from '../../Components/Patient/SearchDoctors';
 
 class Dashboard extends React.Component {
 	constructor(props) {

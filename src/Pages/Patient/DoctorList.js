@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import Header from '../Partials/Patient/Header';
-import Sidebar from '../Partials/Patient/Sidebar';
-import Footer from '../Partials/Footer'
-import TemplateSettings from "../Partials/TemplateSettings";
-import DoctorSearch from "../Partials/Patient/SearchDoctors";
-import PageLoader from '../Partials/PageLoader'
+import Header from '../../Components/Patient/Header';
+import Sidebar from '../../Components/Patient/Sidebar';
+import Footer from '../../Components/Footer'
+import TemplateSettings from "../../Components/TemplateSettings";
+import DoctorSearch from "../../Components/Patient/SearchDoctors";
+import PageLoader from '../../Components/PageLoader'
 
 class DoctorList extends React.Component {
 

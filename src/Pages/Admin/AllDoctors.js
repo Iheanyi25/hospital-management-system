@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../Partials/Admin/Header";
-import Sidebar from "../Partials/Admin/Sidebar";
-import Footer from "../Partials/Footer";
-import TemplateSettings from "../Partials/TemplateSettings";
-import RegisterPatient from "../Partials/Admin/RegisterPatient";
-import PageLoader from "../Partials/PageLoader";
+import Header from "../../Components/Admin/Header";
+import Sidebar from "../../Components/Admin/Sidebar";
+import Footer from "../../Components/Footer";
+import TemplateSettings from "../../Components/TemplateSettings";
+import RegisterPatient from "../../Components/Admin/RegisterPatient";
+import PageLoader from "../../Components/PageLoader";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -143,7 +143,7 @@ class AllDoctors extends React.Component {
                                                                             Action
                                                                     </button>
                                                                         <div className="dropdown-menu">
-                                                                        <Link
+                                                                            <Link
                                                                                 title="Pre-consultation"
 
                                                                                 to={`/AdminBookConsultation/${doctor.id}`}
@@ -152,7 +152,7 @@ class AllDoctors extends React.Component {
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             Book Consultation
                                                                         </Link>
-                                                                        <Link
+                                                                            <Link
                                                                                 title="Pre-consultation"
 
                                                                                 to={`/AdminDoctorConsultationQueue/${doctor.id}`}
@@ -161,7 +161,7 @@ class AllDoctors extends React.Component {
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Consultation Queue
                                                                         </Link>
-                                                                        <Link
+                                                                            <Link
                                                                                 title="Pre-consultation"
 
                                                                                 to={`/AdminBookAppointment/${doctor.id}`}
@@ -170,7 +170,7 @@ class AllDoctors extends React.Component {
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             Book Appointment
                                                                         </Link>
-                                                                        <Link
+                                                                            <Link
                                                                                 title="Pre-consultation"
                                                                                 onClick={() =>
                                                                                     (window.location.href = `/AdminConsultationQueue`)
@@ -181,7 +181,7 @@ class AllDoctors extends React.Component {
                                                                                 <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Appointment List
                                                                         </Link>
-                                                                        <Link
+                                                                            <Link
                                                                                 title="Pre-consultation"
                                                                                 onClick={() =>
                                                                                     (window.location.href = `/AdminUpdatePatientProfile`)

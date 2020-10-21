@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from '../Partials/Doctor/Header';
-import Sidebar from '../Partials/Doctor/Sidebar';
-import PageLoader from '../Partials/PageLoader';
-import Footer from '../Partials/Footer'
-import TemplateSettings from '../Partials/TemplateSettings'
-import SearchPatient from '../Partials/Doctor/SearchPatient'
+import Header from '../../Components/Doctor/Header';
+import Sidebar from '../../Components/Doctor/Sidebar';
+import PageLoader from '../../Components/PageLoader';
+import Footer from '../../Components/Footer'
+import TemplateSettings from '../../Components/TemplateSettings'
+import SearchPatient from '../../Components/Doctor/SearchPatient'
 
 class Dashboard extends React.Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import Header from '../Partials/Admin/Header';
-import Sidebar from '../Partials/Admin/Sidebar';
-import PageLoader from '../Partials/PageLoader'
+import Header from '../../Components/Admin/Header';
+import Sidebar from '../../Components/Admin/Sidebar';
+import PageLoader from '../../Components/PageLoader'
 
 class Dashboard extends React.Component {
 
