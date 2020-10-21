@@ -75,14 +75,14 @@ class Sidebar extends React.Component {
 										<span className="group-title">User Management</span>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Patients</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link
-													to="/"
+													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-patient"
@@ -98,14 +98,14 @@ class Sidebar extends React.Component {
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Doctors</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link
-													to="/"
+													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
@@ -122,14 +122,14 @@ class Sidebar extends React.Component {
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Pharmacists</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link
-													to="/"
+													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
@@ -138,7 +138,7 @@ class Sidebar extends React.Component {
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link to="/" className="item-link">
+												<Link to="#" className="item-link">
 													<span className="link-text">Manage Pharmacists</span>
 												</Link>
 											</li>
@@ -146,14 +146,14 @@ class Sidebar extends React.Component {
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Accountants</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link
-													to="/"
+													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
@@ -162,7 +162,7 @@ class Sidebar extends React.Component {
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link to="/" className="item-link">
+												<Link to="#" className="item-link">
 													<span className="link-text">Manage Accountants</span>
 												</Link>
 											</li>
@@ -170,14 +170,14 @@ class Sidebar extends React.Component {
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Other Admins</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link
-													to="/"
+													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
@@ -186,7 +186,7 @@ class Sidebar extends React.Component {
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link to="/" className="item-link">
+												<Link to="#" className="item-link">
 													<span className="link-text">Manage Other Admins</span>
 												</Link>
 											</li>
@@ -196,18 +196,18 @@ class Sidebar extends React.Component {
 										<span className="group-title">Schedules Mgt.</span>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">My Schedule</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link to="/" className="item-link">
+												<Link to="#" className="item-link">
 													<span className="link-text">Create a Schedule</span>
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link to="/" className="item-link">
+												<Link to="#" className="item-link">
 													<span className="link-text">Manage Schedules</span>
 												</Link>
 											</li>
@@ -223,11 +223,11 @@ class Sidebar extends React.Component {
 						</div>
 
 						<div className="assistant-menu">
-							<Link to="/" className="link">
+							<Link to="#" className="link">
 								<span className="link-icon icofont-ui-settings" />
 								Settings{' '}
 							</Link>
-							<Link to="/" className="link">
+							<Link to="#" className="link">
 								<span className="link-icon icofont-question-square" />
 								FAQ &amp; Support
 							</Link>
