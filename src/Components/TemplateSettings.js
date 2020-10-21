@@ -93,4 +93,4 @@ class TemplateSettings extends React.Component {
   }
 }
 
-export default TemplateSettings;
+export { TemplateSettings };

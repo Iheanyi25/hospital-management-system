@@ -1,10 +1,11 @@
 import React from "react";
-import Header from "../../Components/Header/PharmacyHeader";
-import Sidebar from "../../Components/Sidebar/PharmacySidebar";
-import PageLoader from "../../Components/PageLoader";
-import Footer from "../../Components/Footer";
-import AddDrug from "../../Components/Pharmacy/AddDrug";
-import TemplateSettings from "../../Components/TemplateSettings";
+import { AddDrugModal, Footer, PageLoader, PharmacyHeader, PharmacySidebar, TemplateSettings } from "../../Components";
+// import Header from "../../Components/Header/PharmacyHeader";
+// import Sidebar from "../../Components/Sidebar/PharmacySidebar";
+// import PageLoader from "../../Components/Loader/PageLoader";
+// import Footer from "../../Components/Footer";
+// import AddDrug from "../../Components/Modals/AddDrug";
+// import TemplateSettings from "../../Components/TemplateSettings";
 
 class CreateCategories extends React.Component {
   constructor(props) {
@@ -69,10 +70,10 @@ class CreateCategories extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <PharmacyHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <PharmacySidebar />
 
             <main className="main-content">
               <div className="app-loader">
@@ -152,7 +153,7 @@ class CreateCategories extends React.Component {
         </div>
 
         {/* Add Drug Modal */}
-        <AddDrug />
+        <AddDrugModal />
         <TemplateSettings />
       </>
     );

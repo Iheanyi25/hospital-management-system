@@ -1,11 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../../Components/Header/AdminHeader";
-import Sidebar from "../../Components/Sidebar/AdminSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import RegisterPatient from "../../Components/Admin/RegisterPatient";
-import PageLoader from "../../Components/PageLoader";
+import { DoctorHeader, DoctorSidebar, PageLoader, RegisterPatientModal, Footer, TemplateSettings } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -43,10 +38,10 @@ class AllDoctors extends React.Component {
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <DoctorHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <DoctorSidebar />
 
                         <main className="main-content">
                             <div className="app-loader">
@@ -220,7 +215,7 @@ class AllDoctors extends React.Component {
                         <Footer />
                     </div>
                 </div>
-                <RegisterPatient />
+                <RegisterPatientModal />
                 <TemplateSettings />
             </>
         );

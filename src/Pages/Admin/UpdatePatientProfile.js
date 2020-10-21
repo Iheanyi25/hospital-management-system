@@ -1,11 +1,5 @@
 import React from "react";
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from "../../Components/Header/AdminHeader";
-import Sidebar from "../../Components/Sidebar/AdminSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import RegisterPatient from "../../Components/Admin/RegisterPatient";
-import PageLoader from "../../Components/PageLoader";
+import { AdminHeader, AdminSidebar, Footer, PageLoader, RegisterPatientModal, TemplateSettings } from "../../Components";
 
 class UpdatePatientProfile extends React.Component {
   constructor(props) {
@@ -303,10 +297,10 @@ class UpdatePatientProfile extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <AdminHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <AdminSidebar />
 
             {patient ? (
               <main className="main-content">
@@ -781,7 +775,7 @@ class UpdatePatientProfile extends React.Component {
             <Footer />
           </div>
         </div>
-        <RegisterPatient />
+        <RegisterPatientModal />
         <TemplateSettings />
       </>
     );

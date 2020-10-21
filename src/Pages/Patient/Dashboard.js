@@ -1,10 +1,11 @@
 import React from 'react';
-import Header from '../../Components/Header/PatientHeader';
-import Sidebar from '../../Components/Sidebar/PatientSidebar';
-import PageLoader from '../../Components/PageLoader';
-import Footer from '../../Components/Footer';
-import TemplateSettings from '../../Components/TemplateSettings';
-import DoctorSearch from '../../Components/Patient/SearchDoctors';
+import { Footer, PageLoader, PatientHeader, PatientSidebar, SearchDoctorsModal, TemplateSettings } from '../../Components';
+// import Header from '../../Components/Header/PatientHeader';
+// import Sidebar from '../../Components/Sidebar/PatientSidebar';
+// import PageLoader from '../../Components/Loader/PageLoader';
+// import Footer from '../../Components/Footer';
+// import TemplateSettings from '../../Components/TemplateSettings';
+// import DoctorSearch from '../../Components/Modals/SearchDoctors';
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -20,10 +21,10 @@ class Dashboard extends React.Component {
 				<div className="page-box">
 					<div className="app-container">
 						{/* Horizontal navbar---Header */}
-						<Header></Header>
+						<PatientHeader />
 
 						{/* Vertical navbar */}
-						<Sidebar></Sidebar>
+						<PatientSidebar />
 
 						<main className="main-content">
 							<div className="app-loader">
@@ -128,8 +129,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-1.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -176,8 +177,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-2.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -222,8 +223,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-3.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -270,8 +271,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-4.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -318,8 +319,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-5.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -366,8 +367,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-6.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -412,8 +413,8 @@ class Dashboard extends React.Component {
 																	src="./assets/content/user-40-7.jpg"
 																	width={40}
 																	height={40}
-                                                                    className="rounded-500"
-                                                                    alt="hello"
+																	className="rounded-500"
+																	alt="hello"
 																/>
 															</td>
 															<td>
@@ -465,7 +466,7 @@ class Dashboard extends React.Component {
 					</div>
 				</div>
 				<TemplateSettings />
-				<DoctorSearch />
+				<SearchDoctorsModal />
 			</>
 		);
 	}

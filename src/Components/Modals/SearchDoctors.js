@@ -1,6 +1,6 @@
 import React from 'react';
 
-class SearchDoctors extends React.Component {
+class SearchDoctorsModal extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -170,4 +170,4 @@ class SearchDoctors extends React.Component {
 	}
 }
 
-export default SearchDoctors;
+export { SearchDoctorsModal };

@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from '../../Components/Header/DoctorHeader';
-import Sidebar from '../../Components/Sidebar/DoctorSidebar';
-import PageLoader from '../../Components/PageLoader';
-import Footer from '../../Components/Footer'
-import TemplateSettings from '../../Components/TemplateSettings'
-import SearchPatient from '../../Components/Doctor/SearchPatient'
+import { DoctorHeader, DoctorSidebar, Footer, PageLoader, SearchPatientModal, TemplateSettings } from "../../Components";
+// import Header from '../../Components/Header/DoctorHeader';
+// import Sidebar from '../../Components/Sidebar/DoctorSidebar';
+// import PageLoader from '../../Components/Loader/PageLoader';
+// import Footer from '../../Components/Footer'
+// import TemplateSettings from '../../Components/TemplateSettings'
+// import SearchPatient from '../../Components/Modals/SearchPatient'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -23,10 +24,10 @@ class Dashboard extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <DoctorHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <DoctorSidebar />
 
             <main className="main-content">
               <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
@@ -240,7 +241,7 @@ class Dashboard extends React.Component {
           </div>
         </div>
         {/* Search patients modals */}
-        <SearchPatient />
+        <SearchPatientModal />
         {/* application settings */}
         <TemplateSettings />
         {/* end  application settings*/}

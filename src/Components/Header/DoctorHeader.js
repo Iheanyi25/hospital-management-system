@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-class Header extends React.Component {
+class DoctorHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -132,7 +132,7 @@ class Header extends React.Component {
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
-                                            alt="hello"
+											alt="hello"
 										/>{' '}
 										<i className="icofont-simple-down" />
 									</span>
@@ -190,4 +190,4 @@ class Header extends React.Component {
 	}
 }
 
-export default Header;
+export { DoctorHeader };

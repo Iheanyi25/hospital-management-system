@@ -1,10 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../../Components/Header/AdminHeader";
-import Sidebar from "../../Components/Sidebar/AdminSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import PageLoader from "../../Components/PageLoader";
+import { PageLoader, AdminHeader, AdminSidebar, Footer, TemplateSettings } from "../../Components";
 
 class Appointments extends React.Component {
   constructor(props) {
@@ -83,10 +79,10 @@ class Appointments extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <AdminHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <AdminSidebar />
 
             <main className="main-content">
               <div className="app-loader">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-class Sidebar extends React.Component {
+class PharmacySidebar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -233,4 +233,4 @@ class Sidebar extends React.Component {
 	}
 }
 
-export default Sidebar;
+export { PharmacySidebar };

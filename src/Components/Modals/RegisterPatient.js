@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-class RegisterPatient extends React.Component {
+class RegisterPatientModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -218,9 +218,9 @@ class RegisterPatient extends React.Component {
                     onClick={(e) => this.registerPatient(e)}
                     disabled={
                       email === "" ||
-                      firstName === "" ||
-                      lastName === "" ||
-                      roleName === ""
+                        firstName === "" ||
+                        lastName === "" ||
+                        roleName === ""
                         ? true
                         : false
                     }
@@ -238,4 +238,4 @@ class RegisterPatient extends React.Component {
   }
 }
 
-export default RegisterPatient;
+export { RegisterPatientModal };

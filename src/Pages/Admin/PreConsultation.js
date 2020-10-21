@@ -1,10 +1,11 @@
 import React from "react";
-import Header from "../../Components/Header/AdminHeader";
-import Sidebar from "../../Components/Sidebar/AdminSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import RegisterPatient from "../../Components/Admin/RegisterPatient";
-import PageLoader from "../../Components/PageLoader";
+import { AdminHeader, AdminSidebar, Footer, PageLoader, RegisterPatientModal, TemplateSettings } from "../../Components";
+// import Header from "../../Components/Header/AdminHeader";
+// import Sidebar from "../../Components/Sidebar/AdminSidebar";
+// import Footer from "../../Components/Footer";
+// import TemplateSettings from "../../Components/TemplateSettings";
+// import RegisterPatient from "../../Components/Modals/RegisterPatient";
+// import PageLoader from "../../Components/Loader/PageLoader";
 
 class PreConsultation extends React.Component {
   constructor(props) {
@@ -198,10 +199,10 @@ class PreConsultation extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <AdminHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <AdminSidebar />
             {patient ? (
               <main className="main-content mt-5">
                 <div className="app-loader">
@@ -487,7 +488,7 @@ class PreConsultation extends React.Component {
             <Footer />
           </div>
         </div>
-        <RegisterPatient />
+        <RegisterPatientModal />
         <TemplateSettings />
       </>
     );

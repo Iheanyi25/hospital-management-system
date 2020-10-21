@@ -1,9 +1,10 @@
 import React from "react";
-import Header from "../../Components/Header/DoctorHeader";
-import Sidebar from "../../Components/Sidebar/DoctorSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import PageLoader from "../../Components/PageLoader";
+import {   DoctorHeader, DoctorSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
+// import Header from "../../Components/Header/DoctorHeader";
+// import Sidebar from "../../Components/Sidebar/DoctorSidebar";
+// import Footer from "../../Components/Footer";
+// import TemplateSettings from "../../Components/TemplateSettings";
+// import PageLoader from "../../Components/Loader/PageLoader";
 
 class DoctorAvaliablity extends React.Component {
   constructor(props) {
@@ -216,10 +217,10 @@ class DoctorAvaliablity extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <DoctorHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <DoctorSidebar />
 
 
             <main className="main-content">

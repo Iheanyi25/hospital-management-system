@@ -1,7 +1,7 @@
 import React from "react";
 
 
-class SearchPatient extends React.Component {
+class SearchPatientModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -13,7 +13,7 @@ class SearchPatient extends React.Component {
 
 
   render() {
-    
+
 
     return (
       <>
@@ -38,10 +38,10 @@ class SearchPatient extends React.Component {
                       className="form-control"
                       type="text"
                       placeholder="Date"
-                      
+
                     />
                   </div>
-                  
+
 
                   <div className="modal-footer d-block">
                     <div className="actions justify-content-between">
@@ -68,4 +68,4 @@ class SearchPatient extends React.Component {
   }
 }
 
-export default SearchPatient;
+export { SearchPatientModal };

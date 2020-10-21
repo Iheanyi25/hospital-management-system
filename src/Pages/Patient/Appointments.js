@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../Components/Header/PatientHeader';
-import Sidebar from '../../Components/Sidebar/PatientSidebar';
-import Footer from '../../Components/Footer';
-import TemplateSettings from '../../Components/TemplateSettings';
-import DoctorSearch from '../../Components/Patient/SearchDoctors';
-import PageLoader from '../../Components/PageLoader';
+import { Footer, PageLoader, PatientHeader, PatientSidebar, SearchDoctorsModal, TemplateSettings } from '../../Components';
+// import Header from '../../Components/Header/PatientHeader';
+// import Sidebar from '../../Components/Sidebar/PatientSidebar';
+// import Footer from '../../Components/Footer';
+// import TemplateSettings from '../../Components/TemplateSettings';
+// import DoctorSearch from '../../Components/Modals/SearchDoctors';
+// import PageLoader from '../../Components/Loader/PageLoader';
 
 const $ = require('jquery');
 $.Datatable = require('datatables.net');
@@ -72,10 +73,10 @@ class Appointments extends React.Component {
 				<div className="page-box">
 					<div className="app-container">
 						{/* Horizontal navbar---Header */}
-						<Header></Header>
+						<PatientHeader />
 
 						{/* Vertical navbar */}
-						<Sidebar></Sidebar>
+						<PatientSidebar />
 
 						<main className="main-content">
 							<div className="app-loader">
@@ -493,7 +494,7 @@ class Appointments extends React.Component {
 				</div>
 
 				<TemplateSettings />
-				<DoctorSearch />
+				<SearchDoctorsModal />
 			</>
 		);
 	}

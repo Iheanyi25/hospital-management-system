@@ -1,9 +1,5 @@
 import React from "react";
-import Header from "../../Components/Header/AdminHeader";
-import Sidebar from "../../Components/Sidebar/AdminSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import PageLoader from "../../Components/PageLoader";
+import { AdminHeader, AdminSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
 
 class BookConsultation extends React.Component {
     constructor(props) {
@@ -12,14 +8,14 @@ class BookConsultation extends React.Component {
         this.state = {
 
             apiUrl: process.env.REACT_APP_API_URL,
-            patientEmail:"",
+            patientEmail: "",
             doctor: "",
             doctorProfile: "",
             doctorId: "",
 
             consultationTitle: "",
             reasonForConsultation: "",
-            
+
         };
 
     }
@@ -29,12 +25,12 @@ class BookConsultation extends React.Component {
         const { params } = this.props.match;
 
         //grab the logged in user
-        this.setState({doctorId: params.doctorId });
-        
+        this.setState({ doctorId: params.doctorId });
+
         const data = await (await fetch(`${this.state.apiUrl}/Admin/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
         this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
-       
-        
+
+
     }
 
     handleChange(name, e) {
@@ -44,47 +40,47 @@ class BookConsultation extends React.Component {
         });
     }
 
- 
+
     async bookConsultation(e) {
 
         e.preventDefault();
-    
-        const { consultationTitle, reasonForConsultation, patientEmail,doctorId } = this.state;
+
+        const { consultationTitle, reasonForConsultation, patientEmail, doctorId } = this.state;
 
         try {
-          const request = await fetch(`${this.state.apiUrl}/Admin/AddPatientToQueue`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                consultationTitle,
-                reasonForConsultation,
-                patientEmail,
-                doctorId
-            }),
-          });
-    
-          if (!request.ok) {
-            const error = await request.json();
-            throw Error(error.message);
-          }
-    
-          const data = await request.json();
-    
-          this.setState({
-            showSuccessMessage: true,
-            successMessage: data.message,
-            consultationTitle:"",
-            reasonForConsultation:""
+            const request = await fetch(`${this.state.apiUrl}/Admin/AddPatientToQueue`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    consultationTitle,
+                    reasonForConsultation,
+                    patientEmail,
+                    doctorId
+                }),
+            });
 
-          });
-         
-         
+            if (!request.ok) {
+                const error = await request.json();
+                throw Error(error.message);
+            }
+
+            const data = await request.json();
+
+            this.setState({
+                showSuccessMessage: true,
+                successMessage: data.message,
+                consultationTitle: "",
+                reasonForConsultation: ""
+
+            });
+
+
         } catch (err) {
-          this.setState({ showErrorMessage: true, errorMessage: err.message });
+            this.setState({ showErrorMessage: true, errorMessage: err.message });
         }
-      }
+    }
 
 
 
@@ -97,136 +93,137 @@ class BookConsultation extends React.Component {
             reasonForConsultation
         } = this.state
 
-    let displayErrorMessage;
-    let displaySuccessMessage;
+        let displayErrorMessage;
+        let displaySuccessMessage;
 
-    if (this.state.showErrorMessage) {
-        displayErrorMessage = (
-        <div className="alert alert-danger with-after-icon" role="alert">
-          <div className="alert-content">{this.state.errorMessage}</div>
-          <div className="alert-icon">
-            <i className="icofont-alarm" />
-          </div>
-        </div>
-      );
-    }
+        if (this.state.showErrorMessage) {
+            displayErrorMessage = (
+                <div className="alert alert-danger with-after-icon" role="alert">
+                    <div className="alert-content">{this.state.errorMessage}</div>
+                    <div className="alert-icon">
+                        <i className="icofont-alarm" />
+                    </div>
+                </div>
+            );
+        }
 
-    if (this.state.showSuccessMessage) {
-        displaySuccessMessage = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
-      );
+        if (this.state.showSuccessMessage) {
+            displaySuccessMessage = (
+                <div className="alert alert-info with-after-icon" role="alert">
+                    <div className="alert-content text-center">
+                        {this.state.successMessage}
+                    </div>
+                    <div className="alert-icon">
+                        <i className="icon icofont-ui-check" />
+                    </div>
+                </div>
+            );
 
-    }
-      
+        }
+
         return (
             <>
                 <PageLoader />
                 <div className="page-box">
                     <div className="app-container">
+
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <AdminHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <AdminSidebar />
 
-                       
-                            <main className="main-content">
-                                <div className="app-loader">
-                                    <i className="icofont-spinner-alt-4 rotate" />
-                                </div>
-                                <div className="main-content-wrap">
-                                    <header className="page-header">
-                                        <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
-                                    </header>
-                                    <div className="page-content">
-                                        <div className="row justify-content-center">
-                                            <div className="col col-md-12">
-                                                <div class="card border-light">
-                                                    <div class="card-body">
-                                                        <form className="mb-4">
-                                                            <h4>Consultation Form</h4>
-                                                           
-                                                            <div className="form-group">
-                                                                <label>Patient Email</label>
 
-                                                                <input
-                                                                    className="form-control"
-                                                                    placeholder="Patient Email"
-                                                                    tabIndex={-98}
-                                                                    onChange={(e) => this.handleChange("patientEmail", e)}
-                                                                    value={patientEmail}
-                                                                />
-                                                                   
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <label>Title of Consultation</label>
+                        <main className="main-content">
+                            <div className="app-loader">
+                                <i className="icofont-spinner-alt-4 rotate" />
+                            </div>
+                            <div className="main-content-wrap">
+                                <header className="page-header">
+                                    <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
+                                </header>
+                                <div className="page-content">
+                                    <div className="row justify-content-center">
+                                        <div className="col col-md-12">
+                                            <div class="card border-light">
+                                                <div class="card-body">
+                                                    <form className="mb-4">
+                                                        <h4>Consultation Form</h4>
 
-                                                                <input
-                                                                    className="form-control"
-                                                                    placeholder="Consulation Title"
-                                                                    tabIndex={-98}
-                                                                    onChange={(e) => this.handleChange("consultationTitle", e)}
-                                                                    value={consultationTitle}
-                                                                />
-                                                                   
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <label>Reason for Consultation</label>{" "}
-                                                                <textarea
-                                                                    className="form-control"                                                                
-                                                                    rows={4}
-                                                                    placeholder={"Reason for Consultation"}
-                                                                    onChange={(e) => this.handleChange("reasonForConsultation", e)}                                                                   
-                                                                    value={reasonForConsultation}
-                                                                />
-                                                            </div>
-                                                            {displayErrorMessage}
-                                                            {displaySuccessMessage}
-                                                            <div className="row">
-                                                                <div className="col">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-success"
-                                                                        onClick={(e) => this.bookConsultation(e)}
-                                                                        disabled={
+                                                        <div className="form-group">
+                                                            <label>Patient Email</label>
+
+                                                            <input
+                                                                className="form-control"
+                                                                placeholder="Patient Email"
+                                                                tabIndex={-98}
+                                                                onChange={(e) => this.handleChange("patientEmail", e)}
+                                                                value={patientEmail}
+                                                            />
+
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label>Title of Consultation</label>
+
+                                                            <input
+                                                                className="form-control"
+                                                                placeholder="Consulation Title"
+                                                                tabIndex={-98}
+                                                                onChange={(e) => this.handleChange("consultationTitle", e)}
+                                                                value={consultationTitle}
+                                                            />
+
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label>Reason for Consultation</label>{" "}
+                                                            <textarea
+                                                                className="form-control"
+                                                                rows={4}
+                                                                placeholder={"Reason for Consultation"}
+                                                                onChange={(e) => this.handleChange("reasonForConsultation", e)}
+                                                                value={reasonForConsultation}
+                                                            />
+                                                        </div>
+                                                        {displayErrorMessage}
+                                                        {displaySuccessMessage}
+                                                        <div className="row">
+                                                            <div className="col">
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-success"
+                                                                    onClick={(e) => this.bookConsultation(e)}
+                                                                    disabled={
                                                                         patientEmail === "" ||
-                                                                        reasonForConsultation === "" ||
-                                                                        consultationTitle === ""
+                                                                            reasonForConsultation === "" ||
+                                                                            consultationTitle === ""
                                                                             ? true
                                                                             : false
-                                                                        }
-                                                                    >
-                                                                        Book Now 
+                                                                    }
+                                                                >
+                                                                    Book Now
                                                                     </button>
-                                                                </div>
-                                                                <div className="col text-right">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-outline-danger"
-                                                                    >
-                                                                        <span className="d-none d-sm-block">
-                                                                            Cancel
-                                                                         </span>{" "}
-                                                                        <span className="d-sm-none">Cancel</span>
-                                                                    </button>
-                                                                </div>
                                                             </div>
-                                                        </form>
-                                                    </div>
+                                                            <div className="col text-right">
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-outline-danger"
+                                                                >
+                                                                    <span className="d-none d-sm-block">
+                                                                        Cancel
+                                                                         </span>{" "}
+                                                                    <span className="d-sm-none">Cancel</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </main>
-                    
+                            </div>
+                        </main>
+
                         {/* Footer */}
                         <Footer />
                     </div>

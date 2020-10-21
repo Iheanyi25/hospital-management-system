@@ -1,10 +1,11 @@
 import React from "react";
-import Header from "../../Components/Header/PharmacyHeader";
-import Sidebar from "../../Components/Sidebar/PharmacySidebar";
-import PageLoader from "../../Components/PageLoader";
-import AddDrug from "../../Components/Pharmacy/AddDrug";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
+import { AddDrugModal, Footer, PageLoader, PharmacyHeader, PharmacySidebar, TemplateSettings } from "../../Components";
+// import Header from "../../Components/Header/PharmacyHeader";
+// import Sidebar from "../../Components/Sidebar/PharmacySidebar";
+// import PageLoader from "../../Components/Loader/PageLoader";
+// import AddDrug from "../../Components/Modals/AddDrug";
+// import Footer from "../../Components/Footer";
+// import TemplateSettings from "../../Components/TemplateSettings";
 
 class CreateSubCategories extends React.Component {
   constructor(props) {
@@ -73,10 +74,10 @@ class CreateSubCategories extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <PharmacyHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <PharmacySidebar />
 
             <main className="main-content">
               <div className="app-loader">
@@ -123,13 +124,13 @@ class CreateSubCategories extends React.Component {
                           <option>select drug category</option>
                           {drugCategories
                             ? drugCategories.map((drugCategory) => (
-                                <option
-                                  key={drugCategory.id}
-                                  value={drugCategory.id}
-                                >
-                                  {drugCategory.name}
-                                </option>
-                              ))
+                              <option
+                                key={drugCategory.id}
+                                value={drugCategory.id}
+                              >
+                                {drugCategory.name}
+                              </option>
+                            ))
                             : null}
 
                           <option class="bs-title-option" value=""></option>
@@ -175,7 +176,7 @@ class CreateSubCategories extends React.Component {
             </main>
 
             {/* Add Drug Modal */}
-            <AddDrug />
+            <AddDrugModal />
             {/* Footer */}
             <Footer />
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-class Header extends React.Component {
+class AccountantHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -59,55 +59,55 @@ class Header extends React.Component {
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
 									<div className="menu-header">
 										<h4 className="h5 menu-title mt-0 mb-0">Notifications</h4>
-										<a href="#" className="text-danger">
+										<NavLink href="#" className="text-danger">
 											Clear All
-										</a>
+										</NavLink>
 									</div>
 									<ul className="list">
 										<li>
-											<a href="#">
+											<NavLink href="#">
 												<span className="icon icofont-heart" />
 												<div className="content">
 													<span className="desc">Sara Crouch liked your photo</span>
 													<span className="date">17 minutes ago</span>
 												</div>
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#">
+											<NavLink href="#">
 												<span className="icon icofont-users-alt-6" />
 												<div className="content">
 													<span className="desc">New user registered</span>{' '}
 													<span className="date">23 minutes ago</span>
 												</div>
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#">
+											<NavLink href="#">
 												<span className="icon icofont-share" />
 												<div className="content">
 													<span className="desc">Amanda Lie shared your post</span>
 													<span className="date">25 minutes ago</span>
 												</div>
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#">
+											<NavLink href="#">
 												<span className="icon icofont-users-alt-6" />
 												<div className="content">
 													<span className="desc">New user registered</span>{' '}
 													<span className="date">32 minutes ago</span>
 												</div>
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#">
+											<NavLink href="#">
 												<span className="icon icofont-ui-message" />
 												<div className="content">
 													<span className="desc">You have a new message</span>{' '}
 													<span className="date">58 minutes ago</span>
 												</div>
-											</a>
+											</NavLink>
 										</li>
 									</ul>
 									<div className="menu-footer">
@@ -129,7 +129,7 @@ class Header extends React.Component {
 									<span className="d-flex align-items-center">
 										<img
 											src="./assets/content/user-400-1.jpg"
-											alt
+											alt=""
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
@@ -140,30 +140,30 @@ class Header extends React.Component {
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
 									<ul className="list">
 										<li>
-											<a href="#" className="align-items-center">
+											<NavLink href="#" className="align-items-center">
 												<span className="icon icofont-ui-home" /> Edit account
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#" className="align-items-center">
+											<NavLink href="#" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#" className="align-items-center">
+											<NavLink href="#" className="align-items-center">
 												<span className="icon icofont-ui-calendar" /> Calendar
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#" className="align-items-center">
+											<NavLink href="#" className="align-items-center">
 												<span className="icon icofont-ui-settings" /> Settings
-											</a>
+											</NavLink>
 										</li>
 										<li>
-											<a href="#" className="align-items-center">
+											<NavLink href="#" className="align-items-center">
 												<span className="icon icofont-logout" />
 												Log Out
-											</a>
+											</NavLink>
 										</li>
 									</ul>
 								</div>
@@ -190,4 +190,4 @@ class Header extends React.Component {
 	}
 }
 
-export default Header;
+export { AccountantHeader };

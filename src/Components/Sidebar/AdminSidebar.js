@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-class Sidebar extends React.Component {
+class AdminSidebar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -284,4 +284,4 @@ class Sidebar extends React.Component {
 	}
 }
 
-export default Sidebar;
+export { AdminSidebar };

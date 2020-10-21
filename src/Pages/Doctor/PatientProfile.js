@@ -1,9 +1,10 @@
 import React from 'react'
-import Header from '../../Components/Header/AdminHeader';
-import Sidebar from '../../Components/Sidebar/AdminSidebar';
-import Footer from '../../Components/Footer'
-import TemplateSettings from '../../Components/TemplateSettings'
-import PageLoader from '../../Components/PageLoader'
+import { DoctorHeader, DoctorSidebar, Footer, PageLoader, TemplateSettings } from '../../Components';
+// import Header from '../../Components/Header/AdminHeader';
+// import Sidebar from '../../Components/Sidebar/AdminSidebar';
+// import Footer from '../../Components/Footer'
+// import TemplateSettings from '../../Components/TemplateSettings'
+// import PageLoader from '../../Components/Loader/PageLoader'
 
 class PatientProfile extends React.Component {
 
@@ -26,10 +27,10 @@ class PatientProfile extends React.Component {
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <DoctorHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <DoctorSidebar />
 
                         {/* Add Content Here */}
 

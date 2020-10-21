@@ -1,6 +1,6 @@
 import React from "react";
 
-class AddDrug extends React.Component {
+class AddDrugModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -190,4 +190,4 @@ class AddDrug extends React.Component {
   }
 }
 
-export default AddDrug;
+export { AddDrugModal };

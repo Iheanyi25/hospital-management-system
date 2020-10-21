@@ -1,9 +1,10 @@
 import React from 'react'
-import Header from '../../Components/Doctor/Header';
-import Sidebar from '../../Components/Doctor/Sidebar';
-import PageLoader from '../../Components/PageLoader';
-import Footer from '../../Components/Footer'
-import TemplateSettings from '../../Components/TemplateSettings'
+import { Footer, LabHeader, LabSidebar, PageLoader, SearchPatientModal, TemplateSettings } from '../../Components';
+// import Header from '../../Components/Doctor/Header';
+// import Sidebar from '../../Components/Doctor/Sidebar';
+// import PageLoader from '../../Components/PageLoader';
+// import Footer from '../../Components/Footer'
+// import TemplateSettings from '../../Components/TemplateSettings'
 
 class Dashboard extends React.Component {
 
@@ -26,10 +27,10 @@ class Dashboard extends React.Component {
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <LabHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <LabSidebar />
 
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
@@ -334,27 +335,7 @@ class Dashboard extends React.Component {
                         <Footer />
                     </div>
                 </div>{/* Search patients modals */}
-                <div className="modal fade" id="add-patient" tabIndex={-1} role="dialog" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Search a Patient</h5>
-                            </div>
-                            <div className="modal-body">
-                                <form>
-                                    <div className="form-group"><input className="form-control" type="text" placeholder="Email" /></div>
-
-                                </form>
-                            </div>
-                            <div className="modal-footer d-block">
-                                <div className="actions justify-content-between">
-                                    <button type="button" className="btn btn-error" data-dismiss="modal">Cancel</button>
-                                    <button type="button" className="btn btn-info">Fetch Patient</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>{/* end Add patients modals */}
+                <SearchPatientModal />{/* end Add patients modals */}
                 <TemplateSettings />
             </>
 

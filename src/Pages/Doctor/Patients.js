@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import Header from '../../Components/Header/DoctorHeader';
-import Sidebar from '../../Components/Sidebar/DoctorSidebar';
-import Footer from '../../Components/Footer'
-import TemplateSettings from '../../Components/TemplateSettings'
-import PageLoader from '../../Components/PageLoader'
+import { DoctorHeader, DoctorSidebar, Footer, PageLoader, TemplateSettings } from '../../Components';
+// import Header from '../../Components/Header/DoctorHeader';
+// import Sidebar from '../../Components/Sidebar/DoctorSidebar';
+// import Footer from '../../Components/Footer'
+// import TemplateSettings from '../../Components/TemplateSettings'
+// import PageLoader from '../../Components/Loader/PageLoader'
 
 class Patients extends React.Component {
 
@@ -27,10 +28,10 @@ class Patients extends React.Component {
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <DoctorHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <DoctorSidebar />
 
                         <main className="main-content">
                             <div className="app-loader">
@@ -69,9 +70,9 @@ class Patients extends React.Component {
 
                                                     </thead>
                                                     <tbody>
-                                                        
+
                                                         <tr>
-                                                            
+
                                                             <td>
                                                                 <img
                                                                     src="./assets/content/user-40-1.jpg"
@@ -99,62 +100,62 @@ class Patients extends React.Component {
                                                                 <div className="text-muted text-nowrap">
                                                                     9:15 - 9:45
                                                                  </div>
-                                                            </td>          
+                                                            </td>
 
                                                             <td>
                                                                 <div className="btn-group">
                                                                     <button
-                                                                    type="button"
-                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                    data-toggle="dropdown"
-                                                                    aria-haspopup="true"
-                                                                    aria-expanded="false"
+                                                                        type="button"
+                                                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                        data-toggle="dropdown"
+                                                                        aria-haspopup="true"
+                                                                        aria-expanded="false"
                                                                     >
-                                                                    Action
+                                                                        Action
                                                                     </button>
-                                                                <div className="dropdown-menu text-left">
-                                                                    <Link
-                                                                        title="Pre-consultation"
-                                                                        onClick={() =>
-                                                                        (window.location.href = `/DoctorConsultation`)
-                                                                        }
-                                                                        to={`/DoctorConsultation`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                    <div className="dropdown-menu text-left">
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                                (window.location.href = `/DoctorConsultation`)
+                                                                            }
+                                                                            to={`/DoctorConsultation`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                         Go for Clarking
                                                                     </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-                                                                        onClick={() =>
-                                                                        (window.location.href = `/AdminPreConsultation`)
-                                                                        }
-                                                                        to={`/AdminPreConsultation`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                                (window.location.href = `/AdminPreConsultation`)
+                                                                            }
+                                                                            to={`/AdminPreConsultation`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                         Consultation History
                                                                     </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-                                                                        onClick={() =>
-                                                                        (window.location.href = `/AdminPreConsultation`)
-                                                                        }
-                                                                        to={`/AdminPreConsultation`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                                (window.location.href = `/AdminPreConsultation`)
+                                                                            }
+                                                                            to={`/AdminPreConsultation`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                         Pre-Consultation History
                                                                     </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-                                                                        onClick={() =>
-                                                                        (window.location.href = `/AdminUpdatePatientProfile`)
-                                                                        }
-                                                                        to={`/AdminUpdatePatientProfile`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                                                        <Link
+                                                                            title="Pre-consultation"
+                                                                            onClick={() =>
+                                                                                (window.location.href = `/AdminUpdatePatientProfile`)
+                                                                            }
+                                                                            to={`/AdminUpdatePatientProfile`}
+                                                                            className="btn btn-sm btn-block"
+                                                                        >
+                                                                            <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                                         View Profile
                                                                     </Link>
                                                                     </div>
@@ -163,7 +164,7 @@ class Patients extends React.Component {
 
 
                                                         </tr>
-                                                         
+
                                                     </tbody>
                                                 </table>
 
@@ -189,7 +190,7 @@ class Patients extends React.Component {
                         <Footer />
                     </div>
                 </div>
-              
+
                 <TemplateSettings />
 
             </>

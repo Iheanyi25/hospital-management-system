@@ -1,11 +1,12 @@
-import React from 'react'
-import Header from '../../Components/Header/AdminHeader';
-import Sidebar from '../../Components/Sidebar/AdminSidebar';
-import RegisterPatient from '../../Components/Admin/RegisterPatient'
-import RegisterUser from '../../Components/Admin/RegisterUser'
-import TemplateSettings from '../../Components/TemplateSettings'
-import PageLoader from '../../Components/PageLoader'
-import Footer from '../../Components/Footer'
+import React from 'react';
+import { AdminHeader, AdminSidebar, Footer, PageLoader, RegisterPatientModal, RegisterUserModal, TemplateSettings } from '../../Components';
+
+// import Header from '../../Components/Header/AdminHeader';
+// import Sidebar from '../../Components/Sidebar/AdminSidebar';
+// import RegisterPatient from '../../Components/Modals/RegisterPatient'
+// import RegisterUser from '../../Components/Modals/RegisterUser'
+// import PageLoader from '../../Components/Loader/PageLoader'
+// import Footer from '../../Components/Footer'
 
 class Dashboard extends React.Component {
 
@@ -40,10 +41,10 @@ class Dashboard extends React.Component {
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <AdminHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <AdminSidebar />
 
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
@@ -289,14 +290,15 @@ class Dashboard extends React.Component {
                                 </div>
                             </div>
                         </main>
+
                         {/* Footer */}
                         <Footer />
                     </div>
                 </div>
 
                 {/* Register Patient Component */}
-                <RegisterPatient />
-                <RegisterUser />
+                <RegisterPatientModal />
+                <RegisterUserModal />
 
                 {/* App Settings modals */}
                 <TemplateSettings />

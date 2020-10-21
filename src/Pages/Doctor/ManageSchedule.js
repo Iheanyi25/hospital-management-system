@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Header from "../../Components/Doctor/Header";
-import Sidebar from "../../Components/Doctor/Sidebar";
-import PageLoader from "../../Components/PageLoader";
-import Footer from "../../Components/Footer";
-import CreateSchedule from "../../Components/Doctor/SearchPatient";
-import TemplateSettings from "../../Components/TemplateSettings";
+import { DoctorHeader, DoctorSidebar, Footer, PageLoader, SearchPatientModal, TemplateSettings } from "../../Components";
+// import Header from "../../Components/Doctor/Header";
+// import Sidebar from "../../Components/Doctor/Sidebar";
+// import PageLoader from "../../Components/PageLoader";
+// import Footer from "../../Components/Footer";
+// import CreateSchedule from "../../Components/Doctor/SearchPatient";
+// import TemplateSettings from "../../Components/TemplateSettings";
 
 function getTime(date) {
   let _date = new Date(date);
@@ -60,10 +60,10 @@ class ManageSchedule extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <DoctorHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <DoctorSidebar />
 
             <main className="main-content">
               <div className="app-loader">
@@ -106,29 +106,29 @@ class ManageSchedule extends React.Component {
                           <tbody>
                             {schedule
                               ? schedule.map((schedule) => (
-                                  <tr>
-                                    <td>{schedule.date}</td>
-                                    <td>{schedule.checkIn}</td>
-                                    <td>{schedule.checkOut}</td>
-                                    <td>Age</td>
-                                    <td>Date</td>
-                                    <td>
-                                      <div className="actions">
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button
-                                          onClick={() =>
-                                            this.deleteSchedule(schedule.id)
-                                          }
-                                          className="btn btn-error btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                <tr>
+                                  <td>{schedule.date}</td>
+                                  <td>{schedule.checkIn}</td>
+                                  <td>{schedule.checkOut}</td>
+                                  <td>Age</td>
+                                  <td>Date</td>
+                                  <td>
+                                    <div className="actions">
+                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                        <span className="btn-icon icofont-ui-edit" />
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          this.deleteSchedule(schedule.id)
+                                        }
+                                        className="btn btn-error btn-sm btn-square rounded-pill"
+                                      >
+                                        <span className="btn-icon icofont-ui-delete" />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
                               : null}
                           </tbody>
                         </table>
@@ -149,7 +149,7 @@ class ManageSchedule extends React.Component {
             </main>
 
             {/* Add Drug Modal */}
-            <CreateSchedule />
+            <SearchPatientModal />
             {/* footer here */}
             <Footer />
           </div>

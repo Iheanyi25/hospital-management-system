@@ -1,9 +1,10 @@
 import React from "react";
-import Header from "../../Components/Header/PatientHeader";
-import Sidebar from "../../Components/Sidebar/PatientSidebar";
-import Footer from "../../Components/Footer";
-import TemplateSettings from "../../Components/TemplateSettings";
-import PageLoader from "../../Components/PageLoader";
+import { Footer, PageLoader, PatientHeader, PatientSidebar, TemplateSettings } from "../../Components";
+// import Header from "../../Components/Header/PatientHeader";
+// import Sidebar from "../../Components/Sidebar/PatientSidebar";
+// import Footer from "../../Components/Footer";
+// import TemplateSettings from "../../Components/TemplateSettings";
+// import PageLoader from "../../Components/Loader/PageLoader";
 
 class BookAppointment extends React.Component {
   constructor(props) {
@@ -141,10 +142,10 @@ class BookAppointment extends React.Component {
         <div className="page-box">
           <div className="app-container">
             {/* Horizontal navbar---Header */}
-            <Header></Header>
+            <PatientHeader />
 
             {/* Vertical navbar */}
-            <Sidebar></Sidebar>
+            <PatientSidebar />
 
             <main className="main-content">
               <div className="app-loader">
@@ -234,9 +235,9 @@ class BookAppointment extends React.Component {
                                   onClick={(e) => this.bookAppointment(e)}
                                   disabled={
                                     appointmentDate === "" ||
-                                    appointmentTime === "" ||
-                                    reasonForAppointment === "" ||
-                                    appointmentTitle === ""
+                                      appointmentTime === "" ||
+                                      reasonForAppointment === "" ||
+                                      appointmentTitle === ""
                                       ? true
                                       : false
                                   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 
-class Header extends React.Component {
+class PharmacyHeader extends React.Component {
 
     constructor(props) {
         super(props);
@@ -37,7 +37,7 @@ class Header extends React.Component {
                         <div className="app-actions">
                             <div className="dropdown item"><button className="no-style dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0, 12"><span className="icon icofont-notification" /> <span className="badge badge-danger badge-sm">5</span></button>
                                 <div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
-                                    <div className="menu-header">
+                                    <div className="menu-PharmacyHeaderƒ">
                                         <h4 className="h5 menu-title mt-0 mb-0">Notifications</h4><Link to="#" className="text-danger">Clear All</Link>
                                     </div>
                                     <ul className="list">
@@ -94,4 +94,4 @@ class Header extends React.Component {
 
 }
 
-export default Header
+export { PharmacyHeader }

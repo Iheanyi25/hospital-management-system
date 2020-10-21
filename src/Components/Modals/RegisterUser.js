@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-class RegisterUser extends React.Component {
+class RegisterUserModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -252,25 +252,25 @@ class RegisterUser extends React.Component {
                     />
                   </div>
 
-                  
-                      <div className="form-group">
-                        <label>User Type</label>
-                        <select
-                          className="selectpicker"
-                          title="Gender"
-                          value={this.state.roleName}
-                          onChange={(e) => this.handleChange("roleName", e)}
-                        >
-                          <option value="" selected="true" disabled>
-                            Register As
+
+                  <div className="form-group">
+                    <label>User Type</label>
+                    <select
+                      className="selectpicker"
+                      title="Gender"
+                      value={this.state.roleName}
+                      onChange={(e) => this.handleChange("roleName", e)}
+                    >
+                      <option value="" selected="true" disabled>
+                        Register As
                           </option>
-                          <option value="accountant">Accountant</option>
-                          <option value="doctor">Doctor</option>
-                          <option value="pharmacy">Pharmacy</option>
-                          <option value="lab">Lab</option>
-                        </select>
-                      </div>
-                    
+                      <option value="accountant">Accountant</option>
+                      <option value="doctor">Doctor</option>
+                      <option value="pharmacy">Pharmacy</option>
+                      <option value="lab">Lab</option>
+                    </select>
+                  </div>
+
                   {displayError}
                   {displaySuccess}
                 </form>
@@ -291,9 +291,9 @@ class RegisterUser extends React.Component {
                     onClick={(e) => this.registerUser(e)}
                     disabled={
                       email === "" ||
-                      firstName === "" ||
-                      lastName === "" ||
-                      roleName === ""
+                        firstName === "" ||
+                        lastName === "" ||
+                        roleName === ""
                         ? true
                         : false
                     }
@@ -311,4 +311,4 @@ class RegisterUser extends React.Component {
   }
 }
 
-export default RegisterUser;
+export { RegisterUserModal };

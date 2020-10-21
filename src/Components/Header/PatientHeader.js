@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-class Header extends React.Component {
+class PatientHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -129,7 +129,7 @@ class Header extends React.Component {
 									<span className="d-flex align-items-center">
 										<img
 											src="./assets/content/user-400-1.jpg"
-                                            alt="hello"
+											alt="hello"
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
@@ -190,4 +190,4 @@ class Header extends React.Component {
 	}
 }
 
-export default Header;
+export { PatientHeader };

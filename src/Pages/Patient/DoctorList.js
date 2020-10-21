@@ -1,33 +1,34 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import Header from '../../Components/Header/PatientHeader';
-import Sidebar from '../../Components/Sidebar/PatientSidebar';
-import Footer from '../../Components/Footer'
-import TemplateSettings from "../../Components/TemplateSettings";
-import DoctorSearch from "../../Components/Patient/SearchDoctors";
-import PageLoader from '../../Components/PageLoader'
+import { Footer, PageLoader, PatientHeader, PatientSidebar, SearchDoctorsModal, TemplateSettings } from '../../Components';
+// import Header from '../../Components/Header/PatientHeader';
+// import Sidebar from '../../Components/Sidebar/PatientSidebar';
+// import Footer from '../../Components/Footer'
+// import TemplateSettings from "../../Components/TemplateSettings";
+// import DoctorSearch from "../../Components/Modals/SearchDoctors";
+// import PageLoader from '../../Components/Loader/PageLoader'
 
 class DoctorList extends React.Component {
 
     constructor(props) {
         super(props);
-    
+
         this.state = {
-          doctors: [],
-          apiUrl: process.env.REACT_APP_API_URL,
+            doctors: [],
+            apiUrl: process.env.REACT_APP_API_URL,
         };
-      }
-    
+    }
+
 
     async getAllDoctors() {
         const data = await (await fetch(`${this.state.apiUrl}/Patient/GetDoctors`)).json()
         this.setState({ doctors: data.doctors });
-      }
-    
+    }
+
     componentDidMount() {
         this.getAllDoctors();
     }
-    
+
 
     render() {
 
@@ -39,10 +40,10 @@ class DoctorList extends React.Component {
                 <div className="page-box">
                     <div className="app-container">
                         {/* Horizontal navbar---Header */}
-                        <Header></Header>
+                        <PatientHeader />
 
                         {/* Vertical navbar */}
-                        <Sidebar></Sidebar>
+                        <PatientSidebar />
                         <main className="main-content">
                             <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
                             <div className="main-content-wrap">
@@ -64,26 +65,26 @@ class DoctorList extends React.Component {
                                                         </div>
                                                         <p className="address">{doctor.doctorProfile.about}</p>
                                                         <div className="button-box">
-                                                        
-                                                            <Link onClick={() => window.location.href = `/PatientDoctorProfile/${doctor.applicationUser.id}`} className="btn btn-primary mr-2" to= {`/PatientDoctorProfile/${doctor.applicationUser.id}`}>
+
+                                                            <Link onClick={() => window.location.href = `/PatientDoctorProfile/${doctor.applicationUser.id}`} className="btn btn-primary mr-2" to={`/PatientDoctorProfile/${doctor.applicationUser.id}`}>
                                                                 <span className="link-icon icofont-doctor" />
                                                                 <span className="link-text">View profile</span>
                                                             </Link>
-                                        
+
                                                             <Link onClick={() => window.location.href = `/PatientBookConsultation/${doctor.applicationUser.id}`} className="btn btn-info" to={`/PatientBookConsultation/${doctor.applicationUser.id}`}>
                                                                 <span className="link-icon icofont-doctor" />
                                                                 <span className="link-text">Book Consultation</span>
                                                             </Link>
-                                        
+
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
-                                        
+
                                         ))}
-                                       
-                                     </div>
+
+                                    </div>
                                     <div className="add-action-box"><button className="btn btn-dark btn-lg btn-square rounded-pill" data-toggle="modal" data-target="#add-doctor"><span className="btn-icon icofont-contact-add" /></button></div>
                                 </div>
                             </div>
@@ -92,15 +93,15 @@ class DoctorList extends React.Component {
 
 
 
-                        
+
 
                         {/* Footer */}
                         <Footer />
                     </div>
                 </div>
-               
+
                 <TemplateSettings />
-                <DoctorSearch/>
+                <SearchDoctorsModal />
 
             </>
 
