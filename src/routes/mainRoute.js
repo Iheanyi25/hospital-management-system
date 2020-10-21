@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import {
 	AdminLayout,
 	LabLayout,
@@ -18,9 +18,7 @@ const MainRoute = ({ Component, path, exact, purpose, isAuthenticated, userType,
 			path={path}
 			{...rest}
 			render={(props) => {
-				return  !isAuthenticated ? (
-					<Redirect to="/" />
-				) :userType === 'admin' ? (
+				return userType === 'admin' ? (
 					<AdminLayout history={props.history} isAuthenticated={isAuthenticated}>
 						<Component {...rest} {...props} />
 					</AdminLayout>
@@ -44,7 +42,7 @@ const MainRoute = ({ Component, path, exact, purpose, isAuthenticated, userType,
 					<PharmacyLayout history={props.history} isAuthenticated={isAuthenticated}>
 						<Component {...rest} {...props} />
 					</PharmacyLayout>
-				) : null;
+				) : <Redirect to="/" />
 			}}
 		/>
 	);
