@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class AdminSidebar extends React.Component {
 	constructor(props) {
@@ -41,154 +41,154 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">My Office</span>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminDashboard" activeClassName="activeNavItem">
+										<NavLink className="item-link" to="/dashboard" >
 											<span className="link-icon icofont-thermometer-alt" />{' '}
 											<span className="link-text">Dashboard</span>
 										</NavLink>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" to="/AdminConsultationQueue">
+										<NavLink className="item-link" to="/AdminConsultationQueue">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
 											<span className="link-text">Consutation Queue</span>
-										</Link>
+										</NavLink>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" to="/AdminAppointments">
+										<NavLink className="item-link" to="/AdminAppointments">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
 											<span className="link-text">Appointments</span>
-										</Link>
+										</NavLink>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" to="/AdminAllDoctors">
+										<NavLink className="item-link" to="/AdminAllDoctors">
 											<span className="link-icon icofont-doctor" />{' '}
 											<span className="link-text">Doctors</span>
-										</Link>
+										</NavLink>
 									</li>
 									<li className="menu-item">
-										<Link className="item-link" to="/AdminAllPatients">
+										<NavLink className="item-link" to="/AdminAllPatients">
 											<span className="link-icon icofont-paralysis-disability" />{' '}
 											<span className="link-text">Patients</span>
-										</Link>
+										</NavLink>
 									</li>
 
 									<li className="menu-item">
 										<span className="group-title">User Management</span>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="#" className="item-link">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">Patients</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link
+												<NavLink
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-patient"
 												>
 													<span className="link-text">Register Patient</span>
-												</Link>
+												</NavLink>
 											</li>
 											<li className="menu-item">
-												<Link className="item-link" to="/AdminAllPatients">
+												<NavLink className="item-link" to="/AdminAllPatients">
 													<span className="link-text">Manage Patients</span>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="#" className="item-link">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">Doctors</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link
+												<NavLink
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Doctors</span>
-												</Link>
+												</NavLink>
 											</li>
 											<li className="menu-item">
-												<Link className="item-link" to="/AdminAllDoctors">
+												<NavLink className="item-link" to="/AdminAllDoctors">
 													<span className="link-text">Manage Doctors</span>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="#" className="item-link">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">Pharmacists</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link
+												<NavLink
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Pharmacists</span>
-												</Link>
+												</NavLink>
 											</li>
 											<li className="menu-item">
-												<Link to="#" className="item-link">
+												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Pharmacists</span>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="#" className="item-link">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">Accountants</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link
+												<NavLink
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Accountants</span>
-												</Link>
+												</NavLink>
 											</li>
 											<li className="menu-item">
-												<Link to="#" className="item-link">
+												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Accountants</span>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="#" className="item-link">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">Other Admins</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link
+												<NavLink
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Other Admins</span>
-												</Link>
+												</NavLink>
 											</li>
 											<li className="menu-item">
-												<Link to="#" className="item-link">
+												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Other Admins</span>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
@@ -196,20 +196,20 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">Schedules Mgt.</span>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="#" className="item-link">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">My Schedule</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link to="#" className="item-link">
+												<NavLink to="#" className="item-link">
 													<span className="link-text">Create a Schedule</span>
-												</Link>
+												</NavLink>
 											</li>
 											<li className="menu-item">
-												<Link to="#" className="item-link">
+												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Schedules</span>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
@@ -223,14 +223,14 @@ class AdminSidebar extends React.Component {
 						</div>
 
 						<div className="assistant-menu">
-							<Link to="#" className="link">
+							<NavLink to="#" className="link">
 								<span className="link-icon icofont-ui-settings" />
 								Settings{' '}
-							</Link>
-							<Link to="#" className="link">
+							</NavLink>
+							<NavLink to="#" className="link">
 								<span className="link-icon icofont-question-square" />
 								FAQ &amp; Support
-							</Link>
+							</NavLink>
 						</div>
 						<div className="navbar-skeleton vertical">
 							<div className="top-part">

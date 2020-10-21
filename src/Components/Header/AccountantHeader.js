@@ -59,13 +59,13 @@ class AccountantHeader extends React.Component {
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
 									<div className="menu-header">
 										<h4 className="h5 menu-title mt-0 mb-0">Notifications</h4>
-										<NavLink href="#" className="text-danger">
+										<NavLink to="#" className="text-danger">
 											Clear All
 										</NavLink>
 									</div>
 									<ul className="list">
 										<li>
-											<NavLink href="#">
+											<NavLink to="#">
 												<span className="icon icofont-heart" />
 												<div className="content">
 													<span className="desc">Sara Crouch liked your photo</span>
@@ -74,7 +74,7 @@ class AccountantHeader extends React.Component {
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#">
+											<NavLink to="#">
 												<span className="icon icofont-users-alt-6" />
 												<div className="content">
 													<span className="desc">New user registered</span>{' '}
@@ -83,7 +83,7 @@ class AccountantHeader extends React.Component {
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#">
+											<NavLink to="#">
 												<span className="icon icofont-share" />
 												<div className="content">
 													<span className="desc">Amanda Lie shared your post</span>
@@ -92,7 +92,7 @@ class AccountantHeader extends React.Component {
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#">
+											<NavLink to="#">
 												<span className="icon icofont-users-alt-6" />
 												<div className="content">
 													<span className="desc">New user registered</span>{' '}
@@ -101,7 +101,7 @@ class AccountantHeader extends React.Component {
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#">
+											<NavLink to="#">
 												<span className="icon icofont-ui-message" />
 												<div className="content">
 													<span className="desc">You have a new message</span>{' '}
@@ -140,27 +140,27 @@ class AccountantHeader extends React.Component {
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
 									<ul className="list">
 										<li>
-											<NavLink href="#" className="align-items-center">
+											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-home" /> Edit account
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#" className="align-items-center">
+											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#" className="align-items-center">
+											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-calendar" /> Calendar
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#" className="align-items-center">
+											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-settings" /> Settings
 											</NavLink>
 										</li>
 										<li>
-											<NavLink href="#" className="align-items-center">
+											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-logout" />
 												Log Out
 											</NavLink>

@@ -1,10 +1,10 @@
 import React from "react";
-import AppRoute from "./AppRoute";
+import AppRouter from "./ApplicationRoute";
 import "./App.css"
 
 function App() {
   return (
-    <AppRoute />
+    <AppRouter />
   );
 }
 
