@@ -1,6 +1,5 @@
 import React from 'react'
-import { PageLoader, TemplateSettings } from '../../Components';
-import UpdatePatientProfile from '../Admin/UpdatePatientProfile';
+import { PageLoader } from '../../Components';
 
 class Dashboard extends React.Component {
 

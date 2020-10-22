@@ -1,5 +1,5 @@
 import React from "react";
-import {  PageLoader, RegisterPatientModal, TemplateSettings } from "../../Components";
+import {  PageLoader } from "../../Components";
 
 class PreConsultation extends React.Component {
   constructor(props) {

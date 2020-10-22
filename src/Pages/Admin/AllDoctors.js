@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PageLoader, RegisterPatientModal, TemplateSettings } from "../../Components";
+import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");

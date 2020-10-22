@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { DoctorHeader, DoctorSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
+import {  PageLoader } from "../../Components";
 
 function getTime(date) {
   let _date = new Date(date);

@@ -1,5 +1,5 @@
 import React from "react";
-import { PageLoader, TemplateSettings } from "../../Components";
+import { PageLoader } from "../../Components";
 
 class BookAppointment extends React.Component {
 

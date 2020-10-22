@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PageLoader, TemplateSettings } from "../../Components";
+import { PageLoader } from "../../Components";
 
 class DoctorAppointments extends React.Component {
   constructor(props) {

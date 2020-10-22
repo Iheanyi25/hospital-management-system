@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { AdminHeader, AdminSidebar, PageLoader, TemplateSettings } from "../../Components";
+import { AdminHeader, AdminSidebar, PageLoader } from "../../Components";
 
 class DoctorConsultationQueue extends React.Component {
 	constructor(props) {
