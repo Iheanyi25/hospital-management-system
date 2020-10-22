@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { logOut } from '../../utils/logout';
 
 class LabHeader extends React.Component {
 
@@ -71,7 +72,7 @@ class LabHeader extends React.Component {
                                         <li><NavLink href="#" className="align-items-center"><span className="icon icofont-ui-user" /> User profile</NavLink></li>
                                         <li><NavLink href="#" className="align-items-center"><span className="icon icofont-ui-calendar" /> Calendar</NavLink></li>
                                         <li><NavLink href="#" className="align-items-center"><span className="icon icofont-ui-settings" /> Settings</NavLink></li>
-                                        <li><NavLink href="#" className="align-items-center"><span className="icon icofont-logout" />
+                                        <li><NavLink href="#" className="align-items-center" onClick={logOut}><span className="icon icofont-logout" />
                 Log Out</NavLink></li>
                                     </ul>
                                 </div>

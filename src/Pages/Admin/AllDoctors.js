@@ -53,7 +53,7 @@ class AllDoctors extends React.Component {
                                     <div className="table-responsive">
                                         <table
                                             ref={(el) => (this.el = el)}
-                                            class="table"
+                                            className="table"
                                             data-columns='[
                                           { "data": "photo" },
                                           { "data": "name" },

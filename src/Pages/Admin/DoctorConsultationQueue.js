@@ -211,7 +211,7 @@ class DoctorConsultationQueue extends React.Component {
 													>
 														<div className="table-responsive">
 															<table
-																class="table data-table"
+																className="table data-table"
 																data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -314,7 +314,7 @@ class DoctorConsultationQueue extends React.Component {
 													>
 														<div className="table-responsive">
 															<table
-																class="table data-table"
+																className="table data-table"
 																data-columns='[
 																	{ "data": "photo" },
 																	{ "data": "name" },
@@ -418,7 +418,7 @@ class DoctorConsultationQueue extends React.Component {
 													>
 														<div className="table-responsive">
 															<table
-																class="table data-table"
+																className="table data-table"
 																data-columns='[
 																	{ "data": "photo" },
 																	{ "data": "name" },
@@ -522,7 +522,7 @@ class DoctorConsultationQueue extends React.Component {
 													>
 														<div className="table-responsive">
 															<table
-																class="table data-table"
+																className="table data-table"
 																data-columns='[
                                                                     { "data": "photo" },
                                                                     { "data": "name" },

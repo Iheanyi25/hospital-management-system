@@ -106,7 +106,7 @@ class CreateCategories extends React.Component {
                           />
                         </div>
 
-                        <div class="form-group">
+                        <div className="form-group">
                           <label>Description</label>
                           <textarea
                             id="drugCategoryDescription"

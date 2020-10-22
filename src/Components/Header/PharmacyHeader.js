@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import { logOut } from '../../utils/logout';
 
 class PharmacyHeader extends React.Component {
 
@@ -8,14 +9,8 @@ class PharmacyHeader extends React.Component {
         this.state = {
             endpoint: process.env.REACT_APP_API_URL,
         };
-
-        this.logOut = this.logOut.bind(this);
     }
 
-    logOut(props) {
-        this.props.history.push('/');
-        localStorage.clear();
-    }
 
     render() {
 
@@ -71,7 +66,7 @@ class PharmacyHeader extends React.Component {
                                         <li><Link to="#" className="align-items-center"><span className="icon icofont-ui-user" /> User profile</Link></li>
                                         <li><Link to="#" className="align-items-center"><span className="icon icofont-ui-calendar" /> Calendar</Link></li>
                                         <li><Link to="#" className="align-items-center"><span className="icon icofont-ui-settings" /> Settings</Link></li>
-                                        <li><Link to="#" className="align-items-center"><span className="icon icofont-logout" />
+                                        <li><Link to="#" className="align-items-center" onClick={logOut}><span className="icon icofont-logout" />
                 Log Out</Link></li>
                                     </ul>
                                 </div>

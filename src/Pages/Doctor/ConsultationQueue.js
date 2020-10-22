@@ -219,7 +219,7 @@ class ConsultationQueue extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(en) => (this.en = en)}
-                            class="table"
+                            className="table"
                             data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -319,7 +319,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -422,7 +422,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -526,7 +526,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                                     { "data": "photo" },
                                                                     { "data": "name" },

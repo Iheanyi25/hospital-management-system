@@ -36,7 +36,7 @@ class Patients extends React.Component {
                             <div className="card mb-0">
                                 <div className="card-body">
                                     <div className="table-responsive">
-                                        <table class="table data-table" data-columns='[
+                                        <table className="table data-table" data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
                                                         { "data": "email" },

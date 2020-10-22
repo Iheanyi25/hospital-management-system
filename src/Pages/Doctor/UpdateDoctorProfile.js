@@ -301,21 +301,21 @@ class UpdateDoctorProfile extends React.Component {
           </div>
           <div className="main-content-wrap">
             {displayCoreDetailsSuccessNotification === true ? (
-              <div class="col-12 col-md-6">
-                <div class="card">
-                  <div class="card-body">
+              <div className="col-12 col-md-6">
+                <div className="card">
+                  <div className="card-body">
                     <div
-                      class="alert alert-primary alert-dismissible fade show mb-0"
+                      className="alert alert-primary alert-dismissible fade show mb-0"
                       role="alert"
                     >
                       Core Details successfully Updated{" "}
                       <button
                         type="button"
-                        class="close"
+                        className="close"
                         data-dismiss="alert"
                         aria-label="Close"
                       >
-                        <span class="icofont-close-line"></span>
+                        <span className="icofont-close-line"></span>
                       </button>
                     </div>
                   </div>
@@ -323,21 +323,21 @@ class UpdateDoctorProfile extends React.Component {
               </div>
             ) : null}
             {displayContactDetailsSuccessNotification === true ? (
-              <div class="col-12 col-md-6">
-                <div class="card">
-                  <div class="card-body">
+              <div className="col-12 col-md-6">
+                <div className="card">
+                  <div className="card-body">
                     <div
-                      class="alert alert-primary alert-dismissible fade show mb-0"
+                      className="alert alert-primary alert-dismissible fade show mb-0"
                       role="alert"
                     >
                       Contact Details successfully Updated{" "}
                       <button
                         type="button"
-                        class="close"
+                        className="close"
                         data-dismiss="alert"
                         aria-label="Close"
                       >
-                        <span class="icofont-close-line"></span>
+                        <span className="icofont-close-line"></span>
                       </button>
                     </div>
                   </div>
@@ -345,21 +345,21 @@ class UpdateDoctorProfile extends React.Component {
               </div>
             ) : null}
             {displayProfessionalDetailsSuccessNotification === true ? (
-              <div class="col-12 col-md-6">
-                <div class="card">
-                  <div class="card-body">
+              <div className="col-12 col-md-6">
+                <div className="card">
+                  <div className="card-body">
                     <div
-                      class="alert alert-primary alert-dismissible fade show mb-0"
+                      className="alert alert-primary alert-dismissible fade show mb-0"
                       role="alert"
                     >
                       Professional Details successfully Updated{" "}
                       <button
                         type="button"
-                        class="close"
+                        className="close"
                         data-dismiss="alert"
                         aria-label="Close"
                       >
-                        <span class="icofont-close-line"></span>
+                        <span className="icofont-close-line"></span>
                       </button>
                     </div>
                   </div>
@@ -371,9 +371,9 @@ class UpdateDoctorProfile extends React.Component {
             </header>
             <div className="page-content">
               <div className="row justify-content-center">
-                <div class="col-md-6">
-                  <div class="card border-light">
-                    <div class="card-body">
+                <div className="col-md-6">
+                  <div className="card border-light">
+                    <div className="card-body">
                       <label>Photo</label>
                       <div className="form-group avatar-box d-flex align-items-center">
                         <img
@@ -506,8 +506,8 @@ class UpdateDoctorProfile extends React.Component {
                   </div>
                 </div>
                 <div className="col col-md-6">
-                  <div class="card border-light">
-                    <div class="card-body">
+                  <div className="card border-light">
+                    <div className="card-body">
                       <form className="mb-4">
                         <h4>Contact Details</h4>
 
@@ -574,8 +574,8 @@ class UpdateDoctorProfile extends React.Component {
                   </div>
                 </div>
                 <div className="col col-md-12">
-                  <div class="card border-light">
-                    <div class="card-body">
+                  <div className="card border-light">
+                    <div className="card-body">
                       <form className="mb-4">
                         <h4>Professional Profile</h4>
                         <div className="row">

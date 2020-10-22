@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { logOut } from '../../utils/logout';
 
 class AccountantHeader extends React.Component {
 	constructor(props) {
@@ -7,13 +8,6 @@ class AccountantHeader extends React.Component {
 		this.state = {
 			endpoint: process.env.REACT_APP_API_URL,
 		};
-
-		this.logOut = this.logOut.bind(this);
-	}
-
-	logOut(props) {
-		this.props.history.push('/');
-		localStorage.clear();
 	}
 
 	render() {
@@ -160,7 +154,7 @@ class AccountantHeader extends React.Component {
 											</NavLink>
 										</li>
 										<li>
-											<NavLink to="#" className="align-items-center">
+											<NavLink to="#" className="align-items-center" onClick={logOut}>
 												<span className="icon icofont-logout" />
 												Log Out
 											</NavLink>

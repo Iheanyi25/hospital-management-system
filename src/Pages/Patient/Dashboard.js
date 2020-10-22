@@ -67,11 +67,11 @@ class Dashboard extends React.Component {
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12 col-md-6">
-									<div class="card bg-light">
-										<div class="card-header">Welcome Mr. Vitalis</div>
-										<div class="card-body">
+							<div className="row">
+								<div className="col-12 col-md-6">
+									<div className="card bg-light">
+										<div className="card-header">Welcome Mr. Vitalis</div>
+										<div className="card-body">
 											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio
 											dolore enim, nemo nihil non omnis temporibus? Blanditiis culpa
 											labore velit.Lorem ipsum dolor sit amet, consectetur adipisicing
@@ -79,10 +79,10 @@ class Dashboard extends React.Component {
 												</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
-									<div class="card text-white bg-info">
-										<div class="card-header">Important Updates</div>
-										<div class="card-body">
+								<div className="col-12 col-md-6">
+									<div className="card text-white bg-info">
+										<div className="card-header">Important Updates</div>
+										<div className="card-body">
 											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio
 											dolore enim, nemo nihil non omnis temporibus? Blanditiis culpa
 											labore velit.Lorem ipsum dolor sit amet, consectetur adipisicing

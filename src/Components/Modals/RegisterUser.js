@@ -120,13 +120,13 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p class="mb-0 ">
+            <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdateaccountantprofile/${userId}`}
-                class="btn btn-outline-light"
+                className="btn btn-outline-light"
               >
-                <span class="btn-icon icon icofont-ui-edit mr-2"></span>Update
+                <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
             </p>
@@ -143,13 +143,13 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p class="mb-0 ">
+            <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdatedoctorprofile/${userId}`}
-                class="btn btn-outline-light"
+                className="btn btn-outline-light"
               >
-                <span class="btn-icon icon icofont-ui-edit mr-2"></span>Update
+                <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
             </p>
@@ -166,13 +166,13 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p class="mb-0 ">
+            <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdatepharmacistprofile/${userId}`}
-                class="btn btn-outline-light"
+                className="btn btn-outline-light"
               >
-                <span class="btn-icon icon icofont-ui-edit mr-2"></span>Update
+                <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
             </p>
@@ -189,13 +189,13 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p class="mb-0 ">
+            <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdatelabprofile/${userId}`}
-                class="btn btn-outline-light"
+                className="btn btn-outline-light"
               >
-                <span class="btn-icon icon icofont-ui-edit mr-2"></span>Update
+                <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
             </p>

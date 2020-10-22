@@ -133,10 +133,10 @@ class CreateSubCategories extends React.Component {
                             ))
                             : null}
 
-                          <option class="bs-title-option" value=""></option>
+                          <option className="bs-title-option" value=""></option>
                         </select>
 
-                        <div class="form-group">
+                        <div className="form-group">
                           <label>Description</label>
                           <textarea
                             id={"drugSubCategoryDescription"}

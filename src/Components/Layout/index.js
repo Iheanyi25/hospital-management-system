@@ -40,7 +40,6 @@ export const AccountantLayout = ({ children }) => {
 };
 
 export const DoctorLayout = ({ children }) => {
-
 	return (
 		<div className="page-box">
 			<div className="app-container">

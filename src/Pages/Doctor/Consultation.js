@@ -188,8 +188,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Social History</h4>
 
@@ -241,8 +241,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Family History</h4>
 
@@ -295,8 +295,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Medical History</h4>
 
@@ -349,8 +349,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Travel History</h4>
                                     <div className="form-group">
@@ -528,8 +528,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Presenting Complains</h4>
 
@@ -580,8 +580,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>History of Presenting Complain</h4>
 
@@ -635,8 +635,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Review of System</h4>
 
@@ -687,8 +687,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Physical Examination</h4>
 
@@ -741,8 +741,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Diagnosis</h4>
 
@@ -793,8 +793,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Treatment Plan</h4>
 
@@ -845,8 +845,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Obstetrics</h4>
 
@@ -897,8 +897,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>Gynecology</h4>
 
@@ -991,8 +991,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4> Prescribe Drugs</h4>
                                     <div className="row border-primary">
@@ -1082,8 +1082,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4>History of Presenting Complain</h4>
 
@@ -1179,8 +1179,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">
+                              <div className="card border-light">
+                                <div className="card-body">
                                   <form className="mb-4">
                                     <h4> Prescribe Lab Test</h4>
                                     <div className="row border-primary">
@@ -1244,8 +1244,8 @@ class Consultation extends React.Component {
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
-                              <div class="card border-light">
-                                <div class="card-body">Lab Templates</div>
+                              <div className="card border-light">
+                                <div className="card-body">Lab Templates</div>
                               </div>
                             </div>
                           </div>

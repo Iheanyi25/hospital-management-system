@@ -100,22 +100,22 @@ class CreateDrug extends React.Component {
 
               <div className="main-content-wrap">
                 {displayNotification === true ? (
-                  <div class="col-12 col-md-6">
-                    <div class="card">
-                      <div class="card-header">Removable</div>
-                      <div class="card-body">
+                  <div className="col-12 col-md-6">
+                    <div className="card">
+                      <div className="card-header">Removable</div>
+                      <div className="card-body">
                         <div
-                          class="alert alert-primary alert-dismissible fade show mb-0"
+                          className="alert alert-primary alert-dismissible fade show mb-0"
                           role="alert"
                         >
                           Drug successfully Added{" "}
                           <button
                             type="button"
-                            class="close"
+                            className="close"
                             data-dismiss="alert"
                             aria-label="Close"
                           >
-                            <span class="icofont-close-line"></span>
+                            <span className="icofont-close-line"></span>
                           </button>
                         </div>
                       </div>

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import {  PageLoader, TemplateSettings } from "../../Components";
+import { PageLoader } from "../../Components";
 
 class ConsultationQueue extends React.Component {
   constructor(props) {
@@ -204,7 +204,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -306,7 +306,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -409,7 +409,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "name" },
@@ -513,7 +513,7 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            class="table data-table"
+                            className="table data-table"
                             data-columns='[
                                                                     { "data": "photo" },
                                                                     { "data": "name" },

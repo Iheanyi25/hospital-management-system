@@ -99,7 +99,7 @@ class ManageDrugs extends React.Component {
 											<div className="table-responsive">
 												<table
 													ref={(el) => (this.el = el)}
-													class="table"
+													className="table"
 													data-columns='[
 														{ "data": "name" },
 														{ "data": "description" },
