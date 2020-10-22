@@ -1,7 +1,8 @@
 import React from 'react';
+import UpdatePatientProfile from '../../Pages/Admin/UpdatePatientProfile';
 import { Footer } from '../Footer';
 import { AccountantHeader, AdminHeader, DoctorHeader, LabHeader, PatientHeader, PharmacyHeader } from '../Header';
-import { RegisterPatientModal, RegisterUserModal } from '../Modals';
+import { RegisterPatientModal, RegisterUserModal, SearchPatientModal } from '../Modals';
 import { AccountantSidebar, AdminSidebar, DoctorSidebar, LabSidebar, PatientSidebar, PharmacySidebar } from '../Sidebar';
 import { TemplateSettings } from '../TemplateSettings';
 
@@ -16,7 +17,7 @@ export const AdminLayout = ({ children }) => {
 				<Footer />
 				<RegisterPatientModal />
 				<RegisterUserModal />
-				<TemplateSettings  />
+				<TemplateSettings />
 			</div>
 		</div>
 	);
@@ -30,6 +31,8 @@ export const AccountantLayout = ({ children }) => {
 				<AccountantHeader />
 				<AccountantSidebar />
 				{children}
+				<UpdatePatientProfile />
+				<TemplateSettings />
 				<Footer />
 			</div>
 		</div>
@@ -44,6 +47,8 @@ export const DoctorLayout = ({ children }) => {
 				<DoctorHeader />
 				<DoctorSidebar />
 				{children}
+				<TemplateSettings />
+				<SearchPatientModal />
 				<Footer />
 			</div>
 		</div>

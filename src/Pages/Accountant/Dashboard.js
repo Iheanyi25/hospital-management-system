@@ -343,14 +343,6 @@ class Dashboard extends React.Component {
                 </main>
 
                 <div className="content-overlay" />
-                {/* Add patients modals */}
-
-                <UpdatePatientProfile />
-                {/* end Add patients modals */}
-
-                {/* Add patients modals */}
-                <TemplateSettings />
-                {/* end Add patients modals */}
             </>
 
 

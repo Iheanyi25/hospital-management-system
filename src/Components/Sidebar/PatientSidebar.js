@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink as Link } from 'react-router-dom';
 
 class PatientSidebar extends React.Component {
 	constructor(props) {
@@ -11,9 +11,9 @@ class PatientSidebar extends React.Component {
 		this.logOut = this.logOut.bind(this);
 	}
 
-	logOut(props) {
-		this.props.history.push('/');
+	logOut() {
 		localStorage.clear();
+		this.props.history.push('/');
 	}
 
 	render() {
@@ -78,12 +78,12 @@ class PatientSidebar extends React.Component {
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link className="item-link" to="alerts.html">
+												<Link className="item-link" to="#">
 													<span className="link-text">View Profle</span>
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link className="item-link" to="autocompletes.html">
+												<Link className="item-link" to="#">
 													<span className="link-text">Update Profile</span>
 												</Link>
 											</li>
@@ -94,18 +94,18 @@ class PatientSidebar extends React.Component {
 										<span className="group-title">Health Records Mgt</span>
 									</li>
 									<li className="menu-item has-sub">
-										<Link className="item-link" href="#">
+										<Link className="item-link" to="#">
 											<span className="link-text">My Health Records</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<Link className="item-link" href="alerts.html">
+												<Link className="item-link" to="#">
 													<span className="link-text">View Pre-Consultations</span>
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link className="item-link" href="autocompletes.html">
+												<Link className="item-link" to="#">
 													<span className="link-text">View Prescriptions</span>
 												</Link>
 											</li>
@@ -120,11 +120,11 @@ class PatientSidebar extends React.Component {
 							</button>
 						</div>
 						<div className="assistant-menu">
-							<Link className="link" href="#">
+							<Link className="link" to="#">
 								<span className="link-icon icofont-ui-settings" />
 								Settings{' '}
 							</Link>
-							<Link className="link" href="#">
+							<Link className="link" to="#">
 								<span className="link-icon icofont-question-square" />
 								FAQ &amp; Support
 							</Link>

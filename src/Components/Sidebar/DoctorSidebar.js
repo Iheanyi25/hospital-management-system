@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink as Link } from 'react-router-dom';
 
 class DoctorSidebar extends React.Component {
 	constructor(props) {
@@ -73,7 +73,7 @@ class DoctorSidebar extends React.Component {
 									</li>
 
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Profile</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
@@ -91,7 +91,7 @@ class DoctorSidebar extends React.Component {
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<Link to="/" className="item-link">
+										<Link to="#" className="item-link">
 											<span className="link-text">Avaliability</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
@@ -112,11 +112,11 @@ class DoctorSidebar extends React.Component {
 							</button>
 						</div>
 						<div className="assistant-menu">
-							<Link to="/" className="link">
+							<Link to="#" className="link">
 								<span className="link-icon icofont-ui-settings" />
 								Settings{' '}
 							</Link>
-							<Link to="/" className="link">
+							<Link to="#" className="link">
 								<span className="link-icon icofont-question-square" />
 								FAQ &amp; Support
 							</Link>

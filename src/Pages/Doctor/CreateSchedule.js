@@ -1,10 +1,5 @@
 import React from "react";
-import { AdminHeader, AdminSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/DoctorHeader";
-// import Sidebar from "../../Components/Sidebar/DoctorSidebar";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
-// import PageLoader from "../../Components/Loader/PageLoader";
+import { PageLoader } from "../../Components";
 
 class CreateSchedules extends React.Component {
   constructor(props) {
@@ -75,101 +70,88 @@ class CreateSchedules extends React.Component {
     return (
       <>
         <PageLoader />
-        <div className="page-box">
-          <div className="app-container">
-            {/* Horizontal navbar---Header */}
-            <AdminHeader />
 
-            {/* Vertical navbar */}
-            <AdminSidebar />
-
-            <main className="main-content">
-              <div className="app-loader">
-                <i className="icofont-spinner-alt-4 rotate" />
-              </div>
-              <div className="main-content-wrap">
-                <header className="page-header mt-4">
-                  <h4 className="page-title">Create Consultation Schedule</h4>
-                </header>
-                <div className="page-content">
-                  <div className="row justify-content-center">
-                    <div className="col col-12 col-xl-8">
-                      <form
-                        className="mb-4"
-                        onSubmit={(e) => this.createSchedule(e)}
-                      >
-                        <div className="form-group">
-                          <label>Pick a Date</label>
-                          <input
-                            id="date"
-                            name="date"
-                            className="form-control"
-                            type="date"
-                            placeholder="Date"
-                            value={this.state.date}
-                            onChange={(e) => this.handleChange("date", e)}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Session Starts At</label>
-                          <input
-                            id="checkInTime"
-                            name="checkInTime"
-                            className="form-control"
-                            type="time"
-                            placeholder="Check In"
-                            value={this.state.checkInTime}
-                            onChange={(e) =>
-                              this.handleChange("checkInTime", e)
-                            }
-                          />
-                        </div>
-
-                        <div className="form-group">
-                          <label>Session Ends At</label>
-                          <input
-                            id="checkOutTime"
-                            name="checkOutTime"
-                            className="form-control"
-                            type="time"
-                            placeholder="Check Out"
-                            value={this.state.checkOutTime}
-                            onChange={(e) =>
-                              this.handleChange("checkOutTime", e)
-                            }
-                          />
-                        </div>
-                        <hr />
-                        <div className="row">
-                          <div className="col">
-                            <button type="submit" className="btn btn-success">
-                              Save Schedule
-                            </button>
-                          </div>
-                          <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                              onClick={(e) => this.clearForm(e)}
-                            >
-                              <span className="d-none d-sm-block">Clear</span>{" "}
-                              <span className="d-sm-none">Clear</span>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
+        <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          <div className="main-content-wrap">
+            <header className="page-header mt-4">
+              <h4 className="page-title">Create Consultation Schedule</h4>
+            </header>
+            <div className="page-content">
+              <div className="row justify-content-center">
+                <div className="col col-12 col-xl-8">
+                  <form
+                    className="mb-4"
+                    onSubmit={(e) => this.createSchedule(e)}
+                  >
+                    <div className="form-group">
+                      <label>Pick a Date</label>
+                      <input
+                        id="date"
+                        name="date"
+                        className="form-control"
+                        type="date"
+                        placeholder="Date"
+                        value={this.state.date}
+                        onChange={(e) => this.handleChange("date", e)}
+                      />
                     </div>
-                  </div>
+                    <div className="form-group">
+                      <label>Session Starts At</label>
+                      <input
+                        id="checkInTime"
+                        name="checkInTime"
+                        className="form-control"
+                        type="time"
+                        placeholder="Check In"
+                        value={this.state.checkInTime}
+                        onChange={(e) =>
+                          this.handleChange("checkInTime", e)
+                        }
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Session Ends At</label>
+                      <input
+                        id="checkOutTime"
+                        name="checkOutTime"
+                        className="form-control"
+                        type="time"
+                        placeholder="Check Out"
+                        value={this.state.checkOutTime}
+                        onChange={(e) =>
+                          this.handleChange("checkOutTime", e)
+                        }
+                      />
+                    </div>
+                    <hr />
+                    <div className="row">
+                      <div className="col">
+                        <button type="submit" className="btn btn-success">
+                          Save Schedule
+                            </button>
+                      </div>
+                      <div className="col text-right">
+                        <button
+                          type="button"
+                          className="btn btn-outline-danger"
+                          onClick={(e) => this.clearForm(e)}
+                        >
+                          <span className="d-none d-sm-block">Clear</span>{" "}
+                          <span className="d-sm-none">Clear</span>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
-            </main>
-
-            {/* Footer */}
-            <Footer />
+            </div>
           </div>
-        </div>
+        </main>
 
-        <TemplateSettings />
       </>
     );
   }

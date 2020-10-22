@@ -1,10 +1,5 @@
 import React from "react";
-import {   DoctorHeader, DoctorSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/DoctorHeader";
-// import Sidebar from "../../Components/Sidebar/DoctorSidebar";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
-// import PageLoader from "../../Components/Loader/PageLoader";
+import {  PageLoader } from "../../Components";
 
 class DoctorAvaliablity extends React.Component {
   constructor(props) {
@@ -214,73 +209,58 @@ class DoctorAvaliablity extends React.Component {
     return (
       <>
         <PageLoader />
-        <div className="page-box">
-          <div className="app-container">
-            {/* Horizontal navbar---Header */}
-            <DoctorHeader />
 
-            {/* Vertical navbar */}
-            <DoctorSidebar />
+        <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          <div className="main-content-wrap">
+            <header className="page-header">
+              <h3 className="page-title">My Avaliablity</h3>
+            </header>
+            <div className="page-content">
+              <div className="row justify-content-center">
 
-
-            <main className="main-content">
-              <div className="app-loader">
-                <i className="icofont-spinner-alt-4 rotate" />
-              </div>
-              <div className="main-content-wrap">
-                <header className="page-header">
-                  <h3 className="page-title">My Avaliablity</h3>
-                </header>
-                <div className="page-content">
-                  <div className="row justify-content-center">
-
-                    <div className="col col-md-8">
-                      <div class="card border-light">
-                        <div class="card-body">
-                          <form className="mb-4">
-                            <h4>Configure Abaliablity</h4>
-                            <div className="row">
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <label>Are you avalibale for consultation? </label>
-                                  <div class="form-group">
-                                    <div class="custom-control custom-radio mb-3">
-                                      <input type="radio" class="custom-control-input" name="avaliable" id="avaliable" />
-                                      <label class="custom-control-label" for="avaliable">Yes I am avaliable for consultation</label>
-                                    </div>
-                                    <div class="custom-control custom-radio mb-3">
-                                      <input type="radio" class="custom-control-input" name="avaliable" id="not_avaliable" />
-                                      <label class="custom-control-label" for="not_avaliable">No, I am not avaliable for consultation</label>
-                                    </div>
-                                  </div>
+                <div className="col col-md-8">
+                  <div class="card border-light">
+                    <div class="card-body">
+                      <form className="mb-4">
+                        <h4>Configure Abaliablity</h4>
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>Are you avalibale for consultation? </label>
+                              <div class="form-group">
+                                <div class="custom-control custom-radio mb-3">
+                                  <input type="radio" class="custom-control-input" name="avaliable" id="avaliable" />
+                                  <label class="custom-control-label" for="avaliable">Yes I am avaliable for consultation</label>
                                 </div>
-                              </div>
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <label>Special Office Hours</label>
-                                  <textarea
-                                    className="form-control"
-                                    placeholder="Write you special office hours for people who want special appointments with you"
-                                    rows={4}
-                                  />
+                                <div class="custom-control custom-radio mb-3">
+                                  <input type="radio" class="custom-control-input" name="avaliable" id="not_avaliable" />
+                                  <label class="custom-control-label" for="not_avaliable">No, I am not avaliable for consultation</label>
                                 </div>
                               </div>
                             </div>
-                          </form>
+                          </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>Special Office Hours</label>
+                              <textarea
+                                className="form-control"
+                                placeholder="Write you special office hours for people who want special appointments with you"
+                                rows={4}
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-            </main>
-
-            {/* Footer */}
-            <Footer />
+            </div>
           </div>
-        </div>
-
-        <TemplateSettings />
+        </main>
       </>
     );
   }
