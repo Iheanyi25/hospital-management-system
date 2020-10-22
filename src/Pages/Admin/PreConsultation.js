@@ -472,9 +472,6 @@ class PreConsultation extends React.Component {
             </div>
           </main>
         ) : null}
-
-        <RegisterPatientModal />
-        <TemplateSettings />
       </>
     );
   }

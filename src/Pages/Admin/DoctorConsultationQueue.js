@@ -636,7 +636,6 @@ class DoctorConsultationQueue extends React.Component {
 					</div>
 				</div>
 
-				<TemplateSettings />
 			</>
 		);
 	}

@@ -264,7 +264,6 @@ class BookAppointment extends React.Component {
                     </div>
                 </main>
                 
-                <TemplateSettings />
             </>
         );
     }

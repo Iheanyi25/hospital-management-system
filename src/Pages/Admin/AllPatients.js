@@ -186,9 +186,6 @@ class AllPatients extends React.Component {
             </div>
           </div>
         </main>
-
-        <RegisterPatientModal />
-        <TemplateSettings />
       </>
     );
   }

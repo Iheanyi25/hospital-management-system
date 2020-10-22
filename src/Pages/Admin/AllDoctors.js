@@ -203,9 +203,6 @@ class AllDoctors extends React.Component {
                         </div>
                     </div>
                 </main>
-
-                <RegisterPatientModal />
-                <TemplateSettings />
             </>
         );
     }

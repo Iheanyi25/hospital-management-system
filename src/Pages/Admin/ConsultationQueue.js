@@ -624,7 +624,6 @@ class ConsultationQueue extends React.Component {
           </div>
         </main>
 
-        <TemplateSettings />
       </>
     );
   }

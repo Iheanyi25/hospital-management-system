@@ -56,7 +56,7 @@ class Login extends Component {
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("authenticatedUser", JSON.stringify(data.authenticatedUser));
 
-			window.location.reload()
+			window.location.reload();
 
 			// if (data.authenticatedUser.userType === "Admin" || data.authenticatedUser.userType === "admin") {
 			// 	this.props.history.push("/AdminDashboard");

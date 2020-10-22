@@ -635,7 +635,6 @@ class DoctorAppointments extends React.Component {
               </div>
             </main>
 
-        <TemplateSettings />
       </>
     );
   }

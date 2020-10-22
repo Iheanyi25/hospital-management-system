@@ -215,7 +215,6 @@ class BookConsultation extends React.Component {
                     </div>
                 </main>
 
-                <TemplateSettings />
             </>
         );
     }

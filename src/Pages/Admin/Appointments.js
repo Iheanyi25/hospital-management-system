@@ -636,7 +636,6 @@ class Appointments extends React.Component {
           </div>
         </main>
 
-        <TemplateSettings />
       </>
     );
   }

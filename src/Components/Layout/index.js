@@ -1,7 +1,9 @@
 import React from 'react';
 import { Footer } from '../Footer';
 import { AccountantHeader, AdminHeader, DoctorHeader, LabHeader, PatientHeader, PharmacyHeader } from '../Header';
+import { RegisterPatientModal, RegisterUserModal } from '../Modals';
 import { AccountantSidebar, AdminSidebar, DoctorSidebar, LabSidebar, PatientSidebar, PharmacySidebar } from '../Sidebar';
+import { TemplateSettings } from '../TemplateSettings';
 
 export const AdminLayout = ({ children }) => {
 
@@ -12,6 +14,9 @@ export const AdminLayout = ({ children }) => {
 				<AdminSidebar />
 				{children}
 				<Footer />
+				<RegisterPatientModal />
+				<RegisterUserModal />
+				<TemplateSettings  />
 			</div>
 		</div>
 	);
