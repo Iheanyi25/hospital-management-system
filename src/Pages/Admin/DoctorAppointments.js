@@ -1,11 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AdminHeader, AdminSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/AdminHeader";
-// import Sidebar from "../../Components/Sidebar/AdminSidebar";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
-// import PageLoader from "../../Components/Loader/PageLoader";
+import { PageLoader, TemplateSettings } from "../../Components";
 
 class DoctorAppointments extends React.Component {
   constructor(props) {
@@ -81,13 +76,6 @@ class DoctorAppointments extends React.Component {
     return (
       <>
         <PageLoader />
-        <div className="page-box">
-          <div className="app-container">
-            {/* Horizontal navbar---Header */}
-            <AdminHeader />
-
-            {/* Vertical navbar */}
-            <AdminSidebar />
 
             <main className="main-content">
               <div className="app-loader">
@@ -646,11 +634,6 @@ class DoctorAppointments extends React.Component {
                 </div>
               </div>
             </main>
-
-            {/* Footer */}
-            <Footer />
-          </div>
-        </div>
 
         <TemplateSettings />
       </>

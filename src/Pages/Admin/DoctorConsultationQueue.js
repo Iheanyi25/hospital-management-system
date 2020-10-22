@@ -1,12 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { AdminHeader, AdminSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/AdminHeader";
-// import Sidebar from "../../Components/Sidebar/AdminSidebar";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
-// import PageLoader from "../../Components/Loader/PageLoader";
+import { AdminHeader, AdminSidebar, PageLoader, TemplateSettings } from "../../Components";
 
 class DoctorConsultationQueue extends React.Component {
 	constructor(props) {
@@ -638,8 +633,6 @@ class DoctorConsultationQueue extends React.Component {
 							</div>
 						</main>
 
-						{/* Footer */}
-						<Footer />
 					</div>
 				</div>
 

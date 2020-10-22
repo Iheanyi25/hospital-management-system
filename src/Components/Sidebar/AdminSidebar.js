@@ -41,7 +41,7 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">My Office</span>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="/dashboard" >
+										<NavLink className="item-link" to="/AdminDashboard" >
 											<span className="link-icon icofont-thermometer-alt" />{' '}
 											<span className="link-text">Dashboard</span>
 										</NavLink>

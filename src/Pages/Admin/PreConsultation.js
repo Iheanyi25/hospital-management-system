@@ -1,11 +1,5 @@
 import React from "react";
-import { AdminHeader, AdminSidebar, Footer, PageLoader, RegisterPatientModal, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/AdminHeader";
-// import Sidebar from "../../Components/Sidebar/AdminSidebar";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
-// import RegisterPatient from "../../Components/Modals/RegisterPatient";
-// import PageLoader from "../../Components/Loader/PageLoader";
+import {  PageLoader, RegisterPatientModal, TemplateSettings } from "../../Components";
 
 class PreConsultation extends React.Component {
   constructor(props) {
@@ -196,298 +190,289 @@ class PreConsultation extends React.Component {
     return (
       <>
         <PageLoader />
-        <div className="page-box">
-          <div className="app-container">
-            {/* Horizontal navbar---Header */}
-            <AdminHeader />
 
-            {/* Vertical navbar */}
-            <AdminSidebar />
-            {patient ? (
-              <main className="main-content mt-5">
-                <div className="app-loader">
-                  <i className="icofont-spinner-alt-4 rotate" />
-                </div>
-                <div className="main-content-wrap">
-                  {displayBMISuccessNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            BMI successfully Updated{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {displayBMIFailureNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            There was an error{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {displayVitalsSuccessNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            Patient Vitals successfully Updated{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {displayVitalsFailureNotification === true ? (
-                    <div class="col-12 col-md-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div
-                            class="alert alert-primary alert-dismissible fade show mb-0"
-                            role="alert"
-                          >
-                            There was an error{" "}
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                            >
-                              <span class="icofont-close-line"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  <header className="page-header">
-                    <h3 className="page-title">Patient Preconsultation</h3>
-                  </header>
-                  <div className="page-content">
-                    <div className="row justify-content-center">
-                      <div class="col-md-6">
-                        <div class="card border-light">
-                          <div class="card-body">
-                            <form className="mb-4">
-                              <h4>Patient Vitals</h4>
-                              <div className="row">
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Blood Pressure</label>{" "}
-                                    <input
-                                      className="form-control"
-                                      type="number"
-                                      value={
-                                        bloodPressure ? bloodPressure : null
-                                      }
-                                      onChange={(e) =>
-                                        this.handleChange("bloodPressure", e)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Respiration</label>{" "}
-                                    <input
-                                      className="form-control"
-                                      type="number"
-                                      value={respiration ? respiration : null}
-                                      onChange={(e) =>
-                                        this.handleChange("respiration", e)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Pulse</label>{" "}
-                                    <input
-                                      className="form-control"
-                                      type="number"
-                                      value={pulse ? pulse : null}
-                                      onChange={(e) =>
-                                        this.handleChange("pulse", e)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>SPO2</label>{" "}
-                                    <input
-                                      className="form-control"
-                                      type="number"
-                                      value={spo2 ? spo2 : null}
-                                      onChange={(e) =>
-                                        this.handleChange("spo2", e)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="form-group">
-                                <label>Temperature(Celcius)</label>{" "}
-                                <input
-                                  className="form-control"
-                                  type="number"
-                                  value={temperature ? temperature : null}
-                                  onChange={(e) =>
-                                    this.handleChange("temperature", e)
-                                  }
-                                />
-                              </div>
-
-                              <div className="row">
-                                <div className="col">
-                                  <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    onClick={(e) => this.updatePatientVitals(e)}
-                                  >
-                                    Save Patient Vitals
-                                  </button>
-                                </div>
-                                <div className="col text-right">
-                                  <button
-                                    type="button"
-                                    className="btn btn-outline-danger"
-                                  >
-                                    <span className="d-none d-sm-block">
-                                      Cancel
-                                    </span>{" "}
-                                    <span className="d-sm-none">Cancel</span>
-                                  </button>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col col-md-6">
-                        <div class="card border-light">
-                          <div class="card-body">
-                            <form className="mb-4">
-                              <h4>Patient BMI</h4>
-                              <div className="row">
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Weigth(Kg)</label>{" "}
-                                    <input
-                                      className="form-control"
-                                      type="number"
-                                      value={weight}
-                                      onChange={(e) =>
-                                        this.handleChange("weight", e)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-12 col-sm-6">
-                                  <div className="form-group">
-                                    <label>Height(M)</label>{" "}
-                                    <input
-                                      className="form-control"
-                                      type="number"
-                                      value={height}
-                                      onChange={(e) =>
-                                        this.handleChange("height", e)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="form-group">
-                                <label>Calculated BMI</label>{" "}
-                                <input
-                                  className="form-control"
-                                  type="number"
-                                  value={calculatedBMI}
-                                  onChange={(e) =>
-                                    this.handleChange("calculatedBMI", e)
-                                  }
-                                  disabled
-                                />
-                              </div>
-
-                              <div className="row">
-                                <div className="col">
-                                  <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    onClick={(e) => this.updatePatientBMI(e)}
-                                  >
-                                    Save Patient BMI
-                                  </button>
-                                </div>
-                                <div className="col text-right">
-                                  <button
-                                    type="button"
-                                    className="btn btn-outline-danger"
-                                  >
-                                    <span className="d-none d-sm-block">
-                                      Cancel
-                                    </span>{" "}
-                                    <span className="d-sm-none">Cancel</span>
-                                  </button>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
+        {patient ? (
+          <main className="main-content mt-5">
+            <div className="app-loader">
+              <i className="icofont-spinner-alt-4 rotate" />
+            </div>
+            <div className="main-content-wrap">
+              {displayBMISuccessNotification === true ? (
+                <div class="col-12 col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="alert alert-primary alert-dismissible fade show mb-0"
+                        role="alert"
+                      >
+                        BMI successfully Updated{" "}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span class="icofont-close-line"></span>
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </main>
-            ) : null}
-            {/* Footer */}
-            <Footer />
-          </div>
-        </div>
+              ) : null}
+
+              {displayBMIFailureNotification === true ? (
+                <div class="col-12 col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="alert alert-primary alert-dismissible fade show mb-0"
+                        role="alert"
+                      >
+                        There was an error{" "}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span class="icofont-close-line"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {displayVitalsSuccessNotification === true ? (
+                <div class="col-12 col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="alert alert-primary alert-dismissible fade show mb-0"
+                        role="alert"
+                      >
+                        Patient Vitals successfully Updated{" "}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span class="icofont-close-line"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              {displayVitalsFailureNotification === true ? (
+                <div class="col-12 col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div
+                        class="alert alert-primary alert-dismissible fade show mb-0"
+                        role="alert"
+                      >
+                        There was an error{" "}
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span class="icofont-close-line"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              <header className="page-header">
+                <h3 className="page-title">Patient Preconsultation</h3>
+              </header>
+              <div className="page-content">
+                <div className="row justify-content-center">
+                  <div class="col-md-6">
+                    <div class="card border-light">
+                      <div class="card-body">
+                        <form className="mb-4">
+                          <h4>Patient Vitals</h4>
+                          <div className="row">
+                            <div className="col-12 col-sm-6">
+                              <div className="form-group">
+                                <label>Blood Pressure</label>{" "}
+                                <input
+                                  className="form-control"
+                                  type="number"
+                                  value={
+                                    bloodPressure ? bloodPressure : null
+                                  }
+                                  onChange={(e) =>
+                                    this.handleChange("bloodPressure", e)
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className="col-12 col-sm-6">
+                              <div className="form-group">
+                                <label>Respiration</label>{" "}
+                                <input
+                                  className="form-control"
+                                  type="number"
+                                  value={respiration ? respiration : null}
+                                  onChange={(e) =>
+                                    this.handleChange("respiration", e)
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-12 col-sm-6">
+                              <div className="form-group">
+                                <label>Pulse</label>{" "}
+                                <input
+                                  className="form-control"
+                                  type="number"
+                                  value={pulse ? pulse : null}
+                                  onChange={(e) =>
+                                    this.handleChange("pulse", e)
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className="col-12 col-sm-6">
+                              <div className="form-group">
+                                <label>SPO2</label>{" "}
+                                <input
+                                  className="form-control"
+                                  type="number"
+                                  value={spo2 ? spo2 : null}
+                                  onChange={(e) =>
+                                    this.handleChange("spo2", e)
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="form-group">
+                            <label>Temperature(Celcius)</label>{" "}
+                            <input
+                              className="form-control"
+                              type="number"
+                              value={temperature ? temperature : null}
+                              onChange={(e) =>
+                                this.handleChange("temperature", e)
+                              }
+                            />
+                          </div>
+
+                          <div className="row">
+                            <div className="col">
+                              <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={(e) => this.updatePatientVitals(e)}
+                              >
+                                Save Patient Vitals
+                                  </button>
+                            </div>
+                            <div className="col text-right">
+                              <button
+                                type="button"
+                                className="btn btn-outline-danger"
+                              >
+                                <span className="d-none d-sm-block">
+                                  Cancel
+                                    </span>{" "}
+                                <span className="d-sm-none">Cancel</span>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col col-md-6">
+                    <div class="card border-light">
+                      <div class="card-body">
+                        <form className="mb-4">
+                          <h4>Patient BMI</h4>
+                          <div className="row">
+                            <div className="col-12 col-sm-6">
+                              <div className="form-group">
+                                <label>Weigth(Kg)</label>{" "}
+                                <input
+                                  className="form-control"
+                                  type="number"
+                                  value={weight}
+                                  onChange={(e) =>
+                                    this.handleChange("weight", e)
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className="col-12 col-sm-6">
+                              <div className="form-group">
+                                <label>Height(M)</label>{" "}
+                                <input
+                                  className="form-control"
+                                  type="number"
+                                  value={height}
+                                  onChange={(e) =>
+                                    this.handleChange("height", e)
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="form-group">
+                            <label>Calculated BMI</label>{" "}
+                            <input
+                              className="form-control"
+                              type="number"
+                              value={calculatedBMI}
+                              onChange={(e) =>
+                                this.handleChange("calculatedBMI", e)
+                              }
+                              disabled
+                            />
+                          </div>
+
+                          <div className="row">
+                            <div className="col">
+                              <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={(e) => this.updatePatientBMI(e)}
+                              >
+                                Save Patient BMI
+                                  </button>
+                            </div>
+                            <div className="col text-right">
+                              <button
+                                type="button"
+                                className="btn btn-outline-danger"
+                              >
+                                <span className="d-none d-sm-block">
+                                  Cancel
+                                    </span>{" "}
+                                <span className="d-sm-none">Cancel</span>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        ) : null}
+
         <RegisterPatientModal />
         <TemplateSettings />
       </>

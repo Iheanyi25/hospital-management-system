@@ -1,5 +1,5 @@
 import React from "react";
-import { AdminHeader, AdminSidebar, Footer, PageLoader, TemplateSettings } from "../../Components";
+import { PageLoader, TemplateSettings } from "../../Components";
 
 class BookConsultation extends React.Component {
     constructor(props) {
@@ -124,110 +124,97 @@ class BookConsultation extends React.Component {
         return (
             <>
                 <PageLoader />
-                <div className="page-box">
-                    <div className="app-container">
 
-                        {/* Horizontal navbar---Header */}
-                        <AdminHeader />
+                <main className="main-content">
+                    <div className="app-loader">
+                        <i className="icofont-spinner-alt-4 rotate" />
+                    </div>
+                    <div className="main-content-wrap">
+                        <header className="page-header">
+                            <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
+                        </header>
+                        <div className="page-content">
+                            <div className="row justify-content-center">
+                                <div className="col col-md-12">
+                                    <div class="card border-light">
+                                        <div class="card-body">
+                                            <form className="mb-4">
+                                                <h4>Consultation Form</h4>
 
-                        {/* Vertical navbar */}
-                        <AdminSidebar />
+                                                <div className="form-group">
+                                                    <label>Patient Email</label>
 
+                                                    <input
+                                                        className="form-control"
+                                                        placeholder="Patient Email"
+                                                        tabIndex={-98}
+                                                        onChange={(e) => this.handleChange("patientEmail", e)}
+                                                        value={patientEmail}
+                                                    />
 
-                        <main className="main-content">
-                            <div className="app-loader">
-                                <i className="icofont-spinner-alt-4 rotate" />
-                            </div>
-                            <div className="main-content-wrap">
-                                <header className="page-header">
-                                    <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
-                                </header>
-                                <div className="page-content">
-                                    <div className="row justify-content-center">
-                                        <div className="col col-md-12">
-                                            <div class="card border-light">
-                                                <div class="card-body">
-                                                    <form className="mb-4">
-                                                        <h4>Consultation Form</h4>
-
-                                                        <div className="form-group">
-                                                            <label>Patient Email</label>
-
-                                                            <input
-                                                                className="form-control"
-                                                                placeholder="Patient Email"
-                                                                tabIndex={-98}
-                                                                onChange={(e) => this.handleChange("patientEmail", e)}
-                                                                value={patientEmail}
-                                                            />
-
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>Title of Consultation</label>
-
-                                                            <input
-                                                                className="form-control"
-                                                                placeholder="Consulation Title"
-                                                                tabIndex={-98}
-                                                                onChange={(e) => this.handleChange("consultationTitle", e)}
-                                                                value={consultationTitle}
-                                                            />
-
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>Reason for Consultation</label>{" "}
-                                                            <textarea
-                                                                className="form-control"
-                                                                rows={4}
-                                                                placeholder={"Reason for Consultation"}
-                                                                onChange={(e) => this.handleChange("reasonForConsultation", e)}
-                                                                value={reasonForConsultation}
-                                                            />
-                                                        </div>
-                                                        {displayErrorMessage}
-                                                        {displaySuccessMessage}
-                                                        <div className="row">
-                                                            <div className="col">
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-success"
-                                                                    onClick={(e) => this.bookConsultation(e)}
-                                                                    disabled={
-                                                                        patientEmail === "" ||
-                                                                            reasonForConsultation === "" ||
-                                                                            consultationTitle === ""
-                                                                            ? true
-                                                                            : false
-                                                                    }
-                                                                >
-                                                                    Book Now
-                                                                    </button>
-                                                            </div>
-                                                            <div className="col text-right">
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-outline-danger"
-                                                                >
-                                                                    <span className="d-none d-sm-block">
-                                                                        Cancel
-                                                                         </span>{" "}
-                                                                    <span className="d-sm-none">Cancel</span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
                                                 </div>
-                                            </div>
+                                                <div className="form-group">
+                                                    <label>Title of Consultation</label>
+
+                                                    <input
+                                                        className="form-control"
+                                                        placeholder="Consulation Title"
+                                                        tabIndex={-98}
+                                                        onChange={(e) => this.handleChange("consultationTitle", e)}
+                                                        value={consultationTitle}
+                                                    />
+
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Reason for Consultation</label>{" "}
+                                                    <textarea
+                                                        className="form-control"
+                                                        rows={4}
+                                                        placeholder={"Reason for Consultation"}
+                                                        onChange={(e) => this.handleChange("reasonForConsultation", e)}
+                                                        value={reasonForConsultation}
+                                                    />
+                                                </div>
+                                                {displayErrorMessage}
+                                                {displaySuccessMessage}
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-success"
+                                                            onClick={(e) => this.bookConsultation(e)}
+                                                            disabled={
+                                                                patientEmail === "" ||
+                                                                    reasonForConsultation === "" ||
+                                                                    consultationTitle === ""
+                                                                    ? true
+                                                                    : false
+                                                            }
+                                                        >
+                                                            Book Now
+                                                                    </button>
+                                                    </div>
+                                                    <div className="col text-right">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-outline-danger"
+                                                        >
+                                                            <span className="d-none d-sm-block">
+                                                                Cancel
+                                                                         </span>{" "}
+                                                            <span className="d-sm-none">Cancel</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </main>
-
-                        {/* Footer */}
-                        <Footer />
+                        </div>
                     </div>
-                </div>
+                </main>
+
                 <TemplateSettings />
             </>
         );
