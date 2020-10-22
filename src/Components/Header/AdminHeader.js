@@ -155,7 +155,7 @@ class AdminHeader extends React.Component {
 											</Link>
 										</li>
 										<li>
-											<Link to="#" onClick={()=>logOut(this.props.history)} className="align-items-center">
+											<Link to="#" onClick={() => logOut(this.props.history)} className="align-items-center">
 												<span className="icon icofont-logout" />
 												Log Out
 											</Link>

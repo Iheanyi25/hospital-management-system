@@ -1,5 +1,5 @@
-export const logOut = (history) => {
+export const logOut = () => {
     localStorage.removeItem("authenticatedUser");
     localStorage.removeItem("token"); //to remove the token stored too
-    history.push("/")
+    window.location.reload();
 };
