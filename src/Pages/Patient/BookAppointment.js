@@ -1,10 +1,5 @@
 import React from "react";
-import { Footer, PageLoader, PatientHeader, PatientSidebar, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/PatientHeader";
-// import Sidebar from "../../Components/Sidebar/PatientSidebar";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
-// import PageLoader from "../../Components/Loader/PageLoader";
+import { PageLoader } from "../../Components";
 
 class BookAppointment extends React.Component {
   constructor(props) {
@@ -139,138 +134,126 @@ class BookAppointment extends React.Component {
     return (
       <>
         <PageLoader />
-        <div className="page-box">
-          <div className="app-container">
-            {/* Horizontal navbar---Header */}
-            <PatientHeader />
 
-            {/* Vertical navbar */}
-            <PatientSidebar />
-
-            <main className="main-content">
-              <div className="app-loader">
-                <i className="icofont-spinner-alt-4 rotate" />
-              </div>
-              <div className="main-content-wrap">
-                <header className="page-header">
-                  <h3 className="page-title">
-                    Book Appointment With Dr. {doctor.firstName}{" "}
-                    {doctor.lastName}
-                  </h3>
-                </header>
-                <div className="page-content">
-                  <div className="row justify-content-center">
-                    <div className="col col-md-12">
-                      <div class="card border-light">
-                        <div class="card-body">
-                          <form className="mb-4">
-                            <h4>Appointment Form</h4>
-                            <div className="row">
-                              <div className="col-12 col-sm-6">
-                                <div className="form-group">
-                                  <label>Appointment Date</label>
-
-                                  <input
-                                    type="date"
-                                    className="form-control"
-                                    tabIndex={-98}
-                                    placeholder="Appointment Date"
-                                    onChange={(e) =>
-                                      this.handleChange("appointmentDate", e)
-                                    }
-                                    value={appointmentDate}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-sm-6">
-                                <div className="form-group">
-                                  <label>Appointment Time</label>
-
-                                  <input
-                                    type="time"
-                                    className="form-control"
-                                    tabIndex={-98}
-                                    placeholder="Appointment Time"
-                                    onChange={(e) =>
-                                      this.handleChange("appointmentTime", e)
-                                    }
-                                    value={appointmentTime}
-                                  />
-                                </div>
-                              </div>
-                            </div>
+        <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          <div className="main-content-wrap">
+            <header className="page-header">
+              <h3 className="page-title">
+                Book Appointment With Dr. {doctor.firstName}{" "}
+                {doctor.lastName}
+              </h3>
+            </header>
+            <div className="page-content">
+              <div className="row justify-content-center">
+                <div className="col col-md-12">
+                  <div class="card border-light">
+                    <div class="card-body">
+                      <form className="mb-4">
+                        <h4>Appointment Form</h4>
+                        <div className="row">
+                          <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Title of Appointment</label>
+                              <label>Appointment Date</label>
 
                               <input
+                                type="date"
                                 className="form-control"
-                                type="text"
                                 tabIndex={-98}
-                                placeholder="Appointment Title"
+                                placeholder="Appointment Date"
                                 onChange={(e) =>
-                                  this.handleChange("appointmentTitle", e)
+                                  this.handleChange("appointmentDate", e)
                                 }
-                                value={appointmentTitle}
+                                value={appointmentDate}
                               />
                             </div>
+                          </div>
+                          <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Reason for Appointment</label>{" "}
-                              <textarea
+                              <label>Appointment Time</label>
+
+                              <input
+                                type="time"
                                 className="form-control"
-                                placeholder="Readon For Appointment"
-                                rows={3}
+                                tabIndex={-98}
+                                placeholder="Appointment Time"
                                 onChange={(e) =>
-                                  this.handleChange("reasonForAppointment", e)
+                                  this.handleChange("appointmentTime", e)
                                 }
-                                value={reasonForAppointment}
+                                value={appointmentTime}
                               />
                             </div>
-                            {displayErrorMessage}
-                            {displaySuccessMessage}
-                            <div className="row">
-                              <div className="col">
-                                <button
-                                  type="button"
-                                  className="btn btn-success"
-                                  onClick={(e) => this.bookAppointment(e)}
-                                  disabled={
-                                    appointmentDate === "" ||
-                                      appointmentTime === "" ||
-                                      reasonForAppointment === "" ||
-                                      appointmentTitle === ""
-                                      ? true
-                                      : false
-                                  }
-                                >
-                                  Book Appointment
-                                </button>
-                              </div>
-                              <div className="col text-right">
-                                <button
-                                  type="button"
-                                  className="btn btn-outline-danger"
-                                >
-                                  <span className="d-none d-sm-block">
-                                    Cancel
-                                  </span>{" "}
-                                  <span className="d-sm-none">Cancel</span>
-                                </button>
-                              </div>
-                            </div>
-                          </form>
+                          </div>
                         </div>
-                      </div>
+                        <div className="form-group">
+                          <label>Title of Appointment</label>
+
+                          <input
+                            className="form-control"
+                            type="text"
+                            tabIndex={-98}
+                            placeholder="Appointment Title"
+                            onChange={(e) =>
+                              this.handleChange("appointmentTitle", e)
+                            }
+                            value={appointmentTitle}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Reason for Appointment</label>{" "}
+                          <textarea
+                            className="form-control"
+                            placeholder="Readon For Appointment"
+                            rows={3}
+                            onChange={(e) =>
+                              this.handleChange("reasonForAppointment", e)
+                            }
+                            value={reasonForAppointment}
+                          />
+                        </div>
+                        {displayErrorMessage}
+                        {displaySuccessMessage}
+                        <div className="row">
+                          <div className="col">
+                            <button
+                              type="button"
+                              className="btn btn-success"
+                              onClick={(e) => this.bookAppointment(e)}
+                              disabled={
+                                appointmentDate === "" ||
+                                  appointmentTime === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
+                                  ? true
+                                  : false
+                              }
+                            >
+                              Book Appointment
+                                </button>
+                          </div>
+                          <div className="col text-right">
+                            <button
+                              type="button"
+                              className="btn btn-outline-danger"
+                            >
+                              <span className="d-none d-sm-block">
+                                Cancel
+                                  </span>{" "}
+                              <span className="d-sm-none">Cancel</span>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-            </main>
-
-            {/* Footer */}
-            <Footer />
+            </div>
           </div>
-        </div>
-        <TemplateSettings />
+        </main>
+
       </>
     );
   }
