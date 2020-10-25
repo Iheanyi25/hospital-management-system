@@ -22,10 +22,8 @@ function AppRouter() {
     }, [isAuthenticated]);
 
     const getRouteToRender = () => {
-        console.log("is authenticated", isAuthenticated)
         if (isAuthenticated) {
             const rootPath = window.location.pathname.split("/")[1].toLowerCase();
-            console.log("usertype  heck", userType)
             let tempUserRoute = userType === rootPath ? rootPath : userType.toLowerCase()
             switch (tempUserRoute) {
                 case "admin":
@@ -51,9 +49,7 @@ function AppRouter() {
     }
 
     return (
-
         getRouteToRender()
-
     );
 }
 

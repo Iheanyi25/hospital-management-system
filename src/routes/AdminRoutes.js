@@ -15,8 +15,8 @@ import { AdminLayout } from '../Components/Layout';
 
 export default function AdminRoutes() {
     return (
-        <BrowserRouter basename="admin"  >
-            <Switch >
+        <BrowserRouter basename="admin">
+            <Switch>
                 <AdminLayout>
 
                     <Route exact path="/AdminDashboard" component={AdminDashboard} />
