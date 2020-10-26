@@ -46,13 +46,7 @@ export default class ManageServices extends Component {
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt=""
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
+                                                                <strong>1</strong>
                                                             </td>
                                                             <td>
                                                                 09/34/4
@@ -60,13 +54,13 @@ export default class ManageServices extends Component {
                                                             <td>
                                                                 <strong>
                                                                     {" "}
-                                                                    <div className="d-flex align-items-center nowrap text-primary">
+                                                                    <div className="d-flex align-items-center nowrap">
                                                                         Premium
                                                                     </div>
                                                                 </strong>
                                                             </td>
                                                             <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
+                                                                <div className="d-flex align-items-center nowrap">
                                                                     #900.00
                                                                 </div>
                                                             </td>
@@ -106,13 +100,7 @@ export default class ManageServices extends Component {
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <img
-                                                                    src="./assets/content/user-40-1.jpg"
-                                                                    alt=""
-                                                                    width={40}
-                                                                    height={40}
-                                                                    className="rounded-500"
-                                                                />
+                                                                <strong>2</strong>
                                                             </td>
                                                             <td>
                                                                 09/34/4
@@ -120,13 +108,13 @@ export default class ManageServices extends Component {
                                                             <td>
                                                                 <strong>
                                                                     {" "}
-                                                                    <div className="d-flex align-items-center nowrap text-primary">
+                                                                    <div className="d-flex align-items-center nowrap">
                                                                         Premium
                                                                     </div>
                                                                 </strong>
                                                             </td>
                                                             <td>
-                                                                <div className="d-flex align-items-center nowrap text-primary">
+                                                                <div className="d-flex align-items-center nowrap">
                                                                     #900.00
                                                                 </div>
                                                             </td>
