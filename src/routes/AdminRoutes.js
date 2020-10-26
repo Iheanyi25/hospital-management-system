@@ -12,6 +12,7 @@ import AdminBookConsultation from "../Pages/Admin/BookConsultation";
 import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
 import CreateService from "../Pages/Admin/CreateService";
+import ServiceCategory from "../Pages/Admin/ServiceCategory";
 import { AdminLayout } from '../Components/Layout';
 
 export default function AdminRoutes() {
@@ -32,6 +33,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminConsultationQueue" component={AdminConsultationQueue} />
                     <Route exact path="/AdminDoctorConsultationQueue/:doctorId" component={AdminDoctorConsultationQueue} />
                     <Route exact path="/AdminCreateService" component={CreateService} />
+                    <Route exact path="/AdminServiceCategory" component={ServiceCategory} />
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
                 </AdminLayout>
             </Switch>
