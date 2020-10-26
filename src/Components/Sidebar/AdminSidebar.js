@@ -7,13 +7,6 @@ class AdminSidebar extends React.Component {
 		this.state = {
 			endpoint: process.env.REACT_APP_API_URL,
 		};
-
-		this.logOut = this.logOut.bind(this);
-	}
-
-	logOut(props) {
-		this.props.history.push('/');
-		localStorage.clear();
 	}
 
 	render() {
@@ -207,8 +200,18 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 											<li className="menu-item">
+												<NavLink to="/AdminManageServices" className="item-link">
+													<span className="link-text">Manage Services</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
 												<NavLink to="#" className="item-link">
 													<span className="link-text">Create a Category</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="/AdminManageServiceCategory" className="item-link">
+													<span className="link-text">Manage Categories</span>
 												</NavLink>
 											</li>
 										</ul>

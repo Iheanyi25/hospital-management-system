@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageLoader, TemplateSettings } from '../../Components';
+import { PageLoader } from '../../Components';
 
 class CreateService extends React.Component {
 	render() {
@@ -52,7 +52,7 @@ class CreateService extends React.Component {
 													<div className="col">
 													</div>
 													<div className="col text-right">
-                                                    <button type="button" className="btn btn-primary">
+														<button type="button" className="btn btn-primary">
 															Submit
 														</button>
 													</div>
@@ -66,7 +66,6 @@ class CreateService extends React.Component {
 					</div>
 				</main>
 
-				<TemplateSettings />
 			</>
 		);
 	}
