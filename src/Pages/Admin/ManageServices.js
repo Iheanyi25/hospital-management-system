@@ -85,7 +85,7 @@ export default class ManageServices extends Component {
                                                                     <div className="dropdown-menu">
                                                                         <Link
                                                                             title="Pre-consultation"
-                                                                            to="#"
+                                                                            to="/AdminEditService/90"
                                                                             className="btn btn-sm btn-block text-primary"
                                                                         >
                                                                             <span className="btn-icon icofont-edit-alt mr-2" />
@@ -145,7 +145,7 @@ export default class ManageServices extends Component {
                                                                     <div className="dropdown-menu">
                                                                         <Link
                                                                             title="Pre-consultation"
-                                                                            to="#"
+                                                                            to="/AdminEditService/90"
                                                                             className="btn btn-sm btn-block text-primary"
                                                                         >
                                                                             <span className="btn-icon icofont-edit-alt mr-2" />
