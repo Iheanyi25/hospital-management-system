@@ -12,9 +12,12 @@ import AdminBookConsultation from "../Pages/Admin/BookConsultation";
 import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
 import CreateService from "../Pages/Admin/CreateService";
+import ServiceCategory from "../Pages/Admin/ServiceCategory";
 import { AdminLayout } from '../Components/Layout';
 import ManageServiceCategory from '../Pages/Admin/ManageServiceCategory';
 import ManageServices from '../Pages/Admin/ManageServices';
+import EditServiceCategory from '../Pages/Admin/EditServiceCategory';
+import EditService from '../Pages/Admin/EditService';
 
 export default function AdminRoutes() {
     return (
@@ -34,10 +37,13 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminConsultationQueue" component={AdminConsultationQueue} />
                     <Route exact path="/AdminDoctorConsultationQueue/:doctorId" component={AdminDoctorConsultationQueue} />
                     <Route exact path="/AdminCreateService" component={CreateService} />
-                    <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
+                    <Route exact path="/AdminEditService/:id" component={EditService} />
                     <Route exact path="/AdminManageServices" component={ManageServices} />
-                   
-                   
+                    <Route exact path="/AdminServiceCategory" component={ServiceCategory} />
+                    <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
+                    <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
+
+
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
                 </AdminLayout>
             </Switch>

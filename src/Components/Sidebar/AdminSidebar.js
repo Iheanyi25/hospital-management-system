@@ -205,7 +205,7 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 											<li className="menu-item">
-												<NavLink to="#" className="item-link">
+												<NavLink to="/AdminServiceCategory" className="item-link">
 													<span className="link-text">Create a Category</span>
 												</NavLink>
 											</li>
