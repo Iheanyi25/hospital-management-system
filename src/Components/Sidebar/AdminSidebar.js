@@ -41,7 +41,7 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">My Office</span>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminDashboard" >
+										<NavLink className="item-link" to="/AdminDashboard">
 											<span className="link-icon icofont-thermometer-alt" />{' '}
 											<span className="link-text">Dashboard</span>
 										</NavLink>
@@ -188,6 +188,27 @@ class AdminSidebar extends React.Component {
 											<li className="menu-item">
 												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Other Admins</span>
+												</NavLink>
+											</li>
+										</ul>
+									</li>
+									<li className="menu-item">
+										<span className="group-title">Utility</span>
+									</li>
+									<li className="menu-item has-sub">
+										<NavLink to="#" className="item-link">
+											<span className="link-text">Services</span>{' '}
+											<span className="link-caret icofont-thin-right" />
+										</NavLink>
+										<ul className="sub">
+											<li className="menu-item">
+												<NavLink to="/AdminCreateService" className="item-link">
+													<span className="link-text">Create a Service</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Create a Category</span>
 												</NavLink>
 											</li>
 										</ul>
