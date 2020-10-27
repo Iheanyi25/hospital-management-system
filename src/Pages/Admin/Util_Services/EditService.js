@@ -39,6 +39,7 @@ export default class EditService extends Component {
                                                         tabIndex={-98}
                                                         placeholder="Name of service"
                                                         defaultValue={this.state.name}
+                                                        
                                                     />
                                                 </div>
 

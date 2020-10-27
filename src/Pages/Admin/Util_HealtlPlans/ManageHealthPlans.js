@@ -3,6 +3,17 @@ import { Link } from 'react-router-dom';
 import { PageLoader } from '../../../Components';
 
 export default class ManageHealthPlans extends Component {
+
+    state = {
+        healthPlans: []
+    }
+
+    async componentDidMount() {
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/GetAllHealthPlans`);
+        let data = await request.json();
+        this.setState({ healthPlans: data.plans });
+    }
+
     render() {
         return (
             <>
@@ -35,6 +46,7 @@ export default class ManageHealthPlans extends Component {
                                                     ]'
                                                     data-paging="true"
                                                     data-info="true"
+                                                    data-ajax={this.state.healthPlans}
                                                 >
                                                     <thead>
                                                         <tr className="">
@@ -50,212 +62,81 @@ export default class ManageHealthPlans extends Component {
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>1</strong>
-                                                            </td>
-                                                            <td>
-                                                                Aderonke Iyalode
-                                                            </td>
-                                                            <td>
-                                                                <strong>
-                                                                    <div className="d-flex align-items-center nowrap">
-                                                                        #20,000
-                                                                    </div>
-                                                                </strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    5
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    10
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    30
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="custom-control custom-switch">
-                                                                    <input type="checkbox" class="custom-control-input" id="control1" checked="false" />
-                                                                    <label class="custom-control-label" for="control1"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="btn-group">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                    >
-                                                                        Action
-                                                                    </button>
-                                                                    <div className="dropdown-menu">
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="/AdminEditHealthPlan/90"
-                                                                            className="btn btn-sm btn-block text-primary"
-                                                                        >
-                                                                            <span className="btn-icon icofont-edit-alt mr-2" />
-                                                                           Edit
-                                                                        </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="#"
-                                                                            className="btn btn-sm btn-block text-danger"
-                                                                        >
-                                                                            <span className="btn-icon icofont-delete-alt mr-2" />
-                                                                            Delete
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
+                                                        {
+                                                            this.state.healthPlans.map((item, index) =>
+                                                                <tr key={index}>
+                                                                    <td>
+                                                                        <strong>{index + 1}</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <strong>
+                                                                            <div className="d-flex align-items-center nowrap">
+                                                                                {item.name}
+                                                                            </div>
+                                                                        </strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        {item.cost}
+                                                                    </td>
+                                                                    <td>
+                                                                        <div className="d-flex align-items-center nowrap">
+                                                                            {item.renewal}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div className="d-flex align-items-center nowrap">
+                                                                            {item.noOfPatients}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div className="d-flex align-items-center nowrap">
+                                                                            {item.noOfAccounts}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="custom-control custom-switch">
+                                                                            <input type="checkbox" class="custom-control-input" id="control1" checked={item.instantBilling ? "checked" : "false"} disabled />
+                                                                            <label class="custom-control-label" for="control1"></label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div className="btn-group">
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                                data-toggle="dropdown"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false"
+                                                                            >
+                                                                                Action
+                                                                            </button>
+                                                                            <div className="dropdown-menu">
+                                                                                <Link
+                                                                                    title="Pre-consultation"
+                                                                                    to={{
+                                                                                        pathname: "/AdminEditHealthPlan/" + item.id,
+                                                                                        state: item,
+                                                                                    }}
+                                                                                    className="btn btn-sm btn-block text-primary"
+                                                                                >
+                                                                                    <span className="btn-icon icofont-edit-alt mr-2" />
+                                                                                Edit
+                                                                                </Link>
+                                                                                <Link
+                                                                                    title="Pre-consultation"
+                                                                                    to="#"
+                                                                                    className="btn btn-sm btn-block text-danger"
+                                                                                >
+                                                                                    <span className="btn-icon icofont-delete-alt mr-2" />
+                                                                                    Delete
+                                                                                </Link>
+                                                                            </div>
+                                                                        </div>
 
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <strong>1</strong>
-                                                            </td>
-                                                            <td>
-                                                                Aderonke Iyalode
-                                                            </td>
-                                                            <td>
-                                                                <strong>
-                                                                    <div className="d-flex align-items-center nowrap">
-                                                                        #20,000
-                                                                    </div>
-                                                                </strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    5
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    10
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    30
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="custom-control custom-switch">
-                                                                    <input type="checkbox" class="custom-control-input" id="control2" checked="false" />
-                                                                    <label class="custom-control-label" for="control2"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="btn-group">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                    >
-                                                                        Action
-                                                                    </button>
-                                                                    <div className="dropdown-menu">
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="/AdminEditHealthPlan/90"
-                                                                            className="btn btn-sm btn-block text-primary"
-                                                                        >
-                                                                            <span className="btn-icon icofont-edit-alt mr-2" />
-                                                                           Edit
-                                                                        </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="#"
-                                                                            className="btn btn-sm btn-block text-danger"
-                                                                        >
-                                                                            <span className="btn-icon icofont-delete-alt mr-2" />
-                                                                            Delete
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <strong>1</strong>
-                                                            </td>
-                                                            <td>
-                                                                Aderonke Iyalode
-                                                            </td>
-                                                            <td>
-                                                                <strong>
-                                                                    <div className="d-flex align-items-center nowrap">
-                                                                        #20,000
-                                                                    </div>
-                                                                </strong>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    5
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    10
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="d-flex align-items-center nowrap">
-                                                                    30
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="custom-control custom-switch">
-                                                                    <input type="checkbox" class="custom-control-input" id="control3" checked="false" />
-                                                                    <label class="custom-control-label" for="control3"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div className="btn-group">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                    >
-                                                                        Action
-                                                                    </button>
-                                                                    <div className="dropdown-menu">
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="/AdminEditHealthPlan/90"
-                                                                            className="btn btn-sm btn-block text-primary"
-                                                                        >
-                                                                            <span className="btn-icon icofont-edit-alt mr-2" />
-                                                                           Edit
-                                                                        </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="#"
-                                                                            className="btn btn-sm btn-block text-danger"
-                                                                        >
-                                                                            <span className="btn-icon icofont-delete-alt mr-2" />
-                                                                            Delete
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        }
 
                                                     </tbody>
                                                 </table>
