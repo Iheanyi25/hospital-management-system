@@ -11,13 +11,13 @@ class ServiceCategory extends React.Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
-					<div className="main-content-wrap w-75">
+					<div className="main-content-wrap w-50">
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
 									<div class="card border-light">
 										<div class="card-body">
-											<form className="mb-4">
+											<form className="mb-4 p-5">
 												<h4 className="text-center">Service Category</h4>
 												<div className="form-group">
 													<label>Name</label>

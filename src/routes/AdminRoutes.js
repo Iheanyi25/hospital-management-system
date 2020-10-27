@@ -61,6 +61,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminEditHealthPlan" component={EditHealthPlan} />
                     <Route exact path="/AdminManageHealthPlans" component={ManageHealthPlans} />
 
+
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
 
                 </Switch>
