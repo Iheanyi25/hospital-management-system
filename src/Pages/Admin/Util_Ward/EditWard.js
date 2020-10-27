@@ -2,9 +2,20 @@ import React, { Component } from 'react'
 import { PageLoader, TemplateSettings } from '../../../Components';
 
 export default class EditWard extends Component {
-    render() {
-        return (
-            <>
+
+	state = {
+		name: "",
+		capacity: ""
+	};
+
+	componentDidMount() {
+		const { name, capacity } = this.props.history.location.state;
+		this.setState({ name, capacity })
+	}
+
+	render() {
+		return (
+			<>
 				<PageLoader />
 				<main className="main-content">
 					<div className="app-loader">
@@ -25,6 +36,7 @@ export default class EditWard extends Component {
 														type="text"
 														tabIndex={-98}
 														placeholder="Name of Ward"
+														defaultValue={this.state.name}
 													/>
 												</div>
 												<div className="form-group">
@@ -33,6 +45,7 @@ export default class EditWard extends Component {
 														className="form-control"
 														type="number"
 														tabIndex={-98}
+														defaultValue={this.state.capacity}
 														placeholder="Room capacity"
 													/>
 												</div>
@@ -54,6 +67,6 @@ export default class EditWard extends Component {
 				</main>
 				<TemplateSettings />
 			</>
-        )
-    }
+		)
+	}
 }

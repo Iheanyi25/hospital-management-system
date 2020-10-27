@@ -2,9 +2,18 @@ import React, { Component } from 'react'
 import { PageLoader, TemplateSettings } from '../../../Components';
 
 export default class EditHealthPlan extends Component {
-    render() {
-        return (
-            <>
+
+	state = {
+	}
+
+	componentDidMount() {
+		this.setState(this.props.history.location.state);
+		console.log(this.props.history.location.state)
+	}
+
+	render() {
+		return (
+			<>
 				<PageLoader />
 				<main className="main-content">
 					<div className="app-loader">
@@ -25,6 +34,7 @@ export default class EditHealthPlan extends Component {
 														type="text"
 														tabIndex={-98}
 														placeholder="Name of the health plan"
+														defaultValue={this.state.name}
 													/>
 												</div>
 												<div className="form-group">
@@ -33,6 +43,7 @@ export default class EditHealthPlan extends Component {
 														className="form-control"
 														type="number"
 														tabIndex={-98}
+														defaultValue={this.state.cost}
 														placeholder="Price of the health plan"
 													/>
 												</div>
@@ -41,6 +52,7 @@ export default class EditHealthPlan extends Component {
 													<input
 														className="form-control"
 														type="number"
+														defaultValue={this.state.renewal}
 														tabIndex={-98}
 														placeholder="Cost of annual renewal of card"
 													/>
@@ -51,6 +63,7 @@ export default class EditHealthPlan extends Component {
 														className="form-control"
 														type="number"
 														tabIndex={-98}
+														defaultValue={this.state.noOfPatients}
 														placeholder="Number of patient per folder"
 													/>
 												</div>
@@ -59,6 +72,7 @@ export default class EditHealthPlan extends Component {
 													<input
 														className="form-control"
 														type="number"
+														defaultValue={this.state.noOfAccounts}
 														tabIndex={-98}
 														placeholder="Accounts Per health plan"
 													/>
@@ -69,6 +83,7 @@ export default class EditHealthPlan extends Component {
 															type="checkbox"
 															class="custom-control-input"
 															id="control2"
+															checked={this.state.instantBilling ? "checked" : ""}
 														/>{' '}
 														<label class="custom-control-label" for="control2">
 															Instant Billing
@@ -93,6 +108,6 @@ export default class EditHealthPlan extends Component {
 				</main>
 				<TemplateSettings />
 			</>
-        )
-    }
+		)
+	}
 }
