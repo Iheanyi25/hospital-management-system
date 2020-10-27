@@ -9,8 +9,12 @@ export default class EditService extends Component {
     }
 
     async componentDidMount() {
-        let stateData = this.props.history.location.state;
-        this.setState({ name: stateData.name, cost: stateData.cost })
+        if (this.props.history.location.state) {
+            let stateData = this.props.history.location.state;
+            this.setState({ name: stateData.name, cost: stateData.cost })
+        } else {
+            return this.props.history.push("/AdminDashboard");
+        }
     }
 
     render() {
@@ -39,7 +43,7 @@ export default class EditService extends Component {
                                                         tabIndex={-98}
                                                         placeholder="Name of service"
                                                         defaultValue={this.state.name}
-                                                        
+
                                                     />
                                                 </div>
 

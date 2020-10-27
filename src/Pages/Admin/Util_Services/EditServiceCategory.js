@@ -9,8 +9,12 @@ export default class EditServiceCategory extends Component {
     }
 
     async componentDidMount() {
-        let stateData = this.props.history.location.state;
-        this.setState({ name: stateData.name, description: stateData.description })
+        if (this.props.history.location.state) {
+            let stateData = this.props.history.location.state;
+            this.setState({ name: stateData.name, description: stateData.description })
+        } else {
+            return this.props.history.push("/AdminDashboard");
+        }
     }
 
     render() {
