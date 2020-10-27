@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { PageLoader } from '../../Components'
+import { PageLoader } from '../../../Components'
 
 export default class EditService extends Component {
     render() {

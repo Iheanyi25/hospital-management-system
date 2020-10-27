@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { PageLoader } from '../../Components'
+import { PageLoader } from '../../../Components'
 
 export default class ManageServiceCategory extends Component {
     render() {
