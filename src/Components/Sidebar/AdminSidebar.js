@@ -232,11 +232,6 @@ class AdminSidebar extends React.Component {
 													<span className="link-text">Manage Health Plans</span>
 												</NavLink>
 											</li>
-											<li className="menu-item">
-												<NavLink to="/AdminEditHealthPlan" className="item-link">
-													<span className="link-text">Edit Health plans</span>
-												</NavLink>
-											</li>
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
@@ -253,11 +248,6 @@ class AdminSidebar extends React.Component {
 											<li className="menu-item">
 												<NavLink to="/AdminManageWards" className="item-link">
 													<span className="link-text">Manage wards</span>
-												</NavLink>
-											</li>
-											<li className="menu-item">
-												<NavLink to="/AdminEditWard" className="item-link">
-													<span className="link-text">Edit wards</span>
 												</NavLink>
 											</li>
 										</ul>

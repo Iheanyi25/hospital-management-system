@@ -55,10 +55,10 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
                     <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
                     <Route exact path="/AdminCreateWard" component={CreateWard} />
-                    <Route exact path="/AdminEditWard" component={EditWard} />
+                    <Route exact path="/AdminEditWard/:id" component={EditWard} /> 
                     <Route exact path="/AdminManageWards" component={ManageWards} />
                     <Route exact path="/AdminCreateHealthPlan" component={CreateHealthPlan} />
-                    <Route exact path="/AdminEditHealthPlan" component={EditHealthPlan} />
+                    <Route exact path="/AdminEditHealthPlan/:id" component={EditHealthPlan} />
                     <Route exact path="/AdminManageHealthPlans" component={ManageHealthPlans} />
 
 
