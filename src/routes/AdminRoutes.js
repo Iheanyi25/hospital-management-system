@@ -11,19 +11,19 @@ import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
 import AdminBookConsultation from "../Pages/Admin/BookConsultation";
 import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
-import CreateService from "../Pages/Admin/CreateService";
-import ServiceCategory from "../Pages/Admin/ServiceCategory";
+import CreateService from "../Pages/Admin/Util_Services/CreateService";
+import ServiceCategory from "../Pages/Admin/Util_Services//ServiceCategory";
 import { AdminLayout } from '../Components/Layout';
-import ManageServiceCategory from '../Pages/Admin/ManageServiceCategory';
-import ManageServices from '../Pages/Admin/ManageServices';
-import EditServiceCategory from '../Pages/Admin/EditServiceCategory';
-import EditService from '../Pages/Admin/EditService';
+import ManageServiceCategory from '../Pages/Admin/Util_Services//ManageServiceCategory';
+import ManageServices from '../Pages/Admin/Util_Services//ManageServices';
+import EditServiceCategory from '../Pages/Admin/Util_Services//EditServiceCategory';
+import EditService from '../Pages/Admin/Util_Services//EditService';
 
 export default function AdminRoutes() {
     return (
-        <BrowserRouter basename="admin">
-            <Switch>
-                <AdminLayout>
+        <BrowserRouter basename="admin" >
+            <AdminLayout>
+                <Switch>
 
                     <Route exact path="/AdminDashboard" component={AdminDashboard} />
                     <Route exact path="/AdminUpdatePatientProfile/:id" component={AdminUpdatePatientProfile} />
@@ -43,10 +43,10 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
                     <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
 
-
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
-                </AdminLayout>
-            </Switch>
-        </BrowserRouter>
+
+                </Switch>
+            </AdminLayout>
+        </BrowserRouter >
     )
 }

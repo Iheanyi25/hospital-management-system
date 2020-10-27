@@ -16,9 +16,10 @@ import DoctorAvaliablity from "../Pages/Doctor/Avaliablity";
 
 export default function DoctorRoutes() {
     return (
-        <BrowserRouter basename="doctor"  >
-            <Switch >
-                <DoctorLayout>
+        <BrowserRouter basename="doctor">
+            <DoctorLayout>
+                <Switch>
+
                     <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
                     <Route exact path="/DoctorPatientsList" component={DoctorPatientsList} />
                     <Route exact path="/DoctorConsultationQueue" component={DoctorConsultationQueue} />
@@ -34,8 +35,8 @@ export default function DoctorRoutes() {
 
                     <Route exact path="*" render={() => <Redirect to="/DoctorDashboard" />} />
 
-                </DoctorLayout>
-            </Switch>
+                </Switch>
+            </DoctorLayout>
         </BrowserRouter>
     )
 }

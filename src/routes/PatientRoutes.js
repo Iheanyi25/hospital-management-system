@@ -8,22 +8,26 @@ import PatientBookAppointment from "../Pages/Patient/BookAppointment";
 import PatientBookConsultation from "../Pages/Patient/BookConsultation";
 import PatientDoctorList from "../Pages/Patient/DoctorList";
 import PatientDoctorProfile from "../Pages/Patient/DoctorProfile";
+import { PatientLayout } from '../Components/Layout';
 
 export default function PatientRoutes() {
     return (
-        <BrowserRouter basename="patient"  >
-            <Switch >
-                <Route exact path="/PatientDashboard" component={PatientDashboard} />
-                <Route exact path="/PatientAppointments" component={PatientAppointments} />
-                <Route exact path="/PatientConsultations" component={PatientConsultations} />
-                <Route exact path="/PatientDoctorList" component={PatientDoctorList} />
-                <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
-                <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
-                <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
+        <BrowserRouter basename="patient">
+            <PatientLayout>
+                <Switch>
 
-                <Route exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
+                    <Route exact path="/PatientDashboard" component={PatientDashboard} />
+                    <Route exact path="/PatientAppointments" component={PatientAppointments} />
+                    <Route exact path="/PatientConsultations" component={PatientConsultations} />
+                    <Route exact path="/PatientDoctorList" component={PatientDoctorList} />
+                    <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
+                    <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
+                    <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
 
-            </Switch>
+                    <Route exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
+
+                </Switch>
+            </PatientLayout>
         </BrowserRouter>
     )
 }

@@ -7,14 +7,15 @@ import { AccountantLayout } from '../Components/Layout';
 export default function AccountantRoutes() {
     return (
         <BrowserRouter basename="admin"  >
-            <Switch >
-                <AccountantLayout>
+            <AccountantLayout>
+                <Switch>
 
                     <Route exact path="/AccountantDashboard" component={AccountantDashboard} />
 
-                    <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
-                </AccountantLayout>
-            </Switch>
+                    <Route exact path="*" render={() => <Redirect to="/AccountantDashboard" />} />
+
+                </Switch>
+            </AccountantLayout>
         </BrowserRouter>
     )
 }

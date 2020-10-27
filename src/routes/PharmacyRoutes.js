@@ -13,8 +13,9 @@ import { PharmacyLayout } from '../Components/Layout';
 export default function PharmacyRoutes() {
     return (
         <BrowserRouter basename="pharmacy"  >
-            <Switch >
-                <PharmacyLayout>
+            <PharmacyLayout>
+                <Switch >
+
                     <Route exact path="/PharmacyDashboard" component={PharmacyDashboard} />
                     <Route exact path="/PharmacyCreateDrugCategories" component={PharmacyCreateDrugCategories} />
                     <Route exact path="/PharmacyManageDrugCategories" component={PharmacyManageDrugCategories} />
@@ -25,8 +26,8 @@ export default function PharmacyRoutes() {
 
                     <Route exact path="*" render={() => <Redirect to="/PharmacyDashboard" />} />
 
-                </PharmacyLayout>
-            </Switch>
+                </Switch>
+            </PharmacyLayout>
         </BrowserRouter>
     )
 }
