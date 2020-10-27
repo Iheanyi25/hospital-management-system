@@ -11,13 +11,25 @@ import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
 import AdminBookConsultation from "../Pages/Admin/BookConsultation";
 import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
+import { AdminLayout } from '../Components/Layout';
+
+// service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
 import ServiceCategory from "../Pages/Admin/Util_Services//ServiceCategory";
-import { AdminLayout } from '../Components/Layout';
 import ManageServiceCategory from '../Pages/Admin/Util_Services//ManageServiceCategory';
 import ManageServices from '../Pages/Admin/Util_Services//ManageServices';
 import EditServiceCategory from '../Pages/Admin/Util_Services//EditServiceCategory';
 import EditService from '../Pages/Admin/Util_Services//EditService';
+
+// ward utils
+import CreateWard from "../Pages/Admin/Util_Ward/CreateWard";
+import EditWard from "../Pages/Admin/Util_Ward/EditWard";
+import ManageWards from "../Pages/Admin/Util_Ward/ManageWards";
+
+// health-plan utils
+import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
+import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
+import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans";
 
 export default function AdminRoutes() {
     return (
@@ -42,7 +54,12 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminServiceCategory" component={ServiceCategory} />
                     <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
                     <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
-
+                    <Route exact path="/AdminCreateWard" component={CreateWard} />
+                    <Route exact path="/AdminEditWard" component={EditWard} />
+                    <Route exact path="/AdminManageWards" component={ManageWards} />
+                    <Route exact path="/AdminCreateHealthPlan" component={CreateHealthPlan} />
+                    <Route exact path="/AdminEditHealthPlan" component={EditHealthPlan} />
+                    <Route exact path="/AdminManageHealthPlans" component={ManageHealthPlans} />
 
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
 
