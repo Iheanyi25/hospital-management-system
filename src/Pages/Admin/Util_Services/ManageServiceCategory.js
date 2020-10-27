@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom'
 import { PageLoader } from '../../../Components'
 
 export default class ManageServiceCategory extends Component {
+    state = {
+        categories: []
+    }
+
+    async componentDidMount() {
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/GetAllServiceCategories`);
+        let data = await request.json();
+        this.setState({ categories: data });
+    }
+
     render() {
         return (
             <>
@@ -24,121 +34,78 @@ export default class ManageServiceCategory extends Component {
                                                     className="table table-striped"
                                                     data-columns='[
                                                         { "data": "#" },
-                                                        { "data": "folder-name" },
-                                                        { "data": "health-plan" },
-                                                        { "data": "actions" }
+                                                        { "data": "name" },
+                                                        { "data": "description" },
+                                                        { "data": "" }
                                                     ]'
                                                     data-paging="true"
                                                     data-info="true"
+                                                    data-searching="true"
+                                                    data-ajax={this.state.categories}
                                                 >
                                                     <thead>
                                                         <tr className="">
                                                             <th>#</th>
-                                                            <th>Folder Name</th>
-                                                            <th>Health Plan</th>
+                                                            <th>Category</th>
+                                                            <th>Description</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>1</strong>
-                                                            </td>
-                                                            <td>
-                                                                09/34/4
-                                                            </td>
-                                                            <td>
-                                                                <strong>
-                                                                    {" "}
-                                                                    <div className="d-flex align-items-center nowrap">
-                                                                        Premium
-                                                                    </div>
-                                                                </strong>
-                                                            </td>
+                                                        {
+                                                            this.state.categories.map((item, index) =>
+                                                                <tr key={index}>
+                                                                    <td>
+                                                                        <strong>{index + 1}</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <strong>
+                                                                            {" "}
+                                                                            <div className="d-flex align-items-center nowrap">
+                                                                                {item.name}
+                                                                            </div>
+                                                                        </strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        {item.description}
+                                                                    </td>
 
-                                                            <td>
-                                                                <div className="btn-group">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                    >
-                                                                        Action
-                                                                    </button>
-                                                                    <div className="dropdown-menu">
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="/AdminEditServiceCategory/99"
-                                                                            className="btn btn-sm btn-block text-primary"
-                                                                        >
-                                                                            <span className="btn-icon icofont-edit-alt mr-2" />
+                                                                    <td>
+                                                                        <div className="btn-group">
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                                data-toggle="dropdown"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false"
+                                                                            >
+                                                                                Action
+                                                                            </button>
+                                                                            <div className="dropdown-menu">
+                                                                                <Link
+                                                                                    title="Pre-consultation"
+                                                                                    to={{ pathname: `/AdminEditServiceCategory/${item.id}`, state: item }}
+                                                                                    className="btn btn-sm btn-block text-primary"
+                                                                                >
+                                                                                    <span className="btn-icon icofont-edit-alt mr-2" />
                                                                            Edit
                                                                         </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="#"
-                                                                            className="btn btn-sm btn-block text-danger"
-                                                                        >
-                                                                            <span className="btn-icon icofont-delete-alt mr-2" />
+                                                                                <Link
+                                                                                    title="Pre-consultation"
+                                                                                    to="#"
+                                                                                    className="btn btn-sm btn-block text-danger"
+                                                                                >
+                                                                                    <span className="btn-icon icofont-delete-alt mr-2" />
                                                                             Delete
                                                                         </Link>
-                                                                    </div>
-                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <strong>2</strong>
-                                                            </td>
-                                                            <td>
-                                                                09/34/4
-                                                            </td>
-                                                            <td>
-                                                                <strong>
-                                                                    {" "}
-                                                                    <div className="d-flex align-items-center nowrap">
-                                                                        Premium
-                                                                    </div>
-                                                                </strong>
-                                                            </td>
-
-                                                            <td>
-                                                                <div className="btn-group">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                    >
-                                                                        Action
-                                                                    </button>
-                                                                    <div className="dropdown-menu">
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="/AdminEditServiceCategory/90"
-                                                                            className="btn btn-sm btn-block text-primary"
-                                                                        >
-                                                                            <span className="btn-icon icofont-edit-alt mr-2" />
-                                                                           Edit
-                                                                        </Link>
-                                                                        <Link
-                                                                            title="Pre-consultation"
-                                                                            to="#"
-                                                                            className="btn btn-sm btn-block text-danger"
-                                                                        >
-                                                                            <span className="btn-icon icofont-delete-alt mr-2" />
-                                                                            Delete
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>

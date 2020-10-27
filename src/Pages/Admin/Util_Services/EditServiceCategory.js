@@ -2,6 +2,17 @@ import React, { Component } from 'react'
 import { PageLoader } from '../../../Components'
 
 export default class EditServiceCategory extends Component {
+
+    state = {
+        name: "",
+        description: ""
+    }
+
+    async componentDidMount() {
+        let stateData = this.props.history.location.state;
+        this.setState({ name: stateData.name, description: stateData.description })
+    }
+
     render() {
         return (
             <>
@@ -26,6 +37,7 @@ export default class EditServiceCategory extends Component {
                                                         type="text"
                                                         tabIndex={-98}
                                                         placeholder="Name"
+                                                        defaultValue={this.state.name}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -34,6 +46,7 @@ export default class EditServiceCategory extends Component {
                                                         className="form-control"
                                                         placeholder="Description"
                                                         rows={3}
+                                                        defaultValue={this.state.description}
                                                     />
                                                 </div>
                                                 <div className="row">
