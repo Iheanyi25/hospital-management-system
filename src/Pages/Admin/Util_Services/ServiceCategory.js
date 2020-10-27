@@ -13,16 +13,18 @@ class ServiceCategory extends React.Component {
 			name: this.state.name,
 			description: this.state.description,
 		};
-		try {
-			let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateAServiceCategory', {
-				headers: { 'Content-Type': 'application/json-patch+json' },
-				method: 'POST',
-				body: JSON.stringify(data),
-				redirect: 'follow',
-			});
-			console.log(res);
-		} catch (error) {
-			console.log(error);
+		if (!this.state.name === '' && !this.state.description === '') {
+			try {
+				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateAServiceCategory', {
+					headers: { 'Content-Type': 'application/json-patch+json' },
+					method: 'POST',
+					body: JSON.stringify(data),
+					redirect: 'follow',
+				});
+				console.log(res);
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	};
 
@@ -39,8 +41,8 @@ class ServiceCategory extends React.Component {
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
-									<div class="card border-light">
-										<div class="card-body">
+									<div className="card border-light">
+										<div className="card-body">
 											<form
 												className="mb-4 p-5 needs-validation"
 												onSubmit={this.handleSubmit}
@@ -61,6 +63,7 @@ class ServiceCategory extends React.Component {
 														required
 													/>
 													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Please provide a valid name.</div>
 												</div>
 												<div className="form-group">
 													<label>Description</label>
@@ -74,7 +77,10 @@ class ServiceCategory extends React.Component {
 														}}
 														required
 													/>
-													<div class="valid-feedback">Looks good!</div>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Please provide a valid description.
+													</div>
 												</div>
 												<div className="row">
 													<div className="col"></div>
