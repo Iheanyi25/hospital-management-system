@@ -3,12 +3,16 @@ import { PageLoader, TemplateSettings } from '../../../Components';
 
 export default class EditHealthPlan extends Component {
 
-	state = {
-	}
+	state = {}
 
 	componentDidMount() {
-		this.setState(this.props.history.location.state);
-		console.log(this.props.history.location.state)
+		if (this.props.history.location.state) {
+			this.setState(this.props.history.location.state);
+		}
+		else {
+			return this.props.history.push("/AdminDashboard");
+		}
+
 	}
 
 	render() {

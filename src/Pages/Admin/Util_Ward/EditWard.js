@@ -9,8 +9,13 @@ export default class EditWard extends Component {
 	};
 
 	componentDidMount() {
-		const { name, capacity } = this.props.history.location.state;
-		this.setState({ name, capacity })
+		if (this.props.history.location.state) {
+			const { name, capacity } = this.props.history.location.state;
+			console.log(this.props.history.location.state);
+			this.setState({ name, capacity })
+		} else {
+			return this.props.history.push("/AdminDashboard");
+		}
 	}
 
 	render() {
