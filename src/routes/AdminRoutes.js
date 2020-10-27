@@ -20,12 +20,10 @@ import ManageServiceCategory from '../Pages/Admin/Util_Services//ManageServiceCa
 import ManageServices from '../Pages/Admin/Util_Services//ManageServices';
 import EditServiceCategory from '../Pages/Admin/Util_Services//EditServiceCategory';
 import EditService from '../Pages/Admin/Util_Services//EditService';
-import CreateWard from '../Pages/Admin/Util_Ward/CreateWard';
-import EditWard from '../Pages/Admin/Util_Ward/EditWard';
 
 // ward utils
-import CreateWard from "../Pages/Admin/Util_Ward/CreateWard";
-import EditWard from "../Pages/Admin/Util_Ward/EditWard";
+import CreateWard from '../Pages/Admin/Util_Ward/CreateWard';
+import EditWard from '../Pages/Admin/Util_Ward/EditWard';
 import ManageWards from "../Pages/Admin/Util_Ward/ManageWards";
 
 // health-plan utils
