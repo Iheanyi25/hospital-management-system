@@ -11,7 +11,7 @@ export default class CreateWard extends Component {
 		e.preventDefault();
 		const data = {
 			name: this.state.name,
-			description: this.state.capacity,
+			capacity: this.state.capacity,
 		};
 		if (this.state.name !== '' && this.state.capacity !== '') {
 			try {
