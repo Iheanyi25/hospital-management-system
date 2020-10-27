@@ -26,8 +26,8 @@ export default class EditService extends Component {
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
-                                    <div class="card border-light">
-                                        <div class="card-body">
+                                    <div className="card border-light">
+                                        <div className="card-body">
                                             <form className="mb-4 p-5">
                                                 <h4 className="text-center">Edit service</h4>
                                                 <div className="form-group">
