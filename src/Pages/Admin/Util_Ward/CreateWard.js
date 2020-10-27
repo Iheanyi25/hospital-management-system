@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
-import Success from '../../../Components/Sidebar/Alerts/Network';
+import Success from '../../../Components/Alerts/Network';
 
 export default class CreateWard extends Component {
 	render() {
