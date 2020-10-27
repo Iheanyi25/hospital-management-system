@@ -9,7 +9,7 @@ export default class ManageServices extends Component {
     }
 
     async componentDidMount() {
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/GetAllService`);
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/GetAllServices`);
         let data = await request.json();
         this.setState({ services: data });
     }
@@ -37,7 +37,6 @@ export default class ManageServices extends Component {
                                                     data-columns='[
                                                         { "data": "#" },
                                                         { "data": "title" },
-                                                        { "data": "category" },
                                                         { "data": "cost" },
                                                         { "data": "" }
                                                     ]'
@@ -50,7 +49,6 @@ export default class ManageServices extends Component {
                                                         <tr className="">
                                                             <th>#</th>
                                                             <th>Services</th>
-                                                            <th>Category</th>
                                                             <th>Cost</th>
                                                             <th>Actions</th>
                                                         </tr>
@@ -67,12 +65,9 @@ export default class ManageServices extends Component {
                                                                         <strong>
                                                                             {" "}
                                                                             <div className="d-flex align-items-center nowrap">
-                                                                                {item.title}
+                                                                                {item.name}
                                                                             </div>
                                                                         </strong>
-                                                                    </td>
-                                                                    <td>
-                                                                        {item.category}
                                                                     </td>
                                                                     <td>
                                                                         <div className="d-flex align-items-center nowrap">
@@ -94,7 +89,7 @@ export default class ManageServices extends Component {
                                                                             <div className="dropdown-menu">
                                                                                 <Link
                                                                                     title="Pre-consultation"
-                                                                                    to={"/AdminEditService/" + item.id}
+                                                                                    to={{ pathname: "/AdminEditService/" + item.id, state: item }}
                                                                                     className="btn btn-sm btn-block text-primary"
                                                                                 >
                                                                                     <span className="btn-icon icofont-edit-alt mr-2" />

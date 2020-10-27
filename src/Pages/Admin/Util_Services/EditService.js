@@ -2,6 +2,17 @@ import React, { Component } from 'react'
 import { PageLoader } from '../../../Components'
 
 export default class EditService extends Component {
+
+    state = {
+        name: "",
+        cost: ""
+    }
+
+    async componentDidMount() {
+        let stateData = this.props.history.location.state;
+        this.setState({ name: stateData.name, cost: stateData.cost })
+    }
+
     render() {
         return (
             <>
@@ -27,6 +38,7 @@ export default class EditService extends Component {
                                                         type="text"
                                                         tabIndex={-98}
                                                         placeholder="Name of service"
+                                                        defaultValue={this.state.name}
                                                     />
                                                 </div>
 
@@ -45,6 +57,7 @@ export default class EditService extends Component {
                                                         className="form-control"
                                                         type="number"
                                                         tabIndex={-98}
+                                                        defaultValue={this.state.cost}
                                                         placeholder="Price of Service"
                                                     />
                                                 </div>
