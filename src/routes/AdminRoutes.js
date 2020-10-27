@@ -43,6 +43,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
                     <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
 
+
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
 
                 </Switch>

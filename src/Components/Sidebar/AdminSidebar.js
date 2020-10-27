@@ -216,6 +216,52 @@ class AdminSidebar extends React.Component {
 											</li>
 										</ul>
 									</li>
+									<li className="menu-item has-sub">
+										<NavLink to="#" className="item-link">
+											<span className="link-text">Health Plans</span>{' '}
+											<span className="link-caret icofont-thin-right" />
+										</NavLink>
+										<ul className="sub">
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Create a health plan</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Manage Health Plans</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Edit Health plans</span>
+												</NavLink>
+											</li>
+										</ul>
+									</li>
+									<li className="menu-item has-sub">
+										<NavLink to="#" className="item-link">
+											<span className="link-text">Wards</span>{' '}
+											<span className="link-caret icofont-thin-right" />
+										</NavLink>
+										<ul className="sub">
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Create a ward</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Manage wards</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Edit wards</span>
+												</NavLink>
+											</li>
+										</ul>
+									</li>
 									<li className="menu-item">
 										<span className="group-title">Schedules Mgt.</span>
 									</li>
