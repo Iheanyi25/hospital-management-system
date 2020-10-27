@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
+import Success from '../../../Components/Sidebar/Alerts/Network';
 
 export default class CreateWard extends Component {
 	render() {
@@ -14,6 +15,7 @@ export default class CreateWard extends Component {
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
+												{/* <Success /> */}
 									<div class="card border-light">
 										<div class="card-body">
 											<form className="mb-4 p-5">
