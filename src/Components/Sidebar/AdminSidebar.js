@@ -246,7 +246,7 @@ class AdminSidebar extends React.Component {
 										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="#" className="item-link">
+												<NavLink to="/AdminCreateWard" className="item-link">
 													<span className="link-text">Create a ward</span>
 												</NavLink>
 											</li>
@@ -256,7 +256,7 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 											<li className="menu-item">
-												<NavLink to="#" className="item-link">
+												<NavLink to="/AdminEditWard" className="item-link">
 													<span className="link-text">Edit wards</span>
 												</NavLink>
 											</li>

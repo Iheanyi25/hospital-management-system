@@ -18,6 +18,8 @@ import ManageServiceCategory from '../Pages/Admin/Util_Services//ManageServiceCa
 import ManageServices from '../Pages/Admin/Util_Services//ManageServices';
 import EditServiceCategory from '../Pages/Admin/Util_Services//EditServiceCategory';
 import EditService from '../Pages/Admin/Util_Services//EditService';
+import CreateWard from '../Pages/Admin/Util_Ward/CreateWard';
+import EditWard from '../Pages/Admin/Util_Ward/EditWard';
 
 export default function AdminRoutes() {
     return (
@@ -42,6 +44,8 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminServiceCategory" component={ServiceCategory} />
                     <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
                     <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
+                    <Route exact path="/AdminCreateWard" component={CreateWard} />
+                    <Route exact path="/AdminEditWard" component={EditWard} />
 
 
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
