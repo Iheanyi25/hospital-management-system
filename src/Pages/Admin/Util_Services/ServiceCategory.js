@@ -13,7 +13,7 @@ class ServiceCategory extends React.Component {
 			name: this.state.name,
 			description: this.state.description,
 		};
-		if (!this.state.name === '' && !this.state.description === '') {
+		if (this.state.name !== '' && this.state.description !== '') {
 			try {
 				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateAServiceCategory', {
 					headers: { 'Content-Type': 'application/json-patch+json' },
