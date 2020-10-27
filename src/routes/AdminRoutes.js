@@ -22,8 +22,8 @@ import EditServiceCategory from '../Pages/Admin/Util_Services//EditServiceCatego
 import EditService from '../Pages/Admin/Util_Services//EditService';
 
 // ward utils
-import CreateWard from "../Pages/Admin/Util_Ward/CreateWard";
-import EditWard from "../Pages/Admin/Util_Ward/EditWard";
+import CreateWard from '../Pages/Admin/Util_Ward/CreateWard';
+import EditWard from '../Pages/Admin/Util_Ward/EditWard';
 import ManageWards from "../Pages/Admin/Util_Ward/ManageWards";
 
 // health-plan utils
@@ -55,7 +55,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminEditServiceCategory/:id" component={EditServiceCategory} />
                     <Route exact path="/AdminManageServiceCategory" component={ManageServiceCategory} />
                     <Route exact path="/AdminCreateWard" component={CreateWard} />
-                    <Route exact path="/AdminEditWard/:id" component={EditWard} /> 
+                    <Route exact path="/AdminEditWard/:id" component={EditWard} />
                     <Route exact path="/AdminManageWards" component={ManageWards} />
                     <Route exact path="/AdminCreateHealthPlan" component={CreateHealthPlan} />
                     <Route exact path="/AdminEditHealthPlan/:id" component={EditHealthPlan} />
