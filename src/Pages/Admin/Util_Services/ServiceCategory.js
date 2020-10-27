@@ -2,6 +2,30 @@ import React from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
 
 class ServiceCategory extends React.Component {
+	state = {
+		name: '',
+		description: '',
+	};
+
+	handleSubmit = async (e) => {
+		e.preventDefault();
+		const data = {
+			name: this.state.name,
+			description: this.state.description,
+		};
+		try {
+			let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateAServiceCategory', {
+				headers: { 'Content-Type': 'application/json-patch+json' },
+				method: 'POST',
+				body: JSON.stringify(data),
+				redirect: 'follow',
+			});
+			console.log(res);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	render() {
 		return (
 			<>
@@ -17,7 +41,11 @@ class ServiceCategory extends React.Component {
 								<div className="col col-md-12">
 									<div class="card border-light">
 										<div class="card-body">
-											<form className="mb-4 p-5">
+											<form
+												className="mb-4 p-5 needs-validation"
+												onSubmit={this.handleSubmit}
+												noValidate
+											>
 												<h4 className="text-center">Service Category</h4>
 												<div className="form-group">
 													<label>Name</label>
@@ -26,7 +54,13 @@ class ServiceCategory extends React.Component {
 														type="text"
 														tabIndex={-98}
 														placeholder="Name"
+														name="name"
+														onChange={(e) => {
+															this.setState({ [e.target.name]: e.target.value });
+														}}
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
 												</div>
 												<div className="form-group">
 													<label>Description</label>
@@ -34,12 +68,18 @@ class ServiceCategory extends React.Component {
 														className="form-control"
 														placeholder="Description"
 														rows={3}
+														name="description"
+														onChange={(e) => {
+															this.setState({ [e.target.name]: e.target.value });
+														}}
+														required
 													/>
+													<div class="valid-feedback">Looks good!</div>
 												</div>
 												<div className="row">
 													<div className="col"></div>
 													<div className="col text-right">
-														<button type="button" className="btn btn-primary">
+														<button type="submit" className="btn btn-primary">
 															Submit
 														</button>
 													</div>
