@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
-import Success from '../../../Components/Alerts/Network';
 
 export default class CreateWard extends Component {
+	state = {
+		name: '',
+		capacity: '',
+	};
+
+	handleSubmit = async (e) => {
+		e.preventDefault();
+		const data = {
+			name: this.state.name,
+			description: this.state.capacity,
+		};
+		if (this.state.name !== '' && this.state.capacity !== '') {
+			try {
+				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Ward/CreateWard', {
+					headers: { 'Content-Type': 'application/json-patch+json' },
+					method: 'POST',
+					body: JSON.stringify(data),
+					redirect: 'follow',
+				});
+				console.log(res);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+
 	render() {
 		return (
 			<>
@@ -15,10 +40,10 @@ export default class CreateWard extends Component {
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
-												{/* <Success /> */}
-									<div class="card border-light">
-										<div class="card-body">
-											<form className="mb-4 p-5">
+									{/* <Success /> */}
+									<div className="card border-light">
+										<div className="card-body">
+											<form className="mb-4 p-5 needs-validation" onSubmit={this.handleSubmit} noValidate>
 												<h4 className="text-center">Create a Ward</h4>
 												<div className="form-group">
 													<label>Name</label>
@@ -27,7 +52,14 @@ export default class CreateWard extends Component {
 														type="text"
 														tabIndex={-98}
 														placeholder="Name of Ward"
+														name="name"
+														onChange={(e) => {
+															this.setState({ [e.target.name]: e.target.value });
+														}}
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Please provide a valid name.</div>
 												</div>
 												<div className="form-group">
 													<label>Capacity</label>
@@ -36,12 +68,19 @@ export default class CreateWard extends Component {
 														type="number"
 														tabIndex={-98}
 														placeholder="Room capacity"
+														name="capacity"
+														onChange={(e) => {
+															this.setState({ [e.target.name]: e.target.value });
+														}}
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Oops! should be numbers only.</div>
 												</div>
 												<div className="row">
 													<div className="col"></div>
 													<div className="col text-right">
-														<button type="button" className="btn btn-primary">
+														<button type="submit" className="btn btn-primary">
 															Submit
 														</button>
 													</div>
