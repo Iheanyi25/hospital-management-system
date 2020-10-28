@@ -32,7 +32,7 @@ export default class EditService extends Component {
                                 <div className="col col-md-12">
                                     <div className="card border-light">
                                         <div className="card-body">
-                                            <form className="mb-4 p-5">
+                                            <form className="mb-4 p-5 needs-validation" noValidate>
                                                 <h4 className="text-center">Edit service</h4>
                                                 <div className="form-group">
                                                     <label>Title</label>
@@ -45,6 +45,8 @@ export default class EditService extends Component {
                                                         defaultValue={this.state.name}
 
                                                     />
+                                                    <div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Please provide a valid name.</div>
                                                 </div>
 
                                                 <div className="form-group">
@@ -65,12 +67,16 @@ export default class EditService extends Component {
                                                         defaultValue={this.state.cost}
                                                         placeholder="Price of Service"
                                                     />
+                                                    <div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col">
                                                     </div>
                                                     <div className="col text-right">
-                                                        <button type="button" className="btn btn-primary">
+                                                        <button type="submit" className="btn btn-primary">
                                                             Submit
 														</button>
                                                     </div>
