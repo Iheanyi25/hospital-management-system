@@ -58,7 +58,7 @@ export default class CreateHealthPlan extends Component {
 									<div className="card border-light">
 										<div className="card-body">
 											<form
-												className="mb-4 p-5 n"
+												className="mb-4 p-5 needs-validation"
 												onSubmit={this.handleSubmit}
 												noValidate
 											>
