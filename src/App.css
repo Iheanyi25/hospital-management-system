@@ -17,3 +17,7 @@ body {
     background: transparent;
     color: #336cfb;
 }
+
+.alert > *{
+    margin: 0 !important;
+}

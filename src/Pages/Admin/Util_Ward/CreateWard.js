@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
+import Success from "../../../Components/Alerts/Success";
 
 export default class CreateWard extends Component {
 	state = {
