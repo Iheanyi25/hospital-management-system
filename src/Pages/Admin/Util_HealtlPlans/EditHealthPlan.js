@@ -27,9 +27,9 @@ export default class EditHealthPlan extends Component {
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
-									<div class="card border-light">
-										<div class="card-body">
-											<form className="mb-4 p-5">
+									<div className="card border-light">
+										<div className="card-body">
+											<form className="mb-4 p-5 needs-validation" noValidate>
 												<h4 className="text-center">Edit a health plan</h4>
 												<div className="form-group">
 													<label>Name</label>
@@ -39,7 +39,10 @@ export default class EditHealthPlan extends Component {
 														tabIndex={-98}
 														placeholder="Name of the health plan"
 														defaultValue={this.state.name}
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Please provide a valid name.</div>
 												</div>
 												<div className="form-group">
 													<label>Cost</label>
@@ -49,7 +52,12 @@ export default class EditHealthPlan extends Component {
 														tabIndex={-98}
 														defaultValue={this.state.cost}
 														placeholder="Price of the health plan"
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
 												</div>
 												<div className="form-group">
 													<label>Renewal Cost</label>
@@ -59,7 +67,12 @@ export default class EditHealthPlan extends Component {
 														defaultValue={this.state.renewal}
 														tabIndex={-98}
 														placeholder="Cost of annual renewal of card"
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
 												</div>
 												<div className="form-group">
 													<label>Patients Per Folder</label>
@@ -69,7 +82,12 @@ export default class EditHealthPlan extends Component {
 														tabIndex={-98}
 														defaultValue={this.state.noOfPatients}
 														placeholder="Number of patient per folder"
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
 												</div>
 												<div className="form-group">
 													<label>Accounts Per Health Plan</label>
@@ -79,17 +97,22 @@ export default class EditHealthPlan extends Component {
 														defaultValue={this.state.noOfAccounts}
 														tabIndex={-98}
 														placeholder="Accounts Per health plan"
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
 												</div>
 												<div className="form-group">
-													<div class="custom-control custom-switch mb-3">
+													<div className="custom-control custom-switch mb-3">
 														<input
 															type="checkbox"
-															class="custom-control-input"
+															className="custom-control-input"
 															id="control2"
 															checked={this.state.instantBilling ? "checked" : ""}
 														/>{' '}
-														<label class="custom-control-label" for="control2">
+														<label className="custom-control-label" for="control2">
 															Instant Billing
 														</label>
 													</div>
@@ -97,7 +120,7 @@ export default class EditHealthPlan extends Component {
 												<div className="row">
 													<div className="col"></div>
 													<div className="col text-right">
-														<button type="button" className="btn btn-primary">
+														<button type="submit" className="btn btn-primary">
 															Submit
 														</button>
 													</div>

@@ -30,9 +30,9 @@ export default class EditWard extends Component {
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
-									<div class="card border-light">
-										<div class="card-body">
-											<form className="mb-4 p-5">
+									<div className="card border-light">
+										<div className="card-body">
+											<form className="mb-4 p-5 needs-validation" noValidate>
 												<h4 className="text-center">Edit a Ward</h4>
 												<div className="form-group">
 													<label>Name</label>
@@ -42,7 +42,10 @@ export default class EditWard extends Component {
 														tabIndex={-98}
 														placeholder="Name of Ward"
 														defaultValue={this.state.name}
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Please provide a valid name.</div>
 												</div>
 												<div className="form-group">
 													<label>Capacity</label>
@@ -52,12 +55,15 @@ export default class EditWard extends Component {
 														tabIndex={-98}
 														defaultValue={this.state.capacity}
 														placeholder="Room capacity"
+														required
 													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Oops! should be numbers only.</div>
 												</div>
 												<div className="row">
 													<div className="col"></div>
 													<div className="col text-right">
-														<button type="button" className="btn btn-primary">
+														<button type="submit" className="btn btn-primary">
 															Submit
 														</button>
 													</div>
