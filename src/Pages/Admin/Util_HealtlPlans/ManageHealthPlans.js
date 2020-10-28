@@ -27,8 +27,8 @@ export default class ManageHealthPlans extends Component {
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
-                                    <div class="card border-light">
-                                        <div class="card-body">
+                                    <div className="card border-light">
+                                        <div className="card-body">
 
                                             <div className="table-responsive">
                                                 <table
@@ -94,9 +94,9 @@ export default class ManageHealthPlans extends Component {
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <div class="custom-control custom-switch">
-                                                                            <input type="checkbox" class="custom-control-input" id="control1" checked={item.instantBilling ? "checked" : "false"} disabled />
-                                                                            <label class="custom-control-label" for="control1"></label>
+                                                                        <div className="custom-control custom-switch">
+                                                                            <input type="checkbox" className="custom-control-input" id="control1" checked={item.instantBilling ? "checked" : "false"} disabled />
+                                                                            <label className="custom-control-label" for="control1"></label>
                                                                         </div>
                                                                     </td>
                                                                     <td>

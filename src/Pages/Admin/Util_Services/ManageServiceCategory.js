@@ -26,8 +26,8 @@ export default class ManageServiceCategory extends Component {
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
-                                    <div class="card border-light">
-                                        <div class="card-body">
+                                    <div className="card border-light">
+                                        <div className="card-body">
                                             <div className="table-responsive">
                                                 <table
                                                     ref={(el) => (this.el = el)}
