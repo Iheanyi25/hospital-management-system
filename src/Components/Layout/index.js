@@ -2,7 +2,7 @@ import React from 'react';
 import UpdatePatientProfile from '../../Pages/Admin/UpdatePatientProfile';
 import { Footer } from '../Footer';
 import { AccountantHeader, AdminHeader, DoctorHeader, LabHeader, PatientHeader, PharmacyHeader } from '../Header';
-import { RegisterPatientModal, RegisterUserModal, SearchDoctorsModal, SearchPatientModal } from '../Modals';
+import { AddFamily, RegisterPatientModal, RegisterUserModal, SearchDoctorsModal, SearchPatientModal } from '../Modals';
 import { AccountantSidebar, AdminSidebar, DoctorSidebar, LabSidebar, PatientSidebar, PharmacySidebar } from '../Sidebar';
 import { TemplateSettings } from '../TemplateSettings';
 
@@ -17,6 +17,7 @@ export const AdminLayout = ({ children }) => {
 				<Footer />
 				<RegisterPatientModal />
 				<RegisterUserModal />
+				<AddFamily />
 				<TemplateSettings />
 			</div>
 		</div>

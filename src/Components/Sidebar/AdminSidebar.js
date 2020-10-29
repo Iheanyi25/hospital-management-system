@@ -277,9 +277,13 @@ class AdminSidebar extends React.Component {
 							</nav>
 						</div>
 						<div className="add-patient">
-							<button className="btn btn-primary" data-toggle="modal" data-target="#add-patient">
+							<NavLink to='/AdminAddPatients' className="btn btn-primary">
+								<span className="btn-icon icofont-plus mr-2" />
+								Register Patient
+							</NavLink>
+							{/* <button className="btn btn-primary" data-toggle="modal" data-target="#add-patient">
 								<span className="btn-icon icofont-plus mr-2" /> Register Patient
-							</button>
+							</button> */}
 						</div>
 
 						<div className="assistant-menu">

@@ -1,11 +1,5 @@
 import React from "react";
 import { AddDrugModal, Footer, PageLoader, PharmacyHeader, PharmacySidebar, TemplateSettings } from "../../Components";
-// import Header from "../../Components/Header/PharmacyHeader";
-// import Sidebar from "../../Components/Sidebar/PharmacySidebar";
-// import PageLoader from "../../Components/Loader/PageLoader";
-// import Footer from "../../Components/Footer";
-// import AddDrug from "../../Components/Modals/AddDrug";
-// import TemplateSettings from "../../Components/TemplateSettings";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");

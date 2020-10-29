@@ -10,6 +10,7 @@ import AdminBookAppointment from "../Pages/Admin/BookAppointment";
 import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
 import AdminBookConsultation from "../Pages/Admin/BookConsultation";
 import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
+import AddPatient from '../Pages/Admin/AddPatient.js';
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
 import { AdminLayout } from '../Components/Layout';
 
@@ -30,6 +31,7 @@ import ManageWards from "../Pages/Admin/Util_Ward/ManageWards";
 import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
 import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
 import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans";
+import SelectHealthPlan from '../Pages/Admin/SelectHealthPlan';
 
 export default function AdminRoutes() {
     return (
@@ -60,7 +62,8 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminCreateHealthPlan" component={CreateHealthPlan} />
                     <Route exact path="/AdminEditHealthPlan/:id" component={EditHealthPlan} />
                     <Route exact path="/AdminManageHealthPlans" component={ManageHealthPlans} />
-
+                    <Route exact path="/AdminAddPatients" component={AddPatient} />
+                    <Route exact path="/AdminSelectHealthPlan/:id" component={SelectHealthPlan} />
 
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
 
