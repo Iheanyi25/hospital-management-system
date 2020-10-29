@@ -75,10 +75,8 @@ class AdminSidebar extends React.Component {
 										<ul className="sub">
 											<li className="menu-item">
 												<NavLink
-													to="#"
+													to='/AdminAddPatients'
 													className="item-link"
-													data-toggle="modal"
-													data-target="#add-patient"
 												>
 													<span className="link-text">Register Patient</span>
 												</NavLink>
