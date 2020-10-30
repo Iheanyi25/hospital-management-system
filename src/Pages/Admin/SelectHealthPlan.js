@@ -50,10 +50,10 @@ export default class SelectHealthPlan extends Component {
                                                 <div className="row m-0">
                                                     <div className="col-12">
                                                         <div className="d-flex justify-content-between my-5">
-                                                            <div class="form-group mb-0 w-75">
+                                                            <div className="form-group mb-0 w-75">
                                                                 <label>Select a health plan</label>
-                                                                <select class="selectpicker">
-                                                                    <option class="d-none"></option>
+                                                                <select className="selectpicker">
+                                                                    <option className="d-none"></option>
                                                                     <option>Family</option>
                                                                     <option>HMO</option>
                                                                 </select>
@@ -123,11 +123,11 @@ export default class SelectHealthPlan extends Component {
                                             {/* <form className="mb-4 p-5 needs-validation" onSubmit={this.handleSubmit} noValidate>
                                                 <h5 className="text-center">Select a health plan for the patient</h5>
                                                 <div className="form-group">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control"
+                                                    <div className="input-group">
+                                                        <input type="text" className="form-control"
                                                             placeholder="Search Family" />
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-primary"
+                                                        <div className="input-group-append">
+                                                            <button className="btn btn-primary"
                                                                 type="button">Submit</button>
                                                         </div>
                                                     </div>
@@ -135,15 +135,15 @@ export default class SelectHealthPlan extends Component {
                                                     <div className="row">
                                                         <div className="col-12">
 
-                                                            <ul class="list-group mt-3">
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Cras justo odio</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Dapibus ac facilisis in</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Morbi leo risus</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Porta ac consectetur ac</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
-                                                                <li class="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
+                                                            <ul className="list-group mt-3">
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Cras justo odio</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Dapibus ac facilisis in</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Morbi leo risus</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Porta ac consectetur ac</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
+                                                                <li className="list-group-item border-bottom list-group-item-action" onClick={() => this.selectFamily("nsf")}>Vestibulum at eros</li>
                                                             </ul>
                                                         </div>
                                                     </div>
