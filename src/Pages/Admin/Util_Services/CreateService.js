@@ -38,7 +38,7 @@ class CreateService extends React.Component {
 		};
 		if (this.state.name !== '' && this.state.serviceCategoryId !== '' && this.state.cost !== '') {
 			try {
-				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateAService', {
+				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateService', {
 					headers: { 'Content-Type': 'application/json-patch+json' },
 					method: 'POST',
 					body: JSON.stringify(data),
