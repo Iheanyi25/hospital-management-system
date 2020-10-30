@@ -83,7 +83,11 @@ export default class AddPatient extends Component {
 
 	selectHealthPlan(val) {
 		console.log(val);
-		this.props.history.push('/AdminSelectHealthPlan/' + val);
+		this.props.history.push({ 
+			pathname: '/AdminSelectHealthPlan',
+			state: this.state
+		   });
+		// this.props.history.push('/AdminSelectHealthPlan/' + val);
 	}
 	// async registerPatient(e) {
 	// 	e.preventDefault();
