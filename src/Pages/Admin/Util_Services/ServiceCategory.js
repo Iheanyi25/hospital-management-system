@@ -15,7 +15,7 @@ class ServiceCategory extends React.Component {
 		};
 		if (this.state.name !== '' && this.state.description !== '') {
 			try {
-				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateAServiceCategory', {
+				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/CreateServiceCategory', {
 					headers: { 'Content-Type': 'application/json-patch+json' },
 					method: 'POST',
 					body: JSON.stringify(data),
