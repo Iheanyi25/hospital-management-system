@@ -26,11 +26,11 @@ class PharmacySidebar extends React.Component {
 						<div className="app-logo">
 							<div className="logo-wrap">
 								<img
-									src="./assets/img/logo.svg"
+									src="../../assets/img/logo.svg"
 									width={147}
 									height={33}
 									className="logo-img"
-									alt="hello"
+									alt="Hello"
 								/>
 							</div>
 						</div>

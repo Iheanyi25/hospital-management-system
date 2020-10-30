@@ -19,7 +19,7 @@ class AdminSidebar extends React.Component {
 						<div className="app-logo">
 							<div className="logo-wrap">
 								<img
-									src="./assets/img/logo.svg"
+									src="../../assets/img/logo.svg"
 									width={147}
 									height={33}
 									className="logo-img"
@@ -74,10 +74,7 @@ class AdminSidebar extends React.Component {
 										</NavLink>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink
-													to='/AdminAddPatients'
-													className="item-link"
-												>
+												<NavLink to="/AdminAddPatients" className="item-link">
 													<span className="link-text">Register Patient</span>
 												</NavLink>
 											</li>
@@ -275,7 +272,7 @@ class AdminSidebar extends React.Component {
 							</nav>
 						</div>
 						<div className="add-patient">
-							<NavLink to='/AdminAddPatients' className="btn btn-primary">
+							<NavLink to="/AdminAddPatients" className="btn btn-primary">
 								<span className="btn-icon icofont-plus mr-2" />
 								Register Patient
 							</NavLink>

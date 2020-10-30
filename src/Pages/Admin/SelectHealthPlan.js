@@ -36,7 +36,7 @@ export default class SelectHealthPlan extends Component {
                     <div className="app-loader">
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
-                    <div className="main-content-wrap w-75">
+                    <div className="main-content-wrap w-50">
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">

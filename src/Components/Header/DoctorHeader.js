@@ -123,7 +123,7 @@ class DoctorHeader extends React.Component {
 								>
 									<span className="d-flex align-items-center">
 										<img
-											src="./assets/content/user-400-1.jpg"
+											src="../../assets/content/user-400-1.jpg"
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
