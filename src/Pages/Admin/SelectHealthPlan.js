@@ -1,126 +1,135 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { PageLoader } from '../../Components';
 
-const $ = require("jquery");
-$.Datatable = require("datatables.net");
+const $ = require('jquery');
+$.Datatable = require('datatables.net');
 
 export default class SelectHealthPlan extends Component {
+	state = {
+		acoounts: [],
 
-    state = {
-        selectedValue: ""
-    }
+		selectedValue: '',
+	};
 
-    handleSubmit() {
+	handleSubmit() {}
 
-    }
+	componentDidMount() {
+		this.sync();
+		this.fetchAccounts();
+		console.log(this.props);
+	}
 
-    componentDidMount() {
-        this.sync();
-    }
+	fetchAccounts = async () => {
+		try {
+			let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Account/GetAllAccounts', {
+				headers: { 'Content-Type': 'application/json-patch+json' },
+				method: 'GET',
+				redirect: 'follow',
+			});
+			const data = await res.text();
+			console.log(JSON.parse(data).accounts);
+			this.setState({ acoounts: JSON.parse(data).accounts });
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-    selectFamily(val, e) {
-        this.setState({ selectedValue: val })
-        console.log(val);
-    }
+	selectFamily(val, e, index) {
+		this.setState({ selectedValue: index });
+	}
 
-    sync() {
-        this.$el = $(this.el);
-        this.$el.DataTable();
-    }
+	sync() {
+		this.$el = $(this.el);
+		this.$el.DataTable();
+	}
 
-    render() {
-        return (
-            <>
-                <PageLoader />
-                <main className="main-content">
-                    <div className="app-loader">
-                        <i className="icofont-spinner-alt-4 rotate" />
-                    </div>
-                    <div className="main-content-wrap w-50">
-                        <div className="page-content">
-                            <div className="row justify-content-center">
-                                <div className="col col-md-12">
-                                    {/* <Success /> */}
-                                    <div className="card border-light">
-                                        <div className="card-body">
-                                            <div className="table-responsive">
-                                                <h5 className="text-center">Select a health plan for the patient</h5>
+	render() {
+		return (
+			<>
+				<PageLoader />
+				<main className="main-content">
+					<div className="app-loader">
+						<i className="icofont-spinner-alt-4 rotate" />
+					</div>
+					<div className="main-content-wrap w-50">
+						<div className="page-content">
+							<div className="row justify-content-center">
+								<div className="col col-md-12">
+									{/* <Success /> */}
+									<div className="card border-light">
+										<div className="card-body">
+											<div className="table-responsive">
+												<h5 className="text-center">Select a health plan for the patient</h5>
 
+												<div className="row m-0">
+													<div className="col-12">
+														<div className="d-flex justify-content-between my-5">
+															<div className="form-group mb-0 w-75">
+																<label>Select a health plan</label>
+																<select className="selectpicker">
+																	<option className="d-none"></option>
+																	<option>Family</option>
+																	<option>HMO</option>
+																</select>
+															</div>
+															<div className="align-items-end d-flex">
+																<button
+																	type="submit"
+																	data-toggle="modal"
+																	data-target="#add-family"
+																	className="btn btn-primary"
+																>
+																	+ Add New
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
 
-                                                <div className="row m-0">
-                                                    <div className="col-12">
-                                                        <div className="d-flex justify-content-between my-5">
-                                                            <div className="form-group mb-0 w-75">
-                                                                <label>Select a health plan</label>
-                                                                <select className="selectpicker">
-                                                                    <option className="d-none"></option>
-                                                                    <option>Family</option>
-                                                                    <option>HMO</option>
-                                                                </select>
-                                                            </div>
-                                                            <div className="align-items-end d-flex">
-                                                                <button type="submit" data-toggle="modal" data-target="#add-family" className="btn btn-primary">
-                                                                    + Add New
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <table className="table table-hover data-table"
-                                                    data-searching="true"
-                                                    data-paging="true"
-                                                    data-columns='[
+												<table
+													className="table table-hover data-table"
+													data-searching="true"
+													data-paging="true"
+													data-columns='[
                                                         { "data": "name" }
                                                     ]'
-                                                    data-info="true"
-                                                    data-sort="false"
-                                                >
-                                                    <thead></thead>
-                                                    <tbody>
-                                                        <tr className={this.state.selectedValue === "value" ? "text-white bg-primary" : ""} onClick={(e) => this.selectFamily("value", e)}>
-                                                            <td>
-                                                                Ositadinma
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Ositadinma
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Loddy
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Ositadinma
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                Ositadinma
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+													data-info="true"
+													data-sort="false"
+												>
+													<thead></thead>
+													<tbody>
+														{this.state.acoounts.length > 0 &&
+															this.state.acoounts.map((account, index) => (
+																<tr
+																	className={
+																		this.state.selectedValue === index
+																			? 'text-white bg-primary'
+																			: ''
+																	}
+																	value={account.id}
+																	onClick={(e) =>
+																		this.selectFamily('value', e, index)
+																	}
+																>
+																	<td>{account.name}</td>
+																</tr>
+															))}
+													</tbody>
+												</table>
 
-                                                <div className="row mt-5 m-0">
-                                                    <div className="col-12 d-flex justify-content-between">
-                                                        <button type="submit" className="btn btn-muted">
-                                                            Back
-                                                        </button>
-                                                        <button type="submit" className="btn btn-primary">
-                                                            Submit
-                                                        </button>
-                                                    </div>
-                                                </div>
+												<div className="row mt-5 m-0">
+													<div className="col-12 d-flex justify-content-between">
+														<button type="submit" className="btn btn-muted">
+															Back
+														</button>
+														<button type="submit" className="btn btn-primary">
+															Submit
+														</button>
+													</div>
+												</div>
+											</div>
 
-                                            </div>
-
-
-                                            {/* <form className="mb-4 p-5 needs-validation" onSubmit={this.handleSubmit} noValidate>
+											{/* <form className="mb-4 p-5 needs-validation" onSubmit={this.handleSubmit} noValidate>
                                                 <h5 className="text-center">Select a health plan for the patient</h5>
                                                 <div className="form-group">
                                                     <div className="input-group">
@@ -158,14 +167,14 @@ export default class SelectHealthPlan extends Component {
                                                     </div>
                                                 </div>
                                             </form> */}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </>
-        )
-    }
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+			</>
+		);
+	}
 }
