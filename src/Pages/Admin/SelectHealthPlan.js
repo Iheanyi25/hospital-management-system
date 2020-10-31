@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PageLoader } from '../../Components';
+import { AddFamily } from '../../Components/Modals';
 
 const $ = require('jquery');
 $.Datatable = require('datatables.net');
@@ -173,6 +174,7 @@ export default class SelectHealthPlan extends Component {
 							</div>
 						</div>
 					</div>
+                    <AddFamily healthPlanId={this.props.location.state.healthPlanId}/>
 				</main>
 			</>
 		);

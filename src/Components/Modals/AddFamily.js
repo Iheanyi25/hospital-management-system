@@ -3,19 +3,34 @@ import React from "react";
 
 class AddFamily extends React.Component {
 
-    state = { familyName: "" }
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            apiUrl: process.env.REACT_APP_API_URL,
-        };
+    // state = { familyName: "" }
+    state = {
+        name: ''
+    }
+    componentDidMount() {
+        console.log(this.props.healthPlanId);
     }
 
-    handleSubmit() {
-
-    }
+    handleSubmit = async (e) => {
+		e.preventDefault();
+		const data = {
+			name: this.state.name,
+			capacity: this.state.capacity,
+		};
+		if (this.state.name !== '' && this.state.capacity !== '') {
+			try {
+				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Ward/CreateWard', {
+					headers: { 'Content-Type': 'application/json-patch+json' },
+					method: 'POST',
+					body: JSON.stringify(data),
+					redirect: 'follow',
+				});
+				console.log(res);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
 
     render() {
 
