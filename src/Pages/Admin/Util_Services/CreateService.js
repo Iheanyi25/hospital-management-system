@@ -1,5 +1,6 @@
 import React from 'react';
 import { PageLoader } from '../../../Components';
+import { Success } from '../../../Components/Alerts';
 
 class CreateService extends React.Component {
 	state = {
@@ -8,6 +9,8 @@ class CreateService extends React.Component {
 		name: '',
 		serviceCategoryId: '',
 		cost: '',
+
+		success: false,
 	};
 
 	componentDidMount() {
@@ -44,7 +47,9 @@ class CreateService extends React.Component {
 					body: JSON.stringify(data),
 					redirect: 'follow',
 				});
-				console.log(res);
+				if (res.status === 200) {
+					this.setState({ success: true });
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -60,6 +65,13 @@ class CreateService extends React.Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
+					{this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully created a category"
+							nextRoute="/AdminManageServices"
+						/>
+					) : null}
 					<div className="main-content-wrap w-75">
 						<div className="page-content">
 							<div className="row justify-content-center">

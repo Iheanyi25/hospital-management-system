@@ -1,10 +1,13 @@
 import React from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
+import { Success } from '../../../Components/Alerts';
 
 class ServiceCategory extends React.Component {
 	state = {
 		name: '',
 		description: '',
+
+		success: false,
 	};
 
 	handleSubmit = async (e) => {
@@ -21,7 +24,9 @@ class ServiceCategory extends React.Component {
 					body: JSON.stringify(data),
 					redirect: 'follow',
 				});
-				console.log(res);
+				if (res.status === 200) {
+					this.setState({ success: true });
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -37,6 +42,13 @@ class ServiceCategory extends React.Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
+					{this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully created a category"
+							nextRoute="/AdminManageServiceCategory"
+						/>
+					) : null}
 					<div className="main-content-wrap w-75">
 						<div className="page-content">
 							<div className="row justify-content-center">
