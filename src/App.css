@@ -18,6 +18,11 @@ body {
     color: #336cfb;
 }
 
-.alert > *{
+.alert>* {
     margin: 0 !important;
+}
+
+.alert {
+    position: absolute;
+    top: 30px;
 }
