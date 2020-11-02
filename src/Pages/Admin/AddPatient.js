@@ -11,6 +11,7 @@ export default class AddPatient extends Component {
         firstName: '',
         lastName: '',
         email: '',
+        healthPlan: "",
         healthPlanId: '',
         accountId: '',
     };
@@ -60,6 +61,11 @@ export default class AddPatient extends Component {
                     }
                     else {
                         alert("please fill in the empty fields");
+                        console.log(this.state)
+                        this.setState({
+                            [name]: "",
+                        });
+                        return;
                     }
                     break;
 
@@ -77,8 +83,9 @@ export default class AddPatient extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        const { firstName, lastName, email, healthPlanId, healthPlan, stage } = this.state;
 
-        const { firstName, lastName, email, healthPlanId } = this.state;
+        console.log(healthPlan);
 
         let data = { firstName, lastName, email, healthPlanId };
         if (
@@ -87,22 +94,31 @@ export default class AddPatient extends Component {
             email !== '' &&
             healthPlanId !== ''
         ) {
-            try {
-                let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/RegisterPatient', {
-                    headers: { 'Content-Type': 'application/json-patch+json' },
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    redirect: 'follow',
-                });
-                const response = await res.json()
-                alert(response.message);
-                this.props.history.push("/AdminAllPatients")
-
-            } catch (error) {
-                console.log(error);
+            if (healthPlan.includes("personal")) {
+                this.submit(data);
+            }
+            else {
+                this.setNewStage(stage + 1)
             }
         }
     };
+
+    submit = async (data) => {
+        try {
+            let res = await fetch(process.env.REACT_APP_API_URL + '/Admin/RegisterPatient', {
+                headers: { 'Content-Type': 'application/json-patch+json' },
+                method: 'POST',
+                body: JSON.stringify(data),
+                redirect: 'follow',
+            });
+            const response = await res.json()
+            alert(response.message);
+            this.props.history.push("/AdminAllPatients")
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     setNewStage = (stage) => {
         this.setState({ stage })
@@ -119,7 +135,7 @@ export default class AddPatient extends Component {
                     <div className="app-loader">
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
-                    <div className="main-content-wrap w-50">
+                    <div className="main-content-wrap w-75">
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
@@ -216,6 +232,7 @@ export default class AddPatient extends Component {
                                                     currentStage={this.state.stage}
                                                     stageSetter={this.setNewStage}
                                                     payload={data}
+                                                    submitFunction={this.submit}
                                                 />
                                                 : null
                                     }

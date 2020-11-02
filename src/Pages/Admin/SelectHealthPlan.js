@@ -9,16 +9,8 @@ export default class SelectHealthPlan extends Component {
     state = {
         accounts: [],
         selectedValue: '',
-        payload: {},
-
+        payload: {}
     };
-
-    handleSubmit() {
-        let { payload } = this.state;
-        let data = payload;
-        data.accountId = this.state.selectedValue;
-        console.log(data);
-    }
 
     componentDidMount() {
         const { payload, accounts } = this.props;
@@ -33,6 +25,16 @@ export default class SelectHealthPlan extends Component {
 
     goBack = () => {
         this.props.stageSetter(this.props.currentStage - 1)
+    }
+
+    handleSubmit = async () => {
+        let { payload, submitFunction } = this.props;
+        let data = payload;
+
+        if (this.state.selectedValue) {
+            data.accountId = this.state.selectedValue;
+            submitFunction(data)
+        }
     }
 
     render() {
