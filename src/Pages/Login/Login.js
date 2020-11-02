@@ -79,7 +79,7 @@ class Login extends Component {
 
 		} catch (err) {
 			console.log(err.message)
-			this.setState({ showErrorMessage: true, errorMessage: err.message });
+			this.setState({ ...this.state, showErrorMessage: true, errorMessage: err.message, submitting: !this.state.submitting });
 		}
 	}
 
@@ -109,7 +109,7 @@ class Login extends Component {
 						>
 							<div className="form-group">
 								<label>Email Address</label>
-								<input className="form-control" type="email" name="email" value={this.state.email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
+								<input className="form-control" type="email" name="email" value={email} onChange={(e) => this.handleChange("email", e)} placeholder="Your Email Address" required />
 
 							</div>
 
@@ -125,9 +125,7 @@ class Login extends Component {
 								className="btn btn-primary"
 								type="submit"
 								disabled={
-									email === "" || password === "" || submitting
-										? true
-										: false
+									submitting
 								}
 							>
 								<span className="btn-icon icofont-location-arrow mr-2"></span> Login
