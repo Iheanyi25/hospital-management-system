@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { PageLoader } from '../../../Components'
 
 export default class ManageServiceCategory extends Component {
@@ -23,6 +23,10 @@ export default class ManageServiceCategory extends Component {
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
                     <div className="main-content-wrap">
+                        <header className="page-header justify-content-between d-flex align-items-center mb-2">
+                            <h4 className="page-title mb-0"> Manage Service Categories</h4>
+                            <NavLink className="btn btn-primary" to="/AdminServiceCategory">Create Category</NavLink>
+                        </header>
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
