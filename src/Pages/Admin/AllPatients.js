@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -19,6 +19,7 @@ class AllPatients extends React.Component {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Admin/GetPatients`);
     const data = await response.json();
+    console.log(data)
     this.setState({ patients: data.patientProfiles });
   }
 
@@ -131,39 +132,36 @@ class AllPatients extends React.Component {
                                   Action
                                     </button>
                                 <div className="dropdown-menu text-left">
-                                  <Link
-                                    title="Pre-consultation"
-                                    onClick={() =>
-                                      (window.location.href = `/AdminPreConsultation/${patient.id}`)
-                                    }
-                                    to={`/AdminPreConsultation/${patient.id}`}
+                                  <NavLink
+                                    to={{
+                                      pathname: `/AdminPreConsultation/${patient.id}`,
+                                      state: patient
+                                    }}
                                     className="btn btn-sm btn-block"
                                   >
                                     <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                         Go for Pre-Consultation
-                                      </Link>
-                                  <Link
-                                    title="Pre-consultation"
-                                    onClick={() =>
-                                      (window.location.href = `/AdminPreConsultation/${patient.id}`)
-                                    }
-                                    to={`/AdminPreConsultation/${patient.id}`}
+                                      </NavLink>
+                                  <NavLink
+                                    to={{
+                                      pathname: `/AdminPreConsultation/${patient.id}`,
+                                      state: patient
+                                    }}
                                     className="btn btn-sm btn-block"
                                   >
                                     <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                         Pre-Consultation History
-                                      </Link>
-                                  <Link
-                                    title="Pre-consultation"
-                                    onClick={() =>
-                                      (window.location.href = `/AdminUpdatePatientProfile/${patient.id}`)
-                                    }
-                                    to={`/AdminUpdatePatientProfile/${patient.id}`}
+                                      </NavLink>
+                                  <NavLink
+                                    to={{
+                                      pathname: `/AdminUpdatePatientProfile/${patient.id}`,
+                                      state: patient
+                                    }}
                                     className="btn btn-sm btn-block"
                                   >
                                     <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                         Update Profile
-                                      </Link>
+                                      </NavLink>
                                 </div>
                               </div>
                             </td>
