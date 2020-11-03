@@ -258,10 +258,10 @@ class RegisterUserModal extends React.Component {
                     <select
                       className="selectpicker"
                       title="Gender"
-                      value={this.state.roleName}
+                      defaultValue={this.state.roleName}
                       onChange={(e) => this.handleChange("roleName", e)}
                     >
-                      <option value="" selected="true" disabled>
+                      <option value="" disabled>
                         Register As
                           </option>
                       <option value="accountant">Accountant</option>

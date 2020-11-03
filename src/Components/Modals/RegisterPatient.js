@@ -169,10 +169,10 @@ class RegisterPatientModal extends React.Component {
                         <select
                           className="selectpicker"
                           title="Gender"
-                          value={this.state.roleName}
+                          defaultValue={this.state.roleName}
                           onChange={(e) => this.handleChange("roleName", e)}
                         >
-                          <option value=" " selected="true" disabled>
+                          <option value="" disabled>
                             Register As
                           </option>
                           <option value="patient">Patient</option>
@@ -185,10 +185,10 @@ class RegisterPatientModal extends React.Component {
                         <select
                           className="selectpicker"
                           title="Health Plan"
-                          value={this.state.healthPlan}
+                          defaultValue={this.state.healthPlan}
                           onChange={(e) => this.handleChange("healthPlan", e)}
                         >
-                          <option value="" selected="true" disabled>
+                          <option value="" disabled>
                             Health Plan
                           </option>
                           <option value="basic">Basic</option>
