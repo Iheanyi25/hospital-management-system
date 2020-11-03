@@ -52,19 +52,6 @@ class AdminSidebar extends React.Component {
 										</NavLink>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminAllDoctors">
-											<span className="link-icon icofont-doctor" />{' '}
-											<span className="link-text">Doctors</span>
-										</NavLink>
-									</li>
-									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminAllPatients">
-											<span className="link-icon icofont-paralysis-disability" />{' '}
-											<span className="link-text">Patients</span>
-										</NavLink>
-									</li>
-
-									<li className="menu-item">
 										<span className="group-title">User Management</span>
 									</li>
 									<li className="menu-item has-sub">
@@ -189,25 +176,59 @@ class AdminSidebar extends React.Component {
 											<span className="link-caret icofont-thin-right" />
 										</NavLink>
 										<ul className="sub">
-											<li className="menu-item">
-												<NavLink to="/AdminCreateService" className="item-link">
-													<span className="link-text">Create a Service</span>
+											<li className="menu-item has-sub">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Services</span>{' '}
+													<span className="link-caret icofont-thin-right" />
 												</NavLink>
+												<ul className="sub">
+													<li className="menu-item">
+														<NavLink to="/AdminCreateService" className="item-link">
+															<span className="link-text">Create a Service</span>
+														</NavLink>
+													</li>
+													<li className="menu-item">
+														<NavLink to="/AdminManageServices" className="item-link">
+															<span className="link-text">View Services</span>
+														</NavLink>
+													</li>
+												</ul>
 											</li>
-											<li className="menu-item">
-												<NavLink to="/AdminManageServices" className="item-link">
-													<span className="link-text">Manage Services</span>
+											<li className="menu-item has-sub">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Service Categories</span>{' '}
+													<span className="link-caret icofont-thin-right" />
 												</NavLink>
+												<ul className="sub">
+													<li className="menu-item">
+														<NavLink to="/AdminServiceCategory" className="item-link">
+															<span className="link-text">Create a Category</span>
+														</NavLink>
+													</li>
+													<li className="menu-item">
+														<NavLink to="/AdminManageServiceCategory" className="item-link">
+															<span className="link-text">View Categories</span>
+														</NavLink>
+													</li>
+												</ul>
 											</li>
-											<li className="menu-item">
-												<NavLink to="/AdminServiceCategory" className="item-link">
-													<span className="link-text">Create a Category</span>
+											<li className="menu-item has-sub">
+												<NavLink to="#" className="item-link">
+													<span className="link-text">Service Requests</span>{' '}
+													<span className="link-caret icofont-thin-right" />
 												</NavLink>
-											</li>
-											<li className="menu-item">
-												<NavLink to="/AdminManageServiceCategory" className="item-link">
-													<span className="link-text">Manage Categories</span>
-												</NavLink>
+												<ul className="sub">
+													<li className="menu-item">
+														<NavLink to="/AdminServiceRequests" className="item-link">
+															<span className="link-text">Request a Service</span>
+														</NavLink>
+													</li>
+													<li className="menu-item">
+														<NavLink to="/AdminManageServiceRequests" className="item-link">
+															<span className="link-text">View All Requests</span>
+														</NavLink>
+													</li>
+												</ul>
 											</li>
 										</ul>
 									</li>
