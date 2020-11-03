@@ -16,7 +16,7 @@ class DoctorList extends React.Component {
 
 
     async getAllDoctors() {
-        const data = await (await fetch(`${this.state.apiUrl}/Patient/GetDoctors`)).json()
+        const data = await (await fetch(`${this.state.apiUrl}/Admin/GetDoctors`)).json()
         this.setState({ doctors: data.doctors });
     }
 
@@ -41,26 +41,26 @@ class DoctorList extends React.Component {
                         </header>
                         <div className="page-content">
                             <div className="row">
-                                {this.state.doctors.map((doctor) => (
-                                    <div className="col-12 col-md-4">
+                                {this.state.doctors.map((doctor, index) => (
+                                    <div className="col-12 col-md-4" key={index}>
                                         <div className="contact">
                                             <div className="img-box"><img src="./assets/content/doctor-400-1.jpg" width={400} height={400} alt="Hello" /></div>
                                             <div className="info-box">
-                                                <h4 className="name">Dr. {doctor.applicationUser.firstName} {doctor.applicationUser.lastName}</h4>
-                                                <p className="role">{doctor.doctorProfile.specialization}</p>
+                                                <h4 className="name">Dr. {doctor.firstName} {doctor.lastName}</h4>
+                                                <p className="role">{doctor?.specialization || ""}</p>
                                                 <div className="custom-control custom-switch mb-3">
-                                                    <input type="checkbox" className="custom-control-input" defaultChecked={doctor.doctorProfile.isAvaliable ? 'checked' : ' '} />
+                                                    <input type="checkbox" className="custom-control-input" defaultChecked={doctor?.isAvaliable ? 'checked' : ' '} />
                                                     <label className="custom-control-label">Avalible for Consultation</label>
                                                 </div>
-                                                <p className="address">{doctor.doctorProfile.about}</p>
+                                                <p className="address">{doctor?.bio || ""}</p>
                                                 <div className="button-box">
 
-                                                    <Link onClick={() => window.location.href = `/PatientDoctorProfile/${doctor.applicationUser.id}`} className="btn btn-primary mr-2" to={`/PatientDoctorProfile/${doctor.applicationUser.id}`}>
+                                                    <Link className="btn btn-primary mr-2" to={`/PatientDoctorProfile/${doctor.id}`}>
                                                         <span className="link-icon icofont-doctor" />
                                                         <span className="link-text">View profile</span>
                                                     </Link>
 
-                                                    <Link onClick={() => window.location.href = `/PatientBookConsultation/${doctor.applicationUser.id}`} className="btn btn-info" to={`/PatientBookConsultation/${doctor.applicationUser.id}`}>
+                                                    <Link className="btn btn-info" to={`/PatientBookConsultation/${doctor.id}`}>
                                                         <span className="link-icon icofont-doctor" />
                                                         <span className="link-text">Book Consultation</span>
                                                     </Link>
