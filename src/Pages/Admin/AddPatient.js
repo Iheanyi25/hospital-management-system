@@ -32,7 +32,7 @@ export default class AddPatient extends Component {
 			});
 			const data = await res.text();
 			this.setState({ healthPlans: JSON.parse(data).plans });
-		} catch (error) {}
+		} catch (error) { }
 	};
 
 	fetchAccounts = async () => {
@@ -44,7 +44,7 @@ export default class AddPatient extends Component {
 			});
 			const data = await res.text();
 			this.setState({ accounts: JSON.parse(data).accounts });
-		} catch (error) {}
+		} catch (error) { }
 	};
 
 	handleChange(name, e) {
@@ -107,8 +107,8 @@ export default class AddPatient extends Component {
 			if (res.status === 200) {
 				this.setState({ success: true });
 			}
-			// alert(response.message);
-			// this.props.history.push("/AdminAllPatients")
+			alert(response.message);
+			this.props.history.push("/AdminAllPatients")
 		} catch (error) {
 			console.log(error);
 		}
@@ -212,9 +212,8 @@ export default class AddPatient extends Component {
 																this.state.healthPlans.map((healthPlan, index) => (
 																	<option
 																		key={index}
-																		value={`${healthPlan.name.toLowerCase()}#${
-																			healthPlan.id
-																		}`}
+																		value={`${healthPlan.name.toLowerCase()}#${healthPlan.id
+																			}`}
 																	>
 																		{healthPlan.name}
 																	</option>
