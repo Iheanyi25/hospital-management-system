@@ -3,7 +3,6 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
-import AdminAllPatients from "../Pages/Admin/AllPatients";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
 import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
@@ -13,6 +12,9 @@ import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
 import AddPatient from '../Pages/Admin/AddPatient.js';
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
 import { AdminLayout } from '../Components/Layout';
+import ManageServiceRequest from '../Pages/Admin/Util_Services/ManageServiceRequest';
+import CreateServiceRequest from '../Pages/Admin/Util_Services/CreateServiceRequest';
+import AllPatients from '../Pages/Admin/AllPatients';
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -32,8 +34,6 @@ import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
 import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
 import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans";
 import SelectHealthPlan from '../Pages/Admin/SelectHealthPlan';
-import ManageServiceRequest from '../Pages/Admin/Util_Services/ManageServiceRequest';
-import CreateServiceRequest from '../Pages/Admin/Util_Services/CreateServiceRequest';
 
 export default function AdminRoutes() {
     return (
@@ -44,7 +44,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminDashboard" component={AdminDashboard} />
                     <Route exact path="/AdminUpdatePatientProfile/:id" component={AdminUpdatePatientProfile} />
                     <Route exact path="/AdminPreConsultation/:id" component={AdminPreConsultation} />
-                    <Route exact path="/AdminAllPatients" component={AdminAllPatients} />
+                    <Route exact path="/AdminAllPatients" component={AllPatients} />
                     <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
                     <Route exact path="/AdminBookAppointment/:doctorId" component={AdminBookAppointment} />
                     <Route exact path="/AdminAppointments" component={AdminAppointments} />
