@@ -10,8 +10,8 @@ const Success = ({ message, history, nextRoute }) => {
 		return () => {
 			history.push(`${nextRoute}`);
 		};
-	}, [view]);
-	
+	}, [nextRoute, history, view]);
+
 	return (
 		<div className="alert alert-success alert-align" role="alert">
 			<h3 className="text-light">Success!</h3>
