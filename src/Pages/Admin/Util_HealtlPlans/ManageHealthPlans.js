@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { PageLoader } from '../../../Components';
 
 export default class ManageHealthPlans extends Component {
@@ -25,6 +25,10 @@ export default class ManageHealthPlans extends Component {
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
                     <div className="main-content-wrap">
+                        <header className="page-header justify-content-between d-flex align-items-center mb-2">
+                            <h4 className="page-title mb-0"> Manage Health Plans</h4>
+                            <NavLink className="btn btn-primary" to="/AdminCreateHealthPlan">Create Health Plan</NavLink>
+                        </header>
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
@@ -96,7 +100,7 @@ export default class ManageHealthPlans extends Component {
                                                                     </td>
                                                                     <td>
                                                                         <div className="custom-control custom-switch">
-                                                                            <input type="checkbox" className="custom-control-input" id="control2" checked={item.instantBilling ? true : false}  />
+                                                                            <input type="checkbox" className="custom-control-input" id="control2" checked={item.instantBilling ? true : false} />
                                                                             <label className="custom-control-label" for="control1"></label>
                                                                         </div>
                                                                     </td>

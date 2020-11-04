@@ -25,12 +25,12 @@ class BookConsultation extends React.Component {
 
     const data = await (
       await fetch(
-        `${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`
+        `${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`
       )
     ).json();
     this.setState({
-      doctor: data.doctorProfile.applicationUser,
-      doctorProfile: data.doctorProfile.doctorProfile,
+      doctor: data.doctor,
+      doctorProfile: data.doctor
     });
   }
 
