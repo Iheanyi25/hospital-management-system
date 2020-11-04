@@ -2,75 +2,34 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 
+// const apiUrl = process.env.REACT_APP_API_URL;
 class ManageServiceRequest extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            apiUrl: process.env.REACT_APP_API_URL,
-            doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
             acceptedAppointments: [],
-            acceptedAppointmentsCount: 0,
             activeAppointments: [],
             pendingAppointments: [],
-            pendingAppointmentsCount: 0,
             completedAppointments: [],
-            rejectedAppointmentsCount: 0,
         };
     }
 
     async componentDidMount() {
-        const { apiUrl, doctorId } = this.state;
-        console.log(this.state);
-        var acceptedAppointments = [];
-        var activeAppointments = [];
-        var pendingAppointments = [];
-        var completedAppointments = [];
-        var rejectedAppointments = [];
-
-        const response = await fetch(
-            `${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${doctorId}`
+        const response = await fetch(""
+            // `${apiUrl}/Admin/Getcmdvwevwev`
         );
         const data = await response.json();
         console.log(data);
-        this.setState({ appointments: data });
 
-        data.appointments.forEach((appointment) => {
-            if (appointment.applicationUser.appointment.isActive === true) {
-                activeAppointments.push(appointment);
-            } else if (appointment.applicationUser.appointment.isAccepted === true) {
-                acceptedAppointments.push(appointment);
-            } else if (appointment.applicationUser.appointment.isCompleted === true) {
-                completedAppointments.push(appointment);
-            } else if (appointment.applicationUser.appointment.isRejected === true) {
-                rejectedAppointments.push(appointment);
-            } else {
-                pendingAppointments.push(appointment);
-            }
-        });
-
-        this.setState({
-            activeAppointments: activeAppointments,
-            activeAppointmentsCount: activeAppointments.length,
-            acceptedAppointments: acceptedAppointments,
-            acceptedAppointmentsCount: acceptedAppointments.length,
-            completedAppointments: completedAppointments,
-            completedAppointmentsCount: completedAppointments.length,
-            pendingAppointments: pendingAppointments,
-            pendingAppointmentsCount: pendingAppointments.length,
-            rejectedAppointmentsCount: rejectedAppointments.length,
-        });
     }
 
     render() {
         const {
             acceptedAppointments,
-            acceptedAppointmentsCount,
             pendingAppointments,
-            pendingAppointmentsCount,
             activeAppointments,
             completedAppointments,
-            rejectedAppointmentsCount,
         } = this.state;
 
         return (
@@ -97,7 +56,7 @@ class ManageServiceRequest extends React.Component {
                                             <div className="col col-7">
                                                 <h6 className="mt-0 mb-1">Pending Appointments</h6>
                                                 <div className="count text-primary fs-20">
-                                                    {pendingAppointmentsCount}
+                                                    {pendingAppointments.length}
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +73,7 @@ class ManageServiceRequest extends React.Component {
                                             <div className="col col-7">
                                                 <h6 className="mt-0 mb-1">Accepted Appointments</h6>
                                                 <div className="count text-primary fs-20">
-                                                    {acceptedAppointmentsCount}
+                                                    {acceptedAppointments.length}
                                                 </div>
                                             </div>
                                         </div>
@@ -133,7 +92,7 @@ class ManageServiceRequest extends React.Component {
                                                     Rejected Appointments
                             </h6>
                                                 <div className="count text-primary fs-20">
-                                                    {rejectedAppointmentsCount}
+                                                    {activeAppointments.length}
                                                 </div>
                                             </div>
                                         </div>

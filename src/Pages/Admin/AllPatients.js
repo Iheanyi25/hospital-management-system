@@ -17,10 +17,9 @@ class AllPatients extends React.Component {
 
   async getAllPatients() {
     const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Admin/GetPatients`);
+    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
     const data = await response.json();
-    console.log(data)
-    this.setState({ patients: data.patientProfiles });
+    this.setState({ patients: data.patients });
   }
 
   componentDidMount() {
@@ -92,21 +91,21 @@ class AllPatients extends React.Component {
                               />
                             </td>
                             <td>
-                              {patient.firstName} {patient.lastName}
+                              {patient.patient.firstName} {patient.patient.lastName}
                             </td>
                             <td>
                               <strong>
                                 {" "}
                                 <div className="d-flex align-items-center nowrap text-primary">
                                   <span className="icofont-ui-email p-0 mr-2" />
-                                  {patient.email}
+                                  {patient.patient.email}
                                 </div>
                               </strong>
                             </td>
                             <td>
                               <div className="d-flex align-items-center nowrap text-primary">
                                 <span className="icofont-ui-email p-0 mr-2" />
-                                {patient.phoneNumber}
+                                {patient.patient.phoneNumber}
                               </div>
                             </td>
                             <td>
@@ -154,7 +153,7 @@ class AllPatients extends React.Component {
                                       </NavLink>
                                   <NavLink
                                     to={{
-                                      pathname: `/AdminUpdatePatientProfile/${patient.id}`,
+                                      pathname: `/AdminUpdatePatientProfile/${patient.patient.id}`,
                                       state: patient
                                     }}
                                     className="btn btn-sm btn-block"
