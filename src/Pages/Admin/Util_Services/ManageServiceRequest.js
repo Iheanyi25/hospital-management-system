@@ -2,12 +2,16 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 
-// const apiUrl = process.env.REACT_APP_API_URL;
+let $ = window.$;
+$.DataTables = require("datatables.net");
+const apiUrl = process.env.REACT_APP_API_URL;
+
 class ManageServiceRequest extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            categories: [],
             acceptedAppointments: [],
             activeAppointments: [],
             pendingAppointments: [],
@@ -16,20 +20,25 @@ class ManageServiceRequest extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await fetch(""
-            // `${apiUrl}/Admin/Getcmdvwevwev`
-        );
-        const data = await response.json();
-        console.log(data);
+        this.fetchCategory();
+    }
 
+    async fetchCategory() {
+        const res = await fetch(apiUrl + "/Admin/GetAllServiceCategories");
+        const response = await res.json();
+        console.log(response)
+        this.setState({ categories: response })
+    }
+
+    sync() {
+        this.$el = $(this.el);
+        this.$el.DataTable();
     }
 
     render() {
         const {
-            acceptedAppointments,
             pendingAppointments,
-            activeAppointments,
-            completedAppointments,
+            categories
         } = this.state;
 
         return (
@@ -54,45 +63,9 @@ class ManageServiceRequest extends React.Component {
                                                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                                             </div>
                                             <div className="col col-7">
-                                                <h6 className="mt-0 mb-1">Pending Appointments</h6>
+                                                <h6 className="mt-0 mb-1">No of Services request</h6>
                                                 <div className="count text-primary fs-20">
-                                                    {pendingAppointments.length}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col col-12 col-md-6 col-xl-4">
-                                <div className="card animated fadeInUp delay-03s bg-light">
-                                    <div className="card-body">
-                                        <div className="row align-items-center">
-                                            <div className="col col-5">
-                                                <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
-                                            </div>
-                                            <div className="col col-7">
-                                                <h6 className="mt-0 mb-1">Accepted Appointments</h6>
-                                                <div className="count text-primary fs-20">
-                                                    {acceptedAppointments.length}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col col-12 col-md-6 col-xl-4">
-                                <div className="card animated fadeInUp delay-04s bg-light">
-                                    <div className="card-body">
-                                        <div className="row align-items-center">
-                                            <div className="col col-5">
-                                                <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list"></div>
-                                            </div>
-                                            <div className="col col-7">
-                                                <h6 className="mt-0 mb-1 text-nowrap">
-                                                    Rejected Appointments
-                            </h6>
-                                                <div className="count text-primary fs-20">
-                                                    {activeAppointments.length}
+                                                    {categories.length}
                                                 </div>
                                             </div>
                                         </div>
@@ -113,472 +86,102 @@ class ManageServiceRequest extends React.Component {
                                             id="pills-tab"
                                             role="tablist"
                                         >
-                                            <li className="nav-item">
-                                                <a
-                                                    className="nav-link active"
-                                                    id="pills-active-tab"
-                                                    data-toggle="pill"
-                                                    href="#pills-active"
-                                                    role="tab"
-                                                    aria-controls="pills-active"
-                                                    aria-selected="true"
-                                                >
-                                                    Active Appointments
-                            </a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a
-                                                    className="nav-link"
-                                                    id="pills-accepted-tab"
-                                                    data-toggle="pill"
-                                                    href="#pills-accepted"
-                                                    role="tab"
-                                                    aria-controls="pills-accepted"
-                                                    aria-selected="false"
-                                                >
-                                                    Accepted Apppointments
-                            </a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a
-                                                    className="nav-link"
-                                                    id="pills-completed-tab"
-                                                    data-toggle="pill"
-                                                    href="#pills-completed"
-                                                    role="tab"
-                                                    aria-controls="pills-completed"
-                                                    aria-selected="false"
-                                                >
-                                                    Completed Appointments
-                            </a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a
-                                                    className="nav-link"
-                                                    id="pills-pending-tab"
-                                                    data-toggle="pill"
-                                                    href="#pills-pending"
-                                                    role="tab"
-                                                    aria-controls="pills-pending"
-                                                    aria-selected="false"
-                                                >
-                                                    Pending Appointments
-                            </a>
-                                            </li>
+                                            {
+                                                categories.length > 0 ?
+                                                    categories.map((item, index) => (
+                                                        <li className="nav-item" key={index}>
+                                                            <a
+                                                                className={`nav-link ${index === 0 ? "active" : ""}`}
+                                                                id={`pills-${item.name.split(" ").join("").toLowerCase()}-tab`}
+                                                                data-toggle="pill"
+                                                                href={`#pills-${item.name.split(" ").join("").toLowerCase()}`}
+                                                                role="tab"
+                                                                aria-controls={`pills-${item.name.split(" ").join("").toLowerCase()}`}
+                                                                aria-selected="true"
+                                                            >
+                                                                {item.name}
+                                                            </a>
+                                                        </li>
+                                                    ))
+                                                    : null
+                                            }
                                         </ul>
                                         <div className="tab-content" id="pills-tabContent">
-                                            <div
-                                                className="tab-pane fade show active"
-                                                id="pills-active"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-active-tab"
-                                            >
-                                                <div className="table-responsive">
-                                                    <table
-                                                        className="table data-table"
-                                                        data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                                                        data-paging="true"
-                                                        data-info="true"
-                                                    >
-                                                        <thead>
-                                                            <tr className="bg-primary text-white">
-                                                                <th>Photo</th>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Phone</th>
-                                                                <th>Date Of Birth</th>
-                                                                <th>Address</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {activeAppointments
-                                                                ? activeAppointments.map((appointment) => (
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img
-                                                                                src="./assets/content/user-40-1.jpg"
-                                                                                alt=""
-                                                                                width={40}
-                                                                                height={40}
-                                                                                className="rounded-500"
-                                                                            />
-                                                                        </td>
-                                                                        <td>
-                                                                            {" "}
-                                                                            {[
-                                                                                appointment.applicationUser
-                                                                                    .applicationUser.firstName,
-                                                                                appointment.applicationUser
-                                                                                    .applicationUser.lastName,
-                                                                            ].toString(" ")}
-                                                                        </td>
-                                                                        <td>
-                                                                            <strong>Liam</strong>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="d-flex align-items-center nowrap text-primary">
-                                                                                <span className="icofont-ui-email p-0 mr-2" />
-                                              liam@gmail.com
-                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="text-muted text-nowrap">
-                                                                                10 Feb 2018
-                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="text-muted text-nowrap">
-                                                                                9:15 - 9:45
-                                            </div>
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <div className="actions">
-                                                                                <Link
-                                                                                    title="Pre-consultation"
-                                                                                    onClick={() =>
-                                                                                        (window.location.href =
-                                                                                            "/AdminPreConsultation")
-                                                                                    }
-                                                                                    to="/AdminPreConsultation"
-                                                                                    className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                                                                >
-                                                                                    <span className="btn-icon icofont-stethoscope-alt" />
-                                                                                </Link>
-                                                                                <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                                    <span className="btn-icon icofont-ui-edit" />
-                                                                                </button>
-                                                                                <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                                    <span className="btn-icon icofont-ui-delete" />
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))
-                                                                : null}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="tab-pane fade"
-                                                id="pills-accepted"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-accepted-tab"
-                                            >
-                                                <div className="table-responsive">
-                                                    <table
-                                                        className="table data-table"
-                                                        data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                                                        data-paging="true"
-                                                        data-info="true"
-                                                    >
-                                                        <thead>
-                                                            <tr className="bg-primary text-white">
-                                                                <th>Photo</th>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Phone</th>
-                                                                <th>Date Of Birth</th>
-                                                                <th>Address</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {acceptedAppointments
-                                                                ? acceptedAppointments.map(
-                                                                    (appointment) => (
-                                                                        <tr>
-                                                                            <td>
-                                                                                <img
-                                                                                    src="./assets/content/user-40-1.jpg"
-                                                                                    alt=""
-                                                                                    width={40}
-                                                                                    height={40}
-                                                                                    className="rounded-500"
-                                                                                />
-                                                                            </td>
-                                                                            <td>
-                                                                                {[
-                                                                                    appointment.applicationUser
-                                                                                        .applicationUser.firstName,
-                                                                                    appointment.applicationUser
-                                                                                        .applicationUser.lastName,
-                                                                                ].toString(" ")}
-                                                                            </td>
-                                                                            <td>
-                                                                                <strong>Liam</strong>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="d-flex align-items-center nowrap text-primary">
-                                                                                    <span className="icofont-ui-email p-0 mr-2" />
-                                                liam@gmail.com
-                                              </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="text-muted text-nowrap">
-                                                                                    10 Feb 2018
-                                              </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="text-muted text-nowrap">
-                                                                                    9:15 - 9:45
-                                              </div>
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <div className="actions">
-                                                                                    <Link
-                                                                                        title="Pre-consultation"
-                                                                                        onClick={() =>
-                                                                                            (window.location.href =
-                                                                                                "/AdminPreConsultation")
-                                                                                        }
-                                                                                        to="/AdminPreConsultation"
-                                                                                        className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                                                                    >
-                                                                                        <span className="btn-icon icofont-stethoscope-alt" />
-                                                                                    </Link>
-                                                                                    <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                                        <span className="btn-icon icofont-ui-edit" />
-                                                                                    </button>
-                                                                                    <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                                        <span className="btn-icon icofont-ui-delete" />
-                                                                                    </button>
-                                                                                </div>
-                                                                            </td>
+                                            {
+                                                categories.length > 0 ?
+                                                    categories.map((item, index) => (
+                                                        <div
+                                                            key={Math.random() + index}
+                                                            className={`tab-pane fade ${index === 0 ? "show" : ""}`}
+                                                            id={`pills-${item.name.split(" ").join("").toLowerCase()}`}
+                                                            role="tabpanel"
+                                                            aria-labelledby={`pills-${item.name.split(" ").join("").toLowerCase()}-tab`}
+                                                        >
+                                                            <div className="table-responsive">
+                                                                <table
+                                                                    className="table data-table"
+                                                                    data-columns='[
+                                                                            { "data": "#" },
+                                                                            { "data": "name" },
+                                                                            { "data": "invoicenumber" },
+                                                                            { "data": "date-generated" },
+                                                                            { "data": "cost" },
+                                                                            { "data": "actions" }
+                                                                        ]'
+                                                                    data-paging="true"
+                                                                    data-info="true"
+                                                                >
+                                                                    <thead>
+                                                                        <tr className="bg-primary text-white">
+                                                                            <th>#</th>
+                                                                            <th>Patient's Name</th>
+                                                                            <th>Invoice ID</th>
+                                                                            <th>Date Generated</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Actions</th>
                                                                         </tr>
-                                                                    )
-                                                                )
-                                                                : null}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="tab-pane fade"
-                                                id="pills-completed"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-completed-tab"
-                                            >
-                                                <div className="table-responsive">
-                                                    <table
-                                                        className="table data-table"
-                                                        data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                                                        data-paging="true"
-                                                        data-info="true"
-                                                    >
-                                                        <thead>
-                                                            <tr className="bg-primary text-white">
-                                                                <th>Photo</th>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Phone</th>
-                                                                <th>Date Of Birth</th>
-                                                                <th>Address</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {
-                                                                completedAppointments
-                                                                    ? completedAppointments.map(
-                                                                        (appointment) => (
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <img
-                                                                                        src="./assets/content/user-40-1.jpg"
-                                                                                        alt=""
-                                                                                        width={40}
-                                                                                        height={40}
-                                                                                        className="rounded-500"
-                                                                                    />
-                                                                                </td>
-                                                                                <td>
-                                                                                    {" "}
-                                                                                    {[
-                                                                                        appointment.applicationUser
-                                                                                            .applicationUser.firstName,
-                                                                                        appointment.applicationUser
-                                                                                            .applicationUser.lastName,
-                                                                                    ].toString(" ")}
-                                                                                </td>
-                                                                                <td>
-                                                                                    <strong>Liam</strong>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div className="d-flex align-items-center nowrap text-primary">
-                                                                                        <span className="icofont-ui-email p-0 mr-2" />
-                                                liam@gmail.com
-                                              </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div className="text-muted text-nowrap">
-                                                                                        10 Feb 2018
-                                              </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div className="text-muted text-nowrap">
-                                                                                        9:15 - 9:45
-                                              </div>
-                                                                                </td>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {pendingAppointments
+                                                                            ? pendingAppointments.map((invoice, index) => (
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        {index + 1}
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <strong>{invoice.id}</strong>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="text-muted text-nowrap">
+                                                                                            {invoice.cost}
+                                                                                        </div>
+                                                                                    </td>
 
-                                                                                <td>
-                                                                                    <div className="actions">
-                                                                                        <Link
-                                                                                            title="Pre-consultation"
-                                                                                            onClick={() =>
-                                                                                                (window.location.href =
-                                                                                                    "/AdminPreConsultation")
-                                                                                            }
-                                                                                            to="/AdminPreConsultation"
-                                                                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                                                                        >
-                                                                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                                                                        </Link>
-                                                                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                                            <span className="btn-icon icofont-ui-edit" />
-                                                                                        </button>
-                                                                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                                            <span className="btn-icon icofont-ui-delete" />
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
-                                                                    )
-                                                                    : null}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="tab-pane fade"
-                                                id="pills-pending"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-pending-tab"
-                                            >
-                                                <div className="table-responsive">
-                                                    <table
-                                                        className="table data-table"
-                                                        data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
-                                                        data-paging="true"
-                                                        data-info="true"
-                                                    >
-                                                        <thead>
-                                                            <tr className="bg-primary text-white">
-                                                                <th>Photo</th>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Phone</th>
-                                                                <th>Date Of Birth</th>
-                                                                <th>Address</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {pendingAppointments
-                                                                ? pendingAppointments.map((appointment) => (
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img
-                                                                                src="./assets/content/user-40-1.jpg"
-                                                                                alt=""
-                                                                                width={40}
-                                                                                height={40}
-                                                                                className="rounded-500"
-                                                                            />
-                                                                        </td>
-                                                                        <td>
-                                                                            {" "}
-                                                                            {[
-                                                                                appointment.applicationUser
-                                                                                    .applicationUser.firstName,
-                                                                                appointment.applicationUser
-                                                                                    .applicationUser.lastName,
-                                                                            ].toString(" ")}
-                                                                        </td>
-                                                                        <td>
-                                                                            <strong>Liam</strong>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="d-flex align-items-center nowrap text-primary">
-                                                                                <span className="icofont-ui-email p-0 mr-2" />
-                                              liam@gmail.com
-                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="text-muted text-nowrap">
-                                                                                10 Feb 2018
-                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="text-muted text-nowrap">
-                                                                                9:15 - 9:45
-                                            </div>
-                                                                        </td>
+                                                                                    <td>
+                                                                                        <div className="actions">
+                                                                                            <Link
+                                                                                                to="/AdminPreConsultation"
+                                                                                                className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                                                                            >
+                                                                                                <span className="btn-icon icofont-stethoscope-alt" />
+                                                                                            </Link>
+                                                                                            <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                                                                                <span className="btn-icon icofont-ui-edit" />
+                                                                                                View Invoice
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            ))
+                                                                            : null}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                    : null
+                                            }
 
-                                                                        <td>
-                                                                            <div className="actions">
-                                                                                <Link
-                                                                                    title="Pre-consultation"
-                                                                                    onClick={() =>
-                                                                                        (window.location.href =
-                                                                                            "/AdminPreConsultation")
-                                                                                    }
-                                                                                    to="/AdminPreConsultation"
-                                                                                    className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                                                                >
-                                                                                    <span className="btn-icon icofont-stethoscope-alt" />
-                                                                                </Link>
-                                                                                <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                                    <span className="btn-icon icofont-ui-edit" />
-                                                                                </button>
-                                                                                <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                                                                    <span className="btn-icon icofont-ui-delete" />
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))
-                                                                : null}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
