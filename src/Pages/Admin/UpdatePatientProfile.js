@@ -1,5 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import { Link } from 'react-router-dom'
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -334,7 +335,7 @@ class UpdatePatientProfile extends React.Component {
             {displayCoreDetailsSuccessNotification && this.successNotification("Core Details successfully Updated")}
             {displayContactDetailsSuccessNotification && this.successNotification("Contact Details successfully Updated")}
             {displayHealthDetailsSuccessNotification && this.SuccessNotification("Health Details successfully Updated")}
-
+            <Link className="btn btn-block btn-primary" to="/AdminPatientRegistration">Pay</Link>
             <header className="page-header">
               <h3 className="page-title">Update Patient Profile</h3>
             </header>
@@ -445,22 +446,13 @@ class UpdatePatientProfile extends React.Component {
                           <div className="col">
                             <button
                               type="submit"
-                              className="btn btn-success"
+                              className="btn btn-primary"
                               onClick={(e) => this.updateCoreDetails(e)}
                             >
                               Save Core Details
                                   </button>
                           </div>
                           <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">
-                                Cancel
-                                    </span>{" "}
-                              <span className="d-sm-none">Cancel</span>
-                            </button>
                           </div>
                         </div>
                       </form>
@@ -563,7 +555,7 @@ class UpdatePatientProfile extends React.Component {
                           <div className="col">
                             <button
                               type="button"
-                              className="btn btn-success"
+                              className="btn btn-primary"
                               onClick={(e) =>
                                 this.updateContactDetails(e)
                               }
@@ -572,15 +564,6 @@ class UpdatePatientProfile extends React.Component {
                                   </button>
                           </div>
                           <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">
-                                Cancel
-                                    </span>{" "}
-                              <span className="d-sm-none">Cancel</span>
-                            </button>
                           </div>
                         </div>
                       </form>
@@ -704,22 +687,13 @@ class UpdatePatientProfile extends React.Component {
                           <div className="col">
                             <button
                               type="button"
-                              className="btn btn-success"
+                              className="btn btn-primary"
                               onClick={(e) => this.updateHealthDetails(e)}
                             >
                               Save Health Details
                                   </button>
                           </div>
                           <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">
-                                Cancel
-                                    </span>{" "}
-                              <span className="d-sm-none">Cancel</span>
-                            </button>
                           </div>
                         </div>
                       </form>

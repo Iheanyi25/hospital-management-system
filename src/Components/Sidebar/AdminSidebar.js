@@ -78,11 +78,6 @@ class AdminSidebar extends React.Component {
 													<span className="link-text">Manage Patients</span>
 												</NavLink>
 											</li>
-											<li className="menu-item">
-												<NavLink className="item-link" to="/AdminPatientRegistration">
-													<span className="link-text">Patient payment</span>
-												</NavLink>
-											</li>
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
