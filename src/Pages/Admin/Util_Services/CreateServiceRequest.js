@@ -2,57 +2,96 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PageLoader } from '../../../Components';
 
-export default class CreateServiceRequest extends Component {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+class CreateServiceRequest extends Component {
+
 	state = {
 		categorySelected: false,
 		categories: [],
 		values: [],
+		patients: [],
+		services: [],
 		category: '',
-	};
+		rerender: ""
+	}
 
 	componentDidMount() {
 		this.fetchServiceCategories();
+		this.fetchPatients();
 	}
 
 	fetchServiceCategories = async () => {
-		try {
-			let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/GetAllServiceCategories', {
-				headers: { 'Content-Type': 'application/json-patch+json' },
-				method: 'GET',
-				redirect: 'follow',
-			});
-			const data = await res.text();
-			console.log(JSON.parse(data));
-			this.setState({ categories: JSON.parse(data) });
-		} catch (error) {
-			console.log(error);
-		}
+		let res = await fetch(apiUrl + '/Admin/GetAllServiceCategories');
+		const data = await res.json();
+		console.log({ data })
+		this.setState({ categories: data });
 	};
 
+	renderPicker() {
+		var select = $('.custom-picker');
+		console.log("adegoke")
+
+		if (select.length) {
+			select.each(function () {
+				$(this).selectpicker({
+					style: '',
+					styleBase: 'form-control',
+					tickIcon: 'icofont-check-alt'
+				});
+			});
+		}
+	}
+
+	fetchPatients = async () => {
+		let res = await fetch(apiUrl + '/Patient/GetPatients');
+		const data = await res.json();
+		const patientArray = [];
+
+		data.patients.forEach(element => {
+			patientArray.push(element.patient);
+		});
+
+		this.setState({ patients: patientArray }, () => {
+			this.renderPicker();
+		});
+	}
+
+	fetchServicesInACategory = async (id) => {
+		let res = await fetch(apiUrl + "/Admin/GetAllServicesInAServiceCategory?serviceCategoryId=" + id);
+		let data = await res.json();
+		this.setState({ services: data }, () => {
+			this.renderPicker();
+		})
+	}
+
 	handleSelect = (e) => {
-		// this.setState({ values: text.target.value });
-		// console.log(this.state.values);
 		if (e.target.value) {
 			let valueContainer = document.getElementsByClassName('filter-option-inner-inner')[0];
 			let values = valueContainer.innerText.split(',');
 			let valueToPush = [];
 
-			values.map((item, index) => {
+			values.map((item) => {
 				let newSelect = {
 					serviceID: '',
 					service: item,
 					category: this.state.category,
 				};
-				valueToPush.push(newSelect);
+				return valueToPush.push(newSelect);
 			});
 
-			this.setState({ values: valueToPush });
+			this.setState({ values: [...this.state.values, ...valueToPush] });
 			console.log(this.state.values);
 		}
 	};
 
 	handleChange = (e) => {
-		this.setState({ category: e.target.value });
+		let value = e.target.value;
+		let fullData = value.split("#")
+		console.log(fullData)
+		this.setState({ category: fullData[0] });
+		this.fetchServicesInACategory(fullData[1]);
 	};
 
 	render() {
@@ -72,18 +111,17 @@ export default class CreateServiceRequest extends Component {
 										<div className="card-body">
 											<form className="mb-4 p-5 needs-validation">
 												<h4 className="text-center">Service request form</h4>
+
 												<div className="form-group">
 													<label>Patient</label>
-
-													<input
-														className="form-control"
-														type="text"
-														tabIndex={-98}
-														placeholder="Patient"
-														required
-													/>
-													<div className="valid-feedback">Looks good!</div>
-													<div className="invalid-feedback">Please provide a valid name.</div>
+													<select className="selectpicker custom-picker rounded form-control"
+														data-live-search="true" >
+														{
+															this.state.patients.map((item, index) => {
+																return <option data-tokens={`${item.firstName} ${item.lastName}`} key={index}>{`${item.firstName} ${item.lastName}`}</option>
+															})
+														}
+													</select>
 												</div>
 
 												<div className="form-group">
@@ -98,30 +136,36 @@ export default class CreateServiceRequest extends Component {
 														<option disabled selected="true" value="">
 															{this.state.categories.length > 0
 																? 'Select service category'
-																: 'Loading...'}{' '}
-															{/** added loading state to the form */}
+																: 'Loading...'}
+															{/** added loading this.state to the form */}
 														</option>
 														{this.state.categories.length > 0 &&
 															this.state.categories.map((category, i) => (
-																<option key={i} value={category.name}>
+																<option key={i} value={category.name + "#" + category.id}>
 																	{category.name}
 																</option>
 															))}
 													</select>
 												</div>
+
 												<div className="form-group">
 													<label>Services</label>
+
 													<select
-														className="selectpicker rounded form-control"
-														multiple="multiple"
-														// defaultValue={this.state.values}
+														className="selectpicker custom-picker rounded form-control"
+														multiple
+														data-live-search="false"
 														onChange={(e) => {
 															this.handleSelect(e);
 														}}
 													>
-														<option value="mustard">Mustard</option>
-														<option value="ketchup">Ketchup</option>
-														<option value="barbeKue">Barbecue</option>
+														{
+															this.state.services.map((service, i) => (
+																<option key={i} value={service.id}>
+																	{service.name}
+																</option>
+															))
+														}
 													</select>
 												</div>
 											</form>
@@ -145,44 +189,46 @@ export default class CreateServiceRequest extends Component {
 													</thead>
 
 													<tbody>
-														{this.state.values.length > 0 ? (
-															this.state.values.map((item, index) => (
-																<tr>
-																	<td>
-																		<strong>{index + 1}</strong>
-																	</td>
-																	<td>
-																		<strong>
+														{
+															this.state.values.length > 0 ? (
+																this.state.values.map((item, index) => (
+																	<tr>
+																		<td>
+																			<strong>{index + 1}</strong>
+																		</td>
+																		<td>
+																			<strong>
+																				<div className="d-flex align-items-center nowrap">
+																					{item.service}
+																				</div>
+																			</strong>
+																		</td>
+																		<td>{item.category}</td>
+																		<td>
 																			<div className="d-flex align-items-center nowrap">
-																				{item.service}
+																				<Link
+																					title="Delete"
+																					to="#"
+																					className="text-danger mr-4"
+																				>
+																					<span className="btn-icon icofont-delete-alt" />
+																				</Link>
 																			</div>
-																		</strong>
-																	</td>
-																	<td>{item.category}</td>
-																	<td>
-																		<div className="d-flex align-items-center nowrap">
-																			<Link
-																				title="Delete"
-																				to="#"
-																				className="text-danger mr-4"
-																			>
-																				<span className="btn-icon icofont-delete-alt" />
-																			</Link>
-																		</div>
+																		</td>
+																	</tr>
+																))
+															) :
+																<tr>
+																	<td colSpan="4">
+																		<p className="w-50 text-secondary">
+																			You can always change the service category, if
+																			you want to add different services from
+																			different categories
+																	</p>
 																	</td>
 																</tr>
-															))
-														) : (
-															<tr>
-																<td colSpan="4">
-																	<p className="w-50 text-secondary">
-																		You can always change the service category, if
-																		you want to add different services from
-																		different categories
-																	</p>
-																</td>
-															</tr>
-														)}
+
+														}
 													</tbody>
 												</table>
 											</div>
@@ -205,3 +251,5 @@ export default class CreateServiceRequest extends Component {
 		);
 	}
 }
+
+export default CreateServiceRequest;

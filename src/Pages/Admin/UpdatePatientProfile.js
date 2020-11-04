@@ -40,16 +40,12 @@ class UpdatePatientProfile extends React.Component {
 
   async componentDidMount() {
     const { apiUrl } = this.state;
-    console.log(this.props.location);
 
-    // const { params } = this.props.match;
-    let params = ""
-    await this.setState({ patientId: params.id });
-    const response = await fetch(
-      `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
-    );
+    const { params } = this.props.match;
+    this.setState({ patientId: params.id });
+
+    const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${this.state.patientId}`);
     const data = await response.json();
-    console.log(data)
     const response1 = await fetch(
       `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
     );
