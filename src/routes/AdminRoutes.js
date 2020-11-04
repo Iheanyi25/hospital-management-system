@@ -15,6 +15,7 @@ import { AdminLayout } from '../Components/Layout';
 import ManageServiceRequest from '../Pages/Admin/Util_Services/ManageServiceRequest';
 import CreateServiceRequest from '../Pages/Admin/Util_Services/CreateServiceRequest';
 import AllPatients from '../Pages/Admin/AllPatients';
+import PatientRegistration from '../Pages/Admin/PatientRegistration'
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -68,6 +69,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminSelectHealthPlan" component={SelectHealthPlan} />
                     <Route exact path="/AdminManageServiceRequests" component={ManageServiceRequest} />
                     <Route exact path="/AdminServiceRequests" component={CreateServiceRequest} />
+                    <Route exact path="/AdminPatientRegistration" component={PatientRegistration} />
 
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
 
