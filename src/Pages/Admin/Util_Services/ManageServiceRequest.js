@@ -20,13 +20,12 @@ class ManageServiceRequest extends React.Component {
     }
 
     async componentDidMount() {
-        this.fetchCategory();
+        this.fetchCategory().then(() => this.sync());
     }
 
     async fetchCategory() {
         const res = await fetch(apiUrl + "/Admin/GetAllServiceCategories");
         const response = await res.json();
-        console.log(response)
         this.setState({ categories: response })
     }
 
@@ -112,13 +111,14 @@ class ManageServiceRequest extends React.Component {
                                                     categories.map((item, index) => (
                                                         <div
                                                             key={Math.random() + index}
-                                                            className={`tab-pane fade ${index === 0 ? "show" : ""}`}
+                                                            className={`tab-pane fade ${index === 0 ? "show active" : ""}`}
                                                             id={`pills-${item.name.split(" ").join("").toLowerCase()}`}
                                                             role="tabpanel"
                                                             aria-labelledby={`pills-${item.name.split(" ").join("").toLowerCase()}-tab`}
                                                         >
                                                             <div className="table-responsive">
                                                                 <table
+                                                                    ref={(el) => (this.el = el)}
                                                                     className="table data-table"
                                                                     data-columns='[
                                                                             { "data": "#" },
