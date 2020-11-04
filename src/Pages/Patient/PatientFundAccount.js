@@ -1,11 +1,19 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import paystack1 from "../../assets/img/paystack-icon1.svg";
-import paystack2 from "../../assets/img/paystack-icon2.svg";
-import flutterwave1 from "../../assets/img/flutterwave1.svg";
-import flutterwave2 from "../../assets/img/flutterwave2.svg";
+import { PayWithPaystack, PayWithFlutter } from "./Component";
 
 class FundAccount extends React.Component {
+  state = {
+    patientId: "",
+    amount: "",
+    email: "",
+  };
+
+  componentDidMount() {
+    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    this.setState({ patientId: user.id, email: user.email });
+  }
+
   render() {
     return (
       <>
@@ -31,10 +39,10 @@ class FundAccount extends React.Component {
                           <label>Amount(NGN)</label>
                           <input
                             className="form-control"
-                            type="text"
+                            type="number"
                             tabIndex={-98}
                             placeholder="Amount"
-                            name="name"
+                            name="amount"
                             onChange={(e) => {
                               this.setState({
                                 [e.target.name]: e.target.value,
@@ -50,22 +58,8 @@ class FundAccount extends React.Component {
                         <div className="m-auto">
                           <label>Pay with</label>
                           <div className="row">
-                            <div className="col-md-6">
-                              <button className="btn btn-light btn-lg btn-block">
-                                <img src={paystack1} className="mr-1" alt="" />
-                                <img src={paystack2} alt="" />
-                              </button>
-                            </div>
-                            <div className="col-md-6">
-                              <button className="btn btn-light btn-lg btn-block">
-                                <img
-                                  src={flutterwave1}
-                                  className="mr-1"
-                                  alt=""
-                                />
-                                <img src={flutterwave2} alt="" />
-                              </button>
-                            </div>
+                            <PayWithPaystack paymentDetails={this.state} />
+                            <PayWithFlutter />
                           </div>
                         </div>
                       </form>
