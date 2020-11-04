@@ -1,0 +1,41 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden !important;
+}
+
+#root {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+.activeNavItem {
+    background: transparent;
+    color: #336cfb;
+}
+
+.alert>* {
+    margin: 0 !important;
+}
+
+.alert {
+    position: absolute;
+    top: 30px;
+}
+
+.alert-align {
+    right: 10px;
+    z-index: 999 !important;
+}
+
+.main-content-wrap {
+    margin-top: 50px !important;
+}
+
+/* select.selectpicker {
+    display: block !important;
+} */
