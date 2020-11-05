@@ -3,7 +3,7 @@ import React from "react";
 const PayCash = () => {
   return (
     <div className="table-responsive">
-    <div className="main-content-wrap w-50">
+    <div className="main-content-wrap">
       <div className="page-content">
         <div className="row justify-content-center">
           <div className="col col-md-12">
