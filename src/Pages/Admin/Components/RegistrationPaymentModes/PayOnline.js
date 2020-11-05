@@ -4,18 +4,19 @@ import {
   PayWithFlutter,
 } from "../../../../Components/Payment";
 
-const PayOnline = () => {
+const PayOnline = ({ id, email }) => {
   const [user, setUser] = useState({
-    userId: "",
+    id: "",
     amount: 5000,
     email: "",
   });
 
+  console.log(id);
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
-    console.log("userDetails", user);
-    setUser({ ...user, userId: user.id, email: user.email });
-  }, []);
+    setUser({ ...user, id, email });
+    console.log("userDetails: ", user);
+  }, [id, email]);
+
   return (
     <div className="table-responsive">
       <div className="main-content-wrap w-50">

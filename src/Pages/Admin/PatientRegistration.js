@@ -1,6 +1,10 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayOnline, PayCash, Others } from "./Components/RegistrationPaymentModes";
+import {
+  PayOnline,
+  PayCash,
+  Others,
+} from "./Components/RegistrationPaymentModes";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -14,10 +18,14 @@ class PatientRegistration extends React.Component {
     this.state = {
       patients: [],
       apiUrl: process.env.REACT_APP_API_URL,
+      patientId: "",
+      email: "",
     };
   }
 
   componentDidMount() {
+    const { patientId, email } = this.props.location.state;
+    this.setState({ patientId, email });
     this.getAllPatients().then(() => this.sync());
   }
 
@@ -110,7 +118,10 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <PayOnline />
+                        <PayOnline
+                          id={this.state.patientId}
+                          email={this.state.email}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -126,7 +137,7 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                       <Others />
+                        <Others />
                       </div>
                     </div>
                   </div>

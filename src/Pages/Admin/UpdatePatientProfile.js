@@ -340,7 +340,7 @@ class UpdatePatientProfile extends React.Component {
               className="btn btn-block btn-primary"
               to={{
                 pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                state: this.state.patientId,
+                state: {patientId: this.state.patientId, email: this.state.email},
               }}
             >
               Pay
