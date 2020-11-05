@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
 
 	async componentDidMount() {
 
-		const patientQueue = await fetch(`${this.state.apiUrl}/Admin/GetPatientQueue`);
+		const patientQueue = await fetch(`${this.state.apiUrl}/Admin/GetPatientConsultationList`);
 		let data = await patientQueue.json()
 		this.setState({ doctorConsultations: data.patientQueue });
 
