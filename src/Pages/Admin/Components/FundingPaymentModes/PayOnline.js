@@ -1,6 +1,9 @@
 import React from "react";
 import { PageLoader } from "../../../../Components";
-import { PayWithPaystack, PayWithFlutter } from "./Component";
+import {
+  PayWithPaystack,
+  PayWithFlutter,
+} from "../../../../Components/Payment";
 
 class PayOnline extends React.Component {
   state = {
@@ -29,11 +32,10 @@ class PayOnline extends React.Component {
                 <div className="col col-md-12">
                   <div className="card border-light">
                     <div className="card-body">
-                      <form
-                        className="mb-4 p-5 needs-validation"
-                        noValidate
-                      >
-                        <h4 className="text-center">Fund user account account</h4>
+                      <form className="mb-4 p-5 needs-validation" noValidate>
+                        <h4 className="text-center">
+                          Fund user account account
+                        </h4>
                         <div className="form-group">
                           <label>Amount(NGN)</label>
                           <input
@@ -58,7 +60,7 @@ class PayOnline extends React.Component {
                           <label>Pay with</label>
                           <div className="row">
                             <PayWithPaystack paymentDetails={this.state} />
-                            <PayWithFlutter />
+                            <PayWithFlutter paymentDetails={this.state} />
                           </div>
                         </div>
                       </form>
