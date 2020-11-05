@@ -72,8 +72,8 @@ class AllDoctors extends React.Component {
                                                     <th>Name</th>
                                                     <th>Email</th>
                                                     <th>Phone</th>
-                                                    <th>Date Of Birth</th>
-                                                    <th>Address</th>
+                                                    <th>Specialization</th>
+                                                    <th>Office Time</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -91,32 +91,32 @@ class AllDoctors extends React.Component {
                                                             />
                                                         </td>
                                                         <td>
-                                                            {doctor.firstName} {doctor.lastName}
+                                                            {doctor.doctor.firstName} {doctor.doctor.lastName}
                                                         </td>
                                                         <td>
                                                             <strong>
                                                                 {" "}
                                                                 <div className="d-flex align-items-center nowrap text-primary">
                                                                     <span className="icofont-ui-email p-0 mr-2" />
-                                                                    {doctor.email}
+                                                                    {doctor.doctor.email}
                                                                 </div>
                                                             </strong>
                                                         </td>
                                                         <td>
                                                             <div className="d-flex align-items-center nowrap text-primary">
                                                                 <span className="icofont-ui-email p-0 mr-2" />
-                                                                {doctor.phoneNumber}
+                                                                {doctor.doctor.phoneNumber}
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div className="text-muted text-nowrap">
-                                                                10 Feb 2018
-                                  </div>
+                                                                Anatomy and Chemistry
+                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div className="text-muted text-nowrap">
                                                                 9:15 - 9:45
-                                  </div>
+                                                            </div>
                                                         </td>
 
                                                         <td>
@@ -131,41 +131,30 @@ class AllDoctors extends React.Component {
                                                                     Action
                                                                     </button>
                                                                 <div className="dropdown-menu">
+                                                                   
                                                                     <NavLink
-                                                                        to={`/AdminBookConsultation/${doctor.id}`}
+                                                                        to={`/AdminDoctorConsultations/${doctor.doctorId}`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                            Book Consultation
-                                                                        </NavLink>
+                                                                            View Consultation List
+                                                                    </NavLink>
+                                                                  
                                                                     <NavLink
-                                                                        to={`/AdminDoctorConsultationQueue/${doctor.id}`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                            View Consultation Queue
-                                                                        </NavLink>
-                                                                    <NavLink
-                                                                        to={`/AdminBookAppointment/${doctor.id}`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                            Book Appointment
-                                                                        </NavLink>
-                                                                    <NavLink
-                                                                        to={`/AdminDoctorAppointments/${doctor.id}`}
+                                                                        to={`/AdminDoctorAppointments/${doctor.doctorId}`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Appointment List
-                                                                        </NavLink>
+                                                                    </NavLink>
+
                                                                     <NavLink
-                                                                        to={`/AdminUpdatePatientProfile`}
+                                                                        to={`#`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                                             View Profile
-                                                                        </NavLink>
+                                                                    </NavLink>
                                                                 </div>
                                                             </div>
 

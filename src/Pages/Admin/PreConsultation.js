@@ -33,10 +33,10 @@ class PreConsultation extends React.Component {
     const { params } = this.props.match;
     await this.setState({ patientId: params.id });
     const response = await fetch(
-      `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
+      `${apiUrl}/Patient/GetPatient?id=${this.state.patientId}`
     );
     const data = await response.json();
-
+    console.log(data)
     this.setState({
       patient: data,
     });
@@ -288,7 +288,7 @@ class PreConsultation extends React.Component {
                 </div>
               ) : null}
               <header className="page-header">
-                <h3 className="page-title">Patient Preconsultation</h3>
+              <h3 className="page-title">Patient Preconsultation({patient.patientProfile.fullName})</h3>
               </header>
               <div className="page-content">
                 <div className="row justify-content-center">
@@ -305,8 +305,9 @@ class PreConsultation extends React.Component {
                                   className="form-control"
                                   type="number"
                                   value={
-                                    bloodPressure ? bloodPressure : null
+                                    bloodPressure ? bloodPressure : ""
                                   }
+                                  required
                                   onChange={(e) =>
                                     this.handleChange("bloodPressure", e)
                                   }
@@ -319,7 +320,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
-                                  value={respiration ? respiration : null}
+                                  value={respiration ? respiration : ""}
                                   onChange={(e) =>
                                     this.handleChange("respiration", e)
                                   }
@@ -334,7 +335,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
-                                  value={pulse ? pulse : null}
+                                  value={pulse ? pulse : ""}
                                   onChange={(e) =>
                                     this.handleChange("pulse", e)
                                   }
@@ -347,7 +348,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
-                                  value={spo2 ? spo2 : null}
+                                  value={spo2 ? spo2 : ""}
                                   onChange={(e) =>
                                     this.handleChange("spo2", e)
                                   }
@@ -361,7 +362,7 @@ class PreConsultation extends React.Component {
                             <input
                               className="form-control"
                               type="number"
-                              value={temperature ? temperature : null}
+                              value={temperature ? temperature : ""}
                               onChange={(e) =>
                                 this.handleChange("temperature", e)
                               }

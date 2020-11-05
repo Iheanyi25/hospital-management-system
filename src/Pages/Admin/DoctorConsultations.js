@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
-class DoctorConsultationQueue extends React.Component {
+class DoctorConsultations extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -140,7 +140,7 @@ class DoctorConsultationQueue extends React.Component {
 						</div>
 
 						<header className="page-header">
-							<h4 className="page-title">Consultation Queue</h4>
+							<h4 className="page-title">Dr. Vitalis Consultation List</h4>
 						</header>
 						<div className="page-content">
 							<div className="card-body"></div>
@@ -632,4 +632,4 @@ class DoctorConsultationQueue extends React.Component {
 }
 
 
-export default DoctorConsultationQueue;
+export default DoctorConsultations;

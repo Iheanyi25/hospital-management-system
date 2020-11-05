@@ -50,11 +50,19 @@ class AllPatients extends React.Component {
             <div className="page-content">
               <div className="card mb-0">
                 <div className="card-body">
-                  <div className="table-responsive">
-                    <table
-                      ref={(el) => (this.el = el)}
-                      className="table"
-                      data-columns='[
+                  <div>
+                    <div className="tab-content" id="pills-tabContent">
+                      <div
+                        className="tab-pane fade show active"
+                        id="pills-active"
+                        role="tabpanel"
+                        aria-labelledby="pills-active-tab"
+                      >
+                        <div className="table-responsive">
+                          <table
+                            ref={(el) => (this.el = el)}
+                            className="table"
+                            data-columns='[
                                           { "data": "photo" },
                                           { "data": "name" },
                                           { "data": "email" },
@@ -63,112 +71,116 @@ class AllPatients extends React.Component {
                                           { "data": "address" },
                                           { "data": "actions" }
                                       ]'
-                      data-paging="true"
-                      data-info="true"
-                    >
-                      <thead>
-                        <tr className="bg-primary text-white">
-                          <th>Photo</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Phone</th>
-                          <th>Date Of Birth</th>
-                          <th>Address</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
+                            data-paging="true"
+                            data-info="true"
+                          >
+                            <thead>
+                              <tr className="bg-primary text-white">
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Date Of Birth</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
 
-                      <tbody>
-                        {this.state.patients.map((patient) => (
-                          <tr>
-                            <td>
-                              <img
-                                src="./assets/content/user-40-1.jpg"
-                                alt=""
-                                width={40}
-                                height={40}
-                                className="rounded-500"
-                              />
-                            </td>
-                            <td>
-                              {patient.patient.firstName} {patient.patient.lastName}
-                            </td>
-                            <td>
-                              <strong>
-                                {" "}
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />
-                                  {patient.patient.email}
-                                </div>
-                              </strong>
-                            </td>
-                            <td>
-                              <div className="d-flex align-items-center nowrap text-primary">
-                                <span className="icofont-ui-email p-0 mr-2" />
-                                {patient.patient.phoneNumber}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">
-                                10 Feb 2018
+                            <tbody>
+                              {this.state.patients.map((patient) => (
+                                <tr>
+                                  <td>
+                                    <img
+                                      src="./assets/content/user-40-1.jpg"
+                                      alt=""
+                                      width={40}
+                                      height={40}
+                                      className="rounded-500"
+                                    />
+                                  </td>
+                                  <td>
+                                    {patient.patient.firstName} {patient.patient.lastName}
+                                  </td>
+                                  <td>
+                                    <strong>
+                                      {" "}
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
+                                        {patient.patient.email}
+                                      </div>
+                                    </strong>
+                                  </td>
+                                  <td>
+                                    <div className="d-flex align-items-center nowrap text-primary">
+                                      <span className="icofont-ui-email p-0 mr-2" />
+                                      {patient.patient.phoneNumber}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-muted text-nowrap">
+                                      10 Feb 2018
                                   </div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">
-                                9:15 - 9:45
+                                  </td>
+                                  <td>
+                                    <div className="text-muted text-nowrap">
+                                      9:15 - 9:45
                                   </div>
-                            </td>
+                                  </td>
 
-                            <td>
-                              <div className="btn-group">
-                                <button
-                                  type="button"
-                                  className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                >
-                                  Action
+                                  <td>
+                                    <div className="btn-group">
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                      >
+                                        Action
                                     </button>
-                                <div className="dropdown-menu text-left">
-                                  <NavLink
-                                    to={{
-                                      pathname: `/AdminPreConsultation/${patient.id}`,
-                                      state: patient
-                                    }}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                      <div className="dropdown-menu text-left">
+                                        <NavLink
+                                          to={{
+                                            pathname: `/AdminPreConsultation/${patient.patient.id}`,
+                                            state: patient
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                         Go for Pre-Consultation
                                       </NavLink>
-                                  <NavLink
-                                    to={{
-                                      pathname: `/AdminPreConsultation/${patient.id}`,
-                                      state: patient
-                                    }}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        <NavLink
+                                          to={{
+                                            pathname: `/AdminPreConsultation/${patient.patient.id}`,
+                                            state: patient
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                         Pre-Consultation History
                                       </NavLink>
-                                  <NavLink
-                                    to={{
-                                      pathname: `/AdminUpdatePatientProfile/${patient.patient.id}`,
-                                      state: patient
-                                    }}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                        <NavLink
+                                          to={{
+                                            pathname: `/AdminUpdatePatientProfile/${patient.patient.id}`,
+                                            state: patient
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                         Update Profile
                                       </NavLink>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                 </div>
               </div>
               <div className="add-action-box">

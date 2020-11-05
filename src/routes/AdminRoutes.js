@@ -8,9 +8,9 @@ import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
 import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
 import AdminBookConsultation from "../Pages/Admin/BookConsultation";
-import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
+import AdminConsultationQueue from "../Pages/Admin/Consultations";
 import AddPatient from "../Pages/Admin/AddPatient.js";
-import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
+import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultations";
 import { AdminLayout } from "../Components/Layout";
 import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
 import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
@@ -59,7 +59,7 @@ export default function AdminRoutes() {
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
           <Route
             exact
-            path="/AdminBookAppointment/:doctorId"
+            path="/AdminBookAppointment"
             component={AdminBookAppointment}
           />
           <Route
@@ -74,17 +74,17 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminBookConsultation/:doctorId"
+            path="/AdminBookConsultation"
             component={AdminBookConsultation}
           />
           <Route
             exact
-            path="/AdminConsultationQueue"
+            path="/AdminConsultations"
             component={AdminConsultationQueue}
           />
           <Route
             exact
-            path="/AdminDoctorConsultationQueue/:doctorId"
+            path="/AdminDoctorConsultations/:doctorId"
             component={AdminDoctorConsultationQueue}
           />
           <Route exact path="/AdminCreateService" component={CreateService} />
