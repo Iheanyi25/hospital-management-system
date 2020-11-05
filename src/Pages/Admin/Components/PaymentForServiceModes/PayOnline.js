@@ -1,6 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../../../Components";
-import { PayWithPaystack, PayWithFlutter } from "./Component";
+import { PayWithPaystack, PayWithFlutter } from "../../../../Components/Payment";
 
 class PayOnline extends React.Component {
   state = {
@@ -37,7 +37,7 @@ class PayOnline extends React.Component {
                         <div className="m-auto mt-2">
                           <div className="row">
                             <PayWithPaystack paymentDetails={this.state} />
-                            <PayWithFlutter />
+                            <PayWithFlutter paymentDetails={this.state}/>
                           </div>
                         </div>
                       </form>
