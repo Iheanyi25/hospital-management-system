@@ -19,7 +19,7 @@ class AllDoctors extends React.Component {
         const { apiUrl } = this.state;
         const response = await fetch(`${apiUrl}/Doctor/GetDoctors`);
         const data = await response.json();
-        this.setState({ doctors: data.doctor });
+        this.setState({ doctors: data.doctors });
     }
 
     componentDidMount() {

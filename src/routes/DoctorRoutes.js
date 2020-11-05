@@ -22,8 +22,6 @@ export default function DoctorRoutes() {
                     <Route exact path="/DoctorPatientsList" component={DoctorPatientsList} />
                     <Route exact path="/DoctorConsultations" component={DoctorConsultations} />
                     <Route exact path="/DoctorAppointments" component={DoctorAppointments} />
-                
-                    
                     <Route exact path="/DoctorClarking" component={DoctorClarking} />
                     <Route exact path="/DoctorPatientProfile" component={DoctorPatientProfile} />
                     <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory} />

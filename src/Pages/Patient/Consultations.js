@@ -12,30 +12,30 @@ class Consultations extends React.Component {
 		this.state = {
 			apiUrl: process.env.REACT_APP_API_URL,
 			patientId: JSON.parse(localStorage.getItem('authenticatedUser')).id,
-			patientQueue: null,
+			patientConsultations: null,
 			canceledConsultations: [],
 			completedConsultations: [],
 			pendingConsultations: [],
 		};
 	}
 
-	async getPatientQueue() {
+	async getpatientConsultations() {
 		var canceledConsultations = [];
 		var completedConsultations = [];
 		var pendingConsultations = [];
 		const { apiUrl } = this.state;
-		const response = await fetch(`${apiUrl}/Patient/GetPatientQueue`);
+		const response = await fetch(`${apiUrl}/Patient/GetAllConsultations?PatientId=${this.state.patientId}`);
 		const data = await response.json();
 		console.log(data);
-		await this.setState({ patientQueue: data.patientQueue });
+		await this.setState({ patientConsultations: data.patientConsultations });
 
-		data.patientQueue.forEach((patientQueue) => {
-			if (patientQueue.isCanceled === true) {
-				canceledConsultations.push(patientQueue);
-			} else if (patientQueue.isCompleted === true) {
-				completedConsultations.push(patientQueue);
+		data.patientConsultations.forEach((patientConsultations) => {
+			if (patientConsultations.isCanceled === true) {
+				canceledConsultations.push(patientConsultations);
+			} else if (patientConsultations.isCompleted === true) {
+				completedConsultations.push(patientConsultations);
 			} else {
-				pendingConsultations.push(patientQueue);
+				pendingConsultations.push(patientConsultations);
 			}
 		});
 		console.log(canceledConsultations);
@@ -49,7 +49,7 @@ class Consultations extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getPatientQueue().then(() => this.sync());
+		this.getpatientConsultations().then(() => this.sync());
 	}
 
 	sync() {
@@ -62,52 +62,8 @@ class Consultations extends React.Component {
 	}
 
 	cancelConsultation = async (id) => {
-		console.log('ddiwqdigwqi');
-		// var canceledConsultations = [];
-		// var completedConsultations = [];
-		// var pendingConsultations = [];
-		// const { apiUrl } = this.state;
-		// try {
-		//   const request = await fetch(
-		//     `${apiUrl}/Patient/CancelConsultation?patientQueueId=${id}`,
-		//     {
-		//       method: "POST",
-		//       headers: {
-		//         "Content-Type": "application/json",
-		//       },
-		//     }
-		//   );
-
-		//   if (!request.ok) {
-		//     const error = await request.json();
-		//     throw Error(error.message);
-		//   }
-
-		//   //Drug successfully deleted
-
-		//   const response = await fetch(`${apiUrl}/Patient/GetPatientQueue`);
-		//   const data = await response.json();
-
-		//   await this.setState({ patientQueue: data.patientQueue });
-
-		//   data.patientQueue.forEach((patientQueue) => {
-		//     if (patientQueue.isCanceled == true) {
-		//       canceledConsultations.push(patientQueue);
-		//     } else if (patientQueue.isCompleted == true) {
-		//       completedConsultations.push(patientQueue);
-		//     } else {
-		//       pendingConsultations.push(patientQueue);
-		//     }
-		//   });
-
-		//   this.setState({
-		//     canceledConsultations: canceledConsultations,
-		//     completedConsultations: completedConsultations,
-		//     pendingConsultations: pendingConsultations,
-		//   });
-		// } catch (error) {
-		//   console.log(error);
-		// }
+		//
+		
 	};
 
 	render() {
@@ -286,7 +242,7 @@ class Consultations extends React.Component {
 																		</td>
 																		<td>
 																			{
-																				queue.patientQueue
+																				queue.patientConsultations
 																					.reasonForConsultation
 																			}
 																		</td>
@@ -319,7 +275,7 @@ class Consultations extends React.Component {
 																						onClick={(e) =>
 																							this.cancelConsultation(
 																								queue
-																									.patientQueue
+																									.patientConsultations
 																									.id
 																							)
 																						}
@@ -329,9 +285,9 @@ class Consultations extends React.Component {
 																					<Link
 																						title="Cancel Consultation"
 																						onClick={() =>
-																							(window.location.href = `/AdminPreConsultation/${queue.patientQueue.id}`)
+																							(window.location.href = `/AdminPreConsultation/${queue.patientConsultations.id}`)
 																						}
-																						to={`/AdminPreConsultation/${queue.patientQueue.id}`}
+																						to={`/AdminPreConsultation/${queue.patientConsultations.id}`}
 																						className="btn btn-sm btn-block"
 																					>
 																						<span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -340,9 +296,9 @@ class Consultations extends React.Component {
 																					<Link
 																						title="Pre-consultation"
 																						onClick={() =>
-																							(window.location.href = `/AdminPreConsultation/${queue.patientQueue.id}`)
+																							(window.location.href = `/AdminPreConsultation/${queue.patientConsultations.id}`)
 																						}
-																						to={`/AdminPreConsultation/${queue.patientQueue.id}`}
+																						to={`/AdminPreConsultation/${queue.patientConsultations.id}`}
 																						className="btn btn-sm btn-block"
 																					>
 																						<span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -351,9 +307,9 @@ class Consultations extends React.Component {
 																					<Link
 																						title="Pre-consultation"
 																						onClick={() =>
-																							(window.location.href = `/AdminUpdatePatientProfile/${queue.patientQueue.id}`)
+																							(window.location.href = `/AdminUpdatePatientProfile/${queue.patientConsultations.id}`)
 																						}
-																						to={`/AdminUpdatePatientProfile/${queue.patientQueue.id}`}
+																						to={`/AdminUpdatePatientProfile/${queue.patientConsultations.id}`}
 																						className="btn btn-sm btn-block"
 																					>
 																						<span className="btn-icon icofont-ui-edit  mr-2" />{' '}
