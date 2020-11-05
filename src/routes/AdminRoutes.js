@@ -3,7 +3,6 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
-import AdminAllPatients from "../Pages/Admin/AllPatients";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
 import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
@@ -13,6 +12,10 @@ import AdminConsultationQueue from "../Pages/Admin/ConsultationQueue";
 import AddPatient from '../Pages/Admin/AddPatient.js';
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultationQueue";
 import { AdminLayout } from '../Components/Layout';
+import ManageServiceRequest from '../Pages/Admin/Util_Services/ManageServiceRequest';
+import CreateServiceRequest from '../Pages/Admin/Util_Services/CreateServiceRequest';
+import AllPatients from '../Pages/Admin/AllPatients';
+import PatientRegistration from '../Pages/Admin/PatientRegistration'
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -42,7 +45,7 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminDashboard" component={AdminDashboard} />
                     <Route exact path="/AdminUpdatePatientProfile/:id" component={AdminUpdatePatientProfile} />
                     <Route exact path="/AdminPreConsultation/:id" component={AdminPreConsultation} />
-                    <Route exact path="/AdminAllPatients" component={AdminAllPatients} />
+                    <Route exact path="/AdminAllPatients" component={AllPatients} />
                     <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
                     <Route exact path="/AdminBookAppointment/:doctorId" component={AdminBookAppointment} />
                     <Route exact path="/AdminAppointments" component={AdminAppointments} />
@@ -64,6 +67,9 @@ export default function AdminRoutes() {
                     <Route exact path="/AdminManageHealthPlans" component={ManageHealthPlans} />
                     <Route exact path="/AdminAddPatients" component={AddPatient} />
                     <Route exact path="/AdminSelectHealthPlan" component={SelectHealthPlan} />
+                    <Route exact path="/AdminManageServiceRequests" component={ManageServiceRequest} />
+                    <Route exact path="/AdminServiceRequests" component={CreateServiceRequest} />
+                    <Route exact path="/AdminPatientRegistration" component={PatientRegistration} />
 
                     <Route exact path="*" render={() => <Redirect to="/AdminDashboard" />} />
 

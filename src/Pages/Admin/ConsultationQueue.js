@@ -206,14 +206,14 @@ class ConsultationQueue extends React.Component {
                           <table
                             className="table data-table"
                             data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                                { "data": "photo" },
+                                { "data": "name" },
+                                { "data": "email" },
+                                { "data": "phone" },
+                                { "data": "date-of-birth" },
+                                { "data": "address" },
+                                { "data": "actions" }
+                            ]'
                             data-paging="true"
                             data-info="true"
                           >

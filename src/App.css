@@ -18,6 +18,24 @@ body {
     color: #336cfb;
 }
 
-.alert > *{
+.alert>* {
     margin: 0 !important;
 }
+
+.alert {
+    position: absolute;
+    top: 30px;
+}
+
+.alert-align {
+    right: 10px;
+    z-index: 999 !important;
+}
+
+.main-content-wrap {
+    margin-top: 50px !important;
+}
+
+/* select.selectpicker {
+    display: block !important;
+} */

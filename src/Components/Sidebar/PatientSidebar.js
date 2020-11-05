@@ -60,11 +60,16 @@ class PatientSidebar extends React.Component {
 											<span className="link-text">My Appointments </span>
 										</Link>
 									</li>
-
 									<li className="menu-item">
 										<Link className="item-link" to="/PatientDoctorList">
 											<span className="link-icon icofont-doctor" />
 											<span className="link-text">Doctors</span>
+										</Link>
+									</li>
+									<li className="menu-item">
+										<Link className="item-link" to="/PatientAccount">
+											<span className="link-icon icofont-doctor" />
+											<span className="link-text">Accounts</span>
 										</Link>
 									</li>
 

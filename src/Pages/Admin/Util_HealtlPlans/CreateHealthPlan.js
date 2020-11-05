@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PageLoader, TemplateSettings } from '../../../Components';
+import { Success } from '../../../Components/Alerts';
 
 export default class CreateHealthPlan extends Component {
 	state = {
@@ -9,6 +10,8 @@ export default class CreateHealthPlan extends Component {
 		noOfPatients: '',
 		noOfAccounts: '',
 		instantBilling: false,
+
+		success: false,
 	};
 
 	handleSubmit = async (e) => {
@@ -36,7 +39,9 @@ export default class CreateHealthPlan extends Component {
 					body: JSON.stringify(data),
 					redirect: 'follow',
 				});
-				console.log(res);
+				if (res.status === 200 || res.status === 201) {
+					this.setState({ success: true });
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -51,7 +56,14 @@ export default class CreateHealthPlan extends Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
-					<div className="main-content-wrap w-50">
+					{this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully created a health plan"
+							nextRoute="/AdminManageHealthPlans"
+						/>
+					) : null}
+					<div className="main-content-wrap w-75">
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">

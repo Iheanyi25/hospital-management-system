@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -17,9 +17,9 @@ class AllDoctors extends React.Component {
 
     async getAllDoctors() {
         const { apiUrl } = this.state;
-        const response = await fetch(`${apiUrl}/Admin/GetDoctors`);
+        const response = await fetch(`${apiUrl}/Doctor/GetDoctors`);
         const data = await response.json();
-        this.setState({ doctors: data.doctors });
+        this.setState({ doctors: data.doctor });
     }
 
     componentDidMount() {
@@ -131,55 +131,41 @@ class AllDoctors extends React.Component {
                                                                     Action
                                                                     </button>
                                                                 <div className="dropdown-menu">
-                                                                    <Link
-                                                                        title="Pre-consultation"
-
+                                                                    <NavLink
                                                                         to={`/AdminBookConsultation/${doctor.id}`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             Book Consultation
-                                                                        </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-
+                                                                        </NavLink>
+                                                                    <NavLink
                                                                         to={`/AdminDoctorConsultationQueue/${doctor.id}`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Consultation Queue
-                                                                        </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-
+                                                                        </NavLink>
+                                                                    <NavLink
                                                                         to={`/AdminBookAppointment/${doctor.id}`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             Book Appointment
-                                                                        </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-                                                                        onClick={() =>
-                                                                            (window.location.href = `/AdminConsultationQueue`)
-                                                                        }
+                                                                        </NavLink>
+                                                                    <NavLink
                                                                         to={`/AdminDoctorAppointments/${doctor.id}`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                             View Appointment List
-                                                                        </Link>
-                                                                    <Link
-                                                                        title="Pre-consultation"
-                                                                        onClick={() =>
-                                                                            (window.location.href = `/AdminUpdatePatientProfile`)
-                                                                        }
+                                                                        </NavLink>
+                                                                    <NavLink
                                                                         to={`/AdminUpdatePatientProfile`}
                                                                         className="btn btn-sm btn-block"
                                                                     >
                                                                         <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                                             View Profile
-                                                                        </Link>
+                                                                        </NavLink>
                                                                 </div>
                                                             </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Success = () => {
+const Network = () => {
 	return (
 		<div className="alert alert-danger" role="alert">
 			<p className="text-white border-bottom border-dark">Oops!</p>
@@ -10,4 +10,4 @@ const Success = () => {
 	);
 };
 
-export default Success;
+export { Network };

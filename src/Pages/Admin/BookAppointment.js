@@ -12,8 +12,6 @@ class BookAppointment extends React.Component {
             patientEmail: "",
             doctor: "",
 
-            doctorProfile: "",
-
             doctorId: "",
             appointmentDate: "",
             appointmentTime: "",
@@ -31,9 +29,8 @@ class BookAppointment extends React.Component {
         //grab the logged in user
         this.setState({ doctorId: params.doctorId });
 
-        const data = await (await fetch(`${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
-        this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
-
+        const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`)).json()
+        this.setState({ doctor: data.doctor, });
 
     }
 
@@ -263,7 +260,7 @@ class BookAppointment extends React.Component {
                         </div>
                     </div>
                 </main>
-                
+
             </>
         );
     }

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { PageLoader } from '../../../Components';
-// import Success from "../../../Components/Alerts/Success";
+import { Success } from '../../../Components/Alerts';
 
 export default class CreateWard extends Component {
 	state = {
 		name: '',
 		capacity: '',
+
+		success: false,
 	};
 
 	handleSubmit = async (e) => {
@@ -22,7 +24,9 @@ export default class CreateWard extends Component {
 					body: JSON.stringify(data),
 					redirect: 'follow',
 				});
-				console.log(res);
+				if (res.status === 200) {
+					this.setState({ success: true });
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -37,14 +41,24 @@ export default class CreateWard extends Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
-					<div className="main-content-wrap w-50">
+					{this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully created a ward"
+							nextRoute="/AdminManageWards"
+						/>
+					) : null}
+					<div className="main-content-wrap w-75">
 						<div className="page-content">
 							<div className="row justify-content-center">
 								<div className="col col-md-12">
-									{/* <Success /> */}
 									<div className="card border-light">
 										<div className="card-body">
-											<form className="mb-4 p-5 needs-validation" onSubmit={this.handleSubmit} noValidate>
+											<form
+												className="mb-4 p-5 needs-validation"
+												onSubmit={this.handleSubmit}
+												noValidate
+											>
 												<h4 className="text-center">Create a Ward</h4>
 												<div className="form-group">
 													<label>Name</label>
@@ -76,7 +90,9 @@ export default class CreateWard extends Component {
 														required
 													/>
 													<div className="valid-feedback">Looks good!</div>
-													<div className="invalid-feedback">Oops! should be numbers only.</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
 												</div>
 												<div className="row">
 													<div className="col"></div>

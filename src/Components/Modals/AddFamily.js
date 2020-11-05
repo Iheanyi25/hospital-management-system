@@ -1,6 +1,5 @@
 import React from "react";
 
-
 class AddFamily extends React.Component {
 
     // state = { familyName: "" }
@@ -8,29 +7,38 @@ class AddFamily extends React.Component {
         name: ''
     }
     componentDidMount() {
-        console.log(this.props.healthPlanId);
+        console.log(this.props);
     }
 
     handleSubmit = async (e) => {
-		e.preventDefault();
-		const data = {
-			name: this.state.name,
-			capacity: this.state.capacity,
-		};
-		if (this.state.name !== '' && this.state.capacity !== '') {
-			try {
-				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Ward/CreateWard', {
-					headers: { 'Content-Type': 'application/json-patch+json' },
-					method: 'POST',
-					body: JSON.stringify(data),
-					redirect: 'follow',
-				});
-				console.log(res);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-	};
+        e.preventDefault();
+        const data = {
+            name: this.state.name,
+            healthPlanId: this.props.healthPlanId,
+        };
+        console.log(data)
+        if (this.state.name !== '' && this.state.capacity !== '') {
+            try {
+                let res = await fetch(process.env.REACT_APP_API_URL + '/Admin/Account/CreateAccount', {
+                    headers: { 'Content-Type': 'application/json-patch+json' },
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    redirect: 'follow',
+                });
+                let response = await res.json();
+                alert(response.message)
+                this.closeModal();
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    closeModal = () => {
+        let $ = window.$;
+        $("#add-family").modal('hide');
+    }
 
     render() {
 
@@ -46,7 +54,7 @@ class AddFamily extends React.Component {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content p-5">
                             <div className="modal-header">
-                                <h6 className="modal-title">Create a health plan for this patient</h6>
+                                <h5 className="text-center">Add a new Family </h5>
                             </div>
                             <div className="modal-body">
                                 <form onSubmit={this.handleSubmit}>
@@ -57,6 +65,7 @@ class AddFamily extends React.Component {
                                             name="name"
                                             className="form-control"
                                             type="text"
+                                            onChange={(e) => this.setState({ name: e.target.value })}
                                             placeholder="Enter family name"
                                             defaultValue={this.state.familyName}
                                         />

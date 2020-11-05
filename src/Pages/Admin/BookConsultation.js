@@ -8,29 +8,23 @@ class BookConsultation extends React.Component {
         this.state = {
 
             apiUrl: process.env.REACT_APP_API_URL,
-            patientEmail: "",
-            doctor: "",
-            doctorProfile: "",
+            doctor: {},
             doctorId: "",
-
+            patientEmail: "",
             consultationTitle: "",
             reasonForConsultation: "",
 
         };
-
     }
 
     async componentDidMount() {
-
         const { params } = this.props.match;
 
         //grab the logged in user
         this.setState({ doctorId: params.doctorId });
 
-        const data = await (await fetch(`${this.state.apiUrl}/Admin/ViewADoctorProfile?DoctorId=${params.doctorId}`)).json()
-        this.setState({ doctor: data.doctorProfile.applicationUser, doctorProfile: data.doctorProfile.doctorProfile });
-
-
+        const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`)).json()
+        this.setState({ doctor: data.doctor });
     }
 
     handleChange(name, e) {
@@ -81,8 +75,6 @@ class BookConsultation extends React.Component {
             this.setState({ showErrorMessage: true, errorMessage: err.message });
         }
     }
-
-
 
     render() {
 

@@ -8,7 +8,9 @@ import PatientBookAppointment from "../Pages/Patient/BookAppointment";
 import PatientBookConsultation from "../Pages/Patient/BookConsultation";
 import PatientDoctorList from "../Pages/Patient/DoctorList";
 import PatientDoctorProfile from "../Pages/Patient/DoctorProfile";
+import PatientAccount from "../Pages/Patient/Account";
 import { PatientLayout } from '../Components/Layout';
+import PatientFundAccount from '../Pages/Patient/PatientFundAccount';
 
 export default function PatientRoutes() {
     return (
@@ -20,6 +22,8 @@ export default function PatientRoutes() {
                     <Route exact path="/PatientAppointments" component={PatientAppointments} />
                     <Route exact path="/PatientConsultations" component={PatientConsultations} />
                     <Route exact path="/PatientDoctorList" component={PatientDoctorList} />
+                    <Route exact path="/PatientAccount" component={PatientAccount} />
+                    <Route exact path="/PatientFundAccount" component={PatientFundAccount} />
                     <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
                     <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
                     <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
