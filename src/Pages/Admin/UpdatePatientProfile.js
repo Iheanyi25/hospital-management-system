@@ -1,14 +1,15 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 class UpdatePatientProfile extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: "",
-      patient: null,
+      patient: {},
       firstName: "",
       lastName: "",
       otherNames: "",
@@ -39,41 +40,41 @@ class UpdatePatientProfile extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl } = this.state;
 
     const { params } = this.props.match;
-    this.setState({ patientId: params.id });
 
-    const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${this.state.patientId}`);
+    if (params.id) {
+      this.fetchPatientDetails(params.id);
+      return;
+    }
+  }
+
+  fetchPatientDetails = async (id) => {
+    this.setState({ patientId: id });
+
+    const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${id}`);
     const data = await response.json();
-    const response1 = await fetch(
-      `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
-    );
-    const data1 = await response1.json();
+
+    console.log(data.patientProfile);
 
     this.setState({
+      firstName: data.patientProfile.patient.firstName,
+      lastName: data.patientProfile.patient.lastName,
+      otherNames: data.patientProfile.patient.otherNames,
+      email: data.patientProfile.patient.email,
       patient: data,
-      firstName: data.patientProfile.firstName,
-      lastName: data.patientProfile.lastName,
-      otherNames: data.patientProfile.otherNames,
-      email: data.patientProfile.email,
+      dateOfBirth: data.patientProfile?.dateOfBirth,
+      gender: data.patientProfile?.gender,
+      phoneNumber: data.patientProfile.patient?.phoneNumber,
+      address: data.patientProfile?.address,
+      state: data.patientProfile?.state,
+      country: data.patientProfile?.country,
+      bloodGroup: data.patientProfile?.bloodGroup,
+      genoType: data.patientProfile?.genoType,
+      diabetic: data.patientProfile?.diabetic,
+      allergies: data.patientProfile?.allergies,
+      disabilities: data.patientProfile?.disabilities,
     });
-    if (data1.patientProfile != null) {
-      console.log(data1.patientProfile.patientProfile);
-      this.setState({
-        dateOfBirth: data1.patientProfile.patientProfile.dateOfBirth,
-        gender: data1.patientProfile.patientProfile.gender,
-        phoneNumber: data1.patientProfile.patientProfile.applicationUser.phoneNumber,
-        address: data1.patientProfile.patientProfile.address,
-        state: data1.patientProfile.patientProfile.state,
-        country: data1.patientProfile.patientProfile.country,
-        bloodGroup: data1.patientProfile.patientProfile.bloodGroup,
-        genoType: data1.patientProfile.patientProfile.genoType,
-        diabetic: data1.patientProfile.patientProfile.diabetic,
-        allergies: data1.patientProfile.patientProfile.allergies,
-        disabilities: data1.patientProfile.patientProfile.disabilities,
-      });
-    }
   }
 
   handleChange(name, e) {
@@ -318,6 +319,8 @@ class UpdatePatientProfile extends React.Component {
 
       displayHealthDetailsSuccessNotification,
     } = this.state;
+
+    console.log(this.state)
     return (
       <>
         <PageLoader />
@@ -408,8 +411,7 @@ class UpdatePatientProfile extends React.Component {
                                   this.handleChange("dateOfBirth", e)
                                 }
                                 placeholder="date of birth"
-                                defaultValue={Date.now}
-                                value={dateOfBirth ? dateOfBirth : null}
+                                value={dateOfBirth}
                               />
                             </div>
                           </div>

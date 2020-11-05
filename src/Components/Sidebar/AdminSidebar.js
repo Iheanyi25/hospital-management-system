@@ -52,6 +52,14 @@ class AdminSidebar extends React.Component {
 										</NavLink>
 									</li>
 									<li className="menu-item">
+										<NavLink className="item-link" to="/AdminManageAccounts">
+											<span className="link-icon icofont-user" />{' '}
+											<span className="link-text">Accounts</span>
+										</NavLink>
+									</li>
+
+
+									<li className="menu-item">
 										<span className="group-title">User Management</span>
 									</li>
 									<li className="menu-item has-sub">
