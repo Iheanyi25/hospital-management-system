@@ -7,231 +7,232 @@ const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class AdminManageAccounts extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            accounts: []
-        };
-    }
+    this.state = {
+      accounts: [],
+    };
+  }
 
-    async componentDidMount() {
-        this.fecthAllAcounts().then(() => this.sync())
-    }
+  async componentDidMount() {
+    this.fecthAllAcounts().then(() => this.sync());
+  }
 
-    fecthAllAcounts = async () => {
-        const response = await fetch(
-            `${apiUrl}/Admin/Account/GetAllAccounts`
-        );
-        const data = await response.json();
-        console.log(data)
-        this.setState({ accounts: data.accounts })
-    }
+  fecthAllAcounts = async () => {
+    const response = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`);
+    const data = await response.json();
+    console.log(data);
+    this.setState({ accounts: data.accounts });
+  };
 
-    sync() {
-        this.$el = $(this.el);
-        this.$el.DataTable();
-    }
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+  }
 
-    render() {
-        const {
-            accounts
-        } = this.state;
+  render() {
+    const { accounts } = this.state;
 
-        return (
-            <>
-                <PageLoader />
+    return (
+      <>
+        <PageLoader />
 
-                <main className="main-content">
-                    <div className="app-loader">
-                        <i className="icofont-spinner-alt-4 rotate" />
-                    </div>
-                    <div className="main-content-wrap">
-                        <header className="page-header justify-content-between d-flex align-items-center mb-2">
-                            <h4 className="page-title"> Manage Accounts</h4>
-                        </header>
+        <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          <div className="main-content-wrap">
+            <header className="page-header justify-content-between d-flex align-items-center mb-2">
+              <h4 className="page-title"> Manage Accounts</h4>
+            </header>
 
-                        <div className="row">
-                            <div className="col col-12 col-md-6 col-xl-4">
-                                <div className="card animated fadeInUp delay-02s bg-light">
-                                    <div className="card-body">
-                                        <div className="row align-items-center">
-                                            <div className="col col-5">
-                                                <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file"></div>
-                                            </div>
-                                            <div className="col col-7">
-                                                <h6 className="mt-0 mb-1">Account Total (NGN)</h6>
-                                                <div className="count text-primary fs-20">
-                                                    {accounts.length}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col col-12 col-md-6 col-xl-4">
-                                <div className="card animated fadeInUp delay-03s bg-light">
-                                    <div className="card-body">
-                                        <div className="row align-items-center">
-                                            <div className="col col-5">
-                                                <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
-                                            </div>
-                                            <div className="col col-7">
-                                                <h6 className="mt-0 mb-1">Account spent (NGN)</h6>
-                                                <div className="count text-primary fs-20">
-                                                    {accounts.length}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col col-12 col-md-6 col-xl-4">
-                                <div className="card animated fadeInUp delay-03s bg-light">
-                                    <div className="card-body">
-                                        <div className="row align-items-center">
-                                            <div className="col col-5">
-                                                <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
-                                            </div>
-                                            <div className="col col-7">
-                                                <h6 className="mt-0 mb-1">Account (NGN)</h6>
-                                                <div className="count text-primary fs-20">
-                                                    {accounts.length}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div className="row">
+              <div className="col col-12 col-md-6 col-xl-4">
+                <div className="card animated fadeInUp delay-02s bg-light">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col col-5">
+                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file"></div>
+                      </div>
+                      <div className="col col-7">
+                        <h6 className="mt-0 mb-1">Account Total (NGN)</h6>
+                        <div className="count text-primary fs-20">
+                          {accounts.length}
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col col-12 col-md-6 col-xl-4">
+                <div className="card animated fadeInUp delay-03s bg-light">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col col-5">
+                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
+                      </div>
+                      <div className="col col-7">
+                        <h6 className="mt-0 mb-1">Account spent (NGN)</h6>
+                        <div className="count text-primary fs-20">
+                          {accounts.length}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col col-12 col-md-6 col-xl-4">
+                <div className="card animated fadeInUp delay-03s bg-light">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col col-5">
+                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
+                      </div>
+                      <div className="col col-7">
+                        <h6 className="mt-0 mb-1">Account (NGN)</h6>
+                        <div className="count text-primary fs-20">
+                          {accounts.length}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                        <div className="page-content">
-                            <div className="card mb-0">
-                                <div className="card-body">
-                                    <div>
-                                        <div className="tab-content" id="pills-tabContent">
-                                            <div
-                                                className="tab-pane fade show active"
-                                                id="pills-active"
-                                                role="tabpanel"
-                                                aria-labelledby="pills-active-tab"
-                                            >
-                                                <div className="table-responsive">
-                                                    <table
-                                                        ref={(el) => (this.el = el)}
-                                                        className="table"
-                                                        data-columns='[
+            <div className="page-content">
+              <div className="card mb-0">
+                <div className="card-body">
+                  <div>
+                    <div className="tab-content" id="pills-tabContent">
+                      <div
+                        className="tab-pane fade show active"
+                        id="pills-active"
+                        role="tabpanel"
+                        aria-labelledby="pills-active-tab"
+                      >
+                        <div className="table-responsive">
+                          <table
+                            ref={(el) => (this.el = el)}
+                            className="table"
+                            data-columns='[
                                                         { "data": "photo" },
                                                         { "data": "account" },
                                                         { "data": "healthplan" },
                                                         { "data": "balance" },
                                                         { "data": "actions" }
                                                     ]'
-                                                        data-paging="true"
-                                                        data-info="true"
-                                                    >
-                                                        <thead>
-                                                            <tr className="bg-primary text-white">
-                                                                <th>Photo</th>
-                                                                <th>Account</th>
-                                                                <th>Health Plan</th>
-                                                                <th>Balance</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {
-                                                                accounts.length > 0 &&
-                                                                accounts.map((account, index) => (
-                                                                    <tr key={index}>
-                                                                        <td>
-                                                                            <img
-                                                                                src="./assets/content/user-40-1.jpg"
-                                                                                alt=""
-                                                                                width={40}
-                                                                                height={40}
-                                                                                className="rounded-500"
-                                                                            />
-                                                                        </td>
-                                                                        <td>
-                                                                            <strong>{account.name}</strong>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="d-flex align-items-center nowrap text-primary">
-                                                                                {account?.healthplan ?? "None selected yet"}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="text-muted text-nowrap">
-                                                                                {account.accountBalance}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="btn-group">
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                                    data-toggle="dropdown"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false"
-                                                                                >
-                                                                                    Action
-                                                                            </button>
-                                                                                <div className="dropdown-menu text-left">
-
-                                                                                    <NavLink
-                                                                                        to={{
-                                                                                            pathname: `/AdminPreConsultation/${account.id}`,
-                                                                                            state: account
-                                                                                        }}
-                                                                                        className="btn btn-sm btn-block"
-                                                                                    >
-                                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                                    Go for Pre-Consultation
-                                                                                </NavLink>
-                                                                                    <NavLink
-                                                                                        to={{
-                                                                                            pathname: `/AdminPreConsultation/${account.id}`,
-                                                                                            state: account
-                                                                                        }}
-                                                                                        className="btn btn-sm btn-block"
-                                                                                    >
-                                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                                    Pre-Consultation History
-                                                                                </NavLink>
-                                                                                    <NavLink
-                                                                                        to={{
-                                                                                            pathname: `/AdminUpdatePatientProfile/${account.id}`,
-                                                                                            state: account
-                                                                                        }}
-                                                                                        className="btn btn-sm btn-block"
-                                                                                    >
-                                                                                        <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                                                                    Update Profile
-                                                                                </NavLink>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
+                            data-paging="true"
+                            data-info="true"
+                          >
+                            <thead>
+                              <tr className="bg-primary text-white">
+                                <th>Photo</th>
+                                <th>Account</th>
+                                <th>Health Plan</th>
+                                <th>Balance</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {accounts.length > 0 &&
+                                accounts.map((account, index) => (
+                                  <tr key={index}>
+                                    <td>
+                                      <img
+                                        src="./assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      <strong>{account.name}</strong>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        {account?.healthplan ??
+                                          "None selected yet"}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {account.accountBalance}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
+                                        >
+                                          Action
+                                        </button>
+                                        <div className="dropdown-menu text-left">
+                                          <NavLink
+                                            to={{
+                                              pathname: `/AdminPreConsultation/${account.id}`,
+                                              state: account,
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                            Go for Pre-Consultation
+                                          </NavLink>
+                                          <NavLink
+                                            to={{
+                                              pathname: `/AdminPreConsultation/${account.id}`,
+                                              state: account,
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                            Pre-Consultation History
+                                          </NavLink>
+                                          <NavLink
+                                            to={{
+                                              pathname: `/AdminUpdatePatientProfile/${account.id}`,
+                                              state: account,
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                            Update Profile
+                                          </NavLink>
+                                          <NavLink
+                                            to={{
+                                              pathname: `/AdminFundAccount/${account.id}`,
+                                              state: account,
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icon sli-link mr-2" />{" "}
+                                            Fund Account
+                                          </NavLink>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
                         </div>
+                      </div>
                     </div>
-                </main>
-
-            </>
-        );
-    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 }
 
 export default AdminManageAccounts;

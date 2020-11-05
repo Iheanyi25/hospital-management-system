@@ -1,13 +1,17 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayOnline, PayCash, Others } from "./Components/RegistrationPaymentModes";
+import {
+  PayOnline,
+  PayCash,
+  Others,
+} from "./Components/PaymentForServiceModes";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
-class PatientRegistration extends React.Component {
+class PaymentForService extends React.Component {
   constructor(props) {
     super(props);
 
@@ -43,20 +47,42 @@ class PatientRegistration extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            <header className="page-heade">
-              <h3>Payment for registration</h3>
+            <header className="page-header">
+              <h3>Payment for service invoice 6740</h3>
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">5000</h4>
-            </div>
-
-            <div className="page-content">
-              <div className="card-body"></div>
+              <h4 className="text-info">NGN 5000</h4>
             </div>
             <div className="page-content">
               <div className="card mb-0">
                 <div className="card-body">
+                  <div className="row">
+                    <div className="col-12 col-md-5">
+                      <div className="card bg-light">
+                        <div className="card-body w-75 m-auto">
+                          <h5>Services requested</h5>
+                          <div className="d-flex justify-content-between">
+                            <div>
+                              <p className="mb-0">Service Name</p>
+                              <small className="text-info">3000</small>
+                            </div>
+                            <div className="custom-control custom-checkbox mb-3">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck1"
+                              />{" "}
+                              <label
+                                className="custom-control-label"
+                                for="customCheck1"
+                              ></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6 offset-1">
                   <div>
                     <ul
                       className="nav nav-pills nav-fill mb-3"
@@ -126,9 +152,10 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                       <Others />
+                        <Others />
                       </div>
                     </div>
+                  </div></div>
                   </div>
                 </div>
               </div>
@@ -149,4 +176,4 @@ class PatientRegistration extends React.Component {
   }
 }
 
-export default PatientRegistration;
+export default PaymentForService;

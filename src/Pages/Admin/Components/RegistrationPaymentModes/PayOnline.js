@@ -1,8 +1,8 @@
 import React from "react";
-import paystack1 from "../../../assets/img/paystack-icon1.svg";
-import paystack2 from "../../../assets/img/paystack-icon2.svg";
-import flutterwave1 from "../../../assets/img/flutterwave1.svg";
-import flutterwave2 from "../../../assets/img/flutterwave2.svg";
+import paystack1 from "../../../../assets/img/paystack-icon1.svg";
+import paystack2 from "../../../../assets/img/paystack-icon2.svg";
+import flutterwave1 from "../../../../assets/img/flutterwave1.svg";
+import flutterwave2 from "../../../../assets/img/flutterwave2.svg";
 
 const PayOnline = () => {
   return (

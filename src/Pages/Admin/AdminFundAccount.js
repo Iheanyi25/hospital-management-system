@@ -1,36 +1,15 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayOnline, PayCash, Others } from "./Components/RegistrationPaymentModes";
+import { PayOnline, PayCash, Others } from "./Components/FundingPaymentModes";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
-class PatientRegistration extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      patients: [],
-      apiUrl: process.env.REACT_APP_API_URL,
-    };
-  }
-
+class AdminFundAccount extends React.Component {
   componentDidMount() {
-    this.getAllPatients().then(() => this.sync());
-  }
-
-  async getAllPatients() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
-    this.setState({ patients: data.patients });
-  }
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
+    console.log(this.props.history.location)
   }
 
   render() {
@@ -44,12 +23,8 @@ class PatientRegistration extends React.Component {
           </div>
           <div className="main-content-wrap">
             <header className="page-heade">
-              <h3>Payment for registration</h3>
+              <h3>Fund Account</h3>
             </header>
-            <div className=" d-flex">
-              <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">5000</h4>
-            </div>
 
             <div className="page-content">
               <div className="card-body"></div>
@@ -149,4 +124,4 @@ class PatientRegistration extends React.Component {
   }
 }
 
-export default PatientRegistration;
+export default AdminFundAccount;
