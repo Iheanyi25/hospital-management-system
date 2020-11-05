@@ -31,10 +31,10 @@ class Appointments extends React.Component {
     var completedAppointments = [];
     var rejectedAppointments = [];
 
-    const response = await fetch(`${apiUrl}/Admin/GetDoctorAppointments`);
+    const response = await fetch(`${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${this.state.doctorId}`);
     const data = await response.json();
 
-    this.setState({ appointments: data });
+    this.setState({ appointments: data.doctorAppointments });
     console.log(data.doctorAppointments);
     data.doctorAppointments.forEach((appointment) => {
       if (appointment.isActive === true) {

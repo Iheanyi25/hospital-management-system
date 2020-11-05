@@ -49,9 +49,9 @@ class DoctorSidebar extends React.Component {
 									</li>
 
 									<li className="menu-item">
-										<Link className="item-link" to="/DoctorConsultationQueue">
+										<Link className="item-link" to="/DoctorConsultations">
 											<span className="link-icon icofont-stethoscope-alt" />
-											<span className="link-text">Consultation Queue</span>
+											<span className="link-text">My Consultations</span>
 										</Link>
 									</li>
 
@@ -69,7 +69,7 @@ class DoctorSidebar extends React.Component {
 									</li>
 
 									<li className="menu-item">
-										<span className="group-title">Profile Mgt</span>
+										<span className="group-title">Profile Settings</span>
 									</li>
 
 									<li className="menu-item has-sub">

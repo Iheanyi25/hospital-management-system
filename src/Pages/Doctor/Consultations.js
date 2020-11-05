@@ -5,7 +5,7 @@ import { PageLoader } from "../../Components";
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
-class ConsultationQueue extends React.Component {
+class Consultations extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,13 +33,13 @@ class ConsultationQueue extends React.Component {
     var rejectedAppointments = [];
 
     const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctorQueue?DoctorId=${this.state.doctorId}`
+      `${apiUrl}/Doctor/ViewAllConsultations?DoctorId=${this.state.doctorId}`
     );
 
     const data = await response.json();
-    this.setState({ doctorQueue: data.doctorQueue });
+    this.setState({ doctorConsultations: data.doctorConsultations });
 
-    data.doctorQueue.forEach((queue) => {
+    data.doctorConsultations.forEach((queue) => {
       if (queue.isActive === true) {
         activeAppointments.push(queue);
       } else if (queue.isAccepted === true) {
@@ -155,7 +155,7 @@ class ConsultationQueue extends React.Component {
             </div>
 
             <header className="page-header">
-              <h4 className="page-title">My Consultation Queue</h4>
+              <h4 className="page-title">My Consultation List</h4>
             </header>
             <div className="page-content">
               <div className="card-body"></div>
@@ -639,4 +639,4 @@ class ConsultationQueue extends React.Component {
   }
 }
 
-export default ConsultationQueue;
+export default Consultations;
