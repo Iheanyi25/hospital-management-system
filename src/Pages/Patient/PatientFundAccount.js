@@ -1,6 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayWithPaystack, PayWithFlutter } from "./Component";
+import { PayWithPaystack, PayWithFlutter } from "../../Components/Payment";
 
 class FundAccount extends React.Component {
   state = {

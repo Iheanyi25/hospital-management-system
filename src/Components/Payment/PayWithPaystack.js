@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useRavePayment } from "react-ravepayment";
-import flutterwave1 from "../../../assets/img/flutterwave1.svg";
-import flutterwave2 from "../../../assets/img/flutterwave2.svg";
+import paystack1 from "../../assets/img/paystack-icon1.svg";
+import paystack2 from "../../assets/img/paystack-icon2.svg";
+import { usePaystackPayment } from "react-paystack";
 
-const PayWithFlutter = ({ paymentDetails }) => {
+const PayWithPaystack = ({ paymentDetails }) => {
   const [details, setDetails] = useState({
-    txref: "rave-123456",
-    customer_email: "",
-    customer_phone: "",
+    reference: new Date().getTime(),
+    email: "",
     amount: "",
-    PBFPubKey: "FLWPUBK_TEST-7753e6df013e9285a4d93a10b751b747-X",
-    production: true,
+    publicKey: "pk_test_497061cac95adf87f3030c4b986972429b3d153e",
   });
 
   useEffect(() => {
     setDetails({
       ...details,
-      customer_email: paymentDetails.email,
-      customer_phone: paymentDetails.phoneNumber,
-      amount: paymentDetails.amount,
+      email: paymentDetails.email,
+      amount: paymentDetails.amount + "00",
     });
-    console.log(details);
+    console.log(paymentDetails);
   }, [paymentDetails]);
 
-  const handlePayment = (e) => {
+  const initializePayment = usePaystackPayment(details);
+
+  const handlePayment = (e, initializePayment, details) => {
     e.preventDefault();
+    console.log(details);
     initializePayment(onSuccess, onClose);
   };
   const onSuccess = (reference) => {
-    console.log(reference);
     handleSubmit(reference);
   };
 
@@ -36,8 +35,8 @@ const PayWithFlutter = ({ paymentDetails }) => {
     let payload = {
       amount: paymentDetails.amount,
       patientId: paymentDetails.patientId,
-      modeOfPayment: "online-flutterwave",
-      transactionRefrence: reference.data.data.orderRef,
+      modeOfPayment: "online-paystack",
+      transactionRefrence: reference.trxref,
     };
     console.log(payload);
     try {
@@ -59,23 +58,22 @@ const PayWithFlutter = ({ paymentDetails }) => {
   const onClose = () => {
     console.log("closed");
   };
-  const { initializePayment } = useRavePayment(details);
+
   return (
     <div className="col-md-6">
       <button
         className="btn btn-light btn-lg btn-block"
         name="modeOfPayment"
         value="paystack"
-        // onClick={(e) => {
-        //   handlePayment(e, initializePayment, details);
-        // }}
-        onClick={(e) => handlePayment(e)}
+        onClick={(e) => {
+          handlePayment(e, initializePayment, details);
+        }}
       >
-        <img src={flutterwave1} className="mr-1" alt="" />
-        <img src={flutterwave2} alt="" />
+        <img src={paystack1} className="mr-1" alt="" />
+        <img src={paystack2} alt="" />
       </button>
     </div>
   );
 };
 
-export { PayWithFlutter };
+export { PayWithPaystack };
