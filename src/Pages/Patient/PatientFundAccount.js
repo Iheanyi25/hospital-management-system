@@ -57,7 +57,7 @@ class FundAccount extends React.Component {
                           />
                           <div className="valid-feedback">Looks good!</div>
                           <div className="invalid-feedback">
-                            Please provide a valid name.
+                            Oops! should be numbers only.
                           </div>
                         </div>
                         <div className="m-auto">
