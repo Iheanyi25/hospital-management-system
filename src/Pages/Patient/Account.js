@@ -17,11 +17,11 @@ class PatientAccount extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await fetch(
-            `${apiUrl}/Admin/Getcmdvwevwev`
-        );
-        const data = await response.json();
-        console.log(data);
+        // const response = await fetch(
+        //     `${apiUrl}/Admin/Getcmdvwevwev`
+        // );
+        // const data = await response.json();
+        // console.log(data);
 
     }
 

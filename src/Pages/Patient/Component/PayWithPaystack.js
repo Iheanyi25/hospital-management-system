@@ -31,26 +31,29 @@ const PayWithPaystack = ({ paymentDetails }) => {
     handleSubmit(reference);
   };
 
-  const handleSubmit = async(reference) => {
+  const handleSubmit = async (reference) => {
     let payload = {
-        amount: paymentDetails.amount,
-        patientId: paymentDetails.patientId,
-        modeOfPayment: "online-paystack",
-        transactionRefrence: reference.trxref
-      };
-      console.log(payload);
-      try {
-          let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount', {
-              headers: { 'Content-Type': 'application/json-patch+json' },
-              method: 'POST',
-              body: JSON.stringify(payload),
-              redirect: 'follow',
-          });
-          console.log(res);
-      } catch (error) {
-          console.log(error);
-      }
-  }
+      amount: paymentDetails.amount,
+      patientId: paymentDetails.patientId,
+      modeOfPayment: "online-paystack",
+      transactionRefrence: reference.trxref,
+    };
+    console.log(payload);
+    try {
+      let res = await fetch(
+        "https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount",
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onClose = () => {
     console.log("closed");

@@ -7,11 +7,16 @@ class FundAccount extends React.Component {
     patientId: "",
     amount: "",
     email: "",
+    phoneNumber: "",
   };
 
   componentDidMount() {
     let user = JSON.parse(localStorage.getItem("authenticatedUser"));
-    this.setState({ patientId: user.id, email: user.email });
+    this.setState({
+      patientId: user.id,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+    });
   }
 
   render() {
@@ -59,7 +64,7 @@ class FundAccount extends React.Component {
                           <label>Pay with</label>
                           <div className="row">
                             <PayWithPaystack paymentDetails={this.state} />
-                            <PayWithFlutter />
+                            <PayWithFlutter paymentDetails={this.state} />
                           </div>
                         </div>
                       </form>
