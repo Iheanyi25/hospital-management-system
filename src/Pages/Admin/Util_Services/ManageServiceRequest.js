@@ -142,6 +142,7 @@ class ManageServiceRequest extends React.Component {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                        <Link to="/AdminPaymentForService" className="btn btn-primary">Pay for service</Link>
                                                                         {pendingAppointments
                                                                             ? pendingAppointments.map((invoice, index) => (
                                                                                 <tr>

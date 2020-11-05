@@ -18,6 +18,7 @@ import AllPatients from "../Pages/Admin/AllPatients";
 import AdminManageAccounts from "../Pages/Admin/AdminManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Admin/AdminFundAccount";
+import PaymentForService from "../Pages/Admin/PaymentForService";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -152,6 +153,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminFundAccount/:id"
             component={AdminFundAccount}
+          />
+          <Route
+            exact
+            path="/AdminPaymentForService"
+            component={PaymentForService}
           />
 
           <Route
