@@ -51,7 +51,7 @@ class PaymentForService extends React.Component {
               <h3>Payment for service invoice 6740</h3>
             </header>
             <div className=" d-flex">
-              <h4>Amount:&nbsp;</h4>
+              <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
               <h4 className="text-info">NGN 5000</h4>
             </div>
             <div className="page-content">
@@ -60,14 +60,14 @@ class PaymentForService extends React.Component {
                   <div className="row">
                     <div className="col-12 col-md-5">
                       <div className="card bg-light">
-                        <div className="card-body w-75 m-auto">
-                          <h5>Services requested</h5>
-                          <div className="d-flex justify-content-between">
+                        <div className="card-body p-5 m-auto">
+                          <h4>Services requested</h4>
+                          <div className="d-flex justify-content-between border-bottom p-3">
                             <div>
-                              <p className="mb-0">Service Name</p>
-                              <small className="text-info">3000</small>
+                              <h5 className="m-0 font-weight-light">Service Name</h5>
+                              <h6 className="mt-0 font-weight-light text-info">3000</h6>
                             </div>
-                            <div className="custom-control custom-checkbox mb-3">
+                            <div className="custom-control custom-checkbox mb-3 mt-2">
                               <input
                                 type="checkbox"
                                 className="custom-control-input"
@@ -79,10 +79,27 @@ class PaymentForService extends React.Component {
                               ></label>
                             </div>
                           </div>
+                          <div className="d-flex justify-content-between border-bottom p-3">
+                            <div>
+                              <h5 className="m-0 font-weight-light">Service Name</h5>
+                              <h6 className="mt-0 font-weight-light text-info">3000</h6>
+                            </div>
+                            <div className="custom-control custom-checkbox mb-3 mt-2">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck2"
+                              />{" "}
+                              <label
+                                className="custom-control-label"
+                                for="customCheck2"
+                              ></label>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-6 offset-1">
+                    <div className="col-12 col-md-6">
                   <div>
                     <ul
                       className="nav nav-pills nav-fill mb-3"
