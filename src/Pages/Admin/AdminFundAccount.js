@@ -96,7 +96,7 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <PayOnline details={this.state}/>
+                        <PayOnline details={this.state} />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -104,7 +104,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
                       >
-                        <PayCash details={this.state} history={this.props.history}/>
+                        <PayCash
+                          details={this.state}
+                          history={this.props.history}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -112,7 +115,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                        <Others />
+                        <Others
+                          details={this.state}
+                          history={this.props.history}
+                        />
                       </div>
                     </div>
                   </div>
