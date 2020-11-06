@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -33,6 +33,7 @@ class AdminManageAccounts extends React.Component {
 
   render() {
     const { accounts } = this.state;
+    console.log(this.props, "restashznvusdhf")
 
     return (
       <>
@@ -116,15 +117,15 @@ class AdminManageAccounts extends React.Component {
                           <table
                             ref={(el) => (this.el = el)}
                             className="table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "account" },
-                                                        { "data": "healthplan" },
-                                                        { "data": "balance" },
-                                                        { "data": "actions" }
-                                                    ]'
-                            data-paging="true"
-                            data-info="true"
+                            // data-columns='[
+                            //                             { "data": "photo" },
+                            //                             { "data": "account" },
+                            //                             { "data": "healthplan" },
+                            //                             { "data": "balance" },
+                            //                             { "data": "actions" }
+                            //                         ]'
+                            // data-paging="true"
+                            // data-info="true"
                           >
                             <thead>
                               <tr className="bg-primary text-white">
@@ -177,7 +178,7 @@ class AdminManageAccounts extends React.Component {
                                           <NavLink
                                             to={{
                                               pathname: `/AdminPreConsultation/${account.id}`,
-                                              state: account,
+                                              state: account.id,
                                             }}
                                             className="btn btn-sm btn-block"
                                           >
@@ -204,7 +205,7 @@ class AdminManageAccounts extends React.Component {
                                             <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                             Update Profile
                                           </NavLink>
-                                          <NavLink
+                                          <Link
                                             to={{
                                               pathname: `/AdminFundAccount/${account.id}`,
                                               state: account,
@@ -213,7 +214,7 @@ class AdminManageAccounts extends React.Component {
                                           >
                                             <span className="btn-icon icon sli-link mr-2" />{" "}
                                             Fund Account
-                                          </NavLink>
+                                          </Link>
                                         </div>
                                       </div>
                                     </td>
