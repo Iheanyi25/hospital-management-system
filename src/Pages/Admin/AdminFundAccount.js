@@ -122,7 +122,6 @@ class AdminFundAccount extends React.Component {
                       >
                         <PayCash
                           details={this.state}
-                          history={this.props.history}
                           handleSuccess={this.handleSuccess}
                         />
                       </div>
@@ -134,7 +133,6 @@ class AdminFundAccount extends React.Component {
                       >
                         <Others
                           details={this.state}
-                          history={this.props.history}
                           handleSuccess={this.handleSuccess}
                         />
                       </div>
