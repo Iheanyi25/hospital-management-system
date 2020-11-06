@@ -10,68 +10,68 @@ class Consultations extends React.Component {
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-      acceptedAppointments: [],
-      acceptedAppointmentsCount: 0,
-      activeAppointments: [],
-      pendingAppointments: [],
-      pendingAppointmentsCount: 0,
-      completedAppointments: [],
-      rejectedAppointmentsCount: 0,
+      acceptedConsultations: [],
+      acceptedConsultationsCount: 0,
+      activeConsultations: [],
+      pendingConsultations: [],
+      pendingConsultationsCount: 0,
+      completedConsultations: [],
+      rejectedConsultationsCount: 0,
     };
   }
 
   async componentDidMount() {
     const { apiUrl, doctorId } = this.state;
     console.log(this.state);
-    var acceptedAppointments = [];
-    var activeAppointments = [];
-    var pendingAppointments = [];
-    var completedAppointments = [];
-    var rejectedAppointments = [];
+    var acceptedConsultations = [];
+    var activeConsultations = [];
+    var pendingConsultations = [];
+    var completedConsultations = [];
+    var rejectedConsultations = [];
 
     const response = await fetch(
-      `${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${doctorId}`
+      `${apiUrl}/Admin/GetPatientConsultations`
     );
     const data = await response.json();
     console.log(data);
-    this.setState({ appointments: data });
+    this.setState({ consultations: data.patientConsultations });
 
-    data.appointments.forEach((appointment) => {
-      if (appointment.applicationUser.appointment.isActive === true) {
-        activeAppointments.push(appointment);
-      } else if (appointment.applicationUser.appointment.isAccepted === true) {
-        acceptedAppointments.push(appointment);
-      } else if (appointment.applicationUser.appointment.isCompleted === true) {
-        completedAppointments.push(appointment);
-      } else if (appointment.applicationUser.appointment.isRejected === true) {
-        rejectedAppointments.push(appointment);
+    data.patientConsultations.forEach((consultation) => {
+      if (consultation.applicationUser.consultation.isActive === true) {
+        activeConsultations.push(consultation);
+      } else if (consultation.applicationUser.consultation.isAccepted === true) {
+        acceptedConsultations.push(consultation);
+      } else if (consultation.applicationUser.consultation.isCompleted === true) {
+        completedConsultations.push(consultation);
+      } else if (consultation.applicationUser.consultation.isRejected === true) {
+        rejectedConsultations.push(consultation);
       } else {
-        pendingAppointments.push(appointment);
+        pendingConsultations.push(consultation);
       }
     });
 
     this.setState({
-      activeAppointments: activeAppointments,
-      activeAppointmentsCount: activeAppointments.length,
-      acceptedAppointments: acceptedAppointments,
-      acceptedAppointmentsCount: acceptedAppointments.length,
-      completedAppointments: completedAppointments,
-      completedAppointmentsCount: completedAppointments.length,
-      pendingAppointments: pendingAppointments,
-      pendingAppointmentsCount: pendingAppointments.length,
-      rejectedAppointmentsCount: rejectedAppointments.length
+      activeConsultations: activeConsultations,
+      activeConsultationsCount: activeConsultations.length,
+      acceptedConsultations: acceptedConsultations,
+      acceptedConsultationsCount: acceptedConsultations.length,
+      completedConsultations: completedConsultations,
+      completedConsultationsCount: completedConsultations.length,
+      pendingConsultations: pendingConsultations,
+      pendingConsultationsCount: pendingConsultations.length,
+      rejectedConsultationsCount: rejectedConsultations.length
     });
   }
 
   render() {
     const {
-      acceptedAppointments,
-      acceptedAppointmentsCount,
-      pendingAppointments,
-      pendingAppointmentsCount,
-      activeAppointments,
-      completedAppointments,
-      rejectedAppointmentsCount,
+      acceptedConsultations,
+      acceptedConsultationsCount,
+      pendingConsultations,
+      pendingConsultationsCount,
+      activeConsultations,
+      completedConsultations,
+      rejectedConsultationsCount,
     } = this.state;
 
     return (
@@ -94,7 +94,7 @@ class Consultations extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Total Patient on Queue</h6>
                         <div className="count text-primary fs-20">
-                          {pendingAppointmentsCount}
+                          {pendingConsultationsCount}
                         </div>
                       </div>
                     </div>
@@ -111,7 +111,7 @@ class Consultations extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
                         <div className="count text-primary fs-20">
-                          {acceptedAppointmentsCount}
+                          {acceptedConsultationsCount}
                         </div>
                       </div>
                     </div>
@@ -130,7 +130,7 @@ class Consultations extends React.Component {
                           Total Patients Attended
                             </h6>
                         <div className="count text-primary fs-20">
-                          {rejectedAppointmentsCount}
+                          {rejectedConsultationsCount}
                         </div>
                       </div>
                     </div>
@@ -229,8 +229,8 @@ class Consultations extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {activeAppointments
-                                ? activeAppointments.map((appointment) => (
+                              {activeConsultations
+                                ? activeConsultations.map((appointment) => (
                                   <tr>
                                     <td>
                                       <img
@@ -331,8 +331,8 @@ class Consultations extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {acceptedAppointments
-                                ? acceptedAppointments.map(
+                              {acceptedConsultations
+                                ? acceptedConsultations.map(
                                   (appointment) => (
                                     <tr>
                                       <td>
@@ -434,8 +434,8 @@ class Consultations extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {completedAppointments
-                                ? completedAppointments.map(
+                              {completedConsultations
+                                ? completedConsultations.map(
                                   (appointment) => (
                                     <tr>
                                       <td>
@@ -538,8 +538,8 @@ class Consultations extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
+                              {pendingConsultations
+                                ? pendingConsultations.map((appointment) => (
                                   <tr>
                                     <td>
                                       <img
