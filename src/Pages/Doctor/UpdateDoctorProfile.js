@@ -8,7 +8,7 @@ class UpdateDoctorProfile extends React.Component {
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-      doctor: null,
+      doctor: {},
       firstName: "",
       lastName: "",
       otherNames: "",
@@ -40,53 +40,11 @@ class UpdateDoctorProfile extends React.Component {
     const response = await fetch(
       `${apiUrl}/Doctor/GetDoctor?DoctorId=${this.state.doctorId}`
     );
-    const data = await response.json();
-    console.log(data);
-    const response1 = await fetch(
-      `${apiUrl}/Doctor/GetDoctorProfile?DoctorId=${this.state.doctorId}`
-    );
-    const data1 = await response1.json();
-    const response2 = await fetch(
-      `${apiUrl}/Doctor/GetDoctorSpecialization?DoctorId=${this.state.doctorId}`
-    );
-    const data2 = await response2.json();
-    console.log(data);
+    const data = response.json();
+    
     this.setState({
-      doctor: data,
-      firstName: data.doctor.firstName,
-      lastName: data.doctor.lastName,
-      otherNames: data.doctor.otherNames,
-      email: data.doctor.email,
-      phoneNumber: data.doctor.phoneNumber,
+      doctor: data.doctorProfile,
     });
-    if (data1.doctorProfile.length !== 0) {
-      console.log();
-      this.setState({
-        dateOfBirth: data1.doctorProfile[0].doctorProfile.dateOfBirth,
-        gender: data1.doctorProfile[0].doctorProfile.gender,
-
-        address: data1.doctorProfile[0].doctorProfile.address,
-        about: data1.doctorProfile[0].doctorProfile.about,
-        education: data1.doctorProfile[0].doctorProfile.education,
-        specialization: data1.doctorProfile[0].doctorProfile.specialization,
-      });
-    }
-    if (data2.doctorSpecialization.length !== 0) {
-      console.log(data1);
-      this.setState({
-        dateOfBirth: data1.doctorProfile.patientProfile.dateOfBirth,
-        gender: data1.patientProfile.patientProfile.gender,
-
-        address: data1.patientProfile.patientProfile.address,
-        state: data1.patientProfile.patientProfile.state,
-        country: data1.patientProfile.patientProfile.country,
-        bloodGroup: data1.patientProfile.patientProfile.bloodGroup,
-        genoType: data1.patientProfile.patientProfile.genoType,
-        diabetic: data1.patientProfile.patientProfile.diabetic,
-        allergies: data1.patientProfile.patientProfile.allergies,
-        disabilities: data1.patientProfile.patientProfile.disabilities,
-      });
-    }
   }
 
   handleChange(name, e) {

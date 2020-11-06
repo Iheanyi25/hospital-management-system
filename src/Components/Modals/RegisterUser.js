@@ -188,17 +188,7 @@ class RegisterUserModal extends React.Component {
       displaySuccess = (
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
-            {this.state.successMessage}.
-            <p className="mb-0 ">
-              Would you like to update the users profile?
-              <Link
-                to={`/adminupdatelabprofile/${userId}`}
-                className="btn btn-outline-light"
-              >
-                <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
-                Profile
-              </Link>
-            </p>
+            {this.state.successMessage}
           </div>
           <div className="alert-icon">
             <i className="icon icofont-ui-check" />
@@ -298,7 +288,7 @@ class RegisterUserModal extends React.Component {
                         : false
                     }
                   >
-                    Register Patient
+                    Register User
                   </button>
                 </div>
               </div>

@@ -1,88 +1,77 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
-const $ = require("jquery");
-$.Datatable = require("datatables.net");
-
-class ConsultationQueue extends React.Component {
+class Consultations extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-      patientQueue: null,
-      acceptedAppointments: [],
-      acceptedAppointmentsCount: 0,
-      activeAppointments: [],
-      pendingAppointments: [],
-      pendingAppointmentsCount: 0,
-      completedAppointments: [],
-      rejectedAppointmentsCount: 0,
+      acceptedConsultations: [],
+      acceptedConsultationsCount: 0,
+      activeConsultations: [],
+      pendingConsultations: [],
+      pendingConsultationsCount: 0,
+      completedConsultations: [],
+      rejectedConsultationsCount: 0,
     };
   }
 
   async componentDidMount() {
-    const { apiUrl } = this.state;
-
-    var acceptedAppointments = [];
-    var activeAppointments = [];
-    var pendingAppointments = [];
-    var completedAppointments = [];
-    var rejectedAppointments = [];
+    const { apiUrl, doctorId } = this.state;
+    console.log(this.state);
+    var acceptedConsultations = [];
+    var activeConsultations = [];
+    var pendingConsultations = [];
+    var completedConsultations = [];
+    var rejectedConsultations = [];
 
     const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctorQueue?DoctorId=${this.state.doctorId}`
+      `${apiUrl}/Admin/GetPatientConsultations`
     );
-
     const data = await response.json();
-    this.setState({ doctorQueue: data.doctorQueue });
+    console.log(data);
+    this.setState({ consultations: data.patientConsultations });
 
-    data.doctorQueue.forEach((queue) => {
-      if (queue.isActive === true) {
-        activeAppointments.push(queue);
-      } else if (queue.isAccepted === true) {
-        acceptedAppointments.push(queue);
-      } else if (queue.isCompleted === true) {
-        completedAppointments.push(queue);
-      } else if (queue.isRejected === true) {
-        rejectedAppointments.push(queue);
+    data.patientConsultations.forEach((consultation) => {
+      if (consultation.applicationUser.consultation.isActive === true) {
+        activeConsultations.push(consultation);
+      } else if (consultation.applicationUser.consultation.isAccepted === true) {
+        acceptedConsultations.push(consultation);
+      } else if (consultation.applicationUser.consultation.isCompleted === true) {
+        completedConsultations.push(consultation);
+      } else if (consultation.applicationUser.consultation.isRejected === true) {
+        rejectedConsultations.push(consultation);
       } else {
-        pendingAppointments.push(queue);
+        pendingConsultations.push(consultation);
       }
     });
 
     this.setState({
-      activeAppointments: activeAppointments,
-      activeAppointmentsCount: activeAppointments.length,
-      acceptedAppointments: acceptedAppointments,
-      acceptedAppointmentsCount: acceptedAppointments.length,
-      completedAppointments: completedAppointments,
-      completedAppointmentsCount: completedAppointments.length,
-      pendingAppointments: pendingAppointments,
-      pendingAppointmentsCount: pendingAppointments.length,
-      rejectedAppointmentsCount: rejectedAppointments.length,
+      activeConsultations: activeConsultations,
+      activeConsultationsCount: activeConsultations.length,
+      acceptedConsultations: acceptedConsultations,
+      acceptedConsultationsCount: acceptedConsultations.length,
+      completedConsultations: completedConsultations,
+      completedConsultationsCount: completedConsultations.length,
+      pendingConsultations: pendingConsultations,
+      pendingConsultationsCount: pendingConsultations.length,
+      rejectedConsultationsCount: rejectedConsultations.length
     });
-  }
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    this.$em = $(this.em);
-    this.$em.DataTable();
-    this.$en = $(this.en);
-    this.$en.DataTable();
   }
 
   render() {
     const {
-      acceptedAppointments,
-      acceptedAppointmentsCount,
-      pendingAppointments,
-      pendingAppointmentsCount,
-      completedAppointments,
-      rejectedAppointmentsCount,
+      acceptedConsultations,
+      acceptedConsultationsCount,
+      pendingConsultations,
+      pendingConsultationsCount,
+      activeConsultations,
+      completedConsultations,
+      rejectedConsultationsCount,
     } = this.state;
 
     return (
@@ -103,11 +92,9 @@ class ConsultationQueue extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">
-                          Total Patient on Queue
-                            </h6>
+                        <h6 className="mt-0 mb-1">Total Patient on Queue</h6>
                         <div className="count text-primary fs-20">
-                          {pendingAppointmentsCount}
+                          {pendingConsultationsCount}
                         </div>
                       </div>
                     </div>
@@ -122,11 +109,9 @@ class ConsultationQueue extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">
-                          Total Patients Unattended
-                            </h6>
+                        <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
                         <div className="count text-primary fs-20">
-                          {acceptedAppointmentsCount}
+                          {acceptedConsultationsCount}
                         </div>
                       </div>
                     </div>
@@ -145,7 +130,7 @@ class ConsultationQueue extends React.Component {
                           Total Patients Attended
                             </h6>
                         <div className="count text-primary fs-20">
-                          {rejectedAppointmentsCount}
+                          {rejectedConsultationsCount}
                         </div>
                       </div>
                     </div>
@@ -155,7 +140,7 @@ class ConsultationQueue extends React.Component {
             </div>
 
             <header className="page-header">
-              <h4 className="page-title">My Consultation Queue</h4>
+              <h4 className="page-title">Consultation List</h4>
             </header>
             <div className="page-content">
               <div className="card-body"></div>
@@ -179,7 +164,7 @@ class ConsultationQueue extends React.Component {
                           aria-controls="pills-active"
                           aria-selected="true"
                         >
-                          Patients Waiting
+                          Patients On Open List
                             </a>
                       </li>
                       <li className="nav-item">
@@ -192,7 +177,7 @@ class ConsultationQueue extends React.Component {
                           aria-controls="pills-accepted"
                           aria-selected="false"
                         >
-                          Patients Attended
+                          Patients Attached to Doctors
                             </a>
                       </li>
                       <li className="nav-item">
@@ -205,9 +190,10 @@ class ConsultationQueue extends React.Component {
                           aria-controls="pills-completed"
                           aria-selected="false"
                         >
-                          All Patients
+                          Attended Patients
                             </a>
                       </li>
+
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
                       <div
@@ -218,17 +204,16 @@ class ConsultationQueue extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            ref={(en) => (this.en = en)}
-                            className="table"
+                            className="table data-table"
                             data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                                { "data": "photo" },
+                                { "data": "name" },
+                                { "data": "email" },
+                                { "data": "phone" },
+                                { "data": "date-of-birth" },
+                                { "data": "address" },
+                                { "data": "actions" }
+                            ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -244,8 +229,8 @@ class ConsultationQueue extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
+                              {activeConsultations
+                                ? activeConsultations.map((appointment) => (
                                   <tr>
                                     <td>
                                       <img
@@ -257,20 +242,22 @@ class ConsultationQueue extends React.Component {
                                       />
                                     </td>
                                     <td>
-                                      {appointment.patient.firstName}{" "}
-                                      {appointment.patient.lastName}
+                                      {" "}
+                                      {[
+                                        appointment.applicationUser
+                                          .applicationUser.firstName,
+                                        appointment.applicationUser
+                                          .applicationUser.lastName,
+                                      ].toString(" ")}
+                                    </td>
+                                    <td>
+                                      <strong>Liam</strong>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
                                         <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient.email}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient.phoneNumber}
-                                      </div>
+                                              liam@gmail.com
+                                            </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
@@ -344,8 +331,8 @@ class ConsultationQueue extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {acceptedAppointments
-                                ? acceptedAppointments.map(
+                              {acceptedConsultations
+                                ? acceptedConsultations.map(
                                   (appointment) => (
                                     <tr>
                                       <td>
@@ -447,8 +434,8 @@ class ConsultationQueue extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {completedAppointments
-                                ? completedAppointments.map(
+                              {completedConsultations
+                                ? completedConsultations.map(
                                   (appointment) => (
                                     <tr>
                                       <td>
@@ -551,8 +538,8 @@ class ConsultationQueue extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
+                              {pendingConsultations
+                                ? pendingConsultations.map((appointment) => (
                                   <tr>
                                     <td>
                                       <img
@@ -566,8 +553,10 @@ class ConsultationQueue extends React.Component {
                                     <td>
                                       {" "}
                                       {[
-                                        appointment.firstName,
-                                        appointment.lastName,
+                                        appointment.applicationUser
+                                          .applicationUser.firstName,
+                                        appointment.applicationUser
+                                          .applicationUser.lastName,
                                       ].toString(" ")}
                                     </td>
                                     <td>
@@ -634,9 +623,10 @@ class ConsultationQueue extends React.Component {
             </div>
           </div>
         </main>
+
       </>
     );
   }
 }
 
-export default ConsultationQueue;
+export default Consultations;

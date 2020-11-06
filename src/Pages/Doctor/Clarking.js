@@ -1,7 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
-class Consultation extends React.Component {
+class Clarking extends React.Component {
   constructor(props) {
     super(props);
 
@@ -75,7 +75,7 @@ class Consultation extends React.Component {
                     aria-selected="true"
                   >
                     Capture Patient Health History
-                      </a>
+                  </a>
                   <a
                     className="nav-link"
                     id="v-pills-profile-tab"
@@ -85,19 +85,19 @@ class Consultation extends React.Component {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    Capture Patient Personnal Vitals
-                      </a>
+                    Clarking
+                  </a>
                   <a
                     className="nav-link"
-                    id="v-pills-messages-tab"
+                    id="v-pills-health-history-tab"
                     data-toggle="pill"
-                    href="#v-pills-messages"
+                    href="#v-pills-health-history"
                     role="tab"
-                    aria-controls="v-pills-messages"
+                    aria-controls="v-pills-health-history"
                     aria-selected="false"
                   >
-                    Drug Prescription
-                      </a>
+                    Health History
+                  </a>
                   <a
                     className="nav-link"
                     id="v-pills-settings-tab"
@@ -107,13 +107,10 @@ class Consultation extends React.Component {
                     aria-controls="v-pills-settings"
                     aria-selected="false"
                   >
-                    Lab Prescription
-                      </a>
+                    Lab History and Service Prescription
+                  </a>
                 </div>
-                <div
-                  className="tab-content col-md-9"
-                  id="v-pills-tabContent"
-                >
+                <div className="tab-content col-md-9" id="v-pills-tabContent">
                   <div
                     className="tab-pane fade show active"
                     id="v-pills-home"
@@ -137,7 +134,7 @@ class Consultation extends React.Component {
                             aria-selected="true"
                           >
                             Social History
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -150,7 +147,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Family History
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -163,7 +160,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Medical History
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -176,7 +173,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Travel History
-                              </a>
+                          </a>
                         </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
@@ -196,7 +193,7 @@ class Consultation extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         Additons like smoking, drinking etc
-                                          </label>
+                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Social History Here"
@@ -211,7 +208,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Record Social History
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -220,10 +217,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -248,9 +245,9 @@ class Consultation extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                        Heriditory sickness like mental
-                                        health, blood pressure etc
-                                          </label>
+                                        Heriditory sickness like mental health,
+                                        blood pressure etc
+                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Family History Here"
@@ -265,7 +262,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Family History
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -274,10 +271,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -303,7 +300,7 @@ class Consultation extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         Common sickness like Hepitities etc
-                                          </label>
+                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Medical History Here"
@@ -318,7 +315,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Medical History
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -327,10 +324,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -377,7 +374,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Travel History
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -386,10 +383,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -425,7 +422,7 @@ class Consultation extends React.Component {
                             aria-selected="true"
                           >
                             Presenting Complains
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -438,7 +435,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             History of Presenting Complain
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -451,7 +448,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Review of System
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -464,7 +461,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Physical Examination
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -477,7 +474,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Diagnosis
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -490,7 +487,7 @@ class Consultation extends React.Component {
                             aria-selected="false"
                           >
                             Treatment Plan
-                              </a>
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
@@ -502,21 +499,21 @@ class Consultation extends React.Component {
                             aria-controls="pills-obstetrics"
                             aria-selected="false"
                           >
-                            Obstetrics
-                              </a>
+                            Obstetrics and Gynecology
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
                             className="nav-link"
-                            id="pills-gynecology-tab"
+                            id="pills-prescription-tab"
                             data-toggle="pill"
-                            href="#pills-gynecology"
+                            href="#pills-prescription"
                             role="tab"
-                            aria-controls="pills-gynecology"
+                            aria-controls="pills-prescription"
                             aria-selected="false"
                           >
-                            Gynecology
-                              </a>
+                            Prescriptions
+                          </a>
                         </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
@@ -549,7 +546,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Record Presenting Complains
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -558,10 +555,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -587,9 +584,8 @@ class Consultation extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                        Patient History of Presenting
-                                        Complains
-                                          </label>
+                                        Patient History of Presenting Complains
+                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter History of Presenting Complain Here"
@@ -604,7 +600,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -613,10 +609,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -656,7 +652,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Review of System
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -665,10 +661,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -695,7 +691,7 @@ class Consultation extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         Patient Physical Examination
-                                          </label>
+                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Patient Physical Examination"
@@ -710,7 +706,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Physical Examination
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -719,10 +715,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -762,7 +758,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Diagnosis
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -771,10 +767,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -814,7 +810,7 @@ class Consultation extends React.Component {
                                           className="btn btn-success"
                                         >
                                           Save Treatment Plan
-                                            </button>
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -823,10 +819,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -848,10 +844,10 @@ class Consultation extends React.Component {
                               <div className="card border-light">
                                 <div className="card-body">
                                   <form className="mb-4">
-                                    <h4>Obstetrics</h4>
+                                    <h4>Obstetrics and Gynecology</h4>
 
                                     <div className="form-group">
-                                      <label>Obstetrics</label>
+                                      <label>Obstetrics and Gynecology</label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Obstetrics"
@@ -865,8 +861,8 @@ class Consultation extends React.Component {
                                           type="button"
                                           className="btn btn-success"
                                         >
-                                          Save Obstetrics
-                                            </button>
+                                          Save Obstetrics and Gynecology
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -875,10 +871,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -891,22 +887,22 @@ class Consultation extends React.Component {
 
                         <div
                           className="tab-pane fade"
-                          id="pills-gynecology"
+                          id="pills-prescription"
                           role="tabpanel"
-                          aria-labelledby="pills-gynecology-tab"
+                          aria-labelledby="pills-prescription-tab"
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
                                   <form className="mb-4">
-                                    <h4>Gynecology</h4>
+                                    <h4>Prescription</h4>
 
                                     <div className="form-group">
-                                      <label>Gynecology</label>
+                                      <label>Prescription</label>
                                       <textarea
                                         className="form-control"
-                                        placeholder="Enter Gynecology"
+                                        placeholder="Enter your prescriptions here"
                                         rows={3}
                                       />
                                     </div>
@@ -917,8 +913,8 @@ class Consultation extends React.Component {
                                           type="button"
                                           className="btn btn-success"
                                         >
-                                          Save Gynecology
-                                            </button>
+                                          Save Prescriptions
+                                        </button>
                                       </div>
                                       <div className="col text-right">
                                         <button
@@ -927,10 +923,10 @@ class Consultation extends React.Component {
                                         >
                                           <span className="d-none d-sm-block">
                                             Cancel
-                                              </span>{" "}
+                                          </span>{" "}
                                           <span className="d-sm-none">
                                             Cancel
-                                              </span>
+                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -945,9 +941,9 @@ class Consultation extends React.Component {
                   </div>
                   <div
                     className="tab-pane fade"
-                    id="v-pills-messages"
+                    id="v-pills-health-history"
                     role="tabpanel"
-                    aria-labelledby="v-pills-messages-tab"
+                    aria-labelledby="v-pills-health-history-tab"
                   >
                     <div>
                       <ul
@@ -958,116 +954,90 @@ class Consultation extends React.Component {
                         <li className="nav-item">
                           <a
                             className="nav-link active"
-                            id="pills-complain-tab"
+                            id="pills-pre-consultation-tab"
                             data-toggle="pill"
-                            href="#pills-complain"
+                            href="#pills-pre-consultation"
                             role="tab"
-                            aria-controls="pills-complain"
+                            aria-controls="pills-pre-consultation"
                             aria-selected="true"
                           >
-                            Fresh Prescription
-                              </a>
+                            Pre-Consultation History
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
                             className="nav-link"
-                            id="pills-history-tab"
+                            id="pills-clarking-history-tab"
                             data-toggle="pill"
-                            href="#pills-history"
+                            href="#pills-clarking-history"
                             role="tab"
-                            aria-controls="pills-history"
+                            aria-controls="pills-clarking-history"
                             aria-selected="false"
                           >
-                            Prescription Templates
-                              </a>
+                            Clarking History
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link"
+                            id="pills-patient-profile-tab"
+                            data-toggle="pill"
+                            href="#pills-patient-profile"
+                            role="tab"
+                            aria-controls="pills-patient-profile"
+                            aria-selected="false"
+                          >
+                            Patient Profile
+                          </a>
                         </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
                           className="tab-pane fade show active"
-                          id="pills-complain"
+                          id="pills-pre-consultation"
                           role="tabpanel"
-                          aria-labelledby="pills-complain-tab"
+                          aria-labelledby="pills-pre-consultation-tab"
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4> Prescribe Drugs</h4>
-                                    <div className="row border-primary">
-                                      <div className="col-md-6">
-                                        <div className="form-group">
-                                          <label>Drug</label>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                          />
-                                        </div>
+
+                                  <h4>History of Pre-Consultation History</h4>
+                                  <div id="accordion">
+                                    <div className="card mb-0">
+                                      <div className="card-header" id="headingOne">
+                                        <h5 className="mb-0">
+                                          <button className="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Collapsible Group Item #1
+                                            </button>
+                                        </h5>
                                       </div>
-                                      <div className="col-md-6">
-                                        <div className="form-group">
-                                          <label>Quantity</label>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                          />
-                                        </div>
+                                      <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div className="card-body">
+                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                          </div>
                                       </div>
-                                      <div className="col-md-6">
-                                        <div className="form-group">
-                                          <label>Dosage</label>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                          />
-                                        </div>
+                                    </div>
+                                    <div className="card mb-0">
+                                      <div className="card-header" id="headingTwo">
+                                        <h5 className="mb-0">
+                                          <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Collapsible Group Item #2
+                                            </button>
+                                        </h5>
                                       </div>
-                                      <div className="col-md-6">
-                                        <div className="form-group">
-                                          <label>Frequency</label>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="col-md-12">
-                                        <div className="form-group">
-                                          <label>Doctor Note</label>
-                                          <textarea
-                                            className="form-control"
-                                            placeholder="Enter Comments Here"
-                                            rows={3}
-                                          />
-                                        </div>
+                                      <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div className="card-body">
+                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                          </div>
                                       </div>
                                     </div>
 
-                                    <div className="row">
-                                      <div className="col">
-                                        <button
-                                          type="button"
-                                          className="btn btn-success"
-                                        >
-                                          Prescribe Drugs
-                                            </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                              </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                              </span>
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
+                                  </div>
+
+
+
                                 </div>
                               </div>
                             </div>
@@ -1076,58 +1046,77 @@ class Consultation extends React.Component {
 
                         <div
                           className="tab-pane fade"
-                          id="pills-history"
+                          id="pills-clarking-history"
                           role="tabpanel"
-                          aria-labelledby="pills-history-tab"
+                          aria-labelledby="pills-clarking-history-tab"
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4>History of Presenting Complain</h4>
 
-                                    <div className="form-group">
-                                      <label>
-                                        Patient History of Presenting
-                                        Complains
-                                          </label>
-                                      <textarea
-                                        className="form-control"
-                                        placeholder="Enter History of Presenting Complain Here"
-                                        rows={3}
-                                      />
-                                    </div>
-
-                                    <div className="row">
-                                      <div className="col">
-                                        <button
-                                          type="button"
-                                          className="btn btn-success"
-                                        >
-                                          Save
-                                            </button>
+                                  <h4>History of Clarking History</h4>
+                                  <div id="accordion">
+                                    <div className="card mb-0">
+                                      <div className="card-header" id="headingOne">
+                                        <h5 className="mb-0">
+                                          <button className="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Collapsible Group Item #1
+                                          </button>
+                                        </h5>
                                       </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                              </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                              </span>
-                                        </button>
+                                      <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div className="card-body">
+                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        </div>
                                       </div>
                                     </div>
-                                  </form>
+                                    <div className="card mb-0">
+                                      <div className="card-header" id="headingTwo">
+                                        <h5 className="mb-0">
+                                          <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Collapsible Group Item #2
+                                          </button>
+                                        </h5>
+                                      </div>
+                                      <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div className="card-body">
+                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+
+
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+
+                        <div
+                          className="tab-pane fade"
+                          id="pills-patient-profile"
+                          role="tabpanel"
+                          aria-labelledby="pills-patient-profile-tab"
+                        >
+                          <div className="row justify-content-center mt-5">
+                            <div className="col-md-12">
+                              <div className="card border-light">
+                                <div className="card-body">
+
+                                  <h4>Patient Profile</h4>
+
+
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -1146,90 +1135,75 @@ class Consultation extends React.Component {
                         <li className="nav-item">
                           <a
                             className="nav-link active"
-                            id="pills-complain-tab"
+                            id="pills-lab-history-tab"
                             data-toggle="pill"
-                            href="#pills-complain"
+                            href="#pills-lab-history"
                             role="tab"
-                            aria-controls="pills-complain"
+                            aria-controls="pills-lab-history"
                             aria-selected="true"
                           >
-                            Fresh Prescription
-                              </a>
+                            Lab/Service History
+                          </a>
                         </li>
                         <li className="nav-item">
                           <a
                             className="nav-link"
-                            id="pills-history-tab"
+                            id="pills-service-request-tab"
                             data-toggle="pill"
-                            href="#pills-history"
+                            href="#pills-service-request"
                             role="tab"
-                            aria-controls="pills-history"
+                            aria-controls="pills-service-request"
                             aria-selected="false"
                           >
-                            Prescription Templates
-                              </a>
+                            Request New Service
+                          </a>
                         </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
                           className="tab-pane fade show active"
-                          id="pills-complain"
+                          id="pills-lab-history"
                           role="tabpanel"
-                          aria-labelledby="pills-complain-tab"
+                          aria-labelledby="pills-lab-history-tab"
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4> Prescribe Lab Test</h4>
-                                    <div className="row border-primary">
-                                      <div className="col-md-12">
-                                        <div className="form-group">
-                                          <label>Lab Test</label>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                          />
-                                        </div>
-                                      </div>
 
-                                      <div className="col-md-12">
-                                        <div className="form-group">
-                                          <label>Doctor Note</label>
-                                          <textarea
-                                            className="form-control"
-                                            placeholder="Enter Comments Here"
-                                            rows={3}
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div className="row">
-                                      <div className="col">
-                                        <button
-                                          type="button"
-                                          className="btn btn-success"
-                                        >
-                                          Prescribe Lab
+                                  <h4>Lab/Service Result History</h4>
+                                  <div id="accordion">
+                                    <div className="card mb-0">
+                                      <div className="card-header" id="headingOne">
+                                        <h5 className="mb-0">
+                                          <button className="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Collapsible Group Item #1
                                             </button>
+                                        </h5>
                                       </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                              </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                              </span>
-                                        </button>
+                                      <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div className="card-body">
+                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                          </div>
                                       </div>
                                     </div>
-                                  </form>
+                                    <div className="card mb-0">
+                                      <div className="card-header" id="headingTwo">
+                                        <h5 className="mb-0">
+                                          <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Collapsible Group Item #2
+                                            </button>
+                                        </h5>
+                                      </div>
+                                      <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div className="card-body">
+                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                          </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
                                 </div>
                               </div>
                             </div>
@@ -1238,14 +1212,17 @@ class Consultation extends React.Component {
 
                         <div
                           className="tab-pane fade"
-                          id="pills-history"
+                          id="pills-service-request"
                           role="tabpanel"
-                          aria-labelledby="pills-history-tab"
+                          aria-labelledby="pills-service-request-tab"
                         >
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <div className="card-body">Lab Templates</div>
+                                <div className="card-body">
+                                  Service Request Goes Here
+                                  
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1263,4 +1240,4 @@ class Consultation extends React.Component {
   }
 }
 
-export default Consultation;
+export default Clarking;

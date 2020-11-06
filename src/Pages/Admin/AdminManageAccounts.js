@@ -174,36 +174,7 @@ class AdminManageAccounts extends React.Component {
                                           Action
                                         </button>
                                         <div className="dropdown-menu text-left">
-                                          <NavLink
-                                            to={{
-                                              pathname: `/AdminPreConsultation/${account.id}`,
-                                              state: account,
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                            Go for Pre-Consultation
-                                          </NavLink>
-                                          <NavLink
-                                            to={{
-                                              pathname: `/AdminPreConsultation/${account.id}`,
-                                              state: account,
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                            Pre-Consultation History
-                                          </NavLink>
-                                          <NavLink
-                                            to={{
-                                              pathname: `/AdminUpdatePatientProfile/${account.id}`,
-                                              state: account,
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                            Update Profile
-                                          </NavLink>
+                                          
                                           <NavLink
                                             to={{
                                               pathname: `/AdminFundAccount/${account.id}`,

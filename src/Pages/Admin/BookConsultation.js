@@ -8,8 +8,9 @@ class BookConsultation extends React.Component {
         this.state = {
 
             apiUrl: process.env.REACT_APP_API_URL,
-            doctor: {},
+            doctors: [],
             doctorId: "",
+            patientId: "",
             patientEmail: "",
             consultationTitle: "",
             reasonForConsultation: "",
@@ -20,11 +21,10 @@ class BookConsultation extends React.Component {
     async componentDidMount() {
         const { params } = this.props.match;
 
-        //grab the logged in user
-        this.setState({ doctorId: params.doctorId });
-
-        const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`)).json()
-        this.setState({ doctor: data.doctor });
+        //grab the list of doctors
+        const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)).json()
+        this.setState({ doctors: data});
+        
     }
 
     handleChange(name, e) {
@@ -123,7 +123,7 @@ class BookConsultation extends React.Component {
                     </div>
                     <div className="main-content-wrap">
                         <header className="page-header">
-                            <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
+                            <h3 className="page-title">Book Consultation</h3>
                         </header>
                         <div className="page-content">
                             <div className="row justify-content-center">
@@ -134,11 +134,23 @@ class BookConsultation extends React.Component {
                                                 <h4>Consultation Form</h4>
 
                                                 <div className="form-group">
-                                                    <label>Patient Email</label>
+                                                    <label>Select A Patient</label>
 
                                                     <input
                                                         className="form-control"
-                                                        placeholder="Patient Email"
+                                                        placeholder="Patient Name"
+                                                        tabIndex={-98}
+                                                        onChange={(e) => this.handleChange("patientEmail", e)}
+                                                        value={patientEmail}
+                                                    />
+
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Select A Doctor(If you want this consultation to be assigned to a doctor)</label>
+
+                                                    <input
+                                                        className="form-control"
+                                                        placeholder="Doctor Name"
                                                         tabIndex={-98}
                                                         onChange={(e) => this.handleChange("patientEmail", e)}
                                                         value={patientEmail}

@@ -18,6 +18,7 @@ class DoctorList extends React.Component {
     async getAllDoctors() {
         const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)).json()
         this.setState({ doctors: data.doctors });
+
     }
 
     componentDidMount() {
@@ -44,9 +45,9 @@ class DoctorList extends React.Component {
                                 {this.state.doctors.map((doctor, index) => (
                                     <div className="col-12 col-md-4" key={index}>
                                         <div className="contact">
-                                            <div className="img-box"><img src="./assets/content/doctor-400-1.jpg" width={400} height={400} alt="Hello" /></div>
+                                            <div className="img-box"><img src="../assets/content/doctor-400-1.jpg" width={400} height={400} alt="Hello" /></div>
                                             <div className="info-box">
-                                                <h4 className="name">Dr. {doctor.firstName} {doctor.lastName}</h4>
+                                                <h4 className="name">Dr. {doctor.doctor.firstName} {doctor.doctor.lastName}</h4>
                                                 <p className="role">{doctor?.specialization || ""}</p>
                                                 <div className="custom-control custom-switch mb-3">
                                                     <input type="checkbox" className="custom-control-input" defaultChecked={doctor?.isAvaliable ? 'checked' : ' '} />
@@ -55,12 +56,12 @@ class DoctorList extends React.Component {
                                                 <p className="address">{doctor?.bio || ""}</p>
                                                 <div className="button-box">
 
-                                                    <Link className="btn btn-primary mr-2" to={`/PatientDoctorProfile/${doctor.id}`}>
+                                                    <Link className="btn btn-primary mr-2" to={`/PatientDoctorProfile/${doctor.doctorId}`}>
                                                         <span className="link-icon icofont-doctor" />
                                                         <span className="link-text">View profile</span>
                                                     </Link>
 
-                                                    <Link className="btn btn-info" to={`/PatientBookConsultation/${doctor.id}`}>
+                                                    <Link className="btn btn-info" to={`/PatientBookConsultation/${doctor.doctorId}`}>
                                                         <span className="link-icon icofont-doctor" />
                                                         <span className="link-text">Book Consultation</span>
                                                     </Link>
