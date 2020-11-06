@@ -104,7 +104,7 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
                       >
-                        <PayCash />
+                        <PayCash details={this.state} history={this.props.history}/>
                       </div>
                       <div
                         className="tab-pane fade"
