@@ -5,7 +5,7 @@ import {
   PayWithFlutter,
 } from "../../../../Components/Payment";
 
-const PayOnline = ({ details }) => {
+const PayOnline = ({ details, handleSuccess }) => {
   const [userDetails, setUserDetails] = useState({
     patientId: "",
     amount: "",
@@ -83,8 +83,8 @@ const PayOnline = ({ details }) => {
                       <div className="m-auto">
                         <label>Pay with</label>
                         <div className="row">
-                          <PayWithPaystack paymentDetails={userDetails} />
-                          <PayWithFlutter paymentDetails={userDetails} />
+                          <PayWithPaystack paymentDetails={userDetails}  handleSuccess={handleSuccess} />
+                          <PayWithFlutter paymentDetails={userDetails} handleSuccess={handleSuccess}/>
                         </div>
                       </div>
                     </form>

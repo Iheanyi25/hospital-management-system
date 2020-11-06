@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Success } from "../../../../Components/Alerts";
 
-const Others = ({ details, history }) => {
+const Others = ({ details, handleSuccess }) => {
   const [userDetails, setUserDetails] = useState({
     accountId: "",
     amount: "",
@@ -9,7 +8,6 @@ const Others = ({ details, history }) => {
     modeOfPayment: "",
     transactionRefrence: "",
   });
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     setUserDetails({ ...userDetails, accountId: details.patientId });
@@ -30,7 +28,7 @@ const Others = ({ details, history }) => {
           }
         );
         if (res.status === 200) {
-          setSuccess(true);
+          handleSuccess(true);
         }
       } catch (error) {
         console.log(error);
@@ -43,13 +41,6 @@ const Others = ({ details, history }) => {
       <div className="main-content-wrap w-50">
         <div className="page-content">
           <div className="row justify-content-center">
-          {success ? (
-              <Success
-                history={history}
-                message="You have successfully funded this account"
-                nextRoute="/AdminManageAccounts"
-              />
-            ) : null}
             <div className="col col-md-12">
               <div className="card border-light">
                 <div className="card-body">

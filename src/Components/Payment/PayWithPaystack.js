@@ -3,7 +3,7 @@ import paystack1 from "../../assets/img/paystack-icon1.svg";
 import paystack2 from "../../assets/img/paystack-icon2.svg";
 import { usePaystackPayment } from "react-paystack";
 
-const PayWithPaystack = ({ paymentDetails }) => {
+const PayWithPaystack = ({ paymentDetails, handleSuccess }) => {
   let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
 
   const [details, setDetails] = useState({
@@ -34,10 +34,12 @@ const PayWithPaystack = ({ paymentDetails }) => {
   const handleSubmit = async (reference) => {
     let payload = {
       amount: paymentDetails.amount,
-      [`${userType === 'Admin' ? 'accountId':'patientId'}`]: paymentDetails.patientId,
+      [`${
+        userType === "Admin" ? "accountId" : "patientId"
+      }`]: paymentDetails.patientId,
       modeOfPayment: "online-paystack",
       transactionRefrence: reference.trxref,
-      paymentDescription: paymentDetails.paymentDescription
+      paymentDescription: paymentDetails.paymentDescription,
     };
     console.log(payload);
     try {
@@ -50,7 +52,9 @@ const PayWithPaystack = ({ paymentDetails }) => {
           redirect: "follow",
         }
       );
-      console.log(res);
+      if (res.status === 200) {
+        handleSuccess(true)
+      }
     } catch (error) {
       console.log(error);
     }

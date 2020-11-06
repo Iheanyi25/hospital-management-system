@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./Components/FundingPaymentModes";
+import { Success } from "../../Components/Alerts";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,6 +12,7 @@ class AdminFundAccount extends React.Component {
   state = {
     email: "",
     patientId: "",
+    success: false,
   };
 
   componentDidMount() {
@@ -22,6 +24,10 @@ class AdminFundAccount extends React.Component {
     });
   }
 
+  handleSuccess = () => {
+    this.setState({ success: true });
+  };
+
   render() {
     // console.log("state", this.state);
     return (
@@ -32,6 +38,13 @@ class AdminFundAccount extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+              <Success
+                history={this.props.history}
+                message="You have successfully funded this account"
+                nextRoute="/AdminManageAccounts"
+              />
+            ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>Fund Account</h3>
@@ -96,7 +109,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <PayOnline details={this.state} />
+                        <PayOnline
+                          details={this.state}
+                          handleSuccess={this.handleSuccess}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -107,6 +123,7 @@ class AdminFundAccount extends React.Component {
                         <PayCash
                           details={this.state}
                           history={this.props.history}
+                          handleSuccess={this.handleSuccess}
                         />
                       </div>
                       <div
@@ -118,6 +135,7 @@ class AdminFundAccount extends React.Component {
                         <Others
                           details={this.state}
                           history={this.props.history}
+                          handleSuccess={this.handleSuccess}
                         />
                       </div>
                     </div>

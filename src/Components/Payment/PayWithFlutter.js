@@ -3,7 +3,7 @@ import { useRavePayment } from "react-ravepayment";
 import flutterwave1 from "../../assets/img/flutterwave1.svg";
 import flutterwave2 from "../../assets/img/flutterwave2.svg";
 
-const PayWithFlutter = ({ paymentDetails }) => {
+const PayWithFlutter = ({ paymentDetails, handleSuccess }) => {
   let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
   const [details, setDetails] = useState({
     txref: "rave-123456",
@@ -52,7 +52,9 @@ const PayWithFlutter = ({ paymentDetails }) => {
           redirect: "follow",
         }
       );
-      console.log(res);
+      if (res.status === 200) {
+        handleSuccess(true)
+      }
     } catch (error) {
       console.log(error);
     }
