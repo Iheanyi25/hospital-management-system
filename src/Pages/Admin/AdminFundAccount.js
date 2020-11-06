@@ -8,11 +8,22 @@ const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class AdminFundAccount extends React.Component {
+  state = {
+    email: "",
+    patientId: "",
+  };
+
   componentDidMount() {
-    console.log(this.props.history.location)
+    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    console.log("user email", this.props.history.location.state.id, user.email);
+    this.setState({
+      patientId: this.props.history.location.state.id,
+      email: user.email,
+    });
   }
 
   render() {
+    // console.log("state", this.state);
     return (
       <>
         <PageLoader />
@@ -85,7 +96,7 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <PayOnline />
+                        <PayOnline details={this.state}/>
                       </div>
                       <div
                         className="tab-pane fade"
@@ -101,7 +112,7 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                       <Others />
+                        <Others />
                       </div>
                     </div>
                   </div>
