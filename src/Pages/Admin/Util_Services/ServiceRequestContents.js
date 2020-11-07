@@ -6,7 +6,7 @@ let $ = window.$;
 $.DataTables = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 
-class ManageServiceRequest extends React.Component {
+class ServiceRequestContents extends React.Component {
     constructor(props) {
         super(props);
 
@@ -46,8 +46,8 @@ class ManageServiceRequest extends React.Component {
                     </div>
                     <div className="main-content-wrap">
                         <header className="page-header justify-content-between d-flex align-items-center mb-2">
-                            <h4 className="page-title"> Manage Requested Services</h4>
-                            <NavLink className="btn btn-primary" to="/AdminServiceRequests">Request Service</NavLink>
+                            <h4 className="page-title"> Services Request in Invoice #AB2344</h4>
+                            <NavLink className="btn btn-primary" to="#"> Pay For Services</NavLink>
                         </header>
                         <div className="row">
                             <div className="col col-12 col-md-6 col-xl-4">
@@ -58,7 +58,7 @@ class ManageServiceRequest extends React.Component {
                                                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                                             </div>
                                             <div className="col col-7">
-                                                <h6 className="mt-0 mb-1">No of Services request</h6>
+                                                <h6 className="mt-0 mb-1">No of Services In Invoice</h6>
                                                 <div className="count text-primary fs-20">
                                                     {categories.length}
                                                 </div>
@@ -97,8 +97,10 @@ class ManageServiceRequest extends React.Component {
                                                     <tr className="bg-primary text-white">
                                                         <th>#</th>
                                                         <th>Patient's Name</th>
-                                                        <th>Invoice ID</th>
-                                                        <th>Date Generated</th>
+                                                        <th>Service Category</th>
+                                                        <th>Service Name</th>
+                                                        <th>Requested By</th>
+                                                        <th>Date On</th>
                                                         <th>Amount</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -118,9 +120,20 @@ class ManageServiceRequest extends React.Component {
                                                     </td>
                                                     <td>
                                                         <div className="text-muted text-nowrap">
-                                                            #AD756gaT
+                                                            Lab Service
                                                         </div>
                                                     </td>
+                                                    <td>
+                                                        <div className="text-muted text-nowrap">
+                                                            Imaging and health
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="text-muted text-nowrap">
+                                                            Dr Vitalis
+                                                        </div>
+                                                    </td>
+                                                  
                                                     <td>
                                                         <div className="text-muted text-nowrap">
                                                             7th Nov 2020
@@ -146,19 +159,26 @@ class ManageServiceRequest extends React.Component {
                                                             <div className="dropdown-menu">
 
                                                                 <NavLink
-                                                                    to={`/AdminPaymentForService`}
+                                                                    to={`/AdminUploadServiceRequestResult`}
                                                                     className="btn btn-sm btn-block"
                                                                 >
                                                                     <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                    Pay for Services
+                                                                    Upload Result
                                                                 </NavLink>
 
                                                                 <NavLink
-                                                                    to={`/AdminViewServiceRequestContents`}
+                                                                    to="#"
                                                                     className="btn btn-sm btn-block"
                                                                 >
                                                                     <span className="btn-icon icofont-server mr-2" />
-                                                                        View Contents 
+                                                                        View Result 
+                                                                </NavLink>
+                                                                <NavLink
+                                                                    to="#"
+                                                                    className="btn btn-sm btn-block"
+                                                                >
+                                                                    <span className="btn-icon icofont-server mr-2" />
+                                                                        Remove From Invoice 
                                                                 </NavLink>
 
                                                                 
@@ -196,4 +216,4 @@ class ManageServiceRequest extends React.Component {
     }
 }
 
-export default ManageServiceRequest;
+export default ServiceRequestContents;

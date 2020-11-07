@@ -27,7 +27,8 @@ import ManageServiceCategory from "../Pages/Admin/Util_Services//ManageServiceCa
 import ManageServices from "../Pages/Admin/Util_Services//ManageServices";
 import EditServiceCategory from "../Pages/Admin/Util_Services//EditServiceCategory";
 import EditService from "../Pages/Admin/Util_Services//EditService";
-
+import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
+import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 // ward utils
 import CreateWard from "../Pages/Admin/Util_Ward/CreateWard";
 import EditWard from "../Pages/Admin/Util_Ward/EditWard";
@@ -90,6 +91,11 @@ export default function AdminRoutes() {
           <Route exact path="/AdminCreateService" component={CreateService} />
           <Route exact path="/AdminEditService/:id" component={EditService} />
           <Route exact path="/AdminManageServices" component={ManageServices} />
+          <Route exact path="/AdminViewServiceRequestContents" component={ServiceRequestContents} />
+          <Route exact path="/AdminUploadServiceRequestResult" component={ServiceRequestResultUpload} />
+
+
+          
           <Route
             exact
             path="/AdminServiceCategory"
