@@ -20,7 +20,7 @@ class Appointments extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl, doctorId } = this.state;
+    const { apiUrl } = this.state;
     console.log(this.state);
     var acceptedAppointments = [];
     var activeAppointments = [];

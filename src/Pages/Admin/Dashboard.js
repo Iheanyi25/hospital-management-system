@@ -9,9 +9,12 @@ class Dashboard extends React.Component {
 		this.state = {
 			apiUrl: process.env.REACT_APP_API_URL,
 			doctorAppointments: [],
-			doctorConsultations: []
+			doctorConsultations: [],
 		};
 
+		this.dataMock = [
+			{ "#": 1, "name": "Emmnanuel" }
+		]
 	}
 
 	async componentDidMount() {
@@ -136,11 +139,13 @@ class Dashboard extends React.Component {
 								</div>
 							</div>
 							<div className="row">
+
 								<div className="col col-md-6">
 
 									<div className="card mb-0">
 										<div className="card-header">Doctor Consultation Queue</div>
 										<div className="card-body">
+
 											<div className="table-responsive">
 												<table className="table table-hover">
 													<thead>
@@ -193,6 +198,7 @@ class Dashboard extends React.Component {
 													</tbody>
 												</table>
 											</div>
+
 										</div>
 									</div>
 

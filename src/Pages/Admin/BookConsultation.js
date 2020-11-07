@@ -19,7 +19,7 @@ class BookConsultation extends React.Component {
     }
 
     async componentDidMount() {
-        const { params } = this.props.match;
+        // const { params } = this.props.match;
 
         //grab the list of doctors
         const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)).json()
@@ -79,7 +79,7 @@ class BookConsultation extends React.Component {
     render() {
 
         let {
-            doctor,
+            // doctor,
             consultationTitle,
             patientEmail,
             reasonForConsultation

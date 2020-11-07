@@ -21,7 +21,7 @@ class Consultations extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl, doctorId } = this.state;
+    const { apiUrl } = this.state;
     console.log(this.state);
     var acceptedConsultations = [];
     var activeConsultations = [];
