@@ -12,10 +12,7 @@ class ManageServiceRequest extends React.Component {
 
         this.state = {
             categories: [],
-            acceptedAppointments: [],
-            activeAppointments: [],
-            pendingAppointments: [],
-            completedAppointments: [],
+           
         };
     }
 
@@ -36,7 +33,6 @@ class ManageServiceRequest extends React.Component {
 
     render() {
         const {
-            pendingAppointments,
             categories
         } = this.state;
 
@@ -142,39 +138,68 @@ class ManageServiceRequest extends React.Component {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <Link to="/AdminPaymentForService" className="btn btn-primary">Pay for service</Link>
-                                                                        {pendingAppointments
-                                                                            ? pendingAppointments.map((invoice, index) => (
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        {index + 1}
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <strong>{invoice.id}</strong>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <div className="text-muted text-nowrap">
-                                                                                            {invoice.cost}
-                                                                                        </div>
-                                                                                    </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">
+                                                                                1
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">
+                                                                                Ogbonna Vitalis
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">
+                                                                                #AD756gaT
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">
+                                                                                7th Nov 2020
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div className="text-muted text-nowrap">
+                                                                                700
+                                                                            </div>
+                                                                        </td>
 
-                                                                                    <td>
-                                                                                        <div className="actions">
-                                                                                            <Link
-                                                                                                to="/AdminPreConsultation"
-                                                                                                className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                                                                            >
-                                                                                                <span className="btn-icon icofont-stethoscope-alt" />
-                                                                                            </Link>
-                                                                                            <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                                                                                <span className="btn-icon icofont-ui-edit" />
-                                                                                                View Invoice
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            ))
-                                                                            : null}
+                                                                        <td>
+                                                                            <div className="btn-group">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                                    data-toggle="dropdown"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false"
+                                                                                >
+                                                                                    Action
+                                                                                </button>
+                                                                                <div className="dropdown-menu">
+
+                                                                                    <NavLink
+                                                                                        to={`/AdminPaymentForService`}
+                                                                                        className="btn btn-sm btn-block"
+                                                                                    >
+                                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                                    Pay for Services
+                                                                                    </NavLink>
+
+                                                                                    <NavLink
+                                                                                        to={`/AdminUploadServiceResult`}
+                                                                                        className="btn btn-sm btn-block"
+                                                                                    >
+                                                                                        <span className="btn-icon icofont-server mr-2" />
+                                                                                         Upload Results 
+                                                                                    </NavLink>
+
+                                                                                   
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </td>
+                                                                       
+
                                                                     </tbody>
                                                                 </table>
                                                             </div>
