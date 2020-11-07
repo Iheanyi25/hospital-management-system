@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./Components/FundingPaymentModes";
+import { Success } from "../../Components/Alerts";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -8,11 +9,27 @@ const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class AdminFundAccount extends React.Component {
+  state = {
+    email: "",
+    patientId: "",
+    success: false,
+  };
+
   componentDidMount() {
-    console.log(this.props.history.location)
+    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    console.log("user email", this.props.history.location.state.id, user.email);
+    this.setState({
+      patientId: this.props.history.location.state.id,
+      email: user.email,
+    });
   }
 
+  handleSuccess = () => {
+    this.setState({ success: true });
+  };
+
   render() {
+    // console.log("state", this.state);
     return (
       <>
         <PageLoader />
@@ -21,6 +38,13 @@ class AdminFundAccount extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+              <Success
+                history={this.props.history}
+                message="You have successfully funded this account"
+                nextRoute="/AdminManageAccounts"
+              />
+            ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>Fund Account</h3>
@@ -85,7 +109,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <PayOnline />
+                        <PayOnline
+                          details={this.state}
+                          handleSuccess={this.handleSuccess}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -93,7 +120,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
                       >
-                        <PayCash />
+                        <PayCash
+                          details={this.state}
+                          handleSuccess={this.handleSuccess}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -101,7 +131,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                       <Others />
+                        <Others
+                          details={this.state}
+                          handleSuccess={this.handleSuccess}
+                        />
                       </div>
                     </div>
                   </div>

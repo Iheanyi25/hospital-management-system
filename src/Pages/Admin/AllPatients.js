@@ -44,6 +44,7 @@ class AllPatients extends React.Component {
             <header className="page-header">
               <h4 className="page-title">Our Patients</h4>
             </header>
+
             <div className="page-content">
               <div className="card-body"></div>
             </div>
@@ -91,7 +92,7 @@ class AllPatients extends React.Component {
                                 <tr>
                                   <td>
                                     <img
-                                      src="./assets/content/user-40-1.jpg"
+                                      src="../assets/content/user-40-1.jpg"
                                       alt=""
                                       width={40}
                                       height={40}

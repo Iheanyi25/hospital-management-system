@@ -3,7 +3,8 @@ import { useRavePayment } from "react-ravepayment";
 import flutterwave1 from "../../assets/img/flutterwave1.svg";
 import flutterwave2 from "../../assets/img/flutterwave2.svg";
 
-const PayWithFlutter = ({ paymentDetails }) => {
+const PayWithFlutter = ({ paymentDetails, handleSuccess }) => {
+  let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
   const [details, setDetails] = useState({
     txref: "rave-123456",
     customer_email: "",
@@ -27,22 +28,23 @@ const PayWithFlutter = ({ paymentDetails }) => {
     e.preventDefault();
     initializePayment(onSuccess, onClose);
   };
+
   const onSuccess = (reference) => {
-    console.log(reference);
     handleSubmit(reference);
   };
 
   const handleSubmit = async (reference) => {
     let payload = {
       amount: paymentDetails.amount,
-      patientId: paymentDetails.patientId,
+      [`${userType === 'Admin' ? 'accountId':'patientId'}`]: paymentDetails.patientId,
       modeOfPayment: "online-flutterwave",
       transactionRefrence: reference.data.data.orderRef,
+      paymentDescription: paymentDetails.paymentDescription
     };
     console.log(payload);
     try {
       let res = await fetch(
-        "https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount",
+        `https://hms-tenece.azurewebsites.net/api/${userType}/Account/FundAccount`,
         {
           headers: { "Content-Type": "application/json-patch+json" },
           method: "POST",
@@ -50,7 +52,9 @@ const PayWithFlutter = ({ paymentDetails }) => {
           redirect: "follow",
         }
       );
-      console.log(res);
+      if (res.status === 200) {
+        handleSuccess(true)
+      }
     } catch (error) {
       console.log(error);
     }
