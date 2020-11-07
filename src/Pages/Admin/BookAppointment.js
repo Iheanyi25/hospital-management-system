@@ -92,7 +92,7 @@ class BookAppointment extends React.Component {
     render() {
 
         let {
-            doctor,
+            // doctor,
             patientEmail,
             appointmentDate,
             appointmentTime,
