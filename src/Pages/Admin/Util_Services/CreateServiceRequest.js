@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { PageLoader } from '../../../Components';
+import { MultipleSelect, PageLoader, SelectableDropDown } from '../../../Components';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
@@ -28,7 +28,6 @@ class CreateServiceRequest extends Component {
 	fetchServiceCategories = async () => {
 		let res = await fetch(apiUrl + '/Admin/GetAllServiceCategories');
 		const data = await res.json();
-		console.log({ data })
 		this.setState({ categories: data });
 	};
 
@@ -55,7 +54,6 @@ class CreateServiceRequest extends Component {
 			patientArray.push(element.patient);
 		});
 
-		console.log(patientArray)
 		this.setState({ patients: patientArray }, () => {
 			this.renderPicker('.custom-picker');
 		});
@@ -71,6 +69,7 @@ class CreateServiceRequest extends Component {
 	}
 
 	handleSelect = (e) => {
+		e.preventDefault();
 		if (this.state.patient) {
 			if (e.target.value) {
 				let valueContainer = document.getElementsByClassName('filter-option-inner-inner')[1];
@@ -78,13 +77,12 @@ class CreateServiceRequest extends Component {
 				let valueToPush = [];
 				let stateValue = this.state.values;
 
-				values.map((item, index) => {
+				return values.map((item, index) => {
 					if (stateValue.length > 0) {
 
-						stateValue.forEach(element => {
+						return stateValue.forEach(element => {
 							if (element.serviceId === e.target.value || element.service === item) return;
 							else {
-								console.log(element, item, e.target.value)
 								let newSelect = {
 									serviceId: e.target.value,
 									service: item,
@@ -93,11 +91,11 @@ class CreateServiceRequest extends Component {
 								};
 								valueToPush.push(newSelect);
 								this.setState({ values: [...this.state.values, ...valueToPush] });
+								return;
 							}
 						});
 					}
 					else {
-						console.log("second loop")
 						let newSelect = {
 							serviceId: e.target.value,
 							service: item,
@@ -106,10 +104,9 @@ class CreateServiceRequest extends Component {
 						};
 						valueToPush.push(newSelect);
 						this.setState({ values: [...this.state.values, ...valueToPush] });
+						return;
 					}
 				});
-
-				console.log(e.target.value, this.state.services)
 
 			}
 			return;
@@ -122,11 +119,13 @@ class CreateServiceRequest extends Component {
 	handleChange = (name, e) => {
 		let value = e.target.value;
 		if (name) {
-			this.setState({ [name]: value })
+			this.setState({ [name]: value }, () => console.log(this.state));
 		}
 		else {
+			console.log(value)
 			let fullData = value.split("#")
 			this.setState({ category: fullData[0], showServices: false });
+			console.log(fullData[1])
 			this.fetchServicesInACategory(fullData[1]);
 		}
 	};
@@ -134,7 +133,6 @@ class CreateServiceRequest extends Component {
 	deleteService = (index) => {
 		let serviceRequests = this.state.values;
 		serviceRequests.splice(index, 1);
-		console.log("the services remaining here is: ", serviceRequests);
 		this.setState({ values: serviceRequests })
 	}
 
@@ -162,7 +160,9 @@ class CreateServiceRequest extends Component {
 			body: JSON.stringify(payload),
 		});
 		const res = await request.json();
-		console.log(res);
+		console.log(payload, res);
+		alert(res.message);
+		this.props.history.push("/AdminManageServiceRequests");
 
 	}
 
@@ -184,91 +184,42 @@ class CreateServiceRequest extends Component {
 											<form className="mb-4 p-5 needs-validation">
 												<h4 className="text-center mt-0">Service request form</h4>
 
-												<div className="form-group">
-													<label>Patient</label>
+												<SelectableDropDown
+													itemKey={["id"]}
+													onChange={this.handleChange}
+													stateValue={this.state.patient}
+													stateKey={"patient"}
+													label={"Patient"}
+													data={this.state.patients}
+													search
+													valueKeys={["firstName", "lastName"]}
+												/>
 
-													<select className="custom-picker rounded form-control"
-														data-live-search="true"
-														onChange={(e) => this.handleChange("patient", e)}
-													>
-														<option disabled selected="true" value="">
-															{this.state.patients.length > 0
-																? 'Select Patient'
-																: 'Loading...'}
-															{/** added loading this.state to the form */}
-														</option>
-														{
-															this.state.patients.map((item, index) => {
-																return <option data-tokens={`${item.firstName} ${item.lastName}`} key={index} value={item.id}>{`${item.firstName} ${item.lastName}`}</option>
-															})
-														}
-													</select>
-												</div>
-
-												<div className="form-group">
-													<label>Service Category</label>
-													<select
-														className="form-control"
-														defaultValue={this.state.category}
-														onChange={(e) => {
-															this.handleChange(null, e);
-														}}
-													>
-														<option disabled selected="true" value="">
-															{this.state.categories.length > 0
-																? 'Select service category'
-																: 'Loading...'}
-															{/** added loading this.state to the form */}
-														</option>
-														{
-															this.state.categories.length > 0 &&
-															this.state.categories.map((category, i) => (
-																<option key={i} value={category.name + "#" + category.id}>
-																	{category.name}
-																</option>
-															))
-														}
-													</select>
-												</div>
+												<SelectableDropDown
+													itemKey={["name", "id"]}
+													onChange={this.handleChange}
+													stateValue={this.state.category}
+													stateKey={null}
+													label={"Service Category"}
+													data={this.state.categories}
+													valueKeys={["name"]}
+												/>
 
 												<div className="form-group">
 													<label>Comment / Description <span>(Optional)</span></label>
 													<textarea placeholder="Enter comments" defaultValue={this.state.description} className="form-control" onChange={(e) => this.setState({ description: e.target.value })} />
 												</div>
 
-												<div className="form-group">
-													<label>Services</label>
+												<MultipleSelect
+													data={this.state.services}
+													showServices={this.state.showServices}
+													itemKey={["name"]}
+													onChange={this.handleSelect}
+													label={"Services"}
+													valueKey={["id"]}
+													notAvailableText={"Please select a category to continue"}
+												/>
 
-													{
-														this.state.showServices ?
-															<div>
-
-																<select
-																	className="rounded custom-picker-services form-control"
-																	multiple="multiple"
-																	onChange={(e) => {
-																		this.handleSelect(e);
-																	}}
-																>
-																	<option disabled value="">
-																		{this.state.services.length > 0
-																			? 'Select service'
-																			: 'Loading...'}
-																		{/** added loading this.state to the form */}
-																	</option>
-																	{
-																		this.state.services.map((service, i) => (
-																			<option key={i} value={service.id}>
-																				{service.name}
-																			</option>
-																		))
-																	}
-																</select>
-															</div>
-															:
-															<p>Please select a category to continue</p>
-													}
-												</div>
 											</form>
 										</div>
 									</div>
