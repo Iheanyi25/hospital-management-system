@@ -64,7 +64,7 @@ class DoctorSidebar extends React.Component {
 									<li className="menu-item">
 										<Link className="item-link" to="/DoctorPatientsList">
 											<span className="link-icon icofont-paralysis-disability" />
-											<span className="link-text">Patients List</span>
+											<span className="link-text">Patients</span>
 										</Link>
 									</li>
 
