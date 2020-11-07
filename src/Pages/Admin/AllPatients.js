@@ -44,6 +44,7 @@ class AllPatients extends React.Component {
             <header className="page-header">
               <h4 className="page-title">Our Patients</h4>
             </header>
+            
             <div className="page-content">
               <div className="card-body"></div>
             </div>
