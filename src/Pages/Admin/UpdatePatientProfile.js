@@ -329,27 +329,59 @@ class UpdatePatientProfile extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+
           <div className="main-content-wrap">
+
+            <div className="row">
+              <div class="col-12 col-md-12 pb-5 mb-5">
+                <div class="card">
+                  <div class="card-body">
+                    <div className="col-12 alert alert-warning with-before-icon" role="alert">
+                      <div className="alert-icon"><i className="icofont-info-circle" /></div>
+                      <div className="alert-content row">
+                        <div className="col-md-9 text-center m-auto">
+                          <h6 className="m-0 p-0"> This Patient havent paid for Registration Fee Yet..His Access is limitied</h6>
+                        </div>
+                        <div className="col-md-3">
+                          <Link
+                            className="btn btn-block btn-primary"
+                            to={{
+                              pathname: `/AdminPatientRegistration/${this.state.patientId}`,
+                              state: { patientId: this.state.patientId, email: this.state.email },
+                            }}
+                          >
+                            Pay Now
+                        </Link>
+
+                        </div>
+
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {displayCoreDetailsSuccessNotification &&
               this.successNotification("Core Details successfully Updated")}
             {displayContactDetailsSuccessNotification &&
               this.successNotification("Contact Details successfully Updated")}
             {displayHealthDetailsSuccessNotification &&
               this.SuccessNotification("Health Details successfully Updated")}
-            <Link
-              className="btn btn-block btn-primary"
-              to={{
-                pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                state: {patientId: this.state.patientId, email: this.state.email},
-              }}
-            >
-              Pay
-            </Link>
+
+
             <header className="page-header">
               <h3 className="page-title">Update Patient Profile</h3>
             </header>
+
             <div className="page-content">
+
+
               <div className="row justify-content-center">
+
                 <div className="col-md-6">
                   <div className="card border-light">
                     <div className="card-body">

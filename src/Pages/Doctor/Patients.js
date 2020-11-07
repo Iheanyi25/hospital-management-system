@@ -102,34 +102,23 @@ class Patients extends React.Component {
                                                                 Action
                                                                     </button>
                                                             <div className="dropdown-menu text-left">
-                                                                <Link
-                                                                    title="Pre-consultation"
-                                                                    onClick={() =>
-                                                                        (window.location.href = `/DoctorConsultation`)
-                                                                    }
-                                                                    to={`/DoctorConsultation`}
-                                                                    className="btn btn-sm btn-block"
+                                                                <Link title="Pre-consultation" to={`/DoctorClarking`} className="btn btn-sm btn-block"
                                                                 >
                                                                     <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                         Go for Clarking
                                                                     </Link>
                                                                 <Link
                                                                     title="Pre-consultation"
-                                                                    onClick={() =>
-                                                                        (window.location.href = `/AdminPreConsultation`)
-                                                                    }
-                                                                    to={`/AdminPreConsultation`}
+                                                                    to={`#`}
                                                                     className="btn btn-sm btn-block"
                                                                 >
                                                                     <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                        Consultation History
+                                                                        Services History
                                                                     </Link>
                                                                 <Link
                                                                     title="Pre-consultation"
-                                                                    onClick={() =>
-                                                                        (window.location.href = `/AdminPreConsultation`)
-                                                                    }
-                                                                    to={`/AdminPreConsultation`}
+
+                                                                    to={`#`}
                                                                     className="btn btn-sm btn-block"
                                                                 >
                                                                     <span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -137,15 +126,22 @@ class Patients extends React.Component {
                                                                     </Link>
                                                                 <Link
                                                                     title="Pre-consultation"
-                                                                    onClick={() =>
-                                                                        (window.location.href = `/AdminUpdatePatientProfile`)
-                                                                    }
-                                                                    to={`/AdminUpdatePatientProfile`}
+
+                                                                    to={`#`}
                                                                     className="btn btn-sm btn-block"
                                                                 >
                                                                     <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                                                        View Profile
+                                                                        Clarking History
                                                                     </Link>
+                                                                <Link
+                                                                    title="Patient Profilr"
+
+                                                                    to={`#`}
+                                                                    className="btn btn-sm btn-block"
+                                                                >
+                                                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                                                        Patient Profile
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </td>

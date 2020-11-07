@@ -39,18 +39,46 @@ class AdminSidebar extends React.Component {
 											<span className="link-text">Dashboard</span>
 										</NavLink>
 									</li>
-									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminConsultationQueue">
+									
+									<li className="menu-item has-sub">
+										<NavLink to="#" className="item-link">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
-											<span className="link-text">Consutation Queue</span>
+											<span className="link-text">Consultations</span>{' '}
+											<span className="link-caret icofont-thin-right" />
 										</NavLink>
+										<ul className="sub">
+											<li className="menu-item">
+												<NavLink to="/AdminBookConsultation" className="item-link">
+													<span className="link-text">Book Consultation</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="/AdminConsultations" className="item-link">
+													<span className="link-text">Manage Consultations</span>
+												</NavLink>
+											</li>
+										</ul>
 									</li>
-									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminAppointments">
+									<li className="menu-item has-sub">
+										<NavLink to="#" className="item-link">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
-											<span className="link-text">Appointments</span>
+											<span className="link-text">Appointments</span>{' '}
+											<span className="link-caret icofont-thin-right" />
 										</NavLink>
-									</li>
+										<ul className="sub">
+											<li className="menu-item">
+												<NavLink to="/AdminBookAppointment" className="item-link">
+													<span className="link-text">Book Appointment</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="/AdminAppointments" className="item-link">
+													<span className="link-text">Manage Appointments</span>
+												</NavLink>
+											</li>
+										</ul>
+									</li>						
+									
 									<li className="menu-item">
 										<NavLink className="item-link" to="/AdminManageAccounts">
 											<span className="link-icon icofont-user" />{' '}
@@ -180,6 +208,24 @@ class AdminSidebar extends React.Component {
 									</li>
 									<li className="menu-item has-sub">
 										<NavLink to="#" className="item-link">
+											<span className="link-text">Service Requests</span>{' '}
+											<span className="link-caret icofont-thin-right" />
+										</NavLink>
+										<ul className="sub">
+											<li className="menu-item">
+												<NavLink to="/AdminServiceRequests" className="item-link">
+													<span className="link-text">Create a Service Request</span>
+												</NavLink>
+											</li>
+											<li className="menu-item">
+												<NavLink to="/AdminManageServiceRequests" className="item-link">
+													<span className="link-text">Manage Service Requests</span>
+												</NavLink>
+											</li>
+										</ul>
+									</li>
+									<li className="menu-item has-sub">
+										<NavLink to="#" className="item-link">
 											<span className="link-text">Services</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</NavLink>
@@ -220,24 +266,7 @@ class AdminSidebar extends React.Component {
 													</li>
 												</ul>
 											</li>
-											<li className="menu-item has-sub">
-												<NavLink to="#" className="item-link">
-													<span className="link-text">Service Requests</span>{' '}
-													<span className="link-caret icofont-thin-right" />
-												</NavLink>
-												<ul className="sub">
-													<li className="menu-item">
-														<NavLink to="/AdminServiceRequests" className="item-link">
-															<span className="link-text">Request a Service</span>
-														</NavLink>
-													</li>
-													<li className="menu-item">
-														<NavLink to="/AdminManageServiceRequests" className="item-link">
-															<span className="link-text">View All Requests</span>
-														</NavLink>
-													</li>
-												</ul>
-											</li>
+											
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
@@ -276,27 +305,7 @@ class AdminSidebar extends React.Component {
 											</li>
 										</ul>
 									</li>
-									<li className="menu-item">
-										<span className="group-title">Schedules Mgt.</span>
-									</li>
-									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
-											<span className="link-text">My Schedule</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</NavLink>
-										<ul className="sub">
-											<li className="menu-item">
-												<NavLink to="#" className="item-link">
-													<span className="link-text">Create a Schedule</span>
-												</NavLink>
-											</li>
-											<li className="menu-item">
-												<NavLink to="#" className="item-link">
-													<span className="link-text">Manage Schedules</span>
-												</NavLink>
-											</li>
-										</ul>
-									</li>
+									
 								</ul>
 							</nav>
 						</div>

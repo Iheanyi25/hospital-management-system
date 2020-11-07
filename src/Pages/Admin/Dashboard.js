@@ -16,13 +16,13 @@ class Dashboard extends React.Component {
 
 	async componentDidMount() {
 
-		const patientQueue = await fetch(`${this.state.apiUrl}/Admin/GetPatientConsultationList`);
+		const patientQueue = await fetch(`${this.state.apiUrl}/Admin/GetPatientConsultations`);
 		let data = await patientQueue.json()
-		this.setState({ doctorConsultations: data.patientQueue });
+		this.setState({ doctorConsultations: data.patientConsultations });
 
 		const doctorAppointments = await fetch(`${this.state.apiUrl}/Admin/GetDoctorAppointments`);
 		let tempData = await doctorAppointments.json()
-		this.setState({ doctorAppointments: tempData.result });
+		this.setState({ doctorAppointments: tempData.doctorsAppointments });
 
 	}
 

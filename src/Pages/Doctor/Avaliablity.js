@@ -7,65 +7,24 @@ class DoctorAvaliablity extends React.Component {
 
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
-      patientId: "",
-      patient: null,
-      firstName: "",
-      lastName: "",
-      otherNames: "",
-      dateOfBirth: "",
-      gender: "",
-
-      phoneNumber: "",
-      email: "",
-      address: "",
-      state: "",
-      country: "",
-
-      bloodGroup: "",
-      genoType: "",
-      diabetic: false,
-      allergies: "",
-      disabilities: "",
+      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      avaliablity: "",
     };
   }
 
   async componentDidMount() {
-    const { apiUrl } = this.state;
-    const { params } = this.props.match;
-    await this.setState({ patientId: params.id });
-    const response = await fetch(
-      `${apiUrl}/Admin/GetPatient?id=${this.state.patientId}`
-    );
-    const data = await response.json();
-    const response1 = await fetch(
-      `${apiUrl}/Admin/GetPatientProfile?id=${this.state.patientId}`
-    );
-    const data1 = await response1.json();
 
+    const { apiUrl } = this.state;
+    const response = await fetch(
+      `${apiUrl}/Doctor/GetDoctor?id=${this.state.doctorId}`
+    );
+
+    const data = response.json();
     this.setState({
-      patient: data,
-      firstName: data.patientProfile.firstName,
-      lastName: data.patientProfile.lastName,
-      otherNames: data.patientProfile.otherNames,
-      email: data.patientProfile.email,
+      doctor: data.doctorProfile,
     });
-    if (data1.patientProfile != null) {
-      console.log(data1.patientProfile.patientProfile);
-      this.setState({
-        dateOfBirth: data1.patientProfile.patientProfile.dateOfBirth,
-        gender: data1.patientProfile.patientProfile.gender,
-        phoneNumber:
-          data1.patientProfile.patientProfile.applicationUser.phoneNumber,
-        address: data1.patientProfile.patientProfile.address,
-        state: data1.patientProfile.patientProfile.state,
-        country: data1.patientProfile.patientProfile.country,
-        bloodGroup: data1.patientProfile.patientProfile.bloodGroup,
-        genoType: data1.patientProfile.patientProfile.genoType,
-        diabetic: data1.patientProfile.patientProfile.diabetic,
-        allergies: data1.patientProfile.patientProfile.allergies,
-        disabilities: data1.patientProfile.patientProfile.disabilities,
-      });
-    }
+
+
   }
 
   handleChange(name, e) {
@@ -75,135 +34,6 @@ class DoctorAvaliablity extends React.Component {
     });
   }
 
-  updateCoreDetails = async (e) => {
-    e.preventDefault();
-
-    try {
-      const {
-        apiUrl,
-        firstName,
-        lastName,
-        otherNames,
-        dateOfBirth,
-        gender,
-        patientId,
-      } = this.state;
-
-      const request = await fetch(`${apiUrl}/Admin/UpdatePatientBasicInfo`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          patientId,
-          firstName,
-          lastName,
-          otherNames,
-          dateOfBirth,
-          gender,
-        }),
-      });
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      //patient profile successfully updated
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  updateContactDetails = async (e) => {
-    e.preventDefault();
-
-    try {
-      const {
-        apiUrl,
-        phoneNumber,
-        email,
-        address,
-        state,
-        country,
-        patientId,
-      } = this.state;
-
-      const request = await fetch(
-        `${apiUrl}/Admin/UpdatePatientContactDetails`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            phoneNumber,
-            email,
-            address,
-            state,
-            country,
-          }),
-        }
-      );
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      //patient contact details successfully updated
-
-      const data = await request.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  updateHealthDetails = async (e) => {
-    e.preventDefault();
-
-    try {
-      const {
-        apiUrl,
-        bloodGroup,
-        genoType,
-        diabetic,
-        allergies,
-        disabilities,
-        patientId,
-      } = this.state;
-
-      const request = await fetch(
-        `${apiUrl}/Admin/UpdatePatientHealthDetails`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            bloodGroup,
-            genoType,
-            allergies,
-            disabilities,
-            diabetic,
-          }),
-        }
-      );
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      //patient contact details successfully updated
-
-      const data = await request.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   render() {
     return (

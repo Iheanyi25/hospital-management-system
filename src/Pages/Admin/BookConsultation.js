@@ -1,215 +1,302 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
 class BookConsultation extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
+    this.state = {
+      doctors: [],
+      patients: [],
+      doctorId: "",
+      patientId: "",
+      patientEmail: "",
+      consultationTitle: "",
+      reasonForConsultation: "",
+    };
+  }
 
-            apiUrl: process.env.REACT_APP_API_URL,
-            doctor: {},
-            doctorId: "",
-            patientEmail: "",
-            consultationTitle: "",
-            reasonForConsultation: "",
+  async componentDidMount() {
+    this.fetchDoctors();
+    this.fetchPatients();
+  }
 
-        };
-    }
+  renderPatientPicker() {
+    var select = $(".custom-patient-picker");
 
-    async componentDidMount() {
-        const { params } = this.props.match;
-
-        //grab the logged in user
-        this.setState({ doctorId: params.doctorId });
-
-        const data = await (await fetch(`${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`)).json()
-        this.setState({ doctor: data.doctor });
-    }
-
-    handleChange(name, e) {
-        const value = e.target.value;
-        this.setState({
-            [name]: value,
+    if (select.length) {
+      select.each(function () {
+        $(this).selectpicker({
+          style: "",
+          styleBase: "form-control",
+          tickIcon: "icofont-check-alt",
         });
+      });
+    }
+  }
+
+  renderDoctorPicker() {
+    var select = $(".custom-doctor-picker");
+
+    if (select.length) {
+      select.each(function () {
+        $(this).selectpicker({
+          style: "",
+          styleBase: "form-control",
+          tickIcon: "icofont-check-alt",
+        });
+      });
+    }
+  }
+
+  fetchPatients = async () => {
+    let res = await fetch(apiUrl + "/Patient/GetPatients");
+    const data = await res.json();
+    const patientArray = [];
+
+    data.patients.forEach((element) => {
+      patientArray.push(element.patient);
+    });
+
+    this.setState({ patients: patientArray }, () => {
+      this.renderPatientPicker();
+    });
+  };
+
+  fetchDoctors = async () => {
+    let res = await fetch(apiUrl + "/Doctor/GetDoctors");
+    const data = await res.json();
+    const doctorArray = [];
+
+    data.doctors.forEach((element) => {
+      doctorArray.push(element.doctor);
+    });
+
+    this.setState({ doctors: doctorArray }, () => {
+      this.renderDoctorPicker();
+    });
+  };
+
+  handleChange(name, e) {
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  async bookConsultation(e) {
+    e.preventDefault();
+
+    const {
+      consultationTitle,
+      reasonForConsultation,
+      patientId,
+      doctorId,
+    } = this.state;
+
+    try {
+      const request = await fetch(`${apiUrl}/Admin/BookConsultation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          consultationTitle,
+          reasonForConsultation,
+          patientId,
+          doctorId,
+        }),
+      });
+
+      if (!request.ok) {
+        const error = await request.json();
+        throw Error(error.message);
+      }
+
+      const data = await request.json();
+      console.log(data);
+      this.setState({
+        showSuccessMessage: true,
+        successMessage: data.message,
+        consultationTitle: "",
+        reasonForConsultation: "",
+      });
+    } catch (err) {
+      this.setState({ showErrorMessage: true, errorMessage: err.message });
+    }
+  }
+
+  render() {
+    let {
+      doctorId,
+      patientId,
+      consultationTitle,
+      patientEmail,
+      reasonForConsultation,
+    } = this.state;
+
+    let displayErrorMessage;
+    let displaySuccessMessage;
+
+    if (this.state.showErrorMessage) {
+      displayErrorMessage = (
+        <div className="alert alert-danger with-after-icon" role="alert">
+          <div className="alert-content">{this.state.errorMessage}</div>
+          <div className="alert-icon">
+            <i className="icofont-alarm" />
+          </div>
+        </div>
+      );
     }
 
-
-    async bookConsultation(e) {
-
-        e.preventDefault();
-
-        const { consultationTitle, reasonForConsultation, patientEmail, doctorId } = this.state;
-
-        try {
-            const request = await fetch(`${this.state.apiUrl}/Admin/AddPatientToQueue`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    consultationTitle,
-                    reasonForConsultation,
-                    patientEmail,
-                    doctorId
-                }),
-            });
-
-            if (!request.ok) {
-                const error = await request.json();
-                throw Error(error.message);
-            }
-
-            const data = await request.json();
-
-            this.setState({
-                showSuccessMessage: true,
-                successMessage: data.message,
-                consultationTitle: "",
-                reasonForConsultation: ""
-
-            });
-
-
-        } catch (err) {
-            this.setState({ showErrorMessage: true, errorMessage: err.message });
-        }
+    if (this.state.showSuccessMessage) {
+      displaySuccessMessage = (
+        <div className="alert alert-info with-after-icon" role="alert">
+          <div className="alert-content text-center">
+            {this.state.successMessage}
+          </div>
+          <div className="alert-icon">
+            <i className="icon icofont-ui-check" />
+          </div>
+        </div>
+      );
     }
 
-    render() {
+    return (
+      <>
+        <PageLoader />
 
-        let {
-            doctor,
-            consultationTitle,
-            patientEmail,
-            reasonForConsultation
-        } = this.state
+        <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          <div className="main-content-wrap">
+            <header className="page-header">
+              <h3 className="page-title">Book Consultation</h3>
+            </header>
+            <div className="page-content">
+              <div className="row justify-content-center">
+                <div className="col col-md-12">
+                  <div className="card border-light">
+                    <div className="card-body">
+                      <form className="mb-4">
+                        <h4>Consultation Form</h4>
 
-        let displayErrorMessage;
-        let displaySuccessMessage;
-
-        if (this.state.showErrorMessage) {
-            displayErrorMessage = (
-                <div className="alert alert-danger with-after-icon" role="alert">
-                    <div className="alert-content">{this.state.errorMessage}</div>
-                    <div className="alert-icon">
-                        <i className="icofont-alarm" />
-                    </div>
-                </div>
-            );
-        }
-
-        if (this.state.showSuccessMessage) {
-            displaySuccessMessage = (
-                <div className="alert alert-info with-after-icon" role="alert">
-                    <div className="alert-content text-center">
-                        {this.state.successMessage}
-                    </div>
-                    <div className="alert-icon">
-                        <i className="icon icofont-ui-check" />
-                    </div>
-                </div>
-            );
-
-        }
-
-        return (
-            <>
-                <PageLoader />
-
-                <main className="main-content">
-                    <div className="app-loader">
-                        <i className="icofont-spinner-alt-4 rotate" />
-                    </div>
-                    <div className="main-content-wrap">
-                        <header className="page-header">
-                            <h3 className="page-title">Book Consultation With Dr. {doctor.firstName} {doctor.lastName} </h3>
-                        </header>
-                        <div className="page-content">
-                            <div className="row justify-content-center">
-                                <div className="col col-md-12">
-                                    <div className="card border-light">
-                                        <div className="card-body">
-                                            <form className="mb-4">
-                                                <h4>Consultation Form</h4>
-
-                                                <div className="form-group">
-                                                    <label>Patient Email</label>
-
-                                                    <input
-                                                        className="form-control"
-                                                        placeholder="Patient Email"
-                                                        tabIndex={-98}
-                                                        onChange={(e) => this.handleChange("patientEmail", e)}
-                                                        value={patientEmail}
-                                                    />
-
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Title of Consultation</label>
-
-                                                    <input
-                                                        className="form-control"
-                                                        placeholder="Consulation Title"
-                                                        tabIndex={-98}
-                                                        onChange={(e) => this.handleChange("consultationTitle", e)}
-                                                        value={consultationTitle}
-                                                    />
-
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Reason for Consultation</label>{" "}
-                                                    <textarea
-                                                        className="form-control"
-                                                        rows={4}
-                                                        placeholder={"Reason for Consultation"}
-                                                        onChange={(e) => this.handleChange("reasonForConsultation", e)}
-                                                        value={reasonForConsultation}
-                                                    />
-                                                </div>
-                                                {displayErrorMessage}
-                                                {displaySuccessMessage}
-                                                <div className="row">
-                                                    <div className="col">
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-success"
-                                                            onClick={(e) => this.bookConsultation(e)}
-                                                            disabled={
-                                                                patientEmail === "" ||
-                                                                    reasonForConsultation === "" ||
-                                                                    consultationTitle === ""
-                                                                    ? true
-                                                                    : false
-                                                            }
-                                                        >
-                                                            Book Now
-                                                                    </button>
-                                                    </div>
-                                                    <div className="col text-right">
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-outline-danger"
-                                                        >
-                                                            <span className="d-none d-sm-block">
-                                                                Cancel
-                                                                         </span>{" "}
-                                                            <span className="d-sm-none">Cancel</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="form-group">
+                          <label>Select A Patient</label>
+                          <select
+                            className=" custom-patient-picker rounded form-control"
+                            data-live-search="true"
+                            value={patientId}
+                            onChange={(e) => this.handleChange("patientId", e)}
+                          >
+                            <option selected value="">
+                              Select a Patient
+                            </option>
+                            {this.state.patients.map((item, index) => {
+                              return (
+                                <option
+                                  key={index}
+                                  value={item.id}
+                                >{`${item.firstName} ${item.lastName}`}</option>
+                              );
+                            })}
+                          </select>
                         </div>
-                    </div>
-                </main>
 
-            </>
-        );
-    }
+                        <div className="form-group">
+                          <label>
+                            Select A Doctor(If you want this consultation to be
+                            assigned to a doctor)
+                          </label>
+                          <select
+                            className=" custom-doctor-picker rounded form-control"
+                            data-live-search="true"
+                            value={doctorId}
+                            onChange={(e) => this.handleChange("doctorId", e)}
+                          >
+                            <option selected value="">
+                              Select a Doctor
+                            </option>
+                            {this.state.doctors.map((item, index) => {
+                              return (
+                                <option
+                                  key={index}
+                                  value={item.id}
+                                >{`${item.firstName} ${item.lastName}`}</option>
+                              );
+                            })}
+                          </select>
+                        </div>
+
+                        <div className="form-group">
+                          <label>Title of Consultation</label>
+
+                          <input
+                            className="form-control"
+                            placeholder="Consulation Title"
+                            tabIndex={-98}
+                            onChange={(e) =>
+                              this.handleChange("consultationTitle", e)
+                            }
+                            value={consultationTitle}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Reason for Consultation</label>{" "}
+                          <textarea
+                            className="form-control"
+                            rows={4}
+                            placeholder={"Reason for Consultation"}
+                            onChange={(e) =>
+                              this.handleChange("reasonForConsultation", e)
+                            }
+                            value={reasonForConsultation}
+                          />
+                        </div>
+                        {displayErrorMessage}
+                        {displaySuccessMessage}
+                        <div className="row">
+                          <div className="col">
+                            <button
+                              type="button"
+                              className="btn btn-success"
+                              onClick={(e) => this.bookConsultation(e)}
+                              disabled={
+                                patientId === "" ||
+                                reasonForConsultation === "" ||
+                                consultationTitle === ""
+                                  ? true
+                                  : false
+                              }
+                            >
+                              Book Now
+                            </button>
+                          </div>
+                          <div className="col text-right">
+                            <button
+                              type="button"
+                              className="btn btn-outline-danger"
+                            >
+                              <span className="d-none d-sm-block">Cancel</span>{" "}
+                              <span className="d-sm-none">Cancel</span>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 }
 
 export default BookConsultation;
