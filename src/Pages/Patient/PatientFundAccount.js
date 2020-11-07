@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { PayWithPaystack, PayWithFlutter } from "../../Components/Payment";
+import { Success } from "../../Components/Alerts";
 
 class FundAccount extends React.Component {
   state = {
@@ -8,6 +9,7 @@ class FundAccount extends React.Component {
     amount: "",
     email: "",
     phoneNumber: "",
+    success: false,
   };
 
   componentDidMount() {
@@ -19,6 +21,10 @@ class FundAccount extends React.Component {
     });
   }
 
+  handleSuccess = () => {
+    this.setState({ success: true });
+  };
+
   render() {
     return (
       <>
@@ -28,6 +34,13 @@ class FundAccount extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+              <Success
+                history={this.props.history}
+                message="Thank you. You have successfully funded your account"
+                nextRoute="/patient/PatientDashboard"
+              />
+            ) : null}
           <div className="main-content-wrap w-50">
             <div className="page-content">
               <div className="row justify-content-center">
@@ -63,8 +76,14 @@ class FundAccount extends React.Component {
                         <div className="m-auto">
                           <label>Pay with</label>
                           <div className="row">
-                            <PayWithPaystack paymentDetails={this.state} />
-                            <PayWithFlutter paymentDetails={this.state} />
+                            <PayWithPaystack
+                              paymentDetails={this.state}
+                              handleSuccess={this.handleSuccess}
+                            />
+                            <PayWithFlutter
+                              paymentDetails={this.state}
+                              handleSuccess={this.handleSuccess}
+                            />
                           </div>
                         </div>
                       </form>
