@@ -22,7 +22,7 @@ class AdminManageAccounts extends React.Component {
   fecthAllAcounts = async () => {
     const response = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`);
     const data = await response.json();
-    console.log(data);
+    console.log(data.accounts);
     this.setState({ accounts: data.accounts });
   };
 
@@ -33,7 +33,7 @@ class AdminManageAccounts extends React.Component {
 
   render() {
     const { accounts } = this.state;
-    console.log(this.props, "restashznvusdhf")
+    console.log(this.props, "restashznvusdhf");
 
     return (
       <>
@@ -154,8 +154,7 @@ class AdminManageAccounts extends React.Component {
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
-                                        {account?.healthplan ??
-                                          "None selected yet"}
+                                        {account.healthPlan.name}
                                       </div>
                                     </td>
                                     <td>
@@ -175,7 +174,6 @@ class AdminManageAccounts extends React.Component {
                                           Action
                                         </button>
                                         <div className="dropdown-menu text-left">
-                                          
                                           <NavLink
                                             to={{
                                               pathname: `/AdminFundAccount/${account.id}`,
