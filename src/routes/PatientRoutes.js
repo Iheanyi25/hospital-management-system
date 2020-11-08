@@ -11,6 +11,9 @@ import PatientDoctorProfile from "../Pages/Patient/DoctorProfile";
 import PatientAccount from "../Pages/Patient/Account";
 import { PatientLayout } from '../Components/Layout';
 import PatientFundAccount from '../Pages/Patient/PatientFundAccount';
+import PatientProfile from '../Pages/Patient/PatientProfile';
+import PatientPreConsultationHistory from '../Pages/Patient/PreConsultationHistory';
+import PatientClarkingHistory from '../Pages/Patient/ClarkingHistory';
 
 export default function PatientRoutes() {
     return (
@@ -27,6 +30,10 @@ export default function PatientRoutes() {
                     <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
                     <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
                     <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
+
+                    <Route exact path="/PatientProfile" component={PatientProfile} />
+                    <Route exact path="/PatientPreConsultationHistory" component={PatientPreConsultationHistory} />
+                    <Route exact path="/PatientClarkingHistory" component={PatientClarkingHistory} />
 
                     <Route exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
 

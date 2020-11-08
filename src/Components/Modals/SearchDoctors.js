@@ -112,31 +112,14 @@ class SearchDoctorsModal extends React.Component {
 							</div>
 							<div className="modal-body">
 								<form>
-									<div className="form-group">
-										<input
-											className="form-control"
-											value={this.state.firstName}
-											onChange={(e) => this.handleChange('firstName', e)}
-											type="text"
-											placeholder="Location"
-										/>
-									</div>
-									<div className="form-group">
-										<input
-											className="form-control"
-											value={this.state.lastName}
-											onChange={(e) => this.handleChange('lastName', e)}
-											type="text"
-											placeholder="Speciality"
-										/>
-									</div>
+									
 									<div className="form-group">
 										<input
 											className="form-control"
 											value={this.state.email}
 											onChange={(e) => this.handleChange('email', e)}
 											type="email"
-											placeholder="Doctor Name or Email"
+											placeholder="Enter Doctor Name"
 										/>
 									</div>
 								</form>
@@ -157,7 +140,7 @@ class SearchDoctorsModal extends React.Component {
 												: false
 										}
 									>
-										Fetch Doctors
+									 View Doctor Profile
 									</button>
 								</div>
 							</div>

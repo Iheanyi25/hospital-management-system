@@ -114,7 +114,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-1.jpg"
+															src="../assets/content/user-40-1.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
@@ -162,7 +162,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-2.jpg"
+															src="../assets/content/user-40-2.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
@@ -208,7 +208,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-3.jpg"
+															src="../assets/content/user-40-3.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
@@ -256,7 +256,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-4.jpg"
+															src="../assets/content/user-40-4.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
@@ -304,7 +304,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-5.jpg"
+															src="../assets/content/user-40-5.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
@@ -352,7 +352,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-6.jpg"
+															src="../assets/content/user-40-6.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
@@ -398,7 +398,7 @@ class Dashboard extends React.Component {
 												<tr>
 													<td>
 														<img
-															src="./assets/content/user-40-7.jpg"
+															src="../assets/content/user-40-7.jpg"
 															width={40}
 															height={40}
 															className="rounded-500"
