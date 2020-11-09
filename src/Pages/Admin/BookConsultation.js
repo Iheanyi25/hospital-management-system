@@ -60,7 +60,8 @@ class BookConsultation extends React.Component {
     data.patients.forEach((element) => {
       patientArray.push(element.patient);
     });
-
+    console.log("dd");
+    console.log(patientArray);
     this.setState({ patients: patientArray }, () => {
       this.renderPatientPicker();
     });

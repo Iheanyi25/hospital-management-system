@@ -4,14 +4,14 @@ import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
+const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 class Consultations extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientConsultations: null,
       canceledConsultations: [],
       completedConsultations: [],
@@ -23,9 +23,8 @@ class Consultations extends React.Component {
     var canceledConsultations = [];
     var completedConsultations = [];
     var pendingConsultations = [];
-    const { apiUrl } = this.state;
     const response = await fetch(
-      `${apiUrl}/Admin/GetAllConsultations?PatientId=${this.state.patientId}`
+      `${apiUrl}/Patient/GetAllConsultations?PatientId=${patientId}`
     );
     const data = await response.json();
     console.log(data);
@@ -245,12 +244,7 @@ class Consultations extends React.Component {
                                         {queue.patient.email}
                                       </div>
                                     </td>
-                                    <td>
-                                      {
-                                        queue.patientConsultations
-                                          .reasonForConsultation
-                                      }
-                                    </td>
+                                    <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
                                         10 Feb 2018
@@ -278,9 +272,7 @@ class Consultations extends React.Component {
                                             type="button"
                                             className="btn btn-success"
                                             onClick={(e) =>
-                                              this.cancelConsultation(
-                                                queue.patientConsultations.id
-                                              )
+                                              this.cancelConsultation(queue.id)
                                             }
                                           >
                                             Cancel Consultation
@@ -288,9 +280,9 @@ class Consultations extends React.Component {
                                           <Link
                                             title="Cancel Consultation"
                                             onClick={() =>
-                                              (window.location.href = `/AdminPreConsultation/${queue.patientConsultations.id}`)
+                                              (window.location.href = `/AdminPreConsultation/${queue.id}`)
                                             }
-                                            to={`/AdminPreConsultation/${queue.patientConsultations.id}`}
+                                            to={`/AdminPreConsultation/${queue.id}`}
                                             className="btn btn-sm btn-block"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -299,9 +291,9 @@ class Consultations extends React.Component {
                                           <Link
                                             title="Pre-consultation"
                                             onClick={() =>
-                                              (window.location.href = `/AdminPreConsultation/${queue.patientConsultations.id}`)
+                                              (window.location.href = `/AdminPreConsultation/${queue.id}`)
                                             }
-                                            to={`/AdminPreConsultation/${queue.patientConsultations.id}`}
+                                            to={`/AdminPreConsultation/${queue.id}`}
                                             className="btn btn-sm btn-block"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -310,9 +302,9 @@ class Consultations extends React.Component {
                                           <Link
                                             title="Pre-consultation"
                                             onClick={() =>
-                                              (window.location.href = `/AdminUpdatePatientProfile/${queue.patientConsultations.id}`)
+                                              (window.location.href = `/AdminUpdatePatientProfile/${queue.id}`)
                                             }
-                                            to={`/AdminUpdatePatientProfile/${queue.patientConsultations.id}`}
+                                            to={`/AdminUpdatePatientProfile/${queue.id}`}
                                             className="btn btn-sm btn-block"
                                           >
                                             <span className="btn-icon icofont-ui-edit  mr-2" />{" "}

@@ -1,13 +1,15 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
+const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
+
 class BookAppointment extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+
       doctor: "",
 
       doctorProfile: "",
@@ -28,12 +30,11 @@ class BookAppointment extends React.Component {
 
     const data = await (
       await fetch(
-        `${this.state.apiUrl}/Patient/ViewADoctorProfile?DoctorId=${params.doctorId}`
+        `${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`
       )
     ).json();
     this.setState({
-      doctor: data.doctorProfile.applicationUser,
-      doctorProfile: data.doctorProfile.doctorProfile,
+      doctor: data,
     });
   }
 
@@ -142,8 +143,7 @@ class BookAppointment extends React.Component {
           <div className="main-content-wrap">
             <header className="page-header">
               <h3 className="page-title">
-                Book Appointment With Dr. {doctor.firstName}{" "}
-                {doctor.lastName}
+                Book Appointment With Dr. {doctor.firstName} {doctor.lastName}
               </h3>
             </header>
             <div className="page-content">
@@ -223,24 +223,22 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                  appointmentTime === "" ||
-                                  reasonForAppointment === "" ||
-                                  appointmentTitle === ""
+                                appointmentTime === "" ||
+                                reasonForAppointment === "" ||
+                                appointmentTitle === ""
                                   ? true
                                   : false
                               }
                             >
                               Book Appointment
-                                </button>
+                            </button>
                           </div>
                           <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-outline-danger"
                             >
-                              <span className="d-none d-sm-block">
-                                Cancel
-                                  </span>{" "}
+                              <span className="d-none d-sm-block">Cancel</span>{" "}
                               <span className="d-sm-none">Cancel</span>
                             </button>
                           </div>
@@ -253,7 +251,6 @@ class BookAppointment extends React.Component {
             </div>
           </div>
         </main>
-
       </>
     );
   }
