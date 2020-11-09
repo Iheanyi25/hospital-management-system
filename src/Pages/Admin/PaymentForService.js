@@ -14,18 +14,21 @@ $.Datatable = require("datatables.net");
 class PaymentForService extends React.Component {
   constructor(props) {
     super(props);
+    this.myRef = [];
 
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
       services: [],
       invoiceId: "",
       selectedServices: [],
+      amount: 0,
     };
   }
 
   componentDidMount() {
     this.getSerivices().then(() => this.sync());
     this.setState({ invoiceId: this.props.history.location.state });
+
     // console.log(this.props.history.location.state);
   }
 
@@ -36,7 +39,11 @@ class PaymentForService extends React.Component {
     );
     const data = await response.json();
     console.log(data);
-    this.setState({ services: data.serviceRequest });
+    this.setState({
+      services: data.serviceRequest,
+      selectedServices: data.serviceRequest,
+    });
+    this.calculateAmount();
   }
 
   sync() {
@@ -54,13 +61,19 @@ class PaymentForService extends React.Component {
             (item) => item.id !== services.id
           ),
         });
-    // console.log(e.target, e.target.checked);
-    // console.log(services);
+    this.calculateAmount();
+  };
+
+  calculateAmount = () => {
+    this.setState((state, props) => ({
+      amount: state.selectedServices.reduce((amount, service) => {
+        return amount + service.cost;
+      }, 0),
+    }));
   };
 
   render() {
     console.log(this.state.services);
-    console.log(this.state.selectedServices);
     return (
       <>
         <PageLoader />
@@ -75,12 +88,7 @@ class PaymentForService extends React.Component {
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-              <h4 className="text-info">{`NGN ${this.state.selectedServices.reduce(
-                (amount, service) => {
-                  return amount + service.cost;
-                },
-                0
-              )}`}</h4>
+              <h4 className="text-info">{`NGN ${this.state.amount}`}</h4>
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -105,9 +113,18 @@ class PaymentForService extends React.Component {
                                   <div className="custom-control custom-checkbox mb-3 mt-2">
                                     <input
                                       type="checkbox"
+                                      // ref={(ref) => {
+                                      //   this.myRef[index] = ref;
+                                      //   return true;
+                                      // }}
+                                      defaultChecked={true}
                                       className="custom-control-input"
                                       onChange={(e) =>
-                                        this.onServiceSelected(e, service)
+                                        this.onServiceSelected(
+                                          e,
+                                          service,
+                                          index
+                                        )
                                       }
                                       id={`customCheck1${index}`}
                                     />{" "}
