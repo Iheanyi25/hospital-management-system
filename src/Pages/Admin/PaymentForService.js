@@ -16,20 +16,27 @@ class PaymentForService extends React.Component {
     super(props);
 
     this.state = {
-      patients: [],
       apiUrl: process.env.REACT_APP_API_URL,
+      services: [],
+      invoiceId: "",
+      selectedServices: [],
     };
   }
 
   componentDidMount() {
-    this.getAllPatients().then(() => this.sync());
+    this.getSerivices().then(() => this.sync());
+    this.setState({ invoiceId: this.props.history.location.state });
+    // console.log(this.props.history.location.state);
   }
 
-  async getAllPatients() {
+  async getSerivices() {
     const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
+    const response = await fetch(
+      `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state}`
+    );
     const data = await response.json();
-    this.setState({ patients: data.patients });
+    console.log(data);
+    this.setState({ services: data.serviceRequest });
   }
 
   sync() {
@@ -37,7 +44,23 @@ class PaymentForService extends React.Component {
     this.$el.DataTable();
   }
 
+  onServiceSelected = (e, services) => {
+    e.target.checked
+      ? this.setState({
+          selectedServices: [...this.state.selectedServices, services],
+        })
+      : this.setState({
+          selectedServices: this.state.selectedServices.filter(
+            (item) => item.id !== services.id
+          ),
+        });
+    // console.log(e.target, e.target.checked);
+    // console.log(services);
+  };
+
   render() {
+    console.log(this.state.services);
+    console.log(this.state.selectedServices);
     return (
       <>
         <PageLoader />
@@ -52,7 +75,12 @@ class PaymentForService extends React.Component {
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-              <h4 className="text-info">NGN 5000</h4>
+              <h4 className="text-info">{`NGN ${this.state.selectedServices.reduce(
+                (amount, service) => {
+                  return amount + service.cost;
+                },
+                0
+              )}`}</h4>
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -62,117 +90,113 @@ class PaymentForService extends React.Component {
                       <div className="card bg-light">
                         <div className="card-body p-5 m-auto">
                           <h4>Services requested</h4>
-                          <div className="d-flex justify-content-between border-bottom p-3">
-                            <div>
-                              <h5 className="m-0 font-weight-light">Service Name</h5>
-                              <h6 className="mt-0 font-weight-light text-info">3000</h6>
-                            </div>
-                            <div className="custom-control custom-checkbox mb-3 mt-2">
-                              <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck1"
-                              />{" "}
-                              <label
-                                className="custom-control-label"
-                                for="customCheck1"
-                              ></label>
-                            </div>
-                          </div>
-                          <div className="d-flex justify-content-between border-bottom p-3">
-                            <div>
-                              <h5 className="m-0 font-weight-light">Service Name</h5>
-                              <h6 className="mt-0 font-weight-light text-info">3000</h6>
-                            </div>
-                            <div className="custom-control custom-checkbox mb-3 mt-2">
-                              <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck2"
-                              />{" "}
-                              <label
-                                className="custom-control-label"
-                                for="customCheck2"
-                              ></label>
-                            </div>
-                          </div>
+                          {this.state.services.length > 0 &&
+                            this.state.services.map((service, index) => {
+                              return (
+                                <div className="d-flex justify-content-between border-bottom p-3">
+                                  <div>
+                                    <h5 className="m-0 font-weight-light">
+                                      {service?.serviceName}
+                                    </h5>
+                                    <h6 className="mt-0 font-weight-light text-info">
+                                      {service?.cost}
+                                    </h6>
+                                  </div>
+                                  <div className="custom-control custom-checkbox mb-3 mt-2">
+                                    <input
+                                      type="checkbox"
+                                      className="custom-control-input"
+                                      onChange={(e) =>
+                                        this.onServiceSelected(e, service)
+                                      }
+                                      id={`customCheck1${index}`}
+                                    />{" "}
+                                    <label
+                                      className="custom-control-label"
+                                      for={`customCheck1${index}`}
+                                    ></label>
+                                  </div>
+                                </div>
+                              );
+                            })}
                         </div>
                       </div>
                     </div>
                     <div className="col-12 col-md-6">
-                  <div>
-                    <ul
-                      className="nav nav-pills nav-fill mb-3"
-                      id="pills-tab"
-                      role="tablist"
-                    >
-                      <li className="nav-item">
-                        <a
-                          className="nav-link active"
-                          id="pills-active-tab"
-                          data-toggle="pill"
-                          href="#pills-active"
-                          role="tab"
-                          aria-controls="pills-active"
-                          aria-selected="true"
+                      <div>
+                        <ul
+                          className="nav nav-pills nav-fill mb-3"
+                          id="pills-tab"
+                          role="tablist"
                         >
-                          Pay online
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="nav-link"
-                          id="pills-accepted-tab"
-                          data-toggle="pill"
-                          href="#pills-accepted"
-                          role="tab"
-                          aria-controls="pills-accepted"
-                          aria-selected="false"
-                        >
-                          Pay cash
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="nav-link"
-                          id="pills-completed-tab"
-                          data-toggle="pill"
-                          href="#pills-completed"
-                          role="tab"
-                          aria-controls="pills-completed"
-                          aria-selected="false"
-                        >
-                          Other options
-                        </a>
-                      </li>
-                    </ul>
-                    <div className="tab-content" id="pills-tabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="pills-active"
-                        role="tabpanel"
-                        aria-labelledby="pills-active-tab"
-                      >
-                        <PayOnline />
-                      </div>
-                      <div
-                        className="tab-pane fade"
-                        id="pills-accepted"
-                        role="tabpanel"
-                        aria-labelledby="pills-accepted-tab"
-                      >
-                        <PayCash />
-                      </div>
-                      <div
-                        className="tab-pane fade"
-                        id="pills-completed"
-                        role="tabpanel"
-                        aria-labelledby="pills-completed-tab"
-                      >
-                        <Others />
+                          <li className="nav-item">
+                            <a
+                              className="nav-link active"
+                              id="pills-active-tab"
+                              data-toggle="pill"
+                              href="#pills-active"
+                              role="tab"
+                              aria-controls="pills-active"
+                              aria-selected="true"
+                            >
+                              Pay online
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a
+                              className="nav-link"
+                              id="pills-accepted-tab"
+                              data-toggle="pill"
+                              href="#pills-accepted"
+                              role="tab"
+                              aria-controls="pills-accepted"
+                              aria-selected="false"
+                            >
+                              Pay cash
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a
+                              className="nav-link"
+                              id="pills-completed-tab"
+                              data-toggle="pill"
+                              href="#pills-completed"
+                              role="tab"
+                              aria-controls="pills-completed"
+                              aria-selected="false"
+                            >
+                              Other options
+                            </a>
+                          </li>
+                        </ul>
+                        <div className="tab-content" id="pills-tabContent">
+                          <div
+                            className="tab-pane fade show active"
+                            id="pills-active"
+                            role="tabpanel"
+                            aria-labelledby="pills-active-tab"
+                          >
+                            <PayOnline />
+                          </div>
+                          <div
+                            className="tab-pane fade"
+                            id="pills-accepted"
+                            role="tabpanel"
+                            aria-labelledby="pills-accepted-tab"
+                          >
+                            <PayCash />
+                          </div>
+                          <div
+                            className="tab-pane fade"
+                            id="pills-completed"
+                            role="tabpanel"
+                            aria-labelledby="pills-completed-tab"
+                          >
+                            <Others />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div></div>
                   </div>
                 </div>
               </div>
