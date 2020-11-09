@@ -3,6 +3,8 @@ import paystack1 from "../../assets/img/paystack-icon1.svg";
 import paystack2 from "../../assets/img/paystack-icon2.svg";
 import { usePaystackPayment } from "react-paystack";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const PayWithPaystack = ({ paymentDetails, handleSuccess }) => {
   let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
 
@@ -43,17 +45,14 @@ const PayWithPaystack = ({ paymentDetails, handleSuccess }) => {
     };
     console.log(payload);
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/${userType}/Account/FundAccount`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      let res = await fetch(`${apiUrl}/${userType}/Account/FundAccount`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify(payload),
+        redirect: "follow",
+      });
       if (res.status === 200) {
-        handleSuccess(true)
+        handleSuccess(true);
       }
     } catch (error) {
       console.log(error);

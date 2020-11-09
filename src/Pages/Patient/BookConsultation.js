@@ -1,18 +1,16 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
-const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
-
 class BookConsultation extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       apiUrl: process.env.REACT_APP_API_URL,
       doctor: "",
       doctorProfile: "",
       doctorId: "",
-
       consultationTitle: "",
       reasonForConsultation: "",
     };
@@ -45,7 +43,12 @@ class BookConsultation extends React.Component {
   async bookConsultation(e) {
     e.preventDefault();
 
-    const { consultationTitle, reasonForConsultation, doctorId } = this.state;
+    const {
+      consultationTitle,
+      reasonForConsultation,
+      doctorId,
+      patientId,
+    } = this.state;
 
     try {
       const request = await fetch(
