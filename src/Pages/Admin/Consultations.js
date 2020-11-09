@@ -53,7 +53,7 @@ class Consultations extends React.Component {
 
     let response1 = await fetch(`${apiUrl}/Admin/GetPatientConsultationCount`);
     const data1 = await response1.json();
-
+    console.log(data1);
     let response2 = await fetch(`${apiUrl}/Admin/GetPatientsUnattendedToCount`);
     const data2 = await response2.json();
 
@@ -62,9 +62,7 @@ class Consultations extends React.Component {
 
     this.setState({ consultations: data.patientConsultations });
 
-    data.patientConsultations.forEach((consultation) => {
-      console.log(consultation);
-      console.log(consultation.doctorId);
+    data.consultations.forEach((consultation) => {
       if (consultation.isCompleted === true) {
         patientsAttendedTo.push(consultation);
       } else if (consultation.doctorId == undefined) {
@@ -76,12 +74,13 @@ class Consultations extends React.Component {
 
     this.setState({
       patientsOnOpenList: patientsOnOpenList,
-      patientsOnOpenListCount: data1.patientConsultationsCount,
+      patientsOnOpenListCount: data1.consultationCount,
       patientsAttachedToDoctors: patientsAttachedToDoctors,
-      patientsAttachedToDoctorsCount: data2.patientConsultationsCount,
+      patientsAttachedToDoctorsCount: data2.consultationCount,
       patientsAttendedTo: patientsAttendedTo,
-      patientsAttendedToCount: data3.patientConsultationsCount,
+      patientsAttendedToCount: data3.consultationCount,
     });
+    console.log(this.state);
   }
 
   render() {
