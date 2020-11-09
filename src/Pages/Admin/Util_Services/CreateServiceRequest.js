@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PageLoader } from '../../../Components';
+import { Success } from '../../../Components/Alerts';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
@@ -17,7 +18,8 @@ class CreateServiceRequest extends Component {
 		rerender: "",
 		patient: "",
 		description: "",
-		showServices: false
+		showServices: false,
+		success: false
 	}
 
 	componentDidMount() {
@@ -163,6 +165,9 @@ class CreateServiceRequest extends Component {
 		});
 		const res = await request.json();
 		console.log(res);
+		if (res.message === "Service Request submitted successfully") {
+			this.setState({ success: true });
+		}
 
 	}
 
@@ -175,6 +180,13 @@ class CreateServiceRequest extends Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
+					{this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully requested this service"
+							nextRoute="/AdminManageServiceRequests"
+						/>
+					) : null}
 					<div className="main-content-wrap">
 						<div className="page-content">
 							<div className="row">
