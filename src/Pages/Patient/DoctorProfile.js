@@ -50,14 +50,14 @@ class DoctorProfile extends React.Component {
                 <div className="col col-12 col-md-6 mb-md-0">
                   <div className="card bg-light personal-info-card">
                     <img
-                      src="../assets/content/user-profile.jpg"
+                      src="../../assets/content/user-profile.jpg"
                       className="card-img-top"
                       alt="hello"
                     />
                     <div className="card-body">
                       <div className="d-flex align-items-center justify-content-between mb-3 user-actions">
                         <img
-                          src="../assets/content/user-400-1.jpg"
+                          src="../../assets/content/user-400-1.jpg"
                           width={100}
                           height={100}
                           className="rounded-500 mr-4"
