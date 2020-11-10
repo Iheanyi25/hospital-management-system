@@ -18,6 +18,7 @@ const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKey
     }
 
     useEffect(() => {
+        console.log(data)
         setJquery();
     }, [data]);
 
@@ -36,7 +37,6 @@ const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKey
     }
 
     const generatePath = (item, keys) => {
-        console.log(item, keys);
         let returnString = "";
 
         keys.forEach((element, index) => {

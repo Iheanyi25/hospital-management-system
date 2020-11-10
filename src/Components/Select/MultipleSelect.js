@@ -8,8 +8,10 @@ selectBasic = selectBasic.toString().replace(".", "_");
 const MultipleSelect = ({ data, showServices, label, itemKey, onChange, valueKey, notAvailableText }) => {
 
     useEffect(() => {
+        console.log("the data from the useEffect", data)
+
         setJquery();
-    }, [showServices]);
+    }, [showServices, label, data]);
 
     const setJquery = async () => {
         interval = setInterval(() => {
@@ -35,6 +37,12 @@ const MultipleSelect = ({ data, showServices, label, itemKey, onChange, valueKey
         }
     }
 
+    const handleChangeThis = (e) => {
+        onChange(`#select_${selectBasic}`, e);
+        console.log(e)
+        setJquery();
+    }
+
     return (
         <div className="form-group">
             <label>{label}</label>
@@ -47,9 +55,8 @@ const MultipleSelect = ({ data, showServices, label, itemKey, onChange, valueKey
                             className="rounded form-control"
                             multiple="multiple"
                             id={`select_${selectBasic}`}
-                            onChange={(e) => {
-                                onChange(e);
-                            }}
+                            onChange={(e) => { handleChangeThis(e); }}
+                        // onChange={(e) => { onChange(e); }}
                         >
                             <option disabled value="">
                                 {
@@ -62,8 +69,9 @@ const MultipleSelect = ({ data, showServices, label, itemKey, onChange, valueKey
                             {
 
                                 data.map((item, i) => (
-                                    <option key={i} value={item[valueKey]}>
-                                        {item[itemKey]}
+                                    <option key={i} value={item[itemKey]}>
+                                        {item[valueKey]}
+                                        {/* valueKeys.map((key) => (item[key] + " ")) */}
                                     </option>
                                 ))
                             }

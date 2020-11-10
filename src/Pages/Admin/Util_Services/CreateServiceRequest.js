@@ -5,6 +5,9 @@ import { MultipleSelect, PageLoader, SelectableDropDown } from '../../../Compone
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
+let selectBasic = Math.random();
+selectBasic = selectBasic.toString().replace(".", "_");
+
 class CreateServiceRequest extends Component {
 
 	state = {
@@ -26,10 +29,11 @@ class CreateServiceRequest extends Component {
 	}
 
 	fetchServiceCategories = async () => {
-		let res = await fetch(apiUrl + '/Admin/GetAllServiceCategories');
-		const data = await res.json();
+		let repsonse = await fetch(apiUrl + '/Admin/GetAllServiceCategories');
+		const data = await repsonse.json();
 		this.setState({ categories: data });
 	};
+
 
 	renderPicker(customClass) {
 		var select = $(customClass);
@@ -68,15 +72,24 @@ class CreateServiceRequest extends Component {
 		})
 	}
 
-	handleSelect = (e) => {
+	handleSelect = (elem, e) => {
 		e.preventDefault();
 		if (this.state.patient) {
 			if (e.target.value) {
+
 				let valueContainer = document.getElementsByClassName('filter-option-inner-inner')[1];
+				// console.log($(elem)[0], elem);
+
+				// console.log(document.getElementsByClassName('filter-option-inner-inner')[1].innerText)
+
+				// console.log(e.target.innerHTML);
+				// let valueContainer = elem;
+
 				let values = valueContainer.innerText.split(',');
 				let valueToPush = [];
 				let stateValue = this.state.values;
 
+				// console.log(e.target.value, values, stateValue);
 				return values.map((item, index) => {
 					if (stateValue.length > 0) {
 
@@ -90,6 +103,7 @@ class CreateServiceRequest extends Component {
 									index
 								};
 								valueToPush.push(newSelect);
+								console.log("the values to  be pushed: 1", valueToPush)
 								this.setState({ values: [...this.state.values, ...valueToPush] });
 								return;
 							}
@@ -103,7 +117,10 @@ class CreateServiceRequest extends Component {
 							index
 						};
 						valueToPush.push(newSelect);
-						this.setState({ values: [...this.state.values, ...valueToPush] });
+
+						console.log("the values to  be pushed: 2", valueToPush);
+						console.log({ valueContainer })
+						this.setState({ values: valueToPush });
 						return;
 					}
 				});
@@ -122,7 +139,7 @@ class CreateServiceRequest extends Component {
 			this.setState({ [name]: value }, () => console.log(this.state));
 		}
 		else {
-			console.log(value)
+			console.log(name, value)
 			let fullData = value.split("#")
 			this.setState({ category: fullData[0], showServices: false });
 			console.log(fullData[1])
@@ -213,10 +230,10 @@ class CreateServiceRequest extends Component {
 												<MultipleSelect
 													data={this.state.services}
 													showServices={this.state.showServices}
-													itemKey={["name"]}
+													itemKey={"id"}
 													onChange={this.handleSelect}
 													label={"Services"}
-													valueKey={["id"]}
+													valueKey={"name"}
 													notAvailableText={"Please select a category to continue"}
 												/>
 
