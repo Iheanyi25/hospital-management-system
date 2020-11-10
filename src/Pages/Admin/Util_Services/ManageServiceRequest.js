@@ -22,6 +22,7 @@ class ManageServiceRequest extends React.Component {
   async fetchCategory() {
     const res = await fetch(`${apiUrl}/Admin/GetAllServiceRequestInvoice`);
     const response = await res.json();
+    console.log(response);
     this.setState({ categories: response.serviceInvoices });
   }
 
@@ -31,7 +32,7 @@ class ManageServiceRequest extends React.Component {
   }
 
   render() {
-  
+  console.log(this.state.categories);
     return (
       <>
         <PageLoader />
@@ -115,12 +116,12 @@ class ManageServiceRequest extends React.Component {
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    #AD756gaT
+                                    {category?.invoiceNumber}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    7th Nov 2020
+                                    {category?.dateGenerated}
                                   </div>
                                 </td>
                                 <td>
