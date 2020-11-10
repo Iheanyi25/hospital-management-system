@@ -5,12 +5,13 @@ import { PageLoader } from "../../Components";
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 class Consultations extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientConsultations: null,
       canceledConsultations: [],
@@ -23,12 +24,26 @@ class Consultations extends React.Component {
     var canceledConsultations = [];
     var completedConsultations = [];
     var pendingConsultations = [];
-    const { apiUrl } = this.state;
     const response = await fetch(
-      `${apiUrl}/Admin/GetAllConsultations?PatientId=${this.state.patientId}`
+      `${apiUrl}/Patient/GetAllConsultations?PatientId=${this.state.patientId}`
     );
     const data = await response.json();
-    console.log(data);
+
+    let response1 = await fetch(
+      `${apiUrl}/Patient/GetPendingConsultationsCount`
+    );
+    const data1 = await response1.json();
+
+    let response2 = await fetch(
+      `${apiUrl}/Patient/GetCompletedConsultationsCount`
+    );
+    const data2 = await response2.json();
+
+    let response3 = await fetch(
+      `${apiUrl}/Patient/GetCanceledConsultationsCount`
+    );
+    const data3 = await response3.json();
+
     await this.setState({ patientConsultations: data.patientConsultations });
 
     data.patientConsultations.forEach((patientConsultations) => {
@@ -40,13 +55,14 @@ class Consultations extends React.Component {
         pendingConsultations.push(patientConsultations);
       }
     });
-    console.log(canceledConsultations);
-    console.log(completedConsultations);
-    console.log(pendingConsultations);
+
     this.setState({
       canceledConsultations: canceledConsultations,
+      canceledConsultationsCount: data1.consultationCount,
       completedConsultations: completedConsultations,
+      completedConsultationsCount: data2.consultationCount,
       pendingConsultations: pendingConsultations,
+      pendingConsultationsCount: pendingConsultations.length,
     });
   }
 
@@ -70,8 +86,11 @@ class Consultations extends React.Component {
   render() {
     const {
       canceledConsultations,
+      canceledConsultationsCount,
       completedConsultations,
+      completedConsultationsCount,
       pendingConsultations,
+      pendingConsultationsCount,
     } = this.state;
     return (
       <>
@@ -92,7 +111,9 @@ class Consultations extends React.Component {
                       </div>
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Pending Consultations</h6>
-                        <div className="count text-primary fs-20">104</div>
+                        <div className="count text-primary fs-20">
+                          {pendingConsultationsCount}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -107,7 +128,9 @@ class Consultations extends React.Component {
                       </div>
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Finalized Consultations</h6>
-                        <div className="count text-primary fs-20">24</div>
+                        <div className="count text-primary fs-20">
+                          {completedConsultationsCount}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -124,7 +147,9 @@ class Consultations extends React.Component {
                         <h6 className="mt-0 mb-1 text-nowrap">
                           Canceled Consultations
                         </h6>
-                        <div className="count text-primary fs-20">38</div>
+                        <div className="count text-primary fs-20">
+                          {canceledConsultationsCount}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -245,12 +270,7 @@ class Consultations extends React.Component {
                                         {queue.patient.email}
                                       </div>
                                     </td>
-                                    <td>
-                                      {
-                                        queue.patientConsultations
-                                          .reasonForConsultation
-                                      }
-                                    </td>
+                                    <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
                                         10 Feb 2018
@@ -278,9 +298,7 @@ class Consultations extends React.Component {
                                             type="button"
                                             className="btn btn-success"
                                             onClick={(e) =>
-                                              this.cancelConsultation(
-                                                queue.patientConsultations.id
-                                              )
+                                              this.cancelConsultation(queue.id)
                                             }
                                           >
                                             Cancel Consultation
@@ -288,9 +306,9 @@ class Consultations extends React.Component {
                                           <Link
                                             title="Cancel Consultation"
                                             onClick={() =>
-                                              (window.location.href = `/AdminPreConsultation/${queue.patientConsultations.id}`)
+                                              (window.location.href = `/AdminPreConsultation/${queue.id}`)
                                             }
-                                            to={`/AdminPreConsultation/${queue.patientConsultations.id}`}
+                                            to={`/AdminPreConsultation/${queue.id}`}
                                             className="btn btn-sm btn-block"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -299,9 +317,9 @@ class Consultations extends React.Component {
                                           <Link
                                             title="Pre-consultation"
                                             onClick={() =>
-                                              (window.location.href = `/AdminPreConsultation/${queue.patientConsultations.id}`)
+                                              (window.location.href = `/AdminPreConsultation/${queue.id}`)
                                             }
-                                            to={`/AdminPreConsultation/${queue.patientConsultations.id}`}
+                                            to={`/AdminPreConsultation/${queue.id}`}
                                             className="btn btn-sm btn-block"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt mr-2" />
@@ -310,9 +328,9 @@ class Consultations extends React.Component {
                                           <Link
                                             title="Pre-consultation"
                                             onClick={() =>
-                                              (window.location.href = `/AdminUpdatePatientProfile/${queue.patientConsultations.id}`)
+                                              (window.location.href = `/AdminUpdatePatientProfile/${queue.id}`)
                                             }
-                                            to={`/AdminUpdatePatientProfile/${queue.patientConsultations.id}`}
+                                            to={`/AdminUpdatePatientProfile/${queue.id}`}
                                             className="btn btn-sm btn-block"
                                           >
                                             <span className="btn-icon icofont-ui-edit  mr-2" />{" "}

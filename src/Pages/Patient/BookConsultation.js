@@ -6,12 +6,11 @@ class BookConsultation extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      apiUrl: process.env.REACT_APP_API_URL,
       doctor: "",
       doctorProfile: "",
       doctorId: "",
-
       consultationTitle: "",
       reasonForConsultation: "",
     };
@@ -30,7 +29,7 @@ class BookConsultation extends React.Component {
     ).json();
     this.setState({
       doctor: data.doctor,
-      doctorProfile: data.doctor
+      doctorProfile: data.doctor,
     });
   }
 
@@ -47,13 +46,13 @@ class BookConsultation extends React.Component {
     const {
       consultationTitle,
       reasonForConsultation,
-      patientId,
       doctorId,
+      patientId,
     } = this.state;
 
     try {
       const request = await fetch(
-        `${this.state.apiUrl}/Patient/AddPatientToQueue`,
+        `${this.state.apiUrl}/Patient/BookConsultation`,
         {
           method: "POST",
           headers: {
@@ -127,8 +126,9 @@ class BookConsultation extends React.Component {
           <div className="main-content-wrap">
             <header className="page-header">
               <h3 className="page-title">
-                Book Consultation With Dr. {doctor.firstName}{" "}
-                {doctor.lastName}{" "}
+                Book Consultation With Dr.{" "}
+                {doctor ? doctor.doctor.firstName : null}{" "}
+                {doctor ? doctor.doctor.lastName : null}{" "}
               </h3>
             </header>
             <div className="page-content">
@@ -174,22 +174,20 @@ class BookConsultation extends React.Component {
                               onClick={(e) => this.bookConsultation(e)}
                               disabled={
                                 reasonForConsultation === "" ||
-                                  consultationTitle === ""
+                                consultationTitle === ""
                                   ? true
                                   : false
                               }
                             >
                               Book Now
-                                </button>
+                            </button>
                           </div>
                           <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-outline-danger"
                             >
-                              <span className="d-none d-sm-block">
-                                Cancel
-                                  </span>{" "}
+                              <span className="d-none d-sm-block">Cancel</span>{" "}
                               <span className="d-sm-none">Cancel</span>
                             </button>
                           </div>

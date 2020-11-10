@@ -3,6 +3,8 @@ import { useRavePayment } from "react-ravepayment";
 import flutterwave1 from "../../assets/img/flutterwave1.svg";
 import flutterwave2 from "../../assets/img/flutterwave2.svg";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const PayWithFlutter = ({ paymentDetails, handleSuccess }) => {
   let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
   const [details, setDetails] = useState({
@@ -36,24 +38,23 @@ const PayWithFlutter = ({ paymentDetails, handleSuccess }) => {
   const handleSubmit = async (reference) => {
     let payload = {
       amount: paymentDetails.amount,
-      [`${userType === 'Admin' ? 'accountId':'patientId'}`]: paymentDetails.patientId,
+      [`${
+        userType === "Admin" ? "accountId" : "patientId"
+      }`]: paymentDetails.patientId,
       modeOfPayment: "online-flutterwave",
       transactionRefrence: reference.data.data.orderRef,
-      paymentDescription: paymentDetails.paymentDescription
+      paymentDescription: paymentDetails.paymentDescription,
     };
     console.log(payload);
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/${userType}/Account/FundAccount`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      let res = await fetch(`${apiUrl}/${userType}/Account/FundAccount`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify(payload),
+        redirect: "follow",
+      });
       if (res.status === 200) {
-        handleSuccess(true)
+        handleSuccess(true);
       }
     } catch (error) {
       console.log(error);
