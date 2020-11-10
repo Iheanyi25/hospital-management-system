@@ -248,56 +248,56 @@ class Consultations extends React.Component {
                             <tbody>
                               {patientsOnOpenList
                                 ? patientsOnOpenList.map((consultation) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="../assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {consultation.patient.firstName}{" "}
-                                        {consultation.patient.lastName}
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {consultation.patient.phoneNumber}
-                                        </div>
-                                      </td>
-                                      <td>{consultation.consultationTitle}</td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          {consultation.reasonForConsultation}
-                                        </div>
-                                      </td>
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="../assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {consultation.patient.firstName}{" "}
+                                      {consultation.patient.lastName}
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
+                                        {consultation.patient.phoneNumber}
+                                      </div>
+                                    </td>
+                                    <td>{consultation.consultationTitle}</td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {consultation.reasonForConsultation}
+                                      </div>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
@@ -337,60 +337,60 @@ class Consultations extends React.Component {
                             <tbody>
                               {patientsAttachedToDoctors
                                 ? patientsAttachedToDoctors.map(
-                                    (consultation) => (
-                                      <tr>
-                                        <td>
-                                          <img
-                                            src="../assets/content/user-40-1.jpg"
-                                            alt=""
-                                            width={40}
-                                            height={40}
-                                            className="rounded-500"
-                                          />
-                                        </td>
-                                        <td>
-                                          {consultation.patient.firstName}{" "}
-                                          {consultation.patient.lastName}
-                                        </td>
-                                        <td>
-                                          <div className="d-flex align-items-center nowrap text-primary">
-                                            <span className="icofont-ui-email p-0 mr-2" />
-                                            {consultation.patient.phoneNumber}
-                                          </div>
-                                        </td>
-                                        <td>
-                                          {consultation.consultationTitle}
-                                        </td>
-                                        <td>
-                                          <div className="text-muted text-nowrap">
-                                            {consultation.reasonForConsultation}
-                                          </div>
-                                        </td>
+                                  (consultation) => (
+                                    <tr>
+                                      <td>
+                                        <img
+                                          src="../assets/content/user-40-1.jpg"
+                                          alt=""
+                                          width={40}
+                                          height={40}
+                                          className="rounded-500"
+                                        />
+                                      </td>
+                                      <td>
+                                        {consultation.patient.firstName}{" "}
+                                        {consultation.patient.lastName}
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap text-primary">
+                                          <span className="icofont-ui-email p-0 mr-2" />
+                                          {consultation.patient.phoneNumber}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        {consultation.consultationTitle}
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {consultation.reasonForConsultation}
+                                        </div>
+                                      </td>
 
-                                        <td>
-                                          <div className="actions">
-                                            <Link
-                                              title="Pre-consultation"
-                                              onClick={() =>
-                                                (window.location.href =
-                                                  "/AdminPreConsultation")
-                                              }
-                                              to="/AdminPreConsultation"
-                                              className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt" />
-                                            </Link>
-                                            <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                              <span className="btn-icon icofont-ui-edit" />
-                                            </button>
-                                            <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                              <span className="btn-icon icofont-ui-delete" />
-                                            </button>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    )
+                                      <td>
+                                        <div className="actions">
+                                          <Link
+                                            title="Pre-consultation"
+                                            onClick={() =>
+                                              (window.location.href =
+                                                "/AdminPreConsultation")
+                                            }
+                                            to="/AdminPreConsultation"
+                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
+                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                            <span className="btn-icon icofont-ui-edit" />
+                                          </button>
+                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                            <span className="btn-icon icofont-ui-delete" />
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
                                   )
+                                )
                                 : null}
                             </tbody>
                           </table>
@@ -430,56 +430,56 @@ class Consultations extends React.Component {
                             <tbody>
                               {patientsAttendedTo
                                 ? patientsAttendedTo.map((consultation) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="../assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {consultation.patient.firstName}{" "}
-                                        {consultation.patient.lastName}
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {consultation.patient.phoneNumber}
-                                        </div>
-                                      </td>
-                                      <td>{consultation.consultationTitle}</td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          {consultation.reasonForConsultation}
-                                        </div>
-                                      </td>
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="../assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {consultation.patient.firstName}{" "}
+                                      {consultation.patient.lastName}
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
+                                        {consultation.patient.phoneNumber}
+                                      </div>
+                                    </td>
+                                    <td>{consultation.consultationTitle}</td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {consultation.reasonForConsultation}
+                                      </div>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>

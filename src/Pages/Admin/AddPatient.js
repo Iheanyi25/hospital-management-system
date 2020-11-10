@@ -128,6 +128,7 @@ export default class AddPatient extends Component {
         this.setState({ success: true });
       }
       alert(response.message);
+  
       this.props.history.push("/AdminAllPatients");
     } catch (error) {
       console.log(error);

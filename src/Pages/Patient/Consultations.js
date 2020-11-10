@@ -4,7 +4,7 @@ import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
-const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class Consultations extends React.Component {
@@ -12,6 +12,7 @@ class Consultations extends React.Component {
     super(props);
 
     this.state = {
+      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientConsultations: null,
       canceledConsultations: [],
       completedConsultations: [],
@@ -24,10 +25,25 @@ class Consultations extends React.Component {
     var completedConsultations = [];
     var pendingConsultations = [];
     const response = await fetch(
-      `${apiUrl}/Patient/GetAllConsultations?PatientId=${patientId}`
+      `${apiUrl}/Patient/GetAllConsultations?PatientId=${this.state.patientId}`
     );
     const data = await response.json();
-    console.log(data);
+
+    let response1 = await fetch(
+      `${apiUrl}/Patient/GetPendingConsultationsCount`
+    );
+    const data1 = await response1.json();
+
+    let response2 = await fetch(
+      `${apiUrl}/Patient/GetCompletedConsultationsCount`
+    );
+    const data2 = await response2.json();
+
+    let response3 = await fetch(
+      `${apiUrl}/Patient/GetCanceledConsultationsCount`
+    );
+    const data3 = await response3.json();
+
     await this.setState({ patientConsultations: data.patientConsultations });
 
     data.patientConsultations.forEach((patientConsultations) => {
@@ -39,13 +55,14 @@ class Consultations extends React.Component {
         pendingConsultations.push(patientConsultations);
       }
     });
-    console.log(canceledConsultations);
-    console.log(completedConsultations);
-    console.log(pendingConsultations);
+
     this.setState({
       canceledConsultations: canceledConsultations,
+      canceledConsultationsCount: data1.consultationCount,
       completedConsultations: completedConsultations,
+      completedConsultationsCount: data2.consultationCount,
       pendingConsultations: pendingConsultations,
+      pendingConsultationsCount: pendingConsultations.length,
     });
   }
 
@@ -69,8 +86,11 @@ class Consultations extends React.Component {
   render() {
     const {
       canceledConsultations,
+      canceledConsultationsCount,
       completedConsultations,
+      completedConsultationsCount,
       pendingConsultations,
+      pendingConsultationsCount,
     } = this.state;
     return (
       <>
@@ -91,7 +111,9 @@ class Consultations extends React.Component {
                       </div>
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Pending Consultations</h6>
-                        <div className="count text-primary fs-20">104</div>
+                        <div className="count text-primary fs-20">
+                          {pendingConsultationsCount}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -106,7 +128,9 @@ class Consultations extends React.Component {
                       </div>
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Finalized Consultations</h6>
-                        <div className="count text-primary fs-20">24</div>
+                        <div className="count text-primary fs-20">
+                          {completedConsultationsCount}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -123,7 +147,9 @@ class Consultations extends React.Component {
                         <h6 className="mt-0 mb-1 text-nowrap">
                           Canceled Consultations
                         </h6>
-                        <div className="count text-primary fs-20">38</div>
+                        <div className="count text-primary fs-20">
+                          {canceledConsultationsCount}
+                        </div>
                       </div>
                     </div>
                   </div>

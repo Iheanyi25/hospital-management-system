@@ -1,7 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
-const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
+//const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 
 class BookAppointment extends React.Component {
   constructor(props) {
@@ -9,11 +9,9 @@ class BookAppointment extends React.Component {
 
     this.state = {
       apiUrl: process.env.REACT_APP_API_URL,
-
+      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctor: "",
-
       doctorProfile: "",
-
       doctorId: "",
       appointmentDate: "",
       appointmentTime: "",
@@ -56,7 +54,7 @@ class BookAppointment extends React.Component {
       patientId,
       doctorId,
     } = this.state;
-
+    console.log(patientId);
     try {
       const request = await fetch(
         `${this.state.apiUrl}/Patient/BookAppointment`,
