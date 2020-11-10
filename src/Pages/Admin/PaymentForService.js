@@ -6,8 +6,6 @@ import {
   Others,
 } from "./Components/PaymentForServiceModes";
 
-// const apiUrl = process.env.REACT_APP_API_URL;
-
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
@@ -22,14 +20,18 @@ class PaymentForService extends React.Component {
       invoiceId: "",
       selectedServices: [],
       amount: 0,
+      email: "",
+      serviceRequestId : []
     };
   }
 
   componentDidMount() {
     this.getSerivices().then(() => this.sync());
-    this.setState({ invoiceId: this.props.history.location.state });
-
-    // console.log(this.props.history.location.state);
+    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    this.setState({
+      invoiceId: this.props.history.location.state,
+      email: user.email,
+    });
   }
 
   async getSerivices() {
@@ -38,11 +40,16 @@ class PaymentForService extends React.Component {
       `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state}`
     );
     const data = await response.json();
-    console.log(data);
+   this.initializeComponent(data.serviceRequest);
+  }
+
+  initializeComponent = (services) => {
     this.setState({
-      services: data.serviceRequest,
-      selectedServices: data.serviceRequest,
+      services: services,
+      selectedServices: services,
     });
+
+    services.map(service => this.formatServiceId(service.id));
     this.calculateAmount();
   }
 
@@ -62,18 +69,30 @@ class PaymentForService extends React.Component {
           ),
         });
     this.calculateAmount();
+    this.formatServiceId(services.id)
   };
 
   calculateAmount = () => {
-    this.setState((state, props) => ({
+    this.setState((state) => ({
       amount: state.selectedServices.reduce((amount, service) => {
         return amount + service.cost;
       }, 0),
     }));
   };
 
+  formatServiceId = (id) => {
+    const { serviceRequestId } = this.state;
+    const currentIndex = serviceRequestId.indexOf(id);
+    if (currentIndex < 0) {
+      this.setState({...this.state, serviceRequestId : [...serviceRequestId, id]});
+    }else{
+      let filteredArray = serviceRequestId.filter(x=> x !== id);
+      this.setState({...this.state, serviceRequestId : filteredArray});
+    }
+  };
+
   render() {
-    console.log(this.state.services);
+    console.log("selected services",this.state.serviceRequestId);
     return (
       <>
         <PageLoader />
@@ -113,10 +132,6 @@ class PaymentForService extends React.Component {
                                   <div className="custom-control custom-checkbox mb-3 mt-2">
                                     <input
                                       type="checkbox"
-                                      // ref={(ref) => {
-                                      //   this.myRef[index] = ref;
-                                      //   return true;
-                                      // }}
                                       defaultChecked={true}
                                       className="custom-control-input"
                                       onChange={(e) =>
@@ -193,7 +208,7 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-active-tab"
                           >
-                            <PayOnline />
+                            <PayOnline details={this.state} />
                           </div>
                           <div
                             className="tab-pane fade"
