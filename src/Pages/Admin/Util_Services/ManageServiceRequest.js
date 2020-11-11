@@ -138,7 +138,7 @@ class ManageServiceRequest extends React.Component {
                                     {category?.paymentStatus === "NOT PAID" ? (
                                       <>
                                         <img src={notpaid} alt="not paid" /> Not
-                                        Paid
+                                        paid
                                       </>
                                     ) : (
                                       <>
