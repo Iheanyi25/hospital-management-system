@@ -2,6 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -133,7 +135,17 @@ class ManageServiceRequest extends React.Component {
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.paymentStatus === "NOT PAID" ? "Not Paid" : "Paid"}
+                                    {category?.paymentStatus === "NOT PAID" ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        Paid
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" />{" "}
+                                        Paid
+                                      </>
+                                    )}
                                   </div>
                                 </td>
                                 <td>
