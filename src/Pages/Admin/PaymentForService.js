@@ -1,5 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import formatAmount from '../../utils/formatAmount'
 import {
   PayOnline,
   PayCash,
@@ -97,6 +98,7 @@ class PaymentForService extends React.Component {
   };
 
   render() {
+    const { amount } = this.state
     return (
       <>
         <PageLoader />
@@ -111,7 +113,8 @@ class PaymentForService extends React.Component {
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-              <h4 className="text-info">{`NGN ${this.state.amount}`}</h4>
+              {amount === 0 ? <h4 className="text-info">Nothing selected yet</h4>:<h4 className="text-info">{`NGN ${formatAmount(amount)}`}</h4>}
+              
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -130,7 +133,7 @@ class PaymentForService extends React.Component {
                                       {service?.serviceName}
                                     </h5>
                                     <h6 className="mt-0 font-weight-light text-info">
-                                      {service?.cost}
+                                      {formatAmount(service?.cost) ?? ""}
                                     </h6>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">
