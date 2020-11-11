@@ -1,6 +1,6 @@
 import React from "react";
 
-const Others = () => {
+const Others = ({ id, email, cost }) => {
   return (
     <div className="table-responsive">
     <div className="main-content-wrap w-50">
@@ -20,15 +20,9 @@ const Others = () => {
                       type="number"
                       tabIndex={-98}
                       name="name"
-                      defaultValue="5000"
-                      required
+                      disabled
+                      defaultValue={cost}
                     />
-                    <div className="valid-feedback">
-                      Looks good!
-                    </div>
-                    <div className="invalid-feedback">
-                      Oops! should be numbers only.
-                    </div>
                   </div>
                   <div className="form-group">
                     <label>Comment</label>
@@ -36,8 +30,12 @@ const Others = () => {
                       className="form-control"
                       name="serviceCategoryId"
                     >
-                      <option>POS</option>
-                      <option>Cash</option>
+                     <option value="" selected disabled>
+                          Select a payment option
+                        </option>
+                        <option value="offline-POS">POS</option>
+                        <option value="offline-cheque">Cheque</option>
+                        <option value="offline-transfer">Bank transfer</option>
                     </select>
                     <div className="valid-feedback">
                       Looks good!

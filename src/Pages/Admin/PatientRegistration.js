@@ -5,8 +5,7 @@ import {
   PayCash,
   Others,
 } from "./Components/RegistrationPaymentModes";
-
-// const apiUrl = process.env.REACT_APP_API_URL;
+import formatAmount from "../../utils/formatAmount";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -20,12 +19,13 @@ class PatientRegistration extends React.Component {
       apiUrl: process.env.REACT_APP_API_URL,
       patientId: "",
       email: "",
+      cost: "",
     };
   }
 
   componentDidMount() {
-    const { patientId, email } = this.props.location.state;
-    this.setState({ patientId, email });
+    const { patientId, email, cost } = this.props.location.state;
+    this.setState({ patientId, email, cost });
     this.getAllPatients().then(() => this.sync());
   }
 
@@ -56,7 +56,7 @@ class PatientRegistration extends React.Component {
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">5000</h4>
+              <h4 className="text-info">{formatAmount(this.state.cost)}</h4>
             </div>
 
             <div className="page-content">
@@ -121,6 +121,7 @@ class PatientRegistration extends React.Component {
                         <PayOnline
                           id={this.state.patientId}
                           email={this.state.email}
+                          cost={this.state.cost}
                         />
                       </div>
                       <div
@@ -129,7 +130,11 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
                       >
-                        <PayCash />
+                        <PayCash
+                          id={this.state.patientId}
+                          email={this.state.email}
+                          cost={this.state.cost}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -137,7 +142,11 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                        <Others />
+                        <Others
+                          id={this.state.patientId}
+                          email={this.state.email}
+                          cost={this.state.cost}
+                        />
                       </div>
                     </div>
                   </div>
