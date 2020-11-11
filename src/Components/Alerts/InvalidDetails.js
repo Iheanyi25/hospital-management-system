@@ -5,7 +5,7 @@ const InvalidDetails = ({ setErrorStatus }) => {
     setTimeout(() => {
       setErrorStatus();
     }, 3000);
-  }, []);
+  });
 
   return (
     <div className="alert alert-warning with-after-icon" role="alert">
