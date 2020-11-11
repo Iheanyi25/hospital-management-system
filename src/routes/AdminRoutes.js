@@ -162,7 +162,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminPaymentForService"
+            path="/AdminPaymentForService/:id"
             component={PaymentForService}
           />
 

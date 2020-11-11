@@ -902,7 +902,7 @@ class Clarking extends React.Component {
                                       <label>Prescription</label>
                                       <textarea
                                         className="form-control"
-                                        placeholder="Enter your prescriptions here"
+                                        placeholder="Enter your prescriptions her e"
                                         rows={3}
                                       />
                                     </div>

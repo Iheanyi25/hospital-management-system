@@ -38,6 +38,7 @@ class BookConsultation extends React.Component {
     }
   }
 
+  // const { params } = this.props.match;
   renderDoctorPicker() {
     var select = $(".custom-doctor-picker");
 
@@ -268,8 +269,8 @@ class BookConsultation extends React.Component {
                               onClick={(e) => this.bookConsultation(e)}
                               disabled={
                                 patientId === "" ||
-                                reasonForConsultation === "" ||
-                                consultationTitle === ""
+                                  reasonForConsultation === "" ||
+                                  consultationTitle === ""
                                   ? true
                                   : false
                               }
