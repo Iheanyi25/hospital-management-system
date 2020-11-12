@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
+import { Success } from "../../Components/Alerts";
 // import {
 //   PayOnline,
 //   PayCash,
@@ -24,10 +25,12 @@ class PaymentForService extends React.Component {
       apiUrl: process.env.REACT_APP_API_URL,
       services: [],
       invoiceId: "",
+      patientId: "",
       selectedServices: [],
       amount: 0,
       email: "",
       serviceRequestId: [],
+      success: false,
     };
   }
 
@@ -35,15 +38,16 @@ class PaymentForService extends React.Component {
     this.getSerivices().then(() => this.sync());
     let user = JSON.parse(localStorage.getItem("authenticatedUser"));
     this.setState({
-      invoiceId: this.props.history.location.state,
+      invoiceId: this.props.history.location.state.invoiceId,
       email: user.email,
+      patientId: this.props.history.location.state.patientId,
     });
   }
 
   async getSerivices() {
     const { apiUrl } = this.state;
     const response = await fetch(
-      `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state}`
+      `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state.invoiceId}`
     );
     const data = await response.json();
     this.initializeComponent(data.serviceRequest);
@@ -105,15 +109,48 @@ class PaymentForService extends React.Component {
     }
   };
 
-  payForServices = async (reference, modeOfPayment) => {
-    const { amount, serviceRequestId } = this.state;
-    let payload ={
-      patientId: "string",
+  payForServices = async (
+    reference,
+    modeOfPayment,
+    description,
+    paidOffline
+  ) => {
+    const { amount, serviceRequestId, patientId } = this.state;
+    let payload = {
+      patientId: patientId,
       serviceRequestId: serviceRequestId,
       totalAmount: amount,
-      description: "Paid online",
+      description:
+        modeOfPayment === ("online-paystack" || "online-flutterwave")
+          ? "Paid online"
+          : description.description,
       modeOfPayment: modeOfPayment,
-      referenceNumber: modeOfPayment === "online-paystack"? reference.trxref : reference.data?.data?.orderRef
+      referenceNumber:
+        modeOfPayment === "online-paystack"
+          ? reference.trxref
+          : modeOfPayment === "online-flutterwave"
+          ? reference.data?.data?.orderRef
+          : paidOffline
+          ? reference
+          : "",
+    };
+
+    try {
+      let res = await fetch(
+        `https://hms-tenece.azurewebsites.net/api/Admin/PayForServices`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+      );
+      if (res.status === 200) {
+        console.log(res);
+        this.setState({ success: true });
+      }
+    } catch (error) {
+      console.log(error);
     }
     console.log(payload);
   };
@@ -128,6 +165,13 @@ class PaymentForService extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message="Well done, you successfully paid for this service"
+              nextRoute="/AdminManageServiceRequests"
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3>Payment for service invoice 6740</h3>
@@ -239,7 +283,10 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-active-tab"
                           >
-                            <PayOnline details={{ amount, email }} paidSuccessfully= {this.payForServices}/>
+                            <PayOnline
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payForServices}
+                            />
                           </div>
                           <div
                             className="tab-pane fade"
@@ -247,7 +294,10 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-accepted-tab"
                           >
-                            <PayCash details={this.state} />
+                            <PayCash
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payForServices}
+                            />
                           </div>
                           <div
                             className="tab-pane fade"
@@ -255,7 +305,10 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-completed-tab"
                           >
-                            <Others details={this.state} />
+                            <Others
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payForServices}
+                            />
                           </div>
                         </div>
                       </div>
