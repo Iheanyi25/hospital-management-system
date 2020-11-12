@@ -143,7 +143,7 @@ class AdminManageAccounts extends React.Component {
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src="../assets/content/user-40-1.jpg"
                                         alt=""
                                         width={40}
                                         height={40}
