@@ -166,19 +166,23 @@ class ManageServiceRequest extends React.Component {
                                       Action
                                     </button>
                                     <div className="dropdown-menu">
-                                      <NavLink
-                                        to={{
-                                          pathname: `/AdminPaymentForService/${category.id}`,
-                                          state: {
-                                            invoiceId: category.id,
-                                            patientId: category.patientId,
-                                          },
-                                        }}
-                                        className="btn btn-sm btn-block"
-                                      >
-                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Pay for Services
-                                      </NavLink>
+                                      {category?.paymentStatus ===
+                                      "NOT PAID" ? (
+                                        <NavLink
+                                          to={{
+                                            pathname: `/AdminPaymentForService/${category.id}`,
+                                            state: {
+                                              invoiceId: category.id,
+                                              patientId: category.patientId,
+                                              invoiceNumber: category.invoiceNumber
+                                            },
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                          Pay for Services
+                                        </NavLink>
+                                      ) : null}
 
                                       <NavLink
                                         to={`/AdminViewServiceRequestContents`}
