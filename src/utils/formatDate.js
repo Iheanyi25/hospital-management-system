@@ -1,18 +1,29 @@
-
 const formatDate = (time) => {
   let date = new Date(time);
   const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thurs",
+    "Fri",
+    "Sat",
   ];
-  return `${
-    days[date.getDay()]
-  },  ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+  const months = [
+    "Jan",
+    "Feb",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return `${days[date.getDay()]}, ${date.getDate() === 1 ? date.getDate()+"st":date.getDate() ===2 ? date.getDate()+"nd":date.getDate() ===3 ? date.getDate()+"rd": date.getDate()+"th"} ${months[date.getMonth()]} ${date.getFullYear()}`
 };
 
 export default formatDate;

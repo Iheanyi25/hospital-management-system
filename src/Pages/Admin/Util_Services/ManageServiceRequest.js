@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
+import formatDate from '../../../utils/formatDate'
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 
@@ -99,6 +100,7 @@ class ManageServiceRequest extends React.Component {
                             <th>Patient Name</th>
                             <th>No of Services</th>
                             <th>Invoice No</th>
+                            <th>Date Generated</th>
                             <th>Total Cost</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -126,6 +128,11 @@ class ManageServiceRequest extends React.Component {
                                 <td>
                                   <div className="text-muted text-nowrap">
                                     {category?.invoiceNumber}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatDate(category?.dateGenerated) ?? ""}
                                   </div>
                                 </td>
                                 <td>
