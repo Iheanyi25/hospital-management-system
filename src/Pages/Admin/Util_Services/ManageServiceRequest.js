@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
-import formatDate from '../../../utils/formatDate'
+import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 
@@ -149,8 +149,7 @@ class ManageServiceRequest extends React.Component {
                                       </>
                                     ) : (
                                       <>
-                                        <img src={paid} alt="paid" />{" "}
-                                        Paid
+                                        <img src={paid} alt="paid" /> Paid
                                       </>
                                     )}
                                   </div>
@@ -170,7 +169,10 @@ class ManageServiceRequest extends React.Component {
                                       <NavLink
                                         to={{
                                           pathname: `/AdminPaymentForService/${category.id}`,
-                                          state: category.id,
+                                          state: {
+                                            invoiceId: category.id,
+                                            patientId: category.patientId,
+                                          },
                                         }}
                                         className="btn btn-sm btn-block"
                                       >
