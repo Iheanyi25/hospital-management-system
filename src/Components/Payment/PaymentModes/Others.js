@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Others = () => {
+const Others = ({details, paidSuccessfully }) => {
+  const [paymentDetails, setPaymentDetails] = useState({
+    description:"",
+    modeOfPayment:"",
+    reference:""
+  })
+
+  const handleSubmit = (e) => {
+    console.log(e);
+    e.preventDefault();
+    const { description, modeOfPayment, reference} = paymentDetails
+    paidSuccessfully(reference, modeOfPayment, description, true);
+  };
+
   return (
     <div className="table-responsive">
     <div className="main-content-wrap">
@@ -11,6 +24,7 @@ const Others = () => {
               <div className="card-body">
                 <form
                   className="mb-4 p-5 needs-validation"
+                  onSubmit={handleSubmit}
                   noValidate
                 >
                   <div className="form-group">
@@ -19,8 +33,7 @@ const Others = () => {
                       className="form-control"
                       type="number"
                       tabIndex={-98}
-                      name="name"
-                      defaultValue="5000"
+                      value={details.amount}
                       disabled
                       required
                     />
@@ -32,13 +45,23 @@ const Others = () => {
                     </div>
                   </div>
                   <div className="form-group">
-                    <label>Comment</label>
+                    <label>Mode of Payment</label>
                     <select
                       className="form-control"
-                      name="serviceCategoryId"
+                      name="modeOfPayment"
+                      onChange={(e) => {
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          [e.target.name]: e.target.value,
+                        });
+                      }}
                     >
-                      <option>POS</option>
-                      <option>Cash</option>
+                      <option value="" selected disabled>
+                          Select a payment option
+                        </option>
+                        <option value="offline-POS">POS</option>
+                        <option value="offline-cheque">Cheque</option>
+                        <option value="offline-transfer">Bank transfer</option>
                     </select>
                     <div className="valid-feedback">
                       Looks good!
@@ -55,8 +78,14 @@ const Others = () => {
                       className="form-control"
                       type="text"
                       tabIndex={-98}
-                      name="name"
+                      name="reference"
                       required
+                      onChange={(e) => {
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          [e.target.name]: e.target.value,
+                        });
+                      }}
                     />
                     <div className="valid-feedback">
                       Looks good!
@@ -65,6 +94,25 @@ const Others = () => {
                       Enter a valid ref!
                     </div>
                   </div>
+                  <div className="form-group">
+                      <label>Comment</label>
+                      <textarea
+                        className="form-control"
+                        rows={3}
+                        name="description"
+                        onChange={(e) => {
+                          setPaymentDetails({
+                            ...paymentDetails,
+                            [e.target.name]: e.target.value,
+                          });
+                        }}
+                        required
+                      />
+                      <div className="valid-feedback">Looks good!</div>
+                      <div className="invalid-feedback">
+                        Enter a valid comment
+                      </div>
+                    </div>
                   <div className="row">
                     <div className="col"></div>
                     <div className="col text-right">

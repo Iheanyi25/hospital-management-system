@@ -1,39 +1,42 @@
 import React, { useState, useEffect } from "react";
 
-const Others = ({ details, handleSuccess }) => {
+const Others = ({
+  paidSuccessfully,
+  descriptionReference,
+  amountReference,
+}) => {
   const [userDetails, setUserDetails] = useState({
-    accountId: "",
-    amount: "",
-    paymentDescription: "",
     modeOfPayment: "",
     transactionRefrence: "",
   });
 
-  useEffect(() => {
-    setUserDetails({ ...userDetails, accountId: details.patientId });
-  }, [details]);
-
   const handleSubmit = async (e) => {
+    const { modeOfPayment, transactionRefrence } = userDetails;
     e.preventDefault();
     console.log(userDetails);
-    if (userDetails.amount !== "" && userDetails.modeOfPayment !== "" && userDetails.transactionRefrence !== "") {
-      try {
-        let res = await fetch(
-          `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
-          {
-            headers: { "Content-Type": "application/json-patch+json" },
-            method: "POST",
-            body: JSON.stringify(userDetails),
-            redirect: "follow",
-          }
-        );
-        if (res.status === 200) {
-          handleSuccess(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    paidSuccessfully(transactionRefrence, modeOfPayment, true);
+    // if (
+    //   userDetails.amount !== "" &&
+    //   userDetails.modeOfPayment !== "" &&
+    //   userDetails.transactionRefrence !== ""
+    // ) {
+    //   try {
+    //     let res = await fetch(
+    //       `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
+    //       {
+    //         headers: { "Content-Type": "application/json-patch+json" },
+    //         method: "POST",
+    //         body: JSON.stringify(userDetails),
+    //         redirect: "follow",
+    //       }
+    //     );
+    //     if (res.status === 200) {
+    //       handleSuccess(true);
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
 
   return (
@@ -57,13 +60,14 @@ const Others = ({ details, handleSuccess }) => {
                         tabIndex={-98}
                         placeholder="Amount"
                         name="amount"
+                        ref={amountReference}
                         required
-                        onChange={(e) => {
-                          setUserDetails({
-                            ...userDetails,
-                            [e.target.name]: e.target.value,
-                          });
-                        }}
+                        // onChange={(e) => {
+                        //   setUserDetails({
+                        //     ...userDetails,
+                        //     [e.target.name]: e.target.value,
+                        //   });
+                        // }}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">
@@ -119,12 +123,13 @@ const Others = ({ details, handleSuccess }) => {
                         rows={3}
                         placeholder="Comment"
                         name="paymentDescription"
-                        onChange={(e) => {
-                          setUserDetails({
-                            ...userDetails,
-                            [e.target.name]: e.target.value,
-                          });
-                        }}
+                        ref={descriptionReference}
+                        // onChange={(e) => {
+                        //   setUserDetails({
+                        //     ...userDetails,
+                        //     [e.target.name]: e.target.value,
+                        //   });
+                        // }}
                       />
                     </div>
                     <div className="row">
