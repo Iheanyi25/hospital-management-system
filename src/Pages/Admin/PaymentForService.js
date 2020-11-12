@@ -1,11 +1,16 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import formatAmount from '../../utils/formatAmount'
+import formatAmount from "../../utils/formatAmount";
+// import {
+//   PayOnline,
+//   PayCash,
+//   Others,
+// } from "./Components/PaymentForServiceModes";
 import {
   PayOnline,
   PayCash,
   Others,
-} from "./Components/PaymentForServiceModes";
+} from "../../Components/Payment/PaymentModes";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -22,7 +27,7 @@ class PaymentForService extends React.Component {
       selectedServices: [],
       amount: 0,
       email: "",
-      serviceRequestId : []
+      serviceRequestId: [],
     };
   }
 
@@ -41,20 +46,22 @@ class PaymentForService extends React.Component {
       `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state}`
     );
     const data = await response.json();
-   this.initializeComponent(data.serviceRequest);
+    this.initializeComponent(data.serviceRequest);
   }
 
   initializeComponent = (services) => {
-      this.setState({
-        services: services,
-        selectedServices: services,
-      });
-  
-      this.calculateAmount();
-    let ids =  [];
-    services.map((service) => {ids = [...ids, ...this.formatServiceId(service.id)] });
-      this.setState({ ...this.state, init: true, serviceRequestId: ids });
-  }
+    this.setState({
+      services: services,
+      selectedServices: services,
+    });
+
+    this.calculateAmount();
+    let ids = [];
+    services.map((service) => {
+      ids = [...ids, ...this.formatServiceId(service.id)];
+    });
+    this.setState({ ...this.state, init: true, serviceRequestId: ids });
+  };
 
   sync() {
     this.$el = $(this.el);
@@ -64,27 +71,28 @@ class PaymentForService extends React.Component {
   onServiceSelected = (e, services) => {
     let updatedSelectedServices = undefined;
     let updatedServiceRequestId = undefined;
-    if( e.target.checked){
-      updatedSelectedServices =  [...this.state.selectedServices, services];
-    }else{
-      updatedSelectedServices  =  this.state.selectedServices.filter((item) => item.id !== services.id )
+    if (e.target.checked) {
+      updatedSelectedServices = [...this.state.selectedServices, services];
+    } else {
+      updatedSelectedServices = this.state.selectedServices.filter(
+        (item) => item.id !== services.id
+      );
     }
-  updatedServiceRequestId = this.formatServiceId(services.id);
-  this.setState({
-    ...this.state,
-    selectedServices: updatedSelectedServices,
-    serviceRequestId: updatedServiceRequestId,
-  });
-  this.calculateAmount();
+    updatedServiceRequestId = this.formatServiceId(services.id);
+    this.setState({
+      ...this.state,
+      selectedServices: updatedSelectedServices,
+      serviceRequestId: updatedServiceRequestId,
+    });
+    this.calculateAmount();
   };
 
   calculateAmount = () => {
-      this.setState((state) => ({
-        amount: state.selectedServices.reduce((amount, service) => {
-          return amount + service.cost;
-        }, 0),
-      }));
-
+    this.setState((state) => ({
+      amount: state.selectedServices.reduce((amount, service) => {
+        return amount + service.cost;
+      }, 0),
+    }));
   };
 
   formatServiceId = (id) => {
@@ -92,13 +100,26 @@ class PaymentForService extends React.Component {
     const currentIndex = serviceRequestId.indexOf(id);
     if (currentIndex < 0) {
       return [...serviceRequestId, id];
-    }else{
-      return  serviceRequestId.filter(x=> x !== id);
+    } else {
+      return serviceRequestId.filter((x) => x !== id);
     }
   };
 
+  payForServices = async (reference, modeOfPayment) => {
+    const { amount, serviceRequestId } = this.state;
+    let payload ={
+      patientId: "string",
+      serviceRequestId: serviceRequestId,
+      totalAmount: amount,
+      description: "Paid online",
+      modeOfPayment: modeOfPayment,
+      referenceNumber: modeOfPayment === "online-paystack"? reference.trxref : reference.data?.data?.orderRef
+    }
+    console.log(payload);
+  };
+
   render() {
-    const { amount } = this.state
+    const { amount, email } = this.state;
     return (
       <>
         <PageLoader />
@@ -113,8 +134,11 @@ class PaymentForService extends React.Component {
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-              {amount === 0 ? <h4 className="text-info">Nothing selected yet</h4>:<h4 className="text-info">{`NGN ${formatAmount(amount)}`}</h4>}
-              
+              {amount === 0 ? (
+                <h4 className="text-info">Nothing selected yet</h4>
+              ) : (
+                <h4 className="text-info">{`NGN ${formatAmount(amount)}`}</h4>
+              )}
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -129,12 +153,12 @@ class PaymentForService extends React.Component {
                               return (
                                 <div className="d-flex justify-content-between border-bottom p-3">
                                   <div>
-                                    <h5 className="m-0 font-weight-light">
+                                    <p className="m-0">
                                       {service?.serviceName}
-                                    </h5>
-                                    <h6 className="mt-0 font-weight-light text-info">
+                                    </p>
+                                    <small className="mt-0 text-info">
                                       {formatAmount(service?.cost) ?? ""}
-                                    </h6>
+                                    </small>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">
                                     <input
@@ -215,7 +239,7 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-active-tab"
                           >
-                            <PayOnline details={this.state} />
+                            <PayOnline details={{ amount, email }} paidSuccessfully= {this.payForServices}/>
                           </div>
                           <div
                             className="tab-pane fade"
