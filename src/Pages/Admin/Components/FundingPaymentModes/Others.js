@@ -1,42 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const Others = ({
   paidSuccessfully,
-  descriptionReference,
-  amountReference,
+  setPaymentParams,
 }) => {
   const [userDetails, setUserDetails] = useState({
     modeOfPayment: "",
     transactionRefrence: "",
   });
 
+  const handleChange = (e) => {
+    setPaymentParams(e.target.name, e.target.value);
+  };
   const handleSubmit = async (e) => {
     const { modeOfPayment, transactionRefrence } = userDetails;
     e.preventDefault();
     console.log(userDetails);
     paidSuccessfully(transactionRefrence, modeOfPayment, true);
-    // if (
-    //   userDetails.amount !== "" &&
-    //   userDetails.modeOfPayment !== "" &&
-    //   userDetails.transactionRefrence !== ""
-    // ) {
-    //   try {
-    //     let res = await fetch(
-    //       `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
-    //       {
-    //         headers: { "Content-Type": "application/json-patch+json" },
-    //         method: "POST",
-    //         body: JSON.stringify(userDetails),
-    //         redirect: "follow",
-    //       }
-    //     );
-    //     if (res.status === 200) {
-    //       handleSuccess(true);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
   };
 
   return (
@@ -60,14 +40,8 @@ const Others = ({
                         tabIndex={-98}
                         placeholder="Amount"
                         name="amount"
-                        ref={amountReference}
                         required
-                        // onChange={(e) => {
-                        //   setUserDetails({
-                        //     ...userDetails,
-                        //     [e.target.name]: e.target.value,
-                        //   });
-                        // }}
+                        onChange={handleChange}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">
@@ -123,13 +97,7 @@ const Others = ({
                         rows={3}
                         placeholder="Comment"
                         name="paymentDescription"
-                        ref={descriptionReference}
-                        // onChange={(e) => {
-                        //   setUserDetails({
-                        //     ...userDetails,
-                        //     [e.target.name]: e.target.value,
-                        //   });
-                        // }}
+                        onChange={handleChange}
                       />
                     </div>
                     <div className="row">
