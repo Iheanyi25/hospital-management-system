@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   PayWithPaystack,
   PayWithFlutter,
-} from "../../../../Components/Payment";
+} from "../../../../Components/Payment/PaymentGateways";
 
 const PayOnline = ({ id, email, cost }) => {
 

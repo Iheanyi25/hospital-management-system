@@ -1,10 +1,15 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+// import {
+//   PayOnline,
+//   PayCash,
+//   Others,
+// } from "./Components/RegistrationPaymentModes";
 import {
   PayOnline,
   PayCash,
   Others,
-} from "./Components/RegistrationPaymentModes";
+} from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
 
 const $ = require("jquery");
@@ -19,13 +24,14 @@ class PatientRegistration extends React.Component {
       apiUrl: process.env.REACT_APP_API_URL,
       patientId: "",
       email: "",
-      cost: "",
+      amount: "",
     };
   }
 
   componentDidMount() {
     const { patientId, email, cost } = this.props.location.state;
-    this.setState({ patientId, email, cost });
+    console.log(cost);
+    this.setState({ patientId, email, amount: cost });
     this.getAllPatients().then(() => this.sync());
   }
 
@@ -42,6 +48,7 @@ class PatientRegistration extends React.Component {
   }
 
   render() {
+    const {amount, email } = this.state
     return (
       <>
         <PageLoader />
@@ -56,7 +63,7 @@ class PatientRegistration extends React.Component {
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">{formatAmount(this.state.cost)}</h4>
+              <h4 className="text-info">{formatAmount(this.state.amount)}</h4>
             </div>
 
             <div className="page-content">
@@ -119,9 +126,8 @@ class PatientRegistration extends React.Component {
                         aria-labelledby="pills-active-tab"
                       >
                         <PayOnline
-                          id={this.state.patientId}
-                          email={this.state.email}
-                          cost={this.state.cost}
+                          details={{ amount, email }}
+                          paidSuccessfully={this.payForServices}
                         />
                       </div>
                       <div
@@ -131,9 +137,8 @@ class PatientRegistration extends React.Component {
                         aria-labelledby="pills-accepted-tab"
                       >
                         <PayCash
-                          id={this.state.patientId}
-                          email={this.state.email}
-                          cost={this.state.cost}
+                          details={{ amount, email }}
+                          paidSuccessfully={this.payForServices}
                         />
                       </div>
                       <div
@@ -143,9 +148,8 @@ class PatientRegistration extends React.Component {
                         aria-labelledby="pills-completed-tab"
                       >
                         <Others
-                          id={this.state.patientId}
-                          email={this.state.email}
-                          cost={this.state.cost}
+                          details={{ amount, email }}
+                          paidSuccessfully={this.payForServices}
                         />
                       </div>
                     </div>
