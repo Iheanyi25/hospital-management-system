@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Others = ({ id, email, cost }) => {
+const Others = ({details, paidSuccessfully }) => {
+  const [paymentDetails, setPaymentDetails] = useState({
+    description:"",
+    modeOfPayment:"",
+    reference:""
+  })
+
+  const handleSubmit = (e) => {
+    console.log(e);
+    e.preventDefault();
+    const { description, modeOfPayment, reference} = paymentDetails
+    paidSuccessfully(reference, modeOfPayment, description, true);
+  };
+
   return (
     <div className="table-responsive">
-    <div className="main-content-wrap w-50">
+    <div className="main-content-wrap">
       <div className="page-content">
         <div className="row justify-content-center">
           <div className="col col-md-12">
@@ -11,6 +24,7 @@ const Others = ({ id, email, cost }) => {
               <div className="card-body">
                 <form
                   className="mb-4 p-5 needs-validation"
+                  onSubmit={handleSubmit}
                   noValidate
                 >
                   <div className="form-group">
@@ -19,18 +33,30 @@ const Others = ({ id, email, cost }) => {
                       className="form-control"
                       type="number"
                       tabIndex={-98}
-                      name="name"
+                      value={details.amount}
                       disabled
-                      defaultValue={cost}
+                      required
                     />
+                    <div className="valid-feedback">
+                      Looks good!
+                    </div>
+                    <div className="invalid-feedback">
+                      Oops! should be numbers only.
+                    </div>
                   </div>
                   <div className="form-group">
-                    <label>Comment</label>
+                    <label>Mode of Payment</label>
                     <select
                       className="form-control"
-                      name="serviceCategoryId"
+                      name="modeOfPayment"
+                      onChange={(e) => {
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          [e.target.name]: e.target.value,
+                        });
+                      }}
                     >
-                     <option value="" selected disabled>
+                      <option value="" selected disabled>
                           Select a payment option
                         </option>
                         <option value="offline-POS">POS</option>
@@ -52,8 +78,14 @@ const Others = ({ id, email, cost }) => {
                       className="form-control"
                       type="text"
                       tabIndex={-98}
-                      name="name"
+                      name="reference"
                       required
+                      onChange={(e) => {
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          [e.target.name]: e.target.value,
+                        });
+                      }}
                     />
                     <div className="valid-feedback">
                       Looks good!
@@ -62,6 +94,25 @@ const Others = ({ id, email, cost }) => {
                       Enter a valid ref!
                     </div>
                   </div>
+                  <div className="form-group">
+                      <label>Comment</label>
+                      <textarea
+                        className="form-control"
+                        rows={3}
+                        name="description"
+                        onChange={(e) => {
+                          setPaymentDetails({
+                            ...paymentDetails,
+                            [e.target.name]: e.target.value,
+                          });
+                        }}
+                        required
+                      />
+                      <div className="valid-feedback">Looks good!</div>
+                      <div className="invalid-feedback">
+                        Enter a valid comment
+                      </div>
+                    </div>
                   <div className="row">
                     <div className="col"></div>
                     <div className="col text-right">

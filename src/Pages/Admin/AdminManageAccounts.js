@@ -1,6 +1,7 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import formatAmount from "../../utils/formatAmount";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
@@ -143,7 +144,7 @@ class AdminManageAccounts extends React.Component {
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src="../assets/content/user-40-1.jpg"
                                         alt=""
                                         width={40}
                                         height={40}
@@ -151,16 +152,18 @@ class AdminManageAccounts extends React.Component {
                                       />
                                     </td>
                                     <td>
-                                      <strong>{account.name}</strong>
+                                      <strong>{account?.name}</strong>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
-                                        {account?.healthPlan?.name}
+                                        {account?.healthPlan.name}
                                       </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        {account.accountBalance}
+                                        {formatAmount(
+                                          account?.accountBalance
+                                        ) ?? ""}
                                       </div>
                                     </td>
                                     <td>

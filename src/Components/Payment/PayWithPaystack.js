@@ -30,10 +30,27 @@ const PayWithPaystack = ({ paymentDetails, handleSuccess }) => {
     initializePayment(onSuccess, onClose);
   };
   const onSuccess = (reference) => {
-    handleSubmit(reference);
+    if (paymentDetails.fundAccount) {
+      payForServices(reference);
+      let payload = {
+        amount: paymentDetails.amount,
+        patientId: paymentDetails.patientId,
+        serviceRequestId: paymentDetails.serviceRequestId,
+        modeOfPayment: "online-paystack",
+        referenceNumber: reference.trxref,
+        paymentDescription: paymentDetails.paymentDescription,
+      };
+      console.log(payload);
+    } else {
+      fundAccount(reference);
+    }
   };
 
-  const handleSubmit = async (reference) => {
+  const payForServices = async (reference) => {
+    console.log(reference);
+  };
+
+  const fundAccount = async (reference) => {
     let payload = {
       amount: paymentDetails.amount,
       [`${

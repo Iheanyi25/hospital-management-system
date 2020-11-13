@@ -37,6 +37,8 @@ class Consultations extends React.Component {
     );
 
     const data = await response.json();
+    console.log({ data });
+
     this.setState({ doctorConsultations: data.doctorConsultations });
 
     data.doctorConsultations.forEach((queue) => {
@@ -221,14 +223,14 @@ class Consultations extends React.Component {
                             ref={(en) => (this.en = en)}
                             className="table"
                             data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                              { "data": "photo" },
+                              { "data": "name" },
+                              { "data": "email" },
+                              { "data": "phone" },
+                              { "data": "date-of-birth" },
+                              { "data": "address" },
+                              { "data": "actions" }
+                          ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -245,7 +247,7 @@ class Consultations extends React.Component {
                             </thead>
                             <tbody>
                               {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
+                                ? pendingAppointments.map((consultation) => (
                                   <tr>
                                     <td>
                                       <img
@@ -257,19 +259,19 @@ class Consultations extends React.Component {
                                       />
                                     </td>
                                     <td>
-                                      {appointment.patient.firstName}{" "}
-                                      {appointment.patient.lastName}
+                                      {consultation.patient.firstName}{" "}
+                                      {consultation.patient.lastName}
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
                                         <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient.email}
+                                        {consultation.patient.email}
                                       </div>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
                                         <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient.phoneNumber}
+                                        {consultation.patient.phoneNumber}
                                       </div>
                                     </td>
                                     <td>
@@ -285,13 +287,22 @@ class Consultations extends React.Component {
 
                                     <td>
                                       <div className="actions">
-                                        <Link
+                                        {/* <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
                                           to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link> */}
+                                        <Link
+                                          title="Clarking"
+                                          to={{
+                                            pathname: "/DoctorClarking",
+                                            state: {
+                                              type: "consultation",
+                                              id: consultation.patientQueue.id
+                                            }
+                                          }}
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
@@ -346,7 +357,7 @@ class Consultations extends React.Component {
                             <tbody>
                               {acceptedAppointments
                                 ? acceptedAppointments.map(
-                                  (appointment) => (
+                                  (consultation) => (
                                     <tr>
                                       <td>
                                         <img
@@ -359,9 +370,9 @@ class Consultations extends React.Component {
                                       </td>
                                       <td>
                                         {[
-                                          appointment.applicationUser
+                                          consultation.applicationUser
                                             .applicationUser.firstName,
-                                          appointment.applicationUser
+                                          consultation.applicationUser
                                             .applicationUser.lastName,
                                         ].toString(" ")}
                                       </td>
@@ -449,7 +460,7 @@ class Consultations extends React.Component {
                             <tbody>
                               {completedAppointments
                                 ? completedAppointments.map(
-                                  (appointment) => (
+                                  (consultation) => (
                                     <tr>
                                       <td>
                                         <img
@@ -463,9 +474,9 @@ class Consultations extends React.Component {
                                       <td>
                                         {" "}
                                         {[
-                                          appointment.applicationUser
+                                          consultation.applicationUser
                                             .applicationUser.firstName,
-                                          appointment.applicationUser
+                                          consultation.applicationUser
                                             .applicationUser.lastName,
                                         ].toString(" ")}
                                       </td>
@@ -552,7 +563,7 @@ class Consultations extends React.Component {
                             </thead>
                             <tbody>
                               {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
+                                ? pendingAppointments.map((consultation) => (
                                   <tr>
                                     <td>
                                       <img
@@ -566,8 +577,8 @@ class Consultations extends React.Component {
                                     <td>
                                       {" "}
                                       {[
-                                        appointment.firstName,
-                                        appointment.lastName,
+                                        consultation.firstName,
+                                        consultation.lastName,
                                       ].toString(" ")}
                                     </td>
                                     <td>
@@ -626,7 +637,7 @@ class Consultations extends React.Component {
                 <button
                   className="btn btn-primary btn-lg btn-square rounded-pill"
                   data-toggle="modal"
-                  data-target="#add-appointment"
+                  data-target="#add-consultation"
                 >
                   <span className="btn-icon icofont-stethoscope-alt" />
                 </button>

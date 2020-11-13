@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { PageLoader } from "../../Components";
+import { PageLoader, Table } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
-
+const imageDefaulturl = "https://webmeup.com/upload/blog/lead-image-105.png"
 class AllPatients extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class AllPatients extends React.Component {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Patient/GetPatients`);
     const data = await response.json();
-    this.setState({ patients: data.patients });
+    this.setState({ patients: data.patients.map(x => x.patient) });
   }
 
   componentDidMount() {
@@ -29,6 +29,74 @@ class AllPatients extends React.Component {
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
+  }
+
+  formatDataForTable = () => {
+    return this.state.patients.map((x, index) => {
+      return {
+        "#": ++index,
+        "photo": <img
+          src={imageDefaulturl}
+          alt=""
+          width={40}
+          height={40}
+          className="rounded-500"
+        />,
+        "name": `${x.firstName} ${x.lastName}`,
+        "email": <a href={"mailto:" + x.email}>{x.email}</a>,
+        "phone": x.phoneNumber,
+        "date-of-birth": "10 Feb 2018",
+        "address": "9:15 - 9:45",
+        "actions": this.generateTableFunctions(x)
+      }
+    })
+  }
+
+  generateTableFunctions = (x) => {
+    return <div className="btn-group">
+      <button
+        type="button"
+        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        Action
+    </button>
+      <div className="dropdown-menu text-left">
+        <NavLink
+          to={{
+            pathname: `/AdminPreConsultation/${x.id}`,
+            state: x
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+        Go for Pre-Consultation
+      </NavLink>
+        <NavLink
+          to={{
+            pathname: `/AdminPreConsultation/${x.id}`,
+            state: x
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+        Pre-Consultation History
+      </NavLink>
+        <NavLink
+          to={{
+            pathname: `/AdminUpdatePatientProfile/${x.id}`,
+            state: x
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+        Update Profile
+      </NavLink>
+      </div>
+    </div>
+
   }
 
   render() {
@@ -59,125 +127,13 @@ class AllPatients extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <div className="table-responsive">
-                          <table
-                            ref={(el) => (this.el = el)}
-                            className="table"
-                            data-columns='[
-                                          { "data": "photo" },
-                                          { "data": "name" },
-                                          { "data": "email" },
-                                          { "data": "phone" },
-                                          { "data": "date-of-birth" },
-                                          { "data": "address" },
-                                          { "data": "actions" }
-                                      ]'
-                            data-paging="true"
-                            data-info="true"
-                          >
-                            <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
+                        {
+                          this.state.patients.length > 0 &&
+                          <Table
+                            content={this.formatDataForTable()}
+                          />
+                        }
 
-                            <tbody>
-                              {this.state.patients.map((patient) => (
-                                <tr>
-                                  <td>
-                                    <img
-                                      src="../assets/content/user-40-1.jpg"
-                                      alt=""
-                                      width={40}
-                                      height={40}
-                                      className="rounded-500"
-                                    />
-                                  </td>
-                                  <td>
-                                    {patient.patient.firstName} {patient.patient.lastName}
-                                  </td>
-                                  <td>
-                                    <strong>
-                                      {" "}
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        {patient.patient.email}
-                                      </div>
-                                    </strong>
-                                  </td>
-                                  <td>
-                                    <div className="d-flex align-items-center nowrap text-primary">
-                                      <span className="icofont-ui-email p-0 mr-2" />
-                                      {patient.patient.phoneNumber}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-muted text-nowrap">
-                                      10 Feb 2018
-                                  </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-muted text-nowrap">
-                                      9:15 - 9:45
-                                  </div>
-                                  </td>
-
-                                  <td>
-                                    <div className="btn-group">
-                                      <button
-                                        type="button"
-                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                      >
-                                        Action
-                                    </button>
-                                      <div className="dropdown-menu text-left">
-                                        <NavLink
-                                          to={{
-                                            pathname: `/AdminPreConsultation/${patient.patient.id}`,
-                                            state: patient
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Go for Pre-Consultation
-                                      </NavLink>
-                                        <NavLink
-                                          to={{
-                                            pathname: `/AdminPreConsultation/${patient.patient.id}`,
-                                            state: patient
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Pre-Consultation History
-                                      </NavLink>
-                                        <NavLink
-                                          to={{
-                                            pathname: `/AdminUpdatePatientProfile/${patient.patient.id}`,
-                                            state: patient
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                        Update Profile
-                                      </NavLink>
-                                      </div>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
                       </div>
                     </div>
                   </div>

@@ -1,37 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const PayCash = ({ details, handleSuccess }) => {
-  const [userDetails, setUserDetails] = useState({
-    accountId: "",
-    amount: "",
-    paymentDescription: "",
-  });
-
-  useEffect(() => {
-    setUserDetails({ ...userDetails, accountId: details.patientId });
-  }, [details]);
-
+const PayCash = ({
+  paidSuccessfully,
+  descriptionReference,
+  amountReference,
+}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userDetails);
-    if (userDetails.amount !== "") {
-      try {
-        let res = await fetch(
-          `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
-          {
-            headers: { "Content-Type": "application/json-patch+json" },
-            method: "POST",
-            body: JSON.stringify(userDetails),
-            redirect: "follow",
-          }
-        );
-        if (res.status === 200) {
-          handleSuccess(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    paidSuccessfully("", "cash");
   };
 
   return (
@@ -56,12 +32,7 @@ const PayCash = ({ details, handleSuccess }) => {
                         placeholder="Amount"
                         name="amount"
                         required
-                        onChange={(e) => {
-                          setUserDetails({
-                            ...userDetails,
-                            [e.target.name]: e.target.value,
-                          });
-                        }}
+                        ref={amountReference}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">
@@ -75,12 +46,7 @@ const PayCash = ({ details, handleSuccess }) => {
                         rows={3}
                         placeholder="Comment"
                         name="paymentDescription"
-                        onChange={(e) => {
-                          setUserDetails({
-                            ...userDetails,
-                            [e.target.name]: e.target.value,
-                          });
-                        }}
+                        ref={descriptionReference}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">

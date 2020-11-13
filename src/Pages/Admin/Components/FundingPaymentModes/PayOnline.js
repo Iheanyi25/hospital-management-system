@@ -3,14 +3,14 @@ import { PageLoader } from "../../../../Components";
 import {
   PayWithPaystack,
   PayWithFlutter,
-} from "../../../../Components/Payment";
+} from "../../../../Components/Payment/PaymentGateways";
 
-const PayOnline = ({ details, handleSuccess }) => {
+const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
   const [userDetails, setUserDetails] = useState({
     patientId: "",
     amount: "",
     email: "",
-    paymentDescription: ""
+    paymentDescription: "",
   });
 
   useEffect(() => {
@@ -22,6 +22,13 @@ const PayOnline = ({ details, handleSuccess }) => {
     });
   }, [details.patientId, details.email]);
 
+  const handleChange = (e) => {
+    setUserDetails({
+      ...userDetails,
+      [e.target.name]: e.target.value,
+    });
+    setPaymentParams(userDetails.amount, userDetails.paymentDescription);
+  };
   return (
     <>
       <PageLoader />
@@ -47,10 +54,7 @@ const PayOnline = ({ details, handleSuccess }) => {
                           placeholder="Amount"
                           name="amount"
                           onChange={(e) => {
-                            setUserDetails({
-                              ...userDetails,
-                              [e.target.name]: e.target.value,
-                            });
+                            handleChange(e);
                           }}
                           required
                         />
@@ -68,10 +72,7 @@ const PayOnline = ({ details, handleSuccess }) => {
                           placeholder="Description"
                           name="paymentDescription"
                           onChange={(e) => {
-                            setUserDetails({
-                              ...userDetails,
-                              [e.target.name]: e.target.value,
-                            });
+                            handleChange(e);
                           }}
                           required
                         />
@@ -83,8 +84,14 @@ const PayOnline = ({ details, handleSuccess }) => {
                       <div className="m-auto">
                         <label>Pay with</label>
                         <div className="row">
-                          <PayWithPaystack paymentDetails={userDetails}  handleSuccess={handleSuccess} />
-                          <PayWithFlutter paymentDetails={userDetails} handleSuccess={handleSuccess}/>
+                          <PayWithPaystack
+                            paymentDetails={userDetails}
+                            paidSuccessfully={paidSuccessfully}
+                          />
+                          <PayWithFlutter
+                            paymentDetails={userDetails}
+                            paidSuccessfully={paidSuccessfully}
+                          />
                         </div>
                       </div>
                     </form>
