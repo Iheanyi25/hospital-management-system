@@ -174,7 +174,8 @@ class ManageServiceRequest extends React.Component {
                                             state: {
                                               invoiceId: category.id,
                                               patientId: category.patientId,
-                                              invoiceNumber: category.invoiceNumber
+                                              invoiceNumber:
+                                                category.invoiceNumber,
                                             },
                                           }}
                                           className="btn btn-sm btn-block"
@@ -185,7 +186,7 @@ class ManageServiceRequest extends React.Component {
                                       ) : null}
 
                                       <NavLink
-                                        to={`/AdminViewServiceRequestContents`}
+                                        to={`/AdminViewServiceRequestContents/${category.id}`}
                                         className="btn btn-sm btn-block"
                                       >
                                         <span className="btn-icon icofont-server mr-2" />

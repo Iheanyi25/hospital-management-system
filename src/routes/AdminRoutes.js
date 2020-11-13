@@ -91,11 +91,17 @@ export default function AdminRoutes() {
           <Route exact path="/AdminCreateService" component={CreateService} />
           <Route exact path="/AdminEditService/:id" component={EditService} />
           <Route exact path="/AdminManageServices" component={ManageServices} />
-          <Route exact path="/AdminViewServiceRequestContents" component={ServiceRequestContents} />
-          <Route exact path="/AdminUploadServiceRequestResult" component={ServiceRequestResultUpload} />
+          <Route
+            exact
+            path="/AdminViewServiceRequestContents/:invoiceId"
+            component={ServiceRequestContents}
+          />
+          <Route
+            exact
+            path="/AdminUploadServiceRequestResult/:serviceRequestId"
+            component={ServiceRequestResultUpload}
+          />
 
-
-          
           <Route
             exact
             path="/AdminServiceCategory"
