@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -130,59 +130,54 @@ class Patients extends React.Component {
 
                                   <td>
                                     <div className="btn-group">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                        >
-                                            Action
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                      >
+                                        Action
                                                 </button>
-                                        <div className="dropdown-menu text-left">
-                                            <Link title="Pre-consultation" to={`/DoctorClarking`} className="btn btn-sm btn-block"
-                                            >
-                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                    Go for Clarking
-                                                </Link>
-                                            <Link
-                                                title="Pre-consultation"
-                                                to={`#`}
-                                                className="btn btn-sm btn-block"
-                                            >
-                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                      <div className="dropdown-menu text-left">
+                                        <Link
+                                          title="Pre-consultation"
+                                          to={`#`}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                     Services History
                                                 </Link>
-                                            <Link
-                                                title="Pre-consultation"
+                                        <Link
+                                          title="Pre-consultation"
 
-                                                to={`#`}
-                                                className="btn btn-sm btn-block"
-                                            >
-                                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                          to={`#`}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                     Pre-Consultation History
                                                 </Link>
-                                            <Link
-                                                title="Pre-consultation"
+                                        <Link
+                                          title="Pre-consultation"
 
-                                                to={`#`}
-                                                className="btn btn-sm btn-block"
-                                            >
-                                                <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                          to={`#`}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                     Clarking History
                                                 </Link>
-                                            <Link
-                                                title="Patient Profilr"
+                                        <Link
+                                          title="Patient Profilr"
 
-                                                to={`#`}
-                                                className="btn btn-sm btn-block"
-                                            >
-                                                <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                          to={`#`}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                     Patient Profile
                                             </Link>
-                                        </div>
+                                      </div>
                                     </div>
-                                </td>
+                                  </td>
                                 </tr>
                               ))}
                             </tbody>

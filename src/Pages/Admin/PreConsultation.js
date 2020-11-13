@@ -1,5 +1,5 @@
 import React from "react";
-import {  PageLoader } from "../../Components";
+import { PageLoader } from "../../Components";
 
 class PreConsultation extends React.Component {
   constructor(props) {
@@ -288,7 +288,7 @@ class PreConsultation extends React.Component {
                 </div>
               ) : null}
               <header className="page-header">
-              <h3 className="page-title">Patient Preconsultation({patient.patientProfile.fullName})</h3>
+                <h3 className="page-title">Patient Preconsultation( {patient.patientProfile.fullName} )</h3>
               </header>
               <div className="page-content">
                 <div className="row justify-content-center">
@@ -369,17 +369,8 @@ class PreConsultation extends React.Component {
                             />
                           </div>
 
-                          <div className="row">
+                          <div className="row justify-content-between mt-5">
                             <div className="col">
-                              <button
-                                type="button"
-                                className="btn btn-success"
-                                onClick={(e) => this.updatePatientVitals(e)}
-                              >
-                                Save Patient Vitals
-                                  </button>
-                            </div>
-                            <div className="col text-right">
                               <button
                                 type="button"
                                 className="btn btn-outline-danger"
@@ -389,6 +380,15 @@ class PreConsultation extends React.Component {
                                     </span>{" "}
                                 <span className="d-sm-none">Cancel</span>
                               </button>
+                            </div>
+                            <div className="col">
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={(e) => this.updatePatientVitals(e)}
+                              >
+                                Save Patient Vitals
+                                  </button>
                             </div>
                           </div>
                         </form>
@@ -442,17 +442,8 @@ class PreConsultation extends React.Component {
                             />
                           </div>
 
-                          <div className="row">
+                          <div className="row mt-5 justify-content-between">
                             <div className="col">
-                              <button
-                                type="button"
-                                className="btn btn-success"
-                                onClick={(e) => this.updatePatientBMI(e)}
-                              >
-                                Save Patient BMI
-                                  </button>
-                            </div>
-                            <div className="col text-right">
                               <button
                                 type="button"
                                 className="btn btn-outline-danger"
@@ -462,6 +453,15 @@ class PreConsultation extends React.Component {
                                     </span>{" "}
                                 <span className="d-sm-none">Cancel</span>
                               </button>
+                            </div>
+                            <div className="col text-right">
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={(e) => this.updatePatientBMI(e)}
+                              >
+                                Save Patient BMI
+                                  </button>
                             </div>
                           </div>
                         </form>

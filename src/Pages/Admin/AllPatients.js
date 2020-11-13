@@ -45,8 +45,8 @@ class AllPatients extends React.Component {
         "Name": `${x.firstName} ${x.lastName}`,
         "Email": <a href={"mailto:" + x.email}>{x.email}</a>,
         "Phone": x.phoneNumber,
-        "Date Of Birth": "10 Feb 2018",
-        "Address": "9:15 - 9:45",
+        // "Date Of Birth": "10 Feb 2018",
+        // "Address": "9:15 - 9:45",
         "Actions": this.generateTableFunctions(x)
       }
     })
@@ -74,7 +74,7 @@ class AllPatients extends React.Component {
           <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Go for Pre-Consultation
       </NavLink>
-        <NavLink
+        {/* <NavLink
           to={{
             pathname: `/AdminPreConsultation/${x.id}`,
             state: x
@@ -83,7 +83,7 @@ class AllPatients extends React.Component {
         >
           <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Pre-Consultation History
-      </NavLink>
+      </NavLink> */}
         <NavLink
           to={{
             pathname: `/AdminUpdatePatientProfile/${x.id}`,

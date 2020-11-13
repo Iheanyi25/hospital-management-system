@@ -211,8 +211,8 @@ class BookConsultation extends React.Component {
 
                         <div className="form-group">
                           <label>
-                            Select A Doctor(If you want this consultation to be
-                            assigned to a doctor)
+                            Select A Doctor ( If you want this consultation to be
+                            assigned to a doctor )
                           </label>
                           <select
                             className=" custom-doctor-picker rounded form-control"
@@ -261,11 +261,20 @@ class BookConsultation extends React.Component {
                         </div>
                         {displayErrorMessage}
                         {displaySuccessMessage}
-                        <div className="row">
+                        <div className="row mt-5">
                           <div className="col">
                             <button
                               type="button"
-                              className="btn btn-success"
+                              className="btn btn-outline-danger"
+                            >
+                              <span className="d-none d-sm-block">Cancel</span>{" "}
+                              <span className="d-sm-none">Cancel</span>
+                            </button>
+                          </div>
+                          <div className="col text-right">
+                            <button
+                              type="button"
+                              className="btn btn-primary"
                               onClick={(e) => this.bookConsultation(e)}
                               disabled={
                                 patientId === "" ||
@@ -278,15 +287,7 @@ class BookConsultation extends React.Component {
                               Book Now
                             </button>
                           </div>
-                          <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">Cancel</span>{" "}
-                              <span className="d-sm-none">Cancel</span>
-                            </button>
-                          </div>
+
                         </div>
                       </form>
                     </div>
