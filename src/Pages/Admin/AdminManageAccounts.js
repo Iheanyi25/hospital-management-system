@@ -24,6 +24,7 @@ class AdminManageAccounts extends React.Component {
     const data = await response.json();
     console.log(data.accounts);
     this.setState({ accounts: data.accounts });
+    console.log(data.accounts);
   };
 
   sync() {
@@ -154,7 +155,7 @@ class AdminManageAccounts extends React.Component {
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
-                                        {account.healthPlan.name}
+                                        {account?.healthPlan?.name}
                                       </div>
                                     </td>
                                     <td>
