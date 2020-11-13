@@ -2,8 +2,9 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 
-let $ = window.$;
-$.DataTables = require("datatables.net");
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class ServiceRequestContents extends React.Component {
@@ -12,12 +13,12 @@ class ServiceRequestContents extends React.Component {
 
         this.state = {
             categories: [],
-           
         };
     }
 
     async componentDidMount() {
-        this.fetchCategory().then(() => this.sync());
+        console.log(this.props);
+        this.fetchCategory().then(() => { });
     }
 
     async fetchCategory() {
@@ -76,8 +77,8 @@ class ServiceRequestContents extends React.Component {
                             <div className="card mb-0">
                                 <div className="card-body">
                                     <div>
-                                      
-                                     
+
+
                                         <div className="table-responsive">
                                             <table
                                                 ref={(el) => (this.el = el)}
@@ -108,93 +109,93 @@ class ServiceRequestContents extends React.Component {
                                                 <tbody>
                                                     <tr>
 
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            1
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                1
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            Ogbonna Vitalis
+                                                        </td>
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                Ogbonna Vitalis
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            Lab Service
+                                                        </td>
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                Lab Service
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            Imaging and health
+                                                        </td>
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                Imaging and health
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            Dr Vitalis
+                                                        </td>
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                Dr Vitalis
                                                         </div>
-                                                    </td>
-                                                  
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            7th Nov 2020
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">
-                                                            700
-                                                        </div>
-                                                    </td>
+                                                        </td>
 
-                                                    <td>
-                                                        <div className="btn-group">
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                            >
-                                                                Action
-                                                            </button>
-                                                            <div className="dropdown-menu">
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                7th Nov 2020
+                                                        </div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="text-muted text-nowrap">
+                                                                700
+                                                        </div>
+                                                        </td>
 
-                                                                <NavLink
-                                                                    to={`/AdminUploadServiceRequestResult`}
-                                                                    className="btn btn-sm btn-block"
+                                                        <td>
+                                                            <div className="btn-group">
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
                                                                 >
-                                                                    <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                                                    Action
+                                                            </button>
+                                                                <div className="dropdown-menu">
+
+                                                                    <NavLink
+                                                                        to={`/AdminUploadServiceRequestResult`}
+                                                                        className="btn btn-sm btn-block"
+                                                                    >
+                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                                                     Upload Result
                                                                 </NavLink>
 
-                                                                <NavLink
-                                                                    to="#"
-                                                                    className="btn btn-sm btn-block"
-                                                                >
-                                                                    <span className="btn-icon icofont-server mr-2" />
-                                                                        View Result 
+                                                                    <NavLink
+                                                                        to="#"
+                                                                        className="btn btn-sm btn-block"
+                                                                    >
+                                                                        <span className="btn-icon icofont-server mr-2" />
+                                                                        View Result
                                                                 </NavLink>
-                                                                <NavLink
-                                                                    to="#"
-                                                                    className="btn btn-sm btn-block"
-                                                                >
-                                                                    <span className="btn-icon icofont-server mr-2" />
-                                                                        Remove From Invoice 
+                                                                    <NavLink
+                                                                        to="#"
+                                                                        className="btn btn-sm btn-block"
+                                                                    >
+                                                                        <span className="btn-icon icofont-server mr-2" />
+                                                                        Remove From Invoice
                                                                 </NavLink>
 
-                                                                
+
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                    </td>
-                                                    
+                                                        </td>
+
 
                                                     </tr>
-                                                   
+
 
                                                 </tbody>
                                             </table>
                                         </div>
-                                                     
+
                                     </div>
                                 </div>
                             </div>
