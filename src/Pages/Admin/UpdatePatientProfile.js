@@ -365,9 +365,9 @@ class UpdatePatientProfile extends React.Component {
             </div>
 
             {displayCoreDetailsSuccessNotification &&
-              this.successNotification("Core Details successfully Updated")}
+              this.SuccessNotification("Core Details successfully Updated")}
             {displayContactDetailsSuccessNotification &&
-              this.successNotification("Contact Details successfully Updated")}
+              this.SuccessNotification("Contact Details successfully Updated")}
             {displayHealthDetailsSuccessNotification &&
               this.SuccessNotification("Health Details successfully Updated")}
 
