@@ -133,12 +133,12 @@ class Dashboard extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col col-md-6">
+                <div className="col col-md-12">
                   <div className="card mb-0">
                     <div className="card-header">Doctor Consultation Queue</div>
                     <div className="card-body">
                       <div className="table-responsive">
-                        <table className="table table-hover">
+                        <table className="table table-striped">
                           <thead>
                             <tr>
                               <th className="text-nowrap" scope="col">
@@ -147,16 +147,16 @@ class Dashboard extends React.Component {
                               <th className="text-nowrap" scope="col">
                                 Patient Name
                               </th>
-                              <th className="text-nowrap" scope="col">
+                              {/* <th className="text-nowrap" scope="col">
                                 Patient Email
-                              </th>
+                              </th> */}
                               <th className="text-nowrap" scope="col">
                                 Doctor Name
                               </th>
-                              <th className="text-nowrap" scope="col">
+                              {/* <th className="text-nowrap" scope="col">
                                 Doctor Email
-                              </th>
-                              <th className="text-nowrap" scope="col">
+                              </th> */}
+                              <th scope="col">
                                 Date
                               </th>
                               <th className="text-nowrap" scope="col">
@@ -177,12 +177,12 @@ class Dashboard extends React.Component {
                                       {consultation.patient.firstName}
                                     </strong>
                                   </td>
-                                  <td>
+                                  {/* <td>
                                     <div className="d-flex align-items-center nowrap text-primary">
                                       <span className="icofont-ui-email p-0 mr-2" />
                                       {consultation.patient.email}
                                     </div>
-                                  </td>
+                                  </td> */}
                                   <td>
                                     <div className="text-muted text-nowrap">
                                       {consultation.doctor
@@ -193,17 +193,16 @@ class Dashboard extends React.Component {
                                         : null}
                                     </div>
                                   </td>
-                                  <td>
+                                  {/* <td>
                                     <div className="text-muted text-nowrap">
                                       {consultation.doctor
                                         ? consultation.doctor.email
                                         : null}
                                       s
                                     </div>
-                                  </td>
+                                  </td> */}
                                   <td>
-                                    <div className="d-flex align-items-center nowrap text-primary">
-                                      <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
+                                    <div className="d-flex align-items-center nowrap">
                                       {consultation.dateOfConsultation}
                                     </div>
                                   </td>
@@ -229,7 +228,7 @@ class Dashboard extends React.Component {
                   </div>
                 </div>
 
-                <div className="col col-md-6">
+                <div className="col col-md-12 mt-5">
                   <div className="card mb-0">
                     <div className="card-header">Doctors Appointment List</div>
                     <div className="card-body">
@@ -243,21 +242,21 @@ class Dashboard extends React.Component {
                               <th className="text-nowrap" scope="col">
                                 Patient Name
                               </th>
-                              <th className="text-nowrap" scope="col">
+                              {/* <th className="text-nowrap" scope="col">
                                 Patient Email
-                              </th>
+                              </th> */}
                               <th className="text-nowrap" scope="col">
                                 Doctor Name
                               </th>
-                              <th className="text-nowrap" scope="col">
+                              {/* <th className="text-nowrap" scope="col">
                                 Doctor Email
-                              </th>
+                              </th> */}
                               <th className="text-nowrap" scope="col">
                                 Date
                               </th>
-                              <th className="text-nowrap" scope="col">
+                              {/* <th className="text-nowrap" scope="col">
                                 Time
-                              </th>
+                              </th> */}
                               <th className="text-nowrap" scope="col">
                                 Status
                               </th>
@@ -269,43 +268,41 @@ class Dashboard extends React.Component {
                             {this.state.doctorAppointments.map(
                               (appointment) => (
                                 <tr>
-                                  <td>{appointment.appointmentTitle}</td>
+                                  <td className="wrap">{appointment.appointmentTitle}</td>
                                   <td>
                                     <strong>
                                       {appointment.patient.lastName}{" "}
                                       {appointment.patient.firstName}
                                     </strong>
                                   </td>
-                                  <td>
+                                  {/* <td>
                                     <div className="d-flex align-items-center nowrap text-primary">
                                       <span className="icofont-ui-email p-0 mr-2" />
                                       {appointment.patient.email}
                                     </div>
-                                  </td>
+                                  </td> */}
                                   <td>
                                     <div className="text-muted text-nowrap">
                                       {appointment.doctor.lastName}{" "}
                                       {appointment.doctor.firstName}
                                     </div>
                                   </td>
-                                  <td>
+                                  {/* <td>
                                     <div className="text-muted text-nowrap">
                                       {appointment.doctor.email}
                                     </div>
-                                  </td>
+                                  </td> */}
                                   <td>
                                     <div className="d-flex align-items-center nowrap text-primary">
-                                      <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
                                       {appointment.appointmentDate}
                                     </div>
                                   </td>
 
-                                  <td>
+                                  {/* <td>
                                     <div className="d-flex align-items-center nowrap text-primary">
-                                      <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
                                       {appointment.appointmentTime}
                                     </div>
-                                  </td>
+                                  </td> */}
                                   <td>
                                     <div>Not Completed</div>
                                   </td>

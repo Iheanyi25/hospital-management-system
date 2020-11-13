@@ -58,7 +58,7 @@ class AdminManageAccounts extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file"></div>
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Account Total (NGN)</h6>
+                        <h6 className="mt-0 mb-1">Account Total</h6>
                         <div className="count text-primary fs-20">
                           {accounts.length}
                         </div>
@@ -67,7 +67,7 @@ class AdminManageAccounts extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col col-12 col-md-6 col-xl-4">
+              {/* <div className="col col-12 col-md-6 col-xl-4">
                 <div className="card animated fadeInUp delay-03s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
@@ -75,7 +75,7 @@ class AdminManageAccounts extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Account spent (NGN)</h6>
+                        <h6 className="mt-0 mb-1">Amount spent (NGN)</h6>
                         <div className="count text-primary fs-20">
                           {accounts.length}
                         </div>
@@ -83,8 +83,8 @@ class AdminManageAccounts extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col col-12 col-md-6 col-xl-4">
+              </div> */}
+              {/* <div className="col col-12 col-md-6 col-xl-4">
                 <div className="card animated fadeInUp delay-03s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
@@ -100,7 +100,7 @@ class AdminManageAccounts extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="page-content">
@@ -118,15 +118,15 @@ class AdminManageAccounts extends React.Component {
                           <table
                             ref={(el) => (this.el = el)}
                             className="table"
-                            // data-columns='[
-                            //                             { "data": "photo" },
-                            //                             { "data": "account" },
-                            //                             { "data": "healthplan" },
-                            //                             { "data": "balance" },
-                            //                             { "data": "actions" }
-                            //                         ]'
-                            // data-paging="true"
-                            // data-info="true"
+                          // data-columns='[
+                          //                             { "data": "photo" },
+                          //                             { "data": "account" },
+                          //                             { "data": "healthplan" },
+                          //                             { "data": "balance" },
+                          //                             { "data": "actions" }
+                          //                         ]'
+                          // data-paging="true"
+                          // data-info="true"
                           >
                             <thead>
                               <tr className="bg-primary text-white">

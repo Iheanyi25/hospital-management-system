@@ -251,7 +251,7 @@ class Clarking extends React.Component {
                                       </label>
                                       <textarea
                                         onChange={(e) => this.handleChange("capturePatientHealthHistory", "socialHistory", e)}
-                                        defaultValue={this.state.capturePatientHealthHistory?.socialHistory ?? ""}
+                                        value={this.state.capturePatientHealthHistory?.socialHistory ?? ""}
                                         className="form-control"
                                         placeholder="Enter Social History Here"
                                         rows={3}
@@ -295,7 +295,7 @@ class Clarking extends React.Component {
                                       </label>
                                       <textarea
                                         onChange={(e) => this.handleChange("capturePatientHealthHistory", "familyHistory", e)}
-                                        defaultValue={this.state.capturePatientHealthHistory?.familyHistory ?? ""}
+                                        value={this.state.capturePatientHealthHistory?.familyHistory ?? ""}
                                         className="form-control"
                                         placeholder="Enter Family History Here"
                                         rows={3}
@@ -338,7 +338,7 @@ class Clarking extends React.Component {
                                       </label>
                                       <textarea
                                         onChange={(e) => this.handleChange("capturePatientHealthHistory", "medicalHistory", e)}
-                                        defaultValue={this.state.capturePatientHealthHistory?.medicalHistory ?? ""}
+                                        value={this.state.capturePatientHealthHistory?.medicalHistory ?? ""}
                                         className="form-control"
                                         placeholder="Enter Medical History Here"
                                         rows={3}
@@ -381,7 +381,7 @@ class Clarking extends React.Component {
                                         className="form-control"
                                         type="text"
                                         onChange={(e) => this.handleChange("capturePatientHealthHistory", "lastCountryVisited", e)}
-                                        defaultValue={this.state.capturePatientHealthHistory?.lastCountryVisited ?? ""}
+                                        value={this.state.capturePatientHealthHistory?.lastCountryVisited ?? ""}
                                         placeholder="Countries Visitied"
                                         />
                                     </div>
@@ -389,9 +389,9 @@ class Clarking extends React.Component {
                                       <label>Date Visited</label>
                                       <input
                                         className="form-control"
-                                        type="text"
+                                        type="date"
                                         onChange={(e) => this.handleChange("capturePatientHealthHistory", "dateOfVisitation", e)}
-                                        defaultValue={this.state.capturePatientHealthHistory?.dateOfVisitation ?? ''}
+                                        value={this.state.capturePatientHealthHistory?.dateOfVisitation ?? ''}
                                         placeholder="Date Visited"
                                       />
                                     </div>
@@ -401,7 +401,7 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
 																					className="btn btn-success"
-                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["lastCountryVisted", "dateOfVisitation"], e)}
+                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["lastCountryVisited", "dateOfVisitation"], e)}
                                         >
                                           Save Travel History
                                         </button>
@@ -552,7 +552,7 @@ class Clarking extends React.Component {
                                       <textarea
 																				className="form-control"
 																				onChange={(e) => this.handleChange("clarking", "presentingComplaints", e)}
-																				defaultValue={this.state.clarking?.presentingComplaints ?? ""}
+																				value={this.state.clarking?.presentingComplaints ?? ""}
 																				placeholder="Enter Presenting Complains Here"
 																				rows={3}
 																			/>
@@ -598,7 +598,7 @@ class Clarking extends React.Component {
                                         placeholder="Enter History of Presenting Complain Here"
 																				rows={3}
 																				onChange={(e) => this.handleChange("clarking", "histroyOfPresentingComplaints", e)}
-																				defaultValue={this.state.clarking?.histroyOfPresentingComplaints}
+																				value={this.state.clarking?.histroyOfPresentingComplaints}
 																				/>
                                     </div>
 
@@ -640,7 +640,7 @@ class Clarking extends React.Component {
                                         placeholder="Enter Riview od System Here"
 																				rows={3}
 																				onChange={(e) => this.handleChange("clarking", "reviewOfSystem", e)}
-																				defaultValue={this.state.clarking?.reviewOfSystem}
+																				value={this.state.clarking?.reviewOfSystem}
 																				/>
                                     </div>
 
@@ -684,7 +684,7 @@ class Clarking extends React.Component {
                                         placeholder="Enter Patient Physical Examination"
 																				rows={3}
 																				onChange={(e) => this.handleChange("clarking", "physicalExamination", e)}
-																				defaultValue={this.state.clarking?.physicalExamination}
+																				value={this.state.clarking?.physicalExamination}
 																				/>
                                     </div>
 
@@ -726,7 +726,7 @@ class Clarking extends React.Component {
                                         placeholder="Enter Diagnosis"
 																				rows={3}
 																				onChange={(e) => this.handleChange("clarking", "diagnosis", e)}
-																				defaultValue={this.state.clarking?.diagnosis}
+																				value={this.state.clarking?.diagnosis}
                                       />
                                     </div>
 
@@ -768,7 +768,7 @@ class Clarking extends React.Component {
                                         placeholder="Enter Treatment Plan"
 																				rows={3}
 																				onChange={(e) => this.handleChange("clarking", "treatmentPlan", e)}
-																				defaultValue={this.state.clarking?.treatmentPlan}
+																				value={this.state.clarking?.treatmentPlan}
                                       />
                                     </div>
 
@@ -810,7 +810,7 @@ class Clarking extends React.Component {
                                         placeholder="Enter Obstetrics"
 																				rows={3}
 																				onChange={(e) => this.handleChange("clarking", "obstetricsAndGynecology", e)}
-																				defaultValue={this.state.clarking?.obstetricsAndGynecology}
+																				value={this.state.clarking?.obstetricsAndGynecology}
                                       />
                                     </div>
 
