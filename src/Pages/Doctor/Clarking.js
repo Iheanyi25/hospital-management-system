@@ -389,7 +389,7 @@ class Clarking extends React.Component {
                                       <label>Date Visited</label>
                                       <input
                                         className="form-control"
-                                        type="text"
+                                        type="date"
                                         onChange={(e) => this.handleChange("capturePatientHealthHistory", "dateOfVisitation", e)}
                                         value={this.state.capturePatientHealthHistory?.dateOfVisitation ?? ''}
                                         placeholder="Date Visited"
