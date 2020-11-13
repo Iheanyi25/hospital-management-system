@@ -331,16 +331,16 @@ class UpdatePatientProfile extends React.Component {
           </div>
           <div className="main-content-wrap">
             <div className="row">
-              <div class="col-12 col-md-12 pb-5 mb-5">
-                <div class="card">
-                  <div class="card-body">
+              <div className="col-12 col-md-12 pb-5 mb-5">
+                <div className="card">
+                  <div className="card-body">
                     <div
                       className="col-12 alert alert-warning with-before-icon"
                       role="alert"
                     >
                       <div className="alert-content row">
                         <div className="col-md-11 text-center m-auto">
-                          <h6 className="m-0 p-0">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
+                          <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
                         </div>
                         <div className="col-md-1">
                           <Link
@@ -457,7 +457,7 @@ class UpdatePatientProfile extends React.Component {
                               <select
                                 className="form-control"
                                 title="Gender"
-                                value={gender ? gender : null}
+                                value={gender ? gender : ""}
                                 onChange={(e) => this.handleChange("gender", e)}
                                 tabIndex={-98}
                               >
@@ -502,7 +502,7 @@ class UpdatePatientProfile extends React.Component {
                             className="form-control"
                             type="text"
                             placeholder="Phone Number"
-                            value={phoneNumber ? phoneNumber : null}
+                            value={phoneNumber ? phoneNumber : ""}
                             onChange={(e) =>
                               this.handleChange("phoneNumber", e)
                             }
@@ -525,7 +525,7 @@ class UpdatePatientProfile extends React.Component {
                             placeholder="Address"
                             rows={3}
                             onChange={(e) => this.handleChange("address", e)}
-                            value={address ? address : null}
+                            value={address ? address : ""}
                           />
                         </div>
                         <div className="row">
@@ -538,7 +538,7 @@ class UpdatePatientProfile extends React.Component {
                                 title="state"
                                 tabIndex={-98}
                                 onChange={(e) => this.handleChange("state", e)}
-                                value={state ? state : null}
+                                value={state ? state : ""}
                               >
                                 <option className="bs-title-option" value />
                                 <option selected="selected">
@@ -560,7 +560,7 @@ class UpdatePatientProfile extends React.Component {
                                 onChange={(e) =>
                                   this.handleChange("country", e)
                                 }
-                                value={country ? country : null}
+                                value={country ? country : ""}
                               >
                                 <option className="bs-title-option" value />
                                 <option selected="selected">
@@ -602,7 +602,7 @@ class UpdatePatientProfile extends React.Component {
                                 className="form-control"
                                 title="bloodGroup"
                                 tabIndex={-98}
-                                value={bloodGroup ? bloodGroup : null}
+                                value={bloodGroup ? bloodGroup : ""}
                                 onChange={(e) =>
                                   this.handleChange("bloodGroup", e)
                                 }
@@ -623,7 +623,7 @@ class UpdatePatientProfile extends React.Component {
                               <select
                                 className="form-control"
                                 title="genoType"
-                                value={genoType ? genoType : null}
+                                value={genoType ? genoType : ""}
                                 tabIndex={-98}
                                 onChange={(e) =>
                                   this.handleChange("genoType", e)
@@ -647,7 +647,7 @@ class UpdatePatientProfile extends React.Component {
                             className="form-control"
                             title="diabetic"
                             tabIndex={-98}
-                            value={diabetic ? diabetic : null}
+                            value={diabetic ? diabetic : ""}
                             onChange={(e) => this.handleChange("diabetic", e)}
                           >
                             <option
@@ -670,7 +670,7 @@ class UpdatePatientProfile extends React.Component {
                                 className="form-control"
                                 placeholder="Address"
                                 rows={3}
-                                value={allergies ? allergies : null}
+                                value={allergies ? allergies : ""}
                                 onChange={(e) =>
                                   this.handleChange("allergies", e)
                                 }
@@ -684,7 +684,7 @@ class UpdatePatientProfile extends React.Component {
                                 className="form-control"
                                 placeholder="Address"
                                 rows={3}
-                                value={disabilities ? disabilities : null}
+                                value={disabilities ? disabilities : ""}
                                 onChange={(e) =>
                                   this.handleChange("disabilities", e)
                                 }

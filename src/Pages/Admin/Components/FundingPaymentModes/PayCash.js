@@ -1,10 +1,9 @@
 import React from "react";
 
-const PayCash = ({
-  paidSuccessfully,
-  descriptionReference,
-  amountReference,
-}) => {
+const PayCash = ({ paidSuccessfully, setPaymentParams }) => {
+  const handleChange = (e) => {
+    setPaymentParams(e.target.name, e.target.value);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     paidSuccessfully("", "cash");
@@ -31,8 +30,9 @@ const PayCash = ({
                         tabIndex={-98}
                         placeholder="Amount"
                         name="amount"
+                        onChange={handleChange}
                         required
-                        ref={amountReference}
+                        // ref={amountReference}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">
@@ -46,7 +46,8 @@ const PayCash = ({
                         rows={3}
                         placeholder="Comment"
                         name="paymentDescription"
-                        ref={descriptionReference}
+                        onChange={handleChange}
+                        // ref={descriptionReference}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">

@@ -17,17 +17,14 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
     console.log("hellpo", details);
     setUserDetails({
       ...userDetails,
-      patientId: details.patientId,
+      // patientId: details.patientId,
+      amount: details.amount,
       email: details.email,
     });
-  }, [details.patientId, details.email]);
+  }, [details]);
 
   const handleChange = (e) => {
-    setUserDetails({
-      ...userDetails,
-      [e.target.name]: e.target.value,
-    });
-    setPaymentParams(userDetails.amount, userDetails.paymentDescription);
+    setPaymentParams(e.target.name, e.target.value);
   };
   return (
     <>
@@ -53,9 +50,7 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
                           tabIndex={-98}
                           placeholder="Amount"
                           name="amount"
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
+                          onChange={handleChange}
                           required
                         />
                         <div className="valid-feedback">Looks good!</div>
@@ -71,9 +66,7 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
                           tabIndex={-98}
                           placeholder="Description"
                           name="paymentDescription"
-                          onChange={(e) => {
-                            handleChange(e);
-                          }}
+                          onChange={handleChange}
                           required
                         />
                         <div className="valid-feedback">Looks good!</div>

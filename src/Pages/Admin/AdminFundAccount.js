@@ -29,17 +29,19 @@ class AdminFundAccount extends React.Component {
       email: user.email,
     });
   }
+
+  setPaymentParams = (key, value) => {
+    this.setState({
+      ...this.state,
+      [key]: value,
+    });
+    console.log(this.state);
+  };
   fundAccount = async (reference, modeOfPayment, offline) => {
     const { accountId } = this.state;
-
-    let amount = this.amountRef.current.value;
-    let paymentDescription = this.descriptionRef.current.value;
-
-    console.log(amount, paymentDescription);
-
     let payload = {
       accountId: accountId,
-      amount: amount,
+      amount: this.state.amount,
       modeOfPayment: modeOfPayment,
       transactionReference:
         modeOfPayment === "online-paystack"
@@ -49,7 +51,7 @@ class AdminFundAccount extends React.Component {
           : offline
           ? reference
           : "",
-      paymentDescription: paymentDescription,
+      paymentDescription: this.state.paymentDescription,
     };
     try {
       let res = await fetch(
@@ -75,6 +77,8 @@ class AdminFundAccount extends React.Component {
   };
 
   render() {
+    const { amount, email } = this.state;
+    console.log(this.state);
     return (
       <>
         <PageLoader />
@@ -155,7 +159,7 @@ class AdminFundAccount extends React.Component {
                         aria-labelledby="pills-active-tab"
                       >
                         <PayOnline
-                          details={this.state}
+                          details={{ email, amount }}
                           paidSuccessfully={this.fundAccount}
                           setPaymentParams={this.setPaymentParams}
                         />
@@ -167,9 +171,8 @@ class AdminFundAccount extends React.Component {
                         aria-labelledby="pills-accepted-tab"
                       >
                         <PayCash
-                          descriptionReference={this.descriptionRef}
-                          amountReference={this.amountRef}
                           paidSuccessfully={this.fundAccount}
+                          setPaymentParams={this.setPaymentParams}
                         />
                       </div>
                       <div
@@ -179,9 +182,8 @@ class AdminFundAccount extends React.Component {
                         aria-labelledby="pills-completed-tab"
                       >
                         <Others
-                          descriptionReference={this.descriptionRef}
-                          amountReference={this.amountRef}
                           paidSuccessfully={this.fundAccount}
+                          setPaymentParams={this.setPaymentParams}
                         />
                       </div>
                     </div>
