@@ -1,6 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayWithPaystack, PayWithFlutter } from "../../Components/Payment";
+import { PayWithPaystack, PayWithFlutter } from "../../Components/Payment/PaymentGateways";
 import { Success } from "../../Components/Alerts";
 
 class FundAccount extends React.Component {
@@ -14,6 +14,7 @@ class FundAccount extends React.Component {
 
   componentDidMount() {
     let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    console.log(user.id);
     this.setState({
       patientId: user.id,
       email: user.email,
@@ -25,7 +26,37 @@ class FundAccount extends React.Component {
     this.setState({ success: true });
   };
 
+  fundAccount = async (reference, modeOfPayment) => {
+    const { patientId, amount } = this.state;
+    let payload = {
+      patientId: patientId,
+      amount: amount,
+      modeOfPayment: modeOfPayment,
+      transactionReference:
+        modeOfPayment === "online-paystack"
+          ? reference.trxref
+          : modeOfPayment === "online-flutterwave"
+          ? reference.data?.data?.orderRef
+          : "",
+    };
+    try {
+      let res = await fetch(`https://hms-tenece.azurewebsites.net/api/Patient/Account/FundAccount`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify(payload),
+        redirect: "follow",
+      });
+      if (res.status === 200) {
+        this.handleSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(payload);
+  };
+
   render() {
+    const { email, amount, phoneNumber } = this.state;
     return (
       <>
         <PageLoader />
@@ -35,12 +66,12 @@ class FundAccount extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           {this.state.success ? (
-              <Success
-                history={this.props.history}
-                message="Thank you. You have successfully funded your account"
-                nextRoute="/patient/PatientDashboard"
-              />
-            ) : null}
+            <Success
+              history={this.props.history}
+              message="Thank you. You have successfully funded your account"
+              nextRoute="/patient/PatientDashboard"
+            />
+          ) : null}
           <div className="main-content-wrap w-50">
             <div className="page-content">
               <div className="row justify-content-center">
@@ -77,12 +108,12 @@ class FundAccount extends React.Component {
                           <label>Pay with</label>
                           <div className="row">
                             <PayWithPaystack
-                              paymentDetails={this.state}
-                              handleSuccess={this.handleSuccess}
+                              paymentDetails={{ amount, email }}
+                              paidSuccessfully={this.fundAccount}
                             />
                             <PayWithFlutter
-                              paymentDetails={this.state}
-                              handleSuccess={this.handleSuccess}
+                              paymentDetails={{ amount, email, phoneNumber }}
+                              paidSuccessfully={this.fundAccount}
                             />
                           </div>
                         </div>

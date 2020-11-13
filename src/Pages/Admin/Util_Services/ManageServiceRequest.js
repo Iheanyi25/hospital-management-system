@@ -1,6 +1,10 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
+import formatAmount from "../../../utils/formatAmount";
+import formatDate from "../../../utils/formatDate";
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -32,7 +36,7 @@ class ManageServiceRequest extends React.Component {
   }
 
   render() {
-  console.log(this.state.categories);
+    console.log(this.state.categories);
     return (
       <>
         <PageLoader />
@@ -43,7 +47,7 @@ class ManageServiceRequest extends React.Component {
           </div>
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title"> Manage Requested Services</h4>
+              <h4 className="page-title">Manage services requested</h4>
               <NavLink className="btn btn-primary" to="/AdminServiceRequests">
                 Request Service
               </NavLink>
@@ -93,11 +97,13 @@ class ManageServiceRequest extends React.Component {
                         <thead>
                           <tr className="bg-primary text-white">
                             <th>#</th>
-                            <th>Patient's Name</th>
-                            <th>Invoice ID</th>
+                            <th>Patient Name</th>
+                            <th>No of Services</th>
+                            <th>Invoice No</th>
                             <th>Date Generated</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
+                            <th>Total Cost</th>
+                            <th>Status</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -116,17 +122,36 @@ class ManageServiceRequest extends React.Component {
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
+                                    {category?.noofServices}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
                                     {category?.invoiceNumber}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.dateGenerated}
+                                    {formatDate(category?.dateGenerated) ?? ""}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.cost}
+                                    {formatAmount(category?.cost) ?? ""}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {category?.paymentStatus === "NOT PAID" ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        paid
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Paid
+                                      </>
+                                    )}
                                   </div>
                                 </td>
                                 <td>
@@ -141,16 +166,23 @@ class ManageServiceRequest extends React.Component {
                                       Action
                                     </button>
                                     <div className="dropdown-menu">
-                                      <NavLink
-                                      to={{
-                                        pathname: `/AdminPaymentForService/${category.id}`,
-                                        state: category.id,
-                                      }}
-                                        className="btn btn-sm btn-block"
-                                      >
-                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Pay for Services
-                                      </NavLink>
+                                      {category?.paymentStatus ===
+                                      "NOT PAID" ? (
+                                        <NavLink
+                                          to={{
+                                            pathname: `/AdminPaymentForService/${category.id}`,
+                                            state: {
+                                              invoiceId: category.id,
+                                              patientId: category.patientId,
+                                              invoiceNumber: category.invoiceNumber
+                                            },
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                          Pay for Services
+                                        </NavLink>
+                                      ) : null}
 
                                       <NavLink
                                         to={`/AdminViewServiceRequestContents`}
