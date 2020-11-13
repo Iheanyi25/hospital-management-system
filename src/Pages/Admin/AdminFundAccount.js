@@ -35,6 +35,7 @@ class AdminFundAccount extends React.Component {
       ...this.state,
       [key]: value,
     });
+    console.log(this.state);
   };
   fundAccount = async (reference, modeOfPayment, offline) => {
     const { accountId } = this.state;
@@ -76,6 +77,7 @@ class AdminFundAccount extends React.Component {
   };
 
   render() {
+    const { amount, email } = this.state;
     console.log(this.state);
     return (
       <>
@@ -157,7 +159,7 @@ class AdminFundAccount extends React.Component {
                         aria-labelledby="pills-active-tab"
                       >
                         <PayOnline
-                          details={this.state}
+                          details={{ email, amount }}
                           paidSuccessfully={this.fundAccount}
                           setPaymentParams={this.setPaymentParams}
                         />
