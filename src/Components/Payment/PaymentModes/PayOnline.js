@@ -5,7 +5,7 @@ import {
   PayWithFlutter,
 } from "../PaymentGateways";
 
-const PayOnline = ({ details, handleSuccess, paidSuccessfully }) => {
+const PayOnline = ({ details, paidSuccessfully }) => {
   const [userDetails, setUserDetails] = useState({
     // invoiceId: "",
     amount: "",
