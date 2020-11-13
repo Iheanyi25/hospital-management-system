@@ -34,7 +34,7 @@ export default class AddPatient extends Component {
       });
       const data = await res.text();
       this.setState({ healthPlans: JSON.parse(data).plans });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   fetchAccounts = async () => {
@@ -46,7 +46,7 @@ export default class AddPatient extends Component {
       });
       const data = await res.text();
       this.setState({ accounts: JSON.parse(data).accounts });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   handleChange(name, e) {
@@ -95,8 +95,6 @@ export default class AddPatient extends Component {
       stage,
     } = this.state;
 
-    console.log(healthPlan);
-
     let data = { firstName, lastName, email, healthPlanId };
     if (
       firstName !== "" &&
@@ -104,8 +102,10 @@ export default class AddPatient extends Component {
       email !== "" &&
       healthPlanId !== ""
     ) {
+
       if (healthPlan.includes("personal")) {
-        this.submit(data);
+        await this.submit(data);
+
       } else {
         this.setNewStage(stage + 1);
       }
@@ -126,10 +126,9 @@ export default class AddPatient extends Component {
       const response = await res.json();
       if (res.status === 200) {
         this.setState({ success: true });
+        this.props.history.push("/AdminUpdatePatientProfile/" + response.response.id)
       }
-      alert(response.message);
-  
-      this.props.history.push("/AdminAllPatients");
+      else return;
     } catch (error) {
       console.log(error);
     }
@@ -238,9 +237,8 @@ export default class AddPatient extends Component {
                                   (healthPlan, index) => (
                                     <option
                                       key={index}
-                                      value={`${healthPlan.name.toLowerCase()}#${
-                                        healthPlan.id
-                                      }`}
+                                      value={`${healthPlan.name.toLowerCase()}#${healthPlan.id
+                                        }`}
                                     >
                                       {healthPlan.name}
                                     </option>

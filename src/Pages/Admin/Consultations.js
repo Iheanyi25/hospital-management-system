@@ -137,7 +137,7 @@ class Consultations extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col col-12 col-md-6 col-xl-4">
+              <div className="col col-12 col-md-12 col-xl-4">
                 <div className="card animated fadeInUp delay-04s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
@@ -223,7 +223,7 @@ class Consultations extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table"
+                            className="table tble-striped"
                             data-columns='[
                                 { "data": "photo" },
                                 { "data": "name" },
@@ -236,7 +236,7 @@ class Consultations extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Phone</th>
@@ -258,7 +258,7 @@ class Consultations extends React.Component {
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>
+                                    <td className="nowrap">
                                       {consultation.patient.firstName}{" "}
                                       {consultation.patient.lastName}
                                     </td>
@@ -284,16 +284,16 @@ class Consultations extends React.Component {
                                               "/AdminPreConsultation")
                                           }
                                           to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>
                                         <button className="btn btn-error btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-delete" />
-                                        </button>
+                                        </button> */}
                                       </div>
                                     </td>
                                   </tr>
@@ -316,7 +316,6 @@ class Consultations extends React.Component {
                             data-columns='[
                                 { "data": "photo" },
                                 { "data": "name" },
-                                { "data": "phone" },
                                 { "data": "appointment-title" },
                                 { "data": "reason-for-appointment" },
                                 { "data": "actions" }
@@ -325,12 +324,12 @@ class Consultations extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
-                                <th>Phone</th>
-                                <th>Appointment Title</th>
-                                <th>Reason For Appointment</th>
+                                {/* <th>Phone</th> */}
+                                <th className="nowrap">Appointment Title</th>
+                                <th className="nowrap">Reason For Appointment</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -348,21 +347,21 @@ class Consultations extends React.Component {
                                           className="rounded-500"
                                         />
                                       </td>
-                                      <td>
+                                      <td className="text-nowrap">
                                         {consultation.patient.firstName}{" "}
                                         {consultation.patient.lastName}
                                       </td>
-                                      <td>
+                                      {/* <td>
                                         <div className="d-flex align-items-center nowrap text-primary">
                                           <span className="icofont-ui-email p-0 mr-2" />
                                           {consultation.patient.phoneNumber}
                                         </div>
-                                      </td>
+                                      </td> */}
                                       <td>
                                         {consultation.consultationTitle}
                                       </td>
                                       <td>
-                                        <div className="text-muted text-nowrap">
+                                        <div className="text-muted text-wrap">
                                           {consultation.reasonForConsultation}
                                         </div>
                                       </td>
@@ -376,16 +375,16 @@ class Consultations extends React.Component {
                                                 "/AdminPreConsultation")
                                             }
                                             to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                            className="btn btn-primary btn-sm btn-square rounded-pill"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt" />
                                           </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                             <span className="btn-icon icofont-ui-edit" />
                                           </button>
                                           <button className="btn btn-error btn-sm btn-square rounded-pill">
                                             <span className="btn-icon icofont-ui-delete" />
-                                          </button>
+                                          </button> */}
                                         </div>
                                       </td>
                                     </tr>
@@ -409,7 +408,6 @@ class Consultations extends React.Component {
                             data-columns='[
                                 { "data": "photo" },
                                 { "data": "name" },
-                                { "data": "phone" },
                                 { "data": "appointment-title" },
                                 { "data": "reason-for-appointment" },
                                 { "data": "actions" }
@@ -418,12 +416,12 @@ class Consultations extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
-                                <th>Phone</th>
+                                {/* <th>Phone</th> */}
                                 <th>Appointment Title</th>
-                                <th>Reason For Appointment</th>
+                                <th className="nowrap">Reason For Appointment</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -440,16 +438,16 @@ class Consultations extends React.Component {
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>
+                                    <td className="nowrap">
                                       {consultation.patient.firstName}{" "}
                                       {consultation.patient.lastName}
                                     </td>
-                                    <td>
+                                    {/* <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
                                         <span className="icofont-ui-email p-0 mr-2" />
                                         {consultation.patient.phoneNumber}
                                       </div>
-                                    </td>
+                                    </td> */}
                                     <td>{consultation.consultationTitle}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
@@ -466,16 +464,16 @@ class Consultations extends React.Component {
                                               "/AdminPreConsultation")
                                           }
                                           to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>
                                         <button className="btn btn-error btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-delete" />
-                                        </button>
+                                        </button> */}
                                       </div>
                                     </td>
                                   </tr>

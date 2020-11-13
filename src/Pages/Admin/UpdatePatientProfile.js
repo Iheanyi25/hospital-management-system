@@ -340,7 +340,7 @@ class UpdatePatientProfile extends React.Component {
                     >
                       <div className="alert-content row">
                         <div className="col-md-11 text-center m-auto">
-                          <h6 className="m-0 p-0">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
+                          <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
                         </div>
                         <div className="col-md-1">
                           <Link

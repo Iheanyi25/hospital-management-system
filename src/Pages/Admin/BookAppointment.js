@@ -303,27 +303,8 @@ class BookAppointment extends React.Component {
                         </div>
                         {displayErrorMessage}
                         {displaySuccessMessage}
-                        <div className="row">
+                        <div className="row justify-content-between mt-5">
                           <div className="col">
-                            <button
-                              type="button"
-                              className="btn btn-success"
-                              onClick={(e) => this.bookAppointment(e)}
-                              disabled={
-                                appointmentDate === "" ||
-                                appointmentTime === "" ||
-                                patientId === "" ||
-                                doctorId === "" ||
-                                reasonForAppointment === "" ||
-                                appointmentTitle === ""
-                                  ? true
-                                  : false
-                              }
-                            >
-                              Book Appointment
-                            </button>
-                          </div>
-                          <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-outline-danger"
@@ -332,6 +313,26 @@ class BookAppointment extends React.Component {
                               <span className="d-sm-none">Cancel</span>
                             </button>
                           </div>
+                          <div className="col text-right">
+                            <button
+                              type="button"
+                              className="btn btn-primary"
+                              onClick={(e) => this.bookAppointment(e)}
+                              disabled={
+                                appointmentDate === "" ||
+                                  appointmentTime === "" ||
+                                  patientId === "" ||
+                                  doctorId === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
+                                  ? true
+                                  : false
+                              }
+                            >
+                              Book Appointment
+                            </button>
+                          </div>
+
                         </div>
                       </form>
                     </div>

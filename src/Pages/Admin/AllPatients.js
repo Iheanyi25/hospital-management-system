@@ -35,19 +35,19 @@ class AllPatients extends React.Component {
     return this.state.patients.map((x, index) => {
       return {
         "#": ++index,
-        "photo": <img
+        "Photo": <img
           src={imageDefaulturl}
           alt=""
           width={40}
           height={40}
           className="rounded-500"
         />,
-        "name": `${x.firstName} ${x.lastName}`,
-        "email": <a href={"mailto:" + x.email}>{x.email}</a>,
-        "phone": x.phoneNumber,
-        "date-of-birth": "10 Feb 2018",
-        "address": "9:15 - 9:45",
-        "actions": this.generateTableFunctions(x)
+        "Name": `${x.firstName} ${x.lastName}`,
+        "Email": <a href={"mailto:" + x.email}>{x.email}</a>,
+        "Phone": x.phoneNumber,
+        // "Date Of Birth": "10 Feb 2018",
+        // "Address": "9:15 - 9:45",
+        "Actions": this.generateTableFunctions(x)
       }
     })
   }
@@ -74,7 +74,7 @@ class AllPatients extends React.Component {
           <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Go for Pre-Consultation
       </NavLink>
-        <NavLink
+        {/* <NavLink
           to={{
             pathname: `/AdminPreConsultation/${x.id}`,
             state: x
@@ -83,7 +83,7 @@ class AllPatients extends React.Component {
         >
           <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Pre-Consultation History
-      </NavLink>
+      </NavLink> */}
         <NavLink
           to={{
             pathname: `/AdminUpdatePatientProfile/${x.id}`,
