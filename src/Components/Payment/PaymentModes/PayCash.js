@@ -1,75 +1,57 @@
-import React, { useState, useEffect } from "react";
-import formatAmount from "../../../../utils/formatAmount";
+import React, { useEffect, useState } from "react";
 
-const PayCash = ({ id, cost }) => {
-  const [userDetails, setUserDetails] = useState({
-    accountId: "",
-    amount: "",
-    paymentDescription: "",
-  });
+const PayCash = ({details, paidSuccessfully }) => {
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = (e) => {
+    console.log(e);
+    e.preventDefault();
+    paidSuccessfully("", "cash", description);
+  };
 
   useEffect(() => {
-    setUserDetails({ ...userDetails, accountId: id, amount: cost });
-  }, [id, cost]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(userDetails);
-    // if (userDetails.amount !== "") {
-    //   try {
-    //     let res = await fetch(
-    //       `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
-    //       {
-    //         headers: { "Content-Type": "application/json-patch+json" },
-    //         method: "POST",
-    //         body: JSON.stringify(userDetails),
-    //         redirect: "follow",
-    //       }
-    //     );
-    //     if (res.status === 200) {
-    //       handleSuccess(true);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-  };
+    console.log(details);
+   
+  }, [details])
 
   return (
     <div className="table-responsive">
-      <div className="main-content-wrap w-50">
+      <div className="main-content-wrap">
         <div className="page-content">
           <div className="row justify-content-center">
             <div className="col col-md-12">
               <div className="card border-light">
                 <div className="card-body">
-                  <form className="mb-4 p-5 needs-validation" onSubmit={handleSubmit} noValidate>
+                  <form
+                    className="mb-4 p-5 needs-validation"
+                    onSubmit={handleSubmit}
+                    noValidate
+                  >
                     <div className="form-group">
                       <label>Amount(NGN)</label>
                       <input
                         className="form-control"
                         type="number"
                         tabIndex={-98}
-                        name="amount"
-                        defaultValue={cost}
-                        onChange={(e) => {
-                          setUserDetails({
-                            ...userDetails,
-                            [e.target.name]: e.target.value,
-                          });
-                        }}
+                        name="name"
+                        value={details.amount}
                         disabled
+                        required
                       />
+                      <div className="valid-feedback">Looks good!</div>
+                      <div className="invalid-feedback">
+                        Oops! should be numbers only.
+                      </div>
                     </div>
                     <div className="form-group">
                       <label>Comment</label>
                       <textarea
                         className="form-control"
                         rows={3}
-                        name="paymentDescription"
+                        name="description"
                         onChange={(e) => {
-                          setUserDetails({
-                            ...userDetails,
+                          setDescription({
+                            ...description,
                             [e.target.name]: e.target.value,
                           });
                         }}

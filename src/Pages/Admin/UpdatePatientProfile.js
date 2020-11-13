@@ -55,7 +55,7 @@ class UpdatePatientProfile extends React.Component {
     const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${id}`);
     const data = await response.json();
 
-    console.log(data.patientProfile);
+    console.log(data);
 
     this.setState({
       firstName: data.patientProfile.patient.firstName,
@@ -320,7 +320,7 @@ class UpdatePatientProfile extends React.Component {
       displayHealthDetailsSuccessNotification,
     } = this.state;
 
-    console.log(this.state);
+    console.log(this.state.patient.patientProfile?.account);
     return (
       <>
         <PageLoader />
@@ -329,37 +329,36 @@ class UpdatePatientProfile extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-
           <div className="main-content-wrap">
-
             <div className="row">
               <div class="col-12 col-md-12 pb-5 mb-5">
                 <div class="card">
                   <div class="card-body">
-                    <div className="col-12 alert alert-warning with-before-icon" role="alert">
-                      <div className="alert-icon"><i className="icofont-info-circle" /></div>
+                    <div
+                      className="col-12 alert alert-warning with-before-icon"
+                      role="alert"
+                    >
                       <div className="alert-content row">
-                        <div className="col-md-9 text-center m-auto">
-                          <h6 className="m-0 p-0"> This Patient havent paid for Registration Fee Yet..His Access is limitied</h6>
+                        <div className="col-md-11 text-center m-auto">
+                          <h6 className="m-0 p-0">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-md-1">
                           <Link
-                            className="btn btn-block btn-primary"
+                            className="btn btn-sm btn-primary"
                             to={{
                               pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                              state: { patientId: this.state.patientId, email: this.state.email },
+                              state: {
+                                patientId: this.state.patientId,
+                                email: this.state.email,
+                                cost: this.state.patient?.patientProfile?.account?.healthPlan?.cost
+                              },
                             }}
                           >
                             Pay Now
-                        </Link>
-
+                          </Link>
                         </div>
-
-
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
@@ -372,23 +371,19 @@ class UpdatePatientProfile extends React.Component {
             {displayHealthDetailsSuccessNotification &&
               this.SuccessNotification("Health Details successfully Updated")}
 
-
             <header className="page-header">
               <h3 className="page-title">Update Patient Profile</h3>
             </header>
 
             <div className="page-content">
-
-
               <div className="row justify-content-center">
-
                 <div className="col-md-6">
                   <div className="card border-light">
                     <div className="card-body">
                       <label>Photo</label>
                       <div className="form-group avatar-box d-flex align-items-center">
                         <img
-                          src="../assets/content/user-400-1.jpg"
+                          src="../../assets/content/user-400-1.jpg"
                           width={100}
                           height={100}
                           alt="user avatar"

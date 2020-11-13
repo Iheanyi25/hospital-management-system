@@ -1,10 +1,17 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import formatAmount from "../../utils/formatAmount";
+import { Success } from "../../Components/Alerts";
+// import {
+//   PayOnline,
+//   PayCash,
+//   Others,
+// } from "./Components/PaymentForServiceModes";
 import {
   PayOnline,
   PayCash,
   Others,
-} from "./Components/PaymentForServiceModes";
+} from "../../Components/Payment/PaymentModes";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -18,10 +25,12 @@ class PaymentForService extends React.Component {
       apiUrl: process.env.REACT_APP_API_URL,
       services: [],
       invoiceId: "",
+      patientId: "",
       selectedServices: [],
       amount: 0,
       email: "",
-      serviceRequestId : []
+      serviceRequestId: [],
+      success: false,
     };
   }
 
@@ -29,31 +38,34 @@ class PaymentForService extends React.Component {
     this.getSerivices().then(() => this.sync());
     let user = JSON.parse(localStorage.getItem("authenticatedUser"));
     this.setState({
-      invoiceId: this.props.history.location.state,
+      invoiceId: this.props.history.location.state.invoiceId,
       email: user.email,
+      patientId: this.props.history.location.state.patientId,
     });
   }
 
   async getSerivices() {
     const { apiUrl } = this.state;
     const response = await fetch(
-      `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state}`
+      `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state.invoiceId}`
     );
     const data = await response.json();
-   this.initializeComponent(data.serviceRequest);
+    this.initializeComponent(data.serviceRequest);
   }
 
   initializeComponent = (services) => {
-      this.setState({
-        services: services,
-        selectedServices: services,
-      });
-  
-      this.calculateAmount();
-    let ids =  [];
-    services.map((service) => {ids = [...ids, ...this.formatServiceId(service.id)] });
-      this.setState({ ...this.state, init: true, serviceRequestId: ids });
-  }
+    this.setState({
+      services: services,
+      selectedServices: services,
+    });
+
+    this.calculateAmount();
+    let ids = [];
+    services.map((service) => {
+      ids = [...ids, ...this.formatServiceId(service.id)];
+    });
+    this.setState({ ...this.state, init: true, serviceRequestId: ids });
+  };
 
   sync() {
     this.$el = $(this.el);
@@ -63,27 +75,28 @@ class PaymentForService extends React.Component {
   onServiceSelected = (e, services) => {
     let updatedSelectedServices = undefined;
     let updatedServiceRequestId = undefined;
-    if( e.target.checked){
-      updatedSelectedServices =  [...this.state.selectedServices, services];
-    }else{
-      updatedSelectedServices  =  this.state.selectedServices.filter((item) => item.id !== services.id )
+    if (e.target.checked) {
+      updatedSelectedServices = [...this.state.selectedServices, services];
+    } else {
+      updatedSelectedServices = this.state.selectedServices.filter(
+        (item) => item.id !== services.id
+      );
     }
-  updatedServiceRequestId = this.formatServiceId(services.id);
-  this.setState({
-    ...this.state,
-    selectedServices: updatedSelectedServices,
-    serviceRequestId: updatedServiceRequestId,
-  });
-  this.calculateAmount();
+    updatedServiceRequestId = this.formatServiceId(services.id);
+    this.setState({
+      ...this.state,
+      selectedServices: updatedSelectedServices,
+      serviceRequestId: updatedServiceRequestId,
+    });
+    this.calculateAmount();
   };
 
   calculateAmount = () => {
-      this.setState((state) => ({
-        amount: state.selectedServices.reduce((amount, service) => {
-          return amount + service.cost;
-        }, 0),
-      }));
-
+    this.setState((state) => ({
+      amount: state.selectedServices.reduce((amount, service) => {
+        return amount + service.cost;
+      }, 0),
+    }));
   };
 
   formatServiceId = (id) => {
@@ -91,12 +104,59 @@ class PaymentForService extends React.Component {
     const currentIndex = serviceRequestId.indexOf(id);
     if (currentIndex < 0) {
       return [...serviceRequestId, id];
-    }else{
-      return  serviceRequestId.filter(x=> x !== id);
+    } else {
+      return serviceRequestId.filter((x) => x !== id);
     }
   };
 
+  payForServices = async (
+    reference,
+    modeOfPayment,
+    description,
+    paidOffline
+  ) => {
+    const { amount, serviceRequestId, patientId } = this.state;
+    let payload = {
+      patientId: patientId,
+      serviceRequestId: serviceRequestId,
+      totalAmount: amount,
+      description:
+        modeOfPayment === ("online-paystack" || "online-flutterwave")
+          ? "Paid online"
+          : description.description,
+      modeOfPayment: modeOfPayment,
+      referenceNumber:
+        modeOfPayment === "online-paystack"
+          ? reference.trxref
+          : modeOfPayment === "online-flutterwave"
+          ? reference.data?.data?.orderRef
+          : paidOffline
+          ? reference
+          : "",
+    };
+
+    try {
+      let res = await fetch(
+        `https://hms-tenece.azurewebsites.net/api/Admin/PayForServices`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+      );
+      if (res.status === 200) {
+        console.log(res);
+        this.setState({ success: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(payload);
+  };
+
   render() {
+    const { amount, email } = this.state;
     return (
       <>
         <PageLoader />
@@ -105,13 +165,24 @@ class PaymentForService extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message="Well done, you successfully paid for this service"
+              nextRoute="/AdminManageServiceRequests"
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3>Payment for service invoice 6740</h3>
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-              <h4 className="text-info">{`NGN ${this.state.amount}`}</h4>
+              {amount === 0 ? (
+                <h4 className="text-info">Nothing selected yet</h4>
+              ) : (
+                <h4 className="text-info">{`NGN ${formatAmount(amount)}`}</h4>
+              )}
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -126,12 +197,12 @@ class PaymentForService extends React.Component {
                               return (
                                 <div className="d-flex justify-content-between border-bottom p-3">
                                   <div>
-                                    <h5 className="m-0 font-weight-light">
+                                    <p className="m-0">
                                       {service?.serviceName}
-                                    </h5>
-                                    <h6 className="mt-0 font-weight-light text-info">
-                                      {service?.cost}
-                                    </h6>
+                                    </p>
+                                    <small className="mt-0 text-info">
+                                      {formatAmount(service?.cost) ?? ""}
+                                    </small>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">
                                     <input
@@ -212,7 +283,10 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-active-tab"
                           >
-                            <PayOnline details={this.state} />
+                            <PayOnline
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payForServices}
+                            />
                           </div>
                           <div
                             className="tab-pane fade"
@@ -220,7 +294,10 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-accepted-tab"
                           >
-                            <PayCash details={this.state} />
+                            <PayCash
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payForServices}
+                            />
                           </div>
                           <div
                             className="tab-pane fade"
@@ -228,7 +305,10 @@ class PaymentForService extends React.Component {
                             role="tabpanel"
                             aria-labelledby="pills-completed-tab"
                           >
-                            <Others details={this.state} />
+                            <Others
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payForServices}
+                            />
                           </div>
                         </div>
                       </div>

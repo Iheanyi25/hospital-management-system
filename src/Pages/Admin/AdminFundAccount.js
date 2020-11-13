@@ -3,15 +3,21 @@ import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./Components/FundingPaymentModes";
 import { Success } from "../../Components/Alerts";
 
-// const apiUrl = process.env.REACT_APP_API_URL;
-
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class AdminFundAccount extends React.Component {
+  constructor(props) {
+    super(props);
+    this.descriptionRef = React.createRef();
+    this.amountRef = React.createRef();
+  }
+
   state = {
     email: "",
-    patientId: "",
+    accountId: "",
+    amount: "",
+    paymentDescription: "",
     success: false,
   };
 
@@ -19,17 +25,56 @@ class AdminFundAccount extends React.Component {
     let user = JSON.parse(localStorage.getItem("authenticatedUser"));
     console.log("user email", this.props.history.location.state.id, user.email);
     this.setState({
-      patientId: this.props.history.location.state.id,
+      accountId: this.props.history.location.state.id,
       email: user.email,
     });
   }
+  fundAccount = async (reference, modeOfPayment, offline) => {
+    const { accountId } = this.state;
+
+    let amount = this.amountRef.current.value;
+    let paymentDescription = this.descriptionRef.current.value;
+
+    console.log(amount, paymentDescription);
+
+    let payload = {
+      accountId: accountId,
+      amount: amount,
+      modeOfPayment: modeOfPayment,
+      transactionReference:
+        modeOfPayment === "online-paystack"
+          ? reference.trxref
+          : modeOfPayment === "online-flutterwave"
+          ? reference.data?.data?.orderRef
+          : offline
+          ? reference
+          : "",
+      paymentDescription: paymentDescription,
+    };
+    try {
+      let res = await fetch(
+        `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+      );
+      if (res.status === 200) {
+        this.handleSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(payload);
+  };
 
   handleSuccess = () => {
     this.setState({ success: true });
   };
 
   render() {
-    // console.log("state", this.state);
     return (
       <>
         <PageLoader />
@@ -39,12 +84,12 @@ class AdminFundAccount extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           {this.state.success ? (
-              <Success
-                history={this.props.history}
-                message="You have successfully funded this account"
-                nextRoute="/AdminManageAccounts"
-              />
-            ) : null}
+            <Success
+              history={this.props.history}
+              message="You have successfully funded this account"
+              nextRoute="/AdminManageAccounts"
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>Fund Account</h3>
@@ -111,7 +156,8 @@ class AdminFundAccount extends React.Component {
                       >
                         <PayOnline
                           details={this.state}
-                          handleSuccess={this.handleSuccess}
+                          paidSuccessfully={this.fundAccount}
+                          setPaymentParams={this.setPaymentParams}
                         />
                       </div>
                       <div
@@ -121,8 +167,9 @@ class AdminFundAccount extends React.Component {
                         aria-labelledby="pills-accepted-tab"
                       >
                         <PayCash
-                          details={this.state}
-                          handleSuccess={this.handleSuccess}
+                          descriptionReference={this.descriptionRef}
+                          amountReference={this.amountRef}
+                          paidSuccessfully={this.fundAccount}
                         />
                       </div>
                       <div
@@ -132,8 +179,9 @@ class AdminFundAccount extends React.Component {
                         aria-labelledby="pills-completed-tab"
                       >
                         <Others
-                          details={this.state}
-                          handleSuccess={this.handleSuccess}
+                          descriptionReference={this.descriptionRef}
+                          amountReference={this.amountRef}
+                          paidSuccessfully={this.fundAccount}
                         />
                       </div>
                     </div>
