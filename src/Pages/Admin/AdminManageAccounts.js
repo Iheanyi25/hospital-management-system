@@ -25,6 +25,7 @@ class AdminManageAccounts extends React.Component {
     const data = await response.json();
     console.log(data.accounts);
     this.setState({ accounts: data.accounts });
+    console.log(data.accounts);
   };
 
   sync() {
@@ -160,7 +161,9 @@ class AdminManageAccounts extends React.Component {
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        {formatAmount(account?.accountBalance) ?? ""}
+                                        {formatAmount(
+                                          account?.accountBalance
+                                        ) ?? ""}
                                       </div>
                                     </td>
                                     <td>
