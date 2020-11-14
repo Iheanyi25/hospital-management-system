@@ -82,7 +82,6 @@ class ServiceRequestContents extends React.Component {
                         <div className="count text-primary fs-20">
                           {serviceRequests.length}
                         </div>
-<<<<<<< HEAD
                       </div>
                     </div>
                   </div>
@@ -102,19 +101,6 @@ class ServiceRequestContents extends React.Component {
                         ref={(el) => (this.el = el)}
                         className="table data-table"
                         data-columns='[
-=======
-                        <div className="page-content">
-                            <div className="card mb-0">
-                                <div className="card-body">
-                                    <div>
-
-
-                                        <div className="table-responsive">
-                                            <table
-                                                ref={(el) => (this.el = el)}
-                                                className="table data-table"
-                                                data-columns='[
->>>>>>> 29ab04d564d91809104e4c0d48e774ff7ec82ac0
                                                         { "data": "#" },
                                                         { "data": "name" },
                                                         { "data": "invoicenumber" },
@@ -122,7 +108,6 @@ class ServiceRequestContents extends React.Component {
                                                         { "data": "cost" },
                                                         { "data": "actions" }
                                                     ]'
-<<<<<<< HEAD
                         data-paging="true"
                         data-info="true"
                       >
@@ -147,114 +132,6 @@ class ServiceRequestContents extends React.Component {
                               <td>
                                 <div className="text-muted text-nowrap">
                                   {serviceRequest.serviceName}
-=======
-                                                data-paging="true"
-                                                data-info="true"
-                                            >
-                                                <thead>
-                                                    <tr className="bg-primary text-white">
-                                                        <th>#</th>
-                                                        <th>Patient's Name</th>
-                                                        <th>Service Category</th>
-                                                        <th>Service Name</th>
-                                                        <th>Requested By</th>
-                                                        <th>Date On</th>
-                                                        <th>Amount</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                1
-                                                        </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                Ogbonna Vitalis
-                                                        </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                Lab Service
-                                                        </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                Imaging and health
-                                                        </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                Dr Vitalis
-                                                        </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                7th Nov 2020
-                                                        </div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="text-muted text-nowrap">
-                                                                700
-                                                        </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div className="btn-group">
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                                    data-toggle="dropdown"
-                                                                    aria-haspopup="true"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    Action
-                                                            </button>
-                                                                <div className="dropdown-menu">
-
-                                                                    <NavLink
-                                                                        to={`/AdminUploadServiceRequestResult`}
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                                    Upload Result
-                                                                </NavLink>
-
-                                                                    <NavLink
-                                                                        to="#"
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-server mr-2" />
-                                                                        View Result
-                                                                </NavLink>
-                                                                    <NavLink
-                                                                        to="#"
-                                                                        className="btn btn-sm btn-block"
-                                                                    >
-                                                                        <span className="btn-icon icofont-server mr-2" />
-                                                                        Remove From Invoice
-                                                                </NavLink>
-
-
-                                                                </div>
-                                                            </div>
-
-                                                        </td>
-
-
-                                                    </tr>
-
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                    </div>
->>>>>>> 29ab04d564d91809104e4c0d48e774ff7ec82ac0
                                 </div>
                               </td>
                               <td>
