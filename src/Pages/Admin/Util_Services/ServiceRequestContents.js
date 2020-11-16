@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
+import formatAmount from '../../../utils/formatAmount'
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -42,14 +43,14 @@ class ServiceRequestContents extends React.Component {
     this.setState({ serviceRequests: response.serviceRequest });
   }
 
-  //   sync() {
-  //     this.$el = $(this.el);
-  //     this.$el.DataTable();
-  //   }
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+  }
 
   render() {
     const { serviceRequests } = this.state;
-
+    const { invoiceNumber, invoiceId, patientId } = this.props.location.state;
     return (
       <>
         <PageLoader />
@@ -61,11 +62,19 @@ class ServiceRequestContents extends React.Component {
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title">
-                {" "}
-                Services Request in Invoice #AB2344
+                {`Services Request in Invoice ${invoiceNumber}`}
               </h4>
-              <NavLink className="btn btn-primary" to="#">
-                {" "}
+              <NavLink
+                className="btn btn-primary"
+                to={{
+                  pathname: `/AdminPaymentForService/${invoiceId}`,
+                  state: {
+                    invoiceId: invoiceId,
+                    patientId: patientId,
+                    invoiceNumber: invoiceNumber,
+                  },
+                }}
+              >
                 Pay For Services
               </NavLink>
             </header>
@@ -131,7 +140,7 @@ class ServiceRequestContents extends React.Component {
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                  {serviceRequest.serviceName}
+                                  Labo Kanu
                                 </div>
                               </td>
                               <td>
@@ -141,7 +150,7 @@ class ServiceRequestContents extends React.Component {
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                  Imaging and health
+                                {serviceRequest?.serviceName}
                                 </div>
                               </td>
                               <td>
@@ -157,7 +166,7 @@ class ServiceRequestContents extends React.Component {
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                  700
+                                {formatAmount(serviceRequest?.cost) ?? ""}
                                 </div>
                               </td>
 
