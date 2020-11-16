@@ -1,5 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import { Success } from '../../Components/Alerts'
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
@@ -16,6 +17,7 @@ class BookConsultation extends React.Component {
       patientEmail: "",
       consultationTitle: "",
       reasonForConsultation: "",
+      success:false
     };
   }
 
@@ -120,12 +122,13 @@ class BookConsultation extends React.Component {
 
       const data = await request.json();
       console.log(data);
-      this.setState({
-        showSuccessMessage: true,
-        successMessage: data.message,
-        consultationTitle: "",
-        reasonForConsultation: "",
-      });
+      this.setState({ success: true })
+      // this.setState({
+      //   showSuccessMessage: true,
+      //   successMessage: data.message,
+      //   consultationTitle: "",
+      //   reasonForConsultation: "",
+      // });
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
@@ -136,36 +139,35 @@ class BookConsultation extends React.Component {
       doctorId,
       patientId,
       consultationTitle,
-      patientEmail,
       reasonForConsultation,
     } = this.state;
 
-    let displayErrorMessage;
-    let displaySuccessMessage;
+    // let displayErrorMessage;
+    // let displaySuccessMessage;
 
-    if (this.state.showErrorMessage) {
-      displayErrorMessage = (
-        <div className="alert alert-danger with-after-icon" role="alert">
-          <div className="alert-content">{this.state.errorMessage}</div>
-          <div className="alert-icon">
-            <i className="icofont-alarm" />
-          </div>
-        </div>
-      );
-    }
+    // if (this.state.showErrorMessage) {
+    //   displayErrorMessage = (
+    //     <div className="alert alert-danger with-after-icon" role="alert">
+    //       <div className="alert-content">{this.state.errorMessage}</div>
+    //       <div className="alert-icon">
+    //         <i className="icofont-alarm" />
+    //       </div>
+    //     </div>
+    //   );
+    // }
 
-    if (this.state.showSuccessMessage) {
-      displaySuccessMessage = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
-      );
-    }
+    // if (this.state.showSuccessMessage) {
+    //   displaySuccessMessage = (
+    //     <div className="alert alert-info with-after-icon" role="alert">
+    //       <div className="alert-content text-center">
+    //         {this.state.successMessage}
+    //       </div>
+    //       <div className="alert-icon">
+    //         <i className="icon icofont-ui-check" />
+    //       </div>
+    //     </div>
+    //   );
+    // }
 
     return (
       <>
@@ -175,23 +177,26 @@ class BookConsultation extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header">
-              <h3 className="page-title">Book Consultation</h3>
-            </header>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message="Well done, you successfully booked a consultation"
+              nextRoute="/AdminConsultations"
+            />
+          ) : null}
+          <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
                     <div className="card-body">
-                      <form className="mb-4">
-                        <h4>Consultation Form</h4>
+                      <form className="mb-4 p-5">
+                        <h4 className="text-center">Book Consultation</h4>
 
                         <div className="form-group">
                           <label>Select A Patient</label>
                           <select
-                            className=" custom-patient-picker rounded form-control"
-                            data-live-search="true"
+                            className="form-control"
                             value={patientId}
                             onChange={(e) => this.handleChange("patientId", e)}
                           >
@@ -215,8 +220,7 @@ class BookConsultation extends React.Component {
                             assigned to a doctor )
                           </label>
                           <select
-                            className=" custom-doctor-picker rounded form-control"
-                            data-live-search="true"
+                            className="form-control"
                             value={doctorId}
                             onChange={(e) => this.handleChange("doctorId", e)}
                           >
@@ -252,24 +256,17 @@ class BookConsultation extends React.Component {
                           <textarea
                             className="form-control"
                             rows={4}
-                            placeholder={"Reason for Consultation"}
+                            placeholder="Reason for Consultation"
                             onChange={(e) =>
                               this.handleChange("reasonForConsultation", e)
                             }
                             value={reasonForConsultation}
                           />
                         </div>
-                        {displayErrorMessage}
-                        {displaySuccessMessage}
+                        {/* {displayErrorMessage}
+                        {displaySuccessMessage} */}
                         <div className="row mt-5">
                           <div className="col">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">Cancel</span>{" "}
-                              <span className="d-sm-none">Cancel</span>
-                            </button>
                           </div>
                           <div className="col text-right">
                             <button

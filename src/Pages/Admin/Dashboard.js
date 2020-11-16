@@ -1,5 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import formatDate from "../../utils/formatDate";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Dashboard extends React.Component {
       apiUrl: process.env.REACT_APP_API_URL,
       doctorAppointments: [],
       doctorConsultations: [],
+      systemCount: null,
     };
   }
 
@@ -17,7 +19,6 @@ class Dashboard extends React.Component {
       `${this.state.apiUrl}/Admin/GetPatientConsultations`
     );
     let data = await patientQueue.json();
-    console.log(data.consultations);
     this.setState({ doctorConsultations: data.consultations });
 
     const doctorAppointments = await fetch(
@@ -25,9 +26,15 @@ class Dashboard extends React.Component {
     );
     let tempData = await doctorAppointments.json();
     this.setState({ doctorAppointments: tempData.doctorsAppointments });
+
+    const systemCount = await fetch(`${this.state.apiUrl}/Admin/Dashboard`);
+    let systemData = await systemCount.json();
+
+    this.setState({ systemCount: systemData });
   }
 
   render() {
+    const { systemCount } = this.state;
     return (
       <>
         <PageLoader />
@@ -48,7 +55,9 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1">My Doctors</h6>
-                          <div className="count text-primary fs-20">213</div>
+                          <div className="count text-primary fs-20">
+                            {systemCount?.doctorCount}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -63,7 +72,9 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1">My patients</h6>
-                          <div className="count text-primary fs-20">104</div>
+                          <div className="count text-primary fs-20">
+                            {systemCount?.patientCount}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -78,7 +89,9 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1">Appointments</h6>
-                          <div className="count text-primary fs-20">24</div>
+                          <div className="count text-primary fs-20">
+                            {systemCount?.pendingAppoinmentsCount}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -93,7 +106,9 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1 text-nowrap">All Users</h6>
-                          <div className="count text-primary fs-20">5238</div>
+                          <div className="count text-primary fs-20">
+                            {systemCount?.userCount}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -108,9 +123,11 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1 text-nowrap">
-                            Total Lab Tests
+                            Total Service Request
                           </h6>
-                          <div className="count text-primary fs-20">5238</div>
+                          <div className="count text-primary fs-20">
+                            {systemCount?.serviceRequestCount}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -125,7 +142,9 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1 text-nowrap">Total Drugs</h6>
-                          <div className="count text-primary fs-20">5238</div>
+                          <div className="count text-primary fs-20">
+                            {systemCount?.drugCount}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -156,9 +175,7 @@ class Dashboard extends React.Component {
                               {/* <th className="text-nowrap" scope="col">
                                 Doctor Email
                               </th> */}
-                              <th scope="col">
-                                Date
-                              </th>
+                              <th scope="col">Date</th>
                               <th className="text-nowrap" scope="col">
                                 Status
                               </th>
@@ -168,8 +185,8 @@ class Dashboard extends React.Component {
                           </thead>
                           <tbody>
                             {this.state.doctorConsultations.map(
-                              (consultation) => (
-                                <tr>
+                              (consultation, index) => (
+                                <tr key={index}>
                                   <td>{consultation.consultationTitle}</td>
                                   <td>
                                     <strong>
@@ -203,7 +220,9 @@ class Dashboard extends React.Component {
                                   </td> */}
                                   <td>
                                     <div className="d-flex align-items-center nowrap">
-                                      {consultation.dateOfConsultation}
+                                      {formatDate(
+                                        consultation.dateOfConsultation
+                                      ) ?? ""}
                                     </div>
                                   </td>
 
@@ -266,9 +285,11 @@ class Dashboard extends React.Component {
                           </thead>
                           <tbody>
                             {this.state.doctorAppointments.map(
-                              (appointment) => (
-                                <tr>
-                                  <td className="wrap">{appointment.appointmentTitle}</td>
+                              (appointment, key) => (
+                                <tr key={key}>
+                                  <td className="wrap">
+                                    {appointment.appointmentTitle}
+                                  </td>
                                   <td>
                                     <strong>
                                       {appointment.patient.lastName}{" "}
