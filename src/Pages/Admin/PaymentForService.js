@@ -94,7 +94,7 @@ class PaymentForService extends React.Component {
   calculateAmount = () => {
     this.setState((state) => ({
       amount: state.selectedServices.reduce((amount, service) => {
-        return amount + service.cost;
+        return amount + service.amount;
       }, 0),
     }));
   };
@@ -201,7 +201,7 @@ class PaymentForService extends React.Component {
                                       {service?.serviceName}
                                     </p>
                                     <small className="mt-0 text-info">
-                                      {formatAmount(service?.cost) ?? ""}
+                                      {formatAmount(service?.amount) ?? ""}
                                     </small>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">
