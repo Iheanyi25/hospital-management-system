@@ -7,6 +7,7 @@ import email from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
 import edit from "../../assets/img/edit.svg";
 import add from "../../assets/img/add.svg";
+import resetText from "../../assets/img/resetText.svg";
 
 class PatientProfile extends React.Component {
   render() {
@@ -34,13 +35,13 @@ class PatientProfile extends React.Component {
                         alt="user"
                       />
                       <div>
-                        <h6 className="mb-2 mt-2 font-weight-bold">
+                        <h5 className="mb-2 mt-2 font-weight-bold">
                           Thor Odinson
-                        </h6>
+                        </h5>
                         <p className="mb-2">Engineer</p>
                         <Link to="/">
                           <img src={reset} alt="reset" className="mr-2" />
-                          Reset Password
+                          <img src={resetText} alt="reset" className="mr-2" />
                         </Link>
                       </div>
                     </div>
