@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
+import { Success } from "../../Components/Alerts";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -28,6 +29,8 @@ class UpdatePatientProfile extends React.Component {
       diabetic: false,
       allergies: "",
       disabilities: "",
+
+      success: false,
 
       displayCoreDetailsSuccessNotification: null,
       displayCoreDetailsFailureNotification: null,
@@ -105,10 +108,10 @@ class UpdatePatientProfile extends React.Component {
 
   updateCoreDetails = async (e) => {
     e.preventDefault();
+    this.setState({ success: false });
 
     try {
       const {
-        apiUrl,
         firstName,
         lastName,
         otherNames,
@@ -131,35 +134,36 @@ class UpdatePatientProfile extends React.Component {
           gender,
         }),
       });
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
+      this.setState({ success: true });
+      // if (!request.ok) {
+      //   const error = await request.json();
+      //   throw Error(error.message);
+      // }
 
       //patient profile successfully updated
 
-      this.setState({
-        displayCoreDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayCoreDetailsSuccessNotification: false,
-          }),
-        1500
-      );
+      // this.setState({
+      //   displayCoreDetailsSuccessNotification: true,
+      // });
+      // setTimeout(
+      //   () =>
+      //     this.setState({
+      //       displayCoreDetailsSuccessNotification: false,
+      //     }),
+      //   1500
+      // );
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayCoreDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayCoreDetailsFailureNotification: false,
-          }),
-        1500
-      );
+      // this.setState({
+      //   displayCoreDetailsFailureNotification: true,
+      // });
+      // setTimeout(
+      //   () =>
+      //     this.setState({
+      //       displayCoreDetailsFailureNotification: false,
+      //     }),
+      //   1500
+      // );
     }
   };
 
@@ -168,7 +172,6 @@ class UpdatePatientProfile extends React.Component {
 
     try {
       const {
-        apiUrl,
         phoneNumber,
         email,
         address,
@@ -231,7 +234,6 @@ class UpdatePatientProfile extends React.Component {
 
     try {
       const {
-        apiUrl,
         bloodGroup,
         genoType,
         diabetic,
@@ -347,12 +349,19 @@ class UpdatePatientProfile extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              message="Well done, you successfully added this update"
+              dontRoute={true}
+            />
+          ) : null}
           <div className="main-content-wrap">
             <div className="row">
               <div className="col-12 col-md-12 pb-5 mb-5">
                 <div className="card">
                   <div className="card-body">
-                    {paymentStatus === "Paid" ? null : paymentStatus === "Not Paid" ?(
+                    {paymentStatus === "Paid" ? null : paymentStatus ===
+                      "Not Paid" ? (
                       <div
                         className="col-12 alert alert-warning with-before-icon"
                         role="alert"
@@ -379,7 +388,7 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                         </div>
                       </div>
-                    ): null}
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -496,7 +505,8 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col">
+                          <div className="col"></div>
+                          <div className="col text-right">
                             <button
                               type="submit"
                               className="btn btn-primary"
@@ -505,7 +515,6 @@ class UpdatePatientProfile extends React.Component {
                               Save Core Details
                             </button>
                           </div>
-                          <div className="col text-right"></div>
                         </div>
                       </form>
                     </div>
@@ -594,7 +603,8 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col">
+                          <div className="col"></div>
+                          <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-primary"
@@ -603,7 +613,6 @@ class UpdatePatientProfile extends React.Component {
                               Save Contact Details
                             </button>
                           </div>
-                          <div className="col text-right"></div>
                         </div>
                       </form>
                     </div>
@@ -715,7 +724,8 @@ class UpdatePatientProfile extends React.Component {
                         </div>
 
                         <div className="row">
-                          <div className="col">
+                          <div className="col"></div>
+                          <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-primary"
@@ -724,7 +734,6 @@ class UpdatePatientProfile extends React.Component {
                               Save Health Details
                             </button>
                           </div>
-                          <div className="col text-right"></div>
                         </div>
                       </form>
                     </div>
