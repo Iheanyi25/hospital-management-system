@@ -94,7 +94,7 @@ class PaymentForService extends React.Component {
   calculateAmount = () => {
     this.setState((state) => ({
       amount: state.selectedServices.reduce((amount, service) => {
-        return amount + service.cost;
+        return amount + service.amount;
       }, 0),
     }));
   };
@@ -174,7 +174,7 @@ class PaymentForService extends React.Component {
           ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
-              <h3>Payment for service invoice 6740</h3>
+              <h3>{`Payment for service invoice #${this.props.history.location.state.invoiceNumber}`}</h3>
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
@@ -201,7 +201,7 @@ class PaymentForService extends React.Component {
                                       {service?.serviceName}
                                     </p>
                                     <small className="mt-0 text-info">
-                                      {formatAmount(service?.cost) ?? ""}
+                                      {formatAmount(service?.amount) ?? ""}
                                     </small>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">

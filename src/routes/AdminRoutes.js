@@ -19,6 +19,8 @@ import AdminManageAccounts from "../Pages/Admin/AdminManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Admin/AdminFundAccount";
 import PaymentForService from "../Pages/Admin/PaymentForService";
+import PatientProfile from "../Pages/Admin/PatientProfile";
+import ViewPreConsultationHistory from "../Pages/Admin/ViewPreConsultationHistory";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -29,6 +31,7 @@ import EditServiceCategory from "../Pages/Admin/Util_Services//EditServiceCatego
 import EditService from "../Pages/Admin/Util_Services//EditService";
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
+import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
 // ward utils
 import CreateWard from "../Pages/Admin/Util_Ward/CreateWard";
 import EditWard from "../Pages/Admin/Util_Ward/EditWard";
@@ -170,6 +173,21 @@ export default function AdminRoutes() {
             exact
             path="/AdminPaymentForService/:id"
             component={PaymentForService}
+          />
+          <Route
+            exact
+            path="/AdminPatientProfile/:id"
+            component={PatientProfile}
+          />
+          <Route
+            exact
+            path="/AdminViewLabResults/:id"
+            component={ViewLabResults}
+          />
+          <Route
+            exact
+            path="/AdminViewPreConsultationHistory/:id"
+            component={ViewPreConsultationHistory}
           />
 
           <Route

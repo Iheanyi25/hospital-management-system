@@ -314,8 +314,8 @@ class Dashboard extends React.Component {
                                     </div>
                                   </td> */}
                                   <td>
-                                    <div className="d-flex align-items-center nowrap text-primary">
-                                      {appointment.appointmentDate}
+                                    <div className="d-flex align-items-center nowrap">
+                                      {formatDate(appointment.appointmentDate) ?? ""}
                                     </div>
                                   </td>
 
