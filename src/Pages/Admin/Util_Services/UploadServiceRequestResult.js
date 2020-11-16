@@ -12,16 +12,22 @@ class UploadServiceRequestResult extends React.Component {
 
     this.state = {
       result: "",
-      image: [],
+      images: [],
       additionalComments: "",
       serviceRequestId: "",
     };
   }
 
+  fileSelectedHandler = async (e) => {
+    await this.setState({ images: [...this.state.images, ...e.target.files] });
+    console.log(this.state.images);
+  };
+
   async componentDidMount() {
     const { params } = this.props.match;
 
     if (params.serviceRequestId) {
+      this.setState({ serviceRequestId: params.serviceRequestId });
       this.fetchServiceRequest(params.serviceRequestId);
       return;
     }
@@ -29,11 +35,6 @@ class UploadServiceRequestResult extends React.Component {
 
   handleChange(name, e) {
     const value = e.target.value;
-    console.log(value);
-    if (name == "image") {
-      this.state.image.push(value);
-    }
-    console.log(this.state.image);
     this.setState({
       [name]: value,
     });
@@ -42,41 +43,39 @@ class UploadServiceRequestResult extends React.Component {
   uploadServiceRequestResult = async (e) => {
     e.preventDefault();
 
-    try {
-      const {
-        result,
-        image,
-        additionalComments,
-        serviceRequestId,
-      } = this.state;
+    //append others
+    const { result, additionalComments, serviceRequestId } = this.state;
+    const requestResultData = new FormData();
+    await requestResultData.append("serviceRequestId", serviceRequestId);
+    await requestResultData.append("result", result);
 
-      const data = {
-        serviceRequestId,
-        result,
-        image,
-        additionalComments,
-      };
-      console.log(data);
-
-      const request = await fetch(
-        `${apiUrl}/Admin/UploadServiceRequestResult`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "multipart/form-data",
-            accept: "*/*",
-          },
-          body: JSON.stringify(data),
+    this.state.images.forEach(
+      async (image) => await requestResultData.append("images", image)
+    );
+    setTimeout(async () => {
+      try {
+        const request = await fetch(
+          `${apiUrl}/Admin/UploadServiceRequestResult`,
+          {
+            method: "POST",
+            body: requestResultData,
+          }
+        );
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.message);
         }
-      );
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
 
-      //result uploaded successfully
-    } catch (error) {
-      console.log(error);
+        //result uploaded successfully
+      } catch (error) {
+        console.log(error);
+      }
+    }, 2000);
+    await requestResultData.append("additionalComments", additionalComments);
+
+    // Display the key/value pairs
+    for (var pair of requestResultData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
     }
   };
 
@@ -90,11 +89,6 @@ class UploadServiceRequestResult extends React.Component {
       serviceRequest: response.serviceRequest,
       serviceRequestId: response.serviceRequest.id,
     });
-  }
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
   }
 
   render() {
@@ -157,9 +151,10 @@ class UploadServiceRequestResult extends React.Component {
                       <input
                         className="form-control"
                         type="file"
+                        multiple
                         placeholder=""
-                        onChange={(e) => this.handleChange("image", e)}
-                        value={image}
+                        onChange={(e) => this.fileSelectedHandler(e)}
+                        name="image"
                       />
                     </div>
 
