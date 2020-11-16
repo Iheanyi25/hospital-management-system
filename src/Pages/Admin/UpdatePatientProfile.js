@@ -49,6 +49,24 @@ class UpdatePatientProfile extends React.Component {
     }
   }
 
+  getRegistrationStatus = async () => {
+    try {
+      let res = await fetch(
+        `${apiUrl}/Admin/GetRegistrationFeePaymentStatus?patientId=${this.state.patientId}`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          redirect: "follow",
+        }
+      );
+      const data = await res.text();
+      console.log(JSON.parse(data));
+      this.setState({ paymentStatus: JSON.parse(data).paymentStatus });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   fetchPatientDetails = async (id) => {
     this.setState({ patientId: id });
 
@@ -75,6 +93,7 @@ class UpdatePatientProfile extends React.Component {
       allergies: data.patientProfile?.allergies,
       disabilities: data.patientProfile?.disabilities,
     });
+    this.getRegistrationStatus();
   };
 
   handleChange(name, e) {
@@ -318,9 +337,8 @@ class UpdatePatientProfile extends React.Component {
       displayContactDetailsSuccessNotification,
 
       displayHealthDetailsSuccessNotification,
+      paymentStatus,
     } = this.state;
-
-    console.log(this.state.patient.patientProfile?.account);
     return (
       <>
         <PageLoader />
@@ -334,31 +352,34 @@ class UpdatePatientProfile extends React.Component {
               <div className="col-12 col-md-12 pb-5 mb-5">
                 <div className="card">
                   <div className="card-body">
-                    <div
-                      className="col-12 alert alert-warning with-before-icon"
-                      role="alert"
-                    >
-                      <div className="alert-content row">
-                        <div className="col-md-11 text-center m-auto">
-                          <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
-                        </div>
-                        <div className="col-md-1">
-                          <Link
-                            className="btn btn-sm btn-primary"
-                            to={{
-                              pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                              state: {
-                                patientId: this.state.patientId,
-                                email: this.state.email,
-                                cost: this.state.patient?.patientProfile?.account?.healthPlan?.cost
-                              },
-                            }}
-                          >
-                            Pay Now
-                          </Link>
+                    {paymentStatus === "Paid" ? null : paymentStatus === "Not Paid" ?(
+                      <div
+                        className="col-12 alert alert-warning with-before-icon"
+                        role="alert"
+                      >
+                        <div className="alert-content row">
+                          <div className="col-md-11 text-center m-auto">
+                            <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
+                          </div>
+                          <div className="col-md-1">
+                            <Link
+                              className="btn btn-sm btn-primary"
+                              to={{
+                                pathname: `/AdminPatientRegistration/${this.state.patientId}`,
+                                state: {
+                                  patientId: this.state.patientId,
+                                  email: this.state.email,
+                                  cost: this.state.patient?.patientProfile
+                                    ?.account?.healthPlan?.cost,
+                                },
+                              }}
+                            >
+                              Pay Now
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ): null}
                   </div>
                 </div>
               </div>
