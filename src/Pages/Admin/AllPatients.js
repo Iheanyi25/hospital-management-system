@@ -95,6 +95,16 @@ class AllPatients extends React.Component {
             <span className="btn-icon icofont-stethoscope-alt mr-2" />
             Go for Pre-Consultation
           </NavLink>
+          <NavLink
+            to={{
+              pathname: `/AdminViewPreConsultationHistory/${x.id}`,
+              state: x,
+            }}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+            Pre-Consultation History
+          </NavLink>
           {/* <NavLink
           to={{
             pathname: `/AdminPreConsultation/${x.id}`,

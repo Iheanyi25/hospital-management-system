@@ -20,6 +20,7 @@ import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Admin/AdminFundAccount";
 import PaymentForService from "../Pages/Admin/PaymentForService";
 import PatientProfile from "../Pages/Admin/PatientProfile";
+import ViewPreConsultationHistory from "../Pages/Admin/ViewPreConsultationHistory";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -182,6 +183,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminViewLabResults/:id"
             component={ViewLabResults}
+          />
+          <Route
+            exact
+            path="/AdminViewPreConsultationHistory/:id"
+            component={ViewPreConsultationHistory}
           />
 
           <Route
