@@ -69,21 +69,21 @@ class AllPatients extends React.Component {
         <div className="dropdown-menu text-left">
           <NavLink
             to={{
-              pathname: `/AdminPatientProfile`,
-              // state: x,
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icon sli-user mr-2" /> View Profile
-          </NavLink>
-          <NavLink
-            to={{
               pathname: `/AdminUpdatePatientProfile/${x.id}`,
               state: x,
             }}
             className="btn btn-sm btn-block"
           >
             <span className="btn-icon icofont-ui-edit  mr-2" /> Update Profile
+          </NavLink>
+          <NavLink
+            to={{
+              pathname: `/AdminPatientProfile/${x.id}`,
+              state: x,
+            }}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icon sli-user mr-2" /> View Profile
           </NavLink>
           <NavLink
             to={{

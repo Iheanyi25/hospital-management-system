@@ -174,7 +174,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminPatientProfile"
+            path="/AdminPatientProfile/:id"
             component={PatientProfile}
           />
 

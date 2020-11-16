@@ -9,8 +9,38 @@ import edit from "../../assets/img/edit.svg";
 import add from "../../assets/img/add.svg";
 import resetText from "../../assets/img/resetText.svg";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 class PatientProfile extends React.Component {
+  state = {
+    patientDetails: {},
+  };
+
+  componentDidMount() {
+    this.fetchPatientDetails();
+  }
+
+  fetchPatientDetails = async () => {
+    try {
+      let res = await fetch(
+        `${apiUrl}/Patient/GetPatient?id=${this.props.location.state.id}`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "GET",
+          redirect: "follow",
+        }
+      );
+      const data = await res.text();
+      console.log(JSON.parse(data).patientProfile);
+      this.setState({
+        patientDetails: JSON.parse(data).patientProfile,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
+    const { patientDetails } = this.state;
     return (
       <>
         <PageLoader />
@@ -22,7 +52,10 @@ class PatientProfile extends React.Component {
           <div className="main-content-wrap">
             <div className="page-content">
               <header className="page-header">
-                <h3 className="page-title">Dr. Emene’s profile</h3>
+                <h3 className="page-title">
+                  {" "}
+                  {`${patientDetails?.fullName ?? ""}'s profile`}
+                </h3>
               </header>
               <div className="col col-md-12">
                 <div className="card border-light">
@@ -36,7 +69,7 @@ class PatientProfile extends React.Component {
                       />
                       <div>
                         <h5 className="mb-2 mt-2 font-weight-bold">
-                          Thor Odinson
+                          {`${patientDetails?.fullName ?? ""} `}
                         </h5>
                         <p className="mb-2">Engineer</p>
                         <Link to="/">
@@ -48,11 +81,15 @@ class PatientProfile extends React.Component {
                     <div className="mt-2">
                       <div className="d-flex mb-3 mt-2">
                         <img src={email} alt="reset" className="mr-2 mb-2" />
-                        <p>emene_v@gmail.com</p>
+                        <p>{`${
+                          patientDetails?.patient?.email.toLowerCase() ?? "N/A"
+                        }`}</p>
                       </div>
                       <div className="d-flex pl-1">
                         <img src={phone} alt="reset" className="mr-3 mb-2" />
-                        <p>0909 5667 678</p>
+                        <p>{`${
+                          patientDetails?.patient?.phoneNumber ?? "N/A"
+                        }`}</p>
                       </div>
                     </div>
                   </div>
@@ -66,38 +103,46 @@ class PatientProfile extends React.Component {
                         <h6 className="card-title mt-0 font-weight-bold">
                           Health details
                         </h6>
-                        <img src={edit} alt="reset" className="mr-3 mb-2" />
+                        <Link
+                          to={{
+                            pathname: `/AdminUpdatePatientProfile/${this.props.location.state.id}`,
+                            state: this.props.location.state,
+                          }}
+                        >
+                          <img src={edit} alt="reset" className="mr-3 mb-2" />
+                        </Link>
                       </div>
                       <div className="basic-info d-flex justify-content-between mt-4">
                         <div>
                           <p className="font-weight-bold">Blood group</p>
-                          <p>o+</p>
+                          <p>{`${patientDetails?.bloodGroup ?? "N/A"}`}</p>
                         </div>
                         <div>
                           <p className="font-weight-bold">Genotype</p>
-                          <p>o+</p>
+                          <p>{`${patientDetails?.genoType ?? "N/A"}`}</p>
                         </div>
                         <div>
                           <p className="font-weight-bold">Gender</p>
-                          <p>o+</p>
+                          <p>{`${patientDetails?.gender ?? "N/A"}`}</p>
                         </div>
                         <div>
                           <p className="font-weight-bold">Diabetic</p>
-                          <p>o+</p>
+                          <p>{`${
+                            patientDetails?.diabetic === true
+                              ? "Yes"
+                              : patientDetails?.diabetic === false
+                              ? "No"
+                              : null ?? ""
+                          }`}</p>
                         </div>
                       </div>
                       <div className="allergies mt-4">
                         <h6 className="mb-1">Allergies</h6>
-                        <p>
-                          Grass and tree pollen dust mites. Animal dander, tiny
-                          flakes of skin or hair. insect bites and stings.
-                          medicines – including ibuprofen, aspirin and certain
-                          antibiotic
-                        </p>
+                        <p>{`${patientDetails?.allergies ?? "N/A"}`}</p>
                       </div>
                       <div className="Disabilities mt-4">
                         <h6 className="mb-1">Disabilities</h6>
-                        <p>Fractured arm, Myopia</p>
+                        <p>{`${patientDetails?.disabilities ?? "N/A"}`}</p>
                       </div>
                     </div>
                   </div>
@@ -108,30 +153,43 @@ class PatientProfile extends React.Component {
                       <div className="d-flex justify-content-between border-bottom mb-4">
                         <h6 className="card-title mt-0 font-weight-bold">
                           Contact Information
-                          <img src={add} alt="reset" className="ml-3" />
                         </h6>
-                        <img src={edit} alt="reset" className="mr-3 mb-2" />
+                        <Link
+                          to={{
+                            pathname: `/AdminUpdatePatientProfile/${this.props.location.state.id}`,
+                            state: this.props.location.state,
+                          }}
+                        >
+                          <img src={edit} alt="reset" className="mr-3 mb-2" />
+                        </Link>
                       </div>
                       <div className="contact-info">
-                        <div className='mb-4'>
-                          <p className='font-weight-bold mb-2'>Mobile</p>
-                          <p>0909 5667 678</p>
+                        <div className="mb-4">
+                          <p className="font-weight-bold mb-2">Mobile</p>
+                          <p>{`${
+                            patientDetails?.patient?.phoneNumber ?? "N/A"
+                          }`}</p>
                         </div>
-                        <div className='mb-4'>
-                          <p className='font-weight-bold mb-2'>Email</p>
-                          <p>emene_v@gmail.com</p>
+                        <div className="mb-4">
+                          <p className="font-weight-bold mb-2">Email</p>
+                          <p>{`${
+                            patientDetails?.patient?.email.toLowerCase() ??
+                            "N/A"
+                          }`}</p>
                         </div>
-                        <div className='mb-4'>
-                          <p className='font-weight-bold mb-2'>Address</p>
-                          <p>8502 Preston Rd. Inglewood, Maine 98380</p>
+                        <div className="mb-4">
+                          <p className="font-weight-bold mb-2">Address</p>
+                          <p>{`${patientDetails?.address ?? "N/A"}`}</p>
                         </div>
-                        <div className='mb-4'>
-                          <p className='font-weight-bold mb-2'>State of origin</p>
-                          <p>Lagos state</p>
+                        <div className="mb-4">
+                          <p className="font-weight-bold mb-2">
+                            State of origin
+                          </p>
+                          <p>{`${patientDetails?.state ?? "N/A"}`}</p>
                         </div>
-                        <div className='mb-4'>
-                          <p className='font-weight-bold mb-2'>Country</p>
-                          <p>Nigeria</p>
+                        <div className="mb-4">
+                          <p className="font-weight-bold mb-2">Country</p>
+                          <p>{`${patientDetails?.country ?? "N/A"}`}</p>
                         </div>
                       </div>
                     </div>
