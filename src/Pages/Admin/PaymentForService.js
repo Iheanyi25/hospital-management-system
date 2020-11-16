@@ -174,7 +174,7 @@ class PaymentForService extends React.Component {
           ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
-              <h3>Payment for service invoice 6740</h3>
+              <h3>{`Payment for service invoice #${this.props.history.location.state.invoiceNumber}`}</h3>
             </header>
             <div className=" d-flex">
               <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
