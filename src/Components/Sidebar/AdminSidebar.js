@@ -180,7 +180,7 @@ class AdminSidebar extends React.Component {
 										</ul>
 									</li>
 
-									{/* <li className="menu-item has-sub">
+									<li className="menu-item has-sub">
 										<NavLink to="#" className="item-link">
 											<span className="link-text">Other Admins</span>{' '}
 											<span className="link-caret icofont-thin-right" />
@@ -202,8 +202,8 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 										</ul>
-									</li> */}
-									{/* <li className="menu-item">
+									</li> 
+									<li className="menu-item">
 										<span className="group-title">Utility</span>
 									</li>
 									<li className="menu-item has-sub">
@@ -305,7 +305,7 @@ class AdminSidebar extends React.Component {
 											</li>
 										</ul>
 									</li>
-									 */}
+									
 								</ul>
 							</nav>
 						</div>

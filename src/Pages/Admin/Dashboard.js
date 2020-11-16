@@ -1,5 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import formatDate from '../../utils/formatDate'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -203,7 +204,7 @@ class Dashboard extends React.Component {
                                   </td> */}
                                   <td>
                                     <div className="d-flex align-items-center nowrap">
-                                      {consultation.dateOfConsultation}
+                                      {formatDate(consultation.dateOfConsultation) ?? ""}
                                     </div>
                                   </td>
 

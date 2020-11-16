@@ -11,6 +11,7 @@ import {
   Others,
 } from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
+import { Success } from '../../Components/Alerts'
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -26,6 +27,7 @@ class PatientRegistration extends React.Component {
       email: "",
       amount: "",
       invoiceNumber: "",
+      success: false
     };
   }
 
@@ -39,13 +41,15 @@ class PatientRegistration extends React.Component {
   }
   fetPatientRegistrationIvoice = async (id) => {
 		try {
-			let res = await fetch(`https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice/${id}`, {
+			let res = await fetch(`https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice?patientId=${id}`, {
 				headers: { 'Content-Type': 'application/json-patch+json' },
 				method: 'POST',
 				redirect: 'follow',
 			});
-			const data = await res.text();
-			console.log(JSON.parse(data));
+			const data = await res.json();
+      // console.log(JSON.parse(data).patientRegistrationInvoice.invoiceNumber);
+      // console.log(data.patientRegistrationInvoice.invoiceNumber);
+      this.setState({invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber})
 		} catch (error) {
 			console.log(error);
 		}
@@ -64,11 +68,11 @@ class PatientRegistration extends React.Component {
   }
 
   register = async (reference, modeOfPayment, description, paidOffline) => {
-    const { amount, patientId } = this.state;
+    const { amount, patientId, invoiceNumber } = this.state;
     let payload = {
       patientId: patientId,
       amount: amount,
-      invoiceNumber: "",
+      invoiceNumber: invoiceNumber,
       description:
         modeOfPayment === ("online-paystack" || "online-flutterwave")
           ? "Paid online"
@@ -85,23 +89,23 @@ class PatientRegistration extends React.Component {
     };
 
     console.log(payload);
-    // try {
-    //   let res = await fetch(
-    //     `https://hms-tenece.azurewebsites.net/api/Admin/PayForServices`,
-    //     {
-    //       headers: { "Content-Type": "application/json-patch+json" },
-    //       method: "POST",
-    //       body: JSON.stringify(payload),
-    //       redirect: "follow",
-    //     }
-    //   );
-    //   if (res.status === 200) {
-    //     console.log(res);
-    //     this.setState({ success: true });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      let res = await fetch(
+        `https://hms-tenece.azurewebsites.net/api/Admin/PayPatientRegistrationFee`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+      );
+      if (res.status === 200) {
+        console.log(res);
+        this.setState({ success: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   render() {
     const { amount, email } = this.state;
@@ -113,6 +117,13 @@ class PatientRegistration extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully registered this patient"
+							nextRoute="/AdminAllPatients"
+						/>
+					) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>Payment for registration</h3>
