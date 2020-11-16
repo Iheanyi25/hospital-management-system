@@ -28,7 +28,20 @@ class AllDoctors extends React.Component {
 
     sync() {
         this.$el = $(this.el);
-        this.$el.DataTable();
+        this.$el.DataTable({
+
+
+            "fnDrawCallback": function( oSettings ) {
+
+                $('.clicking').click(function (e) {
+                    e.preventDefault();
+                    alert("Yes I am here")
+                
+                })
+            }
+
+
+        });
     }
 
     render() {
@@ -55,14 +68,14 @@ class AllDoctors extends React.Component {
                                             ref={(el) => (this.el = el)}
                                             className="table"
                                             data-columns='[
-                                          { "data": "photo" },
-                                          { "data": "name" },
-                                          { "data": "email" },
-                                          { "data": "phone" },
-                                          { "data": "date-of-birth" },
-                                          { "data": "address" },
-                                          { "data": "actions" }
-                                      ]'
+                                                { "data": "photo" },
+                                                { "data": "name" },
+                                                { "data": "email" },
+                                                { "data": "phone" },
+                                                { "data": "date-of-birth" },
+                                                { "data": "address" },
+                                                { "data": "actions" }
+                                            ]'
                                             data-paging="true"
                                             data-info="true"
                                         >
@@ -150,7 +163,7 @@ class AllDoctors extends React.Component {
 
                                                                     <NavLink
                                                                         to={`#`}
-                                                                        className="btn btn-sm btn-block"
+                                                                        className="btn btn-sm btn-block clicking"
                                                                     >
                                                                         <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                                                             View Profile
