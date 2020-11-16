@@ -4,7 +4,7 @@ import { PageLoader, Table } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
-const imageDefaulturl = "https://webmeup.com/upload/blog/lead-image-105.png"
+const imageDefaulturl = "https://webmeup.com/upload/blog/lead-image-105.png";
 class AllPatients extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class AllPatients extends React.Component {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Patient/GetPatients`);
     const data = await response.json();
-    this.setState({ patients: data.patients.map(x => x.patient) });
+    this.setState({ patients: data.patients.map((x) => x.patient) });
   }
 
   componentDidMount() {
@@ -35,46 +35,67 @@ class AllPatients extends React.Component {
     return this.state.patients.map((x, index) => {
       return {
         "#": ++index,
-        "Photo": <img
-          src={imageDefaulturl}
-          alt=""
-          width={40}
-          height={40}
-          className="rounded-500"
-        />,
-        "Name": `${x.firstName} ${x.lastName}`,
-        "Email": <a href={"mailto:" + x.email}>{x.email}</a>,
-        "Phone": x.phoneNumber,
+        Photo: (
+          <img
+            src={imageDefaulturl}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-500"
+          />
+        ),
+        Name: `${x.firstName} ${x.lastName}`,
+        Email: <a href={"mailto:" + x.email}>{x.email}</a>,
+        Phone: x.phoneNumber,
         // "Date Of Birth": "10 Feb 2018",
         // "Address": "9:15 - 9:45",
-        "Actions": this.generateTableFunctions(x)
-      }
-    })
-  }
+        Actions: this.generateTableFunctions(x),
+      };
+    });
+  };
 
   generateTableFunctions = (x) => {
-    return <div className="btn-group">
-      <button
-        type="button"
-        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        Action
-    </button>
-      <div className="dropdown-menu text-left">
-        <NavLink
-          to={{
-            pathname: `/AdminPreConsultation/${x.id}`,
-            state: x
-          }}
-          className="btn btn-sm btn-block"
+    return (
+      <div className="btn-group">
+        <button
+          type="button"
+          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
         >
-          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-        Go for Pre-Consultation
-      </NavLink>
-        {/* <NavLink
+          Action
+        </button>
+        <div className="dropdown-menu text-left">
+          <NavLink
+            to={{
+              pathname: `/AdminPatientProfile`,
+              // state: x,
+            }}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icon sli-user mr-2" /> View Profile
+          </NavLink>
+          <NavLink
+            to={{
+              pathname: `/AdminUpdatePatientProfile/${x.id}`,
+              state: x,
+            }}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-ui-edit  mr-2" /> Update Profile
+          </NavLink>
+          <NavLink
+            to={{
+              pathname: `/AdminPreConsultation/${x.id}`,
+              state: x,
+            }}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+            Go for Pre-Consultation
+          </NavLink>
+          {/* <NavLink
           to={{
             pathname: `/AdminPreConsultation/${x.id}`,
             state: x
@@ -84,20 +105,10 @@ class AllPatients extends React.Component {
           <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Pre-Consultation History
       </NavLink> */}
-        <NavLink
-          to={{
-            pathname: `/AdminUpdatePatientProfile/${x.id}`,
-            state: x
-          }}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-        Update Profile
-      </NavLink>
+        </div>
       </div>
-    </div>
-
-  }
+    );
+  };
 
   render() {
     return (
@@ -127,17 +138,12 @@ class AllPatients extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        {
-                          this.state.patients.length > 0 &&
-                          <Table
-                            content={this.formatDataForTable()}
-                          />
-                        }
-
+                        {this.state.patients.length > 0 && (
+                          <Table content={this.formatDataForTable()} />
+                        )}
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
               <div className="add-action-box">
