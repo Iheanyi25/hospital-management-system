@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
+import { Success } from "../../Components/Alerts";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -29,14 +30,7 @@ class UpdatePatientProfile extends React.Component {
       allergies: "",
       disabilities: "",
 
-      displayCoreDetailsSuccessNotification: null,
-      displayCoreDetailsFailureNotification: null,
-
-      displayContactDetailsSuccessNotification: null,
-      displayContactDetailsFailureNotification: null,
-
-      displayHealthDetailsSuccessNotification: null,
-      displayHealthDetailsFailureNotification: null,
+      success: false,
     };
   }
 
@@ -48,6 +42,24 @@ class UpdatePatientProfile extends React.Component {
       return;
     }
   }
+
+  getRegistrationStatus = async () => {
+    try {
+      let res = await fetch(
+        `${apiUrl}/Admin/GetRegistrationFeePaymentStatus?patientId=${this.state.patientId}`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          redirect: "follow",
+        }
+      );
+      const data = await res.text();
+      console.log(JSON.parse(data));
+      this.setState({ paymentStatus: JSON.parse(data).paymentStatus });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   fetchPatientDetails = async (id) => {
     this.setState({ patientId: id });
@@ -75,6 +87,7 @@ class UpdatePatientProfile extends React.Component {
       allergies: data.patientProfile?.allergies,
       disabilities: data.patientProfile?.disabilities,
     });
+    this.getRegistrationStatus();
   };
 
   handleChange(name, e) {
@@ -86,10 +99,10 @@ class UpdatePatientProfile extends React.Component {
 
   updateCoreDetails = async (e) => {
     e.preventDefault();
+    this.setState({ success: false });
 
     try {
       const {
-        apiUrl,
         firstName,
         lastName,
         otherNames,
@@ -98,7 +111,7 @@ class UpdatePatientProfile extends React.Component {
         patientId,
       } = this.state;
 
-      const request = await fetch(`${apiUrl}/Admin/UpdatePatientBasicInfo`, {
+      const request = await fetch(`${apiUrl}/Patient/UpdatePatientBasicInfo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,35 +125,12 @@ class UpdatePatientProfile extends React.Component {
           gender,
         }),
       });
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
+      console.log(request);
+      if (request.status === 200) {
+        this.setState({ success: true });
       }
-
-      //patient profile successfully updated
-
-      this.setState({
-        displayCoreDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayCoreDetailsSuccessNotification: false,
-          }),
-        1500
-      );
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayCoreDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayCoreDetailsFailureNotification: false,
-          }),
-        1500
-      );
     }
   };
 
@@ -149,7 +139,6 @@ class UpdatePatientProfile extends React.Component {
 
     try {
       const {
-        apiUrl,
         phoneNumber,
         email,
         address,
@@ -159,7 +148,7 @@ class UpdatePatientProfile extends React.Component {
       } = this.state;
 
       const request = await fetch(
-        `${apiUrl}/Admin/UpdatePatientContactDetails`,
+        `${apiUrl}/Patient/UpdatePatientContactDetails`,
         {
           method: "POST",
           headers: {
@@ -175,35 +164,11 @@ class UpdatePatientProfile extends React.Component {
           }),
         }
       );
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
+      if (request.status === 200) {
+        this.setState({ success: true });
       }
-
-      //patient contact details successfully updated
-
-      this.setState({
-        displayContactDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayContactDetailsSuccessNotification: false,
-          }),
-        1500
-      );
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayContactDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayContactDetailsFailureNotification: false,
-          }),
-        1500
-      );
     }
   };
 
@@ -212,7 +177,6 @@ class UpdatePatientProfile extends React.Component {
 
     try {
       const {
-        apiUrl,
         bloodGroup,
         genoType,
         diabetic,
@@ -222,7 +186,7 @@ class UpdatePatientProfile extends React.Component {
       } = this.state;
 
       const request = await fetch(
-        `${apiUrl}/Admin/UpdatePatientHealthDetails`,
+        `${apiUrl}/Patient/UpdatePatientHealthDetails`,
         {
           method: "POST",
           headers: {
@@ -238,61 +202,12 @@ class UpdatePatientProfile extends React.Component {
           }),
         }
       );
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
+      if (request.status === 200) {
+        this.setState({ success: true });
       }
-
-      //patient contact details successfully updated
-
-      this.setState({
-        displayHealthDetailsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayHealthDetailsSuccessNotification: false,
-          }),
-        1500
-      );
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayHealthDetailsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayHealthDetailsFailureNotification: false,
-          }),
-        1500
-      );
     }
-  };
-
-  SuccessNotification = (message) => {
-    return (
-      <div className="col-12 col-md-6">
-        <div className="card">
-          <div className="card-body">
-            <div
-              className="alert alert-primary alert-dismissible fade show mb-0"
-              role="alert"
-            >
-              {message}{" "}
-              <button
-                type="button"
-                className="close"
-                data-dismiss="alert"
-                aria-label="Close"
-              >
-                <span className="icofont-close-line"></span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   render() {
@@ -312,15 +227,8 @@ class UpdatePatientProfile extends React.Component {
       diabetic,
       allergies,
       disabilities,
-
-      displayCoreDetailsSuccessNotification,
-
-      displayContactDetailsSuccessNotification,
-
-      displayHealthDetailsSuccessNotification,
+      paymentStatus,
     } = this.state;
-
-    console.log(this.state.patient.patientProfile?.account);
     return (
       <>
         <PageLoader />
@@ -330,47 +238,48 @@ class UpdatePatientProfile extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            <div className="row">
-              <div className="col-12 col-md-12 pb-5 mb-5">
-                <div className="card">
-                  <div className="card-body">
-                    <div
-                      className="col-12 alert alert-warning with-before-icon"
-                      role="alert"
-                    >
-                      <div className="alert-content row">
-                        <div className="col-md-11 text-center m-auto">
-                          <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
-                        </div>
-                        <div className="col-md-1">
-                          <Link
-                            className="btn btn-sm btn-primary"
-                            to={{
-                              pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                              state: {
-                                patientId: this.state.patientId,
-                                email: this.state.email,
-                                cost: this.state.patient?.patientProfile?.account?.healthPlan?.cost
-                              },
-                            }}
-                          >
-                            Pay Now
-                          </Link>
+            {this.state.success ? (
+              <Success
+                message="Well done, you successfully added this update"
+                dontRoute={true}
+              />
+            ) : null}
+            {paymentStatus === "Paid" ? null : paymentStatus === "Not Paid" ? (
+              <div className="row">
+                <div className="col-12 col-md-12 pb-5 mb-5">
+                  <div className="card">
+                    <div className="card-body">
+                      <div
+                        className="col-12 alert alert-warning with-before-icon"
+                        role="alert"
+                      >
+                        <div className="alert-content row">
+                          <div className="col-md-11 text-center m-auto">
+                            <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
+                          </div>
+                          <div className="col-md-1">
+                            <Link
+                              className="btn btn-sm btn-primary"
+                              to={{
+                                pathname: `/AdminPatientRegistration/${this.state.patientId}`,
+                                state: {
+                                  patientId: this.state.patientId,
+                                  email: this.state.email,
+                                  cost: this.state.patient?.patientProfile
+                                    ?.account?.healthPlan?.cost,
+                                },
+                              }}
+                            >
+                              Pay Now
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {displayCoreDetailsSuccessNotification &&
-              this.SuccessNotification("Core Details successfully Updated")}
-            {displayContactDetailsSuccessNotification &&
-              this.SuccessNotification("Contact Details successfully Updated")}
-            {displayHealthDetailsSuccessNotification &&
-              this.SuccessNotification("Health Details successfully Updated")}
-
+            ) : null}
             <header className="page-header">
               <h3 className="page-title">Update Patient Profile</h3>
             </header>
@@ -461,12 +370,8 @@ class UpdatePatientProfile extends React.Component {
                                 onChange={(e) => this.handleChange("gender", e)}
                                 tabIndex={-98}
                               >
-                                <option
-                                  className="bs-title-option"
-                                  value="select gender"
-                                  selected="selected"
-                                >
-                                  select gender
+                                <option disabled value="">
+                                  Select gender
                                 </option>
                                 <option>Male</option>
                                 <option>Female</option>
@@ -475,7 +380,8 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col">
+                          <div className="col"></div>
+                          <div className="col text-right">
                             <button
                               type="submit"
                               className="btn btn-primary"
@@ -484,7 +390,6 @@ class UpdatePatientProfile extends React.Component {
                               Save Core Details
                             </button>
                           </div>
-                          <div className="col text-right"></div>
                         </div>
                       </form>
                     </div>
@@ -540,8 +445,7 @@ class UpdatePatientProfile extends React.Component {
                                 onChange={(e) => this.handleChange("state", e)}
                                 value={state ? state : ""}
                               >
-                                <option className="bs-title-option" value />
-                                <option selected="selected">
+                                <option disabled value="">
                                   Select State
                                 </option>
                                 <option>Enugu</option>
@@ -562,8 +466,7 @@ class UpdatePatientProfile extends React.Component {
                                 }
                                 value={country ? country : ""}
                               >
-                                <option className="bs-title-option" value />
-                                <option selected="selected">
+                                <option disabled value="">
                                   Select Country
                                 </option>
                                 <option>Nigeria</option>
@@ -573,7 +476,8 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col">
+                          <div className="col"></div>
+                          <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-primary"
@@ -582,7 +486,6 @@ class UpdatePatientProfile extends React.Component {
                               Save Contact Details
                             </button>
                           </div>
-                          <div className="col text-right"></div>
                         </div>
                       </form>
                     </div>
@@ -607,8 +510,7 @@ class UpdatePatientProfile extends React.Component {
                                   this.handleChange("bloodGroup", e)
                                 }
                               >
-                                <option className="bs-title-option" value />
-                                <option selected="selected">
+                                <option disabled value="">
                                   Select Blood Group
                                 </option>
                                 <option>O+</option>
@@ -629,8 +531,7 @@ class UpdatePatientProfile extends React.Component {
                                   this.handleChange("genoType", e)
                                 }
                               >
-                                <option className="bs-title-option" value />
-                                <option selected="selected">
+                                <option disabled value="">
                                   Select Genotype
                                 </option>
                                 <option>AA</option>
@@ -650,11 +551,7 @@ class UpdatePatientProfile extends React.Component {
                             value={diabetic ? diabetic : ""}
                             onChange={(e) => this.handleChange("diabetic", e)}
                           >
-                            <option
-                              className="bs-title-option"
-                              selected="selected"
-                              value
-                            >
+                            <option disabled value="">
                               Diabetic?
                             </option>
 
@@ -694,7 +591,8 @@ class UpdatePatientProfile extends React.Component {
                         </div>
 
                         <div className="row">
-                          <div className="col">
+                          <div className="col"></div>
+                          <div className="col text-right">
                             <button
                               type="button"
                               className="btn btn-primary"
@@ -703,7 +601,6 @@ class UpdatePatientProfile extends React.Component {
                               Save Health Details
                             </button>
                           </div>
-                          <div className="col text-right"></div>
                         </div>
                       </form>
                     </div>

@@ -23,8 +23,8 @@ body {
 }
 
 .alert {
-    position: absolute;
-    top: 30px;
+    position: fixed;
+    top: 60px;
 }
 
 .alert-align {
