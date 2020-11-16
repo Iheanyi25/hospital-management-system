@@ -149,7 +149,6 @@ class UpdatePatientProfile extends React.Component {
 
     try {
       const {
-        apiUrl,
         phoneNumber,
         email,
         address,
@@ -212,7 +211,6 @@ class UpdatePatientProfile extends React.Component {
 
     try {
       const {
-        apiUrl,
         bloodGroup,
         genoType,
         diabetic,
