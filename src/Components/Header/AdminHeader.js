@@ -22,7 +22,7 @@ class AdminHeader extends React.Component {
 							<span />
 							<span />
 						</button>
-						<form className="app-search d-none d-md-block">
+						{/* <form className="app-search d-none d-md-block">
 							<div className="form-group typeahead__container with-suffix-icon mb-0">
 								<div className="typeahead__field">
 									<div className="typeahead__query">
@@ -37,9 +37,9 @@ class AdminHeader extends React.Component {
 									</div>
 								</div>
 							</div>
-						</form>
+						</form> */}
 						<div className="app-actions">
-							<div className="dropdown item">
+							{/* <div className="dropdown item">
 								<button
 									className="no-style dropdown-toggle"
 									type="button"
@@ -111,7 +111,7 @@ class AdminHeader extends React.Component {
 										</button>
 									</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="dropdown item">
 								<button
 									className="no-style dropdown-toggle"
@@ -134,17 +134,17 @@ class AdminHeader extends React.Component {
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
 									<ul className="list">
-										<li>
+										{/* <li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-home" /> Edit account
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
 											</Link>
 										</li>
-										<li>
+										{/* <li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-calendar" /> Calendar
 											</Link>
@@ -153,7 +153,7 @@ class AdminHeader extends React.Component {
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-settings" /> Settings
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<Link to="#" onClick={() => logOut(this.props.history)} className="align-items-center">
 												<span className="icon icofont-logout" />

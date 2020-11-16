@@ -1,18 +1,73 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 class Clarking extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctorQueue: null,
       canceledConsultations: [],
       completedConsultations: [],
       pendingConsultations: [],
+      capturePatientHealthHistory: { },
+      clarking: {},
+      healthHistory: {},
+      labHistory: {},
     };
+  }
+
+  handleSubmit = (type, key, e) => {
+	e.preventDefault();
+	
+    let payload = [];
+    key.forEach(element => {
+		let newPatch =  this.formatJSONPATCH("replace", `/${element}`, this.state[type][element]);
+		payload.push(newPatch);
+    });
+
+    this.submitRequest(payload);
+	};
+	
+	componentDidMount(){
+		console.log(this.props.location.state.id)
+	}
+
+  submitRequest = async (payload) => {
+   const {id, type} = this.props.location.state;
+
+   console.log(payload);
+   
+    let res = await fetch(`${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload)
+    });
+	let response = await res.json();
+	
+	alert(response.message);
+
+  }
+
+  handleChange = (type, key, e) => {
+    this.setState({[type]: {...this.state[type],[key]: e.target.value}});
+  }
+
+  formatJSONPATCH = (op, path, value) => {
+    return {
+      op,
+      path,
+      value
+    }
+  }
+
+  clearData = (type, key) => {
+    this.setState({[type]: {[key]: ""}});
   }
 
   async getDoctorQueue() {
@@ -20,7 +75,7 @@ class Clarking extends React.Component {
     var completedConsultations = [];
     var pendingConsultations = [];
     const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Doctor/GetDoctorQueue`);
+    const response = await fetch(`${ apiUrl } / Doctor / GetDoctorQueue`);
     const data = await response.json();
 
     this.setState({ doctorQueue: data.patientQueue });
@@ -195,6 +250,8 @@ class Clarking extends React.Component {
                                         Additons like smoking, drinking etc
                                       </label>
                                       <textarea
+                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "socialHistory", e)}
+                                        value={this.state.capturePatientHealthHistory?.socialHistory ?? ""}
                                         className="form-control"
                                         placeholder="Enter Social History Here"
                                         rows={3}
@@ -206,21 +263,9 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
                                           className="btn btn-success"
+                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["socialHistory"], e)}
                                         >
                                           Record Social History
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -249,6 +294,8 @@ class Clarking extends React.Component {
                                         blood pressure etc
                                       </label>
                                       <textarea
+                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "familyHistory", e)}
+                                        value={this.state.capturePatientHealthHistory?.familyHistory ?? ""}
                                         className="form-control"
                                         placeholder="Enter Family History Here"
                                         rows={3}
@@ -260,21 +307,9 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
                                           className="btn btn-success"
+                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["familyHistory"], e)}
                                         >
                                           Save Family History
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -302,6 +337,8 @@ class Clarking extends React.Component {
                                         Common sickness like Hepitities etc
                                       </label>
                                       <textarea
+                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "medicalHistory", e)}
+                                        value={this.state.capturePatientHealthHistory?.medicalHistory ?? ""}
                                         className="form-control"
                                         placeholder="Enter Medical History Here"
                                         rows={3}
@@ -312,22 +349,10 @@ class Clarking extends React.Component {
                                       <div className="col">
                                         <button
                                           type="button"
+                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["medicalHistory"], e)}
                                           className="btn btn-success"
                                         >
                                           Save Medical History
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -355,14 +380,18 @@ class Clarking extends React.Component {
                                       <input
                                         className="form-control"
                                         type="text"
+                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "lastCountryVisited", e)}
+                                        value={this.state.capturePatientHealthHistory?.lastCountryVisited ?? ""}
                                         placeholder="Countries Visitied"
-                                      />
+                                        />
                                     </div>
                                     <div className="form-group">
                                       <label>Date Visited</label>
                                       <input
                                         className="form-control"
-                                        type="text"
+                                        type="date"
+                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "dateOfVisitation", e)}
+                                        value={this.state.capturePatientHealthHistory?.dateOfVisitation ?? ''}
                                         placeholder="Date Visited"
                                       />
                                     </div>
@@ -371,22 +400,10 @@ class Clarking extends React.Component {
                                       <div className="col">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
+																					className="btn btn-success"
+                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["lastCountryVisited", "dateOfVisitation"], e)}
                                         >
                                           Save Travel History
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -502,7 +519,7 @@ class Clarking extends React.Component {
                             Obstetrics and Gynecology
                           </a>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           <a
                             className="nav-link"
                             id="pills-prescription-tab"
@@ -514,7 +531,7 @@ class Clarking extends React.Component {
                           >
                             Prescriptions
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
@@ -533,32 +550,22 @@ class Clarking extends React.Component {
                                     <div className="form-group">
                                       <label>Presenting Complains</label>
                                       <textarea
-                                        className="form-control"
-                                        placeholder="Enter Presenting Complains Here"
-                                        rows={3}
-                                      />
+																				className="form-control"
+																				onChange={(e) => this.handleChange("clarking", "presentingComplaints", e)}
+																				value={this.state.clarking?.presentingComplaints ?? ""}
+																				placeholder="Enter Presenting Complains Here"
+																				rows={3}
+																			/>
                                     </div>
 
                                     <div className="row">
                                       <div className="col">
                                         <button
-                                          type="button"
+																					type="button"
                                           className="btn btn-success"
+																					onClick={(e) => this.handleSubmit("clarking", ["presentingComplaints"], e)}
                                         >
                                           Record Presenting Complains
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -589,8 +596,10 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter History of Presenting Complain Here"
-                                        rows={3}
-                                      />
+																				rows={3}
+																				onChange={(e) => this.handleChange("clarking", "histroyOfPresentingComplaints", e)}
+																				value={this.state.clarking?.histroyOfPresentingComplaints}
+																				/>
                                     </div>
 
                                     <div className="row">
@@ -598,21 +607,9 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
                                           className="btn btn-success"
+																					onClick={(e) => this.handleSubmit("clarking", [ "histroyOfPresentingComplaints"], e)}
                                         >
                                           Save
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -641,8 +638,10 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Riview od System Here"
-                                        rows={3}
-                                      />
+																				rows={3}
+																				onChange={(e) => this.handleChange("clarking", "reviewOfSystem", e)}
+																				value={this.state.clarking?.reviewOfSystem}
+																				/>
                                     </div>
 
                                     <div className="row">
@@ -650,21 +649,9 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
                                           className="btn btn-success"
-                                        >
+																					onClick={(e) => this.handleSubmit("clarking", [ "reviewOfSystem"], e)}
+																					>
                                           Save Review of System
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -695,30 +682,20 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Patient Physical Examination"
-                                        rows={3}
-                                      />
+																				rows={3}
+																				onChange={(e) => this.handleChange("clarking", "physicalExamination", e)}
+																				value={this.state.clarking?.physicalExamination}
+																				/>
                                     </div>
 
                                     <div className="row">
                                       <div className="col">
                                         <button
                                           type="button"
+																					onClick={(e) => this.handleSubmit("clarking", [ "physicalExamination"], e)}
                                           className="btn btn-success"
                                         >
                                           Save Physical Examination
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -747,30 +724,20 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Diagnosis"
-                                        rows={3}
+																				rows={3}
+																				onChange={(e) => this.handleChange("clarking", "diagnosis", e)}
+																				value={this.state.clarking?.diagnosis}
                                       />
                                     </div>
 
                                     <div className="row">
                                       <div className="col">
                                         <button
-                                          type="button"
+																					type="button"
+																					onClick={(e) => this.handleSubmit("clarking", [ "diagnosis"], e)}
                                           className="btn btn-success"
                                         >
                                           Save Diagnosis
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -799,7 +766,9 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Treatment Plan"
-                                        rows={3}
+																				rows={3}
+																				onChange={(e) => this.handleChange("clarking", "treatmentPlan", e)}
+																				value={this.state.clarking?.treatmentPlan}
                                       />
                                     </div>
 
@@ -808,21 +777,9 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
                                           className="btn btn-success"
+																				onClick={(e) => this.handleSubmit("clarking", [ "treatmentPlan"], e)}
                                         >
                                           Save Treatment Plan
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -851,7 +808,9 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Obstetrics"
-                                        rows={3}
+																				rows={3}
+																				onChange={(e) => this.handleChange("clarking", "obstetricsAndGynecology", e)}
+																				value={this.state.clarking?.obstetricsAndGynecology}
                                       />
                                     </div>
 
@@ -859,22 +818,10 @@ class Clarking extends React.Component {
                                       <div className="col">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
+																					className="btn btn-success"	
+																					onClick={(e) => this.handleSubmit("clarking", [ "obstetricsAndGynecology"], e)}
                                         >
                                           Save Obstetrics and Gynecology
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
                                         </button>
                                       </div>
                                     </div>
@@ -885,7 +832,7 @@ class Clarking extends React.Component {
                           </div>
                         </div>
 
-                        <div
+                        {/* <div
                           className="tab-pane fade"
                           id="pills-prescription"
                           role="tabpanel"
@@ -902,7 +849,7 @@ class Clarking extends React.Component {
                                       <label>Prescription</label>
                                       <textarea
                                         className="form-control"
-                                        placeholder="Enter your prescriptions here"
+                                        placeholder="Enter your prescriptions her e"
                                         rows={3}
                                       />
                                     </div>
@@ -935,7 +882,7 @@ class Clarking extends React.Component {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

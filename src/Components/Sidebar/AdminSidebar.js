@@ -39,7 +39,7 @@ class AdminSidebar extends React.Component {
 											<span className="link-text">Dashboard</span>
 										</NavLink>
 									</li>
-									
+
 									<li className="menu-item has-sub">
 										<NavLink to="#" className="item-link">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
@@ -77,8 +77,8 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 										</ul>
-									</li>						
-									
+									</li>
+
 									<li className="menu-item">
 										<NavLink className="item-link" to="/AdminManageAccounts">
 											<span className="link-icon icofont-user" />{' '}
@@ -148,13 +148,13 @@ class AdminSidebar extends React.Component {
 													<span className="link-text">Register Pharmacists</span>
 												</NavLink>
 											</li>
-											<li className="menu-item">
+											{/* <li className="menu-item">
 												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Pharmacists</span>
 												</NavLink>
-											</li>
+											</li> */}
 										</ul>
-									</li>								
+									</li>
 
 									<li className="menu-item has-sub">
 										<NavLink to="#" className="item-link">
@@ -172,11 +172,11 @@ class AdminSidebar extends React.Component {
 													<span className="link-text">Register Accountants</span>
 												</NavLink>
 											</li>
-											<li className="menu-item">
+											{/* <li className="menu-item">
 												<NavLink to="#" className="item-link">
 													<span className="link-text">Manage Accountants</span>
 												</NavLink>
-											</li>
+											</li> */}
 										</ul>
 									</li>
 
@@ -202,7 +202,7 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 										</ul>
-									</li>
+									</li> 
 									<li className="menu-item">
 										<span className="group-title">Utility</span>
 									</li>

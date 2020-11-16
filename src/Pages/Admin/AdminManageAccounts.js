@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import formatAmount from "../../utils/formatAmount";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
@@ -22,8 +23,9 @@ class AdminManageAccounts extends React.Component {
   fecthAllAcounts = async () => {
     const response = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`);
     const data = await response.json();
-    console.log(data);
+    console.log(data.accounts);
     this.setState({ accounts: data.accounts });
+    console.log(data.accounts);
   };
 
   sync() {
@@ -33,6 +35,7 @@ class AdminManageAccounts extends React.Component {
 
   render() {
     const { accounts } = this.state;
+    console.log(this.props, "restashznvusdhf");
 
     return (
       <>
@@ -56,7 +59,7 @@ class AdminManageAccounts extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file"></div>
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Account Total (NGN)</h6>
+                        <h6 className="mt-0 mb-1">Account Total</h6>
                         <div className="count text-primary fs-20">
                           {accounts.length}
                         </div>
@@ -65,7 +68,7 @@ class AdminManageAccounts extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col col-12 col-md-6 col-xl-4">
+              {/* <div className="col col-12 col-md-6 col-xl-4">
                 <div className="card animated fadeInUp delay-03s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
@@ -73,7 +76,7 @@ class AdminManageAccounts extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Account spent (NGN)</h6>
+                        <h6 className="mt-0 mb-1">Amount spent (NGN)</h6>
                         <div className="count text-primary fs-20">
                           {accounts.length}
                         </div>
@@ -81,8 +84,8 @@ class AdminManageAccounts extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col col-12 col-md-6 col-xl-4">
+              </div> */}
+              {/* <div className="col col-12 col-md-6 col-xl-4">
                 <div className="card animated fadeInUp delay-03s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
@@ -98,7 +101,7 @@ class AdminManageAccounts extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="page-content">
@@ -116,15 +119,15 @@ class AdminManageAccounts extends React.Component {
                           <table
                             ref={(el) => (this.el = el)}
                             className="table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "account" },
-                                                        { "data": "healthplan" },
-                                                        { "data": "balance" },
-                                                        { "data": "actions" }
-                                                    ]'
-                            data-paging="true"
-                            data-info="true"
+                          // data-columns='[
+                          //                             { "data": "photo" },
+                          //                             { "data": "account" },
+                          //                             { "data": "healthplan" },
+                          //                             { "data": "balance" },
+                          //                             { "data": "actions" }
+                          //                         ]'
+                          // data-paging="true"
+                          // data-info="true"
                           >
                             <thead>
                               <tr className="bg-primary text-white">
@@ -141,7 +144,7 @@ class AdminManageAccounts extends React.Component {
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src="../assets/content/user-40-1.jpg"
                                         alt=""
                                         width={40}
                                         height={40}
@@ -149,17 +152,18 @@ class AdminManageAccounts extends React.Component {
                                       />
                                     </td>
                                     <td>
-                                      <strong>{account.name}</strong>
+                                      <strong>{account?.name}</strong>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
-                                        {account?.healthplan ??
-                                          "None selected yet"}
+                                        {account?.healthPlan.name}
                                       </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        {account.accountBalance}
+                                        {formatAmount(
+                                          account?.accountBalance
+                                        ) ?? ""}
                                       </div>
                                     </td>
                                     <td>
@@ -174,7 +178,6 @@ class AdminManageAccounts extends React.Component {
                                           Action
                                         </button>
                                         <div className="dropdown-menu text-left">
-                                          
                                           <NavLink
                                             to={{
                                               pathname: `/AdminFundAccount/${account.id}`,

@@ -1,18 +1,84 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./Components/FundingPaymentModes";
-
-// const apiUrl = process.env.REACT_APP_API_URL;
+import { Success } from "../../Components/Alerts";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class AdminFundAccount extends React.Component {
-  componentDidMount() {
-    console.log(this.props.history.location)
+  constructor(props) {
+    super(props);
+    this.descriptionRef = React.createRef();
+    this.amountRef = React.createRef();
   }
 
+  state = {
+    email: "",
+    accountId: "",
+    amount: "",
+    paymentDescription: "",
+    success: false,
+  };
+
+  componentDidMount() {
+    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    console.log("user email", this.props.history.location.state.id, user.email);
+    this.setState({
+      accountId: this.props.history.location.state.id,
+      email: user.email,
+    });
+  }
+
+  setPaymentParams = (key, value) => {
+    this.setState({
+      ...this.state,
+      [key]: value,
+    });
+    console.log(this.state);
+  };
+  fundAccount = async (reference, modeOfPayment, offline) => {
+    const { accountId } = this.state;
+    let payload = {
+      accountId: accountId,
+      amount: this.state.amount,
+      modeOfPayment: modeOfPayment,
+      transactionReference:
+        modeOfPayment === "online-paystack"
+          ? reference.trxref
+          : modeOfPayment === "online-flutterwave"
+          ? reference.data?.data?.orderRef
+          : offline
+          ? reference
+          : "",
+      paymentDescription: this.state.paymentDescription,
+    };
+    try {
+      let res = await fetch(
+        `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+      );
+      if (res.status === 200) {
+        this.handleSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(payload);
+  };
+
+  handleSuccess = () => {
+    this.setState({ success: true });
+  };
+
   render() {
+    const { amount, email } = this.state;
+    console.log(this.state);
     return (
       <>
         <PageLoader />
@@ -21,6 +87,13 @@ class AdminFundAccount extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message="You have successfully funded this account"
+              nextRoute="/AdminManageAccounts"
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>Fund Account</h3>
@@ -85,7 +158,11 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
-                        <PayOnline />
+                        <PayOnline
+                          details={{ email, amount }}
+                          paidSuccessfully={this.fundAccount}
+                          setPaymentParams={this.setPaymentParams}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -93,7 +170,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
                       >
-                        <PayCash />
+                        <PayCash
+                          paidSuccessfully={this.fundAccount}
+                          setPaymentParams={this.setPaymentParams}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -101,7 +181,10 @@ class AdminFundAccount extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                       <Others />
+                        <Others
+                          paidSuccessfully={this.fundAccount}
+                          setPaymentParams={this.setPaymentParams}
+                        />
                       </div>
                     </div>
                   </div>

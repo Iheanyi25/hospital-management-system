@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { PageLoader } from '../../../Components';
+import { Success } from '../../../Components/Alerts';
+import { MultipleSelect, PageLoader, SelectableDropDown } from '../../../Components';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
+
+let selectBasic = Math.random();
+selectBasic = selectBasic.toString().replace(".", "_");
 
 class CreateServiceRequest extends Component {
 
@@ -14,7 +18,11 @@ class CreateServiceRequest extends Component {
 		patients: [],
 		services: [],
 		category: '',
-		rerender: ""
+		rerender: "",
+		patient: "",
+		description: "",
+		showServices: false,
+		success: false
 	}
 
 	componentDidMount() {
@@ -23,15 +31,14 @@ class CreateServiceRequest extends Component {
 	}
 
 	fetchServiceCategories = async () => {
-		let res = await fetch(apiUrl + '/Admin/GetAllServiceCategories');
-		const data = await res.json();
-		console.log({ data })
+		let repsonse = await fetch(apiUrl + '/Admin/GetAllServiceCategories');
+		const data = await repsonse.json();
 		this.setState({ categories: data });
 	};
 
-	renderPicker() {
-		var select = $('.custom-picker');
-		console.log("adegoke")
+
+	renderPicker(customClass) {
+		var select = $(customClass);
 
 		if (select.length) {
 			select.each(function () {
@@ -54,45 +61,129 @@ class CreateServiceRequest extends Component {
 		});
 
 		this.setState({ patients: patientArray }, () => {
-			this.renderPicker();
+			this.renderPicker('.custom-picker');
 		});
 	}
 
 	fetchServicesInACategory = async (id) => {
 		let res = await fetch(apiUrl + "/Admin/GetAllServicesInAServiceCategory?serviceCategoryId=" + id);
 		let data = await res.json();
-		this.setState({ services: data }, () => {
-			this.renderPicker();
+
+		this.setState({ services: data, showServices: true }, () => {
+			this.renderPicker(".custom-picker-services")
 		})
 	}
 
-	handleSelect = (e) => {
-		if (e.target.value) {
-			let valueContainer = document.getElementsByClassName('filter-option-inner-inner')[0];
-			let values = valueContainer.innerText.split(',');
-			let valueToPush = [];
+	handleSelect = (elem, e) => {
+		e.preventDefault();
+		if (this.state.patient) {
+			if (e.target.value) {
 
-			values.map((item) => {
-				let newSelect = {
-					serviceID: '',
-					service: item,
-					category: this.state.category,
-				};
-				return valueToPush.push(newSelect);
-			});
+				let valueContainer = document.getElementsByClassName('filter-option-inner-inner')[1];
+				// console.log($(elem)[0], elem);
 
-			this.setState({ values: [...this.state.values, ...valueToPush] });
-			console.log(this.state.values);
+				// console.log(document.getElementsByClassName('filter-option-inner-inner')[1].innerText)
+
+				// console.log(e.target.innerHTML);
+				// let valueContainer = elem;
+
+				let values = valueContainer.innerText.split(',');
+				let valueToPush = [];
+				let stateValue = this.state.values;
+
+				// console.log(e.target.value, values, stateValue);
+				return values.map((item, index) => {
+					if (stateValue.length > 0) {
+
+						return stateValue.forEach(element => {
+							if (element.serviceId === e.target.value || element.service === item) return;
+							else {
+								let newSelect = {
+									serviceId: e.target.value,
+									service: item,
+									category: this.state.category,
+									index
+								};
+								valueToPush.push(newSelect);
+								console.log("the values to  be pushed: 1", valueToPush)
+								this.setState({ values: [...this.state.values, ...valueToPush] });
+								return;
+							}
+						});
+					}
+					else {
+						let newSelect = {
+							serviceId: e.target.value,
+							service: item,
+							category: this.state.category,
+							index
+						};
+						valueToPush.push(newSelect);
+
+						console.log("the values to  be pushed: 2", valueToPush);
+						console.log({ valueContainer })
+						this.setState({ values: valueToPush });
+						return;
+					}
+				});
+
+			}
+			return;
+		}
+		else {
+			alert("select a patient")
+		}
+	}
+
+	handleChange = (name, e) => {
+		let value = e.target.value;
+		if (name) {
+			this.setState({ [name]: value }, () => console.log(this.state));
+		}
+		else {
+			console.log(name, value)
+			let fullData = value.split("#")
+			this.setState({ category: fullData[0], showServices: false });
+			console.log(fullData[1])
+			this.fetchServicesInACategory(fullData[1]);
 		}
 	};
 
-	handleChange = (e) => {
-		let value = e.target.value;
-		let fullData = value.split("#")
-		console.log(fullData)
-		this.setState({ category: fullData[0] });
-		this.fetchServicesInACategory(fullData[1]);
-	};
+	deleteService = (index) => {
+		let serviceRequests = this.state.values;
+		serviceRequests.splice(index, 1);
+		this.setState({ values: serviceRequests })
+	}
+
+	handleSubmit = async () => {
+		let serviceId = [];
+		let generatedBy = JSON.parse(localStorage.getItem("authenticatedUser"));
+		generatedBy = generatedBy.id;
+
+		let payload = {
+			patientId: this.state.patient,
+			generatedBy,
+			description: this.state.description,
+		}
+
+		this.state.values.forEach(element => {
+			serviceId.push(element.serviceId);
+		});
+
+		payload.serviceId = serviceId;
+		const request = await fetch(`${apiUrl}/Admin/RequestServices`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(payload),
+		});
+		const res = await request.json();
+		console.log(res);
+		if (res.message === "Service Request submitted successfully") {
+			this.setState({ success: true });
+		}
+	}
 
 	render() {
 		return (
@@ -103,6 +194,13 @@ class CreateServiceRequest extends Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
+					{this.state.success ? (
+						<Success
+							history={this.props.history}
+							message="Well done, you successfully requested this service"
+							nextRoute="/AdminManageServiceRequests"
+						/>
+					) : null}
 					<div className="main-content-wrap">
 						<div className="page-content">
 							<div className="row">
@@ -110,64 +208,44 @@ class CreateServiceRequest extends Component {
 									<div className="card border-light">
 										<div className="card-body">
 											<form className="mb-4 p-5 needs-validation">
-												<h4 className="text-center">Service request form</h4>
+												<h4 className="text-center mt-0">Service request form</h4>
+
+												<SelectableDropDown
+													itemKey={["id"]}
+													onChange={this.handleChange}
+													stateValue={this.state.patient}
+													stateKey={"patient"}
+													label={"Patient"}
+													data={this.state.patients}
+													search
+													valueKeys={["firstName", "lastName"]}
+												/>
+
+												<SelectableDropDown
+													itemKey={["name", "id"]}
+													onChange={this.handleChange}
+													stateValue={this.state.category}
+													stateKey={null}
+													label={"Service Category"}
+													data={this.state.categories}
+													valueKeys={["name"]}
+												/>
 
 												<div className="form-group">
-													<label>Patient</label>
-													<select className="selectpicker custom-picker rounded form-control"
-														data-live-search="true" >
-														{
-															this.state.patients.map((item, index) => {
-																return <option data-tokens={`${item.firstName} ${item.lastName}`} key={index}>{`${item.firstName} ${item.lastName}`}</option>
-															})
-														}
-													</select>
+													<label>Comment / Description <span>(Optional)</span></label>
+													<textarea placeholder="Enter comments" defaultValue={this.state.description} className="form-control" onChange={(e) => this.setState({ description: e.target.value })} />
 												</div>
 
-												<div className="form-group">
-													<label>Service Category</label>
-													<select
-														className="form-control"
-														defaultValue={this.state.category}
-														onChange={(e) => {
-															this.handleChange(e);
-														}}
-													>
-														<option disabled selected="true" value="">
-															{this.state.categories.length > 0
-																? 'Select service category'
-																: 'Loading...'}
-															{/** added loading this.state to the form */}
-														</option>
-														{this.state.categories.length > 0 &&
-															this.state.categories.map((category, i) => (
-																<option key={i} value={category.name + "#" + category.id}>
-																	{category.name}
-																</option>
-															))}
-													</select>
-												</div>
+												<MultipleSelect
+													data={this.state.services}
+													showServices={this.state.showServices}
+													itemKey={"id"}
+													onChange={this.handleSelect}
+													label={"Services"}
+													valueKey={"name"}
+													notAvailableText={"Please select a category to continue"}
+												/>
 
-												<div className="form-group">
-													<label>Services</label>
-
-													<select
-														className="selectpicker custom-picker rounded form-control"
-														multiple
-														data-live-search="false"
-														onChange={(e) => {
-															this.handleSelect(e);
-														}}
-													>
-														{
-															this.state.services.map((service, i) => (
-																<option key={i} value={service.id}>
-																	{service.name}
-																</option>
-															))
-														}
-													</select>
-												</div>
 											</form>
 										</div>
 									</div>
@@ -177,6 +255,9 @@ class CreateServiceRequest extends Component {
 								<div className="col-12 col-md-7">
 									<div className="card border-light">
 										<div className="card-body">
+											<header className="page-header justify-content-between d-flex align-items-center mb-2">
+												<h4 className="page-title"> Selected services</h4>
+											</header>
 											<div className="table-responsive">
 												<table className="table table-striped">
 													<thead>
@@ -192,7 +273,7 @@ class CreateServiceRequest extends Component {
 														{
 															this.state.values.length > 0 ? (
 																this.state.values.map((item, index) => (
-																	<tr>
+																	<tr key={index}>
 																		<td>
 																			<strong>{index + 1}</strong>
 																		</td>
@@ -209,6 +290,7 @@ class CreateServiceRequest extends Component {
 																				<Link
 																					title="Delete"
 																					to="#"
+																					onClick={() => this.deleteService(index)}
 																					className="text-danger mr-4"
 																				>
 																					<span className="btn-icon icofont-delete-alt" />
@@ -235,7 +317,7 @@ class CreateServiceRequest extends Component {
 											<div className="row mt-5">
 												<div className="col"></div>
 												<div className="col text-right">
-													<button type="submit" className="btn btn-primary">
+													<button onClick={this.handleSubmit} className="btn btn-primary">
 														Request service
 													</button>
 												</div>

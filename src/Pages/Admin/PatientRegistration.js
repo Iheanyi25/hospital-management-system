@@ -1,12 +1,16 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+// import {
+//   PayOnline,
+//   PayCash,
+//   Others,
+// } from "./Components/RegistrationPaymentModes";
 import {
   PayOnline,
   PayCash,
   Others,
-} from "./Components/RegistrationPaymentModes";
-
-// const apiUrl = process.env.REACT_APP_API_URL;
+} from "../../Components/Payment/PaymentModes";
+import formatAmount from "../../utils/formatAmount";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -20,14 +24,32 @@ class PatientRegistration extends React.Component {
       apiUrl: process.env.REACT_APP_API_URL,
       patientId: "",
       email: "",
+      amount: "",
+      invoiceNumber: "",
     };
   }
 
   componentDidMount() {
-    const { patientId, email } = this.props.location.state;
-    this.setState({ patientId, email });
+    const { patientId, email, cost } = this.props.location.state;
+    console.log(cost);
+    this.setState({ patientId, email, amount: cost });
+    console.log(patientId);
+    this.fetPatientRegistrationIvoice(patientId)
     this.getAllPatients().then(() => this.sync());
   }
+  fetPatientRegistrationIvoice = async (id) => {
+		try {
+			let res = await fetch(`https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice/${id}`, {
+				headers: { 'Content-Type': 'application/json-patch+json' },
+				method: 'POST',
+				redirect: 'follow',
+			});
+			const data = await res.text();
+			console.log(JSON.parse(data));
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
   async getAllPatients() {
     const { apiUrl } = this.state;
@@ -41,7 +63,48 @@ class PatientRegistration extends React.Component {
     this.$el.DataTable();
   }
 
+  register = async (reference, modeOfPayment, description, paidOffline) => {
+    const { amount, patientId } = this.state;
+    let payload = {
+      patientId: patientId,
+      amount: amount,
+      invoiceNumber: "",
+      description:
+        modeOfPayment === ("online-paystack" || "online-flutterwave")
+          ? "Paid online"
+          : paidOffline ? description: description.description,
+      modeOfPayment: modeOfPayment,
+      referenceNumber:
+        modeOfPayment === "online-paystack"
+          ? reference.trxref
+          : modeOfPayment === "online-flutterwave"
+          ? reference.data?.data?.orderRef
+          : paidOffline
+          ? reference
+          : "",
+    };
+
+    console.log(payload);
+    // try {
+    //   let res = await fetch(
+    //     `https://hms-tenece.azurewebsites.net/api/Admin/PayForServices`,
+    //     {
+    //       headers: { "Content-Type": "application/json-patch+json" },
+    //       method: "POST",
+    //       body: JSON.stringify(payload),
+    //       redirect: "follow",
+    //     }
+    //   );
+    //   if (res.status === 200) {
+    //     console.log(res);
+    //     this.setState({ success: true });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
   render() {
+    const { amount, email } = this.state;
     return (
       <>
         <PageLoader />
@@ -56,7 +119,7 @@ class PatientRegistration extends React.Component {
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">5000</h4>
+              <h4 className="text-info">{formatAmount(this.state.amount)}</h4>
             </div>
 
             <div className="page-content">
@@ -119,8 +182,8 @@ class PatientRegistration extends React.Component {
                         aria-labelledby="pills-active-tab"
                       >
                         <PayOnline
-                          id={this.state.patientId}
-                          email={this.state.email}
+                          details={{ amount, email }}
+                          paidSuccessfully={this.register}
                         />
                       </div>
                       <div
@@ -129,7 +192,10 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
                       >
-                        <PayCash />
+                        <PayCash
+                          details={{ amount, email }}
+                          paidSuccessfully={this.register}
+                        />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -137,7 +203,10 @@ class PatientRegistration extends React.Component {
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
                       >
-                        <Others />
+                        <Others
+                          details={{ amount, email }}
+                          paidSuccessfully={this.register}
+                        />
                       </div>
                     </div>
                   </div>

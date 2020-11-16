@@ -55,7 +55,7 @@ class UpdatePatientProfile extends React.Component {
     const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${id}`);
     const data = await response.json();
 
-    console.log(data.patientProfile);
+    console.log(data);
 
     this.setState({
       firstName: data.patientProfile.patient.firstName,
@@ -320,7 +320,7 @@ class UpdatePatientProfile extends React.Component {
       displayHealthDetailsSuccessNotification,
     } = this.state;
 
-    console.log(this.state);
+    console.log(this.state.patient.patientProfile?.account);
     return (
       <>
         <PageLoader />
@@ -329,66 +329,61 @@ class UpdatePatientProfile extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-
           <div className="main-content-wrap">
-
             <div className="row">
-              <div class="col-12 col-md-12 pb-5 mb-5">
-                <div class="card">
-                  <div class="card-body">
-                    <div className="col-12 alert alert-warning with-before-icon" role="alert">
-                      <div className="alert-icon"><i className="icofont-info-circle" /></div>
+              <div className="col-12 col-md-12 pb-5 mb-5">
+                <div className="card">
+                  <div className="card-body">
+                    <div
+                      className="col-12 alert alert-warning with-before-icon"
+                      role="alert"
+                    >
                       <div className="alert-content row">
-                        <div className="col-md-9 text-center m-auto">
-                          <h6 className="m-0 p-0"> This Patient havent paid for Registration Fee Yet..His Access is limitied</h6>
+                        <div className="col-md-11 text-center m-auto">
+                          <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-md-1">
                           <Link
-                            className="btn btn-block btn-primary"
+                            className="btn btn-sm btn-primary"
                             to={{
                               pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                              state: { patientId: this.state.patientId, email: this.state.email },
+                              state: {
+                                patientId: this.state.patientId,
+                                email: this.state.email,
+                                cost: this.state.patient?.patientProfile?.account?.healthPlan?.cost
+                              },
                             }}
                           >
                             Pay Now
-                        </Link>
-
+                          </Link>
                         </div>
-
-
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
             </div>
 
             {displayCoreDetailsSuccessNotification &&
-              this.successNotification("Core Details successfully Updated")}
+              this.SuccessNotification("Core Details successfully Updated")}
             {displayContactDetailsSuccessNotification &&
-              this.successNotification("Contact Details successfully Updated")}
+              this.SuccessNotification("Contact Details successfully Updated")}
             {displayHealthDetailsSuccessNotification &&
               this.SuccessNotification("Health Details successfully Updated")}
-
 
             <header className="page-header">
               <h3 className="page-title">Update Patient Profile</h3>
             </header>
 
             <div className="page-content">
-
-
               <div className="row justify-content-center">
-
                 <div className="col-md-6">
                   <div className="card border-light">
                     <div className="card-body">
                       <label>Photo</label>
                       <div className="form-group avatar-box d-flex align-items-center">
                         <img
-                          src="../assets/content/user-400-1.jpg"
+                          src="../../assets/content/user-400-1.jpg"
                           width={100}
                           height={100}
                           alt="user avatar"
@@ -462,7 +457,7 @@ class UpdatePatientProfile extends React.Component {
                               <select
                                 className="form-control"
                                 title="Gender"
-                                value={gender ? gender : null}
+                                value={gender ? gender : ""}
                                 onChange={(e) => this.handleChange("gender", e)}
                                 tabIndex={-98}
                               >
@@ -507,7 +502,7 @@ class UpdatePatientProfile extends React.Component {
                             className="form-control"
                             type="text"
                             placeholder="Phone Number"
-                            value={phoneNumber ? phoneNumber : null}
+                            value={phoneNumber ? phoneNumber : ""}
                             onChange={(e) =>
                               this.handleChange("phoneNumber", e)
                             }
@@ -530,7 +525,7 @@ class UpdatePatientProfile extends React.Component {
                             placeholder="Address"
                             rows={3}
                             onChange={(e) => this.handleChange("address", e)}
-                            value={address ? address : null}
+                            value={address ? address : ""}
                           />
                         </div>
                         <div className="row">
@@ -543,7 +538,7 @@ class UpdatePatientProfile extends React.Component {
                                 title="state"
                                 tabIndex={-98}
                                 onChange={(e) => this.handleChange("state", e)}
-                                value={state ? state : null}
+                                value={state ? state : ""}
                               >
                                 <option className="bs-title-option" value />
                                 <option selected="selected">
@@ -565,7 +560,7 @@ class UpdatePatientProfile extends React.Component {
                                 onChange={(e) =>
                                   this.handleChange("country", e)
                                 }
-                                value={country ? country : null}
+                                value={country ? country : ""}
                               >
                                 <option className="bs-title-option" value />
                                 <option selected="selected">
@@ -607,7 +602,7 @@ class UpdatePatientProfile extends React.Component {
                                 className="form-control"
                                 title="bloodGroup"
                                 tabIndex={-98}
-                                value={bloodGroup ? bloodGroup : null}
+                                value={bloodGroup ? bloodGroup : ""}
                                 onChange={(e) =>
                                   this.handleChange("bloodGroup", e)
                                 }
@@ -628,7 +623,7 @@ class UpdatePatientProfile extends React.Component {
                               <select
                                 className="form-control"
                                 title="genoType"
-                                value={genoType ? genoType : null}
+                                value={genoType ? genoType : ""}
                                 tabIndex={-98}
                                 onChange={(e) =>
                                   this.handleChange("genoType", e)
@@ -652,7 +647,7 @@ class UpdatePatientProfile extends React.Component {
                             className="form-control"
                             title="diabetic"
                             tabIndex={-98}
-                            value={diabetic ? diabetic : null}
+                            value={diabetic ? diabetic : ""}
                             onChange={(e) => this.handleChange("diabetic", e)}
                           >
                             <option
@@ -675,7 +670,7 @@ class UpdatePatientProfile extends React.Component {
                                 className="form-control"
                                 placeholder="Address"
                                 rows={3}
-                                value={allergies ? allergies : null}
+                                value={allergies ? allergies : ""}
                                 onChange={(e) =>
                                   this.handleChange("allergies", e)
                                 }
@@ -689,7 +684,7 @@ class UpdatePatientProfile extends React.Component {
                                 className="form-control"
                                 placeholder="Address"
                                 rows={3}
-                                value={disabilities ? disabilities : null}
+                                value={disabilities ? disabilities : ""}
                                 onChange={(e) =>
                                   this.handleChange("disabilities", e)
                                 }

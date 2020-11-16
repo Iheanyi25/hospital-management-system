@@ -1,254 +1,280 @@
-import React, { Component } from 'react';
-import { PageLoader } from '../../Components';
-import SelectHealthPlan from './SelectHealthPlan';
-import { Success } from '../../Components/Alerts';
+import React, { Component } from "react";
+import { PageLoader } from "../../Components";
+import SelectHealthPlan from "./SelectHealthPlan";
+import { Success } from "../../Components/Alerts";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export default class AddPatient extends Component {
-	state = {
-		healthPlans: [],
-		accounts: [],
-		stage: 0,
-		firstName: '',
-		lastName: '',
-		email: '',
-		healthPlan: '',
-		healthPlanId: '',
-		accountId: '',
+  state = {
+    healthPlans: [],
+    accounts: [],
+    stage: 0,
+    firstName: "",
+    lastName: "",
+    email: "",
+    healthPlan: "",
+    healthPlanId: "",
+    accountId: "",
 
-		success: false,
-	};
+    success: false,
+  };
 
-	componentDidMount() {
-		this.fetchHealthPlans();
-		this.fetchAccounts();
-	}
+  componentDidMount() {
+    this.fetchHealthPlans();
+    this.fetchAccounts();
+  }
 
-	fetchHealthPlans = async () => {
-		try {
-			let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/GetAllHealthPlans', {
-				headers: { 'Content-Type': 'application/json-patch+json' },
-				method: 'GET',
-				redirect: 'follow',
-			});
-			const data = await res.text();
-			this.setState({ healthPlans: JSON.parse(data).plans });
-		} catch (error) { }
-	};
+  fetchHealthPlans = async () => {
+    try {
+      let res = await fetch(`${apiUrl}/Admin/GetAllHealthPlans`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "GET",
+        redirect: "follow",
+      });
+      const data = await res.text();
+      this.setState({ healthPlans: JSON.parse(data).plans });
+    } catch (error) { }
+  };
 
-	fetchAccounts = async () => {
-		try {
-			let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Account/GetAllAccounts', {
-				headers: { 'Content-Type': 'application/json-patch+json' },
-				method: 'GET',
-				redirect: 'follow',
-			});
-			const data = await res.text();
-			this.setState({ accounts: JSON.parse(data).accounts });
-		} catch (error) { }
-	};
+  fetchAccounts = async () => {
+    try {
+      let res = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "GET",
+        redirect: "follow",
+      });
+      const data = await res.text();
+      this.setState({ accounts: JSON.parse(data).accounts });
+    } catch (error) { }
+  };
 
-	handleChange(name, e) {
-		const value = e.target.value;
+  handleChange(name, e) {
+    const value = e.target.value;
 
-		if (name === 'healthPlan') {
-			let healthPlanDetails = e.target.value.split('#');
-			const { firstName, lastName, email } = this.state;
+    if (name === "healthPlan") {
+      let healthPlanDetails = e.target.value.split("#");
+      const { firstName, lastName, email } = this.state;
 
-			switch (healthPlanDetails[0]) {
-				case 'family':
-					if (firstName !== '' && lastName !== '' && email !== '') {
-						this.setState({ healthPlanId: healthPlanDetails[1], stage: this.state.stage + 1 });
-					} else {
-						alert('please fill in the empty fields');
-						console.log(this.state);
-						this.setState({
-							[name]: '',
-						});
-						return;
-					}
-					break;
+      switch (healthPlanDetails[0]) {
+        case "family":
+          if (firstName !== "" && lastName !== "" && email !== "") {
+            this.setState({
+              healthPlanId: healthPlanDetails[1],
+              stage: this.state.stage + 1,
+            });
+          } else {
+            alert("please fill in the empty fields");
+            console.log(this.state);
+            this.setState({
+              [name]: "",
+            });
+            return;
+          }
+          break;
 
-				default:
-					this.setState({ healthPlanId: healthPlanDetails[1] });
-					break;
-			}
-		}
+        default:
+          this.setState({ healthPlanId: healthPlanDetails[1] });
+          break;
+      }
+    }
 
-		this.setState({
-			[name]: value,
-		});
-	}
+    this.setState({
+      [name]: value,
+    });
+  }
 
-	handleSubmit = async (e) => {
-		e.preventDefault();
-		const { firstName, lastName, email, healthPlanId, healthPlan, stage } = this.state;
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    const {
+      firstName,
+      lastName,
+      email,
+      healthPlanId,
+      healthPlan,
+      stage,
+    } = this.state;
 
-		console.log(healthPlan);
+    let data = { firstName, lastName, email, healthPlanId };
+    if (
+      firstName !== "" &&
+      lastName !== "" &&
+      email !== "" &&
+      healthPlanId !== ""
+    ) {
 
-		let data = { firstName, lastName, email, healthPlanId };
-		if (firstName !== '' && lastName !== '' && email !== '' && healthPlanId !== '') {
-			if (healthPlan.includes('personal')) {
-				this.submit(data);
-			} else {
-				this.setNewStage(stage + 1);
-			}
-		}
-	};
+      if (healthPlan.includes("personal")) {
+        await this.submit(data);
 
-	submit = async (data) => {
-		try {
-			let res = await fetch(process.env.REACT_APP_API_URL + '/Admin/RegisterPatient', {
-				headers: { 'Content-Type': 'application/json-patch+json' },
-				method: 'POST',
-				body: JSON.stringify(data),
-				redirect: 'follow',
-			});
-			const response = await res.json();
-			if (res.status === 200) {
-				this.setState({ success: true });
-			}
-			alert(response.message);
-			this.props.history.push("/AdminAllPatients")
-		} catch (error) {
-			console.log(error);
-		}
-	};
+      } else {
+        this.setNewStage(stage + 1);
+      }
+    }
+  };
 
-	setNewStage = (stage) => {
-		this.setState({ stage });
-	};
+  submit = async (data) => {
+    try {
+      let res = await fetch(
+        process.env.REACT_APP_API_URL + "/Admin/RegisterPatient",
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify(data),
+          redirect: "follow",
+        }
+      );
+      const response = await res.json();
+      if (res.status === 200) {
+        this.setState({ success: true });
+        this.props.history.push("/AdminUpdatePatientProfile/" + response.response.id)
+      }
+      else return;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-	render() {
-		const { email, firstName, lastName, healthPlan, healthPlanId } = this.state;
-		let data = { firstName, lastName, email, healthPlanId };
+  setNewStage = (stage) => {
+    this.setState({ stage });
+  };
 
-		return (
-			<>
-				<PageLoader />
-				<main className="main-content">
-					<div className="app-loader">
-						<i className="icofont-spinner-alt-4 rotate" />
-					</div>
-					{this.state.success ? (
-						<Success
-							history={this.props.history}
-							message="Well done, you successfully added a patient"
-							nextRoute="/AdminAllPatients"
-						/>
-					) : null}
-					<div className="main-content-wrap w-75">
-						<div className="page-content">
-							<div className="row justify-content-center">
-								<div className="col col-md-12">
-									{this.state.stage === 0 ? (
-										<div className="card border-light">
-											<div className="card-body">
-												<form
-													className="mb-4 p-5 needs-validation"
-													onSubmit={this.handleSubmit}
-													noValidate
-												>
-													<h4 className="text-center">Register new patient</h4>
-													<div className="form-group">
-														<label>First Name</label>
-														<input
-															className="form-control"
-															value={firstName}
-															onChange={(e) => this.handleChange('firstName', e)}
-															type="text"
-															placeholder="First Name"
-															required
-														/>
-														<div className="valid-feedback">Looks good!</div>
-														<div className="invalid-feedback">
-															Please provide a valid name.
-														</div>
-													</div>
-													<div className="form-group">
-														<label>Last Name</label>
-														<input
-															className="form-control"
-															value={lastName}
-															onChange={(e) => this.handleChange('lastName', e)}
-															type="text"
-															required
-															placeholder="Last Name"
-														/>
-														<div className="valid-feedback">Looks good!</div>
-														<div className="invalid-feedback">
-															Please provide a valid name.
-														</div>
-													</div>
-													<div className="form-group">
-														<label>Email Address</label>
-														<input
-															className="form-control"
-															value={email}
-															onChange={(e) => this.handleChange('email', e)}
-															type="email"
-															required
-															placeholder="Email"
-														/>
-														<div className="valid-feedback">Looks good!</div>
-														<div className="invalid-feedback">
-															Please provide a valid email.
-														</div>
-													</div>
-													<div className="form-group">
-														<label>Health Plan</label>
-														<select
-															className="form-control"
-															value={healthPlan}
-															required
-															onChange={(e) => this.handleChange('healthPlan', e)}
-														>
-															<option value="" selected="true" disabled>
-																{this.state.healthPlans.length > 0
-																	? 'Select health plan'
-																	: 'Loading...'}{' '}
-																{/** added loading state to the form */}
-															</option>
-															{this.state.healthPlans.length > 0 &&
-																this.state.healthPlans.map((healthPlan, index) => (
-																	<option
-																		key={index}
-																		value={`${healthPlan.name.toLowerCase()}#${healthPlan.id
-																			}`}
-																	>
-																		{healthPlan.name}
-																	</option>
-																))}
-														</select>
-													</div>
-													<div className="row">
-														<div className="col"></div>
-														<div className="col text-right">
-															<button type="submit" className="btn btn-primary">
-																Register Patient
-															</button>
-														</div>
-													</div>
-												</form>
-											</div>
-										</div>
-									) : this.state.stage === 1 ? (
-										<SelectHealthPlan
-											accounts={this.state.accounts}
-											healthPlanId={this.state.healthPlanId}
-											currentStage={this.state.stage}
-											stageSetter={this.setNewStage}
-											payload={data}
-											submitFunction={this.submit}
-										/>
-									) : null}
-								</div>
-							</div>
-						</div>
-					</div>
-				</main>
-			</>
-		);
-	}
+  render() {
+    const { email, firstName, lastName, healthPlan, healthPlanId } = this.state;
+    let data = { firstName, lastName, email, healthPlanId };
+
+    return (
+      <>
+        <PageLoader />
+        <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message="Well done, you successfully added a patient"
+              nextRoute="/AdminAllPatients"
+            />
+          ) : null}
+          <div className="main-content-wrap w-75">
+            <div className="page-content">
+              <div className="row justify-content-center">
+                <div className="col col-md-12">
+                  {this.state.stage === 0 ? (
+                    <div className="card border-light">
+                      <div className="card-body">
+                        <form
+                          className="mb-4 p-5 needs-validation"
+                          onSubmit={this.handleSubmit}
+                          noValidate
+                        >
+                          <h4 className="text-center">Register new patient</h4>
+                          <div className="form-group">
+                            <label>First Name</label>
+                            <input
+                              className="form-control"
+                              value={firstName}
+                              onChange={(e) =>
+                                this.handleChange("firstName", e)
+                              }
+                              type="text"
+                              placeholder="First Name"
+                              required
+                            />
+                            <div className="valid-feedback">Looks good!</div>
+                            <div className="invalid-feedback">
+                              Please provide a valid name.
+                            </div>
+                          </div>
+                          <div className="form-group">
+                            <label>Last Name</label>
+                            <input
+                              className="form-control"
+                              value={lastName}
+                              onChange={(e) => this.handleChange("lastName", e)}
+                              type="text"
+                              required
+                              placeholder="Last Name"
+                            />
+                            <div className="valid-feedback">Looks good!</div>
+                            <div className="invalid-feedback">
+                              Please provide a valid name.
+                            </div>
+                          </div>
+                          <div className="form-group">
+                            <label>Email Address</label>
+                            <input
+                              className="form-control"
+                              value={email}
+                              onChange={(e) => this.handleChange("email", e)}
+                              type="email"
+                              required
+                              placeholder="Email"
+                            />
+                            <div className="valid-feedback">Looks good!</div>
+                            <div className="invalid-feedback">
+                              Please provide a valid email.
+                            </div>
+                          </div>
+                          <div className="form-group">
+                            <label>Health Plan</label>
+                            <select
+                              className="form-control"
+                              value={healthPlan}
+                              required
+                              onChange={(e) =>
+                                this.handleChange("healthPlan", e)
+                              }
+                            >
+                              <option value="" selected="true" disabled>
+                                {this.state.healthPlans.length > 0
+                                  ? "Select health plan"
+                                  : "Loading..."}{" "}
+                                {/** added loading state to the form */}
+                              </option>
+                              {this.state.healthPlans.length > 0 &&
+                                this.state.healthPlans.map(
+                                  (healthPlan, index) => (
+                                    <option
+                                      key={index}
+                                      value={`${healthPlan.name.toLowerCase()}#${healthPlan.id
+                                        }`}
+                                    >
+                                      {healthPlan.name}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          </div>
+                          <div className="row">
+                            <div className="col"></div>
+                            <div className="col text-right">
+                              <button type="submit" className="btn btn-primary">
+                                Register Patient
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  ) : this.state.stage === 1 ? (
+                    <SelectHealthPlan
+                      accounts={this.state.accounts}
+                      healthPlanId={this.state.healthPlanId}
+                      currentStage={this.state.stage}
+                      stageSetter={this.setNewStage}
+                      payload={data}
+                      submitFunction={this.submit}
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 }
 
 //comments
