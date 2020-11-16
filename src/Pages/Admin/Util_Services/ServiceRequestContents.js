@@ -1,10 +1,12 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import formatAmount from '../../../utils/formatAmount'
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 
-const $ = require("jquery");
-$.Datatable = require("datatables.net");
+let $ = window.$;
+$.DataTables = require("datatables.net");
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -22,17 +24,10 @@ class ServiceRequestContents extends React.Component {
 
     const { params } = this.props.match;
     if (params.invoiceId) {
-      this.fetchServiceRequestsInInvoice(params.invoiceId);
-      return;
+      this.fetchServiceRequestsInInvoice(params.invoiceId).then(() => this.sync());
     }
-    // .then(() => this.sync());
+    
   }
-
-  //   async fetchCategory() {
-  //     const res = await fetch(apiUrl + "/Admin/GetAllServiceCategories");
-  //     const response = await res.json();
-  //     this.setState({ categories: response });
-  //   }
 
   async fetchServiceRequestsInInvoice(invoiceId) {
     const res = await fetch(
@@ -62,9 +57,9 @@ class ServiceRequestContents extends React.Component {
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title">
-                {`Services Request in Invoice ${invoiceNumber}`}
+                {`Services Request in Invoice #${invoiceNumber}`}
               </h4>
-              <NavLink
+              {/* <NavLink
                 className="btn btn-primary"
                 to={{
                   pathname: `/AdminPaymentForService/${invoiceId}`,
@@ -76,7 +71,7 @@ class ServiceRequestContents extends React.Component {
                 }}
               >
                 Pay For Services
-              </NavLink>
+              </NavLink> */}
             </header>
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -109,14 +104,14 @@ class ServiceRequestContents extends React.Component {
                       <table
                         ref={(el) => (this.el = el)}
                         className="table data-table"
-                        data-columns='[
-                                                        { "data": "#" },
-                                                        { "data": "name" },
-                                                        { "data": "invoicenumber" },
-                                                        { "data": "date-generated" },
-                                                        { "data": "cost" },
-                                                        { "data": "actions" }
-                                                    ]'
+                        // data-columns='[
+                        //                                 { "data": "#" },
+                        //                                 { "data": "name" },
+                        //                                 { "data": "invoicenumber" },
+                        //                                 { "data": "date-generated" },
+                        //                                 { "data": "cost" },
+                        //                                 { "data": "actions" }
+                        //                             ]'
                         data-paging="true"
                         data-info="true"
                       >
@@ -126,9 +121,9 @@ class ServiceRequestContents extends React.Component {
                             <th>Patient's Name</th>
                             <th>Service Category</th>
                             <th>Service Name</th>
-                            <th>Requested By</th>
-                            <th>Date On</th>
                             <th>Amount</th>
+                            {/* <th>Date</th> */}
+                            <th>Status</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
@@ -140,12 +135,12 @@ class ServiceRequestContents extends React.Component {
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                  Labo Kanu
+                                  {`${serviceRequest?.patientFirstName} ${serviceRequest?.patientLastName}`}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                  Lab Service
+                                {serviceRequest?.serviceCategoryName}
                                 </div>
                               </td>
                               <td>
@@ -155,18 +150,26 @@ class ServiceRequestContents extends React.Component {
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                  Dr Vitalis
+                                {formatAmount(serviceRequest?.amount) ?? ""}
                                 </div>
                               </td>
-
-                              <td>
+                              {/* <td>
                                 <div className="text-muted text-nowrap">
-                                  7th Nov 2020
+                                {formatDate(serviceRequest?.amount) ?? ""}
                                 </div>
-                              </td>
+                              </td> */}
                               <td>
                                 <div className="text-muted text-nowrap">
-                                {formatAmount(serviceRequest?.cost) ?? ""}
+                                {serviceRequest?.paymentStatus === "False" ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        paid
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Paid
+                                      </>
+                                    )}
                                 </div>
                               </td>
 
@@ -191,7 +194,7 @@ class ServiceRequestContents extends React.Component {
                                     </NavLink>
 
                                     <NavLink
-                                      to="#"
+                                      to={`/AdminViewLabResults/${serviceRequest.id}`}
                                       className="btn btn-sm btn-block"
                                     >
                                       <span className="btn-icon icofont-server mr-2" />
