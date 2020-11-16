@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const Success = ({ message, history, nextRoute }) => {
-	const [view, setView] = useState(true);
+const Success = ({ message, history, nextRoute, dontRoute }) => {
+  const [view, setView] = useState(true);
 
-	useEffect(() => {
-		setTimeout(() => {
-			setView(!view);
-		}, 2000);
-		return () => {
-			history.push(`${nextRoute}`);
-		};
-	}, [nextRoute, history, view]);
+  useEffect(() => {
+    setTimeout(() => {
+      setView(false);
+    }, 2000);
+    if (!dontRoute) {
+      return () => {
+        history.push(`${nextRoute}`);
+      };
+    }
+  }, [nextRoute, history, view]);
 
-	return (
-		<div className="alert alert-success alert-align" role="alert">
-			<h3 className="text-light">Success!</h3>
-			<h6 className="text-light">{message}</h6>
-		</div>
-	);
+  return view ? (
+    <div className="alert alert-success alert-align" role="alert">
+      <h3 className="text-light">Success!</h3>
+      <h6 className="text-light">{message}</h6>
+    </div>
+  ) : null;
 };
 
 export { Success };
