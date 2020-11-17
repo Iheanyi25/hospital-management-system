@@ -237,7 +237,7 @@ class Consultations extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Appointment Title</th>
@@ -325,7 +325,7 @@ class Consultations extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
+                                <th></th>
                                 <th>Name</th>
                                 {/* <th>Phone</th> */}
                                 <th className="nowrap">Appointment Title</th>
@@ -368,7 +368,7 @@ class Consultations extends React.Component {
 
                                       <td>
                                         <div className="actions">
-                                          <Link
+                                          {/* <Link
                                             title="Pre-consultation"
                                             onClick={() =>
                                               (window.location.href =
@@ -378,7 +378,7 @@ class Consultations extends React.Component {
                                             className="btn btn-primary btn-sm btn-square rounded-pill"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
+                                          </Link> */}
                                           {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                             <span className="btn-icon icofont-ui-edit" />
                                           </button>
@@ -417,7 +417,7 @@ class Consultations extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
+                                <th></th>
                                 <th>Name</th>
                                 {/* <th>Phone</th> */}
                                 <th>Appointment Title</th>
