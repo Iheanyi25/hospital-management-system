@@ -459,11 +459,7 @@ class Consultations extends React.Component {
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          to={`/AdminPreConsultation/${consultation.id}`}
                                           className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
