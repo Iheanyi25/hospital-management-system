@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { PageLoader } from '../../../Components'
+import { Success } from '../../../Components/Alerts';
 
+const apiUrl = process.env.REACT_APP_API_URL;
 export default class EditServiceCategory extends Component {
 
     state = {
         name: "",
-        description: ""
+        description: "",
     }
 
     async componentDidMount() {
@@ -17,6 +19,36 @@ export default class EditServiceCategory extends Component {
         }
     }
 
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = {
+            name: this.state.name,
+            description: this.state.description,
+            id: this.props.location.state?.id
+        };
+
+        console.log({ data });
+        if (
+            this.state.name !== "" &&
+            this.state.description !== ""
+        ) {
+            try {
+                let res = await fetch(`${apiUrl}/Admin/UpdateServiceCategory`, {
+                    headers: { "Content-Type": "application/json-patch+json" },
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    redirect: "follow",
+                });
+                if (res.status === 200) {
+                    this.setState({ success: true });
+                } else {
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     render() {
         return (
             <>
@@ -26,13 +58,20 @@ export default class EditServiceCategory extends Component {
                     <div className="app-loader">
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
+                    {this.state.success ? (
+                        <Success
+                            history={this.props.history}
+                            message="Well done, you successfully updated a category"
+                            nextRoute="/AdminManageServiceCategory"
+                        />
+                    ) : null}
                     <div className="main-content-wrap w-75">
                         <div className="page-content">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
                                     <div className="card border-light">
                                         <div className="card-body">
-                                            <form className="mb-4 p-5 needs-validation" noValidate>
+                                            <form className="mb-4 p-5 needs-validation" noValidate onSubmit={this.handleSubmit}>
                                                 <h4 className="text-center">Edit Service Category</h4>
                                                 <div className="form-group">
                                                     <label>Name</label>
@@ -41,11 +80,12 @@ export default class EditServiceCategory extends Component {
                                                         type="text"
                                                         tabIndex={-98}
                                                         placeholder="Name"
-                                                        defaultValue={this.state.name}
+                                                        value={this.state.name}
                                                         required
+                                                        onChange={(e) => this.setState({ name: e.target.value })}
                                                     />
                                                     <div className="valid-feedback">Looks good!</div>
-													<div className="invalid-feedback">Please provide a valid name.</div>
+                                                    <div className="invalid-feedback">Please provide a valid name.</div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Description</label>
@@ -53,18 +93,19 @@ export default class EditServiceCategory extends Component {
                                                         className="form-control"
                                                         placeholder="Description"
                                                         rows={3}
-                                                        defaultValue={this.state.description}
+                                                        value={this.state.description}
                                                         required
+                                                        onChange={(e) => this.setState({ description: e.target.value })}
                                                     />
                                                     <div className="valid-feedback">Looks good!</div>
-													<div className="invalid-feedback">
-														Please provide a valid description.
+                                                    <div className="invalid-feedback">
+                                                        Please provide a valid description.
 													</div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col"></div>
                                                     <div className="col text-right">
-                                                        <button type="button" className="btn btn-primary">
+                                                        <button type="submit" className="btn btn-primary">
                                                             Submit
                                                     </button>
                                                     </div>
