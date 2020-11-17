@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class AdminSidebar extends React.Component {
 	constructor(props) {
@@ -34,56 +34,56 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">My Office</span>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminDashboard">
+										<Link className="item-link" to="/AdminDashboard">
 											<span className="link-icon icofont-thermometer-alt" />{' '}
 											<span className="link-text">Dashboard</span>
-										</NavLink>
+										</Link>
 									</li>
 
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="item-link cursor">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
 											<span className="link-text">Consultations</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="/AdminBookConsultation" className="item-link">
+												<Link to="/AdminBookConsultation" className="item-link">
 													<span className="link-text">Book Consultation</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink to="/AdminConsultations" className="item-link">
+												<Link to="/AdminConsultations" className="item-link">
 													<span className="link-text">Manage Consultations</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-icon icofont-stethoscope-alt" />{' '}
 											<span className="link-text">Appointments</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="/AdminBookAppointment" className="item-link">
+												<Link to="/AdminBookAppointment" className="item-link">
 													<span className="link-text">Book Appointment</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink to="/AdminAppointments" className="item-link">
+												<Link to="/AdminAppointments" className="item-link">
 													<span className="link-text">Manage Appointments</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
 
 									<li className="menu-item">
-										<NavLink className="item-link" to="/AdminManageAccounts">
+										<Link className="item-link" to="/AdminManageAccounts">
 											<span className="link-icon icofont-user" />{' '}
 											<span className="link-text">Accounts</span>
-										</NavLink>
+										</Link>
 									</li>
 
 
@@ -91,178 +91,180 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">User Management</span>
 									</li>
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Patients</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="/AdminAddPatients" className="item-link">
+												<Link to="/AdminAddPatients" className="item-link">
 													<span className="link-text">Register Patient</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink className="item-link" to="/AdminAllPatients">
+												<Link className="item-link" to="/AdminAllPatients">
 													<span className="link-text">Manage Patients</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Doctors</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink
+												<Link
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Doctors</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink className="item-link" to="/AdminAllDoctors">
+												<Link className="item-link" to="/AdminAllDoctors">
 													<span className="link-text">Manage Doctors</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
 
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Pharmacists</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink
+												<Link
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Pharmacists</span>
-												</NavLink>
+												</Link>
 											</li>
 											{/* <li className="menu-item">
-												<NavLink to="#" className="item-link">
+												<div className="item-link">
 													<span className="link-text">Manage Pharmacists</span>
-												</NavLink>
+												</Link>
 											</li> */}
 										</ul>
 									</li>
 
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Accountants</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink
+												<Link
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Accountants</span>
-												</NavLink>
+												</Link>
 											</li>
 											{/* <li className="menu-item">
-												<NavLink to="#" className="item-link">
+												<div className="item-link">
 													<span className="link-text">Manage Accountants</span>
-												</NavLink>
+												</Link>
 											</li> */}
 										</ul>
 									</li>
 
-									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+									{/* <li className="menu-item has-sub">
+										<div className="itemcursor -link">
 											<span className="link-text">Other Admins</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink
+												<Link
 													to="#"
 													className="item-link"
 													data-toggle="modal"
 													data-target="#add-user"
 												>
 													<span className="link-text">Register Other Admins</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink to="#" className="item-link">
+												<div className="item-link">
 													<span className="link-text">Manage Other Admins</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
-									</li>
+									</li> */}
+
 									<li className="menu-item">
 										<span className="group-title">Utility</span>
 									</li>
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<Link className="item-link cursor">
 											<span className="link-text">Service Requests</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</Link>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="/AdminServiceRequests" className="item-link">
+												<Link to="/AdminServiceRequests" className="item-link">
 													<span className="link-text">Request Service</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink to="/AdminManageServiceRequests" className="item-link">
+												<Link to="/AdminManageServiceRequests" className="item-link">
 													<span className="link-text">Manage Services</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
+
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Services</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item has-sub">
-												<NavLink to="#" className="item-link">
+												<div className="cursor item-link">
 													<span className="link-text">Services</span>{' '}
 													<span className="link-caret icofont-thin-right" />
-												</NavLink>
+												</div>
 												<ul className="sub">
 													<li className="menu-item">
-														<NavLink to="/AdminCreateService" className="item-link">
+														<Link to="/AdminCreateService" className="item-link">
 															<span className="link-text">Create a Service</span>
-														</NavLink>
+														</Link>
 													</li>
 													<li className="menu-item">
-														<NavLink to="/AdminManageServices" className="item-link">
+														<Link to="/AdminManageServices" className="item-link">
 															<span className="link-text">View Services</span>
-														</NavLink>
+														</Link>
 													</li>
 												</ul>
 											</li>
 											<li className="menu-item has-sub">
-												<NavLink to="#" className="item-link">
+												<div className="cursor item-link">
 													<span className="link-text">Service Categories</span>{' '}
 													<span className="link-caret icofont-thin-right" />
-												</NavLink>
+												</div>
 												<ul className="sub">
 													<li className="menu-item">
-														<NavLink to="/AdminServiceCategory" className="item-link">
+														<Link to="/AdminServiceCategory" className="item-link">
 															<span className="link-text">Create a Category</span>
-														</NavLink>
+														</Link>
 													</li>
 													<li className="menu-item">
-														<NavLink to="/AdminManageServiceCategory" className="item-link">
+														<Link to="/AdminManageServiceCategory" className="item-link">
 															<span className="link-text">View Categories</span>
-														</NavLink>
+														</Link>
 													</li>
 												</ul>
 											</li>
@@ -270,38 +272,38 @@ class AdminSidebar extends React.Component {
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Health Plans</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="/AdminCreateHealthPlan" className="item-link">
+												<Link to="/AdminCreateHealthPlan" className="item-link">
 													<span className="link-text">Create a health plan</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink to="/AdminManageHealthPlans" className="item-link">
+												<Link to="/AdminManageHealthPlans" className="item-link">
 													<span className="link-text">Manage Health Plans</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
-										<NavLink to="#" className="item-link">
+										<div className="cursor item-link">
 											<span className="link-text">Wards</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</NavLink>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
-												<NavLink to="/AdminCreateWard" className="item-link">
+												<Link to="/AdminCreateWard" className="item-link">
 													<span className="link-text">Create a ward</span>
-												</NavLink>
+												</Link>
 											</li>
 											<li className="menu-item">
-												<NavLink to="/AdminManageWards" className="item-link">
+												<Link to="/AdminManageWards" className="item-link">
 													<span className="link-text">Manage wards</span>
-												</NavLink>
+												</Link>
 											</li>
 										</ul>
 									</li>
@@ -310,24 +312,24 @@ class AdminSidebar extends React.Component {
 							</nav>
 						</div>
 						<div className="add-patient">
-							<NavLink to="/AdminAddPatients" className="btn btn-primary">
+							<Link to="/AdminAddPatients" className="btn btn-primary">
 								<span className="btn-icon icofont-plus mr-2" />
 								Register Patient
-							</NavLink>
+							</Link>
 							{/* <button className="btn btn-primary" data-toggle="modal" data-target="#add-patient">
 								<span className="btn-icon icofont-plus mr-2" /> Register Patient
 							</button> */}
 						</div>
 
 						<div className="assistant-menu">
-							<NavLink to="#" className="link">
+							<Link className="link">
 								<span className="link-icon icofont-ui-settings" />
 								Settings{' '}
-							</NavLink>
-							<NavLink to="#" className="link">
+							</Link>
+							<Link className="link">
 								<span className="link-icon icofont-question-square" />
 								FAQ &amp; Support
-							</NavLink>
+							</Link>
 						</div>
 						<div className="navbar-skeleton vertical">
 							<div className="top-part">
