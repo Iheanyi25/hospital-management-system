@@ -73,16 +73,13 @@ class ManageServiceRequest extends React.Component {
             </div>
 
             <div className="page-content">
-              <div className="card-body"></div>
-            </div>
-            <div className="page-content">
               <div className="card mb-0">
                 <div className="card-body">
                   <div>
                     <div className="table-responsive">
                       <table
                         ref={(el) => (this.el = el)}
-                        className="table"
+                        className="table table-striped"
                         // data-columns='[
                         //         { "data": "#" },
                         //         { "data": "name" },
@@ -95,7 +92,7 @@ class ManageServiceRequest extends React.Component {
                         data-info="true"
                       >
                         <thead>
-                          <tr className="bg-primary text-white">
+                          <tr>
                             <th>#</th>
                             <th>Patient Name</th>
                             <th>No of Services</th>
@@ -148,10 +145,10 @@ class ManageServiceRequest extends React.Component {
                                         paid
                                       </>
                                     ) : (
-                                      <>
-                                        <img src={paid} alt="paid" /> Paid
+                                        <>
+                                          <img src={paid} alt="paid" /> Paid
                                       </>
-                                    )}
+                                      )}
                                   </div>
                                 </td>
                                 <td>
@@ -167,23 +164,23 @@ class ManageServiceRequest extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                       {category?.paymentStatus ===
-                                      "NOT PAID" ? (
-                                        <NavLink
-                                          to={{
-                                            pathname: `/AdminPaymentForService/${category.id}`,
-                                            state: {
-                                              invoiceId: category.id,
-                                              patientId: category.patientId,
-                                              invoiceNumber:
-                                                category.invoiceNumber,
-                                            },
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        "NOT PAID" ? (
+                                          <NavLink
+                                            to={{
+                                              pathname: `/AdminPaymentForService/${category.id}`,
+                                              state: {
+                                                invoiceId: category.id,
+                                                patientId: category.patientId,
+                                                invoiceNumber:
+                                                  category.invoiceNumber,
+                                              },
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                           Pay for Services
-                                        </NavLink>
-                                      ) : null}
+                                          </NavLink>
+                                        ) : null}
 
                                       <NavLink
                                         to={{

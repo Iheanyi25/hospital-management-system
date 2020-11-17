@@ -107,10 +107,10 @@ class Consultations extends React.Component {
                 <div className="card animated fadeInUp delay-02s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
-                      <div className="col col-5">
+                      <div className="col col-3">
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                       </div>
-                      <div className="col col-7">
+                      <div className="col col-9">
                         <h6 className="mt-0 mb-1">Total Patient on Queue</h6>
                         <div className="count text-primary fs-20">
                           {patientsOnOpenListCount}
@@ -124,10 +124,10 @@ class Consultations extends React.Component {
                 <div className="card animated fadeInUp delay-03s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
-                      <div className="col col-5">
+                      <div className="col col-3">
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                       </div>
-                      <div className="col col-7">
+                      <div className="col col-9">
                         <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
                         <div className="count text-primary fs-20">
                           {patientsAttachedToDoctorsCount}
@@ -141,10 +141,10 @@ class Consultations extends React.Component {
                 <div className="card animated fadeInUp delay-04s bg-light">
                   <div className="card-body">
                     <div className="row align-items-center">
-                      <div className="col col-5">
+                      <div className="col col-3">
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list"></div>
                       </div>
-                      <div className="col col-7">
+                      <div className="col col-9">
                         <h6 className="mt-0 mb-1 text-nowrap">
                           Total Patients Attended
                         </h6>
@@ -224,22 +224,13 @@ class Consultations extends React.Component {
                           <table
                             ref={(el) => (this.el = el)}
                             className="table tble-striped"
-                            data-columns='[
-                                { "data": "photo" },
-                                { "data": "name" },
-                                { "data": "phone" },
-                                { "data": "appointment-title" },
-                                { "data": "reason-for-appointment" },
-                                { "data": "actions" }
-                            ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
+                                <th></th>
                                 <th>Name</th>
-                                <th>Phone</th>
                                 <th>Appointment Title</th>
                                 <th>Reason For Appointment</th>
                                 <th>Actions</th>
@@ -262,12 +253,6 @@ class Consultations extends React.Component {
                                       {consultation.patient.firstName}{" "}
                                       {consultation.patient.lastName}
                                     </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        {consultation.patient.phoneNumber}
-                                      </div>
-                                    </td>
                                     <td>{consultation.consultationTitle}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
@@ -278,12 +263,14 @@ class Consultations extends React.Component {
                                     <td>
                                       <div className="actions">
                                         <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          title="Go for Clarking"
+                                          to={{
+                                            pathname: "/DoctorClarking",
+                                            state: {
+                                              id: consultation.id,
+                                              type: "consultation"
+                                            }
+                                          }}
                                           className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
@@ -325,7 +312,7 @@ class Consultations extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
+                                <th></th>
                                 <th>Name</th>
                                 {/* <th>Phone</th> */}
                                 <th className="nowrap">Appointment Title</th>
@@ -368,7 +355,7 @@ class Consultations extends React.Component {
 
                                       <td>
                                         <div className="actions">
-                                          <Link
+                                          {/* <Link
                                             title="Pre-consultation"
                                             onClick={() =>
                                               (window.location.href =
@@ -378,7 +365,7 @@ class Consultations extends React.Component {
                                             className="btn btn-primary btn-sm btn-square rounded-pill"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
+                                          </Link> */}
                                           {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                             <span className="btn-icon icofont-ui-edit" />
                                           </button>
@@ -417,7 +404,7 @@ class Consultations extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
+                                <th></th>
                                 <th>Name</th>
                                 {/* <th>Phone</th> */}
                                 <th>Appointment Title</th>
@@ -459,11 +446,7 @@ class Consultations extends React.Component {
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          to={`/AdminPreConsultation/${consultation.id}`}
                                           className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />

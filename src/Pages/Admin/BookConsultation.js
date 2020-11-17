@@ -1,9 +1,11 @@
 import React from "react";
-import { PageLoader } from "../../Components";
+import { PageLoader, SelectableDropDown } from "../../Components";
 import { Success } from '../../Components/Alerts'
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
+let selectId = Math.random();
+selectId = selectId.toString().replace(".", "_");
 
 class BookConsultation extends React.Component {
   constructor(props) {
@@ -17,13 +19,30 @@ class BookConsultation extends React.Component {
       patientEmail: "",
       consultationTitle: "",
       reasonForConsultation: "",
-      success:false
+      success: false
     };
   }
 
   async componentDidMount() {
     this.fetchDoctors();
-    this.fetchPatients();
+    this.fetchPatients().then(() => {
+      this.sync(selectId)
+      this.sync(selectId + 1)
+    });
+  }
+
+  sync = (selectId) => {
+    var select = $(`#custom_select_${selectId}`);
+
+    if (select.length) {
+      select.each(function () {
+        $(this).selectpicker({
+          style: '',
+          styleBase: 'form-control',
+          tickIcon: 'icofont-check-alt'
+        });
+      });
+    }
   }
 
   renderPatientPicker() {
@@ -101,18 +120,24 @@ class BookConsultation extends React.Component {
       doctorId,
     } = this.state;
 
+    let data = {
+      consultationTitle,
+      reasonForConsultation,
+      patientId,
+      doctorId
+    };
+
+    if (!doctorId) {
+      delete data.doctorId;
+    }
+
     try {
       const request = await fetch(`${apiUrl}/Admin/BookConsultation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          consultationTitle,
-          reasonForConsultation,
-          patientId,
-          doctorId,
-        }),
+        body: JSON.stringify(data),
       });
 
       if (!request.ok) {
@@ -120,8 +145,8 @@ class BookConsultation extends React.Component {
         throw Error(error.message);
       }
 
-      const data = await request.json();
-      console.log(data);
+      // const response = await request.json();
+      // console.log(response);
       this.setState({ success: true })
       // this.setState({
       //   showSuccessMessage: true,
@@ -141,33 +166,6 @@ class BookConsultation extends React.Component {
       consultationTitle,
       reasonForConsultation,
     } = this.state;
-
-    // let displayErrorMessage;
-    // let displaySuccessMessage;
-
-    // if (this.state.showErrorMessage) {
-    //   displayErrorMessage = (
-    //     <div className="alert alert-danger with-after-icon" role="alert">
-    //       <div className="alert-content">{this.state.errorMessage}</div>
-    //       <div className="alert-icon">
-    //         <i className="icofont-alarm" />
-    //       </div>
-    //     </div>
-    //   );
-    // }
-
-    // if (this.state.showSuccessMessage) {
-    //   displaySuccessMessage = (
-    //     <div className="alert alert-info with-after-icon" role="alert">
-    //       <div className="alert-content text-center">
-    //         {this.state.successMessage}
-    //       </div>
-    //       <div className="alert-icon">
-    //         <i className="icon icofont-ui-check" />
-    //       </div>
-    //     </div>
-    //   );
-    // }
 
     return (
       <>
@@ -195,9 +193,12 @@ class BookConsultation extends React.Component {
 
                         <div className="form-group">
                           <label>Select A Patient</label>
+
                           <select
                             className="form-control"
                             value={patientId}
+                            id={`custom_select_${selectId}`}
+                            data-live-search="true"
                             onChange={(e) => this.handleChange("patientId", e)}
                           >
                             <option selected value="">
@@ -219,9 +220,17 @@ class BookConsultation extends React.Component {
                             Select A Doctor ( If you want this consultation to be
                             assigned to a doctor )
                           </label>
+                          {/* <SelectableDropDown
+                            data={this.state.doctors}
+                            itemKey={["id"]}
+                          /> */}
+
+
                           <select
                             className="form-control"
                             value={doctorId}
+                            id={`custom_select_${selectId + 1}`}
+                            data-live-search="true"
                             onChange={(e) => this.handleChange("doctorId", e)}
                           >
                             <option selected value="">

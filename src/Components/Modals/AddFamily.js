@@ -4,7 +4,8 @@ class AddFamily extends React.Component {
 
     // state = { familyName: "" }
     state = {
-        name: ''
+        name: '',
+        phoneNumber: ""
     }
     componentDidMount() {
         console.log(this.props);
@@ -14,10 +15,11 @@ class AddFamily extends React.Component {
         e.preventDefault();
         const data = {
             name: this.state.name,
+            phoneNumber: this.state.phoneNumber,
             healthPlanId: this.props.healthPlanId,
         };
         console.log(data)
-        if (this.state.name !== '' && this.state.capacity !== '') {
+        if (this.state.name !== '' && this.state.phoneNumber !== '') {
             try {
                 let res = await fetch(process.env.REACT_APP_API_URL + '/Admin/Account/CreateAccount', {
                     headers: { 'Content-Type': 'application/json-patch+json' },
@@ -27,8 +29,8 @@ class AddFamily extends React.Component {
                 });
                 let response = await res.json();
                 alert(response.message)
+                await this.props.callbackFromProps();
                 this.closeModal();
-                console.log(response);
             } catch (error) {
                 console.log(error);
             }
@@ -67,25 +69,45 @@ class AddFamily extends React.Component {
                                             type="text"
                                             onChange={(e) => this.setState({ name: e.target.value })}
                                             placeholder="Enter family name"
-                                            defaultValue={this.state.familyName}
+                                            value={this.state.name}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Family Phone Number</label>
+                                        <input
+                                            id="name"
+                                            name="name"
+                                            className="form-control"
+                                            type="text"
+                                            onChange={(e) => this.setState({ phoneNumber: e.target.value })}
+                                            placeholder="Enter family phone number"
+                                            value={this.state.phoneNumber}
                                         />
                                     </div>
 
-
-                                    <div className="modal-footer d-block bg-white">
-                                        <div className="actions justify-content-end">
+                                    <div className="modal-footer bg-white row">
+                                        <div className="col">
                                             <button
                                                 type="button"
-                                                className="btn btn-error"
+                                                className="btn btn-outline-danger"
                                                 data-dismiss="modal"
                                             >
-                                                Close
+                                                <span className="d-none d-sm-block">
+                                                    Cancel
+                                                </span>
+                                                <span className="d-sm-none">Cancel</span>
                                             </button>
-                                            <button type="submit" className="btn btn-primary ml-4">
+                                        </div>
+                                        <div className="col text-right">
+                                            <button
+                                                type="submit"
+                                                className="btn btn-primary"
+                                            >
                                                 Save
                                             </button>
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
                         </div>

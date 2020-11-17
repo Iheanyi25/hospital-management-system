@@ -6,7 +6,6 @@ import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
 import edit from "../../assets/img/edit.svg";
-import add from "../../assets/img/add.svg";
 import resetText from "../../assets/img/resetText.svg";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -71,7 +70,7 @@ class PatientProfile extends React.Component {
                         <h5 className="mb-2 mt-2 font-weight-bold">
                           {`${patientDetails?.fullName ?? ""} `}
                         </h5>
-                        <p className="mb-2">Engineer</p>
+                        <p className="mb-2">Patient</p>
                         <Link to="/">
                           <img src={reset} alt="reset" className="mr-2" />
                           <img src={resetText} alt="reset" className="mr-2" />

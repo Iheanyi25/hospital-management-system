@@ -219,15 +219,15 @@ class Appointments extends React.Component {
                           <table
                             ref={(em) => (this.em = em)}
                             className="table table-striped"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                            // data-columns='[
+                            //                             { "data": "photo" },
+                            //                             { "data": "name" },
+                            //                             { "data": "email" },
+                            //                             { "data": "phone" },
+                            //                             { "data": "date-of-birth" },
+                            //                             { "data": "address" },
+                            //                             { "data": "actions" }
+                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -282,11 +282,7 @@ class Appointments extends React.Component {
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          to={`/AdminPreConsultation/${appointment.patient.id}`}
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
@@ -316,15 +312,15 @@ class Appointments extends React.Component {
                           <table
                             ref={(en) => (this.en = en)}
                             className="table table-striped"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                            // data-columns='[
+                            //                             { "data": "photo" },
+                            //                             { "data": "name" },
+                            //                             { "data": "email" },
+                            //                             { "data": "phone" },
+                            //                             { "data": "date-of-birth" },
+                            //                             { "data": "address" },
+                            //                             { "data": "actions" }
+                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -376,10 +372,6 @@ class Appointments extends React.Component {
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
                                           to="/AdminPreConsultation"
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >

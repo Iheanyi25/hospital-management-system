@@ -8,6 +8,32 @@ $.DataTables = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class ViewLabResults extends React.Component {
+  state = {
+    serviceRequestResults: [],
+  };
+
+  componentDidMount() {
+    this.fetchServiceCategories();
+  }
+
+  fetchServiceCategories = async () => {
+    const { id } = this.props.match.params;
+    try {
+      let res = await fetch(`${apiUrl}/Admin/GetServiceRequestResults/${id}`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "GET",
+        redirect: "follow",
+      });
+      const data = await res.text();
+      console.log(JSON.parse(data).serviceRequestResults);
+      this.setState({
+        serviceRequestResults: JSON.parse(data).serviceRequestResults,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     return (
       <>
@@ -33,7 +59,9 @@ class ViewLabResults extends React.Component {
                         <h6 className="mt-0 mb-1">
                           No of Results for Lab Service
                         </h6>
-                        <div className="count text-primary fs-20">14</div>
+                        <div className="count text-primary fs-20">
+                          {this.state.serviceRequestResults.length}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -50,291 +78,73 @@ class ViewLabResults extends React.Component {
                   <h4 className="text-center mb-4">
                     Results of (lab) services
                   </h4>
-                  <div id="accordion">
-                    <div className="card-header" id="headingTwo">
-                      <h5 className="mb-0">
-                        <button
-                          className="btn btn-primary btn-block"
-                          data-toggle="collapse"
-                          data-target="#collapseOne"
-                          aria-expanded="true"
-                          aria-controls="collapseOne"
-                        >
-                          Service name
-                        </button>
-                      </h5>
-                    </div>
-                    <div
-                      id="collapseOne"
-                      className="collapse show"
-                      aria-labelledby="headingOne"
-                      data-parent="#accordion"
-                    >
-                      <div className="card-body">
-                        <div>
-                          <h5 className="m-0">Service name</h5>
-                          <h6 className="mt-1">Service category</h6>
-                        </div>
-                        <div className="d-flex flex-wrap">
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
+                  <div id="accordion" className="mb-3">
+                    {this.state.serviceRequestResults.length === 0 ? <h5 className="text-center mt-5">Nothing to see here</h5>: this.state.serviceRequestResults.map(
+                      (serviceRequestResult, index) => (
+                        <div className="card mb-0">
+                          <div
+                            className="card-header"
+                            id={`heading${index + 1}`}
+                          >
+                            <h5 className="mb-0">
+                              <button
+                                className="btn btn-outline-primary btn-block"
+                                data-toggle="collapse"
+                                data-target={`#collapse${index + 1}`}
+                                aria-expanded="true"
+                                aria-controls={`collapse${index + 1}`}
+                              >
+                                {`${serviceRequestResult.serviceRequest?.service?.name}`}
+                              </button>
+                            </h5>
                           </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
+                          <div
+                            id={`collapse${index + 1}`}
+                            className="collapse"
+                            aria-labelledby="headingOne"
+                            data-parent="#accordion"
+                          >
+                            <div className="card-body">
+                              <div>
+                                <h5 className="m-0">{`${serviceRequestResult.serviceRequest?.service?.name}`}</h5>
+                                <h6 className="mt-1">{`${serviceRequestResult.serviceRequest?.service?.serviceCategory?.name}`}</h6>
+                              </div>
+                              <div className="m-auto d-flex flex-wrap">
+                                <div className="mr-2 mb-2">
+                                  <img
+                                    src={resultImage}
+                                    style={{ height: "200px", width: "200px" }}
+                                    alt="result"
+                                  />
+                                </div>
+                                <div className="mr-2 mb-2">
+                                  <img
+                                    src={resultImage}
+                                    style={{ height: "200px", width: "200px" }}
+                                    alt="result"
+                                  />
+                                </div>
+                                <div className="mr-2 mb-2">
+                                  <img
+                                    src={resultImage}
+                                    style={{ height: "200px", width: "200px" }}
+                                    alt="result"
+                                  />
+                                </div>
+                              </div>
+                              <div className="result">
+                                <h5>Result</h5>
+                                <p>{`${serviceRequestResult.result}`}</p>
+                              </div>
+                              <div className="comments">
+                                <h5>Additional comments</h5>
+                                <p>{`${serviceRequestResult.additionalComments}`}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="result">
-                          <h5>Result</h5>
-                          <p>
-                            Anim pariatur cliche reprehenderit, enim eiusmod
-                            high life accusamus terry richardson ad squid.{" "}
-                          </p>
-                        </div>
-                        <div className="comments">
-                          <h5>Additional comments</h5>
-                          <p>
-                            Anim pariatur cliche reprehenderit, enim eiusmod
-                            high life accusamus terry richardson ad squid. 3
-                            wolf moon officia aute, non cupidatat skateboard
-                            dolor brunch.{" "}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card-header" id="headingTwo">
-                      <h5 className="mb-0">
-                        <button
-                          className="btn btn-primary btn-block collapsed"
-                          data-toggle="collapse"
-                          data-target="#collapseTwo"
-                          aria-expanded="false"
-                          aria-controls="collapseTwo"
-                        >
-                          Service name
-                        </button>
-                      </h5>
-                    </div>
-                    <div
-                      id="collapseTwo"
-                      className="collapse"
-                      aria-labelledby="headingTwo"
-                      data-parent="#accordion"
-                    >
-                      <div className="card-body">
-                        <div>
-                          <h5 className="m-0">Service name</h5>
-                          <h6 className="mt-1">Service category</h6>
-                        </div>
-                        <div className="d-flex flex-wrap">
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                          <div className="mr-2">
-                            <img
-                              src={resultImage}
-                              style={{ height: "64px", width: "64px" }}
-                              alt="result"
-                            />
-                          </div>
-                        </div>
-                        <div className="result">
-                          <h5>Result</h5>
-                          <p>
-                            Anim pariatur cliche reprehenderit, enim eiusmod
-                            high life accusamus terry richardson ad squid.{" "}
-                          </p>
-                        </div>
-                        <div className="comments">
-                          <h5>Additional comments</h5>
-                          <p>
-                            Anim pariatur cliche reprehenderit, enim eiusmod
-                            high life accusamus terry richardson ad squid. 3
-                            wolf moon officia aute, non cupidatat skateboard
-                            dolor brunch.{" "}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
