@@ -282,11 +282,7 @@ class Appointments extends React.Component {
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          to={`/AdminPreConsultation/${appointment.patient.id}`}
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
@@ -376,10 +372,6 @@ class Appointments extends React.Component {
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
                                           to="/AdminPreConsultation"
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
