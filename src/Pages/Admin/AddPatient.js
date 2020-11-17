@@ -43,7 +43,7 @@ export default class AddPatient extends Component {
       const { firstName, lastName, email } = this.state;
 
       switch (healthPlanDetails[0]) {
-        case "family":
+        case ("family" || "hmo"): //you can add others to the list as soon as they appear
           if (firstName !== "" && lastName !== "" && email !== "") {
             this.setState({
               healthPlanId: healthPlanDetails[1],
