@@ -114,7 +114,7 @@ class UploadServiceRequestResult extends React.Component {
             <div className="page-content">
               <div className="row justify-content-center">
                 <div className="col col-12 col-xl-8">
-                  <form className="mb-4">
+                  <form className="mb-4" onSubmit={this.uploadServiceRequestResult}>
                     <div className="form-group">
                       <label>Service Category</label>{" "}
                       <input
@@ -170,12 +170,11 @@ class UploadServiceRequestResult extends React.Component {
                         value={additionalComments}
                       />
                     </div>
-                    <div className="row">
+                    <div className="row ">
                       <div className="col">
                         <button
-                          type="button"
-                          className="btn btn-success"
-                          onClick={(e) => this.uploadServiceRequestResult(e)}
+                          type="submit"
+                          className="btn btn-primary d-flex ml-auto"
                         >
                           Save Result{" "}
                         </button>
