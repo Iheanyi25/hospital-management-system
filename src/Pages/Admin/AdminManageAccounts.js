@@ -155,7 +155,7 @@ class AdminManageAccounts extends React.Component {
                                     <td>
                                       <strong>{account?.name}</strong>
                                     </td>
-                                    <td className="text-warning">
+                                    <td >
                                       {account?.phoneNumber ?? "none yet"}
                                     </td>
                                     <td>
