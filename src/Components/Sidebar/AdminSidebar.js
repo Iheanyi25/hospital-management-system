@@ -202,7 +202,7 @@ class AdminSidebar extends React.Component {
 												</NavLink>
 											</li>
 										</ul>
-									</li> 
+									</li>
 									<li className="menu-item">
 										<span className="group-title">Utility</span>
 									</li>
@@ -214,12 +214,12 @@ class AdminSidebar extends React.Component {
 										<ul className="sub">
 											<li className="menu-item">
 												<NavLink to="/AdminServiceRequests" className="item-link">
-													<span className="link-text">Create a Service Request</span>
+													<span className="link-text">Request Service</span>
 												</NavLink>
 											</li>
 											<li className="menu-item">
 												<NavLink to="/AdminManageServiceRequests" className="item-link">
-													<span className="link-text">Manage Service Requests</span>
+													<span className="link-text">Manage Services</span>
 												</NavLink>
 											</li>
 										</ul>
@@ -266,7 +266,7 @@ class AdminSidebar extends React.Component {
 													</li>
 												</ul>
 											</li>
-											
+
 										</ul>
 									</li>
 									<li className="menu-item has-sub">
@@ -305,7 +305,7 @@ class AdminSidebar extends React.Component {
 											</li>
 										</ul>
 									</li>
-									
+
 								</ul>
 							</nav>
 						</div>
