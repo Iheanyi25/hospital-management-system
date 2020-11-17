@@ -78,8 +78,8 @@ class ViewLabResults extends React.Component {
                   <h4 className="text-center mb-4">
                     Results of (lab) services
                   </h4>
-                  <div id="accordion">
-                    {this.state.serviceRequestResults?.map(
+                  <div id="accordion" className="mb-3">
+                    {this.state.serviceRequestResults.length === 0 ? <h5 className="text-center mt-5">Nothing to see here</h5>: this.state.serviceRequestResults.map(
                       (serviceRequestResult, index) => (
                         <div className="card mb-0">
                           <div
@@ -144,7 +144,7 @@ class ViewLabResults extends React.Component {
                           </div>
                         </div>
                       )
-                    ) ?? null}
+                    )}
                   </div>
                 </div>
               </div>
