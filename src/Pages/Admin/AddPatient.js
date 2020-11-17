@@ -8,7 +8,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export default class AddPatient extends Component {
   state = {
     healthPlans: [],
-    accounts: [],
     stage: 0,
     firstName: "",
     lastName: "",
@@ -22,7 +21,6 @@ export default class AddPatient extends Component {
 
   componentDidMount() {
     this.fetchHealthPlans();
-    this.fetchAccounts();
   }
 
   fetchHealthPlans = async () => {
@@ -34,18 +32,6 @@ export default class AddPatient extends Component {
       });
       const data = await res.text();
       this.setState({ healthPlans: JSON.parse(data).plans });
-    } catch (error) { }
-  };
-
-  fetchAccounts = async () => {
-    try {
-      let res = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      this.setState({ accounts: JSON.parse(data).accounts });
     } catch (error) { }
   };
 
@@ -259,7 +245,6 @@ export default class AddPatient extends Component {
                     </div>
                   ) : this.state.stage === 1 ? (
                     <SelectHealthPlan
-                      accounts={this.state.accounts}
                       healthPlanId={this.state.healthPlanId}
                       currentStage={this.state.stage}
                       stageSetter={this.setNewStage}

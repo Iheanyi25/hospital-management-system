@@ -570,19 +570,19 @@ class Appointments extends React.Component {
                                       />
                                     </td>
                                     <td>
-                                      {appointment.patient.firstName}{" "}
-                                      {appointment.patient.lastName}
+                                      {appointment.patient?.firstName}{" "}
+                                      {appointment.patient?.lastName}
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
                                         <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient.email}
+                                        {appointment.patient?.email}
                                       </div>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap text-primary">
                                         <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient.phoneNumber}
+                                        {appointment.patient?.phoneNumber}
                                       </div>
                                     </td>
                                     <td>
