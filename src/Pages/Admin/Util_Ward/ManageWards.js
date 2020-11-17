@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { PageLoader } from '../../../Components'
 
+
+let $ = window.$;
+$.DataTable = require("datatables.net");
 export default class ManageWards extends Component {
 
     state = {
@@ -11,7 +14,13 @@ export default class ManageWards extends Component {
     async componentDidMount() {
         const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/Ward/GetAllWards`);
         let data = await request.json();
-        this.setState({ wards: data.wards });
+        this.setState({ wards: data.wards }, () => this.sync());
+    }
+
+
+    sync() {
+        this.$el = $(this.el);
+        this.$el.DataTable();
     }
 
     render() {
@@ -28,7 +37,8 @@ export default class ManageWards extends Component {
                             <h4 className="page-title mb-0"> Manage Wards</h4>
                             <NavLink className="btn btn-primary" to="/AdminCreateWard">Create Wards</NavLink>
                         </header>
-                        <div className="page-content">
+
+                        <div className="page-content mt-5">
                             <div className="row justify-content-center">
                                 <div className="col col-md-12">
                                     <div className="card border-light">
@@ -46,7 +56,6 @@ export default class ManageWards extends Component {
                                                     ]'
                                                     data-paging="true"
                                                     data-info="true"
-                                                    data-ajax={this.state.wards}
                                                 >
                                                     <thead>
                                                         <tr className="">
