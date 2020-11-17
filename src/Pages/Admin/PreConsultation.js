@@ -369,8 +369,8 @@ class PreConsultation extends React.Component {
                             />
                           </div>
 
-                          <div className="row justify-content-between mt-5">
-                            <div className="col">
+                          <div className="row justify-content-end mt-5">
+                            {/* <div className="col">
                               <button
                                 type="button"
                                 className="btn btn-outline-danger"
@@ -380,7 +380,7 @@ class PreConsultation extends React.Component {
                                     </span>{" "}
                                 <span className="d-sm-none">Cancel</span>
                               </button>
-                            </div>
+                            </div> */}
                             <div className="col text-right">
                               <button
                                 type="button"
@@ -442,8 +442,8 @@ class PreConsultation extends React.Component {
                             />
                           </div>
 
-                          <div className="row mt-5 justify-content-between">
-                            <div className="col">
+                          <div className="row mt-5 justify-content-end">
+                            {/* <div className="col">
                               <button
                                 type="button"
                                 className="btn btn-outline-danger"
@@ -453,7 +453,7 @@ class PreConsultation extends React.Component {
                                     </span>{" "}
                                 <span className="d-sm-none">Cancel</span>
                               </button>
-                            </div>
+                            </div> */}
                             <div className="col text-right">
                               <button
                                 type="button"
