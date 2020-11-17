@@ -38,7 +38,6 @@ class ViewPreConsultationHistory extends React.Component {
   };
 
   render() {
-    console.log(this.props.history.location.state);
     const { firstName, lastName} =this.props.history.location.state
     return (
       <>
@@ -56,7 +55,7 @@ class ViewPreConsultationHistory extends React.Component {
                     {`${firstName} ${lastName}’s pre-consultation health history`}
                   </h4>
                   <div id="accordion" className="mb-3">
-                    {this.state.patientPreConsultations.length === 0 ?<h5 className="text-center mt-5">Nothing to see here</h5>: this.state.patientPreConsultations?.map(
+                    {this.state.patientPreConsultations.length === 0 ?<h5 className="text-center mt-5">Nothing to see here</h5>: this.state.patientPreConsultations.map(
                       (patientPreConsultation, index) => (
                         <div className="card mb-0">
                           <div className="card-header" id={`heading${index + 1}`}>
