@@ -2,12 +2,16 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+$.Datatable = require("datatables.net");
+
 class Dashboard extends React.Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       doctorAppointments: [],
       doctorConsultations: [],
       systemCount: null,
@@ -16,21 +20,30 @@ class Dashboard extends React.Component {
 
   async componentDidMount() {
     const patientQueue = await fetch(
-      `${this.state.apiUrl}/Admin/GetPatientConsultations`
+      `${apiUrl}/Admin/GetPatientConsultations`
     );
     let data = await patientQueue.json();
     this.setState({ doctorConsultations: data.consultations });
 
     const doctorAppointments = await fetch(
-      `${this.state.apiUrl}/Admin/GetDoctorAppointments`
+      `${apiUrl}/Admin/GetDoctorAppointments`
     );
     let tempData = await doctorAppointments.json();
     this.setState({ doctorAppointments: tempData.doctorsAppointments });
 
-    const systemCount = await fetch(`${this.state.apiUrl}/Admin/Dashboard`);
+    const systemCount = await fetch(`${apiUrl}/Admin/Dashboard`);
     let systemData = await systemCount.json();
 
-    this.setState({ systemCount: systemData });
+    this.setState({ systemCount: systemData }, () => {
+      this.sync();
+    });
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el2 = $(this.el2);
+    this.$el.DataTable();
+    this.$el2.DataTable();
   }
 
   render() {
@@ -157,7 +170,8 @@ class Dashboard extends React.Component {
                     <div className="card-header">Doctor Consultation Queue</div>
                     <div className="card-body">
                       <div className="table-responsive">
-                        <table className="table table-striped">
+                        <table className="table table-striped"
+                          ref={(el2) => (this.el2 = el2)}                        >
                           <thead>
                             <tr>
                               <th className="text-nowrap" scope="col">
@@ -252,7 +266,9 @@ class Dashboard extends React.Component {
                     <div className="card-header">Doctors Appointment List</div>
                     <div className="card-body">
                       <div className="table-responsive">
-                        <table className="table table-hover">
+                        <table
+                          ref={(el) => (this.el = el)}
+                          className="table table-hover">
                           <thead>
                             <tr>
                               <th className="text-nowrap" scope="col">
