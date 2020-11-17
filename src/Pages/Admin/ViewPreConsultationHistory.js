@@ -18,7 +18,7 @@ class ViewPreConsultationHistory extends React.Component {
           </div>
           <div className="main-content-wrap">
             <div className="page-content">
-              <div className="card border-light w-75 m-auto">
+              <div className="card border-light w-50 m-auto">
                 <div className="card-body">
                   <h4 className="text-center mb-4">
                     Patient’s preconsultation health history
@@ -27,7 +27,7 @@ class ViewPreConsultationHistory extends React.Component {
                     <div className="card-header" id="headingTwo">
                       <h5 className="mb-0">
                         <button
-                          className="btn btn-primary btn-block"
+                          className="btn btn-outline-primary btn-block"
                           data-toggle="collapse"
                           data-target="#collapseOne"
                           aria-expanded="true"
