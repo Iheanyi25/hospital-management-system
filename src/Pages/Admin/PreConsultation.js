@@ -288,7 +288,7 @@ class PreConsultation extends React.Component {
                 </div>
               ) : null}
               <header className="page-header">
-                <h3 className="page-title">Patient Preconsultation( {patient.patientProfile.fullName} )</h3>
+                <h3 className="page-title">Patient Preconsultation( {patient.patientProfile?.fullName} )</h3>
               </header>
               <div className="page-content">
                 <div className="row justify-content-center">
@@ -381,7 +381,7 @@ class PreConsultation extends React.Component {
                                 <span className="d-sm-none">Cancel</span>
                               </button>
                             </div>
-                            <div className="col">
+                            <div className="col text-right">
                               <button
                                 type="button"
                                 className="btn btn-primary"
