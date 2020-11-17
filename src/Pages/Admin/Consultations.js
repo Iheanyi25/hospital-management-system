@@ -263,12 +263,14 @@ class Consultations extends React.Component {
                                     <td>
                                       <div className="actions">
                                         <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          title="Go for Clarking"
+                                          to={{
+                                            pathname: "/DoctorClarking",
+                                            state: {
+                                              id: consultation.id,
+                                              type: "consultation"
+                                            }
+                                          }}
                                           className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
