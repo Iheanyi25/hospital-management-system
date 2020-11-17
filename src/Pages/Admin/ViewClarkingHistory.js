@@ -60,7 +60,7 @@ class ViewClarkingHistory extends React.Component {
                     ) : (
                       this.state.clerkingHistories.map(
                         (clerkingHistory, index) => (
-                          <div className="card">
+                          <div className="card mb-0">
                             <div className="card-header" id="headingTwo">
                               <h5 className="mb-0">
                                 <button
@@ -152,11 +152,7 @@ class ViewClarkingHistory extends React.Component {
                                     <div className="col col-md-6">
                                       <h5>History of complaints</h5>
                                       <p>
-                                        Anim pariatur cliche reprehenderit, enim
-                                        eiusmod high life accusamus terry
-                                        richardson ad squid. 3 wolf moon officia
-                                        aute, non cupidatat skateboard dolor
-                                        brunch.{" "}
+                                       {clerkingHistory?.historyOfPresentingComplaints ?? "N/A"}
                                       </p>
                                     </div>
                                   </div>
