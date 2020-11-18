@@ -16,36 +16,43 @@ import youtube from "../../assets/img/youtube.svg";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 class DoctorProfile extends React.Component {
-  //   state = {
-  //     patientDetails: {},
-  //   };
+  state = {
+    doctor: {},
+    educations: [],
+    experiences: [],
+    officeTime: [],
+    skills: [],
+    socials: [],
+  };
 
-  //   componentDidMount() {
-  //     this.fetchPatientDetails();
-  //   }
+  componentDidMount() {
+    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    console.log(user);
+    this.fetchPatientDetails(user.id);
+  }
 
-  //   fetchPatientDetails = async () => {
-  //     try {
-  //       let res = await fetch(
-  //         `${apiUrl}/Patient/GetPatient?id=${this.props.location.state.id}`,
-  //         {
-  //           headers: { "Content-Type": "application/json-patch+json" },
-  //           method: "GET",
-  //           redirect: "follow",
-  //         }
-  //       );
-  //       const data = await res.text();
-  //       console.log(JSON.parse(data).DoctorProfile);
-  //       this.setState({
-  //         patientDetails: JSON.parse(data).DoctorProfile,
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  fetchPatientDetails = async (id) => {
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/GetDoctor?DoctorId=${id}`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "GET",
+        redirect: "follow",
+      });
+      const data = await res.text();
+      let doctorDetails = JSON.parse(data).doctorProfile;
+      console.log(doctorDetails);
+      this.setState({
+        doctor: doctorDetails.doctor,
+        educations: doctorDetails.educations,
+        experiences: doctorDetails.experiences,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
-    // const { patientDetails } = this.state;
+    const { doctor, educations, experiences } = this.state;
     return (
       <>
         <PageLoader />
@@ -57,7 +64,7 @@ class DoctorProfile extends React.Component {
           <div className="main-content-wrap">
             <div className="page-content">
               <header className="page-header">
-                <h3 className="page-title">Dr. Emene’s profile</h3>
+                <h3 className="page-title">{`Dr. ${doctor?.firstName} ${doctor?.lastName}`}</h3>
               </header>
               <div className="col col-md-12">
                 <div className="card border-light">
@@ -71,9 +78,11 @@ class DoctorProfile extends React.Component {
                       />
                       <div>
                         <h5 className="mb-2 mt-2 font-weight-bold">
-                          Emene Vitalis
+                          {`${doctor?.firstName} ${doctor?.lastName}`}
                         </h5>
-                        <p className="mb-2">General practioner, nuerosurgeon</p>
+                        <p className="mb-2">
+                          General practioner, nuerosurgeon *
+                        </p>
                         <Link to="/">
                           <img src={reset} alt="reset" className="mr-2" />
                           <img src={resetText} alt="reset" className="mr-2" />
@@ -83,11 +92,11 @@ class DoctorProfile extends React.Component {
                     <div className="mt-2">
                       <div className="d-flex mb-3 mt-2">
                         <img src={email} alt="reset" className="mr-2 mb-2" />
-                        <p>emene_v@gmail.com</p>
+                        <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
                       </div>
                       <div className="d-flex pl-1">
                         <img src={phone} alt="reset" className="mr-3 mb-2" />
-                        <p>0909 5667 678</p>
+                        <p>{doctor?.phoneNumber ?? "N/A"}</p>
                       </div>
                     </div>
                   </div>
@@ -102,7 +111,13 @@ class DoctorProfile extends React.Component {
                           <h6 className="card-title mt-0 font-weight-bold">
                             Education
                           </h6>
-                          <img src={add} alt="reset" className="ml-3 mb-2" />
+                          <div
+                            className="ml-3 mb-2"
+                            data-toggle="modal"
+                            data-target="#modal-10"
+                          >
+                            <img src={add} alt="reset" />
+                          </div>
                         </div>
                         {/* <Link
                           to={{
@@ -113,36 +128,20 @@ class DoctorProfile extends React.Component {
                         <img src={edit} alt="reset" className="mr-3 " />
                         {/* </Link> */}
                       </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p className="font-weight-bold mb-2">Bachelors</p>
-                          <p>Art & Multimedia From - Oxford University</p>
+                      {educations?.map((education, index) => (
+                        <div className="d-flex justify-content-between mt-4">
+                          <div>
+                            <p className="font-weight-bold mb-2">
+                              {education?.degree ?? "N/A"}
+                            </p>
+                            <p>{education?.institution ?? "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="font-weight-bold mb-2">Year</p>
+                            <p className="text-nowrap">2013 - 2015</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-weight-bold mb-2">Year</p>
-                          <p className="text-nowrap">2013 - 2015</p>
-                        </div>
-                      </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p className="font-weight-bold mb-2">Bachelors</p>
-                          <p>Art & Multimedia From - Oxford University</p>
-                        </div>
-                        <div>
-                          <p className="font-weight-bold mb-2">Year</p>
-                          <p className="text-nowrap">2013 - 2015</p>
-                        </div>
-                      </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p className="font-weight-bold mb-2">Bachelors</p>
-                          <p>Art & Multimedia From - Oxford University</p>
-                        </div>
-                        <div>
-                          <p className="font-weight-bold mb-2">Year</p>
-                          <p className="text-nowrap">2013 - 2015</p>
-                        </div>
-                      </div>
+                      )) ?? "N/A"}
                     </div>
                   </div>
                 </div>
@@ -165,38 +164,18 @@ class DoctorProfile extends React.Component {
                         <img src={edit} alt="reset" className="mr-3 mb-2" />
                         {/* </Link> */}
                       </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p className="font-weight-bold mb-2">
-                            UI/UX designer
-                          </p>
-                          <p>GenesysTechHub</p>
+                      {experiences?.map((experience, index) => (
+                        <div className="d-flex justify-content-between mt-4">
+                          <div>
+                      <p className="font-weight-bold">{experience?.role ?? "N/A"}</p>
+                            <p>{experience?.company ?? "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="font-weight-bold">Year</p>
+                            <p className="text-nowrap">{`${experience?.startYear ?? "N/A"} - ${experience?.endYear ?? "N/A"}`}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-weight-bold mb-2">Year</p>
-                          <p className="text-nowrap">2013 - 2015</p>
-                        </div>
-                      </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p className="font-weight-bold mb-2">Developer</p>
-                          <p>Google</p>
-                        </div>
-                        <div>
-                          <p className="font-weight-bold mb-2">Year</p>
-                          <p className="text-nowrap">2013 - 2015</p>
-                        </div>
-                      </div>
-                      <div className="d-flex justify-content-between mt-4">
-                        <div>
-                          <p className="font-weight-bold mb-2">Role</p>
-                          <p>Company name</p>
-                        </div>
-                        <div>
-                          <p className="font-weight-bold mb-2">Year</p>
-                          <p className="text-nowrap">2013 - 2015</p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -279,7 +258,7 @@ class DoctorProfile extends React.Component {
                         <img src={darkEmail} alt="email" className="mt-0" />
                         <div className="mt-3 ml-4">
                           <p className="font-weightt-bold mb-0">Email</p>
-                          <p>emene_v@gmail.com</p>
+                          <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
                         </div>
                       </div>
                       <div className="d-flex mt-4">
@@ -290,7 +269,7 @@ class DoctorProfile extends React.Component {
                         />
                         <div className="mt-3 ml-4">
                           <p className="font-weightt-bold mb-0">Mobile</p>
-                          <p>0909 5667 678</p>
+                          <p>{doctor?.phoneNumber ?? "N/A"}</p>
                         </div>
                       </div>
                     </div>
@@ -371,12 +350,12 @@ class DoctorProfile extends React.Component {
                         {/* </Link> */}
                       </div>
                       <div className="d-flex flex-wrap mt-4">
-                        <p className="mr-3">Skills</p>
-                        <p className="mr-3">Different skill</p>
-                        <p className="mr-3">Another skill</p>
-                        <p className="mr-3">Skills</p>
-                        <p className="mr-3">Different skill</p>
-                        <p className="mr-3">Another skill</p>
+                        <p className="mr-5">Skills</p>
+                        <p className="mr-5">Different skill</p>
+                        <p className="mr-5">Another skill</p>
+                        <p className="mr-5">Skills</p>
+                        <p className="mr-5">Different skill</p>
+                        <p className="mr-5">Another skill</p>
                       </div>
                     </div>
                   </div>

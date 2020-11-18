@@ -208,10 +208,10 @@ class AdminSidebar extends React.Component {
 										<span className="group-title">Utility</span>
 									</li>
 									<li className="menu-item has-sub">
-										<Link className="item-link cursor">
+										<div className="item-link cursor">
 											<span className="link-text">Service Requests</span>{' '}
 											<span className="link-caret icofont-thin-right" />
-										</Link>
+										</div>
 										<ul className="sub">
 											<li className="menu-item">
 												<Link to="/AdminServiceRequests" className="item-link">

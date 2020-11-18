@@ -268,7 +268,8 @@ class Consultations extends React.Component {
                                             pathname: "/DoctorClarking",
                                             state: {
                                               id: consultation.id,
-                                              type: "consultation"
+                                              type: "consultation",
+                                              patient: consultation.patient
                                             }
                                           }}
                                           className="btn btn-primary btn-sm btn-square rounded-pill"

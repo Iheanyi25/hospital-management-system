@@ -13,7 +13,7 @@ export default class EditService extends Component {
         serviceCategoryId: "",
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         if (this.props.history.location.state) {
             let stateData = this.props.history.location.state;
             this.setState({ name: stateData.name, cost: stateData.cost }, () => {
