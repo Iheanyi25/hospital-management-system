@@ -598,8 +598,8 @@ class Clarking extends React.Component {
                                         className="form-control"
                                         placeholder="Enter History of Presenting Complain Here"
 																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "histroyOfPresentingComplaints", e)}
-																				value={this.state.clarking?.histroyOfPresentingComplaints}
+																				onChange={(e) => this.handleChange("clarking", "historyOfPresentingComplaints", e)}
+																				value={this.state.clarking?.historyOfPresentingComplaints}
 																				/>
                                     </div>
 
@@ -608,7 +608,7 @@ class Clarking extends React.Component {
                                         <button
                                           type="button"
                                           className="btn btn-success"
-																					onClick={(e) => this.handleSubmit("clarking", [ "histroyOfPresentingComplaints"], e)}
+																					onClick={(e) => this.handleSubmit("clarking", [ "historyOfPresentingComplaints"], e)}
                                         >
                                           Save
                                         </button>
