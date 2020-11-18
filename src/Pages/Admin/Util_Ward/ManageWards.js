@@ -12,15 +12,33 @@ export default class ManageWards extends Component {
     }
 
     async componentDidMount() {
-        const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/Ward/GetAllWards`);
-        let data = await request.json();
-        this.setState({ wards: data.wards }, () => this.sync());
+        this.fetchAllWards()
     }
 
+    fetchAllWards = async () => {
+        const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/Ward/GetAllWards`);
+        let data = await request.json();
+        this.setState({ wards: data.wards }, () => this.sync())
+
+    }
 
     sync() {
         this.$el = $(this.el);
         this.$el.DataTable();
+    }
+
+    deleteMe = async (id) => {
+        let res = await fetch(`${process.env.REACT_APP_API_URL}/Admin/Ward/DeleteWard`, {
+            headers: { "Content-Type": "application/json-patch+json" },
+            method: "POST",
+            body: JSON.stringify({ id }),
+            redirect: "follow",
+        });
+        if (res.status === 200) {
+            this.setState({ success: true }, () => {
+                this.fetchAllWards();
+            });
+        }
     }
 
     render() {
@@ -48,12 +66,6 @@ export default class ManageWards extends Component {
                                                 <table
                                                     ref={(el) => (this.el = el)}
                                                     className="table table-striped"
-                                                    data-columns='[
-                                                        { "data": "#" },
-                                                        { "data": "name" },
-                                                        { "data": "capacity" },
-                                                        { "data": "actions" }
-                                                    ]'
                                                     data-paging="true"
                                                     data-info="true"
                                                 >
@@ -110,6 +122,7 @@ export default class ManageWards extends Component {
                                                                                 <Link
                                                                                     title="Pre-consultation"
                                                                                     to="#"
+                                                                                    onClick={() => this.deleteMe(item.id)}
                                                                                     className="btn btn-sm btn-block text-danger"
                                                                                 >
                                                                                     <span className="btn-icon icofont-delete-alt mr-2" />

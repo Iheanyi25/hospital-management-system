@@ -67,12 +67,6 @@ export default class ManageServiceCategory extends Component {
                         <table
                           ref={(el) => (this.el = el)}
                           className="table table-striped"
-                          data-columns='[
-                                                        { "data": "#" },
-                                                        { "data": "name" },
-                                                        { "data": "description" },
-                                                        { "data": "" }
-                                                    ]'
                           data-paging="true"
                           data-info="true"
                           data-searching="true"
