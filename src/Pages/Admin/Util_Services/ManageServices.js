@@ -66,12 +66,6 @@ export default class ManageServices extends Component {
                                                 <table
                                                     ref={(el) => (this.el = el)}
                                                     className="table table-striped"
-                                                    data-columns='[
-                                                        { "data": "#" },
-                                                        { "data": "title" },
-                                                        { "data": "cost" },
-                                                        { "data": "" }
-                                                    ]'
                                                     data-paging="true"
                                                     data-info="true"
                                                     data-searching="true"
