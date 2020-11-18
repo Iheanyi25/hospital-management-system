@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import user from "../../assets/img/user.png";
+import formatDate from '../../utils/formatDate'
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -70,7 +71,7 @@ class ViewClarkingHistory extends React.Component {
                                   aria-expanded="true"
                                   aria-controls={`collapse${index + 1}`}
                                 >
-                                  Captured 12 Dec, 2020
+                                 {`Captured on ${formatDate(clerkingHistory?.consultation?.dateOfConsultation) ?? ""}`}
                                 </button>
                               </h5>
                             </div>
@@ -78,7 +79,6 @@ class ViewClarkingHistory extends React.Component {
                               id={`collapse${index + 1}`}
                               className="collapse"
                               aria-labelledby="headingOne"
-                              //   data-parent="#accordion"
                             >
                               <div className="card-body">
                                 <div className="d-flex mt-3 mb-3">
@@ -90,10 +90,10 @@ class ViewClarkingHistory extends React.Component {
                                   />
                                   <div>
                                     <h5 className="mb-2 mt-1 font-weight-bold">
-                                      <u>Dr Emene Vitalis</u>
+                                      <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
                                     </h5>
                                     <p className="mb-2">
-                                      Clerked patient on 12/12/2020
+                                      {`Clerked patient on ${formatDate(clerkingHistory?.consultation?.dateOfConsultation) ?? ""}`}
                                     </p>
                                   </div>
                                 </div>
