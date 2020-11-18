@@ -8,7 +8,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export default class AddPatient extends Component {
   state = {
     healthPlans: [],
-    accounts: [],
     stage: 0,
     firstName: "",
     lastName: "",
@@ -22,7 +21,6 @@ export default class AddPatient extends Component {
 
   componentDidMount() {
     this.fetchHealthPlans();
-    this.fetchAccounts();
   }
 
   fetchHealthPlans = async () => {
@@ -37,18 +35,6 @@ export default class AddPatient extends Component {
     } catch (error) { }
   };
 
-  fetchAccounts = async () => {
-    try {
-      let res = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      this.setState({ accounts: JSON.parse(data).accounts });
-    } catch (error) { }
-  };
-
   handleChange(name, e) {
     const value = e.target.value;
 
@@ -57,7 +43,7 @@ export default class AddPatient extends Component {
       const { firstName, lastName, email } = this.state;
 
       switch (healthPlanDetails[0]) {
-        case "family":
+        case ("family" || "hmo"): //you can add others to the list as soon as they appear
           if (firstName !== "" && lastName !== "" && email !== "") {
             this.setState({
               healthPlanId: healthPlanDetails[1],
@@ -259,7 +245,6 @@ export default class AddPatient extends Component {
                     </div>
                   ) : this.state.stage === 1 ? (
                     <SelectHealthPlan
-                      accounts={this.state.accounts}
                       healthPlanId={this.state.healthPlanId}
                       currentStage={this.state.stage}
                       stageSetter={this.setNewStage}

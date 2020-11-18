@@ -22,6 +22,7 @@ import PaymentForService from "../Pages/Admin/PaymentForService";
 import PatientProfile from "../Pages/Admin/PatientProfile";
 import ViewPreConsultationHistory from "../Pages/Admin/ViewPreConsultationHistory";
 import ViewClarkingHistory from "../Pages/Admin/ViewClarkingHistory";
+import DoctorClarking from "../Pages/Doctor/Clarking";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -105,6 +106,8 @@ export default function AdminRoutes() {
             path="/AdminUploadServiceRequestResult/:serviceRequestId"
             component={ServiceRequestResultUpload}
           />
+
+          <Route exact path="/DoctorClarking" component={DoctorClarking} />
 
           <Route
             exact

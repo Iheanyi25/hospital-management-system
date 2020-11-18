@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { AddFamily } from '../../Components/Modals';
 
-const $ = require('jquery');
-$.Datatable = require('datatables.net');
+const $ = window.$;
+$.Datatable = require("datatables.net");
+const apiUrl = process.env.REACT_APP_API_URL;
+
 
 export default class SelectHealthPlan extends Component {
 
@@ -12,11 +14,39 @@ export default class SelectHealthPlan extends Component {
         payload: {}
     };
 
-    componentDidMount() {
-        const { payload, accounts } = this.props;
-        this.setState({ accounts, payload });
+    async componentDidMount() {
+        const { payload } = this.props;
+        this.setState({ payload }, () => {
+            this.fetchAccounts().then(() =>
+                this.sync()
+            )
+        });
 
         console.log(this.props)
+    }
+
+    fetchAccounts = async () => {
+        try {
+            let res = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`, {
+                headers: { "Content-Type": "application/json-patch+json" },
+                method: "GET",
+                redirect: "follow",
+            });
+            const data = await res.text();
+            this.setState({ accounts: JSON.parse(data).accounts });
+        } catch (error) { }
+    };
+
+    fetchNewAccounts = () => {
+        this.$el = $(this.el);
+        this.$el.DataTable().destroy();
+
+        this.setState({ newData: Math.random() }, () => {
+            this.fetchAccounts();
+            setTimeout(() => {
+                this.sync()
+            }, 1000);
+        })
     }
 
     selectFamily(val, e) {
@@ -35,6 +65,11 @@ export default class SelectHealthPlan extends Component {
             data.accountId = this.state.selectedValue;
             submitFunction(data)
         }
+    }
+
+    sync() {
+        this.$el = $(this.el);
+        this.$el.DataTable();
     }
 
     render() {
@@ -71,17 +106,21 @@ export default class SelectHealthPlan extends Component {
                             </div>
 
                             <table
-                                className="table table-hover data-table"
-                                data-searching="true"
-                                data-paging="true"
+                                ref={(el) => (this.el = el)}
+                                className="table table-hover"
+                                // data-searching="true"
+                                // data-paging="true"
                                 data-columns='[
-                                    { "data": "name" }
+                                    { "data": "name" },
+                                    { "data": "phone" }
                                 ]'
-                                data-info="true"
-                                data-sort="false"
-                                data-ajax={this.state.accounts}
                             >
-                                <thead></thead>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone Number</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {this.state.accounts.length > 0 &&
                                         this.state.accounts.map((account, index) => (
@@ -98,6 +137,7 @@ export default class SelectHealthPlan extends Component {
                                                 }
                                             >
                                                 <td>{account.name}</td>
+                                                <td>{account?.phoneNumber ?? "none set"}</td>
                                             </tr>
                                         ))}
                                 </tbody>
@@ -116,7 +156,7 @@ export default class SelectHealthPlan extends Component {
                         </div>
                     </div>
                 </div>
-                <AddFamily healthPlanId={this.props.healthPlanId} />
+                <AddFamily healthPlanId={this.props.healthPlanId} callbackFromProps={this.fetchNewAccounts} />
             </>
         );
     }

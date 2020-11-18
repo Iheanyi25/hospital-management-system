@@ -26,7 +26,7 @@ class ServiceRequestContents extends React.Component {
     if (params.invoiceId) {
       this.fetchServiceRequestsInInvoice(params.invoiceId).then(() => this.sync());
     }
-    
+
   }
 
   async fetchServiceRequestsInInvoice(invoiceId) {
@@ -45,7 +45,7 @@ class ServiceRequestContents extends React.Component {
 
   render() {
     const { serviceRequests } = this.state;
-    const { invoiceNumber, invoiceId, patientId } = this.props.location.state;
+    const { invoiceNumber } = this.props.location?.state ?? "";
     return (
       <>
         <PageLoader />
@@ -103,7 +103,7 @@ class ServiceRequestContents extends React.Component {
                     <div className="table-responsive">
                       <table
                         ref={(el) => (this.el = el)}
-                        className="table data-table"
+                        className="table table-striped"
                         // data-columns='[
                         //                                 { "data": "#" },
                         //                                 { "data": "name" },
@@ -116,7 +116,7 @@ class ServiceRequestContents extends React.Component {
                         data-info="true"
                       >
                         <thead>
-                          <tr className="bg-primary text-white">
+                          <tr>
                             <th>#</th>
                             <th>Patient's Name</th>
                             <th>Service Category</th>
@@ -140,17 +140,17 @@ class ServiceRequestContents extends React.Component {
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                {serviceRequest?.serviceCategoryName}
+                                  {serviceRequest?.serviceCategoryName}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                {serviceRequest?.serviceName}
+                                  {serviceRequest?.serviceName}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
-                                {formatAmount(serviceRequest?.amount) ?? ""}
+                                  {formatAmount(serviceRequest?.amount) ?? ""}
                                 </div>
                               </td>
                               {/* <td>
@@ -160,12 +160,12 @@ class ServiceRequestContents extends React.Component {
                               </td> */}
                               <td>
                                 <div className="text-muted text-nowrap">
-                                {serviceRequest?.paymentStatus === "False" ? (
-                                      <>
-                                        <img src={notpaid} alt="not paid" /> Not
+                                  {serviceRequest?.paymentStatus === "False" ? (
+                                    <>
+                                      <img src={notpaid} alt="not paid" /> Not
                                         paid
                                       </>
-                                    ) : (
+                                  ) : (
                                       <>
                                         <img src={paid} alt="paid" /> Paid
                                       </>
@@ -200,13 +200,13 @@ class ServiceRequestContents extends React.Component {
                                       <span className="btn-icon icofont-server mr-2" />
                                       View Result
                                     </NavLink>
-                                    <NavLink
+                                    {/* <NavLink
                                       to="#"
                                       className="btn btn-sm btn-block"
                                     >
                                       <span className="btn-icon icofont-server mr-2" />
                                       Remove From Invoice
-                                    </NavLink>
+                                    </NavLink> */}
                                   </div>
                                 </div>
                               </td>

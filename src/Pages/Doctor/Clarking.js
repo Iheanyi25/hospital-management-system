@@ -33,7 +33,8 @@ class Clarking extends React.Component {
 	};
 	
 	componentDidMount(){
-		console.log(this.props.location.state.id)
+    console.log(this.props.location?.state);
+    this.props.location.state?.id ?? this.props.history.push("/")
 	}
 
   submitRequest = async (payload) => {

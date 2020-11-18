@@ -308,6 +308,7 @@ class BookAppointment extends React.Component {
                             <button
                               type="button"
                               className="btn btn-outline-danger"
+                              onClick={() => this.props.history.goBack()}
                             >
                               <span className="d-none d-sm-block">Cancel</span>{" "}
                               <span className="d-sm-none">Cancel</span>

@@ -130,9 +130,10 @@ class AdminManageAccounts extends React.Component {
                           // data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Account</th>
+                                <th>Phone Number</th>
                                 <th>Health Plan</th>
                                 <th>Balance</th>
                                 <th>Actions</th>
@@ -154,8 +155,11 @@ class AdminManageAccounts extends React.Component {
                                     <td>
                                       <strong>{account?.name}</strong>
                                     </td>
+                                    <td >
+                                      {account?.phoneNumber ?? "none yet"}
+                                    </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center nowrap">
                                         {account?.healthPlan.name}
                                       </div>
                                     </td>

@@ -2,18 +2,44 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 
+let $ = window.$;
+$.DataTable = require("datatables.net");
 export default class ManageServiceCategory extends Component {
   state = {
     categories: [],
   };
 
   async componentDidMount() {
+    this.fetchAllServiceCategories().then(() => this.sync())
+  }
+
+  fetchAllServiceCategories = async () => {
     const request = await fetch(
       `${process.env.REACT_APP_API_URL}/Admin/GetAllServiceCategories`
     );
     let data = await request.json();
     console.log(data);
     this.setState({ categories: data });
+  }
+
+  deleteMe = async (id) => {
+    let res = await fetch(`${process.env.REACT_APP_API_URL}/Admin/DeleteServiceCategory`, {
+      headers: { "Content-Type": "application/json-patch+json" },
+      method: "POST",
+      body: JSON.stringify({ id }),
+      redirect: "follow",
+    });
+    if (res.status === 200) {
+      this.setState({ success: true }, () => {
+        this.fetchAllServiceCategories();
+      });
+    }
+  }
+
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   render() {
@@ -32,7 +58,7 @@ export default class ManageServiceCategory extends Component {
                 Create Category
               </NavLink>
             </header>
-            <div className="page-content">
+            <div className="page-content mt-5">
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
@@ -50,7 +76,6 @@ export default class ManageServiceCategory extends Component {
                           data-paging="true"
                           data-info="true"
                           data-searching="true"
-                          data-ajax={this.state.categories}
                         >
                           <thead>
                             <tr className="">
@@ -102,7 +127,7 @@ export default class ManageServiceCategory extends Component {
                                       </Link>
                                       <Link
                                         title="Pre-consultation"
-                                        to="#"
+                                        onClick={() => this.deleteMe(item.id)}
                                         className="btn btn-sm btn-block text-danger"
                                       >
                                         <span className="btn-icon icofont-delete-alt mr-2" />

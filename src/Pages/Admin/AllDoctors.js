@@ -53,7 +53,7 @@ class AllDoctors extends React.Component {
                   <div className="table-responsive">
                     <table
                       ref={(el) => (this.el = el)}
-                      className="table"
+                      className="table table-striped"
                       data-columns='[
                                           { "data": "photo" },
                                           { "data": "name" },
@@ -67,7 +67,7 @@ class AllDoctors extends React.Component {
                       data-info="true"
                     >
                       <thead>
-                        <tr className="bg-primary text-white">
+                        <tr >
                           <th>Photo</th>
                           <th>Name</th>
                           <th>Email</th>
@@ -96,14 +96,14 @@ class AllDoctors extends React.Component {
                             <td>
                               <strong>
                                 {" "}
-                                <div className="d-flex align-items-center nowrap text-primary">
+                                <div className="d-flex align-items-center nowrap">
                                   <span className="icofont-ui-email p-0 mr-2" />
                                   {doctor.doctor.email}
                                 </div>
                               </strong>
                             </td>
                             <td>
-                              <div className="d-flex align-items-center nowrap text-primary">
+                              <div className="d-flex align-items-center nowrap">
                                 <span className="icofont-ui-email p-0 mr-2" />
                                 {doctor.doctor.phoneNumber}
                               </div>
