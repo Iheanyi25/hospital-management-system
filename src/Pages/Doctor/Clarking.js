@@ -1,6 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PreConsultationHistory, ClarkingHistory } from '../../Components/Clarking'
+import { PreConsultationHistory, ClarkingHistory, PatientProfile } from '../../Components/Clarking'
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -1172,7 +1172,7 @@ class Clarking extends React.Component {
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <h4>Patient Profile</h4>
+                                  <PatientProfile patientId={id} />
                                 </div>
                               </div>
                             </div>
