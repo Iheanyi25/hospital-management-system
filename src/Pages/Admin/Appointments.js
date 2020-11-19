@@ -293,7 +293,8 @@ class Appointments extends React.Component {
                                             pathname: "/DoctorClarking",
                                             state: {
                                               id: appointment.id,
-                                              type: "appointment"
+                                              type: "appointment",
+                                              patient: appointment.patient
                                             }
                                           }}
                                           className="btn btn-primary btn-sm btn-square rounded-pill"
