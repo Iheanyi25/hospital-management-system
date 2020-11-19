@@ -87,6 +87,7 @@ class BookConsultation extends React.Component {
 
   render() {
     let { doctor, consultationTitle, reasonForConsultation } = this.state;
+    const { firstName, lastName } = this.props.location.state;
 
     let displayErrorMessage;
     let displaySuccessMessage;
@@ -124,21 +125,15 @@ class BookConsultation extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            <header className="page-header">
-              <h3 className="page-title">
-                Book Consultation With Dr.{" "}
-                {doctor ? doctor.doctor.firstName : null}{" "}
-                {doctor ? doctor.doctor.lastName : null}{" "}
-              </h3>
-            </header>
             <div className="page-content">
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
                     <div className="card-body">
                       <form className="mb-4">
-                        <h4>Consultation Form</h4>
-
+                        <h4 className="text-center">
+                          {`Consultation Form (${firstName} ${lastName}`})
+                        </h4>
                         <div className="form-group">
                           <label>Title of Consultation</label>
 
@@ -167,15 +162,7 @@ class BookConsultation extends React.Component {
                         {displayErrorMessage}
                         {displaySuccessMessage}
                         <div className="row">
-                          <div className="col">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">Cancel</span>{" "}
-                              <span className="d-sm-none">Cancel</span>
-                            </button>
-                          </div>
+                          <div className="col"></div>
                           <div className="col text-right">
                             <button
                               type="button"
@@ -183,7 +170,7 @@ class BookConsultation extends React.Component {
                               onClick={(e) => this.bookConsultation(e)}
                               disabled={
                                 reasonForConsultation === "" ||
-                                  consultationTitle === ""
+                                consultationTitle === ""
                                   ? true
                                   : false
                               }

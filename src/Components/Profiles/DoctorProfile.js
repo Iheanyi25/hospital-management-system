@@ -86,12 +86,28 @@ class DoctorProfile extends React.Component {
                       <div className="col"></div>
                       <div className="col text-right">
                         <Link
-                        to={`/PatientBookAppointment/${this.props.doctorId}`}
+                          to={{
+                            pathname: `/PatientBookAppointment/${this.props.doctorId}`,
+                            state: {
+                              firstName: doctor.firstName,
+                              lastName: doctor.lastName,
+                            },
+                          }}
                           className="btn btn-outline-primary mr-2 mb-2"
                         >
                           Book Appointment
                         </Link>
-                        <Link to={`/PatientBookConsultation/${this.props.doctorId}`} type="submit" className="btn btn-primary mr-2 mb-2">
+                        <Link
+                          to={{
+                            pathname: `/PatientBookConsultation/${this.props.doctorId}`,
+                            state: {
+                              firstName: doctor.firstName,
+                              lastName: doctor.lastName,
+                            },
+                          }}
+                          type="submit"
+                          className="btn btn-primary mr-2 mb-2"
+                        >
                           Book consultation
                         </Link>
                       </div>
@@ -144,7 +160,7 @@ class DoctorProfile extends React.Component {
                   </div>
                 </div>
                 <div className="row mx-0">
-                  <div className="col col-md-7">
+                  <div className="col-12 col-md-7">
                     <div className="card border-light p-4">
                       <div className="card-body">
                         <div className="d-flex justify-content-between border-bottom pb-2">
@@ -194,7 +210,7 @@ class DoctorProfile extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="col col-md-5">
+                  <div className="col-12 col-md-5">
                     <div className="card border-light p-4">
                       <div className="card-body">
                         <div className="d-flex justify-content-between border-bottom pb-2">
