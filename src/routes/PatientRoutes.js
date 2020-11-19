@@ -7,7 +7,7 @@ import PatientConsultations from "../Pages/Patient/Consultations";
 import PatientBookAppointment from "../Pages/Patient/BookAppointment";
 import PatientBookConsultation from "../Pages/Patient/BookConsultation";
 import PatientDoctorList from "../Pages/Patient/DoctorList";
-import PatientDoctorProfile from "../Pages/Patient/DoctorProfile";
+import ViewDoctorProfile from "../Pages/Patient/ViewDoctorProfile";
 import PatientAccount from "../Pages/Patient/Account";
 import { PatientLayout } from '../Components/Layout';
 import PatientFundAccount from '../Pages/Patient/PatientFundAccount';
@@ -29,7 +29,7 @@ export default function PatientRoutes() {
                     <Route exact path="/PatientFundAccount" component={PatientFundAccount} />
                     <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
                     <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
-                    <Route exact path="/PatientDoctorProfile/:doctorId" component={PatientDoctorProfile} />
+                    <Route exact path="/ViewDoctorProfile/:id" component={ViewDoctorProfile} />
 
                     <Route exact path="/PatientProfile" component={ViewPatientProfile} />
                     <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />

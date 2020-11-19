@@ -8,7 +8,7 @@ import DoctorAppointments from "../Pages/Doctor/Appointments";
 import DoctorPatientProfile from "../Pages/Doctor/PatientProfile";
 import DoctorPatientMedicalHistory from "../Pages/Doctor/PatientMedicalHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
-import DoctorProfile from "../Pages/Doctor/DoctorProfile";
+import ViewDoctorProfile from "../Pages/Doctor/ViewDoctorProfile";
 import DoctorUpdateProfile from "../Pages/Doctor/UpdateDoctorProfile";
 import DoctorAvaliablity from "../Pages/Doctor/Avaliablity";
 
@@ -25,7 +25,7 @@ export default function DoctorRoutes() {
                     <Route exact path="/DoctorClarking" component={DoctorClarking} />
                     <Route exact path="/DoctorPatientProfile" component={DoctorPatientProfile} />
                     <Route exact path="/DoctorPatientMedicalHistory" component={DoctorPatientMedicalHistory} />
-                    <Route exact path="/DoctorProfile" component={DoctorProfile} />
+                    <Route exact path="/DoctorProfile" component={ViewDoctorProfile} />
                     <Route exact path="/DoctorUpdateProfile" component={DoctorUpdateProfile} />
                     <Route exact path="/DoctorAvaliablity" component={DoctorAvaliablity} />
 

@@ -29,18 +29,19 @@ class DoctorProfile extends React.Component {
   };
 
   componentDidMount() {
-    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
-    console.log(user);
-    this.fetchPatientDetails(user.id);
+    this.fetchPatientDetails();
   }
 
   fetchPatientDetails = async (id) => {
     try {
-      let res = await fetch(`${apiUrl}/Doctor/GetDoctor?DoctorId=${id}`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
+      let res = await fetch(
+        `${apiUrl}/Doctor/GetDoctor?DoctorId=${this.props.doctorId}`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "GET",
+          redirect: "follow",
+        }
+      );
       const data = await res.text();
       let doctorDetails = JSON.parse(data).doctorProfile;
       console.log(doctorDetails);
@@ -121,7 +122,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                            <div className="ml-3 mb-2">
+                            {user ? null : (
                               <img
                                 src={add}
                                 alt="reset"
@@ -129,9 +130,11 @@ class DoctorProfile extends React.Component {
                                 data-target="#modal-10"
                                 style={{ cursor: "pointer" }}
                               />
-                            </div>
+                            )}
                           </div>
-                          <img src={edit} alt="reset" className="mr-3 " />
+                          {user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 " />
+                          )}
                         </div>
                         {educations?.map((education, index) => (
                           <div className="row mx-0 mt-4" key={index}>
@@ -161,9 +164,17 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Experience
                             </h6>
-                            <img src={add} alt="reset" className="ml-3 mb-2" />
+                            {user ? null : (
+                              <img
+                                src={add}
+                                alt="reset"
+                                className="ml-3 mb-2"
+                              />
+                            )}
                           </div>
-                          <img src={edit} alt="reset" className="mr-3 mb-2" />
+                          {user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 mb-2" />
+                          )}
                         </div>
                         {experiences?.map((experience, index) => (
                           <div className="row mx-0 mt-4" key={index}>
@@ -194,9 +205,17 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Office Time
                             </h6>
-                            <img src={add} alt="reset" className="ml-3 mb-2" />
+                            {user ? null : (
+                              <img
+                                src={add}
+                                alt="reset"
+                                className="ml-3 mb-2"
+                              />
+                            )}
                           </div>
-                          <img src={edit} alt="reset" className="mr-3 " />
+                          {user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 " />
+                          )}
                         </div>
                         <div className="row mx-0 mt-4 mb-2">
                           <div className="col-9">
@@ -232,9 +251,17 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Contact Information
                             </h6>
-                            <img src={add} alt="reset" className="ml-3 mb-2" />
+                            {user ? null : (
+                              <img
+                                src={add}
+                                alt="reset"
+                                className="ml-3 mb-2"
+                              />
+                            )}
                           </div>
-                          <img src={edit} alt="reset" className="mr-3 mb-2" />
+                          {user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 mb-2" />
+                          )}
                         </div>
                         <div className="d-flex mt-4">
                           <img src={darkEmail} alt="email" className="mt-0" />
@@ -267,9 +294,17 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Websites & Socials
                             </h6>
-                            <img src={add} alt="reset" className="ml-3 mb-2" />
+                            {user ? null : (
+                              <img
+                                src={add}
+                                alt="reset"
+                                className="ml-3 mb-2"
+                              />
+                            )}
                           </div>
-                          <img src={edit} alt="reset" className="mr-3 " />
+                          {user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 " />
+                          )}
                         </div>
                         <div className="d-flex flex-wrap">
                           <div className="d-flex">
@@ -313,9 +348,17 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Skills
                             </h6>
-                            <img src={add} alt="reset" className="ml-3 mb-2" />
+                            {user ? null : (
+                              <img
+                                src={add}
+                                alt="reset"
+                                className="ml-3 mb-2"
+                              />
+                            )}
                           </div>
-                          <img src={edit} alt="reset" className="mr-3 " />
+                          {user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 " />
+                          )}
                         </div>
                         <div className="d-flex flex-wrap mt-4">
                           <p className="mr-5">Skills</p>
@@ -339,4 +382,4 @@ class DoctorProfile extends React.Component {
   }
 }
 
-export default DoctorProfile;
+export { DoctorProfile };

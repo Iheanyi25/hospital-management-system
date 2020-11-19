@@ -56,7 +56,7 @@ class DoctorList extends React.Component {
                                                 <p className="address">{doctor?.bio || ""}</p>
                                                 <div className="button-box">
 
-                                                    <Link className="btn btn-primary mr-2" to={`/PatientDoctorProfile/${doctor.doctorId}`}>
+                                                    <Link className="btn btn-primary mr-2" to={`/ViewDoctorProfile/${doctor.doctorId}`}>
                                                         <span className="link-icon icofont-doctor" />
                                                         <span className="link-text">View profile</span>
                                                     </Link>
