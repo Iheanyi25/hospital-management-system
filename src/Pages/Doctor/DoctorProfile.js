@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import { AddEducation } from "../../Components/Modals";
 import user from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
@@ -120,12 +121,14 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                            <div
-                              className="ml-3 mb-2"
-                              data-toggle="modal"
-                              data-target="#modal-10"
-                            >
-                              <img src={add} alt="reset" />
+                            <div className="ml-3 mb-2">
+                              <img
+                                src={add}
+                                alt="reset"
+                                data-toggle="modal"
+                                data-target="#modal-10"
+                                style={{ cursor: "pointer" }}
+                              />
                             </div>
                           </div>
                           <img src={edit} alt="reset" className="mr-3 " />
@@ -328,6 +331,7 @@ class DoctorProfile extends React.Component {
                 </div>
               </div>
             </div>
+            <AddEducation />
           </main>
         )}
       </>

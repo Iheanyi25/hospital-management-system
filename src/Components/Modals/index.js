@@ -4,3 +4,4 @@ export * from "./RegisterUser";
 export * from "./SearchDoctors";
 export * from "./SearchPatient";
 export * from "./AddFamily";
+export * from "./AddEducation";
