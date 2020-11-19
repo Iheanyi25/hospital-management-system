@@ -1,5 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
+import { PreConsultationHistory, ClarkingHistory, PatientProfile, LabResults } from '../../Components/Clarking'
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -8,12 +9,12 @@ class Clarking extends React.Component {
     super(props);
 
     this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      // patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctorQueue: null,
       canceledConsultations: [],
       completedConsultations: [],
       pendingConsultations: [],
-      capturePatientHealthHistory: { },
+      capturePatientHealthHistory: {},
       clarking: {},
       healthHistory: {},
       labHistory: {},
@@ -21,12 +22,16 @@ class Clarking extends React.Component {
   }
 
   handleSubmit = (type, key, e) => {
-	e.preventDefault();
-	
+    e.preventDefault();
+
     let payload = [];
-    key.forEach(element => {
-		let newPatch =  this.formatJSONPATCH("replace", `/${element}`, this.state[type][element]);
-		payload.push(newPatch);
+    key.forEach((element) => {
+      let newPatch = this.formatJSONPATCH(
+        "replace",
+        `/${element}`,
+        this.state[type][element]
+      );
+      payload.push(newPatch);
     });
 
     this.submitRequest(payload);
@@ -37,45 +42,47 @@ class Clarking extends React.Component {
 	}
 
   submitRequest = async (payload) => {
-   const {id, type} = this.props.location.state;
+    const { id, type } = this.props.location.state;
 
-   console.log(payload);
-   
-    let res = await fetch(`${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload)
-    });
-	let response = await res.json();
-	
-	alert(response.message);
+    console.log(payload);
 
-  }
+    let res = await fetch(
+      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+    let response = await res.json();
+
+    alert(response.message);
+  };
 
   handleChange = (type, key, e) => {
-    this.setState({[type]: {...this.state[type],[key]: e.target.value}});
-  }
+    this.setState({ [type]: { ...this.state[type], [key]: e.target.value } });
+  };
 
   formatJSONPATCH = (op, path, value) => {
     return {
       op,
       path,
-      value
-    }
-  }
+      value,
+    };
+  };
 
   clearData = (type, key) => {
-    this.setState({[type]: {[key]: ""}});
-  }
+    this.setState({ [type]: { [key]: "" } });
+  };
 
   async getDoctorQueue() {
     var canceledConsultations = [];
     var completedConsultations = [];
     var pendingConsultations = [];
     const { apiUrl } = this.state;
-    const response = await fetch(`${ apiUrl } / Doctor / GetDoctorQueue`);
+    const response = await fetch(`${apiUrl} / Doctor / GetDoctorQueue`);
     const data = await response.json();
 
     this.setState({ doctorQueue: data.patientQueue });
@@ -100,6 +107,7 @@ class Clarking extends React.Component {
   }
 
   render() {
+    const { firstName , lastName, id } = this.props.location.state.patient
     return (
       <>
         <PageLoader />
@@ -250,8 +258,17 @@ class Clarking extends React.Component {
                                         Additons like smoking, drinking etc
                                       </label>
                                       <textarea
-                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "socialHistory", e)}
-                                        value={this.state.capturePatientHealthHistory?.socialHistory ?? ""}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "capturePatientHealthHistory",
+                                            "socialHistory",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.capturePatientHealthHistory
+                                            ?.socialHistory ?? ""
+                                        }
                                         className="form-control"
                                         placeholder="Enter Social History Here"
                                         rows={3}
@@ -259,11 +276,18 @@ class Clarking extends React.Component {
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
-                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["socialHistory"], e)}
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "capturePatientHealthHistory",
+                                              ["socialHistory"],
+                                              e
+                                            )
+                                          }
                                         >
                                           Record Social History
                                         </button>
@@ -294,8 +318,17 @@ class Clarking extends React.Component {
                                         blood pressure etc
                                       </label>
                                       <textarea
-                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "familyHistory", e)}
-                                        value={this.state.capturePatientHealthHistory?.familyHistory ?? ""}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "capturePatientHealthHistory",
+                                            "familyHistory",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.capturePatientHealthHistory
+                                            ?.familyHistory ?? ""
+                                        }
                                         className="form-control"
                                         placeholder="Enter Family History Here"
                                         rows={3}
@@ -303,11 +336,18 @@ class Clarking extends React.Component {
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
-                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["familyHistory"], e)}
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "capturePatientHealthHistory",
+                                              ["familyHistory"],
+                                              e
+                                            )
+                                          }
                                         >
                                           Save Family History
                                         </button>
@@ -337,8 +377,17 @@ class Clarking extends React.Component {
                                         Common sickness like Hepitities etc
                                       </label>
                                       <textarea
-                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "medicalHistory", e)}
-                                        value={this.state.capturePatientHealthHistory?.medicalHistory ?? ""}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "capturePatientHealthHistory",
+                                            "medicalHistory",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.capturePatientHealthHistory
+                                            ?.medicalHistory ?? ""
+                                        }
                                         className="form-control"
                                         placeholder="Enter Medical History Here"
                                         rows={3}
@@ -346,11 +395,18 @@ class Clarking extends React.Component {
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["medicalHistory"], e)}
-                                          className="btn btn-success"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "capturePatientHealthHistory",
+                                              ["medicalHistory"],
+                                              e
+                                            )
+                                          }
+                                          className="btn btn-primary"
                                         >
                                           Save Medical History
                                         </button>
@@ -380,28 +436,56 @@ class Clarking extends React.Component {
                                       <input
                                         className="form-control"
                                         type="text"
-                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "lastCountryVisited", e)}
-                                        value={this.state.capturePatientHealthHistory?.lastCountryVisited ?? ""}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "capturePatientHealthHistory",
+                                            "lastCountryVisited",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.capturePatientHealthHistory
+                                            ?.lastCountryVisited ?? ""
+                                        }
                                         placeholder="Countries Visitied"
-                                        />
+                                      />
                                     </div>
                                     <div className="form-group">
                                       <label>Date Visited</label>
                                       <input
                                         className="form-control"
                                         type="date"
-                                        onChange={(e) => this.handleChange("capturePatientHealthHistory", "dateOfVisitation", e)}
-                                        value={this.state.capturePatientHealthHistory?.dateOfVisitation ?? ''}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "capturePatientHealthHistory",
+                                            "dateOfVisitation",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.capturePatientHealthHistory
+                                            ?.dateOfVisitation ?? ""
+                                        }
                                         placeholder="Date Visited"
                                       />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-																					className="btn btn-success"
-                                          onClick={(e) => this.handleSubmit("capturePatientHealthHistory", ["lastCountryVisited", "dateOfVisitation"], e)}
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "capturePatientHealthHistory",
+                                              [
+                                                "lastCountryVisited",
+                                                "dateOfVisitation",
+                                              ],
+                                              e
+                                            )
+                                          }
                                         >
                                           Save Travel History
                                         </button>
@@ -438,7 +522,7 @@ class Clarking extends React.Component {
                             aria-controls="pills-complain"
                             aria-selected="true"
                           >
-                            Presenting Complains
+                            Presenting Complaints
                           </a>
                         </li>
                         <li className="nav-item">
@@ -451,7 +535,7 @@ class Clarking extends React.Component {
                             aria-controls="pills-history"
                             aria-selected="false"
                           >
-                            History of Presenting Complain
+                            History of Presenting Complaints
                           </a>
                         </li>
                         <li className="nav-item">
@@ -548,24 +632,40 @@ class Clarking extends React.Component {
                                     <h4>Presenting Complains</h4>
 
                                     <div className="form-group">
-                                      <label>Presenting Complains</label>
+                                      <label>Presenting Complaints</label>
                                       <textarea
-																				className="form-control"
-																				onChange={(e) => this.handleChange("clarking", "presentingComplaints", e)}
-																				value={this.state.clarking?.presentingComplaints ?? ""}
-																				placeholder="Enter Presenting Complains Here"
-																				rows={3}
-																			/>
+                                        className="form-control"
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "presentingComplaints",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking
+                                            ?.presentingComplaints ?? ""
+                                        }
+                                        placeholder="Enter Presenting Complains Here"
+                                        rows={3}
+                                      />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
-																					type="button"
-                                          className="btn btn-success"
-																					onClick={(e) => this.handleSubmit("clarking", ["presentingComplaints"], e)}
+                                          type="button"
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["presentingComplaints"],
+                                              e
+                                            )
+                                          }
                                         >
-                                          Record Presenting Complains
+                                          Record Presenting Complaints
                                         </button>
                                       </div>
                                     </div>
@@ -596,20 +696,36 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter History of Presenting Complain Here"
-																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "histroyOfPresentingComplaints", e)}
-																				value={this.state.clarking?.histroyOfPresentingComplaints}
-																				/>
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "historyOfPresentingComplaints",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking
+                                            ?.historyOfPresentingComplaints
+                                        }
+                                      />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
-																					onClick={(e) => this.handleSubmit("clarking", [ "histroyOfPresentingComplaints"], e)}
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["historyOfPresentingComplaints"],
+                                              e
+                                            )
+                                          }
                                         >
-                                          Save
+                                          Save History
                                         </button>
                                       </div>
                                     </div>
@@ -638,19 +754,34 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Riview od System Here"
-																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "reviewOfSystem", e)}
-																				value={this.state.clarking?.reviewOfSystem}
-																				/>
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "reviewOfSystem",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking?.reviewOfSystem
+                                        }
+                                      />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
-																					onClick={(e) => this.handleSubmit("clarking", [ "reviewOfSystem"], e)}
-																					>
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["reviewOfSystem"],
+                                              e
+                                            )
+                                          }
+                                        >
                                           Save Review of System
                                         </button>
                                       </div>
@@ -682,18 +813,34 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Patient Physical Examination"
-																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "physicalExamination", e)}
-																				value={this.state.clarking?.physicalExamination}
-																				/>
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "physicalExamination",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking
+                                            ?.physicalExamination
+                                        }
+                                      />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-																					onClick={(e) => this.handleSubmit("clarking", [ "physicalExamination"], e)}
-                                          className="btn btn-success"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["physicalExamination"],
+                                              e
+                                            )
+                                          }
+                                          className="btn btn-primary"
                                         >
                                           Save Physical Examination
                                         </button>
@@ -724,18 +871,31 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Diagnosis"
-																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "diagnosis", e)}
-																				value={this.state.clarking?.diagnosis}
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "diagnosis",
+                                            e
+                                          )
+                                        }
+                                        value={this.state.clarking?.diagnosis}
                                       />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
-																					type="button"
-																					onClick={(e) => this.handleSubmit("clarking", [ "diagnosis"], e)}
-                                          className="btn btn-success"
+                                          type="button"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["diagnosis"],
+                                              e
+                                            )
+                                          }
+                                          className="btn btn-primary"
                                         >
                                           Save Diagnosis
                                         </button>
@@ -766,18 +926,33 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Treatment Plan"
-																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "treatmentPlan", e)}
-																				value={this.state.clarking?.treatmentPlan}
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "treatmentPlan",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking?.treatmentPlan
+                                        }
                                       />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
-																				onClick={(e) => this.handleSubmit("clarking", [ "treatmentPlan"], e)}
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["treatmentPlan"],
+                                              e
+                                            )
+                                          }
                                         >
                                           Save Treatment Plan
                                         </button>
@@ -808,18 +983,34 @@ class Clarking extends React.Component {
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Obstetrics"
-																				rows={3}
-																				onChange={(e) => this.handleChange("clarking", "obstetricsAndGynecology", e)}
-																				value={this.state.clarking?.obstetricsAndGynecology}
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "obstetricsAndGynecology",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking
+                                            ?.obstetricsAndGynecology
+                                        }
                                       />
                                     </div>
 
                                     <div className="row">
-                                      <div className="col">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
                                         <button
                                           type="button"
-																					className="btn btn-success"	
-																					onClick={(e) => this.handleSubmit("clarking", [ "obstetricsAndGynecology"], e)}
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["obstetricsAndGynecology"],
+                                              e
+                                            )
+                                          }
                                         >
                                           Save Obstetrics and Gynecology
                                         </button>
@@ -858,7 +1049,7 @@ class Clarking extends React.Component {
                                       <div className="col">
                                         <button
                                           type="button"
-                                          className="btn btn-success"
+                                          className="btn btn-primary"
                                         >
                                           Save Prescriptions
                                         </button>
@@ -948,44 +1139,7 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <div className="card-body">
-
-                                  <h4>History of Pre-Consultation History</h4>
-                                  <div id="accordion">
-                                    <div className="card mb-0">
-                                      <div className="card-header" id="headingOne">
-                                        <h5 className="mb-0">
-                                          <button className="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            Collapsible Group Item #1
-                                            </button>
-                                        </h5>
-                                      </div>
-                                      <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div className="card-body">
-                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                          </div>
-                                      </div>
-                                    </div>
-                                    <div className="card mb-0">
-                                      <div className="card-header" id="headingTwo">
-                                        <h5 className="mb-0">
-                                          <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Collapsible Group Item #2
-                                            </button>
-                                        </h5>
-                                      </div>
-                                      <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div className="card-body">
-                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                          </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-
-
-                                </div>
+                                <PreConsultationHistory patientDetails={{ id, firstName, lastName }} />
                               </div>
                             </div>
                           </div>
@@ -1000,44 +1154,7 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <div className="card-body">
-
-                                  <h4>History of Clarking History</h4>
-                                  <div id="accordion">
-                                    <div className="card mb-0">
-                                      <div className="card-header" id="headingOne">
-                                        <h5 className="mb-0">
-                                          <button className="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            Collapsible Group Item #1
-                                          </button>
-                                        </h5>
-                                      </div>
-                                      <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div className="card-body">
-                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="card mb-0">
-                                      <div className="card-header" id="headingTwo">
-                                        <h5 className="mb-0">
-                                          <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Collapsible Group Item #2
-                                          </button>
-                                        </h5>
-                                      </div>
-                                      <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div className="card-body">
-                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-
-
-                                </div>
+                                <ClarkingHistory patientDetails={{ id, firstName, lastName }} />
                               </div>
                             </div>
                           </div>
@@ -1053,17 +1170,12 @@ class Clarking extends React.Component {
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-
-                                  <h4>Patient Profile</h4>
-
-
-
+                                  <PatientProfile patientId={id} />
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -1116,42 +1228,7 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <div className="card-body">
-
-                                  <h4>Lab/Service Result History</h4>
-                                  <div id="accordion">
-                                    <div className="card mb-0">
-                                      <div className="card-header" id="headingOne">
-                                        <h5 className="mb-0">
-                                          <button className="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            Collapsible Group Item #1
-                                            </button>
-                                        </h5>
-                                      </div>
-                                      <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div className="card-body">
-                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                          </div>
-                                      </div>
-                                    </div>
-                                    <div className="card mb-0">
-                                      <div className="card-header" id="headingTwo">
-                                        <h5 className="mb-0">
-                                          <button className="btn btn-primary btn-block collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Collapsible Group Item #2
-                                            </button>
-                                        </h5>
-                                      </div>
-                                      <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div className="card-body">
-                                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                          </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-                                </div>
+                                <LabResults patientId={id}/>
                               </div>
                             </div>
                           </div>
@@ -1168,7 +1245,6 @@ class Clarking extends React.Component {
                               <div className="card border-light">
                                 <div className="card-body">
                                   Service Request Goes Here
-                                  
                                 </div>
                               </div>
                             </div>
