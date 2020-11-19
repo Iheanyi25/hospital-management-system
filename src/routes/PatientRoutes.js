@@ -13,7 +13,7 @@ import { PatientLayout } from '../Components/Layout';
 import PatientFundAccount from '../Pages/Patient/PatientFundAccount';
 import ViewPatientProfile from '../Pages/Patient/ViewPatientProfile';
 import ViewPreConsultationHistory from '../Pages/Patient/ViewPreConsultationHistory';
-import PatientClarkingHistory from '../Pages/Patient/ClarkingHistory';
+import ViewClarkingHistory from '../Pages/Patient/ViewClarkingHistory';
 
 export default function PatientRoutes() {
     return (
@@ -33,7 +33,7 @@ export default function PatientRoutes() {
 
                     <Route exact path="/PatientProfile" component={ViewPatientProfile} />
                     <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
-                    <Route exact path="/PatientClarkingHistory" component={PatientClarkingHistory} />
+                    <Route exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />
 
                     <Route exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
 
