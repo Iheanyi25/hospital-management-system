@@ -3,112 +3,106 @@ import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 class DoctorList extends React.Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      doctors: [],
-      apiUrl: process.env.REACT_APP_API_URL,
-    };
-  }
+        this.state = {
+            doctors: [],
+            apiUrl: process.env.REACT_APP_API_URL,
+        };
+    }
 
-  async getAllDoctors() {
-    const data = await (
-      await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)
-    ).json();
-    this.setState({ doctors: data.doctors });
-  }
+    async getAllDoctors() {
+        const data = await (
+            await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)
+        ).json();
+        this.setState({ doctors: data.doctors });
+    }
 
-  componentDidMount() {
-    this.getAllDoctors();
-  }
+    componentDidMount() {
+        this.getAllDoctors();
+    }
 
-  render() {
-    return (
-      <>
-        <PageLoader />
+    render() {
+        return (
+            <>
+                <PageLoader />
 
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
-          </div>
-          <div className="main-content-wrap">
-            <header className="page-header">
-              <h4 className="page-title">Doctors</h4>
-            </header>
-            <div className="page-content">
-              <div className="row">
-                {this.state.doctors.map((doctor, index) => (
-                  <div className="col-12 col-md-4" key={index}>
-                    <div className="contact">
-                      <div className="img-box">
-                        <img
-                          src="../assets/content/doctor-400-1.jpg"
-                          width={400}
-                          height={400}
-                          alt="Hello"
-                        />
-                      </div>
-                      <div className="info-box">
-                        <Link
-                          className="name text-primary nameLink"
-                          to={`/ViewDoctorProfile/${doctor.doctorId}`}
-                        >
-                          Dr. {doctor.doctor.lastName} {doctor.doctor.firstName}
-                        </Link>
-                        <p className="role">{doctor?.specialization || ""}</p>
-                        <div className="custom-control custom-switch mb-3">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            defaultChecked={
-                              doctor?.isAvaliable ? "checked" : " "
-                            }
-                          />
-                          <label className="custom-control-label">
-                            Avalible for Consultation
-                          </label>
-                        </div>
-                        <p className="address">{doctor?.bio || ""}</p>
-                        <div className="button-box row">
-                          <Link
-                            style={{ fontSize: "0.9em" }}
-                            className="btn btn-outline-primary mr-2"
-                            to={`/PatientBookAppointment/${doctor.doctorId}`}
-                          >
-                            <span className="link-icon icofont-doctor" />
-                            <span className="link-text">Book Appointment</span>
-                          </Link>
-
-                          <Link
-                            style={{ fontSize: "0.8em" }}
-                            className="btn btn-primary"
-                            to={`/PatientBookConsultation/${doctor.doctorId}`}
-                          >
-                            <span className="link-icon icofont-doctor" />
-                            <span className="link-text">Book Consultation</span>
-                          </Link>
-                        </div>
-                      </div>
+                <main className="main-content">
+                    <div className="app-loader">
+                        <i className="icofont-spinner-alt-4 rotate" />
                     </div>
-                  </div>
-                ))}
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-dark btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-doctor"
-                >
-                  <span className="btn-icon icofont-contact-add" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </main>
-      </>
-    );
-  }
+                    <div className="main-content-wrap">
+                        <header className="page-header">
+                            <h4 className="page-title">Doctors</h4>
+                        </header>
+                        <div className="page-content">
+                            <div className="row">
+                                {[...this.state.doctors, ...this.state.doctors].map((doctor, index) => (
+                                    <div className="col-12 col-md-4 col-sm-6" key={index}>
+                                        <div className="contact">
+                                            <div className="img-box">
+                                                <img
+                                                    src="../assets/content/doctor-400-1.jpg"
+                                                    width={400}
+                                                    height={400}
+                                                    alt="Hello"
+                                                />
+                                            </div>
+                                            <div className="info-box">
+                                                <Link
+                                                    className="name text-primary nameLink"
+                                                    to={`/ViewDoctorProfile/${doctor.doctorId}`}
+                                                >
+                                                    <h4 className="my-0">Dr. {doctor.doctor.lastName} {doctor.doctor.firstName}</h4>
+                                                </Link>
+                                                <p className="role">{doctor?.specialization || "Lawyer and Engineer"}</p>
+                                                <div className="d-flex align-items-center justify-content-center">
+                                                    <div style={{ width: 8, height: 8, borderRadius: 5 }} className={!doctor?.isAvailable ? "bg-success" : "bg-secondary"}></div>
+                                                    <p className="ml-3">
+                                                        Avalible for Consultation
+                                                    </p>
+                                                </div>
+                                                <p className="address">{doctor?.bio || ""}</p>
+                                                <div className="button-box row">
+                                                    <Link
+                                                        style={{ fontSize: "0.9em" }}
+                                                        className="btn btn-outline-primary mb-3"
+                                                        to={`/PatientBookAppointment/${doctor.doctorId}`}
+                                                    >
+                                                        <span className="link-icon icofont-doctor" />
+                                                        <span className="link-text">Book Appointment</span>
+                                                    </Link>
+
+                                                    <Link
+                                                        style={{ fontSize: "0.9em" }}
+                                                        className="btn btn-primary mb-3"
+                                                        to={`/PatientBookConsultation/${doctor.doctorId}`}
+                                                    >
+                                                        <span className="link-icon icofont-doctor" />
+                                                        <span className="link-text">Book Consultation</span>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="add-action-box">
+                                <button
+                                    className="btn btn-dark btn-lg btn-square rounded-pill"
+                                    data-toggle="modal"
+                                    data-target="#add-doctor"
+                                >
+                                    <span className="btn-icon icofont-contact-add" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </>
+        );
+    }
 }
 
 export default DoctorList;
