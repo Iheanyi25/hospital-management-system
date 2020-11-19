@@ -21,6 +21,7 @@ import darkEmail from "../../assets/img/darkEmail.svg";
 import facebook from "../../assets/img/facebook.svg";
 import twitter from "../../assets/img/twitter.svg";
 import youtube from "../../assets/img/youtube.svg";
+import location from "../../assets/img/location.svg";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 class DoctorProfile extends React.Component {
@@ -329,7 +330,7 @@ class DoctorProfile extends React.Component {
                         <div className="d-flex mt-4">
                           <img src={darkEmail} alt="email" className="mt-0" />
                           <div className="mt-3 ml-4">
-                            <p className="font-weightt-bold mb-0">Email</p>
+                            <p className="font-weight-bold mb-0">Email</p>
                             <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
                           </div>
                         </div>
@@ -340,8 +341,20 @@ class DoctorProfile extends React.Component {
                             className="mt-0 ml-1"
                           />
                           <div className="mt-3 ml-4">
-                            <p className="font-weightt-bold mb-0">Mobile</p>
+                            <p className="font-weight-bold mb-0">Mobile</p>
                             <p>{doctor?.phoneNumber ?? "N/A"}</p>
+                          </div>
+                        </div>
+                        <div className="d-flex mt-4">
+                          <img
+                            src={location}
+                            alt="location"
+                            className="mt-0"
+                          />
+                          <div className="mt-3 ml-3">
+                            <p className="font-weight-bold mb-0">Location</p>
+                            <p>Gwarimpa, Abuja</p>
+                            {/* <p>Nigeria.</p> */}
                           </div>
                         </div>
                       </div>
