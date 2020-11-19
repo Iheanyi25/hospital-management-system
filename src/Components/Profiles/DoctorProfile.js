@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
-import { AddEducation, AddExperience, AddOfficeTime, AddContactInfo, AddWebsites, AddSpecialization } from "../../Components/Modals";
+import {
+  AddEducation,
+  AddExperience,
+  AddOfficeTime,
+  AddContactInfo,
+  AddWebsites,
+  AddSpecialization,
+} from "../../Components/Modals";
 import user from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
@@ -70,11 +77,34 @@ class DoctorProfile extends React.Component {
             </div>
             <div className="main-content-wrap">
               <div className="page-content">
-                <header className="page-header">
-                  <h3 className="page-title">{`Dr. ${doctor?.firstName ?? ""} ${
-                    doctor?.lastName ?? ""
-                  }`}</h3>
-                </header>
+                {this.props.user ? (
+                  <header className="page-header d-flex justify-content-between">
+                    <h3 className="page-title">{`Dr. ${
+                      doctor?.firstName ?? ""
+                    } ${doctor?.lastName ?? ""}`}</h3>
+                    <div>
+                      <div className="col"></div>
+                      <div className="col text-right">
+                        <Link
+                        to={`/PatientBookAppointment/${this.props.doctorId}`}
+                          className="btn btn-outline-primary mr-2 mb-2"
+                        >
+                          Book Appointment
+                        </Link>
+                        <Link to={`/PatientBookConsultation/${this.props.doctorId}`} type="submit" className="btn btn-primary mr-2 mb-2">
+                          Book consultation
+                        </Link>
+                      </div>
+                    </div>
+                  </header>
+                ) : (
+                  <header className="page-header">
+                    <h3 className="page-title">{`Dr. ${
+                      doctor?.firstName ?? ""
+                    } ${doctor?.lastName ?? ""}`}</h3>
+                  </header>
+                )}
+
                 <div className="col col-md-12">
                   <div className="card border-light">
                     <div className="card-body d-flex justify-content-between">
@@ -122,35 +152,42 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                            {this.props.user ? null : (
-                              <img
-                                src={add}
-                                alt="reset"
-                                className="ml-3 mb-2"
-                                data-toggle="modal"
-                                data-target="#add-education"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
                           </div>
                           {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 " />
+                            <img
+                              src={add}
+                              alt="reset"
+                              className="ml-3 mb-2"
+                              data-toggle="modal"
+                              data-target="#add-education"
+                              style={{ cursor: "pointer" }}
+                            />
                           )}
                         </div>
                         {educations?.map((education, index) => (
                           <div className="row mx-0 mt-4" key={index}>
-                            <div className="col-9">
+                            <div className="col-7 p-0">
                               <p className="font-weight-bold mb-2">
                                 {education?.degree ?? "N/A"}
                               </p>
                               <p>{education?.institution ?? "N/A"}</p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-3 p-0">
                               <p className="font-weight-bold mb-2">Year</p>
                               <p className="text-nowrap">
                                 {education?.startYear ?? "N/A"} -{" "}
                                 {education?.endYear ?? "N/A"}
                               </p>
+                            </div>
+                            <div className="col-2 p-0 text-right">
+                              <p></p>
+                              {this.props.user ? null : (
+                                <img
+                                  src={edit}
+                                  alt="reset"
+                                  className="mr-3 mb-2"
+                                />
+                              )}
                             </div>
                           </div>
                         )) ?? "N/A"}
