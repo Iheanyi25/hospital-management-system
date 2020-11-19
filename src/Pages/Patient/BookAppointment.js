@@ -147,7 +147,7 @@ class BookAppointment extends React.Component {
                     <div className="card-body">
                       <form className="mb-4">
                       <h4 className="text-center">
-                          {`Consultation Form (${firstName} ${lastName}`})
+                          {`Appointment Form (${firstName} ${lastName}`})
                         </h4>
                         <div className="row">
                           <div className="col-12 col-sm-6">
