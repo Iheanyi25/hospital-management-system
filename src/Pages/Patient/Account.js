@@ -109,27 +109,17 @@ class PatientAccount extends React.Component {
                         <div className="table-responsive">
                           <table
                             className="table data-table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
                               <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
-                                <th>Actions</th>
+                                <th>Amount</th>
+                                <th>Transaction Type</th>
+                                <th>Paid By</th>
+                                <th>Medium Of Payment</th>
+                                <th>Date</th>
+                                <th>Account Balance</th>
                               </tr>
                             </thead>
                             <tbody>
