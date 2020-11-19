@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
-import { AddEducation } from "../../Components/Modals";
+import { AddEducation, AddExperience, AddOfficeTime, AddContactInfo, AddWebsites, AddSpecialization } from "../../Components/Modals";
 import user from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
@@ -122,17 +122,18 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                            {user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
                                 alt="reset"
+                                className="ml-3 mb-2"
                                 data-toggle="modal"
-                                data-target="#modal-10"
+                                data-target="#add-education"
                                 style={{ cursor: "pointer" }}
                               />
                             )}
                           </div>
-                          {user ? null : (
+                          {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 " />
                           )}
                         </div>
@@ -164,15 +165,18 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Experience
                             </h6>
-                            {user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
                                 alt="reset"
+                                data-toggle="modal"
+                                data-target="#add-experience"
                                 className="ml-3 mb-2"
+                                style={{ cursor: "pointer" }}
                               />
                             )}
                           </div>
-                          {user ? null : (
+                          {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 mb-2" />
                           )}
                         </div>
@@ -205,15 +209,18 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Office Time
                             </h6>
-                            {user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
+                                data-toggle="modal"
+                                data-target="#add-office-time"
                                 alt="reset"
                                 className="ml-3 mb-2"
+                                style={{ cursor: "pointer" }}
                               />
                             )}
                           </div>
-                          {user ? null : (
+                          {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 " />
                           )}
                         </div>
@@ -251,15 +258,18 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Contact Information
                             </h6>
-                            {user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
+                                data-toggle="modal"
+                                data-target="#add-contact-info"
                                 alt="reset"
                                 className="ml-3 mb-2"
+                                style={{ cursor: "pointer" }}
                               />
                             )}
                           </div>
-                          {user ? null : (
+                          {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 mb-2" />
                           )}
                         </div>
@@ -292,17 +302,56 @@ class DoctorProfile extends React.Component {
                         <div className="d-flex justify-content-between border-bottom pb-2">
                           <div className="d-flex">
                             <h6 className="card-title mt-0 font-weight-bold">
-                              Websites & Socials
+                              Specialization
                             </h6>
-                            {user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
                                 alt="reset"
+                                data-toggle="modal"
+                                data-target="#add-specialization"
                                 className="ml-3 mb-2"
+                                style={{ cursor: "pointer" }}
                               />
                             )}
                           </div>
-                          {user ? null : (
+                          {this.props.user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 " />
+                          )}
+                        </div>
+                        <div className="d-flex flex-wrap mt-4">
+                          <p className="mr-5">Skills</p>
+                          <p className="mr-5">Different skill</p>
+                          <p className="mr-5">Another skill</p>
+                          <p className="mr-5">Skills</p>
+                          <p className="mr-5">Different skill</p>
+                          <p className="mr-5">Another skill</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row mx-0">
+                  <div className="col col-md-12">
+                    <div className="card border-light p-4">
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between border-bottom pb-2">
+                          <div className="d-flex">
+                            <h6 className="card-title mt-0 font-weight-bold">
+                              Websites & Socials
+                            </h6>
+                            {this.props.user ? null : (
+                              <img
+                                src={add}
+                                data-toggle="modal"
+                                data-target="#add-websites"
+                                alt="reset"
+                                className="ml-3 mb-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </div>
+                          {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 " />
                           )}
                         </div>
@@ -339,42 +388,14 @@ class DoctorProfile extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="row mx-0">
-                  <div className="col col-md-12">
-                    <div className="card border-light p-4">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between border-bottom pb-2">
-                          <div className="d-flex">
-                            <h6 className="card-title mt-0 font-weight-bold">
-                              Skills
-                            </h6>
-                            {user ? null : (
-                              <img
-                                src={add}
-                                alt="reset"
-                                className="ml-3 mb-2"
-                              />
-                            )}
-                          </div>
-                          {user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 " />
-                          )}
-                        </div>
-                        <div className="d-flex flex-wrap mt-4">
-                          <p className="mr-5">Skills</p>
-                          <p className="mr-5">Different skill</p>
-                          <p className="mr-5">Another skill</p>
-                          <p className="mr-5">Skills</p>
-                          <p className="mr-5">Different skill</p>
-                          <p className="mr-5">Another skill</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <AddEducation />
+            <AddExperience />
+            <AddOfficeTime />
+            <AddContactInfo />
+            <AddWebsites />
+            <AddSpecialization />
           </main>
         )}
       </>

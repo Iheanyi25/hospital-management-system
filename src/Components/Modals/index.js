@@ -5,3 +5,8 @@ export * from "./SearchDoctors";
 export * from "./SearchPatient";
 export * from "./AddFamily";
 export * from "./AddEducation";
+export * from "./AddExperience";
+export * from "./AddOfficeTime";
+export * from "./AddContactInfo";
+export * from "./AddWebsites";
+export * from "./AddSpecialization";

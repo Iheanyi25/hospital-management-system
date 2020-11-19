@@ -1,10 +1,10 @@
 import React from "react";
 
-const AddEducation = () => {
+const AddExperience = () => {
   return (
     <div
       className="modal fade"
-      id="add-education"
+      id="add-experience"
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"
@@ -15,47 +15,28 @@ const AddEducation = () => {
             <h5 className="text-center">Add Education</h5>
             <form className="p-5">
               <div className="form-group">
-                <label>Institution</label>
+                <label>Company</label>
                 <input
                   id="name"
                   name="name"
                   className="form-control"
                   type="text"
                   // onChange={(e) => this.setState({ name: e.target.value })}
-                  placeholder="Institution"
+                  placeholder="Company"
                   // value={this.state.name}
                 />
               </div>
               <div className="form-group">
-                <label>Area of study</label>
+                <label>Role</label>
                 <input
                   id="name"
                   name="name"
                   className="form-control"
                   type="text"
                   // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
-                  placeholder="Area of study"
+                  placeholder="Role"
                   // value={this.state.phoneNumber}
                 />
-              </div>
-              <div className="form-group">
-                <label>Certification</label>
-                <select
-                  className="form-control"
-                  name="serviceCategoryId"
-                  // onChange={(e) => {
-                  //   this.setState({
-                  //     [e.target.name]: e.target.value,
-                  //   });
-                  // }}
-                >
-                  <option value="" disabled>
-                    Select a category
-                  </option>
-                  <option value="Bachelors">Bachelors</option>
-                  <option value="Masters">Masters</option>
-                  <option value="PhD">PhD</option>
-                </select>
               </div>
               <div className="form-row">
                 <div className="form-group col-md-6">
@@ -90,4 +71,4 @@ const AddEducation = () => {
   );
 };
 
-export { AddEducation };
+export { AddExperience };
