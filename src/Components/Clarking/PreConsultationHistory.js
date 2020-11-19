@@ -32,6 +32,8 @@ class PreConsultationHistory extends React.Component {
       this.setState({
         patientPreConsultations: JSON.parse(data).patientPreConsultation,
       });
+      if (this.props.setCount)
+        this.props.setCount(this.state.patientPreConsultations.length);
     } catch (error) {
       console.log(error);
     }
@@ -42,9 +44,9 @@ class PreConsultationHistory extends React.Component {
     return (
       <>
         <div className="card-body">
-          <h4 className="text-center mb-4">
-            {`${firstName} ${lastName}`}
-          </h4>
+          {this.props.user ? null : (
+            <h4 className="text-center mb-4">{`${firstName} ${lastName}`}</h4>
+          )}
           <div id="accordion" className="mb-3">
             {this.state.patientPreConsultations.length === 0 ? (
               <h5 className="text-center mt-5">Nothing to see here</h5>
