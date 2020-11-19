@@ -170,25 +170,25 @@ class BookConsultation extends React.Component {
                           <div className="col">
                             <button
                               type="button"
-                              className="btn btn-success"
-                              onClick={(e) => this.bookConsultation(e)}
-                              disabled={
-                                reasonForConsultation === "" ||
-                                consultationTitle === ""
-                                  ? true
-                                  : false
-                              }
+                              className="btn btn-outline-danger"
                             >
-                              Book Now
+                              <span className="d-none d-sm-block">Cancel</span>{" "}
+                              <span className="d-sm-none">Cancel</span>
                             </button>
                           </div>
                           <div className="col text-right">
                             <button
                               type="button"
-                              className="btn btn-outline-danger"
+                              className="btn btn-primary"
+                              onClick={(e) => this.bookConsultation(e)}
+                              disabled={
+                                reasonForConsultation === "" ||
+                                  consultationTitle === ""
+                                  ? true
+                                  : false
+                              }
                             >
-                              <span className="d-none d-sm-block">Cancel</span>{" "}
-                              <span className="d-sm-none">Cancel</span>
+                              Book Now
                             </button>
                           </div>
                         </div>

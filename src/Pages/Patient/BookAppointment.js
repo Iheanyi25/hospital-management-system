@@ -213,31 +213,33 @@ class BookAppointment extends React.Component {
                         </div>
                         {displayErrorMessage}
                         {displaySuccessMessage}
-                        <div className="row">
+                        <div className="row mt-5">
                           <div className="col">
+
                             <button
                               type="button"
-                              className="btn btn-success"
-                              onClick={(e) => this.bookAppointment(e)}
-                              disabled={
-                                appointmentDate === "" ||
-                                appointmentTime === "" ||
-                                reasonForAppointment === "" ||
-                                appointmentTitle === ""
-                                  ? true
-                                  : false
-                              }
+                              className="btn btn-outline-danger"
+                              onClick={() => this.props.history.goBack()}
                             >
-                              Book Appointment
+                              <span className="d-none d-sm-block">Cancel</span>{" "}
+                              <span className="d-sm-none">Cancel</span>
                             </button>
                           </div>
                           <div className="col text-right">
                             <button
                               type="button"
-                              className="btn btn-outline-danger"
+                              className="btn btn-primary"
+                              onClick={(e) => this.bookAppointment(e)}
+                              disabled={
+                                appointmentDate === "" ||
+                                  appointmentTime === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
+                                  ? true
+                                  : false
+                              }
                             >
-                              <span className="d-none d-sm-block">Cancel</span>{" "}
-                              <span className="d-sm-none">Cancel</span>
+                              Book Appointment
                             </button>
                           </div>
                         </div>
