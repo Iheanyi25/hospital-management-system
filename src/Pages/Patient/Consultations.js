@@ -46,6 +46,7 @@ class Consultations extends React.Component {
 
     await this.setState({ patientConsultations: data.patientConsultations });
 
+    console.log({ data });
     data.patientConsultations.forEach((patientConsultations) => {
       if (patientConsultations.isCanceled === true) {
         canceledConsultations.push(patientConsultations);
@@ -63,11 +64,11 @@ class Consultations extends React.Component {
       completedConsultationsCount: data2.consultationCount,
       pendingConsultations: pendingConsultations,
       pendingConsultationsCount: pendingConsultations.length,
-    });
+    }, () => this.sync());
   }
 
   componentDidMount() {
-    this.getpatientConsultations().then(() => this.sync());
+    this.getpatientConsultations();
   }
 
   sync() {
@@ -80,8 +81,21 @@ class Consultations extends React.Component {
   }
 
   cancelConsultation = async (id) => {
-    //
-  };
+    let request = await fetch(`${apiUrl}/Patient/CancelConsultation?patientQueueId=${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+    let response = await request.json();
+
+    if (response) {
+      alert(response.message);
+      this.getpatientConsultations();
+    }
+  }
 
   render() {
     const {
@@ -112,7 +126,7 @@ class Consultations extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Pending Consultations</h6>
                         <div className="count text-primary fs-20">
-                          {pendingConsultationsCount}
+                          {pendingConsultations?.length ?? 0}
                         </div>
                       </div>
                     </div>
@@ -129,7 +143,7 @@ class Consultations extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Finalized Consultations</h6>
                         <div className="count text-primary fs-20">
-                          {completedConsultationsCount}
+                          {completedConsultations?.length ?? 0}
                         </div>
                       </div>
                     </div>
@@ -148,7 +162,7 @@ class Consultations extends React.Component {
                           Canceled Consultations
                         </h6>
                         <div className="count text-primary fs-20">
-                          {canceledConsultationsCount}
+                          {canceledConsultations?.length ?? 0}
                         </div>
                       </div>
                     </div>
@@ -158,7 +172,7 @@ class Consultations extends React.Component {
             </div>
 
             <header className="page-header">
-              <h4 className="page-title">My Consultation History</h4>
+              <h4 className="page-title">My Consultations</h4>
             </header>
             <div className="page-content">
               <div className="card-body"></div>
@@ -175,11 +189,11 @@ class Consultations extends React.Component {
                       <li className="nav-item">
                         <a
                           className="nav-link active"
-                          id="pills-active-tab"
+                          id="pills-pending-tab"
                           data-toggle="pill"
-                          href="#pills-active"
+                          href="#pills-pending"
                           role="tab"
-                          aria-controls="pills-active"
+                          aria-controls="pills-pending"
                           aria-selected="true"
                         >
                           Pending Consultations
@@ -202,11 +216,11 @@ class Consultations extends React.Component {
                       <li className="nav-item">
                         <a
                           className="nav-link"
-                          id="pills-pending-tab"
+                          id="pills-cancelled-tab"
                           data-toggle="pill"
-                          href="#pills-pending"
+                          href="#pills-cancelled"
                           role="tab"
-                          aria-controls="pills-pending"
+                          aria-controls="pills-cancelled"
                           aria-selected="false"
                         >
                           Canceled Consultations
@@ -216,34 +230,24 @@ class Consultations extends React.Component {
                     <div className="tab-content" id="pills-tabContent">
                       <div
                         className="tab-pane fade show active"
-                        id="pills-active"
+                        id="pills-pending"
                         role="tabpanel"
-                        aria-labelledby="pills-active-tab"
+                        aria-labelledby="pills-pending-tab"
                       >
                         <div className="table-responsive">
                           <table
                             ref={(en) => (this.en = en)}
-                            className="table"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                              <tr>
+                                <th></th>
+                                <th>Doctors Name</th>
+                                <th>Consultation Title</th>
                                 <th>Reason For Consultation</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Date</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -253,7 +257,7 @@ class Consultations extends React.Component {
                                   <tr>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src={require("../../assets/content/avatar-1.jpg")}
                                         alt="hello"
                                         width={40}
                                         height={40}
@@ -261,24 +265,16 @@ class Consultations extends React.Component {
                                       />
                                     </td>
                                     <td>
-                                      {queue.patient.firstName}{" "}
-                                      {queue.patient.lastName}
+                                      {queue.doctor?.firstName}{" "}
+                                      {queue.doctor?.lastName ?? "none assigned"}
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        {queue.patient.email}
-                                      </div>
+                                      {queue.consultationTitle}
                                     </td>
                                     <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
+                                        {new Date(queue.dateOfConsultation).toDateString()}
                                       </div>
                                     </td>
 
@@ -296,46 +292,13 @@ class Consultations extends React.Component {
                                         <div className="dropdown-menu text-left">
                                           <button
                                             type="button"
-                                            className="btn btn-success"
+                                            className="btn btn-danger"
                                             onClick={(e) =>
                                               this.cancelConsultation(queue.id)
                                             }
                                           >
                                             Cancel Consultation
                                           </button>
-                                          <Link
-                                            title="Cancel Consultation"
-                                            onClick={() =>
-                                              (window.location.href = `/AdminPreConsultation/${queue.id}`)
-                                            }
-                                            to={`/AdminPreConsultation/${queue.id}`}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                            Go for Pre-Consultation
-                                          </Link>
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href = `/AdminPreConsultation/${queue.id}`)
-                                            }
-                                            to={`/AdminPreConsultation/${queue.id}`}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                            Pre-Consultation History
-                                          </Link>
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href = `/AdminUpdatePatientProfile/${queue.id}`)
-                                            }
-                                            to={`/AdminUpdatePatientProfile/${queue.id}`}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                            Update Profile
-                                          </Link>
                                         </div>
                                       </div>
                                     </td>
@@ -355,27 +318,17 @@ class Consultations extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(em) => (this.em = em)}
-                            className="table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                              <tr>
+                                <th></th>
+                                <th>Doctors Name</th>
+                                <th>Consultation Title</th>
+                                <th>Reason For Consultation</th>
+                                <th>Date</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -385,53 +338,49 @@ class Consultations extends React.Component {
                                   <tr>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src={require("../../assets/content/avatar-1.jpg")}
                                         alt="hello"
                                         width={40}
                                         height={40}
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>Ogbona</td>
                                     <td>
-                                      <strong>Liam</strong>
+                                      {queue.doctor?.firstName}{" "}
+                                      {queue.doctor?.lastName ?? "none assigned"}
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        liam@gmail.com
-                                      </div>
+                                      {queue.consultationTitle}
                                     </td>
+                                    <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
+                                        {new Date(queue.dateOfConsultation).toDateString()}
                                       </div>
                                     </td>
 
                                     <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
                                         >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                          Action
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
+                                        <div className="dropdown-menu text-left">
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={(e) =>
+                                              this.cancelConsultation(queue.id)
+                                            }
+                                          >
+                                            Cancel Consultation
+                                          </button>
+                                        </div>
                                       </div>
                                     </td>
                                   </tr>
@@ -443,35 +392,24 @@ class Consultations extends React.Component {
 
                       <div
                         className="tab-pane fade"
-                        id="pills-pending"
+                        id="pills-cancelled"
                         role="tabpanel"
-                        aria-labelledby="pills-pending-tab"
+                        aria-labelledby="pills-cancelled-tab"
                       >
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
-                                <th>Actions</th>
+                              <tr >
+                                <th></th>
+                                <th>Doctors Name</th>
+                                <th>Consultation Title</th>
+                                <th>Reason For Consultation</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -480,55 +418,27 @@ class Consultations extends React.Component {
                                   <tr>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src={require("../../assets/content/avatar-1.jpg")}
                                         alt="hello"
                                         width={40}
                                         height={40}
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>Ogbona</td>
                                     <td>
-                                      <strong>Liam</strong>
+                                      {queue.doctor?.firstName}{" "}
+                                      {queue.doctor?.lastName ?? "none assigned"}
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        liam@gmail.com
-                                      </div>
+                                      {queue.consultationTitle}
                                     </td>
+                                    <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
+                                        {new Date(queue.dateOfConsultation).toDateString()}
                                       </div>
                                     </td>
 
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
                                   </tr>
                                 ))}
                             </tbody>

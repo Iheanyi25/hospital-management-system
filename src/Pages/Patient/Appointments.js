@@ -31,6 +31,7 @@ class Appointments extends React.Component {
       `${apiUrl}/Patient/ViewAllAppointments?PatientId=${this.state.patientId}`
     );
     const data = await response.json();
+    console.log(data)
 
     let response1 = await fetch(
       `${apiUrl}/Patient/GetPendingAppointmentsCount`
@@ -47,9 +48,9 @@ class Appointments extends React.Component {
     );
     const data3 = await response3.json();
 
-    await this.setState({ patientAppointments: data.appointments });
+    this.setState({ patientAppointments: data.appointments });
 
-    data.appointments.forEach((appointment) => {
+    data.appointments.result.forEach((appointment) => {
       if (appointment.isCanceled === true) {
         canceledAppointments.push(appointment);
       } else if (appointment.isCompleted === true) {
@@ -222,27 +223,17 @@ class Appointments extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(en) => (this.en = en)}
-                            className="table"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                              <tr>
+                                <th></th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th>Doctor's Name</th>
+                                <th>Doctor's Phone Number</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -259,35 +250,19 @@ class Appointments extends React.Component {
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>Ogbona</td>
+                                    <td>{appointment.appointmentTitle}</td>
+                                    <td>{appointment.reasonForAppointment}</td>
                                     <td>
-                                      <strong>Liam</strong>
+                                      {appointment.doctor?.firstName ?? "None specified yet" + " " + appointment.doctor?.lastName}
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        liam@gmail.com
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                      </div>
+                                      {appointment.doctor?.phoneNumber ?? "None Specified Yet"}
                                     </td>
 
                                     <td>
-                                      <div className="actions">
+                                      {/* <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
                                           to="/AdminPreConsultation"
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
@@ -299,7 +274,7 @@ class Appointments extends React.Component {
                                         <button className="btn btn-error btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-delete" />
                                         </button>
-                                      </div>
+                                      </div> */}
                                     </td>
                                   </tr>
                                 ))}
@@ -316,21 +291,12 @@ class Appointments extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -411,21 +377,12 @@ class Appointments extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(em) => (this.em = em)}
-                            className="table"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>

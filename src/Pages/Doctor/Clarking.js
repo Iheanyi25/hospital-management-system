@@ -1,5 +1,7 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
 import { PreConsultationHistory, ClarkingHistory, PatientProfile, LabResults } from '../../Components/Clarking'
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -18,6 +20,8 @@ class Clarking extends React.Component {
       clarking: {},
       healthHistory: {},
       labHistory: {},
+      message: "",
+      success: false
     };
   }
 
@@ -38,9 +42,8 @@ class Clarking extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.location.state.patient);
-    console.log(this.props.location?.state);
-    this.props.location.state?.id ?? this.props.history.push("/");
+    console.log(this.props.location.state)
+    this.props.location.state?.id ?? this.props.history.push("/")
   }
 
   submitRequest = async (payload) => {
@@ -59,8 +62,8 @@ class Clarking extends React.Component {
       }
     );
     let response = await res.json();
-
-    alert(response.message);
+    this.setState({ success: true, message: response.message })
+    // alert(response.message);
   };
 
   handleChange = (type, key, e) => {
@@ -84,7 +87,7 @@ class Clarking extends React.Component {
     var completedConsultations = [];
     var pendingConsultations = [];
     const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl} / Doctor / GetDoctorQueue`);
+    const response = await fetch(`${apiUrl}/Doctor/GetDoctorQueue`);
     const data = await response.json();
 
     this.setState({ doctorQueue: data.patientQueue });
@@ -98,9 +101,7 @@ class Clarking extends React.Component {
         pendingConsultations.push(patientQueue);
       }
     });
-    console.log(canceledConsultations);
-    console.log(completedConsultations);
-    console.log(pendingConsultations);
+
     this.setState({
       canceledConsultations: canceledConsultations,
       completedConsultations: completedConsultations,
@@ -108,8 +109,12 @@ class Clarking extends React.Component {
     });
   }
 
+  changeSuccess = () => {
+    this.setState({ success: false })
+  }
+
   render() {
-    const { firstName , lastName, id } = this.props.location.state.patient
+    const { firstName, lastName, id } = this.props.location.state.patient
     return (
       <>
         <PageLoader />
@@ -118,6 +123,13 @@ class Clarking extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message={this.state.message}
+              callback={this.changeSuccess}
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3 className="page-title">Doctor Clarking</h3>
@@ -174,6 +186,16 @@ class Clarking extends React.Component {
                   >
                     Lab History and Service Prescription
                   </a>
+                  <NavLink
+                    to={{
+                      pathname: "/AdminServiceRequests",
+                      state: this.props.location.state
+                    }}
+                    className="nav-link"
+                    aria-selected="false"
+                  >
+                    Request new service
+                  </NavLink>
                 </div>
                 <div className="tab-content col-md-9" id="v-pills-tabContent">
                   <div
@@ -1206,19 +1228,6 @@ class Clarking extends React.Component {
                             Lab/Service History
                           </a>
                         </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
-                            id="pills-service-request-tab"
-                            data-toggle="pill"
-                            href="#pills-service-request"
-                            role="tab"
-                            aria-controls="pills-service-request"
-                            aria-selected="false"
-                          >
-                            Request New Service
-                          </a>
-                        </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
@@ -1230,28 +1239,12 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <LabResults patientId={id}/>
+                                <LabResults patientId={id} />
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        <div
-                          className="tab-pane fade"
-                          id="pills-service-request"
-                          role="tabpanel"
-                          aria-labelledby="pills-service-request-tab"
-                        >
-                          <div className="row justify-content-center mt-5">
-                            <div className="col-md-12">
-                              <div className="card border-light">
-                                <div className="card-body">
-                                  Service Request Goes Here
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>

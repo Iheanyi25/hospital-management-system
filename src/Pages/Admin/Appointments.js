@@ -287,6 +287,20 @@ class Appointments extends React.Component {
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
+                                        <Link
+                                          title="Go for clarking"
+                                          to={{
+                                            pathname: "/DoctorClarking",
+                                            state: {
+                                              id: appointment.id,
+                                              type: "appointment",
+                                              patient: appointment.patient
+                                            }
+                                          }}
+                                          className="btn btn-primary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-user" />
+                                        </Link>
                                         {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>

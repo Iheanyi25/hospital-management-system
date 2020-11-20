@@ -95,6 +95,7 @@ class BookAppointment extends React.Component {
   }
 
   render() {
+    const { firstName, lastName } = this.props.location.state;
     let {
       doctor,
       appointmentDate,
@@ -139,23 +140,19 @@ class BookAppointment extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            <header className="page-header">
-              <h3 className="page-title">
-                Book Appointment With Dr. {doctor.firstName} {doctor.lastName}
-              </h3>
-            </header>
             <div className="page-content">
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
                     <div className="card-body">
                       <form className="mb-4">
-                        <h4>Appointment Form</h4>
+                      <h4 className="text-center">
+                          {`Appointment Form (${firstName} ${lastName}`})
+                        </h4>
                         <div className="row">
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
                               <label>Appointment Date</label>
-
                               <input
                                 type="date"
                                 className="form-control"
@@ -213,31 +210,24 @@ class BookAppointment extends React.Component {
                         </div>
                         {displayErrorMessage}
                         {displaySuccessMessage}
-                        <div className="row">
+                        <div className="row mt-5">
                           <div className="col">
+                          </div>
+                          <div className="col text-right">
                             <button
                               type="button"
-                              className="btn btn-success"
+                              className="btn btn-primary"
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                appointmentTime === "" ||
-                                reasonForAppointment === "" ||
-                                appointmentTitle === ""
+                                  appointmentTime === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
                                   ? true
                                   : false
                               }
                             >
                               Book Appointment
-                            </button>
-                          </div>
-                          <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                            >
-                              <span className="d-none d-sm-block">Cancel</span>{" "}
-                              <span className="d-sm-none">Cancel</span>
                             </button>
                           </div>
                         </div>

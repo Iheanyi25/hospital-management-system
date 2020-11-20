@@ -22,7 +22,7 @@ class PatientHeader extends React.Component {
 							<span />
 						</button>
 						<form className="app-search d-none d-md-block">
-							<div className="form-group typeahead__container with-suffix-icon mb-0">
+							{/* <div className="form-group typeahead__container with-suffix-icon mb-0">
 								<div className="typeahead__field">
 									<div className="typeahead__query">
 										<input
@@ -35,10 +35,10 @@ class PatientHeader extends React.Component {
 										<div className="suffix-icon icofont-search" />
 									</div>
 								</div>
-							</div>
+							</div> */}
 						</form>
 						<div className="app-actions">
-							<div className="dropdown item">
+							{/* <div className="dropdown item">
 								<button
 									className="no-style dropdown-toggle"
 									type="button"
@@ -110,7 +110,7 @@ class PatientHeader extends React.Component {
 										</button>
 									</div>
 								</div>
-							</div>
+							</div> */}
 							<div className="dropdown item">
 								<button
 									className="no-style dropdown-toggle"
@@ -133,17 +133,17 @@ class PatientHeader extends React.Component {
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
 									<ul className="list">
-										<li>
+										{/* <li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-home" /> Edit account
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
 											</Link>
 										</li>
-										<li>
+										{/* <li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-calendar" /> Calendar
 											</Link>
@@ -152,7 +152,7 @@ class PatientHeader extends React.Component {
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-settings" /> Settings
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<Link to="#" className="align-items-center" onClick={logOut}>
 												<span className="icon icofont-logout" />

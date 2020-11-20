@@ -40,6 +40,22 @@ body {
     cursor: pointer;
 }
 
+.contact {}
+
+.img-box {
+    width: 70%;
+    margin: 2em auto;
+}
+
+.button-box {
+    display: flex;
+    justify-content: space-around;
+}
+
+.nameLink {
+    text-decoration: underline;
+}
+
 /* select.selectpicker {
     display: block !important;
 } */

@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 
-const Success = ({ message, history, nextRoute, dontRoute }) => {
+const Success = ({ message, history, nextRoute, state, callback }) => {
   const [view, setView] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setView(false);
+      if (callback) {
+        callback();
+      }
+
+      if (nextRoute) {
+        history.push({
+          pathname: `${nextRoute}`,
+          state: state
+        });
+      }
     }, 2000);
-    if (!dontRoute) {
-      return () => {
-        history.push(`${nextRoute}`);
-      };
-    }
+
   }, [nextRoute, history, view]);
 
   return view ? (

@@ -22,10 +22,15 @@ class CreateServiceRequest extends Component {
 		patient: "",
 		description: "",
 		showServices: false,
-		success: false
+		success: false,
+
 	}
 
 	componentDidMount() {
+		if (this.props.location.state) {
+			this.setState({ isFromClarking: true, patient: this.props.location.state.patient.id });
+		}
+
 		this.fetchServiceCategories();
 		this.fetchPatients();
 	}
@@ -35,7 +40,6 @@ class CreateServiceRequest extends Component {
 		const data = await repsonse.json();
 		this.setState({ categories: data });
 	};
-
 
 	renderPicker(customClass) {
 		var select = $(customClass);
@@ -80,18 +84,11 @@ class CreateServiceRequest extends Component {
 			if (e.target.value) {
 
 				let valueContainer = document.getElementsByClassName('filter-option-inner-inner')[1];
-				// console.log($(elem)[0], elem);
-
-				// console.log(document.getElementsByClassName('filter-option-inner-inner')[1].innerText)
-
-				// console.log(e.target.innerHTML);
-				// let valueContainer = elem;
 
 				let values = valueContainer.innerText.split(',');
 				let valueToPush = [];
 				let stateValue = this.state.values;
 
-				// console.log(e.target.value, values, stateValue);
 				return values.map((item, index) => {
 					if (stateValue.length > 0) {
 
@@ -120,8 +117,6 @@ class CreateServiceRequest extends Component {
 						};
 						valueToPush.push(newSelect);
 
-						console.log("the values to  be pushed: 2", valueToPush);
-						console.log({ valueContainer })
 						this.setState({ values: valueToPush });
 						return;
 					}
@@ -161,14 +156,26 @@ class CreateServiceRequest extends Component {
 		generatedBy = generatedBy.id;
 
 		let payload = {
-			patientId: this.state.patient,
 			generatedBy,
+			patientId: this.state.patient,
 			description: this.state.description,
+			id: "",
+			idType: ""
 		}
 
 		this.state.values.forEach(element => {
 			serviceId.push(element.serviceId);
 		});
+
+		if (this.state.isFromClarking) {
+			payload = {
+				...payload,
+				idType: this.props.location.state.type,
+				id: this.props.location.state.id
+			}
+		}
+
+		console.log(payload)
 
 		payload.serviceId = serviceId;
 		const request = await fetch(`${apiUrl}/Admin/RequestServices`, {
@@ -194,13 +201,17 @@ class CreateServiceRequest extends Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
-					{this.state.success ? (
-						<Success
-							history={this.props.history}
-							message="Well done, you successfully requested this service"
-							nextRoute="/AdminManageServiceRequests"
-						/>
-					) : null}
+					{
+						this.state.success ? (
+							<Success
+								history={this.props.history}
+								message="Well done, you successfully requested this service"
+								nextRoute={this.state.isFromClarking ? "/DoctorClarking" : "/AdminManageServiceRequests"}
+								state={this.state.isFromClarking ? this.props.location.state : null}
+							/>
+						) : null
+					}
+
 					<div className="main-content-wrap">
 						<div className="page-content">
 							<div className="row">
@@ -210,16 +221,20 @@ class CreateServiceRequest extends Component {
 											<form className="mb-4 p-5 needs-validation">
 												<h4 className="text-center mt-0">Service request form</h4>
 
-												<SelectableDropDown
-													itemKey={["id"]}
-													onChange={this.handleChange}
-													stateValue={this.state.patient}
-													stateKey={"patient"}
-													label={"Patient"}
-													data={this.state.patients}
-													search
-													valueKeys={["firstName", "lastName"]}
-												/>
+												{
+													!this.state?.isFromClarking ?
+														<SelectableDropDown
+															itemKey={["id"]}
+															onChange={this.handleChange}
+															stateValue={this.state.patient}
+															stateKey={"patient"}
+															label={"Patient"}
+															data={this.state.patients}
+															search
+															valueKeys={["firstName", "lastName"]}
+														/>
+														: null
+												}
 
 												<SelectableDropDown
 													itemKey={["name", "id"]}
@@ -315,10 +330,23 @@ class CreateServiceRequest extends Component {
 												</table>
 											</div>
 											<div className="row mt-5">
-												<div className="col"></div>
+												<div className="col">
+													{this.state.isFromClarking ?
+														<button onClick={() => this.props.history.goBack()} className="btn btn-secondary">
+															Go back to Clarking
+														</button>
+														:
+														null
+													}
+												</div>
 												<div className="col text-right">
 													<button onClick={this.handleSubmit} className="btn btn-primary">
-														Request service
+														{
+															this.state.isFromClarking ?
+																"Request for service"
+																:
+																"Request service"
+														}
 													</button>
 												</div>
 											</div>
