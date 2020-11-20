@@ -242,14 +242,14 @@ class Dashboard extends React.Component {
 
                                   <td>mumps</td>
                                   <td>
-                                    <div className="actions">
+                                    {/* <div className="actions">
                                       <button className="btn btn-info btn-sm btn-square rounded-pill">
                                         <span className="btn-icon icofont-ui-edit" />
                                       </button>
                                       <button className="btn btn-error btn-sm btn-square rounded-pill">
                                         <span className="btn-icon icofont-ui-delete" />
                                       </button>
-                                    </div>
+                                    </div> */}
                                   </td>
                                 </tr>
                               )
@@ -344,14 +344,14 @@ class Dashboard extends React.Component {
                                     <div>Not Completed</div>
                                   </td>
                                   <td>
-                                    <div className="actions">
+                                    {/* <div className="actions">
                                       <button className="btn btn-info btn-sm btn-square rounded-pill">
                                         <span className="btn-icon icofont-ui-edit" />
                                       </button>
                                       <button className="btn btn-error btn-sm btn-square rounded-pill">
                                         <span className="btn-icon icofont-ui-delete" />
                                       </button>
-                                    </div>
+                                    </div> */}
                                   </td>
                                 </tr>
                               )

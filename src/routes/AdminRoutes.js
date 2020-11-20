@@ -19,7 +19,7 @@ import AdminManageAccounts from "../Pages/Admin/AdminManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Admin/AdminFundAccount";
 import PaymentForService from "../Pages/Admin/PaymentForService";
-import PatientProfile from "../Pages/Admin/PatientProfile";
+import ViewPatientProfile from "../Pages/Admin/ViewPatientProfile";
 import ViewPreConsultationHistory from "../Pages/Admin/ViewPreConsultationHistory";
 import ViewClarkingHistory from "../Pages/Admin/ViewClarkingHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
@@ -182,7 +182,7 @@ export default function AdminRoutes() {
           <Route
             exact
             path="/AdminPatientProfile/:id"
-            component={PatientProfile}
+            component={ViewPatientProfile}
           />
           <Route
             exact

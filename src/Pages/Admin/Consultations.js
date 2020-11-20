@@ -301,13 +301,6 @@ class Consultations extends React.Component {
                           <table
                             ref={(em) => (this.em = em)}
                             className="table"
-                            data-columns='[
-                                { "data": "photo" },
-                                { "data": "name" },
-                                { "data": "appointment-title" },
-                                { "data": "reason-for-appointment" },
-                                { "data": "actions" }
-                            ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -393,13 +386,6 @@ class Consultations extends React.Component {
                           <table
                             ref={(en) => (this.en = en)}
                             className="table"
-                            data-columns='[
-                                { "data": "photo" },
-                                { "data": "name" },
-                                { "data": "appointment-title" },
-                                { "data": "reason-for-appointment" },
-                                { "data": "actions" }
-                            ]'
                             data-paging="true"
                             data-info="true"
                           >

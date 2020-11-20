@@ -33,6 +33,14 @@ class PatientAccount extends React.Component {
     });
   }
 
+  fetchAccountsHistory = async () => {
+    const request = await fetch(
+      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${this.state.patientId}`
+    );
+    const responses = await request.json();
+    console.log({ responses });
+  }
+
   render() {
     const {
       acceptedAppointments,
@@ -125,68 +133,68 @@ class PatientAccount extends React.Component {
                             <tbody>
                               {activeAppointments
                                 ? activeAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {" "}
-                                        {[
-                                          appointment.applicationUser
-                                            .applicationUser.firstName,
-                                          appointment.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="./assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      {[
+                                        appointment.applicationUser
+                                          .applicationUser.firstName,
+                                        appointment.applicationUser
+                                          .applicationUser.lastName,
+                                      ].toString(" ")}
+                                    </td>
+                                    <td>
+                                      <strong>Liam</strong>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
                                           liam@gmail.com
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        10 Feb 2018
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        9:15 - 9:45
                                         </div>
-                                      </td>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
@@ -227,67 +235,67 @@ class PatientAccount extends React.Component {
                             <tbody>
                               {acceptedAppointments
                                 ? acceptedAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {[
-                                          appointment.applicationUser
-                                            .applicationUser.firstName,
-                                          appointment.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="./assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {[
+                                        appointment.applicationUser
+                                          .applicationUser.firstName,
+                                        appointment.applicationUser
+                                          .applicationUser.lastName,
+                                      ].toString(" ")}
+                                    </td>
+                                    <td>
+                                      <strong>Liam</strong>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
                                           liam@gmail.com
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        10 Feb 2018
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        9:15 - 9:45
                                         </div>
-                                      </td>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
@@ -328,68 +336,68 @@ class PatientAccount extends React.Component {
                             <tbody>
                               {completedAppointments
                                 ? completedAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {" "}
-                                        {[
-                                          appointment.applicationUser
-                                            .applicationUser.firstName,
-                                          appointment.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="./assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      {[
+                                        appointment.applicationUser
+                                          .applicationUser.firstName,
+                                        appointment.applicationUser
+                                          .applicationUser.lastName,
+                                      ].toString(" ")}
+                                    </td>
+                                    <td>
+                                      <strong>Liam</strong>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
                                           liam@gmail.com
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        10 Feb 2018
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        9:15 - 9:45
                                         </div>
-                                      </td>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
@@ -430,68 +438,68 @@ class PatientAccount extends React.Component {
                             <tbody>
                               {pendingAppointments
                                 ? pendingAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {" "}
-                                        {[
-                                          appointment.applicationUser
-                                            .applicationUser.firstName,
-                                          appointment.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="./assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      {[
+                                        appointment.applicationUser
+                                          .applicationUser.firstName,
+                                        appointment.applicationUser
+                                          .applicationUser.lastName,
+                                      ].toString(" ")}
+                                    </td>
+                                    <td>
+                                      <strong>Liam</strong>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
                                           liam@gmail.com
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        10 Feb 2018
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        9:15 - 9:45
                                         </div>
-                                      </td>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>

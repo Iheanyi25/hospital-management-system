@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
 												</div>
 												<div className="col col-7">
 													<h6 className="mt-0 mb-1">Prescriptions</h6>
-													<div className="count text-primary fs-20">104</div>
+													<div className="count text-primary fs-20">0</div>
 												</div>
 											</div>
 										</div>
@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
 												</div>
 												<div className="col col-7">
 													<h6 className="mt-0 mb-1">Notifications</h6>
-													<div className="count text-primary fs-20">24</div>
+													<div className="count text-primary fs-20">0</div>
 												</div>
 											</div>
 										</div>
@@ -68,7 +68,7 @@ class Dashboard extends React.Component {
 								</div>
 							</div>
 							<div className="row">
-								<div className="col-12 col-md-6">
+								{/* <div className="col-12 col-md-6">
 									<div className="card bg-light">
 										<div className="card-header">Welcome Mr. Vitalis</div>
 										<div className="card-body">
@@ -89,14 +89,14 @@ class Dashboard extends React.Component {
 											elit. Dicta, provident?
 												</div>
 									</div>
-								</div>
+								</div> */}
 							</div>
 
 							<div className="card mb-0">
-								<div className="card-header">Recent Appointments</div>
+								<div className="card-header">Pending Appointments</div>
 								<div className="card-body">
 									<div className="table-responsive">
-										<table className="table table-hover">
+										<table className="table table-striped">
 											<thead>
 												<tr>
 													<th scope="col">Photo</th>
