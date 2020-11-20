@@ -66,7 +66,7 @@ class DoctorList extends React.Component {
                           <div
                             style={{ width: 8, height: 8, borderRadius: 5 }}
                             className={
-                              !doctor?.isAvailable
+                              doctor?.isAvailable
                                 ? "bg-success"
                                 : "bg-secondary"
                             }
@@ -89,21 +89,35 @@ class DoctorList extends React.Component {
                             <span className="link-icon icofont-doctor" />
                             <span className="link-text">Book Appointment</span>
                           </Link>
-
-                          <Link
-                            style={{ fontSize: "0.9em" }}
-                            className="btn btn-primary mb-3"
-                            to={{
-                              pathname: `/PatientBookConsultation/${doctor.doctorId}`,
-                              state: {
-                                firstName: doctor.doctor.firstName,
-                                lastName: doctor.doctor.lastName,
-                              },
-                            }}
-                          >
-                            <span className="link-icon icofont-doctor" />
-                            <span className="link-text">Book Consultation</span>
-                          </Link>
+                          {doctor.isAvailable ? (
+                            <Link
+                              style={{ fontSize: "0.9em" }}
+                              className="btn btn-primary mb-3"
+                              to={{
+                                pathname: `/PatientBookConsultation/${doctor.doctorId}`,
+                                state: {
+                                  firstName: doctor.doctor.firstName,
+                                  lastName: doctor.doctor.lastName,
+                                },
+                              }}
+                            >
+                              <span className="link-icon icofont-doctor" />
+                              <span className="link-text">
+                                Book Consultation
+                              </span>
+                            </Link>
+                          ) : (
+                            <button
+                              disabled
+                              style={{ fontSize: "0.9em" }}
+                              className="btn btn-primary mb-3"
+                            >
+                              <span className="link-icon icofont-doctor" />
+                              <span className="link-text">
+                                Book Consultation
+                              </span>
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

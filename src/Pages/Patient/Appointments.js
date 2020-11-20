@@ -50,7 +50,7 @@ class Appointments extends React.Component {
 
     this.setState({ patientAppointments: data.appointments });
 
-    data.appointments.result.forEach((appointment) => {
+    data.appointments.forEach((appointment) => {
       if (appointment.isCanceled === true) {
         canceledAppointments.push(appointment);
       } else if (appointment.isCompleted === true) {
