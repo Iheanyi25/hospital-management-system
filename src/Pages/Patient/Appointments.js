@@ -31,7 +31,7 @@ class Appointments extends React.Component {
       `${apiUrl}/Patient/ViewAllAppointments?PatientId=${this.state.patientId}`
     );
     const data = await response.json();
-
+    console.log(data);
     let response1 = await fetch(
       `${apiUrl}/Patient/GetPendingAppointmentsCount`
     );
