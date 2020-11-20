@@ -200,7 +200,7 @@ class DoctorProfile extends React.Component {
                         </div>
                         {educations?.map((education, index) => (
                           <div className="row mx-0 mt-4" key={index}>
-                            <div className="col-7 p-0">
+                            <div className="col-8 p-0">
                               <p className="font-weight-bold mb-2">
                                 {education?.degree ?? "N/A"}
                               </p>
@@ -213,13 +213,13 @@ class DoctorProfile extends React.Component {
                                 {education?.endYear ?? "N/A"}
                               </p>
                             </div>
-                            <div className="col-2 p-0 text-right">
+                            <div className="col-1 p-0 text-right">
                               <p></p>
                               {this.props.user ? null : (
                                 <img
                                   src={edit}
                                   alt="reset"
-                                  className="mr-3 mb-2"
+                                  className="mb-2"
                                 />
                               )}
                             </div>
@@ -236,6 +236,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Experience
                             </h6>
+                          </div>
                             {this.props.user ? null : (
                               <img
                                 src={add}
@@ -246,24 +247,30 @@ class DoctorProfile extends React.Component {
                                 style={{ cursor: "pointer" }}
                               />
                             )}
-                          </div>
-                          {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 mb-2" />
-                          )}
                         </div>
                         {experiences?.map((experience, index) => (
                           <div className="row mx-0 mt-4" key={index}>
-                            <div className="col-9">
+                            <div className="col-8 p-0">
                               <p className="font-weight-bold mb-2">
                                 {experience?.role ?? "N/A"}
                               </p>
                               <p>{experience?.company ?? "N/A"}</p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-3 p-0">
                               <p className="font-weight-bold mb-2">Year</p>
                               <p className="text-nowrap">{`${
                                 experience?.startYear ?? "N/A"
                               } - ${experience?.endYear ?? "N/A"}`}</p>
+                            </div>
+                            <div className="col-1 p-0 text-right">
+                              <p></p>
+                              {this.props.user ? null : (
+                                <img
+                                  src={edit}
+                                  alt="reset"
+                                  className="mb-2"
+                                />
+                              )}
                             </div>
                           </div>
                         ))}
@@ -272,7 +279,7 @@ class DoctorProfile extends React.Component {
                   </div>
                 </div>
                 <div className="row mx-0">
-                  <div className="col col-md-7">
+                  <div className="col-12 col-md-7">
                     <div className="card border-light p-4">
                       <div className="card-body">
                         <div className="d-flex justify-content-between border-bottom pb-2">
@@ -321,7 +328,7 @@ class DoctorProfile extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="col col-md-5">
+                  <div className="col-12 col-md-5">
                     <div className="card border-light p-4">
                       <div className="card-body">
                         <div className="d-flex justify-content-between border-bottom pb-2">
