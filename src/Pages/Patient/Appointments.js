@@ -31,7 +31,7 @@ class Appointments extends React.Component {
       `${apiUrl}/Patient/ViewAllAppointments?PatientId=${this.state.patientId}`
     );
     const data = await response.json();
-    console.log(data)
+    console.log(data);
 
     let response1 = await fetch(
       `${apiUrl}/Patient/GetPendingAppointmentsCount`
@@ -50,7 +50,7 @@ class Appointments extends React.Component {
 
     this.setState({ patientAppointments: data.appointments });
 
-    data.appointments.result.forEach((appointment) => {
+    data.appointments.forEach((appointment) => {
       if (appointment.isCanceled === true) {
         canceledAppointments.push(appointment);
       } else if (appointment.isCompleted === true) {
@@ -253,10 +253,14 @@ class Appointments extends React.Component {
                                     <td>{appointment.appointmentTitle}</td>
                                     <td>{appointment.reasonForAppointment}</td>
                                     <td>
-                                      {appointment.doctor?.firstName ?? "None specified yet" + " " + appointment.doctor?.lastName}
+                                      {appointment.doctor?.firstName ??
+                                        "None specified yet" +
+                                          " " +
+                                          appointment.doctor?.lastName}
                                     </td>
                                     <td>
-                                      {appointment.doctor?.phoneNumber ?? "None Specified Yet"}
+                                      {appointment.doctor?.phoneNumber ??
+                                        "None Specified Yet"}
                                     </td>
 
                                     <td>

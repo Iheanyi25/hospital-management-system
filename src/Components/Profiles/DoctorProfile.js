@@ -98,19 +98,36 @@ class DoctorProfile extends React.Component {
                         >
                           Book Appointment
                         </Link>
-                        <Link
-                          to={{
-                            pathname: `/PatientBookConsultation/${this.props.doctorId}`,
-                            state: {
-                              firstName: doctor.firstName,
-                              lastName: doctor.lastName,
-                            },
-                          }}
-                          type="submit"
-                          className="btn btn-primary mr-2 mb-2"
-                        >
-                          Book consultation
-                        </Link>
+                        {doctor.isAvailable ? (
+                          <Link
+                            to={{
+                              pathname: `/PatientBookConsultation/${this.props.doctorId}`,
+                              state: {
+                                firstName: doctor.firstName,
+                                lastName: doctor.lastName,
+                              },
+                            }}
+                            type="submit"
+                            className="btn btn-primary mr-2 mb-2"
+                          >
+                            Book consultation
+                          </Link>
+                        ) : (
+                          <button
+                            disabled
+                            to={{
+                              pathname: `/PatientBookConsultation/${this.props.doctorId}`,
+                              state: {
+                                firstName: doctor.firstName,
+                                lastName: doctor.lastName,
+                              },
+                            }}
+                            type="submit"
+                            className="btn btn-primary mr-2 mb-2"
+                          >
+                            Book consultation
+                          </button>
+                        )}
                       </div>
                     </div>
                   </header>
@@ -346,11 +363,7 @@ class DoctorProfile extends React.Component {
                           </div>
                         </div>
                         <div className="d-flex mt-4">
-                          <img
-                            src={location}
-                            alt="location"
-                            className="mt-0"
-                          />
+                          <img src={location} alt="location" className="mt-0" />
                           <div className="mt-3 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
                             <p>Gwarimpa, Abuja</p>
