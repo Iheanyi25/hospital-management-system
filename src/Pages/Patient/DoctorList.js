@@ -71,7 +71,11 @@ class DoctorList extends React.Component {
                                 : "bg-secondary"
                             }
                           ></div>
-                          <p className="ml-3">Avalible for Consultation</p>
+                          <p className="ml-3">{
+                              doctor?.isAvailable
+                                ? "Avalible for Consultation"
+                                : "Not available for Consultation"
+                            }</p>
                         </div>
                         <p className="address">{doctor?.bio || ""}</p>
                         <div className="button-box row">

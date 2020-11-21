@@ -5,6 +5,7 @@ import formatAmount from "../../../utils/formatAmount";
 import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
+import incomplete from "../../../assets/img/incomplete.svg";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -144,11 +145,16 @@ class ManageServiceRequest extends React.Component {
                                         <img src={notpaid} alt="not paid" /> Not
                                         paid
                                       </>
-                                    ) : (
-                                        <>
-                                          <img src={paid} alt="paid" /> Paid
+                                    ) : category?.paymentStatus === "PAID" ? (
+                                      <>
+                                        <img src={paid} alt="paid" /> Paid
                                       </>
-                                      )}
+                                    ) : (
+                                      <>
+                                        <img src={incomplete} alt="paid" />{" "}
+                                        Incomplete
+                                      </>
+                                    )}
                                   </div>
                                 </td>
                                 <td>
@@ -163,24 +169,24 @@ class ManageServiceRequest extends React.Component {
                                       Action
                                     </button>
                                     <div className="dropdown-menu">
-                                      {category?.paymentStatus ===
-                                        "NOT PAID" ? (
-                                          <NavLink
-                                            to={{
-                                              pathname: `/AdminPaymentForService/${category.id}`,
-                                              state: {
-                                                invoiceId: category.id,
-                                                patientId: category.patientId,
-                                                invoiceNumber:
-                                                  category.invoiceNumber,
-                                              },
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                      {category?.paymentStatus === "NOT PAID" ||
+                                      "INCOMPLETE" ? (
+                                        <NavLink
+                                          to={{
+                                            pathname: `/AdminPaymentForService/${category.id}`,
+                                            state: {
+                                              invoiceId: category.id,
+                                              patientId: category.patientId,
+                                              invoiceNumber:
+                                                category.invoiceNumber,
+                                            },
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                           Pay for Services
-                                          </NavLink>
-                                        ) : null}
+                                        </NavLink>
+                                      ) : null}
 
                                       <NavLink
                                         to={{
@@ -190,6 +196,8 @@ class ManageServiceRequest extends React.Component {
                                             patientId: category.patientId,
                                             invoiceNumber:
                                               category.invoiceNumber,
+                                            paymentStatus:
+                                              category.paymentStatus,
                                           },
                                         }}
                                         className="btn btn-sm btn-block"
