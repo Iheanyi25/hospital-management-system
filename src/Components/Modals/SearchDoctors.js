@@ -80,38 +80,6 @@ class SearchDoctorsModal extends React.Component {
 
   render() {
     const { email, firstName, lastName, roleName, doctorId } = this.state;
-    // var displayError;
-    // var displaySuccess;
-
-    // if (this.state.showErrorMessage) {
-    // 	displayError = (
-    // 		<div className="alert alert-danger with-after-icon" role="alert">
-    // 			<div className="alert-content">{this.state.errorMessage}</div>
-    // 			<div className="alert-icon">
-    // 				<i className="icofont-alarm" />
-    // 			</div>
-    // 		</div>
-    // 	);
-    // }
-
-    // if (this.state.showSuccessMessage) {
-    // 	displaySuccess = (
-    // 		<div className="alert alert-info with-after-icon" role="alert">
-    // 			<div className="alert-content text-center">
-    // 				{this.state.successMessage}.
-    // 				<p className="mb-0 ">
-    // 					Would you like to update his profile?
-    // 					<Link className="btn btn-outline-light">
-    // 						<span className="btn-icon icon icofont-ui-edit mr-2"></span>Update Profile
-    // 					</Link>
-    // 				</p>
-    // 			</div>
-    // 			<div className="alert-icon">
-    // 				<i className="icon icofont-ui-check" />
-    // 			</div>
-    // 		</div>
-    // 	);
-    // }
 
     return (
       <>
@@ -158,8 +126,9 @@ class SearchDoctorsModal extends React.Component {
                 <div className="actions justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-error"
+                    className="btn btn-error mb-3"
                     data-dismiss="modal"
+                    style={{ fontSize: "0.9em" }}
                   >
                     Cancel
                   </button>
@@ -170,7 +139,7 @@ class SearchDoctorsModal extends React.Component {
                     className="btn btn-primary mb-3"
                     to={`/ViewDoctorProfile/${doctorId}`}
                   >
-                    <h4 className="my-0">View Profile</h4>
+                    View Profile
                   </Link>
                 </div>
               </div>
