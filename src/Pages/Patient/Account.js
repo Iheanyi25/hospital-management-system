@@ -3,6 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 const apiUrl = process.env.REACT_APP_API_URL;
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
 
 class PatientAccount extends React.Component {
   constructor(props) {
@@ -35,6 +37,11 @@ class PatientAccount extends React.Component {
       accountBalance: data.accountBalance,
       accountTransactions: data1.accountTransactions,
     });
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   fetchAccountsHistory = async () => {
@@ -114,7 +121,8 @@ class PatientAccount extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            className="table data-table"
+                            ref={(el) => (this.el = el)}
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
@@ -146,7 +154,9 @@ class PatientAccount extends React.Component {
                                         <td>{transaction.trasactionDate}</td>
                                       </td>
                                       <td>
-                                        <td>{transaction.amount}</td>
+                                        <td>
+                                          {transaction.amount}
+                                        </td>
                                       </td>
                                     </tr>
                                   ))
