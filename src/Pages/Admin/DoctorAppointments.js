@@ -217,21 +217,11 @@ class DoctorAppointments extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            className="table data-table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                            data-paging="true"
+                            className="table table-striped"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr >
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -319,21 +309,11 @@ class DoctorAppointments extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            className="table data-table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                            data-paging="true"
+                            className="table table-striped"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr >
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -422,21 +402,11 @@ class DoctorAppointments extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            className="table data-table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                            data-paging="true"
+                            className="table table-striped"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr >
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -526,7 +496,7 @@ class DoctorAppointments extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            className="table data-table"
+                            className="table table-striped"
                             data-columns='[
                                                                     { "data": "photo" },
                                                                     { "data": "name" },
@@ -540,7 +510,7 @@ class DoctorAppointments extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr >
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>

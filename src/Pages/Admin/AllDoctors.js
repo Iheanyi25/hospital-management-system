@@ -54,15 +54,6 @@ class AllDoctors extends React.Component {
                     <table
                       ref={(el) => (this.el = el)}
                       className="table table-striped"
-                      data-columns='[
-                                          { "data": "photo" },
-                                          { "data": "name" },
-                                          { "data": "email" },
-                                          { "data": "phone" },
-                                          { "data": "date-of-birth" },
-                                          { "data": "address" },
-                                          { "data": "actions" }
-                                      ]'
                       data-paging="true"
                       data-info="true"
                     >
@@ -97,14 +88,12 @@ class AllDoctors extends React.Component {
                               <strong>
                                 {" "}
                                 <div className="d-flex align-items-center nowrap">
-                                  <span className="icofont-ui-email p-0 mr-2" />
                                   {doctor.doctor.email}
                                 </div>
                               </strong>
                             </td>
                             <td>
                               <div className="d-flex align-items-center nowrap">
-                                <span className="icofont-ui-email p-0 mr-2" />
                                 {doctor.doctor.phoneNumber}
                               </div>
                             </td>

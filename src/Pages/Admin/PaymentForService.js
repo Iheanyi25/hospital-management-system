@@ -201,7 +201,7 @@ class PaymentForService extends React.Component {
                                       {service?.serviceName}
                                     </p>
                                     <small className="mt-0 text-info">
-                                      {formatAmount(service?.amount) ?? ""}
+                                      {formatAmount(service?.amount)+" - "?? ""}{service.paymentStatus === "PAID" ? <span className="text-success">Paid</span>:<span className="text-danger">Not paid</span>}
                                     </small>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
-import formatAmount from '../../../utils/formatAmount'
+import formatAmount from "../../../utils/formatAmount";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 
@@ -24,9 +24,10 @@ class ServiceRequestContents extends React.Component {
 
     const { params } = this.props.match;
     if (params.invoiceId) {
-      this.fetchServiceRequestsInInvoice(params.invoiceId).then(() => this.sync());
+      this.fetchServiceRequestsInInvoice(params.invoiceId).then(() =>
+        this.sync()
+      );
     }
-
   }
 
   async fetchServiceRequestsInInvoice(invoiceId) {
@@ -45,7 +46,9 @@ class ServiceRequestContents extends React.Component {
 
   render() {
     const { serviceRequests } = this.state;
-    const { invoiceNumber } = this.props.location?.state ?? "";
+    const { invoiceNumber, invoiceId, patientId, paymentStatus } =
+      this.props.location?.state ?? "";
+
     return (
       <>
         <PageLoader />
@@ -59,19 +62,21 @@ class ServiceRequestContents extends React.Component {
               <h4 className="page-title">
                 {`Services Request in Invoice #${invoiceNumber}`}
               </h4>
-              {/* <NavLink
-                className="btn btn-primary"
-                to={{
-                  pathname: `/AdminPaymentForService/${invoiceId}`,
-                  state: {
-                    invoiceId: invoiceId,
-                    patientId: patientId,
-                    invoiceNumber: invoiceNumber,
-                  },
-                }}
-              >
-                Pay For Services
-              </NavLink> */}
+              {paymentStatus === "PAID" ? null : (
+                <NavLink
+                  className="btn btn-primary"
+                  to={{
+                    pathname: `/AdminPaymentForService/${invoiceId}`,
+                    state: {
+                      invoiceId: invoiceId,
+                      patientId: patientId,
+                      invoiceNumber: invoiceNumber,
+                    },
+                  }}
+                >
+                  Pay For Services
+                </NavLink>
+              )}
             </header>
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -163,13 +168,13 @@ class ServiceRequestContents extends React.Component {
                                   {serviceRequest?.paymentStatus === "False" ? (
                                     <>
                                       <img src={notpaid} alt="not paid" /> Not
-                                        paid
-                                      </>
+                                      paid
+                                    </>
                                   ) : (
-                                      <>
-                                        <img src={paid} alt="paid" /> Paid
-                                      </>
-                                    )}
+                                    <>
+                                      <img src={paid} alt="paid" /> Paid
+                                    </>
+                                  )}
                                 </div>
                               </td>
 
