@@ -6,17 +6,28 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      doctorName:
+        JSON.parse(localStorage.getItem("authenticatedUser")).firstName +
+        " " +
+        JSON.parse(localStorage.getItem("authenticatedUser")).lastName,
+    };
   }
 
   render() {
+    const {
+      pendingAppointments,
+      pendingAppointmentsCount,
+      doctorName,
+    } = this.state;
     return (
       <>
-
         <PageLoader />
 
         <main className="main-content">
-          <div className="app-loader"><i className="icofont-spinner-alt-4 rotate" /></div>
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
           <div className="main-content-wrap">
             <div className="page-content">
               <div className="row">
@@ -25,8 +36,7 @@ class Dashboard extends React.Component {
                     <div className="card-body">
                       <div className="row align-items-center">
                         <div className="col col-5">
-                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt">
-                          </div>
+                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1">Appointments</h6>
@@ -41,8 +51,7 @@ class Dashboard extends React.Component {
                     <div className="card-body">
                       <div className="row align-items-center">
                         <div className="col col-5">
-                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair">
-                          </div>
+                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1">My Patients</h6>
@@ -72,8 +81,7 @@ class Dashboard extends React.Component {
                     <div className="card-body">
                       <div className="row align-items-center">
                         <div className="col col-5">
-                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list">
-                          </div>
+                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list"></div>
                         </div>
                         <div className="col col-7">
                           <h6 className="mt-0 mb-1 text-nowrap">Schedules</h6>
@@ -88,30 +96,21 @@ class Dashboard extends React.Component {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="card bg-light">
-                    <div className="card-header">Welcome Dr. Michae</div>
+                    <div className="card-header">Welcome {doctorName}</div>
                     <div className="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing
-                      elit. Distinctio dolore enim, nemo nihil non omnis
-                      temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                      dolor sit amet, consectetur adipisicing elit. Dicta,
-                      provident?
-                                            </div>
+                      You Have No New Notifications
+                    </div>
                   </div>
                 </div>
                 <div className="col-12 col-md-6">
                   <div className="card text-white bg-primary">
                     <div className="card-header">Important Updates</div>
                     <div className="card-body">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing
-                      elit. Distinctio dolore enim, nemo nihil non omnis
-                      temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                      dolor sit amet, consectetur adipisicing elit. Dicta,
-                      provident?
-                        </div>
+                      An Apple A Day Keeps the Doctor Away
+                    </div>
                   </div>
                 </div>
               </div>
-
 
               <div className="card mb-0">
                 <div className="card-header">Recent appointments</div>
@@ -133,23 +132,39 @@ class Dashboard extends React.Component {
                       </thead>
                       <tbody>
                         <tr>
-                          <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" alt="" /></td>
-                          <td><strong>Liam</strong></td>
+                          <td>
+                            <img
+                              src="./assets/content/user-40-1.jpg"
+                              width={40}
+                              height={40}
+                              className="rounded-500"
+                              alt=""
+                            />
+                          </td>
+                          <td>
+                            <strong>Liam</strong>
+                          </td>
                           <td>
                             <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
-                                </div>
+                              <span className="icofont-ui-email p-0 mr-2" />{" "}
+                              liam@gmail.com
+                            </div>
                           </td>
                           <td>
-                            <div className="text-muted text-nowrap">10 Feb 2018</div>
+                            <div className="text-muted text-nowrap">
+                              10 Feb 2018
+                            </div>
                           </td>
                           <td>
-                            <div className="text-muted text-nowrap">9:15 - 9:45</div>
+                            <div className="text-muted text-nowrap">
+                              9:15 - 9:45
+                            </div>
                           </td>
                           <td>
                             <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                                </div>
+                              <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
+                              0126595743
+                            </div>
                           </td>
                           <td>Dr. Benjamin</td>
                           <td>mumps</td>
@@ -162,7 +177,9 @@ class Dashboard extends React.Component {
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false"
-                              >Action</button>
+                              >
+                                Action
+                              </button>
                               <div className="dropdown-menu text-left">
                                 <Link
                                   title="Pre-consultation"
@@ -173,8 +190,8 @@ class Dashboard extends React.Component {
                                   className="btn btn-sm btn-block"
                                 >
                                   <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Go for Clarking
-                                    </Link>
+                                  Go for Clarking
+                                </Link>
                                 <Link
                                   title="Pre-consultation"
                                   onClick={() =>
@@ -184,8 +201,8 @@ class Dashboard extends React.Component {
                                   className="btn btn-sm btn-block"
                                 >
                                   <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Consultation History
-                                    </Link>
+                                  Consultation History
+                                </Link>
                                 <Link
                                   title="Pre-consultation"
                                   onClick={() =>
@@ -195,8 +212,8 @@ class Dashboard extends React.Component {
                                   className="btn btn-sm btn-block"
                                 >
                                   <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Pre-Consultation History
-                                    </Link>
+                                  Pre-Consultation History
+                                </Link>
                                 <Link
                                   title="Pre-consultation"
                                   onClick={() =>
@@ -206,14 +223,12 @@ class Dashboard extends React.Component {
                                   className="btn btn-sm btn-block"
                                 >
                                   <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                        View Profile
-                                    </Link>
+                                  View Profile
+                                </Link>
                               </div>
                             </div>
                           </td>
-
                         </tr>
-
                       </tbody>
                     </table>
                   </div>
