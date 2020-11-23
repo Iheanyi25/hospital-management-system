@@ -137,7 +137,7 @@ class AllDoctors extends React.Component {
                                   </NavLink>
 
                                   <NavLink
-                                    to={`#`}
+                                    to={`/DoctorProfile/${doctor.doctorId}`}
                                     className="btn btn-sm btn-block"
                                   >
                                     <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
