@@ -22,6 +22,8 @@ import facebook from "../../assets/img/facebook.svg";
 import twitter from "../../assets/img/twitter.svg";
 import youtube from "../../assets/img/youtube.svg";
 import location from "../../assets/img/location.svg";
+import remove from "../../assets/img/remove.svg";
+import close from "../../assets/img/close.svg";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 class DoctorProfile extends React.Component {
@@ -132,7 +134,7 @@ class DoctorProfile extends React.Component {
                     </div>
                   </header>
                 ) : (
-                  <header className="page-header">
+                  <header className="page-header ml-3">
                     <h3 className="page-title">{`Dr. ${
                       doctor?.firstName ?? ""
                     } ${doctor?.lastName ?? ""}`}</h3>
@@ -140,7 +142,7 @@ class DoctorProfile extends React.Component {
                 )}
 
                 <div className="col col-md-12">
-                  <div className="card border-light">
+                  <div className="card border-light p-4">
                     <div className="card-body d-flex justify-content-between">
                       <div className="d-flex justify-content-between">
                         <img
@@ -216,11 +218,7 @@ class DoctorProfile extends React.Component {
                             <div className="col-1 p-0 text-right">
                               <p></p>
                               {this.props.user ? null : (
-                                <img
-                                  src={edit}
-                                  alt="reset"
-                                  className="mb-2"
-                                />
+                                <img src={edit} alt="reset" className="mb-2" />
                               )}
                             </div>
                           </div>
@@ -237,20 +235,20 @@ class DoctorProfile extends React.Component {
                               Experience
                             </h6>
                           </div>
-                            {this.props.user ? null : (
-                              <img
-                                src={add}
-                                alt="reset"
-                                data-toggle="modal"
-                                data-target="#add-experience"
-                                className="ml-3 mb-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
+                          {this.props.user ? null : (
+                            <img
+                              src={add}
+                              alt="reset"
+                              data-toggle="modal"
+                              data-target="#add-experience"
+                              className="ml-3 mb-2"
+                              style={{ cursor: "pointer" }}
+                            />
+                          )}
                         </div>
                         {experiences?.map((experience, index) => (
                           <div className="row mx-0 mt-4" key={index}>
-                            <div className="col-8 p-0">
+                            <div className="col-7 p-0">
                               <p className="font-weight-bold mb-2">
                                 {experience?.role ?? "N/A"}
                               </p>
@@ -262,14 +260,10 @@ class DoctorProfile extends React.Component {
                                 experience?.startYear ?? "N/A"
                               } - ${experience?.endYear ?? "N/A"}`}</p>
                             </div>
-                            <div className="col-1 p-0 text-right">
+                            <div className="col-2 p-0 text-right">
                               <p></p>
                               {this.props.user ? null : (
-                                <img
-                                  src={edit}
-                                  alt="reset"
-                                  className="mb-2"
-                                />
+                                <img src={edit} alt="reset" className="mb-2" />
                               )}
                             </div>
                           </div>
@@ -287,41 +281,47 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Office Time
                             </h6>
-                            {this.props.user ? null : (
-                              <img
-                                src={add}
-                                data-toggle="modal"
-                                data-target="#add-office-time"
-                                alt="reset"
-                                className="ml-3 mb-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
                           </div>
                           {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 " />
+                            <img
+                              src={add}
+                              data-toggle="modal"
+                              data-target="#add-office-time"
+                              alt="reset"
+                              className="ml-3 mb-2"
+                              style={{ cursor: "pointer" }}
+                            />
                           )}
+                          {/* {this.props.user ? null : (
+                            <img src={edit} alt="reset" className="mr-3 " />
+                          )} */}
                         </div>
                         <div className="row mx-0 mt-4 mb-2">
-                          <div className="col-9">
+                          <div className="col-8 p-0">
                             <p className="font-weight-bold mb-2">Work days</p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-3 p-0">
                             <p className="font-weight-bold mb-2">Period</p>
                           </div>
+                          <div className="col-1 p-0"></div>
                         </div>
                         {officeTime?.map((officeTime, index) => (
                           <div className="row mx-0 mb-2" key={index}>
-                            <div className="col-9">
+                            <div className="col-8 p-0">
                               <p className="mb-2">
                                 {officeTime?.workDays ?? "N/A"}
                               </p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-3 p-0">
                               <p className="text-nowrap">
                                 {officeTime?.startTime ?? "N/A"} -{" "}
                                 {officeTime?.endTime ?? "N/A"}
                               </p>
+                            </div>
+                            <div className="col-1 p-0 text-right">
+                              {this.props.user ? null : (
+                                <img src={remove} alt="reset" />
+                              )}
                             </div>
                           </div>
                         )) ?? "N/A"}
@@ -336,7 +336,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Contact Information
                             </h6>
-                            {this.props.user ? null : (
+                            {/* {this.props.user ? null : (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -345,10 +345,17 @@ class DoctorProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            )} */}
                           </div>
                           {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 mb-2" />
+                            <img
+                              src={edit}
+                              data-toggle="modal"
+                              data-target="#add-contact-info"
+                              alt="reset"
+                              className="mb-2"
+                              style={{ cursor: "pointer" }}
+                            />
                           )}
                         </div>
                         <div className="d-flex mt-4">
@@ -390,7 +397,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Specialization
                             </h6>
-                            {this.props.user ? null : (
+                            {/* {this.props.user ? null : (
                               <img
                                 src={add}
                                 alt="reset"
@@ -399,19 +406,86 @@ class DoctorProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            )} */}
                           </div>
                           {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 " />
+                            <img
+                              src={add}
+                              alt="reset"
+                              data-toggle="modal"
+                              data-target="#add-specialization"
+                              className="ml-3 mb-2"
+                              style={{ cursor: "pointer" }}
+                            />
                           )}
                         </div>
                         <div className="d-flex flex-wrap mt-4">
-                          <p className="mr-5">Skills</p>
-                          <p className="mr-5">Different skill</p>
-                          <p className="mr-5">Another skill</p>
-                          <p className="mr-5">Skills</p>
-                          <p className="mr-5">Different skill</p>
-                          <p className="mr-5">Another skill</p>
+                          <p className="mr-5">
+                            Skills
+                            {this.props.user ? null : (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </p>
+                          <p className="mr-5">
+                            Different skill{" "}
+                            {this.props.user ? null : (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </p>
+                          <p className="mr-5">
+                            Another skill{" "}
+                            {this.props.user ? null : (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </p>
+                          <p className="mr-5">
+                            Skills{" "}
+                            {this.props.user ? null : (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </p>
+                          <p className="mr-5">
+                            Different skill{" "}
+                            {this.props.user ? null : (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </p>
+                          <p className="mr-5">
+                            Another skill{" "}
+                            {this.props.user ? null : (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -426,7 +500,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Websites & Socials
                             </h6>
-                            {this.props.user ? null : (
+                            {/* {this.props.user ? null : (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -435,37 +509,71 @@ class DoctorProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            )} */}
                           </div>
                           {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 " />
+                            <img
+                              src={edit}
+                              alt="reset"
+                              data-toggle="modal"
+                              data-target="#add-websites"
+                              style={{ cursor: "pointer" }}
+                              className="mr-3 "
+                            />
                           )}
                         </div>
                         <div className="d-flex flex-wrap">
                           <div className="d-flex">
                             <img src={youtube} alt="youtube" />
                             <div className="ml-4 mr-5">
-                              <p className="mt-3 font-weight-bold mb-2">
-                                Youtube
-                              </p>
+                              <div className="d-flex">
+                                <p className="mt-3 font-weight-bold mb-2">
+                                  LinkedIn
+                                </p>
+                                {this.props.user ? null : (
+                                  <img
+                                    src={remove}
+                                    alt="reset"
+                                    className=" ml-3 mt-2"
+                                  />
+                                )}
+                              </div>
                               <Link to="#">youtube.com/liam-jouns</Link>
                             </div>
                           </div>
                           <div className="d-flex">
                             <img src={facebook} alt="youtube" />
                             <div className="ml-4 mr-5">
-                              <p className="mt-3 font-weight-bold mb-2">
-                                Facebook
-                              </p>
+                              <div className="d-flex">
+                                <p className="mt-3 font-weight-bold mb-2">
+                                  Facebook
+                                </p>
+                                {this.props.user ? null : (
+                                  <img
+                                    src={remove}
+                                    alt="reset"
+                                    className=" ml-3 mt-2"
+                                  />
+                                )}
+                              </div>
                               <Link to="#">youtube.com/liam-jouns</Link>
                             </div>
                           </div>
                           <div className="d-flex">
                             <img src={twitter} alt="youtube" />
                             <div className="ml-4 mr-5">
-                              <p className="mt-3 font-weight-bold mb-2">
-                                Twitter
-                              </p>
+                              <div className="d-flex">
+                                <p className="mt-3 font-weight-bold mb-2">
+                                  Twitter
+                                </p>
+                                {this.props.user ? null : (
+                                  <img
+                                    src={remove}
+                                    alt="reset"
+                                    className=" ml-3 mt-2"
+                                  />
+                                )}
+                              </div>
                               <Link to="#">youtube.com/liam-jouns</Link>
                             </div>
                           </div>
