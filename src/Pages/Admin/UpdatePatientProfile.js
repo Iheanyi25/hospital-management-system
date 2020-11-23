@@ -245,36 +245,27 @@ class UpdatePatientProfile extends React.Component {
               />
             ) : null}
             {paymentStatus === "Paid" ? null : paymentStatus === "Not Paid" ? (
-              <div className="row">
-                <div className="col-12 col-md-12 pb-5 mb-5">
-                  <div className="card">
-                    <div className="card-body">
-                      <div
-                        className="col-12 alert alert-warning with-before-icon"
-                        role="alert"
+              <div className="card">
+                <div className="card-body bg-warning p-4">
+                  <div className="d-flex justify-content-between">
+                    <div className="">
+                      <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>{" "}
+                    </div>
+                    <div className="">
+                      <Link
+                        className="btn btn-sm btn-primary"
+                        to={{
+                          pathname: `/AdminPatientRegistration/${this.state.patientId}`,
+                          state: {
+                            patientId: this.state.patientId,
+                            email: this.state.email,
+                            cost: this.state.patient?.patientProfile?.account
+                              ?.healthPlan?.cost,
+                          },
+                        }}
                       >
-                        <div className="alert-content row">
-                          <div className="col-md-11 text-center m-auto">
-                            <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>
-                          </div>
-                          <div className="col-md-1">
-                            <Link
-                              className="btn btn-sm btn-primary"
-                              to={{
-                                pathname: `/AdminPatientRegistration/${this.state.patientId}`,
-                                state: {
-                                  patientId: this.state.patientId,
-                                  email: this.state.email,
-                                  cost: this.state.patient?.patientProfile
-                                    ?.account?.healthPlan?.cost,
-                                },
-                              }}
-                            >
-                              Pay Now
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
+                        Pay Now
+                      </Link>
                     </div>
                   </div>
                 </div>
