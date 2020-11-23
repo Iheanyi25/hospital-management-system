@@ -139,7 +139,6 @@ export default class AddPatient extends Component {
             <Success
               history={this.props.history}
               message="Well done, you successfully added a patient"
-              nextRoute="/AdminAllPatients"
             />
           ) : null}
           <div className="main-content-wrap w-75">
