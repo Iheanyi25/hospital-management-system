@@ -3,6 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
 const apiUrl = process.env.REACT_APP_API_URL;
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
 
 class PatientAccount extends React.Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class PatientAccount extends React.Component {
     this.state = {
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       accountBalance: 0,
+      accountTransactions: [],
       acceptedAppointments: [],
       activeAppointments: [],
       pendingAppointments: [],
@@ -19,18 +22,26 @@ class PatientAccount extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(apiUrl);
     const { patientId } = this.state;
-    console.log(patientId);
     const response = await fetch(
       `${apiUrl}/Patient/Account/GetAccountBalance?PatientId=${this.state.patientId}`
     );
-
     const data = await response.json();
-    console.log(data);
+
+    const response1 = await fetch(
+      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${patientId}`
+    );
+    const data1 = await response1.json();
+    console.log(data1.accountTransactions);
     this.setState({
       accountBalance: data.accountBalance,
+      accountTransactions: data1.accountTransactions,
     });
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   fetchAccountsHistory = async () => {
@@ -39,16 +50,10 @@ class PatientAccount extends React.Component {
     );
     const responses = await request.json();
     console.log({ responses });
-  }
+  };
 
   render() {
-    const {
-      acceptedAppointments,
-      pendingAppointments,
-      activeAppointments,
-      completedAppointments,
-      accountBalance,
-    } = this.state;
+    const { accountBalance, accountTransactions } = this.state;
 
     return (
       <>
@@ -94,7 +99,7 @@ class PatientAccount extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">Account spent (NGN)</h6>
                         <div className="count text-primary fs-20">
-                          {acceptedAppointments.length}
+                          {accountTransactions.amount}
                         </div>
                       </div>
                     </div>
@@ -116,7 +121,8 @@ class PatientAccount extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            className="table data-table"
+                            ref={(el) => (this.el = el)}
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
@@ -131,70 +137,29 @@ class PatientAccount extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {activeAppointments
-                                ? activeAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {" "}
-                                      {[
-                                        appointment.applicationUser
-                                          .applicationUser.firstName,
-                                        appointment.applicationUser
-                                          .applicationUser.lastName,
-                                      ].toString(" ")}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                              {accountTransactions
+                                ? accountTransactions.map((transaction) => (
+                                    <tr>
+                                      <td>{transaction.amount}</td>
+                                      <td>
+                                        <td>{transaction.transactionType}</td>
+                                      </td>
+                                      <td>
+                                        <td>{transaction.paidBy}</td>
+                                      </td>
+                                      <td>
+                                        <td>{transaction.description}</td>
+                                      </td>
+                                      <td>
+                                        <td>{transaction.trasactionDate}</td>
+                                      </td>
+                                      <td>
+                                        <td>
+                                          {transaction.amount}
+                                        </td>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -232,72 +197,7 @@ class PatientAccount extends React.Component {
                                 <th>Actions</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              {acceptedAppointments
-                                ? acceptedAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {[
-                                        appointment.applicationUser
-                                          .applicationUser.firstName,
-                                        appointment.applicationUser
-                                          .applicationUser.lastName,
-                                      ].toString(" ")}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
-                                : null}
-                            </tbody>
+                            <tbody></tbody>
                           </table>
                         </div>
                       </div>
@@ -333,73 +233,7 @@ class PatientAccount extends React.Component {
                                 <th>Actions</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              {completedAppointments
-                                ? completedAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {" "}
-                                      {[
-                                        appointment.applicationUser
-                                          .applicationUser.firstName,
-                                        appointment.applicationUser
-                                          .applicationUser.lastName,
-                                      ].toString(" ")}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
-                                : null}
-                            </tbody>
+                            <tbody></tbody>
                           </table>
                         </div>
                       </div>
@@ -435,73 +269,7 @@ class PatientAccount extends React.Component {
                                 <th>Actions</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {" "}
-                                      {[
-                                        appointment.applicationUser
-                                          .applicationUser.firstName,
-                                        appointment.applicationUser
-                                          .applicationUser.lastName,
-                                      ].toString(" ")}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
-                                : null}
-                            </tbody>
+                            <tbody></tbody>
                           </table>
                         </div>
                       </div>

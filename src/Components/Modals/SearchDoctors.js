@@ -1,108 +1,85 @@
 import React from "react";
+import { Link } from "react-router-dom";
+const $ = window.$;
+let selectId = Math.random();
+selectId = selectId.toString().replace(".", "_");
+const apiUrl = process.env.REACT_APP_API_URL;
 
 class SearchDoctorsModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
-
-      email: "",
-      firstName: "",
-      lastName: "",
-      password: "Patient101@",
-      roleName: "",
-      healthPlan: "",
-
-      showErrorMessage: false,
-      showSuccessMessage: false,
+      doctors: [],
+      doctorId: null,
     };
 
-    this.registerPatient = this.registerPatient.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
+  async componentDidMount() {
+    this.fetchDoctors().then(() => {
+      this.sync(selectId);
+      this.sync(selectId + 1);
+    });
+  }
+
+  fetchDoctors = async () => {
+    let res = await fetch(apiUrl + "/Doctor/GetDoctors");
+    const data = await res.json();
+    const doctorArray = [];
+
+    data.doctors.forEach((element) => {
+      doctorArray.push(element.doctor);
+    });
+
+    this.setState({ doctors: doctorArray }, () => {
+      this.renderDoctorPicker();
+    });
+  };
+
+  // const { params } = this.props.match;
+  renderDoctorPicker() {
+    var select = $(".custom-doctor-picker");
+
+    if (select.length) {
+      select.each(function () {
+        $(this).selectpicker({
+          style: "",
+          styleBase: "form-control",
+          tickIcon: "icofont-check-alt",
+        });
+      });
+    }
+  }
+
+  sync = (selectId) => {
+    var select = $(`#custom_select_${selectId}`);
+
+    if (select.length) {
+      select.each(function () {
+        $(this).selectpicker({
+          style: "",
+          styleBase: "form-control",
+          tickIcon: "icofont-check-alt",
+        });
+      });
+    }
+  };
+
   handleChange(name, e) {
     const value = e.target.value;
-    console.log(value);
     this.setState({
       [name]: value,
     });
   }
 
-  async registerPatient(e) {
-    e.preventDefault();
-
-    const { email, firstName, lastName, password, roleName } = this.state;
-    const url = this.state.apiUrl;
-
-    try {
-      const request = await fetch(`${url}/Admin/Register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          firstName,
-          lastName,
-          password,
-          roleName,
-        }),
-      });
-
-      if (!request.ok) {
-        const error = await request.json();
-        throw Error(error.message);
-      }
-
-      const data = await request.json();
-      console.log(data);
-      this.setState({ showSuccessMessage: true, successMessage: data.message });
-      localStorage.setItem(
-        "registeredPatient",
-        JSON.stringify(data.authenticatedUser)
-      );
-    } catch (err) {
-      console.log(err.message);
-      this.setState({ showErrorMessage: true, errorMessage: err.message });
-    }
-  }
+  routeToDoctor = () => {
+    $("#search-doctor").modal("hide");
+  };
 
   render() {
-    const { email, firstName, lastName, roleName } = this.state;
-    // var displayError;
-    // var displaySuccess;
-
-    // if (this.state.showErrorMessage) {
-    // 	displayError = (
-    // 		<div className="alert alert-danger with-after-icon" role="alert">
-    // 			<div className="alert-content">{this.state.errorMessage}</div>
-    // 			<div className="alert-icon">
-    // 				<i className="icofont-alarm" />
-    // 			</div>
-    // 		</div>
-    // 	);
-    // }
-
-    // if (this.state.showSuccessMessage) {
-    // 	displaySuccess = (
-    // 		<div className="alert alert-info with-after-icon" role="alert">
-    // 			<div className="alert-content text-center">
-    // 				{this.state.successMessage}.
-    // 				<p className="mb-0 ">
-    // 					Would you like to update his profile?
-    // 					<Link className="btn btn-outline-light">
-    // 						<span className="btn-icon icon icofont-ui-edit mr-2"></span>Update Profile
-    // 					</Link>
-    // 				</p>
-    // 			</div>
-    // 			<div className="alert-icon">
-    // 				<i className="icon icofont-ui-check" />
-    // 			</div>
-    // 		</div>
-    // 	);
-    // }
+    const { email, firstName, lastName, roleName, doctorId } = this.state;
 
     return (
       <>
@@ -121,7 +98,27 @@ class SearchDoctorsModal extends React.Component {
               </div>
               <div className="modal-body">
                 <form>
-                  <div className="form-group"></div>
+                  <div className="form-group">
+                    <select
+                      className="form-control"
+                      value={doctorId}
+                      id={`custom_select_${selectId + 1}`}
+                      data-live-search="true"
+                      onChange={(e) => this.handleChange("doctorId", e)}
+                    >
+                      <option selected value="">
+                        Select a Doctor
+                      </option>
+                      {this.state.doctors.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={item.id}
+                          >{`${item.firstName} ${item.lastName}`}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
                 </form>
               </div>
 
@@ -129,26 +126,21 @@ class SearchDoctorsModal extends React.Component {
                 <div className="actions justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-error"
+                    className="btn btn-error mb-3"
                     data-dismiss="modal"
+                    style={{ fontSize: "0.9em" }}
                   >
                     Cancel
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    onClick={(e) => this.registerPatient(e)}
-                    disabled={
-                      email === "" ||
-                      firstName === "" ||
-                      lastName === "" ||
-                      roleName === ""
-                        ? true
-                        : false
-                    }
+                  <Link
+                    // data-dismiss="modal"
+                    onClick={this.routeToDoctor}
+                    style={{ fontSize: "0.9em" }}
+                    className="btn btn-primary mb-3"
+                    to={`/ViewDoctorProfile/${doctorId}`}
                   >
-                    View Doctor Profile
-                  </button>
+                    View Profile
+                  </Link>
                 </div>
               </div>
             </div>

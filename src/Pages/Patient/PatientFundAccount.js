@@ -1,7 +1,11 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayWithPaystack, PayWithFlutter } from "../../Components/Payment/PaymentGateways";
+import {
+  PayWithPaystack,
+  PayWithFlutter,
+} from "../../Components/Payment/PaymentGateways";
 import { Success } from "../../Components/Alerts";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 class FundAccount extends React.Component {
   state = {
@@ -40,7 +44,7 @@ class FundAccount extends React.Component {
           : "",
     };
     try {
-      let res = await fetch(`https://hms-tenece.azurewebsites.net/api/Patient/Account/FundAccount`, {
+      let res = await fetch(`${apiUrl}/Patient/Account/FundAccount`, {
         headers: { "Content-Type": "application/json-patch+json" },
         method: "POST",
         body: JSON.stringify(payload),

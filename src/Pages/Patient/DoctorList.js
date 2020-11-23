@@ -16,6 +16,7 @@ class DoctorList extends React.Component {
     const data = await (
       await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)
     ).json();
+    console.log(data.doctors);
     this.setState({ doctors: data.doctors });
   }
 
@@ -24,6 +25,7 @@ class DoctorList extends React.Component {
   }
 
   render() {
+    const { doctors } = this.state;
     return (
       <>
         <PageLoader />
@@ -38,7 +40,7 @@ class DoctorList extends React.Component {
             </header>
             <div className="page-content">
               <div className="row">
-                {this.state.doctors.map((doctor, index) => (
+                {doctors.map((doctor, index) => (
                   <div className="col-12 col-md-4 col-sm-6" key={index}>
                     <div className="contact">
                       <div className="img-box">
@@ -66,16 +68,14 @@ class DoctorList extends React.Component {
                           <div
                             style={{ width: 8, height: 8, borderRadius: 5 }}
                             className={
-                              doctor?.isAvailable
-                                ? "bg-success"
-                                : "bg-secondary"
+                              doctor.isAvailable ? "bg-success" : "bg-secondary"
                             }
                           ></div>
-                          <p className="ml-3">{
-                              doctor?.isAvailable
-                                ? "Avalible for Consultation"
-                                : "Not available for Consultation"
-                            }</p>
+                          {doctor.isAvailable ? (
+                            <p className="ml-3">Avalible for Consultation</p>
+                          ) : (
+                            <p className="ml-3">Offline</p>
+                          )}
                         </div>
                         <p className="address">{doctor?.bio || ""}</p>
                         <div className="button-box row">
