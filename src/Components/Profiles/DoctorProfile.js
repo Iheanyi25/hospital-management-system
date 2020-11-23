@@ -28,6 +28,7 @@ import close from "../../assets/img/close.svg";
 const apiUrl = process.env.REACT_APP_API_URL;
 class DoctorProfile extends React.Component {
   state = {
+    doctorId: "",
     doctor: {},
     educations: [],
     experiences: [],
@@ -42,7 +43,7 @@ class DoctorProfile extends React.Component {
     this.fetchPatientDetails();
   }
 
-  fetchPatientDetails = async (id) => {
+  fetchPatientDetails = async () => {
     try {
       let res = await fetch(
         `${apiUrl}/Doctor/GetDoctor?DoctorId=${this.props.doctorId}`,
@@ -56,6 +57,8 @@ class DoctorProfile extends React.Component {
       let doctorDetails = JSON.parse(data).doctorProfile;
       console.log(doctorDetails);
       this.setState({
+        ...this.state,
+        doctorId: doctorDetails.id,
         doctor: doctorDetails.doctor,
         educations: doctorDetails.educations,
         experiences: doctorDetails.experiences,
@@ -68,7 +71,14 @@ class DoctorProfile extends React.Component {
   };
 
   render() {
-    const { doctor, educations, experiences, officeTime, loading } = this.state;
+    const {
+      doctorId,
+      doctor,
+      educations,
+      experiences,
+      officeTime,
+      loading,
+    } = this.state;
     return (
       <>
         {loading ? (
@@ -281,16 +291,19 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Office Time
                             </h6>
+                            {this.props.user ? null : (
+                              <img
+                                src={add}
+                                data-toggle="modal"
+                                data-target="#add-office-time"
+                                alt="reset"
+                                className="ml-3 mb-2"
+                                style={{ cursor: "pointer" }}
+                              />
+                            )}
                           </div>
                           {this.props.user ? null : (
-                            <img
-                              src={add}
-                              data-toggle="modal"
-                              data-target="#add-office-time"
-                              alt="reset"
-                              className="ml-3 mb-2"
-                              style={{ cursor: "pointer" }}
-                            />
+                            <img src={remove} alt="reset" />
                           )}
                           {/* {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 " />
@@ -397,7 +410,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Specialization
                             </h6>
-                            {/* {this.props.user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
                                 alt="reset"
@@ -406,17 +419,10 @@ class DoctorProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )} */}
+                            )}
                           </div>
                           {this.props.user ? null : (
-                            <img
-                              src={add}
-                              alt="reset"
-                              data-toggle="modal"
-                              data-target="#add-specialization"
-                              className="ml-3 mb-2"
-                              style={{ cursor: "pointer" }}
-                            />
+                            <img src={remove} alt="reset" />
                           )}
                         </div>
                         <div className="d-flex flex-wrap mt-4">
@@ -500,7 +506,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Websites & Socials
                             </h6>
-                            {/* {this.props.user ? null : (
+                            {this.props.user ? null : (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -509,17 +515,10 @@ class DoctorProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )} */}
+                            )}
                           </div>
                           {this.props.user ? null : (
-                            <img
-                              src={edit}
-                              alt="reset"
-                              data-toggle="modal"
-                              data-target="#add-websites"
-                              style={{ cursor: "pointer" }}
-                              className="mr-3 "
-                            />
+                            <img src={remove} alt="reset" />
                           )}
                         </div>
                         <div className="d-flex flex-wrap">
@@ -584,7 +583,13 @@ class DoctorProfile extends React.Component {
                 </div>
               </div>
             </div>
-            <AddEducation />
+            <AddEducation
+              doctorId={doctorId}
+              doctorEmail={
+                JSON.parse(localStorage.getItem("authenticatedUser")).email
+              }
+              updatePatientDetails={this.fetchPatientDetails}
+            />
             <AddExperience />
             <AddOfficeTime />
             <AddContactInfo />
