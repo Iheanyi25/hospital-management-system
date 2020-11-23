@@ -128,43 +128,42 @@ class DoctorSidebar extends React.Component {
                     <span className="group-title">Profile Settings</span>
                   </li>
 
-                  <li className="menu-item has-sub">
-                    <Link to="#" className="item-link">
+                  <li className="menu-item">
+                    <Link to="/DoctorProfile" className="item-link">
+                      <span className="link-icon icon sli-user mr-2" />
                       <span className="link-text">Profile</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
                     </Link>
-                    <ul className="sub">
+                    {/* <ul className="sub">
                       <li className="menu-item">
                         <Link className="item-link" to="/DoctorProfile">
                           <span className="link-text">View Profile</span>
                         </Link>{" "}
-                      </li>
-                      {/* <li className="menu-item">
+                      </li> */}
+                    {/* <li className="menu-item">
                         <Link className="item-link" to="/DoctorUpdateProfile">
                           <span className="link-text">Update Profile</span>
                         </Link>{" "}
                       </li> */}
-                    </ul>
+                    {/* </ul> */}
                   </li>
                 </ul>
               </nav>
             </div>
             <div className="add-patient">
-              <button
-                className="btn btn-primary"
-                onClick={(e) => this.setAvailability(e)}
-              >
-                <div
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: 5,
-                    marginRight: 5,
-                  }}
-                  className={doctorAvailability ? "bg-success" : "bg-secondary"}
-                ></div>
-                {doctorAvailability ? "Available" : "Offline"}
-              </button>
+              <div className="form-group text-center">
+                <div className="custom-control custom-switch mb-3">
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id="control2"
+                    checked={doctorAvailability ? true : false}
+                    onClick={(e) => this.setAvailability(e)}
+                  />{" "}
+                  <label className="custom-control-label" for="control2">
+                    {doctorAvailability ? "Available" : "Not Available"}
+                  </label>
+                </div>
+              </div>
             </div>
             <div className="assistant-menu">
               <Link to="#" className="link">
