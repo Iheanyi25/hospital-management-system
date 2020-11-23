@@ -139,24 +139,11 @@ class DoctorSidebar extends React.Component {
                           <span className="link-text">View Profile</span>
                         </Link>{" "}
                       </li>
-                      <li className="menu-item">
+                      {/* <li className="menu-item">
                         <Link className="item-link" to="/DoctorUpdateProfile">
                           <span className="link-text">Update Profile</span>
                         </Link>{" "}
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="menu-item has-sub">
-                    <Link to="#" className="item-link">
-                      <span className="link-text">Avaliability</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
-                    </Link>
-                    <ul className="sub">
-                      <li className="menu-item">
-                        <Link className="item-link" to="/DoctorAvaliablity">
-                          <span className="link-text">Set Avaliablity</span>
-                        </Link>{" "}
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>

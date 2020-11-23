@@ -135,7 +135,9 @@ class Dashboard extends React.Component {
                   <div className="card text-white bg-info">
                     <div className="card-header">Important Updates</div>
                     <div className="card-body">
-                      An Apple A Day Keeps the Doctor Away
+                    Yellow fever vaccinations are currently on going from 8am
+                      - 2pm everyday at our hospital, Get vaccinated today!
+                      
                     </div>
                   </div>
                 </div>

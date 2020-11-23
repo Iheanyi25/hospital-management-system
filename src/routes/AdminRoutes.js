@@ -45,6 +45,7 @@ import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
 import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
 import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans";
 import SelectHealthPlan from "../Pages/Admin/SelectHealthPlan";
+import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 
 export default function AdminRoutes() {
   return (
@@ -127,6 +128,7 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminCreateWard" component={CreateWard} />
           <Route exact path="/AdminEditWard/:id" component={EditWard} />
+          <Route exact path="/DoctorProfile/:id" component={DoctorsProfile} />
           <Route exact path="/AdminManageWards" component={ManageWards} />
           <Route
             exact
