@@ -22,7 +22,7 @@ class DoctorSidebar extends React.Component {
     this.setState({ doctorAvailability: data.isAvailable });
   }
 
-  async componentDidUpdate() {
+  async fetchDoctorAvailability() {
     const response = await fetch(
       `${apiUrl}/Doctor/GetDoctorAvailability?DoctorId=${this.state.doctorId}`
     );
@@ -60,6 +60,7 @@ class DoctorSidebar extends React.Component {
         consultationTitle: "",
         reasonForConsultation: "",
       });
+      this.fetchDoctorAvailability()
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
