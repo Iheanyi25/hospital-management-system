@@ -590,11 +590,35 @@ class DoctorProfile extends React.Component {
               }
               updatePatientDetails={this.fetchPatientDetails}
             />
-            <AddExperience />
-            <AddOfficeTime />
+            <AddExperience
+              doctorId={doctorId}
+              doctorEmail={
+                JSON.parse(localStorage.getItem("authenticatedUser")).email
+              }
+              updatePatientDetails={this.fetchPatientDetails}
+            />
+            <AddOfficeTime
+              doctorId={doctorId}
+              doctorEmail={
+                JSON.parse(localStorage.getItem("authenticatedUser")).email
+              }
+              updatePatientDetails={this.fetchPatientDetails}
+            />
             <AddContactInfo />
-            <AddWebsites />
-            <AddSpecialization />
+            <AddWebsites
+              doctorId={doctorId}
+              doctorEmail={
+                JSON.parse(localStorage.getItem("authenticatedUser")).email
+              }
+              updatePatientDetails={this.fetchPatientDetails}
+            />
+            <AddSpecialization
+              doctorId={doctorId}
+              doctorEmail={
+                JSON.parse(localStorage.getItem("authenticatedUser")).email
+              }
+              updatePatientDetails={this.fetchPatientDetails}
+            />
           </main>
         )}
       </>

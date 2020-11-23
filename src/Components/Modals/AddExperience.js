@@ -1,6 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddExperience = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const AddExperience = ({ doctorId, doctorEmail, updatePatientDetails }) => {
+
+  const [details, setDetails] = useState({
+    role: "",
+    company: "",
+    startYear: "",
+    endYear: "",
+    doctorProfileId: doctorId,
+    createdBy: doctorEmail,
+  });
+
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
+        headers: { 'Content-Type': 'application/json-patch+json' },
+        method: 'POST',
+        body: JSON.stringify([details]),
+        redirect: 'follow',
+      });
+      console.log(res);
+      if (res.status === 200) {
+        updatePatientDetails()
+        $('#add-experience').modal('hide')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -13,29 +52,25 @@ const AddExperience = () => {
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">Add Education</h5>
-            <form className="p-5">
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Company</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="company"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ name: e.target.value })}
+                  onChange={handleChange}
                   placeholder="Company"
-                  // value={this.state.name}
                 />
               </div>
               <div className="form-group">
                 <label>Role</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="role"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
+                  onChange={handleChange}
                   placeholder="Role"
-                  // value={this.state.phoneNumber}
                 />
               </div>
               <div className="form-row">
@@ -43,7 +78,9 @@ const AddExperience = () => {
                   <label htmlFor="inputEmail4">Start</label>
                   <input
                     type="number"
+                    name="startYear"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="eg. 1990"
                   />
                 </div>
@@ -51,7 +88,9 @@ const AddExperience = () => {
                   <label htmlFor="inputPassword4">End</label>
                   <input
                     type="number"
+                    name="endYear"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="eg. 1990"
                   />
                 </div>
