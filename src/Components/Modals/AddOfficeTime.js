@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddOfficeTime = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const AddOfficeTime = ({ doctorId, updatePatientDetails }) => {
+  const [details, setDetails] = useState({
+    workDays: "",
+    startTime: "",
+    endTime: "",
+    doctorProfileId: doctorId,
+  });
+
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorOfficeTime`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify([details]),
+        redirect: "follow",
+      });
+      console.log(res);
+      if (res.status === 200) {
+        updatePatientDetails();
+        $("#add-office-time").modal("hide");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -13,10 +49,14 @@ const AddOfficeTime = () => {
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">Add office time</h5>
-            <form className="p-5">
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Work Days</label>
-                <select className="form-control" name="serviceCategoryId">
+                <select
+                  className="form-control"
+                  name="workDays"
+                  onChange={handleChange}
+                >
                   <option value="" disabled>
                     Select a day
                   </option>
@@ -35,7 +75,8 @@ const AddOfficeTime = () => {
                   <input
                     type="time"
                     className="form-control"
-                    placeholder="eg. 10"
+                    name="startTime"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="form-group col-md-6">
@@ -43,7 +84,8 @@ const AddOfficeTime = () => {
                   <input
                     type="time"
                     className="form-control"
-                    placeholder="eg. 12"
+                    name="endTime"
+                    onChange={handleChange}
                   />
                 </div>
               </div>

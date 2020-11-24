@@ -1,6 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddEducation = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const AddEducation = ({ doctorId, doctorEmail, updatePatientDetails }) => {
+  const [details, setDetails] = useState({
+    degree: "",
+    institution: "",
+    startYear: "",
+    endYear: "",
+    doctorProfileId: doctorId,
+    createdBy: doctorEmail,
+  });
+
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorEducation`, {
+        headers: { 'Content-Type': 'application/json-patch+json' },
+        method: 'POST',
+        body: JSON.stringify([details]),
+        redirect: 'follow',
+      });
+      console.log(res);
+      if (res.status === 200) {
+        updatePatientDetails()
+        $('#add-education').modal('hide')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -13,43 +51,26 @@ const AddEducation = () => {
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">Add Education</h5>
-            <form className="p-5">
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Institution</label>
                 <input
                   id="name"
-                  name="name"
+                  name="institution"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ name: e.target.value })}
+                  onChange={handleChange}
                   placeholder="Institution"
-                  // value={this.state.name}
-                />
-              </div>
-              <div className="form-group">
-                <label>Area of study</label>
-                <input
-                  id="name"
-                  name="name"
-                  className="form-control"
-                  type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
-                  placeholder="Area of study"
-                  // value={this.state.phoneNumber}
                 />
               </div>
               <div className="form-group">
                 <label>Certification</label>
                 <select
                   className="form-control"
-                  name="serviceCategoryId"
-                  // onChange={(e) => {
-                  //   this.setState({
-                  //     [e.target.name]: e.target.value,
-                  //   });
-                  // }}
+                  name="degree"
+                  onChange={handleChange}
                 >
-                  <option value="" disabled>
+                  <option value="" selected disabled>
                     Select a category
                   </option>
                   <option value="Bachelors">Bachelors</option>
@@ -62,7 +83,9 @@ const AddEducation = () => {
                   <label htmlFor="inputEmail4">Start</label>
                   <input
                     type="number"
+                    name="startYear"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="eg. 1990"
                   />
                 </div>
@@ -70,14 +93,21 @@ const AddEducation = () => {
                   <label htmlFor="inputPassword4">End</label>
                   <input
                     type="number"
+                    name="endYear"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="eg. 1990"
                   />
                 </div>
               </div>
               <div className="col"></div>
               <div className="col text-right">
-                <button className="btn btn-outline-danger mr-3" data-dismiss="modal">Close</button>
+                <button
+                  className="btn btn-outline-danger mr-3"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
                 <button type="submit" className="btn btn-primary">
                   Save
                 </button>
