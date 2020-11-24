@@ -19,9 +19,9 @@ import AdminManageAccounts from "../Pages/Admin/AdminManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Admin/AdminFundAccount";
 import PaymentForService from "../Pages/Admin/PaymentForService";
-import ViewPatientProfile from "../Pages/Admin/ViewPatientProfile";
-import ViewPreConsultationHistory from "../Pages/Admin/ViewPreConsultationHistory";
-import ViewClarkingHistory from "../Pages/Admin/ViewClarkingHistory";
+import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
+import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationHistory";
+import ViewClarkingHistory from "../Pages/Components/ViewClarkingHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
 
 // service utils

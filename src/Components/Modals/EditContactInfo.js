@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddContactInfo = () => {
+const EditContactInfo = () => {
   return (
     <div
       className="modal fade"
@@ -82,4 +82,4 @@ const AddContactInfo = () => {
   );
 };
 
-export { AddContactInfo };
+export { EditContactInfo };

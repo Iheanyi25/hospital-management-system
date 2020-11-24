@@ -3,7 +3,12 @@ import React, { useState } from "react";
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
-const AddEducation = ({ doctorId, doctorEmail, updatePatientDetails }) => {
+const AddEducation = ({
+  doctorId,
+  doctorEmail,
+  updatePatientDetails,
+  displaySuccess,
+}) => {
   const [details, setDetails] = useState({
     degree: "",
     institution: "",
@@ -20,19 +25,20 @@ const AddEducation = ({ doctorId, doctorEmail, updatePatientDetails }) => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorEducation`, {
-        headers: { 'Content-Type': 'application/json-patch+json' },
-        method: 'POST',
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
         body: JSON.stringify([details]),
-        redirect: 'follow',
+        redirect: "follow",
       });
       console.log(res);
       if (res.status === 200) {
-        updatePatientDetails()
-        $('#add-education').modal('hide')
+        displaySuccess(res.message);
+        updatePatientDetails();
+        $("#add-education").modal("hide");
       }
     } catch (error) {
       console.log(error);
