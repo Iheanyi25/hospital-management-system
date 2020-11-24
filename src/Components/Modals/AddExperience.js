@@ -3,8 +3,12 @@ import React, { useState } from "react";
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
-const AddExperience = ({ doctorId, doctorEmail, updatePatientDetails }) => {
-
+const AddExperience = ({
+  doctorId,
+  doctorEmail,
+  updatePatientDetails,
+  displaySuccess,
+}) => {
   const [details, setDetails] = useState({
     role: "",
     company: "",
@@ -21,19 +25,20 @@ const AddExperience = ({ doctorId, doctorEmail, updatePatientDetails }) => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
-        headers: { 'Content-Type': 'application/json-patch+json' },
-        method: 'POST',
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
         body: JSON.stringify([details]),
-        redirect: 'follow',
+        redirect: "follow",
       });
       console.log(res);
       if (res.status === 200) {
-        updatePatientDetails()
-        $('#add-experience').modal('hide')
+        displaySuccess();
+        updatePatientDetails();
+        $("#add-experience").modal("hide");
       }
     } catch (error) {
       console.log(error);
@@ -97,7 +102,12 @@ const AddExperience = ({ doctorId, doctorEmail, updatePatientDetails }) => {
               </div>
               <div className="col"></div>
               <div className="col text-right">
-                <button className="btn btn-outline-danger mr-3" data-dismiss="modal">Close</button>
+                <button
+                  className="btn btn-outline-danger mr-3"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
                 <button type="submit" className="btn btn-primary">
                   Save
                 </button>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
-const AddOfficeTime = ({ doctorId, updatePatientDetails }) => {
+const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
   const [details, setDetails] = useState({
     workDays: "",
     startTime: "",
@@ -28,7 +28,9 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails }) => {
         redirect: "follow",
       });
       console.log(res);
+      console.log(res.message);
       if (res.status === 200) {
+        displaySuccess(res.message)
         updatePatientDetails();
         $("#add-office-time").modal("hide");
       }

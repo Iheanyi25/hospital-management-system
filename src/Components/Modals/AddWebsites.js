@@ -1,6 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddWebsites = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const AddWebsites = ({
+  doctorId,
+  doctorEmail,
+  updatePatientDetails,
+  displaySuccess,
+}) => {
+  const [details, setDetails] = useState({
+    role: "",
+    company: "",
+    startYear: "",
+    endYear: "",
+    doctorProfileId: doctorId,
+    createdBy: doctorEmail,
+  });
+
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify([details]),
+        redirect: "follow",
+      });
+      console.log(res);
+      if (res.status === 200) {
+        displaySuccess(res.message);
+        updatePatientDetails();
+        $("#add-experience").modal("hide");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
