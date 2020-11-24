@@ -30,6 +30,7 @@ import close from "../../assets/img/close.svg";
 const apiUrl = process.env.REACT_APP_API_URL;
 class DoctorProfile extends React.Component {
   state = {
+    doctorDetails: {},
     doctorId: "",
     doctorAvailability: false,
     doctor: {},
@@ -69,6 +70,7 @@ class DoctorProfile extends React.Component {
       console.log(doctorDetails);
       this.setState({
         ...this.state,
+        doctorDetails: doctorDetails,
         doctorId: doctorDetails.id,
         doctorAvailability: doctorDetails.isAvailable,
         doctor: doctorDetails.doctor,
@@ -110,6 +112,7 @@ class DoctorProfile extends React.Component {
 
   render() {
     const {
+      doctorDetails,
       doctorId,
       doctorAvailability,
       doctor,
@@ -547,10 +550,10 @@ class DoctorProfile extends React.Component {
                         </div>
                         <div className="d-flex mt-4">
                           <img src={location} alt="location" className="mt-0" />
-                          <div className="mt-3 ml-3">
+                          <div className="mt-4 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
-                            <p>Gwarimpa, Abuja</p>
-                            {/* <p>Nigeria.</p> */}
+                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                            <p className="m-0">{`${doctorDetails.country}`}.</p>
                           </div>
                         </div>
                       </div>
@@ -783,11 +786,12 @@ class DoctorProfile extends React.Component {
               updatePatientDetails={this.fetchPatientDetails}
             />
             <EditContactInfo
-              doctorId={doctorId}
+              doctorId={this.props.doctorId}
               displaySuccess={this.displaySuccess}
               doctorEmail={
                 JSON.parse(localStorage.getItem("authenticatedUser")).email
               }
+              doctor={doctorDetails}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddWebsites
