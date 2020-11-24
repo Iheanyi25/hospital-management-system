@@ -1,6 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 
-const EditContactInfo = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const EditContactInfo = ({
+  doctor,
+  doctorId,
+  doctorEmail,
+  updatePatientDetails,
+  displaySuccess
+}) => {
+
+  const [details, setDetails] = useState({
+    phoneNumber: doctor.doctor.phoneNumber,
+    city: doctor.city,
+    state: doctor.state,
+    country: doctor.country,
+    email: doctor.doctor.email,
+    doctorId: doctorId,
+    createdBy: doctorEmail,
+  });
+
+  const handleChange = (e) => {
+    console.log(details);
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/UpdateDoctorContactDetails`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify(details),
+        redirect: "follow",
+      });
+      console.log(res);
+      if (res.status === 200) {
+        displaySuccess(res.message);
+        updatePatientDetails();
+        $("#add-contact-info").modal("hide");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -12,54 +60,62 @@ const EditContactInfo = () => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-body">
-            <h5 className="text-center">Add contact information</h5>
-            <form className="p-5">
+            <h5 className="text-center">Edit contact information</h5>
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Phone Number</label>
+                <label>Email</label>
                 <input
                   id="name"
                   name="name"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
                   placeholder="Phone Number"
-                  // value={this.state.phoneNumber}
+                  value={doctor.doctor.email}
+                  disabled
+                />
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  name="phoneNumber"
+                  className="form-control"
+                  type="text"
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  value={details.phoneNumber}
                 />
               </div>
               <div className="form-group">
                 <label>City</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="city"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
+                  onChange={handleChange}
                   placeholder="City"
-                  // value={this.state.phoneNumber}
+                  value={details.city}
                 />
               </div>
               <div className="form-group">
                 <label>State</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="state"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
+                  onChange={handleChange}
                   placeholder="State"
-                  // value={this.state.phoneNumber}
+                  value={details.state}
                 />
               </div>
               <div className="form-group">
                 <label>Country</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="country"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
+                  onChange={handleChange}
                   placeholder="Country"
-                  // value={this.state.phoneNumber}
+                  value={details.country}
                 />
               </div>
               <div className="col"></div>
