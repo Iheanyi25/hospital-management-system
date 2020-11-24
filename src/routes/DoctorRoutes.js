@@ -10,6 +10,10 @@ import DoctorPatientMedicalHistory from "../Pages/Doctor/PatientMedicalHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
 import ViewDoctorProfile from "../Pages/Doctor/ViewDoctorProfile";
 import DoctorUpdateProfile from "../Pages/Doctor/UpdateDoctorProfile";
+import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
+import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationHistory";
+import ViewClarkingHistory from "../Pages/Components/ViewClarkingHistory";
+import ViewServiceRequests from "../Pages/Components/ViewServiceRequests";
 
 export default function DoctorRoutes() {
   return (
@@ -48,6 +52,26 @@ export default function DoctorRoutes() {
             exact
             path="/DoctorUpdateProfile"
             component={DoctorUpdateProfile}
+          />
+          <Route
+            exact
+            path="/DoctorPatientProfile/:id"
+            component={ViewPatientProfile}
+          />
+          <Route
+            exact
+            path="/DoctorClarkingHistory/:id"
+            component={ViewClarkingHistory}
+          />
+          <Route
+            exact
+            path="/DoctorPreConsultationHistory/:id"
+            component={ViewPreConsultationHistory}
+          />
+          <Route
+            exact
+            path="/DoctorServiceRequests/:id"
+            component={ViewServiceRequests}
           />
 
           <Route
