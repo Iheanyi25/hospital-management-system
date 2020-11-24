@@ -9,6 +9,7 @@ import {
   AddWebsites,
   AddSpecialization,
 } from "../../Components/Modals";
+import formatTime from '../../utils/formatTime'
 import user from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
