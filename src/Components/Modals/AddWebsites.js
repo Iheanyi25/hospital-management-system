@@ -10,10 +10,8 @@ const AddWebsites = ({
   displaySuccess,
 }) => {
   const [details, setDetails] = useState({
-    role: "",
-    company: "",
-    startYear: "",
-    endYear: "",
+    website: "",
+    url: "",
     doctorProfileId: doctorId,
     createdBy: doctorEmail,
   });
@@ -28,7 +26,7 @@ const AddWebsites = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorSocial`, {
         headers: { "Content-Type": "application/json-patch+json" },
         method: "POST",
         body: JSON.stringify([details]),
@@ -38,7 +36,7 @@ const AddWebsites = ({
       if (res.status === 200) {
         displaySuccess(res.message);
         updatePatientDetails();
-        $("#add-experience").modal("hide");
+        $("#add-websites").modal("hide");
       }
     } catch (error) {
       console.log(error);
@@ -57,10 +55,10 @@ const AddWebsites = ({
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">Edit Socials</h5>
-            <form className="p-5">
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Socials</label>
-                <select className="form-control">
+                <select className="form-control" name="website" onChange={handleChange}>
                   <option value="" selected disabled>
                     Select a social network
                   </option>
@@ -70,15 +68,13 @@ const AddWebsites = ({
                 </select>
               </div>
               <div className="form-group">
-                <label>Url</label>
+                <label>url</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="url"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
-                  placeholder="Url"
-                  // value={this.state.phoneNumber}
+                  onChange={handleChange}
+                  placeholder="url"
                 />
               </div>
               <div className="col"></div>
