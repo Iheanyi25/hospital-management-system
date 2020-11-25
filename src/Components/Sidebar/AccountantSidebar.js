@@ -25,21 +25,21 @@ class AccountantSidebar extends React.Component {
 							<nav className="main-menu-wrap">
 								<ul className="menu-ul">
 									<li className="menu-item">
-										<span className="group-title">Medicine</span>
+										<span className="group-title">MY OFFICE</span>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="#">
+										<NavLink className="item-link" to="/AccountantDashboard">
 											<span className="link-icon icofont-thermometer-alt" />{' '}
 											<span className="link-text">Dashboard</span>
 										</NavLink>
 									</li>
 									<li className="menu-item">
-										<NavLink className="item-link" to="#">
-											<span className="link-icon icofont-stethoscope-alt" />{' '}
-											<span className="link-text">Appointments</span>
+										<NavLink className="item-link" to="/AccountantManageAccounts">
+										<span className="link-icon icofont-pay" />{' '}
+											<span className="link-text">Accounts</span>
 										</NavLink>
 									</li>
-									<li className="menu-item">
+									{/* <li className="menu-item">
 										<NavLink className="item-link" to="#">
 											<span className="link-icon icofont-doctor" />{' '}
 											<span className="link-text">Doctors</span>
@@ -62,11 +62,11 @@ class AccountantSidebar extends React.Component {
 											<span className="link-icon icofont-pay" />{' '}
 											<span className="link-text">Payments</span>
 										</NavLink>
-									</li>
+									</li> */}
 									<li className="menu-item">
 										<span className="group-title">UI Kit</span>
 									</li>
-									<li className="menu-item has-sub">
+									{/* <li className="menu-item has-sub">
 										<NavLink className="item-link" to="#">
 											<span className="link-text">Components</span>{' '}
 											<span className="link-caret icofont-thin-right" />
@@ -258,7 +258,7 @@ class AccountantSidebar extends React.Component {
 												</NavLink>
 											</li>
 										</ul>
-									</li>
+									</li> */}
 									<li className="menu-item">
 										<span className="group-title">Apps</span>
 									</li>
