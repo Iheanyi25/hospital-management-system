@@ -15,9 +15,9 @@ import { AdminLayout } from "../Components/Layout";
 import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
 import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
 import AllPatients from "../Pages/Admin/AllPatients";
-import AdminManageAccounts from "../Pages/Admin/AdminManageAccounts";
+import ManageAccounts from "../Pages/Components/ManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
-import AdminFundAccount from "../Pages/Admin/AdminFundAccount";
+import AdminFundAccount from "../Pages/Components/FundAccount";
 import PaymentForService from "../Pages/Admin/PaymentForService";
 import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationHistory";
@@ -164,7 +164,7 @@ export default function AdminRoutes() {
           <Route
             exact
             path="/AdminManageAccounts"
-            component={AdminManageAccounts}
+            component={ManageAccounts}
           />
           <Route
             exact

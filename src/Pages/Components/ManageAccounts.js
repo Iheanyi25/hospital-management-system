@@ -7,17 +7,21 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
-class AdminManageAccounts extends React.Component {
+class ManageAccounts extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       accounts: [],
+      user: "",
     };
   }
 
   async componentDidMount() {
     this.fecthAllAcounts().then(() => this.sync());
+    this.setState({
+      user: JSON.parse(localStorage.getItem("authenticatedUser")),
+    });
   }
 
   fecthAllAcounts = async () => {
@@ -34,7 +38,7 @@ class AdminManageAccounts extends React.Component {
   }
 
   render() {
-    const { accounts } = this.state;
+    const { accounts, user } = this.state;
     console.log(this.props, "restashznvusdhf");
 
     return (
@@ -116,19 +120,7 @@ class AdminManageAccounts extends React.Component {
                         aria-labelledby="pills-active-tab"
                       >
                         <div className="table-responsive">
-                          <table
-                            ref={(el) => (this.el = el)}
-                            className="table"
-                          // data-columns='[
-                          //                             { "data": "photo" },
-                          //                             { "data": "account" },
-                          //                             { "data": "healthplan" },
-                          //                             { "data": "balance" },
-                          //                             { "data": "actions" }
-                          //                         ]'
-                          // data-paging="true"
-                          // data-info="true"
-                          >
+                          <table ref={(el) => (this.el = el)} className="table">
                             <thead>
                               <tr>
                                 <th>Photo</th>
@@ -155,7 +147,7 @@ class AdminManageAccounts extends React.Component {
                                     <td>
                                       <strong>{account?.name}</strong>
                                     </td>
-                                    <td >
+                                    <td>
                                       {account?.phoneNumber ?? "none yet"}
                                     </td>
                                     <td>
@@ -184,8 +176,12 @@ class AdminManageAccounts extends React.Component {
                                         <div className="dropdown-menu text-left">
                                           <NavLink
                                             to={{
-                                              pathname: `/AdminFundAccount/${account.id}`,
-                                              state: account,
+                                              pathname: `${
+                                                user.userType === "Admin"
+                                                  ? `/AdminFundAccount/${account.id}`
+                                                  : `/AccountFundAccount/${account.id}`
+                                              }`,
+                                              state: { id: account.id, user },
                                             }}
                                             className="btn btn-sm btn-block"
                                           >
@@ -213,4 +209,4 @@ class AdminManageAccounts extends React.Component {
   }
 }
 
-export default AdminManageAccounts;
+export default ManageAccounts;

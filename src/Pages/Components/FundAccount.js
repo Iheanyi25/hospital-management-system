@@ -1,21 +1,16 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { PayOnline, PayCash, Others } from "./Components/FundingPaymentModes";
+import { PayOnline, PayCash, Others } from "./FundingPaymentModes";
 import { Success } from "../../Components/Alerts";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
-class AdminFundAccount extends React.Component {
-  constructor(props) {
-    super(props);
-    this.descriptionRef = React.createRef();
-    this.amountRef = React.createRef();
-  }
-
+class FundAccount extends React.Component {
   state = {
     email: "",
     accountId: "",
+    user: {},
     amount: "",
     paymentDescription: "",
     success: false,
@@ -26,6 +21,7 @@ class AdminFundAccount extends React.Component {
     console.log("user email", this.props.history.location.state.id, user.email);
     this.setState({
       accountId: this.props.history.location.state.id,
+      user: this.props.history.location.state.user,
       email: user.email,
     });
   }
@@ -35,10 +31,10 @@ class AdminFundAccount extends React.Component {
       ...this.state,
       [key]: value,
     });
-    console.log(this.state);
   };
+
   fundAccount = async (reference, modeOfPayment, offline) => {
-    const { accountId } = this.state;
+    const { accountId, user } = this.state;
     let payload = {
       accountId: accountId,
       amount: this.state.amount,
@@ -52,6 +48,7 @@ class AdminFundAccount extends React.Component {
           ? reference
           : "",
       paymentDescription: this.state.paymentDescription,
+      // userId: user.id,
     };
     try {
       let res = await fetch(
@@ -77,8 +74,7 @@ class AdminFundAccount extends React.Component {
   };
 
   render() {
-    const { amount, email } = this.state;
-    console.log(this.state);
+    const { amount, email, user } = this.state;
     return (
       <>
         <PageLoader />
@@ -91,7 +87,11 @@ class AdminFundAccount extends React.Component {
             <Success
               history={this.props.history}
               message="You have successfully funded this account"
-              nextRoute="/AdminManageAccounts"
+              nextRoute={
+                user.userType === "Admin"
+                  ? "/AdminManageAccounts"
+                  : "/AccountantManageAccounts"
+              }
             />
           ) : null}
           <div className="main-content-wrap">
@@ -207,4 +207,4 @@ class AdminFundAccount extends React.Component {
   }
 }
 
-export default AdminFundAccount;
+export default FundAccount;
