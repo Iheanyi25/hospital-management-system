@@ -17,17 +17,20 @@ class ManageServiceRequest extends React.Component {
 
     this.state = {
       categories: [],
+      user: {},
     };
   }
 
   async componentDidMount() {
     this.fetchCategory().then(() => this.sync());
+    this.setState({
+      user: JSON.parse(localStorage.getItem("authenticatedUser")),
+    });
   }
 
   async fetchCategory() {
     const res = await fetch(`${apiUrl}/Admin/GetAllServiceRequestInvoice`);
     const response = await res.json();
-    console.log(response);
     this.setState({ categories: response.serviceInvoices });
   }
 
@@ -37,6 +40,7 @@ class ManageServiceRequest extends React.Component {
   }
 
   render() {
+    const { user } = this.state;
     console.log(this.state.categories);
     return (
       <>
@@ -48,10 +52,12 @@ class ManageServiceRequest extends React.Component {
           </div>
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Manage services requested</h4>
-              <NavLink className="btn btn-primary" to="/AdminServiceRequests">
-                Request Service
-              </NavLink>
+              <h4 className="page-title">Service Request Invoices</h4>
+              {user.userType === "Admin" ? (
+                <NavLink className="btn btn-primary" to="/AdminServiceRequests">
+                  Request Service
+                </NavLink>
+              ) : null}
             </header>
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -81,14 +87,6 @@ class ManageServiceRequest extends React.Component {
                       <table
                         ref={(el) => (this.el = el)}
                         className="table table-striped"
-                        // data-columns='[
-                        //         { "data": "#" },
-                        //         { "data": "name" },
-                        //         { "data": "invoicenumber" },
-                        //         { "data": "date-generated" },
-                        //         { "data": "cost" },
-                        //         { "data": "actions" }
-                        //     ]'
                         data-paging="true"
                         data-info="true"
                       >
@@ -170,15 +168,20 @@ class ManageServiceRequest extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                       {category?.paymentStatus === "NOT PAID" ||
-                                      "INCOMPLETE" ? (
+                                      category?.paymentStatus ===
+                                        "INCOMPLETE" ? (
                                         <NavLink
                                           to={{
-                                            pathname: `/AdminPaymentForService/${category.id}`,
+                                            pathname:
+                                              user.userType === "Admin"
+                                                ? `/AdminPaymentForService/${category.id}`
+                                                : `/AccountPaymentForService/${category.id}`,
                                             state: {
                                               invoiceId: category.id,
                                               patientId: category.patientId,
                                               invoiceNumber:
                                                 category.invoiceNumber,
+                                              user: user,
                                             },
                                           }}
                                           className="btn btn-sm btn-block"
@@ -190,7 +193,10 @@ class ManageServiceRequest extends React.Component {
 
                                       <NavLink
                                         to={{
-                                          pathname: `/AdminViewServiceRequestContents/${category.id}`,
+                                          pathname:
+                                            user.userType === "Admin"
+                                              ? `/AdminViewServiceRequestContents/${category.id}`
+                                              : `/AccountServiceRequestContents/${category.id}`,
                                           state: {
                                             invoiceId: category.id,
                                             patientId: category.patientId,
@@ -198,6 +204,7 @@ class ManageServiceRequest extends React.Component {
                                               category.invoiceNumber,
                                             paymentStatus:
                                               category.paymentStatus,
+                                            user: user,
                                           },
                                         }}
                                         className="btn btn-sm btn-block"
