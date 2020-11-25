@@ -5,11 +5,12 @@ import {
   AddEducation,
   AddExperience,
   AddOfficeTime,
-  AddContactInfo,
+  EditContactInfo,
   AddWebsites,
   AddSpecialization,
 } from "../../Components/Modals";
-import formatTime from '../../utils/formatTime'
+import { Success } from "../Alerts";
+import formatTime from "../../utils/formatTime";
 import user from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
@@ -21,7 +22,7 @@ import darkPhone from "../../assets/img/darkPhone.svg";
 import darkEmail from "../../assets/img/darkEmail.svg";
 import facebook from "../../assets/img/facebook.svg";
 import twitter from "../../assets/img/twitter.svg";
-import youtube from "../../assets/img/youtube.svg";
+import linkedin from "../../assets/img/linkedin.svg";
 import location from "../../assets/img/location.svg";
 import remove from "../../assets/img/remove.svg";
 import close from "../../assets/img/close.svg";
@@ -29,15 +30,25 @@ import close from "../../assets/img/close.svg";
 const apiUrl = process.env.REACT_APP_API_URL;
 class DoctorProfile extends React.Component {
   state = {
+    doctorDetails: {},
     doctorId: "",
+    doctorAvailability: false,
     doctor: {},
     educations: [],
     experiences: [],
     officeTime: [],
-    skills: [],
+    specializations: [],
     socials: [],
 
     loading: true,
+    displayDeleteEducation: false,
+    displayDeleteExperience: false,
+    displayDeleteOfficeTime: false,
+    displayDeleteWebsite: false,
+    displayDeleteSpecialization: false,
+
+    success: false,
+    message: "",
   };
 
   componentDidMount() {
@@ -59,11 +70,15 @@ class DoctorProfile extends React.Component {
       console.log(doctorDetails);
       this.setState({
         ...this.state,
+        doctorDetails: doctorDetails,
         doctorId: doctorDetails.id,
+        doctorAvailability: doctorDetails.isAvailable,
         doctor: doctorDetails.doctor,
         educations: doctorDetails.educations,
         experiences: doctorDetails.experiences,
         officeTime: doctorDetails.officeTime,
+        specializations: doctorDetails.specializations,
+        socials: doctorDetails.socials,
         loading: false,
       });
     } catch (error) {
@@ -71,15 +86,44 @@ class DoctorProfile extends React.Component {
     }
   };
 
+  deleteItem = async (action, id) => {
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/${action}/${id}`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "DELETE",
+        redirect: "follow",
+      });
+      if (res.status === 200) {
+        this.displaySuccess(res.message);
+        this.fetchPatientDetails();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  displaySuccess = (message) => {
+    this.setState({ success: true, message: message });
+  };
+
+  changeSuccess = () => {
+    this.setState({ success: false });
+  };
+
   render() {
     const {
+      doctorDetails,
       doctorId,
+      doctorAvailability,
       doctor,
       educations,
       experiences,
       officeTime,
+      specializations,
+      socials,
       loading,
     } = this.state;
+    console.log(doctor);
     return (
       <>
         {loading ? (
@@ -89,6 +133,13 @@ class DoctorProfile extends React.Component {
             <div className="app-loader">
               <i className="icofont-spinner-alt-4 rotate" />
             </div>
+            {this.state.success ? (
+              <Success
+                history={this.props.history}
+                message={this.state.message}
+                callback={this.changeSuccess}
+              />
+            ) : null}
             <div className="main-content-wrap">
               <div className="page-content">
                 {this.props.user ? (
@@ -111,7 +162,7 @@ class DoctorProfile extends React.Component {
                         >
                           Book Appointment
                         </Link>
-                        {doctor.isAvailable ? (
+                        {doctorAvailability ? (
                           <Link
                             to={{
                               pathname: `/PatientBookConsultation/${this.props.doctorId}`,
@@ -128,14 +179,6 @@ class DoctorProfile extends React.Component {
                         ) : (
                           <button
                             disabled
-                            to={{
-                              pathname: `/PatientBookConsultation/${this.props.doctorId}`,
-                              state: {
-                                firstName: doctor.firstName,
-                                lastName: doctor.lastName,
-                              },
-                            }}
-                            type="submit"
                             className="btn btn-primary mr-2 mb-2"
                           >
                             Book consultation
@@ -169,7 +212,14 @@ class DoctorProfile extends React.Component {
                             }`}
                           </h5>
                           <p className="mb-2">
-                            General practioner, nuerosurgeon *
+                            {specializations
+                              .slice(0, 3)
+                              .map(
+                                (specialization, index) =>
+                                  `${specialization.specialization + "* "
+                                  }`
+                              ) ?? "N/A"}
+                            {/* General practioner, nuerosurgeon * */}
                           </p>
                           <Link to="/">
                             <img src={reset} alt="reset" className="mr-2" />
@@ -199,8 +249,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                          </div>
-                          {this.props.user ? null : (
+                            {this.props.user ? null : (
                             <img
                               src={add}
                               alt="reset"
@@ -208,6 +257,32 @@ class DoctorProfile extends React.Component {
                               data-toggle="modal"
                               data-target="#add-education"
                               style={{ cursor: "pointer" }}
+                            />
+                          )}
+                          </div>
+                          {this.props.user ? null : this.state
+                              .displayDeleteEducation ? (
+                            <img
+                              src={close}
+                              alt="reset"
+                              className="ml-2 mode-animation"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteEducation: false,
+                                })
+                              }
+                            />
+                          ) : (
+                            <img
+                              src={remove}
+                              alt="reset"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteEducation: true,
+                                })
+                              }
                             />
                           )}
                         </div>
@@ -228,9 +303,21 @@ class DoctorProfile extends React.Component {
                             </div>
                             <div className="col-1 p-0 text-right">
                               <p></p>
-                              {this.props.user ? null : (
-                                <img src={edit} alt="reset" className="mb-2" />
-                              )}
+                              {this.props.user ? null : this.state
+                                  .displayDeleteEducation ? (
+                                <img
+                                  src={remove}
+                                  alt="reset"
+                                  className="mode-animation"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    this.deleteItem(
+                                      "DeleteDoctorEducation",
+                                      education.id
+                                    )
+                                  }
+                                />
+                              ) : null}
                             </div>
                           </div>
                         )) ?? "N/A"}
@@ -245,8 +332,7 @@ class DoctorProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Experience
                             </h6>
-                          </div>
-                          {this.props.user ? null : (
+                            {this.props.user ? null : (
                             <img
                               src={add}
                               alt="reset"
@@ -254,6 +340,32 @@ class DoctorProfile extends React.Component {
                               data-target="#add-experience"
                               className="ml-3 mb-2"
                               style={{ cursor: "pointer" }}
+                            />
+                          )}
+                          </div>
+                          {this.props.user ? null : this.state
+                              .displayDeleteExperience ? (
+                            <img
+                              src={close}
+                              alt="reset"
+                              className="ml-2 mode-animation"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteExperience: false,
+                                })
+                              }
+                            />
+                          ) : (
+                            <img
+                              src={remove}
+                              alt="reset"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteExperience: true,
+                                })
+                              }
                             />
                           )}
                         </div>
@@ -273,9 +385,21 @@ class DoctorProfile extends React.Component {
                             </div>
                             <div className="col-2 p-0 text-right">
                               <p></p>
-                              {this.props.user ? null : (
-                                <img src={edit} alt="reset" className="mb-2" />
-                              )}
+                              {this.props.user ? null : this.state
+                                  .displayDeleteExperience ? (
+                                <img
+                                  src={remove}
+                                  alt="reset"
+                                  className="mode-animation"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    this.deleteItem(
+                                      "DeleteDoctorExperience",
+                                      experience.id
+                                    )
+                                  }
+                                />
+                              ) : null}
                             </div>
                           </div>
                         ))}
@@ -303,8 +427,30 @@ class DoctorProfile extends React.Component {
                               />
                             )}
                           </div>
-                          {this.props.user ? null : (
-                            <img src={remove} alt="reset" />
+                          {this.props.user ? null : this.state
+                              .displayDeleteOfficeTime ? (
+                            <img
+                              src={close}
+                              alt="reset"
+                              className="ml-2 mode-animation"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteOfficeTime: false,
+                                })
+                              }
+                            />
+                          ) : (
+                            <img
+                              src={remove}
+                              alt="reset"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteOfficeTime: true,
+                                })
+                              }
+                            />
                           )}
                           {/* {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 " />
@@ -328,14 +474,26 @@ class DoctorProfile extends React.Component {
                             </div>
                             <div className="col-3 p-0">
                               <p className="text-nowrap">
-                                {officeTime?.startTime ?? "N/A"} -{" "}
-                                {officeTime?.endTime ?? "N/A"}
+                                {formatTime(officeTime?.startTime) ?? "N/A"} -{" "}
+                                {formatTime(officeTime?.endTime) ?? "N/A"}
                               </p>
                             </div>
                             <div className="col-1 p-0 text-right">
-                              {this.props.user ? null : (
-                                <img src={remove} alt="reset" />
-                              )}
+                              {this.props.user ? null : this.state
+                                  .displayDeleteOfficeTime ? (
+                                <img
+                                  src={remove}
+                                  alt="reset"
+                                  className="mode-animation"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    this.deleteItem(
+                                      "DeleteDoctorOfficeTime",
+                                      officeTime.id
+                                    )
+                                  }
+                                />
+                              ) : null}
                             </div>
                           </div>
                         )) ?? "N/A"}
@@ -392,10 +550,10 @@ class DoctorProfile extends React.Component {
                         </div>
                         <div className="d-flex mt-4">
                           <img src={location} alt="location" className="mt-0" />
-                          <div className="mt-3 ml-3">
+                          <div className="mt-4 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
-                            <p>Gwarimpa, Abuja</p>
-                            {/* <p>Nigeria.</p> */}
+                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                            <p className="m-0">{`${doctorDetails.country}`}.</p>
                           </div>
                         </div>
                       </div>
@@ -422,77 +580,53 @@ class DoctorProfile extends React.Component {
                               />
                             )}
                           </div>
-                          {this.props.user ? null : (
-                            <img src={remove} alt="reset" />
+                          {this.props.user ? null : this.state
+                              .displayDeleteSpecialization ? (
+                            <img
+                              src={close}
+                              alt="reset"
+                              className="ml-2 mode-animation"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteSpecialization: false,
+                                })
+                              }
+                            />
+                          ) : (
+                            <img
+                              src={remove}
+                              alt="reset"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteSpecialization: true,
+                                })
+                              }
+                            />
                           )}
                         </div>
                         <div className="d-flex flex-wrap mt-4">
-                          <p className="mr-5">
-                            Skills
-                            {this.props.user ? null : (
-                              <img
-                                src={close}
-                                alt="reset"
-                                className="ml-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
-                          </p>
-                          <p className="mr-5">
-                            Different skill{" "}
-                            {this.props.user ? null : (
-                              <img
-                                src={close}
-                                alt="reset"
-                                className="ml-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
-                          </p>
-                          <p className="mr-5">
-                            Another skill{" "}
-                            {this.props.user ? null : (
-                              <img
-                                src={close}
-                                alt="reset"
-                                className="ml-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
-                          </p>
-                          <p className="mr-5">
-                            Skills{" "}
-                            {this.props.user ? null : (
-                              <img
-                                src={close}
-                                alt="reset"
-                                className="ml-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
-                          </p>
-                          <p className="mr-5">
-                            Different skill{" "}
-                            {this.props.user ? null : (
-                              <img
-                                src={close}
-                                alt="reset"
-                                className="ml-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
-                          </p>
-                          <p className="mr-5">
-                            Another skill{" "}
-                            {this.props.user ? null : (
-                              <img
-                                src={close}
-                                alt="reset"
-                                className="ml-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )}
-                          </p>
+                          {specializations?.map((specialization, index) => (
+                            <p className="mr-5">
+                              {specialization?.specialization}
+                              {this.props.user ? null : this.state
+                                  .displayDeleteSpecialization ? (
+                                <img
+                                  src={remove}
+                                  alt="reset"
+                                  className="ml-2 mode-animation"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    this.deleteItem(
+                                      "DeleteDoctorSpecialization",
+                                      specialization.id
+                                    )
+                                  }
+                                />
+                              ) : null}
+                            </p>
+                          )) ?? "N/A"}
                         </div>
                       </div>
                     </div>
@@ -518,65 +652,108 @@ class DoctorProfile extends React.Component {
                               />
                             )}
                           </div>
-                          {this.props.user ? null : (
-                            <img src={remove} alt="reset" />
+                          {this.props.user ? null : this.state
+                              .displayDeleteWebsite ? (
+                            <img
+                              src={close}
+                              alt="reset"
+                              className="ml-2 mode-animation"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteWebsite: false,
+                                })
+                              }
+                            />
+                          ) : (
+                            <img
+                              src={remove}
+                              alt="reset"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                this.setState({
+                                  displayDeleteWebsite: true,
+                                })
+                              }
+                            />
                           )}
                         </div>
                         <div className="d-flex flex-wrap">
-                          <div className="d-flex">
-                            <img src={youtube} alt="youtube" />
-                            <div className="ml-4 mr-5">
-                              <div className="d-flex">
-                                <p className="mt-3 font-weight-bold mb-2">
-                                  LinkedIn
-                                </p>
-                                {this.props.user ? null : (
-                                  <img
-                                    src={remove}
-                                    alt="reset"
-                                    className=" ml-3 mt-2"
-                                  />
-                                )}
+                          {socials?.map((social, index) =>
+                            social.webSite === "LinkedIn" ? (
+                              <div className="d-flex mr-5" key={index}>
+                                <img src={linkedin} alt="youtube" />
+                                <div className="ml-4 mr-5">
+                                  <div className="d-flex">
+                                    <p className="mt-3 font-weight-bold mb-2">
+                                      {social.webSite}
+                                    </p>
+                                    {this.props.user ? null : this.state
+                                        .displayDeleteWebsite ? (
+                                      <img
+                                        src={remove}
+                                        alt="reset"
+                                        className="ml-2 mt-2 mode-animation"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                          this.deleteItem("DeleteDoctorSocial",social.id)
+                                        }
+                                      />
+                                    ) : null}
+                                  </div>
+                                  <Link to="#">{social.url}</Link>
+                                </div>
                               </div>
-                              <Link to="#">youtube.com/liam-jouns</Link>
-                            </div>
-                          </div>
-                          <div className="d-flex">
-                            <img src={facebook} alt="youtube" />
-                            <div className="ml-4 mr-5">
-                              <div className="d-flex">
-                                <p className="mt-3 font-weight-bold mb-2">
-                                  Facebook
-                                </p>
-                                {this.props.user ? null : (
-                                  <img
-                                    src={remove}
-                                    alt="reset"
-                                    className=" ml-3 mt-2"
-                                  />
-                                )}
+                            ) : social.webSite === "Facebook" ? (
+                              <div className="d-flex mr-5">
+                                <img src={facebook} alt="youtube" />
+                                <div className="ml-4 mr-5">
+                                  <div className="d-flex">
+                                    <p className="mt-3 font-weight-bold mb-2">
+                                      {social.webSite}
+                                    </p>
+                                    {this.props.user ? null : this.state
+                                        .displayDeleteWebsite ? (
+                                      <img
+                                        src={remove}
+                                        alt="reset"
+                                        className="ml-2 mt-2 mode-animation"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                          this.deleteItem("DeleteDoctorSocial",social.id)
+                                        }
+                                      />
+                                    ) : null}
+                                  </div>
+                                  <Link to="#">{social.url}</Link>
+                                </div>
                               </div>
-                              <Link to="#">youtube.com/liam-jouns</Link>
-                            </div>
-                          </div>
-                          <div className="d-flex">
-                            <img src={twitter} alt="youtube" />
-                            <div className="ml-4 mr-5">
-                              <div className="d-flex">
-                                <p className="mt-3 font-weight-bold mb-2">
-                                  Twitter
-                                </p>
-                                {this.props.user ? null : (
-                                  <img
-                                    src={remove}
-                                    alt="reset"
-                                    className=" ml-3 mt-2"
-                                  />
-                                )}
+                            ) : social.webSite === "Twitter" ? (
+                              <div className="d-flex mr-5">
+                                <img src={twitter} alt="youtube" />
+                                <div className="ml-4 mr-5">
+                                  <div className="d-flex">
+                                    <p className="mt-3 font-weight-bold mb-2">
+                                      {social.webSite}
+                                    </p>
+                                    {this.props.user ? null : this.state
+                                        .displayDeleteWebsite ? (
+                                      <img
+                                        src={remove}
+                                        alt="reset"
+                                        className="ml-2 mt-2 mode-animation"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                          this.deleteItem("DeleteDoctorSocial",social.id)
+                                        }
+                                      />
+                                    ) : null}
+                                  </div>
+                                  <Link to="#">{social.url}</Link>
+                                </div>
                               </div>
-                              <Link to="#">youtube.com/liam-jouns</Link>
-                            </div>
-                          </div>
+                            ) : null
+                          ) ?? "N/A"}
                         </div>
                       </div>
                     </div>
@@ -586,6 +763,7 @@ class DoctorProfile extends React.Component {
             </div>
             <AddEducation
               doctorId={doctorId}
+              displaySuccess={this.displaySuccess}
               doctorEmail={
                 JSON.parse(localStorage.getItem("authenticatedUser")).email
               }
@@ -593,6 +771,7 @@ class DoctorProfile extends React.Component {
             />
             <AddExperience
               doctorId={doctorId}
+              displaySuccess={this.displaySuccess}
               doctorEmail={
                 JSON.parse(localStorage.getItem("authenticatedUser")).email
               }
@@ -600,14 +779,24 @@ class DoctorProfile extends React.Component {
             />
             <AddOfficeTime
               doctorId={doctorId}
+              displaySuccess={this.displaySuccess}
               doctorEmail={
                 JSON.parse(localStorage.getItem("authenticatedUser")).email
               }
               updatePatientDetails={this.fetchPatientDetails}
             />
-            <AddContactInfo />
+            <EditContactInfo
+              doctorId={this.props.doctorId}
+              displaySuccess={this.displaySuccess}
+              doctorEmail={
+                JSON.parse(localStorage.getItem("authenticatedUser")).email
+              }
+              doctor={doctorDetails}
+              updatePatientDetails={this.fetchPatientDetails}
+            />
             <AddWebsites
               doctorId={doctorId}
+              displaySuccess={this.displaySuccess}
               doctorEmail={
                 JSON.parse(localStorage.getItem("authenticatedUser")).email
               }
@@ -615,6 +804,7 @@ class DoctorProfile extends React.Component {
             />
             <AddSpecialization
               doctorId={doctorId}
+              displaySuccess={this.displaySuccess}
               doctorEmail={
                 JSON.parse(localStorage.getItem("authenticatedUser")).email
               }

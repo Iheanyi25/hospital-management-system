@@ -1,6 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddWebsites = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const AddWebsites = ({
+  doctorId,
+  doctorEmail,
+  updatePatientDetails,
+  displaySuccess,
+}) => {
+  const [details, setDetails] = useState({
+    website: "",
+    url: "",
+    doctorProfileId: doctorId,
+    createdBy: doctorEmail,
+  });
+
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorSocial`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify([details]),
+        redirect: "follow",
+      });
+      console.log(res);
+      if (res.status === 200) {
+        displaySuccess(res.message);
+        updatePatientDetails();
+        $("#add-websites").modal("hide");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -13,10 +55,10 @@ const AddWebsites = () => {
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">Edit Socials</h5>
-            <form className="p-5">
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Socials</label>
-                <select className="form-control">
+                <select className="form-control" name="website" onChange={handleChange}>
                   <option value="" selected disabled>
                     Select a social network
                   </option>
@@ -26,15 +68,13 @@ const AddWebsites = () => {
                 </select>
               </div>
               <div className="form-group">
-                <label>Url</label>
+                <label>url</label>
                 <input
-                  id="name"
-                  name="name"
+                  name="url"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
-                  placeholder="Url"
-                  // value={this.state.phoneNumber}
+                  onChange={handleChange}
+                  placeholder="url"
                 />
               </div>
               <div className="col"></div>

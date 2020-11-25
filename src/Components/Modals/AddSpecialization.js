@@ -1,6 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddSpecialization = () => {
+const apiUrl = process.env.REACT_APP_API_URL;
+const $ = window.$;
+
+const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
+
+  const [details, setDetails] = useState({
+    specialization: "",
+    doctorProfileId: doctorId,
+  });
+
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Doctor/AddDoctorSpecialization`, {
+        headers: { 'Content-Type': 'application/json-patch+json' },
+        method: 'POST',
+        body: JSON.stringify([details]),
+        redirect: 'follow',
+      });
+      console.log(res);
+      if (res.status === 200) {
+        updatePatientDetails()
+        $('#add-specialization').modal('hide')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="modal fade"
@@ -13,17 +48,16 @@ const AddSpecialization = () => {
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">Add specialization</h5>
-            <form className="p-5">
+            <form className="p-5" onSubmit={handleSubmit} >
               <div className="form-group">
                 <label>Specialization</label>
                 <input
                   id="name"
-                  name="name"
+                  name="specialization"
                   className="form-control"
                   type="text"
-                  // onChange={(e) => this.setState({ phoneNumber: e.target.value })}
+                  onChange={handleChange}
                   placeholder="Specialization"
-                  // value={this.state.phoneNumber}
                 />
               </div>
               <div className="col"></div>
