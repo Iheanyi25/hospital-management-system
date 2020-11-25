@@ -32,6 +32,7 @@ class Patients extends React.Component {
   }
 
   render() {
+    console.log(this.state.patients);
     return (
       <>
         <PageLoader />
@@ -62,27 +63,25 @@ class Patients extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table"
-                            data-columns='[
-                                          { "data": "photo" },
-                                          { "data": "name" },
-                                          { "data": "email" },
-                                          { "data": "phone" },
-                                          { "data": "date-of-birth" },
-                                          { "data": "address" },
-                                          { "data": "actions" }
-                                      ]'
+                            className="table table-striped"
+                            // data-columns='[
+                            //               { "data": "photo" },
+                            //               { "data": "name" },
+                            //               { "data": "email" },
+                            //               { "data": "phone" },
+                            //               { "data": "date-of-birth" },
+                            //               { "data": "address" },
+                            //               { "data": "actions" }
+                            //           ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Patient Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Account Name</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -100,34 +99,22 @@ class Patients extends React.Component {
                                     />
                                   </td>
                                   <td>
-                                    {patient.patient.firstName} {patient.patient.lastName}
+                                    {patient.patient.firstName}{" "}
+                                    {patient.patient.lastName}
                                   </td>
                                   <td>
                                     <strong>
                                       {" "}
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0" />
+                                      <div className="d-flex align-items-center nowrap">
                                         {patient.patient.email}
                                       </div>
                                     </strong>
                                   </td>
                                   <td>
-                                    <div className="d-flex align-items-center nowrap text-primary">
-                                      <span className="icofont-ui-email p-0" />
+                                    <div className="d-flex align-items-center nowrap">
                                       {patient.patient.phoneNumber}
                                     </div>
                                   </td>
-                                  <td>
-                                    <div className="text-muted text-nowrap">
-                                      10 Feb 2018
-                                  </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-muted text-nowrap">
-                                      Patient Account
-                                  </div>
-                                  </td>
-
                                   <td>
                                     <div className="btn-group">
                                       <button
@@ -138,43 +125,52 @@ class Patients extends React.Component {
                                         aria-expanded="false"
                                       >
                                         Action
-                                                </button>
+                                      </button>
                                       <div className="dropdown-menu text-left">
                                         <Link
                                           title="Pre-consultation"
-                                          to={`#`}
+                                          to={{
+                                            pathname: `/DoctorServiceRequests/${patient.id}`,
+                                            state: patient.patient,
+                                          }}
                                           className="btn btn-sm btn-block"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                    Services History
-                                                </Link>
+                                          Services History
+                                        </Link>
                                         <Link
                                           title="Pre-consultation"
-
-                                          to={`#`}
+                                          to={{
+                                            pathname: `/DoctorPreConsultationHistory/${patient.id}`,
+                                            state: patient.patient,
+                                          }}
                                           className="btn btn-sm btn-block"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                                    Pre-Consultation History
-                                                </Link>
+                                          Pre-Consultation History
+                                        </Link>
                                         <Link
                                           title="Pre-consultation"
-
-                                          to={`#`}
+                                          to={{
+                                            pathname: `/DoctorClarkingHistory/${patient.id}`,
+                                            state: patient.patient,
+                                          }}
                                           className="btn btn-sm btn-block"
                                         >
                                           <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                                    Clarking History
-                                                </Link>
+                                          Clarking History
+                                        </Link>
                                         <Link
-                                          title="Patient Profilr"
-
-                                          to={`#`}
+                                          title="Patient Profile"
+                                          to={{
+                                            pathname: `/DoctorPatientProfile/${patient.id}`,
+                                            state: patient.patient,
+                                          }}
                                           className="btn btn-sm btn-block"
                                         >
                                           <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                                    Patient Profile
-                                            </Link>
+                                          Patient Profile
+                                        </Link>
                                       </div>
                                     </div>
                                   </td>
@@ -186,7 +182,6 @@ class Patients extends React.Component {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
               <div className="add-action-box">
