@@ -63,7 +63,7 @@ class Patients extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table"
+                            className="table table-striped"
                             // data-columns='[
                             //               { "data": "photo" },
                             //               { "data": "name" },
@@ -77,7 +77,7 @@ class Patients extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Patient Name</th>
                                 <th>Email</th>
@@ -105,15 +105,13 @@ class Patients extends React.Component {
                                   <td>
                                     <strong>
                                       {" "}
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0" />
+                                      <div className="d-flex align-items-center nowrap">
                                         {patient.patient.email}
                                       </div>
                                     </strong>
                                   </td>
                                   <td>
-                                    <div className="d-flex align-items-center nowrap text-primary">
-                                      <span className="icofont-ui-email p-0" />
+                                    <div className="d-flex align-items-center nowrap">
                                       {patient.patient.phoneNumber}
                                     </div>
                                   </td>
