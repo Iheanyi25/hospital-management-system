@@ -16,8 +16,8 @@ function AppRouter() {
   const [userType, setUserType] = useState(
     Boolean(localStorage.getItem("authenticatedUser"))
       ? JSON.parse(
-          localStorage.getItem("authenticatedUser")
-        ).userType.toLowerCase()
+        localStorage.getItem("authenticatedUser")
+      ).userType.toLowerCase()
       : null
   );
 
