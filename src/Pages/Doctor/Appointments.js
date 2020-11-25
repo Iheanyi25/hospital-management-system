@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import formatDate from "../../utils/formatDate";
+import formatTime from "../../utils/formatTime";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
+const apiUrl = process.env.REACT_APP_API_URL;
 
 class Appointments extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      appointmentId: null,
       acceptedAppointments: [],
       acceptedAppointmentsCount: 0,
       activeAppointments: [],
@@ -23,23 +26,21 @@ class Appointments extends React.Component {
   }
 
   async getDoctorAppointments() {
-    const { apiUrl } = this.state;
-
     var acceptedAppointments = [];
     var activeAppointments = [];
     var pendingAppointments = [];
     var completedAppointments = [];
     var rejectedAppointments = [];
 
-    const response = await fetch(`${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${this.state.doctorId}`);
+    const response = await fetch(
+      `${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${this.state.doctorId}`
+    );
     const data = await response.json();
 
-    this.setState({ appointments: data.doctorAppointments });
-    console.log(data.doctorAppointments);
-    data.doctorAppointments.forEach((appointment) => {
-      if (appointment.isActive === true) {
-        activeAppointments.push(appointment);
-      } else if (appointment.isAccepted === true) {
+    this.setState({ appointments: data.appointments });
+    console.log(data.appointments);
+    data.appointments.forEach((appointment) => {
+      if (appointment.isAccepted === true) {
         acceptedAppointments.push(appointment);
       } else if (appointment.isCompleted === true) {
         completedAppointments.push(appointment);
@@ -78,13 +79,91 @@ class Appointments extends React.Component {
     this.$en.DataTable();
   }
 
+  async acceptAppointment(e, id) {
+    e.preventDefault();
+    const { appointmentId } = this.state;
+
+    try {
+      const request = await fetch(
+        `${apiUrl}/Doctor/AcceptAnAppointment?AppointmentId=${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!request.ok) {
+        const error = await request.json();
+        throw Error(error.message);
+      }
+
+      this.setState({ success: true });
+      this.getDoctorAppointments().then(() => this.sync());
+    } catch (err) {
+      this.setState({ showErrorMessage: true, errorMessage: err.message });
+    }
+  }
+
+  async rejectAppointment(e, id) {
+    e.preventDefault();
+
+    try {
+      const request = await fetch(
+        `${apiUrl}/Doctor/RejectAnAppointment?AppointmentId=${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!request.ok) {
+        const error = await request.json();
+        throw Error(error.message);
+      }
+
+      this.setState({ success: true });
+      this.getDoctorAppointments().then(() => this.sync());
+    } catch (err) {
+      this.setState({ showErrorMessage: true, errorMessage: err.message });
+    }
+  }
+
+  async cancelAppointment(e, id) {
+    e.preventDefault();
+
+    try {
+      const request = await fetch(
+        `${apiUrl}/Doctor/CancelAnAppointment?AppointmentId=${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!request.ok) {
+        const error = await request.json();
+        throw Error(error.message);
+      }
+
+      this.setState({ success: true });
+      this.getDoctorAppointments().then(() => this.sync());
+    } catch (err) {
+      this.setState({ showErrorMessage: true, errorMessage: err.message });
+    }
+  }
+
   render() {
     const {
       acceptedAppointments,
       acceptedAppointmentsCount,
       pendingAppointments,
       pendingAppointmentsCount,
-      activeAppointments,
       completedAppointments,
       rejectedAppointmentsCount,
     } = this.state;
@@ -143,7 +222,7 @@ class Appointments extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1 text-nowrap">
                           Rejected Appointments
-                            </h6>
+                        </h6>
                         <div className="count text-primary fs-20">
                           {rejectedAppointmentsCount}
                         </div>
@@ -155,7 +234,7 @@ class Appointments extends React.Component {
             </div>
 
             <header className="page-header">
-              <h4 className="page-title">My Appointments</h4>
+              <h4 className="page-title"> Appointments List</h4>
             </header>
             <div className="page-content">
               <div className="card-body"></div>
@@ -171,16 +250,16 @@ class Appointments extends React.Component {
                     >
                       <li className="nav-item">
                         <a
-                          className="nav-link active"
-                          id="pills-active-tab"
+                          className="nav-link active show"
+                          id="pills-pending-tab"
                           data-toggle="pill"
-                          href="#pills-active"
+                          href="#pills-pending"
                           role="tab"
-                          aria-controls="pills-active"
-                          aria-selected="true"
+                          aria-controls="pills-pending"
+                          aria-selected="false"
                         >
-                          Active Appointments
-                            </a>
+                          Pending Appointments
+                        </a>
                       </li>
                       <li className="nav-item">
                         <a
@@ -193,7 +272,7 @@ class Appointments extends React.Component {
                           aria-selected="false"
                         >
                           Accepted Apppointments
-                            </a>
+                        </a>
                       </li>
                       <li className="nav-item">
                         <a
@@ -206,47 +285,34 @@ class Appointments extends React.Component {
                           aria-selected="false"
                         >
                           Completed Appointments
-                            </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="nav-link"
-                          id="pills-pending-tab"
-                          data-toggle="pill"
-                          href="#pills-pending"
-                          role="tab"
-                          aria-controls="pills-pending"
-                          aria-selected="false"
-                        >
-                          Pending Appointments
-                            </a>
+                        </a>
                       </li>
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
                       <div
-                        className="tab-pane fade show active"
-                        id="pills-active"
+                        className="tab-pane show fade active"
+                        id="pills-pending"
                         role="tabpanel"
-                        aria-labelledby="pills-active-tab"
+                        aria-labelledby="pills-pending-tab"
                       >
                         <div className="table-responsive">
                           <table
                             ref={(ek) => (this.ek = ek)}
-                            className="table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                            className="table table-striped"
+                            // data-columns='[
+                            //                             { "data": "photo" },
+                            //                             { "data": "name" },
+                            //                             { "data": "email" },
+                            //                             { "data": "phone" },
+                            //                             { "data": "date-of-birth" },
+                            //                             { "data": "address" },
+                            //                             { "data": "actions" }
+                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -257,66 +323,92 @@ class Appointments extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {activeAppointments
-                                ? activeAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {" "}
-                                      {[
-                                        appointment.applicationUser
-                                          .applicationUser.firstName,
-                                        appointment.applicationUser
-                                          .applicationUser.lastName,
-                                      ].toString(" ")}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                              liam@gmail.com
-                                            </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                            </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                            </div>
-                                    </td>
+                              {pendingAppointments
+                                ? pendingAppointments.map((appointment) => (
+                                    <tr>
+                                      <td>
+                                        <img
+                                          src="../../assets/content/user-40-1.jpg"
+                                          alt=""
+                                          width={40}
+                                          height={40}
+                                          className="rounded-500"
+                                        />
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.firstName}{" "}
+                                        {appointment.patient?.lastName}
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap text-primary">
+                                          <span className="icofont-ui-email p-0 mr-2" />
+                                          {appointment.appointmentTitle}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap text-primary">
+                                          <span className="icofont-ui-email p-0 mr-2" />
+                                          {appointment.reasonForAppointment}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatDate(
+                                            appointment.appointmentDate
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatTime(
+                                            appointment.appointmentTime
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
 
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                      <td>
+                                        <div className="btn-group">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                          >
+                                            Action
+                                          </button>
+                                          <div className="dropdown-menu text-left">
+                                            <button
+                                              title="Accept Appointment"
+                                              onClick={(e) =>
+                                                this.acceptAppointment(
+                                                  e,
+                                                  appointment.id
+                                                )
+                                              }
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Accept Appointment
+                                            </button>
+                                            <button
+                                              title="Reject Appointment"
+                                              onClick={(e) =>
+                                                this.rejectAppointment(
+                                                  e,
+                                                  appointment.id
+                                                )
+                                              }
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Reject Appointment
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -330,22 +422,22 @@ class Appointments extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            ref={(el) => (this.el = el)}
-                            className="table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                            ref={(em) => (this.em = em)}
+                            className="table table-striped"
+                            // data-columns='[
+                            //                             { "data": "photo" },
+                            //                             { "data": "name" },
+                            //                             { "data": "email" },
+                            //                             { "data": "phone" },
+                            //                             { "data": "date-of-birth" },
+                            //                             { "data": "address" },
+                            //                             { "data": "actions" }
+                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -357,12 +449,11 @@ class Appointments extends React.Component {
                             </thead>
                             <tbody>
                               {acceptedAppointments
-                                ? acceptedAppointments.map(
-                                  (appointment) => (
+                                ? acceptedAppointments.map((appointment) => (
                                     <tr>
                                       <td>
                                         <img
-                                          src="./assets/content/user-40-1.jpg"
+                                          src="../../assets/content/user-40-1.jpg"
                                           alt=""
                                           width={40}
                                           height={40}
@@ -370,53 +461,71 @@ class Appointments extends React.Component {
                                         />
                                       </td>
                                       <td>
-                                        {[
-                                          appointment.applicationUser
-                                            .applicationUser.firstName,
-                                          appointment.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
+                                        {appointment.patient.firstName}{" "}
+                                        {appointment.patient.lastName}
+                                      </td>
+                                      <td>{appointment.appointmentTitle}</td>
+                                      <td>
+                                        {appointment.reasonForAppointment}
                                       </td>
                                       <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                                liam@gmail.com
-                                              </div>
+                                        {formatDate(
+                                          appointment.appointmentDate
+                                        ) ?? ""}
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
-                                          10 Feb 2018
-                                              </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
-                                              </div>
+                                          {formatTime(
+                                            appointment.appointmentTime
+                                          ) ?? ""}
+                                        </div>
                                       </td>
 
                                       <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        <div className="btn-group">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                           >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
+                                            Action
                                           </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
+                                          <div className="dropdown-menu text-left">
+                                            <Link
+                                              title="Go for Clarking"
+                                              to={{
+                                                pathname: "/DoctorClarking",
+                                                state: {
+                                                  id: appointment.id,
+                                                  type: "consultation",
+                                                  patient: appointment.patient,
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Go For Clarking
+                                            </Link>
+                                            <button
+                                              title="Cancel Appointment"
+                                              onClick={(e) =>
+                                                this.cancelAppointment(
+                                                  e,
+                                                  appointment.id
+                                                )
+                                              }
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Cancel Appointment
+                                            </button>
+                                          </div>
                                         </div>
                                       </td>
                                     </tr>
-                                  )
-                                )
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -430,22 +539,22 @@ class Appointments extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            ref={(em) => (this.em = em)}
-                            className="table"
+                            ref={(en) => (this.en = en)}
+                            className="table table-striped"
                             data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
+                                                                    { "data": "photo" },
+                                                                    { "data": "name" },
+                                                                    { "data": "email" },
+                                                                    { "data": "phone" },
+                                                                    { "data": "date-of-birth" },
+                                                                    { "data": "address" },
+                                                                    { "data": "actions" }
+                                                                ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -457,8 +566,7 @@ class Appointments extends React.Component {
                             </thead>
                             <tbody>
                               {completedAppointments
-                                ? completedAppointments.map(
-                                  (appointment) => (
+                                ? completedAppointments.map((appointment) => (
                                     <tr>
                                       <td>
                                         <img
@@ -484,18 +592,18 @@ class Appointments extends React.Component {
                                       <td>
                                         <div className="d-flex align-items-center nowrap text-primary">
                                           <span className="icofont-ui-email p-0 mr-2" />
-                                                liam@gmail.com
-                                              </div>
+                                          liam@gmail.com
+                                        </div>
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
                                           10 Feb 2018
-                                              </div>
+                                        </div>
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
                                           9:15 - 9:45
-                                              </div>
+                                        </div>
                                       </td>
 
                                       <td>
@@ -516,105 +624,7 @@ class Appointments extends React.Component {
                                         </div>
                                       </td>
                                     </tr>
-                                  )
-                                )
-                                : null}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div
-                        className="tab-pane fade"
-                        id="pills-pending"
-                        role="tabpanel"
-                        aria-labelledby="pills-pending-tab"
-                      >
-                        <div className="table-responsive">
-                          <table
-                            ref={(en) => (this.en = en)}
-                            className="table"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
-                            data-paging="true"
-                            data-info="true"
-                          >
-                            <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.firstName}{" "}
-                                      {appointment.patient?.lastName}
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient?.email}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        {appointment.patient?.phoneNumber}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                            </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                            </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -623,15 +633,6 @@ class Appointments extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>
