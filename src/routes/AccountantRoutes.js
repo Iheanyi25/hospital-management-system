@@ -6,7 +6,7 @@ import { AccountantLayout } from '../Components/Layout';
 
 export default function AccountantRoutes() {
     return (
-        <BrowserRouter basename="admin"  >
+        <BrowserRouter basename="accountant"  >
             <AccountantLayout>
                 <Switch>
 

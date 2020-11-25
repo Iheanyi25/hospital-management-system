@@ -46,18 +46,9 @@ export default class ManageHealthPlans extends Component {
                                                 <table
                                                     ref={(el) => (this.el = el)}
                                                     className="table table-striped"
-                                                    data-columns='[
-                                                        { "data": "#" },
-                                                        { "data": "name" },
-                                                        { "data": "cost" },
-                                                        { "data": "renewal-cost" },
-                                                        { "data": "patients-per-folder" },
-                                                        { "data": "accounts-per-healthplan" },
-                                                        { "data": "instant-billing" },
-                                                        { "data": "actions" }
-                                                    ]'
                                                     data-paging="true"
                                                     data-info="true"
+                                                // data-ajax={""}
                                                 >
                                                     <thead>
                                                         <tr className="">
