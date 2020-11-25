@@ -5,6 +5,7 @@ import AccountantDashboard from "../Pages/Accountant/Dashboard";
 import { AccountantLayout } from '../Components/Layout';
 
 export default function AccountantRoutes() {
+    console.log("i adccount")
     return (
         <BrowserRouter basename="accountant"  >
             <AccountantLayout>

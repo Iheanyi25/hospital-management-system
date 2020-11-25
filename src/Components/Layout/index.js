@@ -1,5 +1,4 @@
 import React from 'react';
-import UpdatePatientProfile from '../../Pages/Admin/UpdatePatientProfile';
 import { Footer } from '../Footer';
 import { AccountantHeader, AdminHeader, DoctorHeader, LabHeader, PatientHeader, PharmacyHeader } from '../Header';
 import { AddFamily, RegisterPatientModal, RegisterUserModal, SearchDoctorsModal, SearchPatientModal } from '../Modals';
@@ -32,7 +31,6 @@ export const AccountantLayout = ({ children }) => {
 				<AccountantHeader />
 				<AccountantSidebar />
 				{children}
-				<UpdatePatientProfile />
 				<TemplateSettings />
 				<Footer />
 			</div>
