@@ -41,6 +41,32 @@ class LabSidebar extends React.Component {
                     <ul className="sub">
                       <li className="menu-item has-sub">
                         <div className="cursor item-link">
+                          <span className="link-text">Service Categories</span>{" "}
+                          <span className="link-caret icofont-thin-right" />
+                        </div>
+                        <ul className="sub">
+                          <li className="menu-item">
+                            <Link
+                              to="/LabServiceCategory"
+                              className="item-link"
+                            >
+                              <span className="link-text">
+                                Create a Category
+                              </span>
+                            </Link>
+                          </li>
+                          <li className="menu-item">
+                            <Link
+                              to="/LabManageServiceCategory"
+                              className="item-link"
+                            >
+                              <span className="link-text">View Categories</span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                      <li className="menu-item has-sub">
+                        <div className="cursor item-link">
                           <span className="link-text">Services</span>{" "}
                           <span className="link-caret icofont-thin-right" />
                         </div>
@@ -57,36 +83,10 @@ class LabSidebar extends React.Component {
                           </li>
                           <li className="menu-item">
                             <Link
-                              to="/LabManageServices"
+                              to="/AdminManageServices"
                               className="item-link"
                             >
                               <span className="link-text">View Services</span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="menu-item has-sub">
-                        <div className="cursor item-link">
-                          <span className="link-text">Service Categories</span>{" "}
-                          <span className="link-caret icofont-thin-right" />
-                        </div>
-                        <ul className="sub">
-                          <li className="menu-item">
-                            <Link
-                              to="/AdminServiceCategory"
-                              className="item-link"
-                            >
-                              <span className="link-text">
-                                Create a Category
-                              </span>
-                            </Link>
-                          </li>
-                          <li className="menu-item">
-                            <Link
-                              to="/AdminManageServiceCategory"
-                              className="item-link"
-                            >
-                              <span className="link-text">View Categories</span>
                             </Link>
                           </li>
                         </ul>
