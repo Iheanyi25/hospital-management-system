@@ -2,11 +2,6 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
 import { Success } from "../../Components/Alerts";
-// import {
-//   PayOnline,
-//   PayCash,
-//   Others,
-// } from "./Components/PaymentForServiceModes";
 import {
   PayOnline,
   PayCash,

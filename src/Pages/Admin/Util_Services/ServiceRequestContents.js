@@ -20,9 +20,8 @@ class ServiceRequestContents extends React.Component {
   }
 
   async componentDidMount() {
-    // this.fetchCategory();
-
     const { params } = this.props.match;
+    console.log(params.invoiceId);
     if (params.invoiceId) {
       this.fetchServiceRequestsInInvoice(params.invoiceId).then(() =>
         this.sync()
@@ -46,7 +45,7 @@ class ServiceRequestContents extends React.Component {
 
   render() {
     const { serviceRequests } = this.state;
-    const { invoiceNumber, invoiceId, patientId, paymentStatus } =
+    const { invoiceNumber, invoiceId, patientId, paymentStatus, user } =
       this.props.location?.state ?? "";
 
     return (
@@ -109,14 +108,6 @@ class ServiceRequestContents extends React.Component {
                       <table
                         ref={(el) => (this.el = el)}
                         className="table table-striped"
-                        // data-columns='[
-                        //                                 { "data": "#" },
-                        //                                 { "data": "name" },
-                        //                                 { "data": "invoicenumber" },
-                        //                                 { "data": "date-generated" },
-                        //                                 { "data": "cost" },
-                        //                                 { "data": "actions" }
-                        //                             ]'
                         data-paging="true"
                         data-info="true"
                       >
@@ -127,14 +118,15 @@ class ServiceRequestContents extends React.Component {
                             <th>Service Category</th>
                             <th>Service Name</th>
                             <th>Amount</th>
-                            {/* <th>Date</th> */}
                             <th>Status</th>
-                            <th>Actions</th>
+                            {user.userType === "Admin" ? (
+                              <th>Actions</th>
+                            ) : null}
                           </tr>
                         </thead>
                         <tbody>
                           {serviceRequests.map((serviceRequest, index) => (
-                            <tr>
+                            <tr key={index}>
                               <td>
                                 <div className="text-muted text-nowrap">1</div>
                               </td>
@@ -158,11 +150,6 @@ class ServiceRequestContents extends React.Component {
                                   {formatAmount(serviceRequest?.amount) ?? ""}
                                 </div>
                               </td>
-                              {/* <td>
-                                <div className="text-muted text-nowrap">
-                                {formatDate(serviceRequest?.amount) ?? ""}
-                                </div>
-                              </td> */}
                               <td>
                                 <div className="text-muted text-nowrap">
                                   {serviceRequest?.paymentStatus === "False" ? (
@@ -177,44 +164,45 @@ class ServiceRequestContents extends React.Component {
                                   )}
                                 </div>
                               </td>
-
-                              <td>
-                                <div className="btn-group">
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                  >
-                                    Action
-                                  </button>
-                                  <div className="dropdown-menu">
-                                    <NavLink
-                                      to={`/AdminUploadServiceRequestResult/${serviceRequest.id}`}
-                                      className="btn btn-sm btn-block"
+                              {user.userType === "Admin" ? (
+                                <td>
+                                  <div className="btn-group">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
                                     >
-                                      <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                      Upload Result
-                                    </NavLink>
+                                      Action
+                                    </button>
+                                    <div className="dropdown-menu">
+                                      <NavLink
+                                        to={`/AdminUploadServiceRequestResult/${serviceRequest.id}`}
+                                        className="btn btn-sm btn-block"
+                                      >
+                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        Upload Result
+                                      </NavLink>
 
-                                    <NavLink
-                                      to={`/AdminViewLabResults/${serviceRequest.id}`}
-                                      className="btn btn-sm btn-block"
-                                    >
-                                      <span className="btn-icon icofont-server mr-2" />
-                                      View Result
-                                    </NavLink>
-                                    {/* <NavLink
+                                      <NavLink
+                                        to={`/AdminViewLabResults/${serviceRequest.id}`}
+                                        className="btn btn-sm btn-block"
+                                      >
+                                        <span className="btn-icon icofont-server mr-2" />
+                                        View Result
+                                      </NavLink>
+                                      {/* <NavLink
                                       to="#"
                                       className="btn btn-sm btn-block"
                                     >
                                       <span className="btn-icon icofont-server mr-2" />
                                       Remove From Invoice
                                     </NavLink> */}
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
+                                </td>
+                              ) : null}
                             </tr>
                           ))}
                         </tbody>

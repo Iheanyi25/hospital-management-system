@@ -16,8 +16,8 @@ function AppRouter() {
   const [userType, setUserType] = useState(
     Boolean(localStorage.getItem("authenticatedUser"))
       ? JSON.parse(
-        localStorage.getItem("authenticatedUser")
-      ).userType.toLowerCase()
+          localStorage.getItem("authenticatedUser")
+        ).userType.toLowerCase()
       : null
   );
 
@@ -51,6 +51,7 @@ function AppRouter() {
         case "lab":
           return <LabRoutes />;
         case "accountant":
+          console.log("i am an accountant");
           return <AccountantRoutes />;
         default:
           localStorage.clear();

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { PageLoader } from "../../../../Components";
+import { PageLoader } from "../../../Components";
 import {
   PayWithPaystack,
   PayWithFlutter,
-} from "../../../../Components/Payment/PaymentGateways";
+} from "../../../Components/Payment/PaymentGateways";
 
 const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
   const [userDetails, setUserDetails] = useState({
@@ -14,10 +14,8 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
   });
 
   useEffect(() => {
-    console.log("hellpo", details);
     setUserDetails({
       ...userDetails,
-      // patientId: details.patientId,
       amount: details.amount,
       email: details.email,
     });
