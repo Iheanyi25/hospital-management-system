@@ -12,8 +12,6 @@ import AdminConsultationQueue from "../Pages/Admin/Consultations";
 import AddPatient from "../Pages/Admin/AddPatient.js";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultations";
 import { AdminLayout } from "../Components/Layout";
-import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
-import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
 import AllPatients from "../Pages/Admin/AllPatients";
 import ManageAccounts from "../Pages/Components/ManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
@@ -26,11 +24,13 @@ import DoctorClarking from "../Pages/Doctor/Clarking";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
+import ManageServices from "../Pages/Admin/Util_Services//ManageServices";
+import EditService from "../Pages/Admin/Util_Services//EditService";
 import ServiceCategory from "../Pages/Admin/Util_Services//ServiceCategory";
 import ManageServiceCategory from "../Pages/Admin/Util_Services//ManageServiceCategory";
-import ManageServices from "../Pages/Admin/Util_Services//ManageServices";
 import EditServiceCategory from "../Pages/Admin/Util_Services//EditServiceCategory";
-import EditService from "../Pages/Admin/Util_Services//EditService";
+import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
+import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";

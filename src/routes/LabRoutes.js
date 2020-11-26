@@ -8,6 +8,11 @@ import EditService from "../Pages/Admin/Util_Services//EditService";
 import ServiceCategory from "../Pages/Admin/Util_Services//ServiceCategory";
 import ManageServiceCategory from "../Pages/Admin/Util_Services//ManageServiceCategory";
 import EditServiceCategory from "../Pages/Admin/Util_Services//EditServiceCategory";
+import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
+import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
+import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
+import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
+import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
 
 export default function LabRoutes() {
   return (
@@ -19,8 +24,41 @@ export default function LabRoutes() {
           <Route exact path="/LabManageServices" component={ManageServices} />
           <Route exact path="/LabEditService/:id" component={EditService} />
           <Route exact path="/LabServiceCategory" component={ServiceCategory} />
-          <Route exact path="/LabManageServiceCategory" component={ManageServiceCategory} />
-          <Route exact path="/LabEditServiceCategory/:id" component={EditServiceCategory} />
+          <Route
+            exact
+            path="/LabManageServiceCategory"
+            component={ManageServiceCategory}
+          />
+          <Route
+            exact
+            path="/LabEditServiceCategory/:id"
+            component={EditServiceCategory}
+          />
+          <Route
+            exact
+            path="/LabServiceRequests"
+            component={CreateServiceRequest}
+          />
+          <Route
+            exact
+            path="/LabManageServiceRequests"
+            component={ManageServiceRequest}
+          />
+          <Route
+            exact
+            path="/LabServiceRequestContents/:invoiceId"
+            component={ServiceRequestContents}
+          />
+          <Route
+            exact
+            path="/LabUploadServiceRequestResult/:serviceRequestId"
+            component={ServiceRequestResultUpload}
+          />
+          <Route
+            exact
+            path="/LabViewLabResults/:id"
+            component={ViewLabResults}
+          />
 
           <Route
             exact
