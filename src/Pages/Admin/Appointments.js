@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import { ReAssign } from "../../Components/Modals/ReAssignModal";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
@@ -58,6 +59,24 @@ class Appointments extends React.Component {
       pendingAppointmentsCount: pendingAppointments.length,
       rejectedAppointmentsCount: rejectedAppointments.length,
     });
+  }
+
+  async deleteAppointment(id) {
+
+    const request = await fetch(apiUrl + "/Admin/DeleteAppointment", {
+      method: "POST",
+      headers: {
+        "Content-type": " application/json"
+      },
+      body: JSON.stringify({ appointmentId: id })
+    });
+
+    const res = await request.json();
+    if (res.success) {
+      this.getAllAppointments().then(() => this.sync())
+      console.log({ res })
+    }
+
   }
 
   componentDidMount() {
@@ -219,15 +238,6 @@ class Appointments extends React.Component {
                           <table
                             ref={(em) => (this.em = em)}
                             className="table table-striped"
-                            // data-columns='[
-                            //                             { "data": "photo" },
-                            //                             { "data": "name" },
-                            //                             { "data": "email" },
-                            //                             { "data": "phone" },
-                            //                             { "data": "date-of-birth" },
-                            //                             { "data": "address" },
-                            //                             { "data": "actions" }
-                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -301,12 +311,20 @@ class Appointments extends React.Component {
                                         >
                                           <span className="btn-icon icofont-user" />
                                         </Link>
-                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                        <button
+                                          className="btn btn-danger btn-sm btn-square rounded-pill"
+                                          onClick={() => this.deleteAppointment(appointment.id)}
+                                        >
+                                          <span className="btn-icon icofont-delete-alt" />
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button> */}
+                                        <button
+                                          onClick={() => this.setState({ activeAppointment: appointment.id })}
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          data-toggle="modal"
+                                          data-target="#reassign-patient"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </button>
                                       </div>
                                     </td>
                                   </tr>
@@ -326,15 +344,6 @@ class Appointments extends React.Component {
                           <table
                             ref={(en) => (this.en = en)}
                             className="table table-striped"
-                            // data-columns='[
-                            //                             { "data": "photo" },
-                            //                             { "data": "name" },
-                            //                             { "data": "email" },
-                            //                             { "data": "phone" },
-                            //                             { "data": "date-of-birth" },
-                            //                             { "data": "address" },
-                            //                             { "data": "actions" }
-                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
@@ -387,16 +396,24 @@ class Appointments extends React.Component {
                                         <Link
                                           title="Pre-consultation"
                                           to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          className="btn btn-primary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
-                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                        <button
+                                          className="btn btn-danger btn-sm btn-square rounded-pill"
+                                          onClick={() => this.deleteAppointment(appointment.id)}
+                                        >
+                                          <span className="btn-icon icofont-delete-alt" />
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button> */}
+                                        <button
+                                          onClick={() => this.setState({ activeAppointment: appointment.id })}
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          data-toggle="modal"
+                                          data-target="#reassign-patient"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </button>
                                       </div>
                                     </td>
                                   </tr>
@@ -416,16 +433,6 @@ class Appointments extends React.Component {
                           <table
                             ref={(eo) => (this.eo = eo)}
                             className="table table-striped"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
-                            data-paging="true"
                             data-info="true"
                           >
                             <thead>
@@ -488,12 +495,6 @@ class Appointments extends React.Component {
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
-                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button> */}
                                       </div>
                                     </td>
                                   </tr>
@@ -510,6 +511,9 @@ class Appointments extends React.Component {
             </div>
           </div>
         </main>
+
+        <ReAssign appointmentId={this.state.activeAppointment} route={"ReassignAppointment"} />
+
       </>
     );
   }
