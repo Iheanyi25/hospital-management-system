@@ -408,7 +408,7 @@ class UpdatePatientProfile extends React.Component {
                           <label>Email address</label>{" "}
                           <input
                             className="form-control"
-                            type="text"
+                            type="email"
                             placeholder="Email Address"
                             value={email}
                             disabled
