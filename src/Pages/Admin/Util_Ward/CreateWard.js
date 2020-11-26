@@ -6,17 +6,19 @@ export default class CreateWard extends Component {
 	state = {
 		name: '',
 		capacity: '',
-
+		description: '',
 		success: false,
 	};
 
 	handleSubmit = async (e) => {
 		e.preventDefault();
+		const { name, capacity, description } = this.state;
+
 		const data = {
-			name: this.state.name,
-			capacity: this.state.capacity,
+			name, capacity, description
 		};
-		if (this.state.name !== '' && this.state.capacity !== '') {
+
+		if (name !== '' && capacity !== '' && description !== "") {
 			try {
 				let res = await fetch('https://hms-tenece.azurewebsites.net/api/Admin/Ward/CreateWard', {
 					headers: { 'Content-Type': 'application/json-patch+json' },
@@ -84,6 +86,25 @@ export default class CreateWard extends Component {
 														tabIndex={-98}
 														placeholder="Room capacity"
 														name="capacity"
+														onChange={(e) => {
+															this.setState({ [e.target.name]: e.target.value });
+														}}
+														required
+													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">
+														Oops! should be numbers only.
+													</div>
+												</div>
+												<div className="form-group">
+													<label>Description</label>
+													<textarea
+														className="form-control"
+														type="text"
+														tabIndex={-98}
+														placeholder="Enter description"
+														name="description"
+														multiple="true"
 														onChange={(e) => {
 															this.setState({ [e.target.name]: e.target.value });
 														}}
