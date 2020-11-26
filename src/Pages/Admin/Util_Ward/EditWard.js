@@ -8,14 +8,14 @@ export default class EditWard extends Component {
 
 	state = {
 		name: "",
-		capacity: ""
+		capacity: "",
+		description: ""
 	};
 
 	componentDidMount() {
 		if (this.props.history.location.state) {
-			const { name, capacity } = this.props.history.location.state;
-			console.log(this.props.history.location.state);
-			this.setState({ name, capacity })
+			const { name, capacity, description } = this.props.history.location.state;
+			this.setState({ name, capacity, description })
 		} else {
 			return this.props.history.push("/AdminDashboard");
 		}
@@ -23,16 +23,21 @@ export default class EditWard extends Component {
 
 	handleSubmit = async (e) => {
 		e.preventDefault();
+		const { name, description, capacity } = this.state;
+
 		const data = {
-			name: this.state.name,
-			capacity: Number(this.state.capacity),
+			name,
+			description,
+			capacity: Number(capacity),
+
 			id: this.props.location.state?.id
 		};
 
 		console.log({ data });
 		if (
-			this.state.name !== "" &&
-			this.state.Component !== ""
+			name !== "" &&
+			Component !== "" &&
+			description !== ""
 		) {
 			try {
 				let res = await fetch(`${apiUrl}/Admin/Ward/UpdateWard`, {
@@ -97,6 +102,20 @@ export default class EditWard extends Component {
 														value={this.state.capacity}
 														onChange={(e) => this.setState({ capacity: e.target.value })}
 														placeholder="Room capacity"
+														required
+													/>
+													<div className="valid-feedback">Looks good!</div>
+													<div className="invalid-feedback">Oops! should be numbers only.</div>
+												</div>
+												<div className="form-group">
+													<label>Description</label>
+													<textarea
+														className="form-control"
+														type="text"
+														tabIndex={-98}
+														value={this.state.description}
+														onChange={(e) => this.setState({ description: e.target.value })}
+														placeholder="Ward Description"
 														required
 													/>
 													<div className="valid-feedback">Looks good!</div>
