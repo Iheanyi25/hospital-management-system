@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { SelectableDropDown } from "../Select/SelectableDropDown";
 const $ = window.$;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
@@ -93,31 +94,23 @@ class SearchDoctorsModal extends React.Component {
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-              <div className="modal-header">
+              <div className="modal-header p-5">
                 <h5 className="modal-title">Search For A Doctor</h5>
               </div>
-              <div className="modal-body">
+              <div className="modal-body p-5">
                 <form>
                   <div className="form-group">
-                    <select
-                      className="form-control"
-                      value={doctorId}
-                      id={`custom_select_${selectId + 1}`}
-                      data-live-search="true"
-                      onChange={(e) => this.handleChange("doctorId", e)}
-                    >
-                      <option selected value="">
-                        Select a Doctor
-                      </option>
-                      {this.state.doctors.map((item, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={item.id}
-                          >{`${item.firstName} ${item.lastName}`}</option>
-                        );
-                      })}
-                    </select>
+
+                    <SelectableDropDown
+                      data={this.state.doctors}
+                      itemKey={["id"]}
+                      valueKeys={["firstName", "lastName"]}
+                      label={"Doctors"}
+                      onChange={this.handleChange}
+                      stateKey={"doctorId"}
+                      search={true}
+                    />
+
                   </div>
                 </form>
               </div>

@@ -43,10 +43,10 @@ class FundAccount extends React.Component {
         modeOfPayment === "online-paystack"
           ? reference.trxref
           : modeOfPayment === "online-flutterwave"
-          ? reference.data?.data?.orderRef
-          : offline
-          ? reference
-          : "",
+            ? reference.data?.data?.orderRef
+            : offline
+              ? reference
+              : "",
       paymentDescription: this.state.paymentDescription,
       // userId: user.id,
     };

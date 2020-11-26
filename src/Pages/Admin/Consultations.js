@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
+import { ReAssign } from "../../Components/Modals/ReAssignModal";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
@@ -29,6 +31,23 @@ class Consultations extends React.Component {
 
   componentDidMount() {
     this.getAllConsultations().then(() => this.sync());
+  }
+
+  async deleteConsultation(e, id) {
+    e.preventDefault();
+    const request = await fetch(apiUrl + "/Admin/DeleteConsultation", {
+      method: "POST",
+      headers: {
+        "Content-type": " application/json"
+      },
+      body: JSON.stringify({ consultationId: id })
+    });
+
+    const res = await request.json();
+    this.setState({
+      success: true, message: res.message
+    });
+    this.getAllConsultations();
   }
 
   sync() {
@@ -101,6 +120,15 @@ class Consultations extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {
+            this.state.success ?
+              <Success
+                history={this.props.history}
+                message={this.state.message}
+              />
+              :
+              null
+          }
           <div className="main-content-wrap">
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -223,7 +251,7 @@ class Consultations extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table tble-striped"
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
@@ -276,12 +304,21 @@ class Consultations extends React.Component {
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
-                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                        <button
+                                          className="btn btn-danger btn-sm btn-square rounded-pill"
+                                          onClick={(e) => this.deleteConsultation(e, consultation.id)}
+                                        >
+                                          <span className="btn-icon icofont-delete-alt" />
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button> */}
+                                        <Link
+                                          // to=""
+                                          onClick={() => this.setState({ activeConsultation: consultation.id })}
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          data-toggle="modal"
+                                          data-target="#reassign-patient"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
                                       </div>
                                     </td>
                                   </tr>
@@ -300,7 +337,7 @@ class Consultations extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(em) => (this.em = em)}
-                            className="table"
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
@@ -317,8 +354,8 @@ class Consultations extends React.Component {
                             <tbody>
                               {patientsAttachedToDoctors
                                 ? patientsAttachedToDoctors.map(
-                                  (consultation) => (
-                                    <tr>
+                                  (consultation, index) => (
+                                    <tr key={index}>
                                       <td>
                                         <img
                                           src="../assets/content/user-40-1.jpg"
@@ -332,12 +369,6 @@ class Consultations extends React.Component {
                                         {consultation.patient.firstName}{" "}
                                         {consultation.patient.lastName}
                                       </td>
-                                      {/* <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {consultation.patient.phoneNumber}
-                                        </div>
-                                      </td> */}
                                       <td>
                                         {consultation.consultationTitle}
                                       </td>
@@ -349,23 +380,21 @@ class Consultations extends React.Component {
 
                                       <td>
                                         <div className="actions">
-                                          {/* <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-primary btn-sm btn-square rounded-pill"
+                                          <button
+                                            className="btn btn-danger btn-sm btn-square rounded-pill"
+                                            onClick={(e) => this.deleteConsultation(e, consultation.id)}
+                                          >
+                                            <span className="btn-icon icofont-delete-alt" />
+                                          </button>
+                                          <button
+                                            onClick={() => this.setState({ activeConsultation: consultation.id })}
+                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                            data-toggle="modal"
+                                            data-target="#reassign-patient"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link> */}
-                                          {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
                                           </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button> */}
+
                                         </div>
                                       </td>
                                     </tr>
@@ -469,6 +498,8 @@ class Consultations extends React.Component {
             </div>
           </div>
         </main>
+
+        <ReAssign consultationId={this.state.activeConsultation} route={"ReassignConsultation"} />
       </>
     );
   }
