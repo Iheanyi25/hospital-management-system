@@ -38,12 +38,12 @@ class AccountantSidebar extends React.Component {
                       <span className="link-text">Account Invoices</span>
                     </Link>
                   </li>
-                  {/* <li className="menu-item">
-                    <Link className="item-link" to="/AccountantDashboard">
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AccountRegistrationInvoice">
                       <span className="link-icon icofont-thermometer-alt" />{" "}
                       <span className="link-text">Registration Invoices</span>
                     </Link>
-                  </li> */}
+                  </li>
                   <li className="menu-item">
                     <Link
                       className="item-link"
