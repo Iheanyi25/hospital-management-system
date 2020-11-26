@@ -8,6 +8,8 @@ import AccountFundAccount from "../Pages/Components/FundAccount";
 import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import PaymentForService from "../Pages/Admin/PaymentForService";
+import RegistrationInvoice from "../Pages/Accountant/RegistrationInvoice";
+import PatientRegistration from "../Pages/Admin/PatientRegistration";
 
 export default function AccountantRoutes() {
   return (
@@ -35,11 +37,20 @@ export default function AccountantRoutes() {
             path="/AccountServiceRequestContents/:invoiceId"
             component={ServiceRequestContents}
           />
-          
           <Route
             exact
             path="/AccountPaymentForService/:id"
             component={PaymentForService}
+          />
+          <Route
+            exact
+            path="/AccountRegistrationInvoice"
+            component={RegistrationInvoice}
+          />
+          <Route
+            exact
+            path="/AccountPatientRegistration/:id"
+            component={PatientRegistration}
           />
 
           <Route
