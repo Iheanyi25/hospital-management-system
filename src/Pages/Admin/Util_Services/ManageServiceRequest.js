@@ -37,6 +37,7 @@ class ManageServiceRequest extends React.Component {
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
+    console.log($(this.el));
   }
 
   render() {

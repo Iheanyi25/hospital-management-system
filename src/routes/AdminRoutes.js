@@ -21,6 +21,8 @@ import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationHistory";
 import ViewClarkingHistory from "../Pages/Components/ViewClarkingHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
+import RegisterDrug from "../Pages/Admin/Pharmacy/RegisterDrug";
+import ViewDrugs from "../Pages/Admin/Pharmacy/ViewDrugs";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -161,11 +163,7 @@ export default function AdminRoutes() {
             path="/AdminServiceRequests"
             component={CreateServiceRequest}
           />
-          <Route
-            exact
-            path="/AdminManageAccounts"
-            component={ManageAccounts}
-          />
+          <Route exact path="/AdminManageAccounts" component={ManageAccounts} />
           <Route
             exact
             path="/AdminPatientRegistration/:id"
@@ -201,6 +199,8 @@ export default function AdminRoutes() {
             path="/AdminViewClarkingHistory/:id"
             component={ViewClarkingHistory}
           />
+          <Route exact path="/AdminRegisterDrug" component={RegisterDrug} />
+          <Route exact path="/AdminViewDrugs" component={ViewDrugs} />
 
           <Route
             exact
