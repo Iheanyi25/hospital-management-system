@@ -32,6 +32,12 @@ class RegistrationInvoice extends React.Component {
     this.$el.DataTable();
   }
 
+  filterInvoiceLength = (value) => {
+    return this.state.registrationInvoices.filter(
+      (val) => val.paymentStatus === value
+    ).length;
+  };
+
   render() {
     const { registrationInvoices } = this.state;
     console.log(registrationInvoices);
@@ -56,11 +62,7 @@ class RegistrationInvoice extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">No of Paid Invoices</h6>
                         <div className="count text-primary fs-20">
-                          {
-                            registrationInvoices?.filter(
-                              (paid) => paid.paymentStatus === "Not Paid"
-                            ).length
-                          }
+                          {this.filterInvoiceLength("Not Paid")}
                         </div>
                       </div>
                     </div>
@@ -77,11 +79,7 @@ class RegistrationInvoice extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">No of Unpaid Invoices</h6>
                         <div className="count text-primary fs-20">
-                          {
-                            registrationInvoices?.filter(
-                              (paid) => paid.paymentStatus === "Paid"
-                            ).length
-                          }
+                          {this.filterInvoiceLength("Paid")}
                         </div>
                       </div>
                     </div>
