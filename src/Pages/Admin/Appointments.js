@@ -34,6 +34,8 @@ class Appointments extends React.Component {
     const data = await response.json();
     this.setState({ appointments: data.doctorsAppointments });
 
+    console.log({ data });
+
     data.doctorsAppointments.forEach((appointment) => {
       if (appointment.isActive === true) {
         activeAppointments.push(appointment);
@@ -243,49 +245,42 @@ class Appointments extends React.Component {
                           >
                             <thead>
                               <tr >
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Doctor</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th>Appointment Date</th>
+                                <th>Appointment Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {pendingAppointments
-                                ? pendingAppointments.map((appointment) => (
-                                  <tr>
+                                ? pendingAppointments.map((appointment, index) => (
+                                  <tr key={index}>
+                                    <td> <strong>{appointment?.appointmentTitle ?? " "}</strong></td>
                                     <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {appointment.patient.firstName}{" "}
-                                      {appointment.patient.lastName}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
+                                      <strong>{appointment?.reasonForAppointment ?? ""}</strong>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap">
-                                        liam@gmail.com
-                                        </div>
+                                        {appointment.doctor?.lastName ?? ""} {appointment.doctor?.firstName ?? ""}
+                                      </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
+                                        {appointment.patient?.lastName ?? ""} {appointment.patient?.firstName ?? ""}
+                                      </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
+                                        {new Date(appointment?.appointmentDate).toLocaleDateString()}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {new Date(appointment?.appointmentDate).toLocaleTimeString()}
+                                      </div>
                                     </td>
 
                                     <td>
@@ -349,46 +344,42 @@ class Appointments extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Doctor</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th>Appointment Date</th>
+                                <th>Appointment Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {acceptedAppointments
-                                ? acceptedAppointments.map((appointment) => (
-                                  <tr>
+                                ? acceptedAppointments.map((appointment, index) => (
+                                  <tr key={index}>
+                                    <td> <strong>{appointment?.appointmentTitle ?? " "}</strong></td>
                                     <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td> {appointment.patient.firstName}</td>
-                                    <td>
-                                      <strong>Liam</strong>
+                                      <strong>{appointment?.reasonForAppointment ?? ""}</strong>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap">
-                                        liam@gmail.com
-                                        </div>
+                                        {appointment.doctor?.lastName ?? ""} {appointment.doctor?.firstName ?? ""}
+                                      </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
+                                        {appointment.patient?.lastName ?? ""} {appointment.patient?.firstName ?? ""}
+                                      </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
+                                        {new Date(appointment?.appointmentDate).toLocaleDateString()}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {new Date(appointment?.appointmentDate).toLocaleTimeString()}
+                                      </div>
                                     </td>
 
                                     <td>
@@ -437,59 +428,49 @@ class Appointments extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Doctor</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th>Appointment Date</th>
+                                <th>Appointment Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {completedAppointments
-                                ? completedAppointments.map((appointment) => (
-                                  <tr>
+                                ? completedAppointments.map((appointment, index) => (
+
+                                  <tr key={index}>
+                                    <td> <strong>{appointment?.appointmentTitle ?? " "}</strong></td>
                                     <td>
-                                      <img
-                                        src="./assets/content/user-40-1.jpg"
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      {appointment.patient.firstName}{" "}
-                                      {appointment.patient.lastName}
-                                    </td>
-                                    <td>
-                                      <strong>Liam</strong>
+                                      <strong>{appointment?.reasonForAppointment ?? ""}</strong>
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap">
-                                        liam@gmail.com
-                                        </div>
+                                        {appointment.doctor?.lastName ?? ""} {appointment.doctor?.firstName ?? ""}
+                                      </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                        </div>
+                                        {appointment.patient?.lastName ?? ""} {appointment.patient?.firstName ?? ""}
+                                      </div>
                                     </td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                        </div>
+                                        {new Date(appointment?.appointmentDate).toLocaleDateString()}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {new Date(appointment?.appointmentDate).toLocaleTimeString()}
+                                      </div>
                                     </td>
 
                                     <td>
                                       <div className="actions">
                                         <Link
                                           title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
                                           to="/AdminPreConsultation"
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
@@ -497,8 +478,7 @@ class Appointments extends React.Component {
                                         </Link>
                                       </div>
                                     </td>
-                                  </tr>
-                                ))
+                                  </tr>))
                                 : null}
                             </tbody>
                           </table>
