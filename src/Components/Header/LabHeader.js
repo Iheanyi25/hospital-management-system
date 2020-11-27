@@ -50,16 +50,16 @@ class LabHeader extends React.Component {
 									data-offset="0, 12"
 								>
 									<span className="icon icofont-notification" />{' '}
-									<span className="badge badge-danger badge-sm">5</span>
+									{/* <span className="badge badge-danger badge-sm">0</span> */}
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
 									<div className="menu-header">
-										<h4 className="h5 menu-title mt-0 mb-0">Notifications</h4>
+										{/* <h4 className="h5 menu-title mt-0 mb-0">Notifications</h4>
 										<NavLink to="#" className="text-danger">
 											Clear All
-										</NavLink>
+										</NavLink> */}
 									</div>
-									<ul className="list">
+									{/* <ul className="list">
 										<li>
 											<NavLink to="#">
 												<span className="icon icofont-heart" />
@@ -105,10 +105,10 @@ class LabHeader extends React.Component {
 												</div>
 											</NavLink>
 										</li>
-									</ul>
+									</ul> */}
 									<div className="menu-footer">
 										<button className="btn btn-primary btn-block">
-											View all notifications <span className="btn-icon ml-2 icofont-tasks-alt" />
+											No notifications yet <span className="btn-icon ml-2 icofont-tasks-alt" />
 										</button>
 									</div>
 								</div>
@@ -135,17 +135,17 @@ class LabHeader extends React.Component {
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
 									<ul className="list">
-										<li>
+										{/* <li>
 											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-home" /> Edit account
 											</NavLink>
-										</li>
+										</li> */}
 										<li>
 											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
 											</NavLink>
 										</li>
-										<li>
+										{/* <li>
 											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-calendar" /> Calendar
 											</NavLink>
@@ -154,7 +154,7 @@ class LabHeader extends React.Component {
 											<NavLink to="#" className="align-items-center">
 												<span className="icon icofont-ui-settings" /> Settings
 											</NavLink>
-										</li>
+										</li> */}
 										<li>
 											<NavLink to="#" className="align-items-center" onClick={logOut}>
 												<span className="icon icofont-logout" />

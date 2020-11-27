@@ -61,11 +61,14 @@ class ServiceRequestContents extends React.Component {
               <h4 className="page-title">
                 {`Services Request in Invoice #${invoiceNumber}`}
               </h4>
-              {paymentStatus === "PAID" ? null : (
+              {paymentStatus === "PAID" || user.userType === "Lab" ? null : (
                 <NavLink
                   className="btn btn-primary"
                   to={{
-                    pathname: `/AdminPaymentForService/${invoiceId}`,
+                    pathname:
+                      user.userType === "Admin"
+                        ? `/AdminPaymentForService/${invoiceId}`
+                        : `/AccountPaymentForService/${invoiceId}`,
                     state: {
                       invoiceId: invoiceId,
                       patientId: patientId,
@@ -119,7 +122,8 @@ class ServiceRequestContents extends React.Component {
                             <th>Service Name</th>
                             <th>Amount</th>
                             <th>Status</th>
-                            {user.userType === "Admin" ? (
+                            {user.userType === "Admin" ||
+                            user.userType === "Lab" ? (
                               <th>Actions</th>
                             ) : null}
                           </tr>
@@ -164,43 +168,49 @@ class ServiceRequestContents extends React.Component {
                                   )}
                                 </div>
                               </td>
-                              {user.userType === "Admin" ? (
+                              {user.userType === "Admin" ||
+                              user.userType === "Lab" ? (
                                 <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <NavLink
-                                        to={`/AdminUploadServiceRequestResult/${serviceRequest.id}`}
-                                        className="btn btn-sm btn-block"
+                                  {user.userType === "Lab" &&
+                                  serviceRequest?.paymentStatus === "False" ? (
+                                    <p>Refer to accounts</p>
+                                  ) : (
+                                    <div className="btn-group">
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
                                       >
-                                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                        Upload Result
-                                      </NavLink>
+                                        Action
+                                      </button>
+                                      <div className="dropdown-menu">
+                                        <NavLink
+                                          to={user.userType === "Admin" ? `/AdminUploadServiceRequestResult/${serviceRequest.id}`:`/LabUploadServiceRequestResult/${serviceRequest.id}`}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                          Upload Result
+                                        </NavLink>
 
-                                      <NavLink
-                                        to={`/AdminViewLabResults/${serviceRequest.id}`}
-                                        className="btn btn-sm btn-block"
-                                      >
-                                        <span className="btn-icon icofont-server mr-2" />
-                                        View Result
-                                      </NavLink>
-                                      {/* <NavLink
+                                        <NavLink
+                                          to={user.userType === "Admin" ? `/AdminViewLabResults/${serviceRequest.id}`: `/LabViewLabResults/${serviceRequest.id}`}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-server mr-2" />
+                                          View Result
+                                        </NavLink>
+                                        {/* <NavLink
                                       to="#"
                                       className="btn btn-sm btn-block"
                                     >
                                       <span className="btn-icon icofont-server mr-2" />
                                       Remove From Invoice
                                     </NavLink> */}
+                                      </div>
                                     </div>
-                                  </div>
+                                  )}
                                 </td>
                               ) : null}
                             </tr>
@@ -229,3 +239,4 @@ class ServiceRequestContents extends React.Component {
 }
 
 export default ServiceRequestContents;
+ 
