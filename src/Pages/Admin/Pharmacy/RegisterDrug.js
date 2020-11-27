@@ -1,5 +1,5 @@
 import React from "react";
-import { DrugDescription, DrugType } from "./Components";
+import { DrugDescription, DrugType } from "./Components/RegisterDrug";
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 

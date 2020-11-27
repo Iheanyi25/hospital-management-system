@@ -349,6 +349,11 @@ class AdminSidebar extends React.Component {
                           <span className="link-text">Register a drug</span>
                         </Link>
                       </li>
+					  <li className="menu-item">
+                        <Link to="/AdminViewDrugs" className="item-link">
+                          <span className="link-text">View drugs</span>
+                        </Link>
+                      </li>
                     </ul>
                   </li>
                 </ul>
