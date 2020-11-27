@@ -6,11 +6,12 @@ let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageServiceCategory extends Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     categories: [],
   };
 
   async componentDidMount() {
-    this.fetchAllServiceCategories().then(() => this.sync())
+    this.fetchAllServiceCategories().then(() => this.sync());
   }
 
   fetchAllServiceCategories = async () => {
@@ -20,22 +21,24 @@ export default class ManageServiceCategory extends Component {
     let data = await request.json();
     console.log(data);
     this.setState({ categories: data });
-  }
+  };
 
   deleteMe = async (id) => {
-    let res = await fetch(`${process.env.REACT_APP_API_URL}/Admin/DeleteServiceCategory`, {
-      headers: { "Content-Type": "application/json-patch+json" },
-      method: "POST",
-      body: JSON.stringify({ id }),
-      redirect: "follow",
-    });
+    let res = await fetch(
+      `${process.env.REACT_APP_API_URL}/Admin/DeleteServiceCategory`,
+      {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify({ id }),
+        redirect: "follow",
+      }
+    );
     if (res.status === 200) {
       this.setState({ success: true }, () => {
         this.fetchAllServiceCategories();
       });
     }
-  }
-
+  };
 
   sync() {
     this.$el = $(this.el);
@@ -43,6 +46,7 @@ export default class ManageServiceCategory extends Component {
   }
 
   render() {
+    const { categories, user } = this.state;
     return (
       <>
         <PageLoader />
@@ -54,7 +58,14 @@ export default class ManageServiceCategory extends Component {
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Service Categories</h4>
-              <NavLink className="btn btn-primary" to="/AdminServiceCategory">
+              <NavLink
+                className="btn btn-primary"
+                to={
+                  user.userType === "Admin"
+                    ? "/AdminServiceCategory"
+                    : "/LabServiceCategory"
+                }
+              >
                 Create Category
               </NavLink>
             </header>
@@ -81,7 +92,7 @@ export default class ManageServiceCategory extends Component {
                           </thead>
 
                           <tbody>
-                            {this.state.categories.map((item, index) => (
+                            {categories.map((item, index) => (
                               <tr key={index}>
                                 <td>
                                   <strong>{index + 1}</strong>
@@ -111,7 +122,10 @@ export default class ManageServiceCategory extends Component {
                                       <Link
                                         title="Pre-consultation"
                                         to={{
-                                          pathname: `/AdminEditServiceCategory/${item.id}`,
+                                          pathname:
+                                            user.userType === "Admin"
+                                              ? `/AdminEditServiceCategory/${item.id}`
+                                              : `/LabEditServiceCategory/${item.id}`,
                                           state: item,
                                         }}
                                         className="btn btn-sm btn-block text-primary"

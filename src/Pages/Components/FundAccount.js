@@ -48,7 +48,7 @@ class FundAccount extends React.Component {
               ? reference
               : "",
       paymentDescription: this.state.paymentDescription,
-      // userId: user.id,
+      userId: user.id,
     };
     try {
       let res = await fetch(

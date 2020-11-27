@@ -33,330 +33,36 @@ class AccountantSidebar extends React.Component {
                     </Link>
                   </li>
                   <li className="menu-item">
+                    <Link className="item-link" to="/AccountantManageAccounts">
+                      <span className="link-icon icofont-pay" />{" "}
+                      <span className="link-text">Account Invoices</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
                     <Link
                       className="item-link"
-                      to="/AccountantManageAccounts"
+                      to="/AccountRegistrationInvoice"
                     >
-                      <span className="link-icon icofont-pay" />{" "}
-                      <span className="link-text">Accounts</span>
+                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-text">Registration Invoices</span>
                     </Link>
                   </li>
-                  <li className="menu-item has-sub">
-                    <div className="item-link cursor">
-                      <span className="link-icon icofont-pay" />{" "}
-                      <span className="link-text">Invoices</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
-                    </div>
-                    <ul className="sub">
-                      <li className="menu-item">
-                        <Link to="/AccountManageServiceRequest" className="item-link">
-                          <span className="link-text">Service Invoices</span>
-                        </Link>
-                      </li>
-                      {/* <li className="menu-item">
-                        <Link to="/AdminConsultations" className="item-link">
-                          <span className="link-text">
-                            Manage Consultations
-                          </span>
-                        </Link>
-                      </li> */}
-                    </ul>
-                  </li>
-                  {/* <li className="menu-item">
-										<Link className="item-link" to="#">
-											<span className="link-icon icofont-doctor" />{' '}
-											<span className="link-text">Doctors</span>
-										</Link>
-									</li>
-									<li className="menu-item">
-										<Link className="item-link" to="#">
-											<span className="link-icon icofont-nurse" />{' '}
-											<span className="link-text">Departments</span>
-										</Link>
-									</li>
-									<li className="menu-item">
-										<Link className="item-link" to="#">
-											<span className="link-icon icofont-paralysis-disability" />{' '}
-											<span className="link-text">Patients</span>
-										</Link>
-									</li>
-									<li className="menu-item">
-										<Link className="item-link" to="#">
-											<span className="link-icon icofont-pay" />{' '}
-											<span className="link-text">Payments</span>
-										</Link>
-									</li> */}
                   <li className="menu-item">
-                    <span className="group-title">UI Kit</span>
-                  </li>
-                  {/* <li className="menu-item has-sub">
-										<Link className="item-link" to="#">
-											<span className="link-text">Components</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Alerts</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Autocompletes</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Badges</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Buttons</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Cards</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Checkboxes</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Contacts</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Inputs</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Modal windows</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Radio buttons</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Ratings</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Selects</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Switchers</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Textareas</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Vertical timeline</span>
-												</Link>
-											</li>
-										</ul>
-									</li>
-									<li className="menu-item has-sub">
-										<Link className="item-link" to="#">
-											<span className="link-text">Icons</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Simple line icons</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Icofont icons</span>
-												</Link>
-											</li>
-										</ul>
-									</li>
-									<li className="menu-item">
-										<Link className="item-link" to="#">
-											<span className="link-text">Typography</span>
-										</Link>
-									</li>
-									<li className="menu-item has-sub">
-										<Link className="item-link" to="#">
-											<span className="link-text">Tables</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Bootstrap tables</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Data tables</span>
-												</Link>
-											</li>
-										</ul>
-									</li>
-									<li className="menu-item has-sub">
-										<Link className="item-link" to="#">
-											<span className="link-text">Forms</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Elements</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Layout</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Validation</span>
-												</Link>
-											</li>
-										</ul>
-									</li>
-									<li className="menu-item has-sub">
-										<Link className="item-link" to="#">
-											<span className="link-text">Charts</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Chart.js</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Morris.js</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Echarts</span>
-												</Link>
-											</li>
-										</ul>
-									</li>
-									<li className="menu-item has-sub">
-										<Link className="item-link" to="#">
-											<span className="link-text">Maps</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Google map</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Leaflet map</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<Link className="item-link" to="#">
-													<span className="link-text">Echarts map</span>
-												</Link>
-											</li>
-										</ul>
-									</li> */}
-                  <li className="menu-item">
-                    <span className="group-title">Apps</span>
-                  </li>
-                  <li className="menu-item has-sub">
-                    <Link className="item-link" to="#">
-                      <span className="link-text">Service pages</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
+                    <Link
+                      className="item-link"
+                      to="/AccountManageServiceRequest"
+                    >
+                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-text">Service Invoices</span>
                     </Link>
-                    <ul className="sub">
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Invoices</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Pricing</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Edit account</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">User profile</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Events timeline</span>
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="menu-item has-sub">
-                    <Link className="item-link" to="#">
-                      <span className="link-text">Sessions</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
-                    </Link>
-                    <ul className="sub">
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Sign in</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Sign up</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">404</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">500</span>
-                        </Link>
-                      </li>
-                    </ul>
                   </li>
                 </ul>
               </nav>
             </div>
             <div className="add-patient">
-              <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#add-patient"
-              >
-                <span className="btn-icon icofont-plus mr-2" /> Add Patient
-              </button>
+              <Link to="/AccountantManageAccounts" className="btn btn-primary">
+                <span className="btn-icon icofont-plus mr-2" /> Fund Accounts
+              </Link>
             </div>
             <div className="assistant-menu">
               <Link className="link" to="#">

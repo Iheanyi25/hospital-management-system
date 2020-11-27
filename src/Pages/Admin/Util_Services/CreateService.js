@@ -6,6 +6,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 class CreateService extends React.Component {
   state = {
+    user: {},
     categories: [],
 
     name: "",
@@ -16,6 +17,9 @@ class CreateService extends React.Component {
   };
 
   componentDidMount() {
+    this.setState({
+      user: JSON.parse(localStorage.getItem("authenticatedUser")),
+    });
     this.fetchServiceCategories();
   }
 
@@ -63,6 +67,7 @@ class CreateService extends React.Component {
   };
 
   render() {
+    const { user, success, categories } = this.state;
     return (
       <>
         <PageLoader />
@@ -71,11 +76,15 @@ class CreateService extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
+          {success ? (
             <Success
               history={this.props.history}
               message="Well done, you successfully created a category"
-              nextRoute="/AdminManageServices"
+              nextRoute={
+                user.userType === "Admin"
+                  ? "/AdminManageServices"
+                  : "/LabManageServices"
+              }
             />
           ) : null}
           <div className="main-content-wrap w-75">
@@ -124,8 +133,8 @@ class CreateService extends React.Component {
                             }}
                           >
                             <option>Select a category</option>
-                            {this.state.categories.length > 0 &&
-                              this.state.categories.map((category, i) => (
+                            {categories.length > 0 &&
+                              categories.map((category, i) => (
                                 <option key={i} value={category.id}>
                                   {category.name}
                                 </option>

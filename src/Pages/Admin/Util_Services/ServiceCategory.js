@@ -6,6 +6,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 class ServiceCategory extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     name: "",
     description: "",
 
@@ -36,6 +37,7 @@ class ServiceCategory extends React.Component {
   };
 
   render() {
+    const { user } = this.state;
     return (
       <>
         <PageLoader />
@@ -48,7 +50,11 @@ class ServiceCategory extends React.Component {
             <Success
               history={this.props.history}
               message="Well done, you successfully created a category"
-              nextRoute="/AdminManageServiceCategory"
+              nextRoute={
+                user.userType === "Admin"
+                  ? "/AdminManageServiceCategory"
+                  : "/LabManageServiceCategory"
+              }
             />
           ) : null}
           <div className="main-content-wrap w-75">
