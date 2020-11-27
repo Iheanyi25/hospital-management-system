@@ -39,7 +39,10 @@ class AccountantSidebar extends React.Component {
                     </Link>
                   </li>
                   <li className="menu-item">
-                    <Link className="item-link" to="/AccountRegistrationInvoice">
+                    <Link
+                      className="item-link"
+                      to="/AccountRegistrationInvoice"
+                    >
                       <span className="link-icon icofont-thermometer-alt" />{" "}
                       <span className="link-text">Registration Invoices</span>
                     </Link>
@@ -53,23 +56,13 @@ class AccountantSidebar extends React.Component {
                       <span className="link-text">Service Invoices</span>
                     </Link>
                   </li>
-                  <li className="menu-item">
-                    <span className="group-title">UI Kit</span>
-                  </li>
-                  <li className="menu-item">
-                    <span className="group-title">Apps</span>
-                  </li>
                 </ul>
               </nav>
             </div>
             <div className="add-patient">
-              <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#add-patient"
-              >
-                <span className="btn-icon icofont-plus mr-2" /> Add Patient
-              </button>
+              <Link to="/AccountantManageAccounts" className="btn btn-primary">
+                <span className="btn-icon icofont-plus mr-2" /> Fund Accounts
+              </Link>
             </div>
             <div className="assistant-menu">
               <Link className="link" to="#">

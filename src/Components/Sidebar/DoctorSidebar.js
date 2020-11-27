@@ -60,7 +60,7 @@ class DoctorSidebar extends React.Component {
         consultationTitle: "",
         reasonForConsultation: "",
       });
-      this.fetchDoctorAvailability()
+      this.fetchDoctorAvailability();
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
@@ -165,6 +165,9 @@ class DoctorSidebar extends React.Component {
                   </label>
                 </div>
               </div>
+              <Link to="/DoctorConsultations" className="btn btn-primary">
+                <span className="btn-icon icofont-plus mr-2" /> My consultations
+              </Link>
             </div>
             <div className="assistant-menu">
               <Link to="#" className="link">

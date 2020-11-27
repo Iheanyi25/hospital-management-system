@@ -32,64 +32,6 @@ class LabSidebar extends React.Component {
                       <span className="link-text">Dashboard</span>
                     </Link>
                   </li>
-                  <li className="menu-item has-sub">
-                    <div className="cursor item-link">
-                      <span className="link-icon icofont-thermometer-alt" />
-                      <span className="link-text">Services</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
-                    </div>
-                    <ul className="sub">
-                      <li className="menu-item has-sub">
-                        <div className="cursor item-link">
-                          <span className="link-text">Service Categories</span>{" "}
-                          <span className="link-caret icofont-thin-right" />
-                        </div>
-                        <ul className="sub">
-                          <li className="menu-item">
-                            <Link
-                              to="/LabServiceCategory"
-                              className="item-link"
-                            >
-                              <span className="link-text">
-                                Create a Category
-                              </span>
-                            </Link>
-                          </li>
-                          <li className="menu-item">
-                            <Link
-                              to="/LabManageServiceCategory"
-                              className="item-link"
-                            >
-                              <span className="link-text">View Categories</span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="menu-item has-sub">
-                        <div className="cursor item-link">
-                          <span className="link-text">Services</span>{" "}
-                          <span className="link-caret icofont-thin-right" />
-                        </div>
-                        <ul className="sub">
-                          <li className="menu-item">
-                            <Link to="/LabCreateService" className="item-link">
-                              <span className="link-text">
-                                Create a Service
-                              </span>
-                            </Link>
-                          </li>
-                          <li className="menu-item">
-                            <Link
-                              to="/AdminManageServices"
-                              className="item-link"
-                            >
-                              <span className="link-text">View Services</span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
 
                   <li className="menu-item has-sub">
                     <div className="item-link cursor">
@@ -113,53 +55,46 @@ class LabSidebar extends React.Component {
                       </li>
                     </ul>
                   </li>
-
                   <li className="menu-item">
-                    <Link className="item-link" to="#">
-                      <span className="link-icon icofont-paralysis-disability" />{" "}
-                      <span className="link-text">Patients</span>
-                    </Link>
-                  </li>
-
-                  <li className="menu-item">
-                    <span className="group-title">My Schedule</span>
+                    <span className="group-title">Manage Services</span>
                   </li>
                   <li className="menu-item has-sub">
                     <Link className="item-link" to="#">
-                      <span className="link-text">Schedules</span>{" "}
+                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-text">Service Category</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </Link>
                     <ul className="sub">
                       <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">View Schedules</span>
+                        <Link to="/LabServiceCategory" className="item-link">
+                          <span className="link-text">Create a Category</span>
                         </Link>
                       </li>
                       <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Manage Schedules</span>
+                        <Link
+                          to="/LabManageServiceCategory"
+                          className="item-link"
+                        >
+                          <span className="link-text">View Categories</span>
                         </Link>
                       </li>
                     </ul>
                   </li>
-
-                  <li className="menu-item">
-                    <span className="group-title">My Appointments</span>
-                  </li>
                   <li className="menu-item has-sub">
                     <Link className="item-link" to="#">
-                      <span className="link-text">Appointments</span>{" "}
+                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-text">Services</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </Link>
                     <ul className="sub">
                       <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">View Appointments</span>
+                        <Link to="/LabCreateService" className="item-link">
+                          <span className="link-text">Create a Service</span>
                         </Link>
                       </li>
                       <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Manage Appointments</span>
+                        <Link to="/AdminManageServices" className="item-link">
+                          <span className="link-text">View Services</span>
                         </Link>
                       </li>
                     </ul>
@@ -169,35 +104,21 @@ class LabSidebar extends React.Component {
                     <span className="group-title">Profile Mgt</span>
                   </li>
 
-                  <li className="menu-item has-sub">
+                  <li className="menu-item">
                     <Link className="item-link" to="#">
                       <span className="link-text">Profile</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
                     </Link>
-                    <ul className="sub">
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">View Profile</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="item-link" to="#">
-                          <span className="link-text">Update Profile</span>
-                        </Link>
-                      </li>
-                    </ul>
                   </li>
                 </ul>
               </nav>
             </div>
             <div className="add-patient">
-              <button
+              <Link
+                to="/LabManageServiceRequests"
                 className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#add-patient"
               >
-                <span className="btn-icon icofont-plus mr-2" /> Search Patient
-              </button>
+                <span className="btn-icon icofont-plus mr-2" /> Manage Requests
+              </Link>
             </div>
             <div className="assistant-menu">
               <Link className="link" to="#">
