@@ -59,17 +59,20 @@ body {
 } */
 
 .mode-animation {
-    animation: fadeInAnimation ease 1s; 
+    animation: fadeInAnimation ease 1s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
-  }
-  
-  @keyframes fadeInAnimation {
+}
+
+.dropdown-menu>.btn {
+    justify-content: flex-start;
+}
+
+@keyframes fadeInAnimation {
     0% {
-      opacity: 0;
+        opacity: 0;
     }
-  
     100% {
-      opacity: 1;
+        opacity: 1;
     }
-  }
+}
