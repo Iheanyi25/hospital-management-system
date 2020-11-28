@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -11,13 +13,35 @@ class Dashboard extends React.Component {
         JSON.parse(localStorage.getItem("authenticatedUser")).firstName +
         " " +
         JSON.parse(localStorage.getItem("authenticatedUser")).lastName,
+      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+
     };
+  }
+
+  async componentDidMount() {
+    const response = await fetch(
+      `${apiUrl}/Doctor/ViewAllConsultations?DoctorId=${this.state.doctorId}`
+    );
+
+    const data = await response.json();
+    this.setState({ doctorConsultations: data.doctorConsultations });
+
+    console.log({ data });
+
+    let pendingAppointments = [];
+    data.doctorConsultations.forEach((queue) => {
+      if (!queue.isActive && !queue.isAccepted && !queue.isCompleted && !queue.isRejected)
+        pendingAppointments.push(queue);
+    });
+
+    this.setState({
+      pendingAppointments: pendingAppointments
+    })
   }
 
   render() {
     const {
       pendingAppointments,
-      pendingAppointmentsCount,
       doctorName,
     } = this.state;
     return (
@@ -113,122 +137,100 @@ class Dashboard extends React.Component {
               </div>
 
               <div className="card mb-0">
-                <div className="card-header">Recent appointments</div>
+                <div className="card-header">Pending consultations</div>
                 <div className="card-body">
                   <div className="table-responsive">
-                    <table className="table table-hover">
+                    <table className="table table-striped">
                       <thead>
                         <tr>
-                          <th scope="col">Photo</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Date</th>
-                          <th scope="col">Visit time</th>
-                          <th scope="col">Number</th>
-                          <th scope="col">Doctor</th>
-                          <th scope="col">Injury / Condition</th>
-                          <th scope="col">Actions</th>
+                          <th>Title</th>
+                          <th>Reason for Consultation</th>
+                          <th className="text-nowrap">Patient</th>
+                          <th className="text-nowrap">Patient Contact</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <img
-                              src="./assets/content/user-40-1.jpg"
-                              width={40}
-                              height={40}
-                              className="rounded-500"
-                              alt=""
-                            />
-                          </td>
-                          <td>
-                            <strong>Liam</strong>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-email p-0 mr-2" />{" "}
-                              liam@gmail.com
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              10 Feb 2018
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              9:15 - 9:45
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                              0126595743
-                            </div>
-                          </td>
-                          <td>Dr. Benjamin</td>
-                          <td>mumps</td>
+                        {pendingAppointments
+                          ? pendingAppointments.map((consultation) => (
+                            <tr>
+                              <td>
+                                {consultation.patientQueue.consultationTitle}
+                              </td>
+                              <td>
+                                {consultation.patientQueue.reasonForConsultation}
+                              </td>
+                              <td>
+                                {consultation.patient.firstName}{" "}
+                                {consultation.patient.lastName}
+                              </td>
+                              <td>
+                                <div className="d-flex align-items-center nowrap">
+                                  {consultation.patient.phoneNumber}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  {new Date(consultation.patientQueue.dateOfConsultation).toLocaleDateString()}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  {new Date(consultation.patientQueue.dateOfConsultation).toLocaleTimeString()}
+                                </div>
+                              </td>
 
-                          <td>
-                            <div className="btn-group">
-                              <button
-                                type="button"
-                                className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
-                                Action
-                              </button>
-                              <div className="dropdown-menu text-left">
-                                <Link
-                                  title="Pre-consultation"
-                                  onClick={() =>
-                                    (window.location.href = `/DoctorConsultation`)
-                                  }
-                                  to={`/DoctorConsultation`}
-                                  className="btn btn-sm btn-block"
-                                >
-                                  <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                  Go for Clarking
-                                </Link>
-                                <Link
-                                  title="Pre-consultation"
-                                  onClick={() =>
-                                    (window.location.href = `/AdminPreConsultation`)
-                                  }
-                                  to={`/AdminPreConsultation`}
-                                  className="btn btn-sm btn-block"
-                                >
-                                  <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                  Consultation History
-                                </Link>
-                                <Link
-                                  title="Pre-consultation"
-                                  onClick={() =>
-                                    (window.location.href = `/AdminPreConsultation`)
-                                  }
-                                  to={`/AdminPreConsultation`}
-                                  className="btn btn-sm btn-block"
-                                >
-                                  <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                  Pre-Consultation History
-                                </Link>
-                                <Link
-                                  title="Pre-consultation"
-                                  onClick={() =>
-                                    (window.location.href = `/AdminUpdatePatientProfile`)
-                                  }
-                                  to={`/AdminUpdatePatientProfile`}
-                                  className="btn btn-sm btn-block"
-                                >
-                                  <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                  View Profile
-                                </Link>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                              <td>
+                                <div className="actions">
+                                  {/* <Link
+                                          title="Pre-consultation"
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link> */}
+                                  <Link
+                                    title="Clarking"
+                                    to={{
+                                      pathname: "/DoctorClarking",
+                                      state: {
+                                        type: "consultation",
+                                        id: consultation.patientQueue.id,
+                                        patient: consultation.patient,
+                                      },
+                                    }}
+                                    className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                  >
+                                    <span className="btn-icon icofont-stethoscope-alt" />
+                                  </Link>
+                                  <Link
+                                    title="Clarking History"
+                                    to={{
+                                      pathname: "/ViewClarkingHistory",
+                                      state: {
+                                        id: consultation.patient.id,
+                                        firstName: consultation.patient.firstName,
+                                        lastName: consultation.patient.lastName
+                                      },
+                                    }}
+                                    className="btn btn-primary btn-sm btn-square rounded-pill"
+                                  >
+                                    <span className="btn-icon icofont-stethoscope-alt" />
+                                  </Link>
+
+                                  {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button> */}
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                          : null}
                       </tbody>
                     </table>
                   </div>
