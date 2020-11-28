@@ -28,7 +28,7 @@ class ClarkingHistory extends React.Component {
           redirect: "follow",
         }
       );
-      const data = await res.text();
+      const data = await res.json();
       console.log(JSON.parse(data).clerkingHistory);
       this.setState({
         clerkingHistories: JSON.parse(data).clerkingHistory,
