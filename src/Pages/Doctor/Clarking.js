@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
 import { PreConsultationHistory, ClarkingHistory, PatientProfile, LabResults } from '../../Components/Clarking'
@@ -113,6 +113,29 @@ class Clarking extends React.Component {
     this.setState({ success: false })
   }
 
+  finishClarking = async (e, key) => {
+    e.preventDefault();
+
+    let payload = {
+      id: this.props.location.state.id,
+      isAdmitted: false,
+      isSentHome: false
+    }
+
+    payload[key] = true; //change here
+
+    const request = await fetch(apiUrl + "/Doctor/AdmitOrSendPatientHome", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const response = await request.json();
+    this.setState({ success: true, message: response.message, nextRoute: "/" })
+  }
+
   render() {
     const { firstName, lastName, id } = this.props.location.state.patient
     return (
@@ -128,11 +151,29 @@ class Clarking extends React.Component {
               history={this.props.history}
               message={this.state.message}
               callback={this.changeSuccess}
+              nextRoute={this.state.nextRoute}
             />
           ) : null}
           <div className="main-content-wrap">
-            <header className="page-header">
+            <header className="page-header d-flex justify-content-between">
               <h3 className="page-title">Doctor Clarking</h3>
+              <div>
+                <div className="col"></div>
+                <div className="col text-right">
+                  <Link
+                    onClick={(e) => this.finishClarking(e, "isSentHome")}
+                    className="btn btn-primary mr-2 mb-2"
+                  >
+                    Send Home
+                    </Link>
+                  <Link
+                    onClick={(e) => this.finishClarking(e, "isAdmitted")}
+                    className="btn btn-outline-primary mr-2 mb-2"
+                  >
+                    Admit
+                    </Link>
+                </div>
+              </div>
             </header>
             <div className="page-content">
               <div className="row">
