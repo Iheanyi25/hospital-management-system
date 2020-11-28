@@ -30,6 +30,7 @@ class CreateServiceRequest extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props.location.state);
     if (this.props.location.state) {
       this.setState({
         isFromClarking: true,
@@ -220,8 +221,8 @@ class CreateServiceRequest extends Component {
                 isFromClarking
                   ? "/DoctorClarking"
                   : user.userType === "Admin"
-                  ? "/AdminManageServiceRequests"
-                  : "/LabManageServiceRequests"
+                    ? "/AdminManageServiceRequests"
+                    : "/LabManageServiceRequests"
               }
               state={isFromClarking ? this.props.location.state : null}
             />
@@ -341,16 +342,16 @@ class CreateServiceRequest extends Component {
                                 </tr>
                               ))
                             ) : (
-                              <tr>
-                                <td colSpan="4">
-                                  <p className="w-50 text-secondary">
-                                    You can always change the service category,
-                                    if you want to add different services from
-                                    different categories
+                                <tr>
+                                  <td colSpan="4">
+                                    <p className="w-50 text-secondary">
+                                      You can always change the service category,
+                                      if you want to add different services from
+                                      different categories
                                   </p>
-                                </td>
-                              </tr>
-                            )}
+                                  </td>
+                                </tr>
+                              )}
                           </tbody>
                         </table>
                       </div>
