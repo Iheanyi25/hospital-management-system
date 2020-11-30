@@ -76,3 +76,22 @@ body {
         opacity: 1;
     }
 }
+
+.searchStringValue {
+    width: 100%;
+    padding: 1rem;
+    transition: background-color 0.35s ease-in-out;
+    cursor: pointer;
+    background-color: #a9a9a924;
+    margin-bottom: 0.4rem;
+    border-radius: 5px;
+}
+
+.searchStringValue:hover {
+    background-color: #c4c4c4;
+}
+
+.searchStringValue.active {
+    background-color: #336cfb;
+    color: white;
+}
