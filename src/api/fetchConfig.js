@@ -4,9 +4,10 @@ export const fetchConfig = ({url, params, method, user = {}}) => {
 	return {
 		url,
 		method,
-		headers: { 'Content-Type': 'application/json',  Authorization: `Bearer ${user.token}` },
+		headers: { "Content-Type": "application/json-patch+json",  Authorization: `Bearer ${user.token}` },
 		data: {},
-		params
+        params,
+        redirect: "follow",
 	};
 };
 
