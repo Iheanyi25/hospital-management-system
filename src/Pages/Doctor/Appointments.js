@@ -299,15 +299,6 @@ class Appointments extends React.Component {
                           <table
                             ref={(ek) => (this.ek = ek)}
                             className="table table-striped"
-                            // data-columns='[
-                            //                             { "data": "photo" },
-                            //                             { "data": "name" },
-                            //                             { "data": "email" },
-                            //                             { "data": "phone" },
-                            //                             { "data": "date-of-birth" },
-                            //                             { "data": "address" },
-                            //                             { "data": "actions" }
-                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >

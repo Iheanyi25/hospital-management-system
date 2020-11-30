@@ -209,20 +209,20 @@ class Consultations extends React.Component {
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
                       <div
-                        className="tab-pane fade show active"
+                        className="tab-pane show fade active"
                         id="pills-active"
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
                       >
                         <div className="table-responsive">
                           <table
-                            ref={(en) => (this.en = en)}
-                            className="table"
+                            ref={(el) => (this.el = el)}
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -319,6 +319,7 @@ class Consultations extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
+                            ref={(em) => (this.em = em)}
                             className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
@@ -420,6 +421,7 @@ class Consultations extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
+                            ref={(en) => (this.en = en)}
                             className="table data-table"
                             data-columns='[
                                                         { "data": "photo" },
