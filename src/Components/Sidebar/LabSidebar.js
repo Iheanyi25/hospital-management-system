@@ -27,7 +27,7 @@ class LabSidebar extends React.Component {
                     <span className="group-title">My Office</span>
                   </li>
                   <li className="menu-item">
-                    <Link className="item-link" to="#">
+                    <Link className="item-link"to="/LabDashboard">
                       <span className="link-icon icofont-thermometer-alt" />{" "}
                       <span className="link-text">Dashboard</span>
                     </Link>
