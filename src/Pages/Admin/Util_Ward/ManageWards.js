@@ -74,6 +74,7 @@ export default class ManageWards extends Component {
                                                             <th>#</th>
                                                             <th>Name</th>
                                                             <th>Capacity</th>
+                                                            <th>Description</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -81,7 +82,7 @@ export default class ManageWards extends Component {
                                                     <tbody>
                                                         {
                                                             this.state.wards.map((item, index) =>
-                                                                <tr>
+                                                                <tr key={index}>
                                                                     <td>
                                                                         <strong>{index + 1}</strong>
                                                                     </td>
@@ -94,6 +95,9 @@ export default class ManageWards extends Component {
                                                                     </td>
                                                                     <td>
                                                                         {item.capacity}
+                                                                    </td>
+                                                                    <td>
+                                                                        {item?.description}
                                                                     </td>
 
                                                                     <td>

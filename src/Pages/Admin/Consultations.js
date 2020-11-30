@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
+import { ReAssign } from "../../Components/Modals/ReAssignModal";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
@@ -29,6 +31,23 @@ class Consultations extends React.Component {
 
   componentDidMount() {
     this.getAllConsultations().then(() => this.sync());
+  }
+
+  async deleteConsultation(e, id) {
+    e.preventDefault();
+    const request = await fetch(apiUrl + "/Admin/DeleteConsultation", {
+      method: "POST",
+      headers: {
+        "Content-type": " application/json"
+      },
+      body: JSON.stringify({ consultationId: id })
+    });
+
+    const res = await request.json();
+    this.setState({
+      success: true, message: res.message
+    });
+    this.getAllConsultations();
   }
 
   sync() {
@@ -101,6 +120,15 @@ class Consultations extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {
+            this.state.success ?
+              <Success
+                history={this.props.history}
+                message={this.state.message}
+              />
+              :
+              null
+          }
           <div className="main-content-wrap">
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -223,7 +251,7 @@ class Consultations extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(el) => (this.el = el)}
-                            className="table tble-striped"
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
@@ -261,27 +289,64 @@ class Consultations extends React.Component {
                                     </td>
 
                                     <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="Go for Clarking"
-                                          to={{
-                                            pathname: "/DoctorClarking",
-                                            state: {
-                                              id: consultation.id,
-                                              type: "consultation",
-                                              patient: consultation.patient
-                                            }
-                                          }}
-                                          className="btn btn-primary btn-sm btn-square rounded-pill"
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
                                         >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                          Action
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button> */}
+                                        <div className="dropdown-menu text-left">
+                                          <Link
+                                            title="Go for Clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                id: consultation.id,
+                                                type: "consultation",
+                                                patient: consultation.patient
+                                              }
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Go for Clarking
+                                          </Link>
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: consultation.patient.id,
+                                                firstName: consultation.patient.firstName,
+                                                lastName: consultation.patient.lastName
+                                              },
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
+                                          <button
+                                            className="btn btn-sm btn-block"
+                                            onClick={(e) => this.deleteConsultation(e, consultation.id)}
+                                          >
+                                            <span className="mr-3 btn-icon icofont-delete-alt" />
+                                            Delete Consultation
+                                          </button>
+                                          <button
+                                            onClick={() => this.setState({ activeConsultation: consultation.id })}
+                                            className="btn btn-sm btn-block"
+                                            data-toggle="modal"
+                                            data-target="#reassign-patient"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            ReAssign to Doctor
+                                          </button>
+                                        </div>
                                       </div>
                                     </td>
                                   </tr>
@@ -300,7 +365,7 @@ class Consultations extends React.Component {
                         <div className="table-responsive">
                           <table
                             ref={(em) => (this.em = em)}
-                            className="table"
+                            className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
@@ -308,7 +373,6 @@ class Consultations extends React.Component {
                               <tr>
                                 <th></th>
                                 <th>Name</th>
-                                {/* <th>Phone</th> */}
                                 <th className="nowrap">Appointment Title</th>
                                 <th className="nowrap">Reason For Appointment</th>
                                 <th>Actions</th>
@@ -317,8 +381,8 @@ class Consultations extends React.Component {
                             <tbody>
                               {patientsAttachedToDoctors
                                 ? patientsAttachedToDoctors.map(
-                                  (consultation) => (
-                                    <tr>
+                                  (consultation, index) => (
+                                    <tr key={index}>
                                       <td>
                                         <img
                                           src="../assets/content/user-40-1.jpg"
@@ -332,12 +396,6 @@ class Consultations extends React.Component {
                                         {consultation.patient.firstName}{" "}
                                         {consultation.patient.lastName}
                                       </td>
-                                      {/* <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {consultation.patient.phoneNumber}
-                                        </div>
-                                      </td> */}
                                       <td>
                                         {consultation.consultationTitle}
                                       </td>
@@ -348,24 +406,64 @@ class Consultations extends React.Component {
                                       </td>
 
                                       <td>
-                                        <div className="actions">
-                                          {/* <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-primary btn-sm btn-square rounded-pill"
+                                        <div className="btn-group">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                           >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link> */}
-                                          {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
+                                            Action
+                                        </button>
+                                          <div className="dropdown-menu text-left">
+                                            <Link
+                                              title="Go for Clarking"
+                                              to={{
+                                                pathname: "/DoctorClarking",
+                                                state: {
+                                                  id: consultation.id,
+                                                  type: "consultation",
+                                                  patient: consultation.patient
+                                                }
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Go for Clarking
+                                          </Link>
+                                            <Link
+                                              title="Clarking History"
+                                              to={{
+                                                pathname: "/ViewClarkingHistory",
+                                                state: {
+                                                  id: consultation.patient.id,
+                                                  firstName: consultation.patient.firstName,
+                                                  lastName: consultation.patient.lastName
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
+                                            <button
+                                              className="btn btn-sm btn-block"
+                                              onClick={(e) => this.deleteConsultation(e, consultation.id)}
+                                            >
+                                              <span className="mr-3 btn-icon icofont-delete-alt" />
+                                            Delete Consultation
                                           </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button> */}
+                                            <button
+                                              onClick={() => this.setState({ activeConsultation: consultation.id })}
+                                              className="btn btn-sm btn-block"
+                                              data-toggle="modal"
+                                              data-target="#reassign-patient"
+                                            >
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            ReAssign to Doctor
+                                          </button>
+                                          </div>
                                         </div>
                                       </td>
                                     </tr>
@@ -438,6 +536,21 @@ class Consultations extends React.Component {
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
+                                        <Link
+                                          title="Clarking History"
+                                          to={{
+                                            pathname: "/ViewClarkingHistory",
+                                            state: {
+                                              id: consultation.patient.id,
+                                              firstName: consultation.patient.firstName,
+                                              lastName: consultation.patient.lastName
+                                            },
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
                                         {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>
@@ -469,6 +582,8 @@ class Consultations extends React.Component {
             </div>
           </div>
         </main>
+
+        <ReAssign consultationId={this.state.activeConsultation} route={"ReassignConsultation"} />
       </>
     );
   }

@@ -216,19 +216,22 @@ class Consultations extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
-                            ref={(el) => (this.el = el)}
+                            ref={(en) => (this.en = en)}
                             className="table table-striped"
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                {/* <th>Title</th>
+                                <th>Reason for appointment</th> */}
+                                {/* <th className="text-nowrap">Doctor</th> */}
+                                <th>Title</th>
+                                <th>Reason for Consultation</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th className="text-nowrap">Patient Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -237,38 +240,38 @@ class Consultations extends React.Component {
                                 ? pendingAppointments.map((consultation) => (
                                     <tr>
                                       <td>
-                                        <img
-                                          src="../../assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
+                                        {
+                                          consultation.patientQueue
+                                            .consultationTitle
+                                        }
+                                      </td>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .reasonForConsultation
+                                        }
                                       </td>
                                       <td>
                                         {consultation.patient.firstName}{" "}
                                         {consultation.patient.lastName}
                                       </td>
                                       <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {consultation.patient.email}
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
+                                        <div className="d-flex align-items-center nowrap">
                                           {consultation.patient.phoneNumber}
                                         </div>
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleDateString()}
                                         </div>
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleTimeString()}
                                         </div>
                                       </td>
 
@@ -281,6 +284,127 @@ class Consultations extends React.Component {
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link> */}
+                                          <Link
+                                            title="Clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                type: "consultation",
+                                                id:
+                                                  consultation.patientQueue.id,
+                                                patient: consultation.patient,
+                                              },
+                                            }}
+                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: consultation.patient.id,
+                                                firstName:
+                                                  consultation.patient
+                                                    .firstName,
+                                                lastName:
+                                                  consultation.patient.lastName,
+                                              },
+                                            }}
+                                            className="btn btn-primary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
+
+                                          {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button> */}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
+                                : null}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div
+                        className="tab-pane fade"
+                        id="pills-accepted"
+                        role="tabpanel"
+                        aria-labelledby="pills-accepted-tab"
+                      >
+                        <div className="table-responsive">
+                          <table
+                            ref={(em) => (this.em = em)}
+                            className="table data-table"
+                            data-paging="true"
+                            data-info="true"
+                          >
+                            <thead>
+                              <tr>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th className="text-nowrap">Patient Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {acceptedAppointments
+                                ? acceptedAppointments.map((consultation) => (
+                                    <tr>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .consultationTitle
+                                        }
+                                      </td>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .reasonForConsultation
+                                        }
+                                      </td>
+                                      <td>
+                                        {consultation.patient.firstName}{" "}
+                                        {consultation.patient.lastName}
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap">
+                                          {consultation.patient.phoneNumber}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleDateString()}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleTimeString()}
+                                        </div>
+                                      </td>
+
+                                      <td>
+                                        <div className="actions">
+                                          {/* <Link
+                                        title="Pre-consultation"
+                                        to="/AdminPreConsultation"
+                                        className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                      >
+                                        <span className="btn-icon icofont-stethoscope-alt" />
+                                      </Link> */}
                                           <Link
                                             title="Clarking"
                                             to={{
@@ -313,108 +437,6 @@ class Consultations extends React.Component {
                       </div>
                       <div
                         className="tab-pane fade"
-                        id="pills-accepted"
-                        role="tabpanel"
-                        aria-labelledby="pills-accepted-tab"
-                      >
-                        <div className="table-responsive">
-                          <table
-                            ref={(em) => (this.em = em)}
-                            className="table data-table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
-                            data-paging="true"
-                            data-info="true"
-                          >
-                            <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {acceptedAppointments
-                                ? acceptedAppointments.map((consultation) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {[
-                                          consultation.applicationUser
-                                            .applicationUser.firstName,
-                                          consultation.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
-                                        </div>
-                                      </td>
-
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
-                                : null}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div
-                        className="tab-pane fade"
                         id="pills-completed"
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"
@@ -423,26 +445,17 @@ class Consultations extends React.Component {
                           <table
                             ref={(en) => (this.en = en)}
                             className="table data-table"
-                            data-columns='[
-                                                        { "data": "photo" },
-                                                        { "data": "name" },
-                                                        { "data": "email" },
-                                                        { "data": "phone" },
-                                                        { "data": "date-of-birth" },
-                                                        { "data": "address" },
-                                                        { "data": "actions" }
-                                                    ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                              <tr>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th className="text-nowrap">Patient Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -451,52 +464,61 @@ class Consultations extends React.Component {
                                 ? completedAppointments.map((consultation) => (
                                     <tr>
                                       <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
+                                        {
+                                          consultation.patientQueue
+                                            .consultationTitle
+                                        }
                                       </td>
                                       <td>
-                                        {" "}
-                                        {[
-                                          consultation.applicationUser
-                                            .applicationUser.firstName,
-                                          consultation.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
+                                        {
+                                          consultation.patientQueue
+                                            .reasonForConsultation
+                                        }
                                       </td>
                                       <td>
-                                        <strong>Liam</strong>
+                                        {consultation.patient.firstName}{" "}
+                                        {consultation.patient.lastName}
                                       </td>
                                       <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
+                                        <div className="d-flex align-items-center nowrap">
+                                          {consultation.patient.phoneNumber}
                                         </div>
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleDateString()}
                                         </div>
                                       </td>
                                       <td>
                                         <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleTimeString()}
                                         </div>
                                       </td>
 
                                       <td>
                                         <div className="actions">
+                                          {/* <Link
+                                      title="Pre-consultation"
+                                      to="/AdminPreConsultation"
+                                      className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                    >
+                                      <span className="btn-icon icofont-stethoscope-alt" />
+                                    </Link> */}
                                           <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
+                                            title="Clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                type: "consultation",
+                                                id:
+                                                  consultation.patientQueue.id,
+                                                patient: consultation.patient,
+                                              },
+                                            }}
                                             className="btn btn-secondary btn-sm btn-square rounded-pill"
                                           >
                                             <span className="btn-icon icofont-stethoscope-alt" />
@@ -516,7 +538,7 @@ class Consultations extends React.Component {
                           </table>
                         </div>
                       </div>
-                      <div
+                      {/* <div
                         className="tab-pane fade"
                         id="pills-pending"
                         role="tabpanel"
@@ -538,7 +560,7 @@ class Consultations extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Photo</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -551,71 +573,71 @@ class Consultations extends React.Component {
                             <tbody>
                               {pendingAppointments
                                 ? pendingAppointments.map((consultation) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {" "}
-                                        {[
-                                          consultation.firstName,
-                                          consultation.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
+                                  <tr>
+                                    <td>
+                                      <img
+                                        src="./assets/content/user-40-1.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="rounded-500"
+                                      />
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      {[
+                                        consultation.firstName,
+                                        consultation.lastName,
+                                      ].toString(" ")}
+                                    </td>
+                                    <td>
+                                      <strong>Liam</strong>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        <span className="icofont-ui-email p-0 mr-2" />
                                           liam@gmail.com
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        10 Feb 2018
                                         </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        9:15 - 9:45
                                         </div>
-                                      </td>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            onClick={() =>
-                                              (window.location.href =
-                                                "/AdminPreConsultation")
-                                            }
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                    <td>
+                                      <div className="actions">
+                                        <Link
+                                          title="Pre-consultation"
+                                          onClick={() =>
+                                            (window.location.href =
+                                              "/AdminPreConsultation")
+                                          }
+                                          to="/AdminPreConsultation"
+                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt" />
+                                        </Link>
+                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-edit" />
+                                        </button>
+                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                          <span className="btn-icon icofont-ui-delete" />
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

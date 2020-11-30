@@ -12,8 +12,6 @@ import AdminConsultationQueue from "../Pages/Admin/Consultations";
 import AddPatient from "../Pages/Admin/AddPatient.js";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultations";
 import { AdminLayout } from "../Components/Layout";
-import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
-import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
 import AllPatients from "../Pages/Admin/AllPatients";
 import ManageAccounts from "../Pages/Components/ManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
@@ -23,14 +21,18 @@ import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationHistory";
 import ViewClarkingHistory from "../Pages/Components/ViewClarkingHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
+import RegisterDrug from "../Pages/Admin/Pharmacy/RegisterDrug";
+import ViewDrugs from "../Pages/Admin/Pharmacy/ViewDrugs";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
+import ManageServices from "../Pages/Admin/Util_Services//ManageServices";
+import EditService from "../Pages/Admin/Util_Services//EditService";
 import ServiceCategory from "../Pages/Admin/Util_Services//ServiceCategory";
 import ManageServiceCategory from "../Pages/Admin/Util_Services//ManageServiceCategory";
-import ManageServices from "../Pages/Admin/Util_Services//ManageServices";
 import EditServiceCategory from "../Pages/Admin/Util_Services//EditServiceCategory";
-import EditService from "../Pages/Admin/Util_Services//EditService";
+import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
+import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequest";
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
@@ -46,6 +48,7 @@ import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
 import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans";
 import SelectHealthPlan from "../Pages/Admin/SelectHealthPlan";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
+import ClarkingHist from "../Pages/Components/ClarkingHistory";
 
 export default function AdminRoutes() {
   return (
@@ -110,6 +113,7 @@ export default function AdminRoutes() {
           />
 
           <Route exact path="/DoctorClarking" component={DoctorClarking} />
+          <Route exact path="/ViewClarkingHistory" component={ClarkingHist} />
 
           <Route
             exact
@@ -161,11 +165,7 @@ export default function AdminRoutes() {
             path="/AdminServiceRequests"
             component={CreateServiceRequest}
           />
-          <Route
-            exact
-            path="/AdminManageAccounts"
-            component={ManageAccounts}
-          />
+          <Route exact path="/AdminManageAccounts" component={ManageAccounts} />
           <Route
             exact
             path="/AdminPatientRegistration/:id"
@@ -201,6 +201,8 @@ export default function AdminRoutes() {
             path="/AdminViewClarkingHistory/:id"
             component={ViewClarkingHistory}
           />
+          <Route exact path="/AdminRegisterDrug" component={RegisterDrug} />
+          <Route exact path="/AdminViewDrugs" component={ViewDrugs} />
 
           <Route
             exact

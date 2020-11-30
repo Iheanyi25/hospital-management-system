@@ -14,6 +14,8 @@ import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationHistory";
 import ViewClarkingHistory from "../Pages/Components/ViewClarkingHistory";
 import ViewServiceRequests from "../Pages/Components/ViewServiceRequests";
+import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
+import ClarkingHist from "../Pages/Components/ClarkingHistory";
 
 export default function DoctorRoutes() {
   return (
@@ -72,6 +74,16 @@ export default function DoctorRoutes() {
             exact
             path="/DoctorServiceRequests/:id"
             component={ViewServiceRequests}
+          />
+          <Route
+            exact
+            path="/AdminServiceRequests"
+            component={CreateServiceRequest}
+          />
+          <Route
+            exact
+            path="/ViewClarkingHistory"
+            component={ClarkingHist}
           />
 
           <Route

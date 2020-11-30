@@ -37,6 +37,7 @@ class ManageServiceRequest extends React.Component {
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
+    console.log($(this.el));
   }
 
   render() {
@@ -167,9 +168,11 @@ class ManageServiceRequest extends React.Component {
                                       Action
                                     </button>
                                     <div className="dropdown-menu">
-                                      {category?.paymentStatus === "NOT PAID" ||
-                                      category?.paymentStatus ===
-                                        "INCOMPLETE" ? (
+                                      {user.userType ===
+                                      "Lab" ? null : category?.paymentStatus ===
+                                          "NOT PAID" ||
+                                        category?.paymentStatus ===
+                                          "INCOMPLETE" ? (
                                         <NavLink
                                           to={{
                                             pathname:
@@ -196,6 +199,8 @@ class ManageServiceRequest extends React.Component {
                                           pathname:
                                             user.userType === "Admin"
                                               ? `/AdminViewServiceRequestContents/${category.id}`
+                                              : user.userType === "Lab"
+                                              ? `/LabServiceRequestContents/${category.id}`
                                               : `/AccountServiceRequestContents/${category.id}`,
                                           state: {
                                             invoiceId: category.id,

@@ -1,17 +1,12 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-// import {
-//   PayOnline,
-//   PayCash,
-//   Others,
-// } from "./Components/RegistrationPaymentModes";
 import {
   PayOnline,
   PayCash,
   Others,
 } from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
-import { Success } from '../../Components/Alerts'
+import { Success } from "../../Components/Alerts";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -21,13 +16,14 @@ class PatientRegistration extends React.Component {
     super(props);
 
     this.state = {
+      user: JSON.parse(localStorage.getItem("authenticatedUser")),
       patients: [],
       apiUrl: process.env.REACT_APP_API_URL,
       patientId: "",
       email: "",
       amount: "",
       invoiceNumber: "",
-      success: false
+      success: false,
     };
   }
 
@@ -36,24 +32,28 @@ class PatientRegistration extends React.Component {
     console.log(cost);
     this.setState({ patientId, email, amount: cost });
     console.log(patientId);
-    this.fetPatientRegistrationIvoice(patientId)
+    this.fetPatientRegistrationIvoice(patientId);
     this.getAllPatients().then(() => this.sync());
   }
   fetPatientRegistrationIvoice = async (id) => {
-		try {
-			let res = await fetch(`https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice?patientId=${id}`, {
-				headers: { 'Content-Type': 'application/json-patch+json' },
-				method: 'POST',
-				redirect: 'follow',
-			});
-			const data = await res.json();
-      // console.log(JSON.parse(data).patientRegistrationInvoice.invoiceNumber);
-      // console.log(data.patientRegistrationInvoice.invoiceNumber);
-      this.setState({invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber})
-		} catch (error) {
-			console.log(error);
-		}
-	};
+    try {
+      let res = await fetch(
+        `https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice?patientId=${id}`,
+        {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "GET",
+          redirect: "follow",
+        }
+      );
+      const data = await res.json();
+      console.log( data.patientRegistrationInvoice);
+      this.setState({
+        invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   async getAllPatients() {
     const { apiUrl } = this.state;
@@ -76,7 +76,9 @@ class PatientRegistration extends React.Component {
       description:
         modeOfPayment === ("online-paystack" || "online-flutterwave")
           ? "Paid online"
-          : paidOffline ? description: description.description,
+          : paidOffline
+          ? description
+          : description.description,
       modeOfPayment: modeOfPayment,
       referenceNumber:
         modeOfPayment === "online-paystack"
@@ -108,7 +110,7 @@ class PatientRegistration extends React.Component {
     }
   };
   render() {
-    const { amount, email } = this.state;
+    const { amount, email, user } = this.state;
     return (
       <>
         <PageLoader />
@@ -118,12 +120,16 @@ class PatientRegistration extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           {this.state.success ? (
-						<Success
-							history={this.props.history}
-							message="Well done, you successfully registered this patient"
-							nextRoute="/AdminAllPatients"
-						/>
-					) : null}
+            <Success
+              history={this.props.history}
+              message="Well done, you successfully registered this patient"
+              nextRoute={
+                user.userType === "Admin"
+                  ? "/AdminAllPatients"
+                  : "/AccountRegistrationInvoice"
+              }
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>Payment for registration</h3>
@@ -187,7 +193,7 @@ class PatientRegistration extends React.Component {
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
                       <div
-                        className="tab-pane fade show active"
+                        className="tab-pane fade show active w-50 m-auto"
                         id="pills-active"
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
@@ -198,7 +204,7 @@ class PatientRegistration extends React.Component {
                         />
                       </div>
                       <div
-                        className="tab-pane fade"
+                        className="tab-pane fade w-50 m-auto"
                         id="pills-accepted"
                         role="tabpanel"
                         aria-labelledby="pills-accepted-tab"
@@ -209,7 +215,7 @@ class PatientRegistration extends React.Component {
                         />
                       </div>
                       <div
-                        className="tab-pane fade"
+                        className="tab-pane fade w-50 m-auto"
                         id="pills-completed"
                         role="tabpanel"
                         aria-labelledby="pills-completed-tab"

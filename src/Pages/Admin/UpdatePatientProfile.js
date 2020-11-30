@@ -46,7 +46,7 @@ class UpdatePatientProfile extends React.Component {
   getRegistrationStatus = async () => {
     try {
       let res = await fetch(
-        `${apiUrl}/Admin/GetRegistrationFeePaymentStatus?patientId=${this.state.patientId}`,
+        `${apiUrl}/Admin/GetRegistrationFeeInvoice?patientId=${this.state.patientId}`,
         {
           headers: { "Content-Type": "application/json-patch+json" },
           method: "POST",
@@ -55,7 +55,7 @@ class UpdatePatientProfile extends React.Component {
       );
       const data = await res.text();
       console.log(JSON.parse(data));
-      this.setState({ paymentStatus: JSON.parse(data).paymentStatus });
+      this.setState({ paymentStatus: JSON.parse(data).registrationInvoice.paymentStatus });
     } catch (error) {
       console.log(error);
     }
@@ -408,7 +408,7 @@ class UpdatePatientProfile extends React.Component {
                           <label>Email address</label>{" "}
                           <input
                             className="form-control"
-                            type="text"
+                            type="email"
                             placeholder="Email Address"
                             value={email}
                             disabled

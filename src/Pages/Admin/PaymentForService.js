@@ -24,6 +24,7 @@ class PaymentForService extends React.Component {
       selectedServices: [],
       amount: 0,
       email: "",
+      userId: "",
       serviceRequestId: [],
       success: false,
     };
@@ -31,11 +32,12 @@ class PaymentForService extends React.Component {
 
   componentDidMount() {
     this.getSerivices().then(() => this.sync());
-    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
+    const { invoiceId, user, patientId } = this.props.history.location.state;
     this.setState({
-      invoiceId: this.props.history.location.state.invoiceId,
+      invoiceId: invoiceId,
       email: user.email,
-      patientId: this.props.history.location.state.patientId,
+      userId: user.id,
+      patientId: patientId,
     });
   }
 
@@ -110,7 +112,7 @@ class PaymentForService extends React.Component {
     description,
     paidOffline
   ) => {
-    const { amount, serviceRequestId, patientId } = this.state;
+    const { amount, serviceRequestId, patientId, userId } = this.state;
     let payload = {
       patientId: patientId,
       serviceRequestId: serviceRequestId,
@@ -128,6 +130,7 @@ class PaymentForService extends React.Component {
           : paidOffline
           ? reference
           : "",
+      // userId: userId
     };
 
     try {
@@ -152,6 +155,7 @@ class PaymentForService extends React.Component {
 
   render() {
     const { amount, email } = this.state;
+    const { user } = this.props.history.location.state;
     return (
       <>
         <PageLoader />
@@ -164,7 +168,11 @@ class PaymentForService extends React.Component {
             <Success
               history={this.props.history}
               message="Well done, you successfully paid for this service"
-              nextRoute="/AdminManageServiceRequests"
+              nextRoute={
+                user.userType === "Admin"
+                  ? "/AdminManageServiceRequests"
+                  : "/AccountManageServiceRequest"
+              }
             />
           ) : null}
           <div className="main-content-wrap">
@@ -196,7 +204,17 @@ class PaymentForService extends React.Component {
                                       {service?.serviceName}
                                     </p>
                                     <small className="mt-0 text-info">
-                                      {formatAmount(service?.amount)+" - "?? ""}{service.paymentStatus === "PAID" ? <span className="text-success">Paid</span>:<span className="text-danger">Not paid</span>}
+                                      {formatAmount(service?.amount) + " - " ??
+                                        ""}
+                                      {service.paymentStatus === "PAID" ? (
+                                        <span className="text-success">
+                                          Paid
+                                        </span>
+                                      ) : (
+                                        <span className="text-danger">
+                                          Not paid
+                                        </span>
+                                      )}
                                     </small>
                                   </div>
                                   <div className="custom-control custom-checkbox mb-3 mt-2">

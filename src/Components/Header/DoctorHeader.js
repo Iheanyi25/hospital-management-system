@@ -49,10 +49,10 @@ class DoctorHeader extends React.Component {
 									data-offset="0, 12"
 								>
 									<span className="icon icofont-notification" />{' '}
-									<span className="badge badge-danger badge-sm">5</span>
+									<span className="badge badge-danger badge-sm">0p</span>
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
-									<div className="menu-header">
+									{/* <div className="menu-header">
 										<h4 className="h5 menu-title mt-0 mb-0">Notifications</h4>
 										<Link to="#" className="text-danger">
 											Clear All
@@ -104,10 +104,10 @@ class DoctorHeader extends React.Component {
 												</div>
 											</Link>
 										</li>
-									</ul>
+									</ul> */}
 									<div className="menu-footer">
 										<button className="btn btn-primary btn-block">
-											View all notifications <span className="btn-icon ml-2 icofont-tasks-alt" />
+											No notifications yet <span className="btn-icon ml-2 icofont-tasks-alt" />
 										</button>
 									</div>
 								</div>
@@ -123,7 +123,7 @@ class DoctorHeader extends React.Component {
 								>
 									<span className="d-flex align-items-center">
 										<img
-											src="../../assets/content/user-400-1.jpg"
+											src={"../../assets/content/user-400-1.jpg"}
 											width={40}
 											height={40}
 											className="rounded-500 mr-1"
@@ -134,17 +134,17 @@ class DoctorHeader extends React.Component {
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
 									<ul className="list">
-										<li>
+										{/* <li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-home" /> Edit account
 											</Link>
-										</li>
+										</li> */}
 										<li>
-											<Link to="#" className="align-items-center">
+											<Link to="/DoctorProfile" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
 											</Link>
 										</li>
-										<li>
+										{/* <li>
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-calendar" /> Calendar
 											</Link>
@@ -153,7 +153,7 @@ class DoctorHeader extends React.Component {
 											<Link to="#" className="align-items-center">
 												<span className="icon icofont-ui-settings" /> Settings
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<Link to="#" className="align-items-center" onClick={logOut}>
 												<span className="icon icofont-logout" />
