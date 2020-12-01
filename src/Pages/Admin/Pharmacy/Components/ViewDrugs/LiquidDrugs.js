@@ -1,18 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { UpdateDrug } from "../../../../../Components/Modals";
-import remove from "../../../../../assets/img/remove.svg";
-import update from "../../../../../assets/img/update.svg";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
-class AllDrugs extends React.Component {
+class LiquidDrugs extends React.Component {
   state = {
-    allDrugs: [],
-    singleDrug: {},
+    liquidDrugs: [],
   };
 
   componentDidMount() {
@@ -20,7 +14,7 @@ class AllDrugs extends React.Component {
   }
 
   fetchAllDrugs = async () => {
-    this.setState({ allDrugs: this.props.allDrugs });
+    this.setState({ liquidDrugs: this.props.liquidDrugs });
   };
 
   sync() {
@@ -29,27 +23,9 @@ class AllDrugs extends React.Component {
     console.log($(this.el));
   }
 
-  deleteDrug = async (id) => {
-    const { setSuccess } = this.props;
-    try {
-      let res = await fetch(`${apiUrl}/Pharmacy/DeleteDrug`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "DELETE",
-        body: JSON.stringify({ id: id }),
-        redirect: "follow",
-      });
-      if (res.status === 200) {
-        setSuccess(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   render() {
-    const { allDrugs, singleDrug } = this.state;
-    console.log(allDrugs, "hello");
-    return allDrugs.length === 0 ? (
+    const { liquidDrugs } = this.state;
+    return liquidDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
     ) : (
       <div className="table-responsive">
@@ -71,7 +47,7 @@ class AllDrugs extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {allDrugs?.map((drug, index) => (
+            {liquidDrugs?.map((drug, index) => (
               <tr key={index}>
                 <td>
                   <div className="text-muted text-nowrap">{index + 1}</div>
@@ -114,26 +90,13 @@ class AllDrugs extends React.Component {
                     </button>
                     <div className="dropdown-menu">
                       <NavLink
-                        to="#"
-                        data-toggle="modal"
-                        data-target="#update-drug"
+                        to={{
+                          pathname: `/AdminPaymentForService/`,
+                        }}
                         className="btn btn-sm btn-block"
-                        onClick={() =>
-                          this.setState({
-                            singleDrug: drug,
-                          })
-                        }
                       >
-                        <img src={update} alt="delete" className="mr-2" />
-                        Update drug
-                      </NavLink>
-                      <NavLink
-                        to="#"
-                        className="btn btn-sm btn-block"
-                        onClick={() => this.deleteDrug(drug.id)}
-                      >
-                        <img src={remove} alt="delete" className="mr-2" />
-                        Delete
+                        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                        Pay for Services
                       </NavLink>
                     </div>
                   </div>
@@ -142,10 +105,9 @@ class AllDrugs extends React.Component {
             )) ?? "N/A"}
           </tbody>
         </table>
-        <UpdateDrug drug={singleDrug} />
       </div>
     );
   }
 }
 
-export { AllDrugs };
+export { LiquidDrugs };

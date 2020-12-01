@@ -72,7 +72,7 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <label>Number of pills in a packet/container</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               tabIndex={-98}
               name="quantityPerContainer"
               onChange={handleChange}
@@ -114,7 +114,7 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <label>Volume (ml) per bottle/tube</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               tabIndex={-98}
               name="quantityPerContainer"
               onChange={handleChange}
@@ -156,7 +156,7 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <label>Volume (metered acutations)</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               tabIndex={-98}
               name="quantityPerContainer"
               onChange={handleChange}
@@ -198,7 +198,7 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <label>Volume (grams) per can</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               tabIndex={-98}
               name="quantityPerContainer"
               onChange={handleChange}
@@ -245,7 +245,7 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             Back
           </button>
         </div>
-        <div className="col text-right">
+        <div className="col number-right">
           <button
             type="submit"
             className="btn btn-primary"

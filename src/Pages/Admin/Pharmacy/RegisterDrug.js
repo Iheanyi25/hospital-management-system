@@ -1,7 +1,8 @@
 import React from "react";
 import { DrugDescription, DrugType } from "./Components/RegisterDrug";
+import { Success } from "../../../Components/Alerts";
 
-// const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 class RegisterDrug extends React.Component {
   state = {
@@ -16,6 +17,9 @@ class RegisterDrug extends React.Component {
     // quantityInStock: "",
     quantityPerContainer: "",
     containersPerCarton: "",
+
+    success: false,
+    message: "",
   };
 
   nextStep = () => {
@@ -59,18 +63,15 @@ class RegisterDrug extends React.Component {
       containersPerCarton,
     };
     try {
-      let res = await fetch(
-        "https://hms-tenece.azurewebsites.net/api/Pharmacy/RegisterDrug",
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      let res = await fetch(`${apiUrl}/Pharmacy/RegisterDrug`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify(payload),
+        redirect: "follow",
+      });
       if (res.status === 200) {
         console.log(res);
-        // this.setState({ success: true });
+        this.setState({ success: true, message: res.message });
       }
     } catch (error) {
       console.log(error);
@@ -86,12 +87,20 @@ class RegisterDrug extends React.Component {
       title,
       genericName,
       manufacturer,
+      success,
     } = this.state;
     return (
       <main className="main-content">
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
+        {success ? (
+          <Success
+            history={this.props.history}
+            message="Well done, you successfully created a category"
+            nextRoute="/AdminViewDrugs"
+          />
+        ) : null}
         <div className="main-content-wrap w-50">
           <div className="page-content">
             <div className="row justify-content-center">
