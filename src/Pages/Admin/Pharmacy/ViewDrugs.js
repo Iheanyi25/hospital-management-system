@@ -8,6 +8,7 @@ import {
   InhalerDrugs,
   PowderDrugs,
 } from "./Components/ViewDrugs";
+import { Success } from "../../../Components/Alerts";
 import tablet from "../../../assets/img/tablet.svg";
 import liquid from "../../../assets/img/liquid.svg";
 import inhalers from "../../../assets/img/inhalers.svg";
@@ -25,13 +26,19 @@ class ViewDrugs extends React.Component {
     liquidDrugs: [],
     inhalerDrugs: [],
     powderDrugs: [],
+
     loading: true,
+    message: "",
   };
   componentDidMount() {
     this.fetchAllDrugs().then(() => this.sync());
   }
-
+9
   fetchAllDrugs = async () => {
+    await this.setState((state) => ({
+       ...state,
+        loading: true,
+      }))
     try {
       let res = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`, {
         headers: { "Content-Type": "application/json-patch+json" },
@@ -39,7 +46,7 @@ class ViewDrugs extends React.Component {
         redirect: "follow",
       });
       const data = await res.text();
-      console.log(JSON.parse(data));
+      console.log(JSON.parse(data),"999999999999999999999999");
       //   this.setState({ drugs: JSON.parse(data).drugs });
       this.filterDrug(JSON.parse(data).drugs);
     } catch (error) {
@@ -56,6 +63,12 @@ class ViewDrugs extends React.Component {
       loading: false,
     }),
   ];
+
+  setSuccess = (message) => {
+    this.setState({ success: true, message: message });
+    this.fetchAllDrugs();
+  };
+
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
@@ -70,6 +83,8 @@ class ViewDrugs extends React.Component {
       inhalerDrugs,
       powderDrugs,
       loading,
+      success,
+      message,
     } = this.state;
     console.log(tabDrugs);
     return (
@@ -81,6 +96,7 @@ class ViewDrugs extends React.Component {
             <div className="app-loader">
               <i className="icofont-spinner-alt-4 rotate" />
             </div>
+            {success ? <Success message={message} /> : null}
             <div className="main-content-wrap">
               <header className="d-flex justify-content-between align-items-center mb-5">
                 <h4 className="page-title">Drug catalog</h4>
@@ -155,7 +171,7 @@ class ViewDrugs extends React.Component {
                         </div>
                         <div className="col col-8">
                           <h6 className="mt-0 mb-1 text-nowrap">
-                            Powder (In bottles)
+                            Powder (In cans)
                           </h6>
                           <div className="count text-primary fs-20">
                             {powderDrugs.length === 0
@@ -250,7 +266,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-all-tab"
                         >
-                          <AllDrugs allDrugs={allDrugs} />
+                          <AllDrugs
+                            allDrugs={allDrugs}
+                            setSuccess={this.setSuccess}
+                          />
                         </div>
                         <div
                           className="tab-pane fade"
@@ -258,7 +277,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-tabs-tab"
                         >
-                          <TabDrugs tabDrugs={tabDrugs} />
+                          <TabDrugs
+                            tabDrugs={tabDrugs}
+                            setSuccess={this.setSuccess}
+                          />
                         </div>
                         <div
                           className="tab-pane fade"
@@ -266,7 +288,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-liquid-tab"
                         >
-                          <LiquidDrugs liquidDrugs={liquidDrugs} />
+                          <LiquidDrugs
+                            liquidDrugs={liquidDrugs}
+                            setSuccess={this.setSuccess}
+                          />
                         </div>
                         <div
                           className="tab-pane fade"
@@ -274,7 +299,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-inhaler-tab"
                         >
-                          <InhalerDrugs inhalerDrugs={inhalerDrugs} />
+                          <InhalerDrugs
+                            inhalerDrugs={inhalerDrugs}
+                            setSuccess={this.setSuccess}
+                          />
                         </div>
                         <div
                           className="tab-pane fade"
@@ -282,7 +310,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-powder-tab"
                         >
-                          <PowderDrugs powderDrugs={powderDrugs} />
+                          <PowderDrugs
+                            powderDrugs={powderDrugs}
+                            setSuccess={this.setSuccess}
+                          />
                         </div>
                       </div>
                     </div>
