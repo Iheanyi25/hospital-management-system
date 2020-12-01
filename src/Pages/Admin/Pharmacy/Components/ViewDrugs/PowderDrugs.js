@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
-class AllDrugs extends React.Component {
+class PowderDrugs extends React.Component {
   state = {
-    allDrugs: [],
+    powderDrugs: [],
   };
 
   componentDidMount() {
@@ -14,7 +14,7 @@ class AllDrugs extends React.Component {
   }
 
   fetchAllDrugs = async () => {
-    this.setState({ allDrugs: this.props.allDrugs });
+    this.setState({ powderDrugs: this.props.powderDrugs });
   };
 
   sync() {
@@ -24,9 +24,8 @@ class AllDrugs extends React.Component {
   }
 
   render() {
-    const { allDrugs } = this.state;
-    console.log(allDrugs, "hello");
-    return allDrugs.length === 0 ? (
+    const { powderDrugs } = this.state;
+    return powderDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
     ) : (
       <div className="table-responsive">
@@ -48,7 +47,7 @@ class AllDrugs extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {allDrugs?.map((drug, index) => (
+            {powderDrugs?.map((drug, index) => (
               <tr key={index}>
                 <td>
                   <div className="text-muted text-nowrap">{index + 1}</div>
@@ -111,4 +110,4 @@ class AllDrugs extends React.Component {
   }
 }
 
-export { AllDrugs };
+export { PowderDrugs };
