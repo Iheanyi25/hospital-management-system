@@ -28,10 +28,9 @@ class ClarkingHistory extends React.Component {
           redirect: "follow",
         }
       );
-      const data = await res.text();
-      console.log(JSON.parse(data).clerkingHistory);
+      const data = await res.json();
       this.setState({
-        clerkingHistories: JSON.parse(data).clerkingHistory,
+        clerkingHistories: data.clerkingHistory,
       });
       if (this.props.setCount)
         this.props.setCount(this.state.clerkingHistories.length);
@@ -51,160 +50,158 @@ class ClarkingHistory extends React.Component {
           {this.state.clerkingHistories.length === 0 ? (
             <h5 className="text-center mt-5">Nothing to see here</h5>
           ) : (
-            this.state.clerkingHistories.map((clerkingHistory, index) => (
-              <div className="card mb-0">
-                <div className="card-header" id="headingTwo">
-                  <h5 className="mb-0">
-                    <button
-                      className="btn btn-outline-primary btn-block"
-                      data-toggle="collapse"
-                      data-target={`#collapse${index + 1}`}
-                      aria-expanded="true"
-                      aria-controls={`collapse${index + 1}`}
-                    >
-                      {`Captured on ${
-                        formatDate(
+              this.state.clerkingHistories.map((clerkingHistory, index) => (
+                <div className="card mb-0">
+                  <div className="card-header" id="headingTwo">
+                    <h5 className="mb-0">
+                      <button
+                        className="btn btn-outline-primary btn-block"
+                        data-toggle="collapse"
+                        data-target={`#collapse${index + 1}`}
+                        aria-expanded="true"
+                        aria-controls={`collapse${index + 1}`}
+                      >
+                        {`Captured on ${formatDate(
                           clerkingHistory?.consultation?.dateOfConsultation
                         ) ?? ""
-                      }`}
-                    </button>
-                  </h5>
-                </div>
-                <div
-                  id={`collapse${index + 1}`}
-                  className="collapse"
-                  aria-labelledby="headingOne"
-                >
-                  <div className="card-body">
-                    <div className="d-flex mt-3 mb-3">
-                      <img
-                        src={user}
-                        style={{ height: "64px", width: "64px" }}
-                        className="rounded-circle mr-3"
-                        alt="user"
-                      />
-                      <div>
-                        <h5 className="mb-2 mt-1 font-weight-bold">
-                          <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
-                        </h5>
-                        <p className="mb-2">
-                          {`Clerked patient on ${
-                            formatDate(
+                          }`}
+                      </button>
+                    </h5>
+                  </div>
+                  <div
+                    id={`collapse${index + 1}`}
+                    className="collapse"
+                    aria-labelledby="headingOne"
+                  >
+                    <div className="card-body">
+                      <div className="d-flex mt-3 mb-3">
+                        <img
+                          src={user}
+                          style={{ height: "64px", width: "64px" }}
+                          className="rounded-circle mr-3"
+                          alt="user"
+                        />
+                        <div>
+                          <h5 className="mb-2 mt-1 font-weight-bold">
+                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
+                          </h5>
+                          <p className="mb-2">
+                            {`Clerked patient on ${formatDate(
                               clerkingHistory?.consultation?.dateOfConsultation
                             ) ?? ""
-                          }`}
-                        </p>
+                              }`}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <button
-                      className="btn btn-outline-primary btn-block mb-4"
-                      data-toggle="collapse"
-                      data-target="#collapsePatientHistoryOne"
-                    >
-                      Patient health history
+                      <button
+                        className="btn btn-outline-primary btn-block mb-4"
+                        data-toggle="collapse"
+                        data-target="#collapsePatientHistoryOne"
+                      >
+                        Patient health history
                     </button>
-                    <div
-                      id="collapsePatientHistoryOne"
-                      className="collapse show"
-                    >
-                      <div className="row mx-0">
-                        <div className="col col-md-6">
-                          <h5>Social history</h5>
-                          <p>{clerkingHistory?.socialHistory ?? "N/A"}</p>
+                      <div
+                        id="collapsePatientHistoryOne"
+                        className="collapse show"
+                      >
+                        <div className="row mx-0">
+                          <div className="col col-md-6">
+                            <h5>Social history</h5>
+                            <p>{clerkingHistory?.socialHistory ?? "N/A"}</p>
+                          </div>
+                          <div className="col col-md-6">
+                            <h5>Family history</h5>
+                            <p>{clerkingHistory?.familyHistory ?? "N/A"}</p>
+                          </div>
                         </div>
-                        <div className="col col-md-6">
-                          <h5>Family history</h5>
-                          <p>{clerkingHistory?.familyHistory ?? "N/A"}</p>
-                        </div>
-                      </div>
 
-                      <div className="row mx-0">
-                        <div className="col col-md-6">
-                          <h5>Medical history</h5>
-                          <p>{clerkingHistory?.medicalHistory ?? "N/A"}</p>
-                        </div>
-                        <div className="col col-md-6 mb-4">
-                          <h5>Travel history</h5>
-                          <p>
-                            <b>Last country visited: </b>
-                            {clerkingHistory?.lastCountryVisited ?? "N/A"}
-                          </p>
-                          <p>
-                            <b>Date of visitation: </b>
-                            {clerkingHistory?.dateOfVisitation ?? "N/A"}
-                          </p>
+                        <div className="row mx-0">
+                          <div className="col col-md-6">
+                            <h5>Medical history</h5>
+                            <p>{clerkingHistory?.medicalHistory ?? "N/A"}</p>
+                          </div>
+                          <div className="col col-md-6 mb-4">
+                            <h5>Travel history</h5>
+                            <p>
+                              <b>Last country visited: </b>
+                              {clerkingHistory?.lastCountryVisited ?? "N/A"}
+                            </p>
+                            <p>
+                              <b>Date of visitation: </b>
+                              {clerkingHistory?.dateOfVisitation ?? "N/A"}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <button
-                      className="btn btn-outline-primary btn-block"
-                      data-toggle="collapse"
-                      data-target="#collapseClarking"
-                    >
-                      Clarking
+                      <button
+                        className="btn btn-outline-primary btn-block"
+                        data-toggle="collapse"
+                        data-target="#collapseClarking"
+                      >
+                        Clarking
                     </button>
-                    <div id="collapseClarking" className="collapse">
-                      <div className="row mx-0">
-                        <div className="col col-md-6">
-                          <h5>Presenting complaints</h5>
-                          <p>
-                            {clerkingHistory?.presentingComplaints ?? "N/A"}
-                          </p>
+                      <div id="collapseClarking" className="collapse">
+                        <div className="row mx-0">
+                          <div className="col col-md-6">
+                            <h5>Presenting complaints</h5>
+                            <p>
+                              {clerkingHistory?.presentingComplaints ?? "N/A"}
+                            </p>
+                          </div>
+                          <div className="col col-md-6">
+                            <h5>History of complaints</h5>
+                            <p>
+                              {clerkingHistory?.historyOfPresentingComplaints ??
+                                "N/A"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="col col-md-6">
-                          <h5>History of complaints</h5>
-                          <p>
-                            {clerkingHistory?.historyOfPresentingComplaints ??
-                              "N/A"}
-                          </p>
-                        </div>
-                      </div>
 
-                      <div className="row mx-0">
-                        <div className="col col-md-6">
-                          <h5>Review of system</h5>
-                          <p>{clerkingHistory?.reviewOfSystem ?? "N/A"}</p>
+                        <div className="row mx-0">
+                          <div className="col col-md-6">
+                            <h5>Review of system</h5>
+                            <p>{clerkingHistory?.reviewOfSystem ?? "N/A"}</p>
+                          </div>
+                          <div className="col col-md-6">
+                            <h5>Physical exam</h5>
+                            <p>{clerkingHistory?.physicalExamination ?? "N/A"}</p>
+                          </div>
                         </div>
-                        <div className="col col-md-6">
-                          <h5>Physical exam</h5>
-                          <p>{clerkingHistory?.physicalExamination ?? "N/A"}</p>
-                        </div>
-                      </div>
 
-                      <div className="row mx-0">
-                        <div className="col col-md-6">
-                          <h5>Diagnosis</h5>
-                          <p>{clerkingHistory?.diagnosis ?? "N/A"}</p>
+                        <div className="row mx-0">
+                          <div className="col col-md-6">
+                            <h5>Diagnosis</h5>
+                            <p>{clerkingHistory?.diagnosis ?? "N/A"}</p>
+                          </div>
+                          <div className="col col-md-6">
+                            <h5>Treatment plan</h5>
+                            <p>{clerkingHistory?.treatmentPlan ?? "N/A"}</p>
+                          </div>
                         </div>
-                        <div className="col col-md-6">
-                          <h5>Treatment plan</h5>
-                          <p>{clerkingHistory?.treatmentPlan ?? "N/A"}</p>
-                        </div>
-                      </div>
 
-                      <div className="row mx-0">
-                        <div className="col col-md-6">
-                          <h5>Obstetrics & Gynecology</h5>
-                          <p>
-                            {clerkingHistory?.obstetricsAndGynecology ?? "N/A"}
-                          </p>
-                        </div>
-                        <div className="col col-md-6">
-                          <h5>Priscriptions</h5>
-                          <p>
-                            Anim pariatur cliche reprehenderit, enim eiusmod
-                            high life accusamus terry richardson ad squid. 3
-                            wolf moon officia aute, non cupidatat skateboard
+                        <div className="row mx-0">
+                          <div className="col col-md-6">
+                            <h5>Obstetrics & Gynecology</h5>
+                            <p>
+                              {clerkingHistory?.obstetricsAndGynecology ?? "N/A"}
+                            </p>
+                          </div>
+                          <div className="col col-md-6">
+                            <h5>Priscriptions</h5>
+                            <p>
+                              Anim pariatur cliche reprehenderit, enim eiusmod
+                              high life accusamus terry richardson ad squid. 3
+                              wolf moon officia aute, non cupidatat skateboard
                             dolor brunch.{" "}
-                          </p>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
         </div>
       </div>
     );

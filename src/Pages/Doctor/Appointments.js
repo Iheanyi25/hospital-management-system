@@ -299,116 +299,99 @@ class Appointments extends React.Component {
                           <table
                             ref={(ek) => (this.ek = ek)}
                             className="table table-striped"
-                            // data-columns='[
-                            //                             { "data": "photo" },
-                            //                             { "data": "name" },
-                            //                             { "data": "email" },
-                            //                             { "data": "phone" },
-                            //                             { "data": "date-of-birth" },
-                            //                             { "data": "address" },
-                            //                             { "data": "actions" }
-                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th className="text-nowrap">Patient Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {pendingAppointments
                                 ? pendingAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="../../assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {appointment.patient?.firstName}{" "}
-                                        {appointment.patient?.lastName}
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {appointment.appointmentTitle}
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          {appointment.reasonForAppointment}
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          {formatDate(
-                                            appointment.appointmentDate
-                                          ) ?? ""}
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          {formatTime(
-                                            appointment.appointmentTime
-                                          ) ?? ""}
-                                        </div>
-                                      </td>
+                                  <tr>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        {appointment.appointmentTitle}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        {appointment.reasonForAppointment}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      {appointment.patient?.firstName}{" "}
+                                      {appointment.patient?.lastName}
+                                    </td>
+                                    <td>
+                                      {appointment.patient?.phoneNumber}{" "}
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {formatDate(
+                                          appointment.appointmentDate
+                                        ) ?? ""}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {formatTime(
+                                          appointment.appointmentTime
+                                        ) ?? ""}
+                                      </div>
+                                    </td>
 
-                                      <td>
-                                        <div className="btn-group">
-                                          <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                          >
-                                            Action
+                                    <td>
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
+                                        >
+                                          Action
                                           </button>
-                                          <div className="dropdown-menu text-left">
-                                            <button
-                                              title="Accept Appointment"
-                                              onClick={(e) =>
-                                                this.acceptAppointment(
-                                                  e,
-                                                  appointment.id
-                                                )
-                                              }
-                                              className="btn btn-sm btn-block"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        <div className="dropdown-menu text-left">
+                                          <button
+                                            title="Accept Appointment"
+                                            onClick={(e) =>
+                                              this.acceptAppointment(
+                                                e,
+                                                appointment.id
+                                              )
+                                            }
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                               Accept Appointment
                                             </button>
-                                            <button
-                                              title="Reject Appointment"
-                                              onClick={(e) =>
-                                                this.rejectAppointment(
-                                                  e,
-                                                  appointment.id
-                                                )
-                                              }
-                                              className="btn btn-sm btn-block"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                          <button
+                                            title="Reject Appointment"
+                                            onClick={(e) =>
+                                              this.rejectAppointment(
+                                                e,
+                                                appointment.id
+                                              )
+                                            }
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                               Reject Appointment
                                             </button>
-                                          </div>
                                         </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
@@ -424,108 +407,99 @@ class Appointments extends React.Component {
                           <table
                             ref={(em) => (this.em = em)}
                             className="table table-striped"
-                            // data-columns='[
-                            //                             { "data": "photo" },
-                            //                             { "data": "name" },
-                            //                             { "data": "email" },
-                            //                             { "data": "phone" },
-                            //                             { "data": "date-of-birth" },
-                            //                             { "data": "address" },
-                            //                             { "data": "actions" }
-                            //                         ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th className="text-nowrap">Patient Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {acceptedAppointments
                                 ? acceptedAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="../../assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {appointment.patient.firstName}{" "}
-                                        {appointment.patient.lastName}
-                                      </td>
-                                      <td>{appointment.appointmentTitle}</td>
-                                      <td>
+                                  <tr>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        {appointment.appointmentTitle}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
                                         {appointment.reasonForAppointment}
-                                      </td>
-                                      <td>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      {appointment.patient?.firstName}{" "}
+                                      {appointment.patient?.lastName}
+                                    </td>
+                                    <td>
+                                      {appointment.patient?.phoneNumber}{" "}
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
                                         {formatDate(
                                           appointment.appointmentDate
                                         ) ?? ""}
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          {formatTime(
-                                            appointment.appointmentTime
-                                          ) ?? ""}
-                                        </div>
-                                      </td>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {formatTime(
+                                          appointment.appointmentTime
+                                        ) ?? ""}
+                                      </div>
+                                    </td>
 
-                                      <td>
-                                        <div className="btn-group">
-                                          <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                          >
-                                            Action
+                                    <td>
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
+                                        >
+                                          Action
                                           </button>
-                                          <div className="dropdown-menu text-left">
-                                            <Link
-                                              title="Go for Clarking"
-                                              to={{
-                                                pathname: "/DoctorClarking",
-                                                state: {
-                                                  id: appointment.id,
-                                                  type: "consultation",
-                                                  patient: appointment.patient,
-                                                },
-                                              }}
-                                              className="btn btn-sm btn-block"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Go For Clarking
-                                            </Link>
-                                            <button
-                                              title="Cancel Appointment"
-                                              onClick={(e) =>
-                                                this.cancelAppointment(
-                                                  e,
-                                                  appointment.id
-                                                )
-                                              }
-                                              className="btn btn-sm btn-block"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Cancel Appointment
+                                        <div className="dropdown-menu text-left">
+                                          <button
+                                            title="Accept Appointment"
+                                            onClick={(e) =>
+                                              this.acceptAppointment(
+                                                e,
+                                                appointment.id
+                                              )
+                                            }
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Accept Appointment
                                             </button>
-                                          </div>
+                                          <button
+                                            title="Reject Appointment"
+                                            onClick={(e) =>
+                                              this.rejectAppointment(
+                                                e,
+                                                appointment.id
+                                              )
+                                            }
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Reject Appointment
+                                            </button>
                                         </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
                                 : null}
                             </tbody>
                           </table>
@@ -541,90 +515,100 @@ class Appointments extends React.Component {
                           <table
                             ref={(en) => (this.en = en)}
                             className="table table-striped"
-                            data-columns='[
-                                                                    { "data": "photo" },
-                                                                    { "data": "name" },
-                                                                    { "data": "email" },
-                                                                    { "data": "phone" },
-                                                                    { "data": "date-of-birth" },
-                                                                    { "data": "address" },
-                                                                    { "data": "actions" }
-                                                                ]'
                             data-paging="true"
                             data-info="true"
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th className="text-nowrap">Patient</th>
+                                <th className="text-nowrap">Patient Contact</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {completedAppointments
                                 ? completedAppointments.map((appointment) => (
-                                    <tr>
-                                      <td>
-                                        <img
-                                          src="./assets/content/user-40-1.jpg"
-                                          alt=""
-                                          width={40}
-                                          height={40}
-                                          className="rounded-500"
-                                        />
-                                      </td>
-                                      <td>
-                                        {" "}
-                                        {[
-                                          appointment.applicationUser
-                                            .applicationUser.firstName,
-                                          appointment.applicationUser
-                                            .applicationUser.lastName,
-                                        ].toString(" ")}
-                                      </td>
-                                      <td>
-                                        <strong>Liam</strong>
-                                      </td>
-                                      <td>
-                                        <div className="d-flex align-items-center nowrap text-primary">
-                                          <span className="icofont-ui-email p-0 mr-2" />
-                                          liam@gmail.com
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          10 Feb 2018
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="text-muted text-nowrap">
-                                          9:15 - 9:45
-                                        </div>
-                                      </td>
+                                  <tr>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        {appointment.appointmentTitle}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="d-flex align-items-center nowrap text-primary">
+                                        {appointment.reasonForAppointment}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      {appointment.patient?.firstName}{" "}
+                                      {appointment.patient?.lastName}
+                                    </td>
+                                    <td>
+                                      {appointment.patient?.phoneNumber}{" "}
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {formatDate(
+                                          appointment.appointmentDate
+                                        ) ?? ""}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-muted text-nowrap">
+                                        {formatTime(
+                                          appointment.appointmentTime
+                                        ) ?? ""}
+                                      </div>
+                                    </td>
 
-                                      <td>
-                                        <div className="actions">
-                                          <Link
-                                            title="Pre-consultation"
-                                            to="/AdminPreConsultation"
-                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                    <td>
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
+                                        >
+                                          Action
+                                          </button>
+                                        <div className="dropdown-menu text-left">
+                                          {/* <button
+                                            title="Accept Appointment"
+                                            onClick={(e) =>
+                                              this.acceptAppointment(
+                                                e,
+                                                appointment.id
+                                              )
+                                            }
+                                            className="btn btn-sm btn-block"
                                           >
-                                            <span className="btn-icon icofont-stethoscope-alt" />
-                                          </Link>
-                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-edit" />
-                                          </button>
-                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                            <span className="btn-icon icofont-ui-delete" />
-                                          </button>
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Accept Appointment
+                                            </button>
+                                          <button
+                                            title="Reject Appointment"
+                                            onClick={(e) =>
+                                              this.rejectAppointment(
+                                                e,
+                                                appointment.id
+                                              )
+                                            }
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                              Reject Appointment
+                                            </button> */}
                                         </div>
-                                      </td>
-                                    </tr>
-                                  ))
+                                      </div>
+                                    </td>
+                                  </tr>
+
+                                ))
                                 : null}
                             </tbody>
                           </table>

@@ -9,4 +9,5 @@ export * from "./AddExperience";
 export * from "./AddOfficeTime";
 export * from "./EditContactInfo";
 export * from "./AddWebsites";
+export * from "./searchDoctorBySpecialization";
 export * from "./AddSpecialization";
