@@ -8,6 +8,8 @@ import PharmacyManageDrugSubCategories from "../Pages/Pharmacy/ManageSubCategori
 import PharmacyCreateDrug from "../Pages/Pharmacy/CreateDrug";
 import PharmacyManageDrugs from "../Pages/Pharmacy/ManageDrugs";
 import { PharmacyLayout } from '../Components/Layout';
+import ViewPharmacyProfile from '../Pages/Pharmacy/ViewPharmacyProfile';
+
 
 
 export default function PharmacyRoutes() {
@@ -23,6 +25,7 @@ export default function PharmacyRoutes() {
                     <Route exact path="/PharmacyManageDrugSubCategories" component={PharmacyManageDrugSubCategories} />
                     <Route exact path="/PharmacyCreateDrug" component={PharmacyCreateDrug} />
                     <Route exact path="/PharmacyManageDrugs" component={PharmacyManageDrugs} />
+                    <Route exact path="/PharmacyProfile" component={ViewPharmacyProfile} />
 
                     <Route exact path="*" render={() => <Redirect to="/PharmacyDashboard" />} />
 

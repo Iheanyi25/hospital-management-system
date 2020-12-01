@@ -21,19 +21,19 @@ class Dashboard extends React.Component {
 
   async componentDidMount() {
     const { url } = this.state;
-    const response = await fetch(`${url}/Pharmacy/GetDrugsCount`);
-    const data = await response.json();
-    const response1 = await fetch(`${url}/Pharmacy/GetDrugGategoryTotalNumber`);
-    const data1 = await response1.json();
-    const response2 = await fetch(
-      `${url}/Pharmacy/GetDrugSubCategoryTotalNumber`
-    );
-    const data2 = await response2.json();
+    // const response = await fetch(`${url}/Pharmacy/GetDrugsCount`);
+    // const data = await response.json();
+    // const response1 = await fetch(`${url}/Pharmacy/GetDrugGategoryTotalNumber`);
+    // const data1 = await response1.json();
+    // const response2 = await fetch(
+    //   `${url}/Pharmacy/GetDrugSubCategoryTotalNumber`
+    // );
+    // const data2 = await response2.json();
     this.setState({
       url: process.env.REACT_APP_API_URL,
-      numberOfDrugs: data,
-      numberOfDrugCategories: data1,
-      numberOfDrugSubCategories: data2,
+      // numberOfDrugs: data,
+      // numberOfDrugCategories: data1,
+      // numberOfDrugSubCategories: data2,
     });
   }
 
