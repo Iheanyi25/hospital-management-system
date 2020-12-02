@@ -22,15 +22,15 @@ export default function AccountantInfo({ accountantDet, mutate, setSucces }) {
 							/>
 						)}
 					</div>
-					<AccountantDetailsList AccountantInfo={accountantDet} />
-					<EditAccountantInfo AccountantInfo={accountantDet} mutate={mutate} setSucces={setSucces}/>
+					<AccountantDetailsList accountantInfo={accountantDet} />
+					<EditAccountantInfo accountantInfo={accountantDet} mutate={mutate} setSucces={setSucces}/>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-const AccountantDetailsList = ({ AccountantInfo }) => {
+const AccountantDetailsList = ({ accountantInfo }) => {
 	const {
 		accountant: { email, phoneNumber },
 		zipCode,
@@ -40,7 +40,7 @@ const AccountantDetailsList = ({ AccountantInfo }) => {
 		country,
 		gender,
 		address
-	} = AccountantInfo;
+	} = accountantInfo;
 	return (
 		<div>
 			<div className="d-flex mt-4">

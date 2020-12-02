@@ -28,12 +28,12 @@ export default function EditPharmicistInfo({ pharmacistInfo, mutate, setSucces }
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+		const { pharmacy: { firstName, lastName, otherNames }, age } = pharmacistInfo;
 		const PharmacistBasicInfoUrl = updatePharmacistBasicInfoUrl();
 		const postPharmacistBasicInfoUrl = fetchConfig({
 			url: PharmacistBasicInfoUrl,
 			method: 'post',
-			data: { pharmacistId, gender, dateOfBirth }
+			data: { pharmacistId, gender, dateOfBirth, firstName, lastName, otherNames, age }
 		});
 
 		const PharmacistContactDetailsUrl = updatePharmacistContactDetailsUrl();

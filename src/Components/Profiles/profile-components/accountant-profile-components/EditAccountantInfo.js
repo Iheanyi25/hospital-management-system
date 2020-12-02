@@ -1,23 +1,22 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import { fetchConfig } from '../../../../api/fetchConfig';
 import { fetchWrapper } from '../../../../api/fetcher';
 import { updateAccountantBasicInfoUrl, updateAccountantContactDetailsUrl } from '../../../../api/URLs';
 import AccountantInfoForm from './AccountantInfoForm';
 const $ = window.$;
 
-
-export default function EditAccountantInfo({ AccountantInfo, mutate, setSucces }) {
-    const [ details, setDetails ] = useState({
-		accountantId: AccountantInfo.accountantId,
-		phoneNumber: AccountantInfo.accountant.phoneNumber || '',
-		email: AccountantInfo.accountant.email || '',
-		dateOfBirth: AccountantInfo.dateOfBirth || '',
-		gender: AccountantInfo.gender || '',
-		address: AccountantInfo.address || '',
-		zipCode: AccountantInfo.zipCode || '',
-		city: AccountantInfo.city || '',
-		state: AccountantInfo.state || '',
-		country: AccountantInfo.country || ''
+export default function EditAccountantInfo({ accountantInfo, mutate, setSucces }) {
+	const [ details, setDetails ] = useState({
+		accountantId: accountantInfo.accountantId,
+		phoneNumber: accountantInfo.accountant.phoneNumber || '',
+		email: accountantInfo.accountant.email || '',
+		dateOfBirth: accountantInfo.dateOfBirth || '',
+		gender: accountantInfo.gender || '',
+		address: accountantInfo.address || '',
+		zipCode: accountantInfo.zipCode || '',
+		city: accountantInfo.city || '',
+		state: accountantInfo.state || '',
+		country: accountantInfo.country || ''
 	});
 
 	const handleChange = (e) => {
@@ -29,12 +28,12 @@ export default function EditAccountantInfo({ AccountantInfo, mutate, setSucces }
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+		const { accountant: { firstName, lastName, otherNames }, age } = accountantInfo;
 		const accountantBasicInfoUrl = updateAccountantBasicInfoUrl();
 		const postAccountantBasicInfoUrl = fetchConfig({
 			url: accountantBasicInfoUrl,
 			method: 'post',
-			data: { accountantId, gender, dateOfBirth }
+			data: { accountantId, gender, dateOfBirth, firstName, lastName, otherNames, age }
 		});
 
 		const accountantContactDetailsUrl = updateAccountantContactDetailsUrl();
@@ -42,11 +41,11 @@ export default function EditAccountantInfo({ AccountantInfo, mutate, setSucces }
 			url: accountantContactDetailsUrl,
 			method: 'post',
 			data: { accountantId, ...contactInfo }
-        });
-        
+		});
+
 		try {
 			const resBasicInfoUpdate = await fetchWrapper(postAccountantBasicInfoUrl);
-            const resContactDetailsUpdate = await fetchWrapper(postAccountantContactDetails);
+			const resContactDetailsUpdate = await fetchWrapper(postAccountantContactDetails);
 			if (resBasicInfoUpdate.status === 200 && resContactDetailsUpdate.status === 200) {
 				setSucces({ show: true, message: 'updated Accountant info' });
 				mutate();
@@ -56,8 +55,8 @@ export default function EditAccountantInfo({ AccountantInfo, mutate, setSucces }
 			console.log(error);
 		}
 	};
-    return (
-        <div className="modal fade" id="edit-accountant-info" tabIndex="-1" role="dialog" aria-hidden="true">
+	return (
+		<div className="modal fade" id="edit-accountant-info" tabIndex="-1" role="dialog" aria-hidden="true">
 			<div className="modal-dialog modal-dialog-centered">
 				<div className="modal-content">
 					<div className="modal-body">
@@ -67,5 +66,5 @@ export default function EditAccountantInfo({ AccountantInfo, mutate, setSucces }
 				</div>
 			</div>
 		</div>
-    )
+	);
 }
