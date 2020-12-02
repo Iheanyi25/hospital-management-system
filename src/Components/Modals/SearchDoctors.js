@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { SelectableDropDown } from "../Select/SelectableDropDown";
+import { SearchDoctorsBySpecializationModal } from "./searchDoctorBySpecialization";
 const $ = window.$;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
@@ -79,8 +80,15 @@ class SearchDoctorsModal extends React.Component {
     $("#search-doctor").modal("hide");
   };
 
+  searchBySpecialization = () => {
+    this.routeToDoctor();
+    setTimeout(() => {
+      $("#search-doctor-specialization").modal("show");
+    }, 200);
+  }
+
   render() {
-    const { email, firstName, lastName, roleName, doctorId } = this.state;
+    const { doctorId } = this.state;
 
     return (
       <>
@@ -110,7 +118,7 @@ class SearchDoctorsModal extends React.Component {
                       stateKey={"doctorId"}
                       search={true}
                     />
-
+                    <Link to="#" onClick={this.searchBySpecialization} className="text-right mt-2">Search by Specialization</Link>
                   </div>
                 </form>
               </div>
@@ -130,7 +138,7 @@ class SearchDoctorsModal extends React.Component {
                     onClick={this.routeToDoctor}
                     style={{ fontSize: "0.9em" }}
                     className="btn btn-primary mb-3"
-                    to={`/ViewDoctorProfile/${doctorId}`}
+                    to={doctorId ? `/ViewDoctorProfile/${doctorId}` : ""}
                   >
                     View Profile
                   </Link>
@@ -139,10 +147,14 @@ class SearchDoctorsModal extends React.Component {
             </div>
           </div>
         </div>
+        <SearchDoctorsBySpecializationModal />
         {/* end Add patients modals */}
       </>
     );
   }
 }
+
+
+
 
 export { SearchDoctorsModal };
