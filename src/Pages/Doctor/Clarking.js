@@ -156,7 +156,7 @@ class Clarking extends React.Component {
           ) : null}
           <div className="main-content-wrap">
             <header className="page-header d-flex justify-content-between">
-              <h3 className="page-title">Doctor Clarking</h3>
+              <h3 className="page-title">Doctor Clarking: <font>{lastName.toUpperCase() + " " + firstName.toUpperCase()}</font></h3>
               <div>
                 <div className="col"></div>
                 <div className="col text-right">
