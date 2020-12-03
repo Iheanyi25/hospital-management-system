@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function PharmacistInfoForm({details, handleChange, handleSubmit }) {
+export default function ProfileInfoForm({details, handleChange, handleSubmit }) {
     const { email, phoneNumber, zipCode, city, state, dateOfBirth, gender, country, address } = details;
 	return (
 		<form className="p-5" onSubmit={handleSubmit}>
@@ -42,7 +42,7 @@ export default function PharmacistInfoForm({details, handleChange, handleSubmit 
 			<div className="form-group">
 				<label>Gender</label>
 				<select className="form-control" name="gender" onChange={handleChange}>
-					<option value={gender} disabled>
+					<option value="" disabled selected>
 						Select a day
 					</option>
 					<option value="male">M</option>

@@ -6,12 +6,17 @@ import phone from '../../../../assets/img/phone.svg';
 import resetText from '../../../../assets/img/resetText.svg';
 import emailImg from '../../../../assets/img/email.svg';
 
-export default function AccountantBio({ accountantDet }) {
-	const { accountant: { firstName, lastName, phoneNumber, email, userType } } = accountantDet;
+export default function Bio({ bioDetails }) {
+    const { firstName, lastName, phoneNumber, email, userType  } = bioDetails;
+    const title = {
+        Pharmacy: "Pharm.",
+        lab: "Lab scientist.",
+        Accountant: "Acc."
+    }
 	return (
 		<div>
 			<header className="page-header ml-3">
-				<h3 className="page-title">{`Acc. ${firstName || ''} ${lastName || ''}`}</h3>
+				<h3 className="page-title">{`${title[userType]} ${firstName || ''} ${lastName || ''}`}</h3>
 			</header>
 			<div className="col col-md-12">
 				<div className="card border-light p-4">

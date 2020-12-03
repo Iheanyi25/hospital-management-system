@@ -3,9 +3,9 @@ import { fetchConfig } from '../../api/fetchConfig';
 import { useRequest } from '../../api/fetcher';
 import { getPharmacistProfileUrl } from '../../api/URLs';
 import { PageLoader } from '../Loader';
-import PharmacistInfo from './profile-components/pharmacy-profile-components/PharmacistInfo';
-import PharmacistBio from './profile-components/pharmacy-profile-components/PharmacistBio';
 import { Success } from '../Alerts';
+import Bio from './profile-components/common/Bio';
+import ContactDetail from './profile-components/common/ContactDetail';
 
 function PharmacyProfile({ pharmacyId }) {
 	const [ success, setSucces ] = useState({ show: false, message: '' });
@@ -13,7 +13,7 @@ function PharmacyProfile({ pharmacyId }) {
 	const getPharmacyProfileConfig = fetchConfig({ url: PharmacyProfileUrl, method: 'get' });
 	const { data, error, mutate } = useRequest(getPharmacyProfileConfig);
 
-	const resetShowState = () => setSucces((state) => ({ ...state, show: false }))
+	const resetShowState = () => setSucces((state) => ({ ...state, show: false }));
 	if (error) return <div>failed to lod</div>;
 	return (
 		<Fragment>
@@ -24,16 +24,17 @@ function PharmacyProfile({ pharmacyId }) {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
-					{success.show && (
-						<Success
-							message={success.message}
-							callback={resetShowState}
-						/>
-					)}
+					{success.show && <Success message={success.message} callback={resetShowState} />}
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<PharmacistBio pharmDet={data.pharmacist[0]} />
-							<PharmacistInfo pharmDet={data.pharmacist[0]} mutate={mutate} setSucces={setSucces} />
+							<Bio bioDetails={data.pharmacist[0].pharmacy} />
+							<ContactDetail
+								otherDetails={data.pharmacist[0]}
+								primaryDetails={data.pharmacist[0].pharmacy}
+								userId={data.pharmacist[0].pharmacyId}
+								mutate={mutate}
+								setSucces={setSucces}
+							/>
 						</div>
 					</div>
 				</main>
