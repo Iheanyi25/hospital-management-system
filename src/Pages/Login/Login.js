@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./css/Login.module.css";
 import { InvalidDetails } from "../../Components/Alerts";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -39,13 +40,13 @@ class Login extends Component {
           window.location.reload();
         } else {
           console.log(res);
-          this.setState({ error: true, submitting: false, password: ""});
+          this.setState({ error: true, submitting: false, password: "" });
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
-  setErrorStatus =()=>{
+  setErrorStatus = () => {
     this.setState({ error: false });
   }
 
@@ -54,7 +55,7 @@ class Login extends Component {
     return (
       <>
         <div className={styles.background}>
-          {error ? <InvalidDetails setErrorStatus={this.setErrorStatus}/> : null}
+          {error ? <InvalidDetails setErrorStatus={this.setErrorStatus} /> : null}
           <div className={styles.div}>
             <h1>
               <img
@@ -117,6 +118,16 @@ class Login extends Component {
                 <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
                 Login
               </button>
+
+              <Link to="/resetmypassword">
+                <button
+                  className="btn btn-info text-white float-right"
+                  type="button"
+                  disabled={submitting}
+                >
+                  Forgot Password
+              </button>
+              </Link>
             </form>
           </div>
         </div>
