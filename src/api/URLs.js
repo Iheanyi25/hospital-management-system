@@ -1,5 +1,6 @@
 const apiUrl = process.env.REACT_APP_API_URL;
-export const getLabProfileUrl = (labId) => `${apiUrl}/Lab- Manage Profile/GetALabTechnician?id=${labId}`;
+export const getLabProfileUrl = (labId) => `${apiUrl}/Lab/GetALabTechnician?LabTechnicianId=${labId}`;
+
 
 //Pharmacy endpoints
 export const getPharmacistProfileUrl = (pharmId) => `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
