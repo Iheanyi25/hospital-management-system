@@ -46,10 +46,9 @@ class Dashboard extends React.Component {
     return (
       <>
         <PageLoader />
-        <div className="page-box">
-          <div className="app-container">
+        <div >
             {/* Horizontal navbar---Header */}
-            <PharmacyHeader />
+            {/* <PharmacyHeader /> */}
 
             {/* Vertical navbar */}
             <PharmacySidebar />
@@ -527,7 +526,7 @@ class Dashboard extends React.Component {
 
             {/* Footer */}
             <Footer />
-          </div>
+
         </div>
         {/* Add Drug Modal */}
         <AddDrugModal />
