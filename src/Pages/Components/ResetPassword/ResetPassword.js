@@ -58,8 +58,7 @@ function ResetPassword() {
                                             noValidate
                                             onSubmit={(e) => handleSubmit(e)}
                                         >
-                                            <h4 className="text-center">Hospital Management Solution</h4>
-                                            <h5 className="text-center h6">Hospital Management Solution</h5>
+                                            <h4 className="text-center">Reset Password</h4>
                                             {
                                                 emailStatus === false ? (
                                                     <>
@@ -87,7 +86,7 @@ function ResetPassword() {
                                                             <div className="row">
                                                                 <button className="btn btn-primary" type="submit" disabled={submitting}>
                                                                     <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
-                                                        Go to email
+                                                        Submit
                                                         </button>
                                                             </div>
                                                         </div>
