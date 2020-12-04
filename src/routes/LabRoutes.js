@@ -13,6 +13,7 @@ import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequ
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
+import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 
 export default function LabRoutes() {
   return (
@@ -20,6 +21,7 @@ export default function LabRoutes() {
       <LabLayout>
         <Switch>
           <Route exact path="/LabDashboard" component={Dashboard} />
+        <Route exact path="/LabProfile" component={ViewLabProfile} />
           <Route exact path="/LabCreateService" component={CreateService} />
           <Route exact path="/LabManageServices" component={ManageServices} />
           <Route exact path="/LabEditService/:id" component={EditService} />

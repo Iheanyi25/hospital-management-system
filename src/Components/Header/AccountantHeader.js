@@ -155,6 +155,11 @@ class AccountantHeader extends React.Component {
 											</NavLink>
 										</li> */}
                     <li>
+											<NavLink to="/AccountantProfile" className="align-items-center">
+												<span className="icon icofont-ui-user" /> User profile
+											</NavLink>
+										</li>
+                    <li>
                       <NavLink
                         to="#"
                         className="align-items-center"
