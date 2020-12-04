@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Login from "./Pages/Login/Login";
 
 import { AuthRoute } from "./routes";
 import PatientRoutes from "./routes/PatientRoutes";
@@ -16,8 +15,8 @@ function AppRouter() {
   const [userType, setUserType] = useState(
     Boolean(localStorage.getItem("authenticatedUser"))
       ? JSON.parse(
-          localStorage.getItem("authenticatedUser")
-        ).userType.toLowerCase()
+        localStorage.getItem("authenticatedUser")
+      ).userType.toLowerCase()
       : null
   );
 
@@ -60,12 +59,7 @@ function AppRouter() {
       }
     } else {
       return (
-        <AuthRoute
-          exact
-          isAuthenticated={isAuthenticated}
-          path="/"
-          Component={Login}
-        />
+        <AuthRoute />
       );
     }
   };

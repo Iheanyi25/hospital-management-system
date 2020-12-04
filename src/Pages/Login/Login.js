@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./css/Login.module.css";
-import { InvalidDetails } from "../../Components/Alerts";
+import { InvalidDetails, Success } from "../../Components/Alerts";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -9,6 +10,9 @@ class Login extends Component {
     password: "",
     submitting: false,
     error: false,
+    response: "",
+    success: false
+
   };
 
   handleSubmit = async (e) => {
@@ -39,22 +43,57 @@ class Login extends Component {
           window.location.reload();
         } else {
           console.log(res);
-          this.setState({ error: true, submitting: false, password: ""});
+          this.setState({ error: true, submitting: false, password: "" });
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
-  setErrorStatus =()=>{
+  setErrorStatus = () => {
     this.setState({ error: false });
   }
 
+
+  componentDidMount = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const url = this.state.apiUrl;
+    const userEmailFromLink = params.get('email');
+    const userTokenFromLink = params.get('token');
+
+    if (userEmailFromLink !== "" && userTokenFromLink !== "") {
+      try {
+        let res = await fetch(`${url}/Auth/Login`, {
+          headers: { "Content-Type": "application/json-patch+json" },
+          method: "POST",
+          body: JSON.stringify({
+            email: userEmailFromLink,
+            authenticationToken: userTokenFromLink
+          }),
+          redirect: "follow",
+        });
+        if (res.status === 200) {
+          const data = await res.json();
+          console.log(data);
+          this.setState({ success: true, response: data.message });
+          window.location.reload();
+        } else {
+          console.log(res);
+        }
+      } catch (error) { }
+    }
+  }
+
   render() {
-    const { submitting, error, email, password } = this.state;
+    const { submitting, error, email, password, success } = this.state;
     return (
       <>
         <div className={styles.background}>
-          {error ? <InvalidDetails setErrorStatus={this.setErrorStatus}/> : null}
+          {success ?
+            <Success
+              message={this.state.response}
+            />
+            : null}
+          {error ? <InvalidDetails setErrorStatus={this.setErrorStatus} /> : null}
           <div className={styles.div}>
             <h1>
               <img
@@ -109,14 +148,22 @@ class Login extends Component {
                   Please provide a valid password.
                 </div>
               </div>
+              <div className="row justify-content-between">
               <button
-                className="btn btn-primary"
+                className="btn btn-primary mt-3"
                 type="submit"
                 disabled={submitting}
               >
                 <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
                 Login
               </button>
+
+              <Link to="/resetmypassword" className="justify-self-right mt-3">
+                <p className="mt-3">
+                  Forgot Password
+                </p>
+              </Link>
+              </div>
             </form>
           </div>
         </div>
