@@ -10,6 +10,8 @@ import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestC
 import PaymentForService from "../Pages/Admin/PaymentForService";
 import RegistrationInvoice from "../Pages/Accountant/RegistrationInvoice";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
+import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
+
 
 export default function AccountantRoutes() {
   return (
@@ -21,6 +23,7 @@ export default function AccountantRoutes() {
             path="/AccountantDashboard"
             component={AccountantDashboard}
           />
+          <Route exact path="/AccountantProfile" component={ViewAccountantProfile} />
           <Route
             exact
             path="/AccountFundAccount/:id"
