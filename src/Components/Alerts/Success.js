@@ -4,8 +4,9 @@ const Success = ({ message, history, nextRoute, state, callback }) => {
   const [view, setView] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     setTimeout(() => {
-      setView(false);
+    if(mounted) setView(false);
       if (callback) {
         callback();
       }
@@ -17,7 +18,9 @@ const Success = ({ message, history, nextRoute, state, callback }) => {
         });
       }
     }, 2000);
-
+    return () => {
+			mounted = false;
+		};
   }, [nextRoute, history, view]);
 
   return view ? (

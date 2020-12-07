@@ -1,25 +1,37 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { AuthLayout } from "../Components/Layout";
+import ViewResetPassword from "../Pages/Components/ViewResetPassword";
+import ViewResetPasswordFromMail from "../Pages/Components/ViewResetPasswordFromMail";
+import Login from "../Pages/Login/Login";
 
-const AuthRoute = ({ Component, path, exact, purpose, isAuthenticated, ...rest }) => {
+const AuthRoute = () => {
 
     return (
         <Router>
-            <Switch>
-                <Route
-                    exact={exact}
-                    path={path}
-                    render={(props) => {
-                        return (
-                            <AuthLayout history={props.history} isAuthenticated={isAuthenticated}>
-                                <Component {...rest} {...props} />
-                            </AuthLayout>
-                        );
-                    }}
-                />
-                <Route path="*" render={() => <Redirect to="/" />} />
-            </Switch>
+            <AuthLayout>
+                <Switch>
+                    <Route
+                        exact
+                        path={"/"}
+                        component={Login}
+                    />
+
+                    <Route
+                        exact
+                        path="/resetmypassword"
+                        component={ViewResetPassword}
+                    />
+
+                    <Route
+                        exact
+                        path="/ResetPassword"
+                        component={ViewResetPasswordFromMail}
+                    />
+
+                    <Route path="*" render={() => <Redirect to="/" />} />
+                </Switch>
+            </AuthLayout>
         </Router>
     );
 };

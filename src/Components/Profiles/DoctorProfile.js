@@ -123,7 +123,7 @@ class DoctorProfile extends React.Component {
       socials,
       loading,
     } = this.state;
-    console.log(doctor);;
+    console.log(doctor);
     const specArray = specializations.slice(0, 3)
 
     return (
@@ -221,7 +221,11 @@ class DoctorProfile extends React.Component {
                                 ) ?? "N/A"}
                               {/* General practioner, nuerosurgeon * */}
                             </p>
-                            <Link to="/">
+                            <Link to={{
+                              pathname: "/changepassword",
+                              query: { userType: "doctor"}
+                            }
+                              }>
                               <img src={reset} alt="reset" className="mr-2" />
                               <img src={resetText} alt="reset" className="mr-2" />
                             </Link>

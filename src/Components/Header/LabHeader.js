@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { logOut } from '../../utils/logout';
 
 class LabHeader extends React.Component {
@@ -141,9 +141,9 @@ class LabHeader extends React.Component {
 											</NavLink>
 										</li> */}
 										<li>
-											<NavLink to="#" className="align-items-center">
+											<Link to="/LabProfile" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
-											</NavLink>
+											</Link>
 										</li>
 										{/* <li>
 											<NavLink to="#" className="align-items-center">
