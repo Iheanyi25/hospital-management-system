@@ -1,8 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 
-const UpdateDrug = ({ drug }) => {
-  // console.log(drug);
-  const { name, type, containersPerCarton, quantityPerContainer } = drug;
+const apiUrl = process.env.REACT_APP_API_URL;
+
+const $ = window.$;
+
+const UpdateDrug = ({ drug, id, fetchDrug }) => {
+  const [payload, setPayload] = useState({
+    id: id,
+    name: drug.name,
+    title: drug.title,
+    type: drug.type,
+    manufacturer: drug.manufacturer,
+    genericName: drug.genericName,
+    genericName: drug.genericName,
+    drugType: drug.drugType,
+    containersPerCarton: drug.containersPerCarton,
+    quantityPerContainer: drug.quantityPerContainer,
+  });
+
+  const handleChange = (e) => {
+    setPayload({
+      ...payload,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch(`${apiUrl}/Pharmacy/UpdateDrug`, {
+        headers: { "Content-Type": "application/json-patch+json" },
+        method: "POST",
+        body: JSON.stringify(payload),
+        redirect: "follow",
+      });
+      console.log(res);
+      if (res.status === 200) {
+        console.log(res);
+        fetchDrug();
+        $("#update-drug").modal("hide");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const {
+    name,
+    title,
+    type,
+    genericName,
+    manufacturer,
+    drugType,
+    containersPerCarton,
+    quantityPerContainer,
+  } = payload;
   return (
     <div
       className="modal fade"
@@ -14,8 +65,8 @@ const UpdateDrug = ({ drug }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-body">
-            <h5 className="text-center">{`Update ${name}`}</h5>
-            <form className="p-5">
+            <h5 className="text-center">{`Update ${drug.name}`}</h5>
+            <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Name</label>
                 <input
@@ -23,6 +74,8 @@ const UpdateDrug = ({ drug }) => {
                   type="text"
                   tabIndex={-98}
                   name="name"
+                  value={name}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -31,8 +84,9 @@ const UpdateDrug = ({ drug }) => {
                   className="form-control"
                   type="text"
                   tabIndex={-98}
-                  placeholder="Name of Ward"
-                  name="name"
+                  name="title"
+                  value={title}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -41,8 +95,9 @@ const UpdateDrug = ({ drug }) => {
                   className="form-control"
                   type="text"
                   tabIndex={-98}
-                  placeholder="Name of Ward"
-                  name="name"
+                  name="genericName"
+                  value={genericName}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -51,8 +106,9 @@ const UpdateDrug = ({ drug }) => {
                   className="form-control"
                   type="text"
                   tabIndex={-98}
-                  placeholder="Name of Ward"
-                  name="name"
+                  name="manufacturer"
+                  value={manufacturer}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -61,8 +117,9 @@ const UpdateDrug = ({ drug }) => {
                   className="form-control"
                   type="text"
                   tabIndex={-98}
-                  placeholder="Name of Ward"
-                  name="name"
+                  name="drugType"
+                  value={drugType}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -79,7 +136,9 @@ const UpdateDrug = ({ drug }) => {
                   name="url"
                   className="form-control"
                   type="number"
+                  name="quantityPerContainer"
                   value={quantityPerContainer}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -96,24 +155,9 @@ const UpdateDrug = ({ drug }) => {
                   name="url"
                   className="form-control"
                   type="number"
+                  name="containersPerCarton"
                   value={containersPerCarton}
-                />
-              </div>
-              <div className="form-group">
-                {type === "tabs" ? (
-                  <label>Price per parcket/container (NGN)</label>
-                ) : type === "liquid" ? (
-                  <label>Number of bottles</label>
-                ) : type === "powder" ? (
-                  <label>Price per can (NGN)</label>
-                ) : (
-                  <label>Price per cannister (NGN)</label>
-                )}
-                <input
-                  name="url"
-                  className="form-control"
-                  type="number"
-                  disabled
+                  onChange={handleChange}
                 />
               </div>
               <div className="col"></div>

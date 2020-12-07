@@ -1,8 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { UpdateDrug } from "../../../../../Components/Modals";
+import { UpdateInventory } from "../../../../../Components/Modals";
 import remove from "../../../../../assets/img/remove.svg";
 import update from "../../../../../assets/img/update.svg";
+import view from "../../../../../assets/img/view.svg";
+import inventory from "../../../../../assets/img/inventory.svg";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -114,6 +116,13 @@ class AllDrugs extends React.Component {
                     </button>
                     <div className="dropdown-menu">
                       <NavLink
+                        to={`/AdminViewDrug/${drug.id}`}
+                        className="btn btn-sm btn-block"
+                      >
+                        <img src={view} alt="view" className="mr-2" />
+                        View drug
+                      </NavLink>
+                      {/* <NavLink
                         to="#"
                         data-toggle="modal"
                         data-target="#update-drug"
@@ -126,6 +135,16 @@ class AllDrugs extends React.Component {
                       >
                         <img src={update} alt="delete" className="mr-2" />
                         Update drug
+                      </NavLink> */}
+
+                      <NavLink
+                        to="#"
+                        data-toggle="modal"
+                        data-target="#update-inventory"
+                        className="btn btn-sm btn-block"
+                      >
+                        <img src={inventory} alt="inventory" className="mr-2" />
+                        Update inventory
                       </NavLink>
                       <NavLink
                         to="#"
@@ -142,7 +161,8 @@ class AllDrugs extends React.Component {
             )) ?? "N/A"}
           </tbody>
         </table>
-        <UpdateDrug drug={singleDrug} />
+        <UpdateInventory drug={singleDrug} />
+        {/* <UpdateDrug drug={singleDrug} /> */}
       </div>
     );
   }
