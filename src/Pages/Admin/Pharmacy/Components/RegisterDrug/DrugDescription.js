@@ -5,11 +5,27 @@ const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
     setPayload(e.target.name, e.target.value);
   };
   console.log(firstStepDone);
-  const { name, title, genericName, manufacturer } = data;
+  const { sku, name, genericName, manufacturer, expiryDate } = data;
   console.log(name);
   return (
     <form className="mb-4 p-5 needs-validation" noValidate>
       <h4 className="text-center">Register a drug</h4>
+      <div className="form-group">
+        <label>SKU</label>
+        <input
+          className="form-control"
+          type="text"
+          tabIndex={-98}
+          placeholder="SKU"
+          name="sku"
+          onChange={handleChange}
+          value={sku}
+          autoFocus
+          required
+        />
+        <div className="valid-feedback">Looks good!</div>
+        <div className="invalid-feedback">Please provide a valid text.</div>
+      </div>
       <div className="form-group">
         <label>Drug Name</label>
 
@@ -21,21 +37,6 @@ const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
           name="name"
           onChange={handleChange}
           value={name}
-          required
-        />
-        <div className="valid-feedback">Looks good!</div>
-        <div className="invalid-feedback">Please provide a valid text.</div>
-      </div>
-      <div className="form-group">
-        <label>Drug Tiitle</label>{" "}
-        <input
-          className="form-control"
-          type="text"
-          tabIndex={-98}
-          placeholder="Drug Tiitle"
-          name="title"
-          onChange={handleChange}
-          value={title}
           required
         />
         <div className="valid-feedback">Looks good!</div>
@@ -66,6 +67,21 @@ const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
           name="manufacturer"
           onChange={handleChange}
           value={manufacturer}
+          required
+        />
+        <div className="valid-feedback">Looks good!</div>
+        <div className="invalid-feedback">Please provide a valid text.</div>
+      </div>
+      <div className="form-group">
+        <label>Expiry Date</label>{" "}
+        <input
+          className="form-control"
+          type="date"
+          tabIndex={-98}
+          placeholder="Expiry Date"
+          name="expiryDate"
+          onChange={handleChange}
+          value={expiryDate}
           required
         />
         <div className="valid-feedback">Looks good!</div>
