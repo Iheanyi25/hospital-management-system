@@ -95,13 +95,13 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <div className="invalid-feedback">Please provide a valid name.</div>
           </div>
           <div className="form-group">
-            <label>Price per parcket/container (NGN)</label>
+            <label>Cost Price per parcket/container (NGN)</label>
             <input
               className="form-control"
               type="number"
               tabIndex={-98}
-              name="name"
-              disabled
+              name="costPricePerContainer"
+              onChange={handleChange}
               required
             />
             <div className="valid-feedback">Looks good!</div>
@@ -137,13 +137,13 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <div className="invalid-feedback">Please provide a valid name.</div>
           </div>
           <div className="form-group">
-            <label>Price per bottle/tube (NGN)</label>
+            <label>Cost Price per bottle/tube (NGN)</label>
             <input
               className="form-control"
               type="number"
               tabIndex={-98}
-              name="name"
-              disabled
+              name="costPricePerContainer"
+              onChange={handleChange}
               required
             />
             <div className="valid-feedback">Looks good!</div>
@@ -179,13 +179,13 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <div className="invalid-feedback">Please provide a valid name.</div>
           </div>
           <div className="form-group">
-            <label>Price per cannister (NGN)</label>
+            <label>Cost Price per cannister (NGN)</label>
             <input
               className="form-control"
               type="number"
               tabIndex={-98}
-              name="name"
-              disabled
+              name="costPricePerContainer"
+              onChange={handleChange}
               required
             />
             <div className="valid-feedback">Looks good!</div>
@@ -221,13 +221,13 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             <div className="invalid-feedback">Please provide a valid name.</div>
           </div>
           <div className="form-group">
-            <label>Price per can (NGN)</label>
+            <label>Cost Price per can (NGN)</label>
             <input
               className="form-control"
               type="number"
               tabIndex={-98}
-              name="name"
-              disabled
+              name="costPricePerContainer"
+              onChange={handleChange}
               required
             />
             <div className="valid-feedback">Looks good!</div>
@@ -245,7 +245,7 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             Back
           </button>
         </div>
-        <div className="col number-right">
+        <div className="col text-right">
           <button
             type="submit"
             className="btn btn-primary"

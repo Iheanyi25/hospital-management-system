@@ -6,17 +6,21 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 class RegisterDrug extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
+
     step: 1,
     firstStepDone: false,
 
+    sku:"",
     name: "",
     title: "",
     genericName: "",
     manufacturer: "",
     drugType: "",
-    // quantityInStock: "",
     quantityPerContainer: "",
     containersPerCarton: "",
+    costPricePerContainer:"",
+    expiryDate:"",
 
     success: false,
     message: "",
@@ -31,12 +35,12 @@ class RegisterDrug extends React.Component {
   };
 
   setPayload = (key, value) => {
-    const { name, title, genericName, manufacturer } = this.state;
+    const { sku, name, genericName, manufacturer, expiryDate } = this.state;
     this.setState({
       ...this.state,
       [key]: value,
     });
-    if (name && title && genericName && manufacturer !== "") {
+    if (sku && name && genericName && manufacturer && expiryDate !== "") {
       this.setState({ firstStepDone: true });
     }
     console.log(this.state);
@@ -45,22 +49,26 @@ class RegisterDrug extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const {
+      sku,
       name,
-      title,
       genericName,
       manufacturer,
       drugType,
       quantityPerContainer,
       containersPerCarton,
+      costPricePerContainer,
+      expiryDate
     } = this.state;
     const payload = {
+      sku,
       name,
-      title,
       genericName,
       manufacturer,
       drugType,
       quantityPerContainer,
       containersPerCarton,
+      costPricePerContainer,
+      expiryDate
     };
     try {
       let res = await fetch(`${apiUrl}/Pharmacy/RegisterDrug`, {
@@ -81,13 +89,15 @@ class RegisterDrug extends React.Component {
 
   render() {
     const {
+      sku,
       step,
       firstStepDone,
       name,
-      title,
       genericName,
       manufacturer,
+      expiryDate,
       success,
+      user,
     } = this.state;
     return (
       <main className="main-content">
@@ -98,7 +108,11 @@ class RegisterDrug extends React.Component {
           <Success
             history={this.props.history}
             message="Well done, you successfully created a category"
-            nextRoute="/AdminViewDrugs"
+            nextRoute={
+              user.userType === "Admin"
+                ? "/AdminViewDrugs"
+                : "/PharmacyViewDrugs"
+            }
           />
         ) : null}
         <div className="main-content-wrap w-50">
@@ -112,7 +126,7 @@ class RegisterDrug extends React.Component {
                         nextStep={this.nextStep}
                         setPayload={this.setPayload}
                         firstStepDone={firstStepDone}
-                        data={{ name, title, genericName, manufacturer }}
+                        data={{ sku, name, genericName, manufacturer, expiryDate}}
                       />
                     ) : (
                       <DrugType
