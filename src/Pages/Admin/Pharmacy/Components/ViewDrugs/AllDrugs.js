@@ -13,6 +13,8 @@ $.DataTables = require("datatables.net");
 
 class AllDrugs extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
+
     allDrugs: [],
     singleDrug: {},
   };
@@ -49,7 +51,7 @@ class AllDrugs extends React.Component {
   };
 
   render() {
-    const { allDrugs, singleDrug } = this.state;
+    const { allDrugs, singleDrug, user } = this.state;
     console.log(allDrugs, "hello");
     return allDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
@@ -65,7 +67,6 @@ class AllDrugs extends React.Component {
             <tr>
               <th>#</th>
               <th>Drug Name</th>
-              <th>Title</th>
               <th>Generic Name</th>
               <th>Type</th>
               <th>Manufacturer</th>
@@ -80,12 +81,7 @@ class AllDrugs extends React.Component {
                 </td>
                 <td>
                   <div className="text-muted text-nowrap">
-                    {drug?.name ?? "N/A"}
-                  </div>
-                </td>
-                <td>
-                  <div className="text-muted text-nowrap">
-                    {drug?.title ?? "N/A"}
+                    {drug?.name ?? "N/A"} <sub>500ml</sub>
                   </div>
                 </td>
                 <td>
@@ -116,7 +112,7 @@ class AllDrugs extends React.Component {
                     </button>
                     <div className="dropdown-menu">
                       <NavLink
-                        to={`/AdminViewDrug/${drug.id}`}
+                        to={user.uerType === "Admin" ? `/AdminViewDrug/${drug.id}`:`/PharmacyViewDrug/${drug.id}`}
                         className="btn btn-sm btn-block"
                       >
                         <img src={view} alt="view" className="mr-2" />
