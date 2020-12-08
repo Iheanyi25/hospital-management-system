@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-const Success = ({ message, history, nextRoute, state, callback }) => {
+const Success = ({ message, history, nextRoute, state, isError, callback }) => {
   const [view, setView] = useState(true);
-
+  
   useEffect(() => {
     let mounted = true;
     setTimeout(() => {
@@ -22,10 +22,10 @@ const Success = ({ message, history, nextRoute, state, callback }) => {
 			mounted = false;
 		};
   }, [nextRoute, history, view]);
-
+  
   return view ? (
-    <div className="alert alert-success alert-align" role="alert">
-      <h3 className="text-light">Success!</h3>
+    <div className={`alert alert-align ${ !isError ?  "alert-success" : "alert-danger"}`} role="alert">
+      <h3 className="text-light">{ !isError ? "Success!" : "Failed"}</h3>
       <h6 className="text-light">{message}</h6>
     </div>
   ) : null;
