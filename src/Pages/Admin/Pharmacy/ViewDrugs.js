@@ -15,6 +15,8 @@ $.DataTables = require("datatables.net");
 
 class ViewDrugs extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
+
     allDrugs: [],
     tabDrugs: [],
     liquidDrugs: [],
@@ -79,6 +81,7 @@ class ViewDrugs extends React.Component {
       loading,
       success,
       message,
+      user,
     } = this.state;
     console.log(tabDrugs);
     return (
@@ -94,7 +97,7 @@ class ViewDrugs extends React.Component {
             <div className="main-content-wrap">
               <header className="d-flex justify-content-between align-items-center mb-5">
                 <h4 className="page-title">Drug catalog</h4>
-                <Link to="/AdminRegisterDrug" className="btn btn-primary">
+                <Link to={user.userType === "Admin" ? "/AdminRegisterDrug": "/PharmacyRegisterDrug"} className="btn btn-primary">
                   Register Drug
                 </Link>
               </header>

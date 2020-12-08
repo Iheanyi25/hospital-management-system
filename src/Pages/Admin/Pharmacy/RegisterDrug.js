@@ -6,6 +6,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 class RegisterDrug extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
+
     step: 1,
     firstStepDone: false,
 
@@ -14,7 +16,6 @@ class RegisterDrug extends React.Component {
     genericName: "",
     manufacturer: "",
     drugType: "",
-    // quantityInStock: "",
     quantityPerContainer: "",
     containersPerCarton: "",
 
@@ -88,6 +89,7 @@ class RegisterDrug extends React.Component {
       genericName,
       manufacturer,
       success,
+      user,
     } = this.state;
     return (
       <main className="main-content">
@@ -98,7 +100,11 @@ class RegisterDrug extends React.Component {
           <Success
             history={this.props.history}
             message="Well done, you successfully created a category"
-            nextRoute="/AdminViewDrugs"
+            nextRoute={
+              user.userType === "Admin"
+                ? "/AdminViewDrugs"
+                : "/PharmacyViewDrugs"
+            }
           />
         ) : null}
         <div className="main-content-wrap w-50">

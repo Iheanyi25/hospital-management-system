@@ -4,7 +4,7 @@ import { PageLoader } from "../../../Components";
 import { UpdateDrug } from "../../.././Components/Modals";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-class PatientProfile extends React.Component {
+class ViewDrug extends React.Component {
   state = {
     drug: {},
     loading: true,
@@ -30,7 +30,7 @@ class PatientProfile extends React.Component {
   };
 
   render() {
-    const { drug, loading } = this.state;
+    const { drug, loading, user } = this.state;
     const { id } = this.props.match.params;
     return (
       <>
@@ -45,7 +45,6 @@ class PatientProfile extends React.Component {
               <header className="d-flex justify-content-between align-items-center mb-5">
                 <h4 className="page-title">Drug details</h4>
                 <Link
-                  to="/AdminRegisterDrug"
                   data-toggle="modal"
                   data-target="#update-drug"
                   className="btn btn-primary"
@@ -245,4 +244,4 @@ class PatientProfile extends React.Component {
   }
 }
 
-export default PatientProfile;
+export default ViewDrug;
