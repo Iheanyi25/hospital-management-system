@@ -72,7 +72,7 @@ class ViewLabResults extends React.Component {
             </div>
             <div className="page-content">
               <div className="card border-light w-75 m-auto">
-                <LabResults serviceRequestId={id}/>
+                <LabResults serviceRequestId={id} showId={this.props.location.state} />
               </div>
             </div>
           </div>
