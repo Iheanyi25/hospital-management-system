@@ -1,5 +1,12 @@
 import React from "react";
-import { AddDrugModal, Footer, PageLoader, PharmacyHeader, PharmacySidebar, TemplateSettings } from "../../Components";
+import {
+  AddDrugModal,
+  Footer,
+  PageLoader,
+  PharmacyHeader,
+  PharmacySidebar,
+  TemplateSettings,
+} from "../../Components";
 // import Header from "../../Components/Header/PharmacyHeader";
 // import Sidebar from "../../Components/Sidebar/PharmacySidebar";
 // import PageLoader from "../../Components/Loader/PageLoader";

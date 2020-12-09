@@ -209,7 +209,7 @@ class Consultations extends React.Component {
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
                       <div
-                        className="tab-pane fade show active"
+                        className="tab-pane show fade active"
                         id="pills-active"
                         role="tabpanel"
                         aria-labelledby="pills-active-tab"
@@ -222,7 +222,7 @@ class Consultations extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr >
+                              <tr>
                                 {/* <th>Title</th>
                                 <th>Reason for appointment</th> */}
                                 {/* <th className="text-nowrap">Doctor</th> */}
@@ -238,81 +238,95 @@ class Consultations extends React.Component {
                             <tbody>
                               {pendingAppointments
                                 ? pendingAppointments.map((consultation) => (
-                                  <tr>
-                                    <td>
-                                      {consultation.patientQueue.consultationTitle}
-                                    </td>
-                                    <td>
-                                      {consultation.patientQueue.reasonForConsultation}
-                                    </td>
-                                    <td>
-                                      {consultation.patient.firstName}{" "}
-                                      {consultation.patient.lastName}
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap">
-                                        {consultation.patient.phoneNumber}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {new Date(consultation.patientQueue.dateOfConsultation).toLocaleDateString()}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {new Date(consultation.patientQueue.dateOfConsultation).toLocaleTimeString()}
-                                      </div>
-                                    </td>
+                                    <tr>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .consultationTitle
+                                        }
+                                      </td>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .reasonForConsultation
+                                        }
+                                      </td>
+                                      <td>
+                                        {consultation.patient.firstName}{" "}
+                                        {consultation.patient.lastName}
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap">
+                                          {consultation.patient.phoneNumber}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleDateString()}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleTimeString()}
+                                        </div>
+                                      </td>
 
-                                    <td>
-                                      <div className="actions">
-                                        {/* <Link
+                                      <td>
+                                        <div className="actions">
+                                          {/* <Link
                                           title="Pre-consultation"
                                           to="/AdminPreConsultation"
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link> */}
-                                        <Link
-                                          title="Clarking"
-                                          to={{
-                                            pathname: "/DoctorClarking",
-                                            state: {
-                                              type: "consultation",
-                                              id: consultation.patientQueue.id,
-                                              patient: consultation.patient,
-                                            },
-                                          }}
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <Link
-                                          title="Clarking History"
-                                          to={{
-                                            pathname: "/ViewClarkingHistory",
-                                            state: {
-                                              id: consultation.patient.id,
-                                              firstName: consultation.patient.firstName,
-                                              lastName: consultation.patient.lastName
-                                            },
-                                          }}
-                                          className="btn btn-primary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
+                                          <Link
+                                            title="Clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                type: "consultation",
+                                                id:
+                                                  consultation.patientQueue.id,
+                                                patient: consultation.patient,
+                                              },
+                                            }}
+                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: consultation.patient.id,
+                                                firstName:
+                                                  consultation.patient
+                                                    .firstName,
+                                                lastName:
+                                                  consultation.patient.lastName,
+                                              },
+                                            }}
+                                            className="btn btn-primary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
 
-                                        {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                          {/* <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>
                                         <button className="btn btn-error btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-delete" />
                                         </button> */}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -326,6 +340,7 @@ class Consultations extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
+                            ref={(em) => (this.em = em)}
                             className="table data-table"
                             data-paging="true"
                             data-info="true"
@@ -344,66 +359,77 @@ class Consultations extends React.Component {
                             <tbody>
                               {acceptedAppointments
                                 ? acceptedAppointments.map((consultation) => (
-                                  <tr>
-                                    <td>
-                                      {consultation.patientQueue.consultationTitle}
-                                    </td>
-                                    <td>
-                                      {consultation.patientQueue.reasonForConsultation}
-                                    </td>
-                                    <td>
-                                      {consultation.patient.firstName}{" "}
-                                      {consultation.patient.lastName}
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap">
-                                        {consultation.patient.phoneNumber}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {new Date(consultation.patientQueue.dateOfConsultation).toLocaleDateString()}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {new Date(consultation.patientQueue.dateOfConsultation).toLocaleTimeString()}
-                                      </div>
-                                    </td>
+                                    <tr>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .consultationTitle
+                                        }
+                                      </td>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .reasonForConsultation
+                                        }
+                                      </td>
+                                      <td>
+                                        {consultation.patient.firstName}{" "}
+                                        {consultation.patient.lastName}
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap">
+                                          {consultation.patient.phoneNumber}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleDateString()}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleTimeString()}
+                                        </div>
+                                      </td>
 
-                                    <td>
-                                      <div className="actions">
-                                        {/* <Link
+                                      <td>
+                                        <div className="actions">
+                                          {/* <Link
                                         title="Pre-consultation"
                                         to="/AdminPreConsultation"
                                         className="btn btn-secondary btn-sm btn-square rounded-pill"
                                       >
                                         <span className="btn-icon icofont-stethoscope-alt" />
                                       </Link> */}
-                                        <Link
-                                          title="Clarking"
-                                          to={{
-                                            pathname: "/DoctorClarking",
-                                            state: {
-                                              type: "consultation",
-                                              id: consultation.patientQueue.id,
-                                              patient: consultation.patient,
-                                            },
-                                          }}
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                          <Link
+                                            title="Clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                type: "consultation",
+                                                id:
+                                                  consultation.patientQueue.id,
+                                                patient: consultation.patient,
+                                              },
+                                            }}
+                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
+                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                            <span className="btn-icon icofont-ui-edit" />
+                                          </button>
+                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                            <span className="btn-icon icofont-ui-delete" />
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -417,6 +443,7 @@ class Consultations extends React.Component {
                       >
                         <div className="table-responsive">
                           <table
+                            ref={(en) => (this.en = en)}
                             className="table data-table"
                             data-paging="true"
                             data-info="true"
@@ -435,66 +462,77 @@ class Consultations extends React.Component {
                             <tbody>
                               {completedAppointments
                                 ? completedAppointments.map((consultation) => (
-                                  <tr>
-                                    <td>
-                                      {consultation.patientQueue.consultationTitle}
-                                    </td>
-                                    <td>
-                                      {consultation.patientQueue.reasonForConsultation}
-                                    </td>
-                                    <td>
-                                      {consultation.patient.firstName}{" "}
-                                      {consultation.patient.lastName}
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap">
-                                        {consultation.patient.phoneNumber}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {new Date(consultation.patientQueue.dateOfConsultation).toLocaleDateString()}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {new Date(consultation.patientQueue.dateOfConsultation).toLocaleTimeString()}
-                                      </div>
-                                    </td>
+                                    <tr>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .consultationTitle
+                                        }
+                                      </td>
+                                      <td>
+                                        {
+                                          consultation.patientQueue
+                                            .reasonForConsultation
+                                        }
+                                      </td>
+                                      <td>
+                                        {consultation.patient.firstName}{" "}
+                                        {consultation.patient.lastName}
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center nowrap">
+                                          {consultation.patient.phoneNumber}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleDateString()}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {new Date(
+                                            consultation.patientQueue.dateOfConsultation
+                                          ).toLocaleTimeString()}
+                                        </div>
+                                      </td>
 
-                                    <td>
-                                      <div className="actions">
-                                        {/* <Link
+                                      <td>
+                                        <div className="actions">
+                                          {/* <Link
                                       title="Pre-consultation"
                                       to="/AdminPreConsultation"
                                       className="btn btn-secondary btn-sm btn-square rounded-pill"
                                     >
                                       <span className="btn-icon icofont-stethoscope-alt" />
                                     </Link> */}
-                                        <Link
-                                          title="Clarking"
-                                          to={{
-                                            pathname: "/DoctorClarking",
-                                            state: {
-                                              type: "consultation",
-                                              id: consultation.patientQueue.id,
-                                              patient: consultation.patient,
-                                            },
-                                          }}
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                          <Link
+                                            title="Clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                type: "consultation",
+                                                id:
+                                                  consultation.patientQueue.id,
+                                                patient: consultation.patient,
+                                              },
+                                            }}
+                                            className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt" />
+                                          </Link>
+                                          <button className="btn btn-info btn-sm btn-square rounded-pill">
+                                            <span className="btn-icon icofont-ui-edit" />
+                                          </button>
+                                          <button className="btn btn-error btn-sm btn-square rounded-pill">
+                                            <span className="btn-icon icofont-ui-delete" />
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
