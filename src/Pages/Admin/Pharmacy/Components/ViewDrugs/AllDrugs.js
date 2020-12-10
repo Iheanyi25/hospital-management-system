@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { UpdateInventory } from "../../../../../Components/Modals";
+import formatAmount from "../../../../../utils/formatAmount";
 import remove from "../../../../../assets/img/remove.svg";
-import update from "../../../../../assets/img/update.svg";
 import view from "../../../../../assets/img/view.svg";
 import inventory from "../../../../../assets/img/inventory.svg";
 
@@ -30,7 +30,6 @@ class AllDrugs extends React.Component {
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
-    console.log($(this.el));
   }
 
   deleteDrug = async (id) => {
@@ -52,6 +51,7 @@ class AllDrugs extends React.Component {
 
   render() {
     const { allDrugs, singleDrug, user } = this.state;
+    console.log(singleDrug);
     console.log(allDrugs, "hello");
     return allDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
@@ -70,6 +70,7 @@ class AllDrugs extends React.Component {
               <th>Generic Name</th>
               <th>Type</th>
               <th>Manufacturer</th>
+              <th>Quantity in stock</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -81,7 +82,8 @@ class AllDrugs extends React.Component {
                 </td>
                 <td>
                   <div className="text-muted text-nowrap">
-                    {drug?.name ?? "N/A"} <sub>500ml</sub>
+                    {drug?.name ?? "N/A"}{" "}
+                    <sub className="text-success">{drug?.measurment}</sub>
                   </div>
                 </td>
                 <td>
@@ -100,6 +102,11 @@ class AllDrugs extends React.Component {
                   </div>
                 </td>
                 <td>
+                  <div className="text-muted text-nowrap">
+                    {formatAmount(drug?.quantityInStock) ?? "N/A"}
+                  </div>
+                </td>
+                <td>
                   <div className="btn-group">
                     <button
                       type="button"
@@ -112,32 +119,24 @@ class AllDrugs extends React.Component {
                     </button>
                     <div className="dropdown-menu">
                       <NavLink
-                        to={user.uerType === "Admin" ? `/AdminViewDrug/${drug.id}`:`/PharmacyViewDrug/${drug.id}`}
+                        to={
+                          user.userType === "Admin"
+                            ? `/AdminViewDrug/${drug.id}`
+                            : `/PharmacyViewDrug/${drug.id}`
+                        }
                         className="btn btn-sm btn-block"
                       >
                         <img src={view} alt="view" className="mr-2" />
                         View drug
                       </NavLink>
-                      {/* <NavLink
-                        to="#"
-                        data-toggle="modal"
-                        data-target="#update-drug"
-                        className="btn btn-sm btn-block"
-                        onClick={() =>
-                          this.setState({
-                            singleDrug: drug,
-                          })
-                        }
-                      >
-                        <img src={update} alt="delete" className="mr-2" />
-                        Update drug
-                      </NavLink> */}
-
                       <NavLink
                         to="#"
                         data-toggle="modal"
                         data-target="#update-inventory"
                         className="btn btn-sm btn-block"
+                        onClick={() => {
+                          this.setState({ singleDrug: drug });
+                        }}
                       >
                         <img src={inventory} alt="inventory" className="mr-2" />
                         Update inventory
@@ -157,8 +156,7 @@ class AllDrugs extends React.Component {
             )) ?? "N/A"}
           </tbody>
         </table>
-        <UpdateInventory drug={singleDrug} />
-        {/* <UpdateDrug drug={singleDrug} /> */}
+        <UpdateInventory drug={singleDrug} setSuccess={this.props.setSuccess} />
       </div>
     );
   }
