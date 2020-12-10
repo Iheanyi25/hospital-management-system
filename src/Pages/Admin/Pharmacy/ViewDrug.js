@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../../Components";
-import { UpdateDrug } from "../../.././Components/Modals";
+import { UpdateInventory } from "../../.././Components/Modals";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 class ViewDrug extends React.Component {
@@ -11,6 +11,7 @@ class ViewDrug extends React.Component {
   };
   componentDidMount() {
     this.fetchDrug();
+    console.log(this.props.location.state);
   }
 
   fetchDrug = async () => {
@@ -46,7 +47,7 @@ class ViewDrug extends React.Component {
                 <h4 className="page-title">Drug details</h4>
                 <Link
                   data-toggle="modal"
-                  data-target="#update-drug"
+                  data-target="#update-inventory"
                   className="btn btn-primary"
                 >
                   Update inventory
@@ -236,7 +237,7 @@ class ViewDrug extends React.Component {
                 </div>
               </div>
             </div>
-            <UpdateDrug drug={drug} id={id} fetchDrug={this.fetchDrug} />
+            <UpdateInventory drug={drug} />
           </main>
         )}
       </>
