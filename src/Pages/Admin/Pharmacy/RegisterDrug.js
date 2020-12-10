@@ -1,8 +1,9 @@
 import React from "react";
 import { DrugDescription, DrugType } from "./Components/RegisterDrug";
 import { Success } from "../../../Components/Alerts";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { postDrugUrl } from "../../../api/URLs";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
 
 class RegisterDrug extends React.Component {
   state = {
@@ -11,7 +12,7 @@ class RegisterDrug extends React.Component {
     step: 1,
     firstStepDone: false,
 
-    sku:"",
+    sku: "",
     name: "",
     title: "",
     genericName: "",
@@ -19,31 +20,50 @@ class RegisterDrug extends React.Component {
     drugType: "",
     quantityPerContainer: "",
     containersPerCarton: "",
-    costPricePerContainer:"",
-    expiryDate:"",
+    costPricePerContainer: "",
+    measurment:"",
+    expiryDate: "",
 
     success: false,
     message: "",
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const {
+      sku,
+      name,
+      genericName,
+      manufacturer,
+      expiryDate,
+      firstStepDone,
+    } = this.state;
+    if (
+      sku &&
+      name &&
+      genericName &&
+      manufacturer &&
+      expiryDate !== "" &&
+      !firstStepDone
+    ) {
+      this.setState((state) => ({ ...state, firstStepDone: true }));
+    }
+  }
+
   nextStep = () => {
-    this.setState({ step: this.state.step + 1 });
+    this.setState((state) => ({ ...state, step: state.step + 1 }));
   };
 
   prevStep = () => {
-    this.setState({ step: this.state.step - 1 });
+    this.setState((state) => ({ ...state, step: state.step - 1 }));
   };
 
   setPayload = (key, value) => {
-    const { sku, name, genericName, manufacturer, expiryDate } = this.state;
-    this.setState({
-      ...this.state,
-      [key]: value,
-    });
-    if (sku && name && genericName && manufacturer && expiryDate !== "") {
-      this.setState({ firstStepDone: true });
-    }
-    console.log(this.state);
+    console.log(key, value);
+    this.setState((state) => ({ ...state, [key]: value }));
   };
 
   handleSubmit = async (e) => {
@@ -57,7 +77,8 @@ class RegisterDrug extends React.Component {
       quantityPerContainer,
       containersPerCarton,
       costPricePerContainer,
-      expiryDate
+      measurment,
+      expiryDate,
     } = this.state;
     const payload = {
       sku,
@@ -68,17 +89,19 @@ class RegisterDrug extends React.Component {
       quantityPerContainer,
       containersPerCarton,
       costPricePerContainer,
-      expiryDate
+      measurment,
+      expiryDate,
     };
+    const drugUrl = postDrugUrl();
+    const postdrugConfig = fetchConfig({
+      url: drugUrl,
+      method: "post",
+      data: payload,
+    });
     try {
-      let res = await fetch(`${apiUrl}/Pharmacy/RegisterDrug`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      });
+      let res = await fetchWrapper(postdrugConfig);
+      console.log(res);
       if (res.status === 200) {
-        console.log(res);
         this.setState({ success: true, message: res.message });
       }
     } catch (error) {
@@ -126,7 +149,13 @@ class RegisterDrug extends React.Component {
                         nextStep={this.nextStep}
                         setPayload={this.setPayload}
                         firstStepDone={firstStepDone}
-                        data={{ sku, name, genericName, manufacturer, expiryDate}}
+                        data={{
+                          sku,
+                          name,
+                          genericName,
+                          manufacturer,
+                          expiryDate,
+                        }}
                       />
                     ) : (
                       <DrugType
