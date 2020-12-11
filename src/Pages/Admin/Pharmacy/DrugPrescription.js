@@ -9,11 +9,11 @@ import { useRequest } from "../../../api/fetcher";
 const DrugPrescription = () => {
   
     const getDrugsUrl = getAllDrugsUrl();
-    const getDrugsConfig = fetchConfig({
+    const getDrugConfig = fetchConfig({
       url: getDrugsUrl,
       method: "get",
     });
-   const { data, error, mutate} = useRequest(getDrugsConfig)
+   const { data, error, mutate} = useRequest(getDrugConfig, { revalidateOnFocus : false})
     console.log(data);
   return (
     <>

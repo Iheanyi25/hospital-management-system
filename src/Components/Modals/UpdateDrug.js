@@ -8,7 +8,6 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
   const [payload, setPayload] = useState({
     id: id,
     name: drug.name,
-    title: drug.title,
     type: drug.type,
     manufacturer: drug.manufacturer,
     genericName: drug.genericName,
@@ -46,7 +45,6 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
   };
   const {
     name,
-    title,
     type,
     genericName,
     manufacturer,
@@ -75,17 +73,6 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
                   tabIndex={-98}
                   name="name"
                   value={name}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Title</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  tabIndex={-98}
-                  name="title"
-                  value={title}
                   onChange={handleChange}
                 />
               </div>

@@ -9,6 +9,7 @@ export const updateLabTechnicianContactDetailsUrl = () => `${apiUrl}/Lab/UpdateL
 export const getPharmacistProfileUrl = (pharmId) => `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
 export const updatePharmacistBasicInfoUrl = () => `${apiUrl}/Pharmacy/UpdatePharmacistBasicInfo`;
 export const updatePharmacistContactDetailsUrl = () => `${apiUrl}/Pharmacy/UpdatePharmacistContactDetails`;
+export const getDrugUrl = (drugId) => `${apiUrl}/Pharmacy/GetDrug/${drugId}`;
 export const getAllDrugsUrl = () => `${apiUrl}//Pharmacy/GetAllDrugs`;
 export const postDrugUrl = () => `${apiUrl}/Pharmacy/RegisterDrug`;
 export const updateDrugInventoryUrl = (drugId, drugQuantity) => `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
