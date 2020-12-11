@@ -15,7 +15,7 @@ import ViewPreConsultationHistory from "../Pages/Components/ViewPreConsultationH
 import ViewClarkingHistory from "../Pages/Components/ViewClarkingHistory";
 import ViewServiceRequests from "../Pages/Components/ViewServiceRequests";
 import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
-import ClarkingHist from "../Pages/Components/ClarkingHistory";
+import ClarkingHistory from "../Pages/Components/ClarkingHistory";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 export default function DoctorRoutes() {
@@ -89,7 +89,7 @@ export default function DoctorRoutes() {
           <Route
             exact
             path="/ViewClarkingHistory"
-            component={ClarkingHist}
+            component={ClarkingHistory}
           />
 
           <Route
