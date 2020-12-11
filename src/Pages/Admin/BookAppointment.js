@@ -1,6 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-
+import { Success } from "../../Components/Alerts/Success";
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
@@ -18,6 +18,7 @@ class BookAppointment extends React.Component {
       appointmentTime: "",
       appointmentTitle: "",
       reasonForAppointment: "",
+      success: false,
     };
   }
 
@@ -133,10 +134,19 @@ class BookAppointment extends React.Component {
         appointmentTitle: "",
         reasonForAppointment: "",
       });
+      this.displaySuccess(this.state.successMessage);
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
   }
+
+  displaySuccess = (message) => {
+    this.setState({ success: true, message: message });
+  };
+
+  changeSuccess = () => {
+    this.setState({ success: false });
+  };
 
   render() {
     let {
@@ -162,19 +172,6 @@ class BookAppointment extends React.Component {
       );
     }
 
-    if (this.state.showSuccessMessage) {
-      displaySuccessMessage = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
-      );
-    }
-
     return (
       <>
         <PageLoader />
@@ -183,6 +180,13 @@ class BookAppointment extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message={this.state.message}
+              callback={this.changeSuccess}
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3 className="page-title">Book Appointment</h3>
@@ -293,7 +297,7 @@ class BookAppointment extends React.Component {
                           <label>Reason for Appointment</label>{" "}
                           <textarea
                             className="form-control"
-                            placeholder="Readon For Appointment"
+                            placeholder="Reason For Appointment"
                             rows={3}
                             onChange={(e) =>
                               this.handleChange("reasonForAppointment", e)
@@ -321,11 +325,11 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                  appointmentTime === "" ||
-                                  patientId === "" ||
-                                  doctorId === "" ||
-                                  reasonForAppointment === "" ||
-                                  appointmentTitle === ""
+                                appointmentTime === "" ||
+                                patientId === "" ||
+                                doctorId === "" ||
+                                reasonForAppointment === "" ||
+                                appointmentTitle === ""
                                   ? true
                                   : false
                               }
@@ -333,7 +337,6 @@ class BookAppointment extends React.Component {
                               Book Appointment
                             </button>
                           </div>
-
                         </div>
                       </form>
                     </div>

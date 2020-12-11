@@ -19,4 +19,6 @@ export const getAccountantProfileUrl = (accountantId) => `${apiUrl}/Accountant/G
 export const updateAccountantBasicInfoUrl = () => `${apiUrl}/Accountant/UpdateAccountactBasicInfo`;
 export const updateAccountantContactDetailsUrl = () => `${apiUrl}/Accountant/UpdateAccountantContactDetails`;
 
-
+//service endpoint 
+export const getServiceRequestUrl = (serviceRequestId) =>  `${apiUrl}/Admin/GetServiceRequest/${serviceRequestId}`
+export const postServiceRequestUrl = () =>  `${apiUrl}/Admin/UploadServiceRequestResult`

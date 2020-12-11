@@ -56,7 +56,7 @@ const AddExperience = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-body">
-            <h5 className="text-center">Add Education</h5>
+            <h5 className="text-center">Add Experience</h5>
             <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Company</label>
