@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-const Success = ({ message, history, nextRoute, state, isError, callback }) => {
+const Success = ({ message, nextRoute, state, isError, callback, timeOut }) => {
   const [view, setView] = useState(true);
-  
+  const history = useHistory();
+
   useEffect(() => {
     let mounted = true;
     setTimeout(() => {
@@ -17,12 +19,12 @@ const Success = ({ message, history, nextRoute, state, isError, callback }) => {
           state: state
         });
       }
-    }, 2000);
+    }, timeOut || 2000);
     return () => {
 			mounted = false;
 		};
   }, [nextRoute, history, view]);
-  
+
   return view ? (
     <div className={`alert alert-align ${ !isError ?  "alert-success" : "alert-danger"}`} role="alert">
       <h3 className="text-light">{ !isError ? "Success!" : "Failed"}</h3>
