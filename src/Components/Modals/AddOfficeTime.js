@@ -59,7 +59,7 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
                   name="workDays"
                   onChange={handleChange}
                 >
-                  <option value="" disabled>
+                  <option value="" selected disabled>
                     Select a day
                   </option>
                   <option value="Monday">Monday</option>

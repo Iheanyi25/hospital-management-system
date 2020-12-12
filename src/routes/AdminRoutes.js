@@ -24,6 +24,7 @@ import DoctorClarking from "../Pages/Doctor/Clarking";
 import RegisterDrug from "../Pages/Admin/Pharmacy/RegisterDrug";
 import ViewDrugs from "../Pages/Admin/Pharmacy/ViewDrugs";
 import ViewDrug from "../Pages/Admin/Pharmacy/ViewDrug";
+import DrugPrescription from '../Pages/Admin/Pharmacy/DrugPrescription'
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -205,6 +206,7 @@ export default function AdminRoutes() {
           <Route exact path="/AdminRegisterDrug" component={RegisterDrug} />
           <Route exact path="/AdminViewDrugs" component={ViewDrugs} />
           <Route exact path="/AdminViewDrug/:id" component={ViewDrug} />
+          <Route exact path="/AdminDrugPrescription" component={DrugPrescription} />
 
           <Route
             exact
