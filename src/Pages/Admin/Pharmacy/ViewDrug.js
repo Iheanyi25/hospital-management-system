@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import { getDrugUrl } from "../../../api/URLs";
-import { UpdateInventory, UpdateDrug } from "../../.././Components/Modals";
+import { UpdateInventory } from "../../.././Components/Modals";
 import edit from "../../../assets/img/edit.svg";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
+import { DrugDetails } from "./Components/ViewDrug";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const ViewDrug = ({ match }) => {
-  const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //  fetchDrug()
-  // }, [])
-
   const { id } = match.params;
   const drugUrl = getDrugUrl(id);
-  console.log(drugUrl);
   const getDrugConfig = fetchConfig({
     url: drugUrl,
     method: "get",
@@ -25,25 +19,9 @@ const ViewDrug = ({ match }) => {
   const { data, error, mutate } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
-  const drug = data?.drug
+  const drug = data?.drug;
   console.log(drug);
 
-  // const fetchDrug = async () => {
-  //   const { id } = match.params;
-  //   try {
-  //     let res = await fetch(`${apiUrl}/Pharmacy/GetDrug/${id}`, {
-  //       headers: { "Content-Type": "application/json-patch+json" },
-  //       method: "GET",
-  //       redirect: "follow",
-  //     });
-  //     const data = await res.text();
-  //     console.log(JSON.parse(data));
-  //     setDrug(JSON.parse(data).drug)
-  //     // this.setState({ drug: JSON.parse(data).drug, loading: false });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   return (
     <>
       {!data ? (
@@ -118,85 +96,7 @@ const ViewDrug = ({ match }) => {
                     role="tabpanel"
                     aria-labelledby="pills-drug-tab"
                   >
-                    <div className="card border-light p-4 w-75 m-auto">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between border-bottom">
-                          <h6 className="font-weight-bold">{drug.name}</h6>
-                          <div className="d-flex">
-                            <p className="mt-4">
-                              <span className="font-weight-bold text-info">
-                                {drug.quantityInStock}{" "}
-                              </span>
-                              <span className="text-secondary">
-                                {drug.drugType === "tabs"
-                                  ? "tablets in stock"
-                                  : drug.drugType === "liquid"
-                                  ? "bottles in stock"
-                                  : drug.drugType === "powder"
-                                  ? "caans in stock"
-                                  : "cannisters in stock"}
-                              </span>
-                            </p>
-                            <img
-                              src={edit}
-                              data-toggle="modal"
-                              data-target="#update-drug"
-                              alt="reset"
-                              className="ml-3"
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div>
-                              <h6 className="mb-2">Drug Name</h6>
-                              <p>{drug.name}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">Generic Name</h6>
-                              <p>{drug.genericName}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">Manufacturer</h6>
-                              <p>{drug.manufacturer}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">Drug Type</h6>
-                              <p>{drug.drugType}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">Measurement</h6>
-                              <p>{drug.measurment}</p>
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div>
-                              <h6 className="mb-2">Cost Price</h6>
-                              <p>{drug.costPricePerContainer}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">
-                                Number of pills in a packet/container
-                              </h6>
-                              <p>{drug.manufacturer}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">
-                                Number of packets in a carton
-                              </h6>
-                              <p>{drug.containersPerCarton}</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">
-                                Price per parcket/container (NGN)
-                              </h6>
-                              <p>{drug.quantityPerContainer}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <DrugDetails drug={drug} update={mutate} />
                   </div>
                   <div
                     className="tab-pane fade"
@@ -208,6 +108,14 @@ const ViewDrug = ({ match }) => {
                       <div className="card-body">
                         <div className="d-flex justify-content-between border-bottom">
                           <h6 className="font-weight-bold">Base Price</h6>
+                          <img
+                            src={edit}
+                            data-toggle="modal"
+                            data-target="#update-drug"
+                            alt="reset"
+                            className="ml-3"
+                            style={{ cursor: "pointer" }}
+                          />
                         </div>
                         <div className="row">
                           <div className="col-12 col-md-6">
@@ -265,7 +173,6 @@ const ViewDrug = ({ match }) => {
             </div>
           </div>
           <UpdateInventory drug={drug} setSuccess={mutate} />
-          <UpdateDrug drug={drug} id={drug.id} setSuccess={mutate} />
         </main>
       )}
     </>
