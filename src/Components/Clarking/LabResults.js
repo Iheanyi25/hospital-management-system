@@ -68,6 +68,7 @@ class LabResults extends React.Component {
                     <div
                       id={`collapse${index + 1}`}
                       className="collapse"
+                      className={`collapse ${ serviceRequestResult.id === this.props.showId && "show"}`}
                       aria-labelledby="headingOne"
                       data-parent="#accordion"
                     >

@@ -1,13 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
-import {
-  AllDrugs,
-  TabDrugs,
-  LiquidDrugs,
-  InhalerDrugs,
-  PowderDrugs,
-} from "./Components/ViewDrugs";
+import { AllDrugs } from "./Components/ViewDrugs";
 import { Success } from "../../../Components/Alerts";
 import tablet from "../../../assets/img/tablet.svg";
 import liquid from "../../../assets/img/liquid.svg";
@@ -21,6 +15,8 @@ $.DataTables = require("datatables.net");
 
 class ViewDrugs extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
+
     allDrugs: [],
     tabDrugs: [],
     liquidDrugs: [],
@@ -33,12 +29,12 @@ class ViewDrugs extends React.Component {
   componentDidMount() {
     this.fetchAllDrugs().then(() => this.sync());
   }
-9
+  9;
   fetchAllDrugs = async () => {
     await this.setState((state) => ({
-       ...state,
-        loading: true,
-      }))
+      ...state,
+      loading: true,
+    }));
     try {
       let res = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`, {
         headers: { "Content-Type": "application/json-patch+json" },
@@ -46,7 +42,7 @@ class ViewDrugs extends React.Component {
         redirect: "follow",
       });
       const data = await res.text();
-      console.log(JSON.parse(data),"999999999999999999999999");
+      console.log(JSON.parse(data), "999999999999999999999999");
       //   this.setState({ drugs: JSON.parse(data).drugs });
       this.filterDrug(JSON.parse(data).drugs);
     } catch (error) {
@@ -85,6 +81,7 @@ class ViewDrugs extends React.Component {
       loading,
       success,
       message,
+      user,
     } = this.state;
     console.log(tabDrugs);
     return (
@@ -100,7 +97,7 @@ class ViewDrugs extends React.Component {
             <div className="main-content-wrap">
               <header className="d-flex justify-content-between align-items-center mb-5">
                 <h4 className="page-title">Drug catalog</h4>
-                <Link to="/AdminRegisterDrug" className="btn btn-primary">
+                <Link to={user.userType === "Admin" ? "/AdminRegisterDrug": "/PharmacyRegisterDrug"} className="btn btn-primary">
                   Register Drug
                 </Link>
               </header>
@@ -277,8 +274,8 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-tabs-tab"
                         >
-                          <TabDrugs
-                            tabDrugs={tabDrugs}
+                          <AllDrugs
+                            allDrugs={tabDrugs}
                             setSuccess={this.setSuccess}
                           />
                         </div>
@@ -288,8 +285,8 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-liquid-tab"
                         >
-                          <LiquidDrugs
-                            liquidDrugs={liquidDrugs}
+                          <AllDrugs
+                            allDrugs={liquidDrugs}
                             setSuccess={this.setSuccess}
                           />
                         </div>
@@ -299,8 +296,8 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-inhaler-tab"
                         >
-                          <InhalerDrugs
-                            inhalerDrugs={inhalerDrugs}
+                          <AllDrugs
+                            allDrugs={inhalerDrugs}
                             setSuccess={this.setSuccess}
                           />
                         </div>
@@ -310,8 +307,8 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-powder-tab"
                         >
-                          <PowderDrugs
-                            powderDrugs={powderDrugs}
+                          <AllDrugs
+                            allDrugs={powderDrugs}
                             setSuccess={this.setSuccess}
                           />
                         </div>
