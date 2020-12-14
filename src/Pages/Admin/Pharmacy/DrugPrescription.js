@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getAllDrugsUrl } from '../../../api/URLs'
 import { fetchConfig } from '../../../api/fetchConfig'
 import user from "../../../assets/img/user.png";
+import remove from "../../../assets/img/remove.svg";
 import { SelectableDropDown } from "../../../Components";
 import { useRequest } from "../../../api/fetcher";
 
@@ -95,7 +96,7 @@ const DrugPrescription = () => {
                                   // onClick={() => this.deleteService(index)}
                                   className="text-danger mr-4"
                                 >
-                                  <span className="btn-icon icofont-delete-alt" />
+                                  <img src={remove} alt="delete" />
                                 </Link>
                               </div>
                             </td>
