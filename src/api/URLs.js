@@ -22,3 +22,8 @@ export const updateAccountantContactDetailsUrl = () => `${apiUrl}/Accountant/Upd
 //service endpoint 
 export const getServiceRequestUrl = (serviceRequestId) =>  `${apiUrl}/Admin/GetServiceRequest/${serviceRequestId}`
 export const postServiceRequestUrl = () =>  `${apiUrl}/Admin/UploadServiceRequestResult`
+
+// Health plan endpoint
+export const getAllHealthPlansUrl = () => `${apiUrl}/Admin/GetAllHealthPlans`
+export const updateHealthPlanUrl = () => `${apiUrl}/Admin/UpdateHealthPlan`;
+export const deleteHealthPlanUrl = () => `${apiUrl}/Admin/DeleteHealthPlan`;

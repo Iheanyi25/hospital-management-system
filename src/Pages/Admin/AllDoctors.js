@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import TableSize from "../../Components/DataTable/TableSize";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -45,7 +46,7 @@ class AllDoctors extends React.Component {
               <h4 className="page-title">Our Doctors</h4>
             </header>
             <div className="page-content">
-              <div className="card-body"></div>
+              <TableSize size={this.state.doctors.length} heading="Doctors"  />
             </div>
             <div className="page-content">
               <div className="card mb-0">

@@ -469,6 +469,36 @@ class Appointments extends React.Component {
                                           Action
                                           </button>
                                         <div className="dropdown-menu text-left">
+                                        <Link
+                                            title="Go for clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                id: appointment.id,
+                                                type: "appointment",
+                                                patient: appointment.patient
+                                              }
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-user" />
+                                            Go for Clarking
+                                          </Link>
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: appointment.patient.id,
+                                                firstName: appointment.patient.firstName,
+                                                lastName: appointment.patient.lastName
+                                              },
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
                                           <button
                                             title="Accept Appointment"
                                             onClick={(e) =>
@@ -577,6 +607,21 @@ class Appointments extends React.Component {
                                           Action
                                           </button>
                                         <div className="dropdown-menu text-left">
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: appointment.patient.id,
+                                                firstName: appointment.patient.firstName,
+                                                lastName: appointment.patient.lastName
+                                              },
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
                                           {/* <button
                                             title="Accept Appointment"
                                             onClick={(e) =>
