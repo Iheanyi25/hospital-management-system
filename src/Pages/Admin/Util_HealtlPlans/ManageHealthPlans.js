@@ -6,6 +6,7 @@ import { getAllHealthPlansUrl, disableHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import formatDate from "../../../utils/formatDate";
+import TableSize from "../../../Components/DataTable/TableSize";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
@@ -94,6 +95,10 @@ export default class ManageHealthPlans extends Component {
               </NavLink>
             </header>
             <div className="page-content mt-5">
+              <TableSize
+                size={this.state.healthPlans.length}
+                heading="Health Plans"
+              />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">

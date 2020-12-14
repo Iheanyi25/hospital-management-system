@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
+import TableSize from "../../../Components/DataTable/TableSize";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
@@ -73,7 +74,8 @@ export default class ManageServices extends Component {
                 Create Service
               </NavLink>
             </header>
-            <div className="page-content mt-5">
+            <div className="page-content mt-5"> 
+              <TableSize size={this.state.services.length} heading="Services"  />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
