@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
-import { getAllHealthPlansUrl, deleteHealthPlanUrl } from "../../../api/URLs";
+import { getAllHealthPlansUrl, disableHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import formatDate from "../../../utils/formatDate";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
@@ -27,42 +28,44 @@ export default class ManageHealthPlans extends Component {
     const response = await fetchWrapper(getAllHealthPlansConfig);
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
-    this.setState({ healthPlans: response?.data?.plans || [] }, () => this.sync());
+    this.setState({ healthPlans: response?.data?.plans || [] }, () =>
+      this.sync()
+    );
   }
 
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
-   resetShowState = () => this.setState((state) => ({
-    ...state,
-    success: { show: false, message: " ", delError: false },
-  }));
+  resetShowState = () =>
+    this.setState((state) => ({
+      ...state,
+      success: { show: false, message: " ", delError: false },
+    }));
 
-  deleteHealthPlan = async (id) => {
+  disableHealthPlan = async (id) => {
     try {
-      const deleteHealthPlan = deleteHealthPlanUrl();
-      const deleteHealthPlansConfig = fetchConfig({
-        url: deleteHealthPlan,
+      const disableHealthPlan = disableHealthPlanUrl();
+      const disableHealthPlansConfig = fetchConfig({
+        url: disableHealthPlan,
         method: "post",
         data: { id },
       });
-      const res = await fetchWrapper(deleteHealthPlansConfig);
+      const res = await fetchWrapper(disableHealthPlansConfig);
       if (res.status === 200) {
         this.getAllHealthPlans();
         this.setState((state) => ({
-            ...state,
-            success: { show: true, message : res.data.message, delError : false },
-          }));
+          ...state,
+          success: { show: true, message: res.data.message, delError: false },
+        }));
       } else {
-         throw "error occured"
+        throw "error occured";
       }
-     
     } catch (error) {
       console.log(error);
       this.setState((state) => ({
         ...state,
-        success: { show: true, message : "an error occured", delError : true },
+        success: { show: true, message: "an error occured", delError: true },
       }));
     }
   };
@@ -111,6 +114,7 @@ export default class ManageHealthPlans extends Component {
                               <th>Renewal Cost</th>
                               <th>Patients Per Folder</th>
                               <th>Accounts Per Health Plan</th>
+                              <th>Date</th>
                               <th>Instant billing</th>
                               <th>Actions</th>
                             </tr>
@@ -145,6 +149,12 @@ export default class ManageHealthPlans extends Component {
                                     {item.noOfAccounts}
                                   </div>
                                 </td>
+                                <td>
+                                  <div className="d-flex align-items-center nowrap">
+                                    {formatDate(item.dateCreated)}
+                                  </div>
+                                </td>
+
                                 <td>
                                   <div className="custom-control custom-switch">
                                     <input
