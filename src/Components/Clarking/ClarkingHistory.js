@@ -17,6 +17,12 @@ class ClarkingHistory extends React.Component {
     this.fetchClarkingHistories();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.reMount !== this.props.reMount) {
+      this.fetchClarkingHistories();
+    }
+  }
+
   fetchClarkingHistories = async () => {
     const { id } = this.props.patientDetails;
     try {
@@ -40,6 +46,7 @@ class ClarkingHistory extends React.Component {
   };
 
   render() {
+    console.log("remount", this.props.reMount)
     const { firstName, lastName } = this.props.patientDetails;
     return (
       <div className="card-body">
