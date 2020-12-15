@@ -162,7 +162,7 @@ class DoctorConsultations extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >

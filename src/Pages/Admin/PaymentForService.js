@@ -245,7 +245,7 @@ class PaymentForService extends React.Component {
                     <div className="col-12 col-md-6">
                       <div>
                         <ul
-                          className="nav nav-pills nav-fill mb-3"
+                          className="nav nav-tabs mb-3"
                           id="pills-tab"
                           role="tablist"
                         >
