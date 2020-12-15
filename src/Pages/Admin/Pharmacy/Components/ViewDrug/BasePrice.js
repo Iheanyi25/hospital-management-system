@@ -12,7 +12,7 @@ const BasePrice = ({ basePrice, drugId, mutate }) => {
         <div className="text-center" style={{ marginTop: "200px" }}>
           <img src={empty} alt="empty" />
           <p className="text-secondary mb-0 mt-3">
-            Set prices for different health plans here
+            Set the base price here
           </p>
           <Link to="#" data-toggle="modal" data-target="#update-base-price">
             Create new price
