@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import { getDrugUrl } from "../../../api/URLs";
 import { UpdateInventory } from "../../.././Components/Modals";
-import edit from "../../../assets/img/edit.svg";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { DrugDetails } from "./Components/ViewDrug";
+import { BasePrice, DrugDetails, HealthPlanPrice } from "./Components/ViewDrug";
 
 const ViewDrug = ({ match }) => {
   const { id } = match.params;
@@ -45,7 +44,7 @@ const ViewDrug = ({ match }) => {
             <div className="col col-md-12">
               <div>
                 <ul
-                  className="nav nav-pills nav-fill mb-3"
+                  className="nav nav-tabs mb-3"
                   id="pills-tab"
                   role="tablist"
                 >
@@ -104,37 +103,15 @@ const ViewDrug = ({ match }) => {
                     role="tabpanel"
                     aria-labelledby="pills-base-tab"
                   >
-                    <div className="card border-light p-4 w-50 m-auto">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between border-bottom">
-                          <h6 className="font-weight-bold">Base Price</h6>
-                          <img
-                            src={edit}
-                            data-toggle="modal"
-                            data-target="#update-drug"
-                            alt="reset"
-                            className="ml-3"
-                            style={{ cursor: "pointer" }}
-                          />
-                        </div>
-                        <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div>
-                              <h6 className="mb-2">Price Per Pack (NGN)</h6>
-                              <p>5,000</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">DPrice Per Pill (NGN)</h6>
-                              <p>500</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">Price Per Carton (NGN)</h6>
-                              <p>50,000</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <BasePrice
+                      basePrice={{
+                        defaultPricePerUnit: drug.defaultPricePerUnit,
+                        defaultPricePerContainer: drug.defaultPricePerContainer,
+                        defaultPricePerCarton: drug.defaultPricePerCarton,
+                      }}
+                      drugId={id}
+                      mutate={mutate}
+                    />
                   </div>
                   <div
                     className="tab-pane fade"
@@ -142,31 +119,7 @@ const ViewDrug = ({ match }) => {
                     role="tabpanel"
                     aria-labelledby="pills-health-tab"
                   >
-                    <div className="card border-light p-4 w-50 m-auto">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between border-bottom">
-                          <h6 className="font-weight-bold">
-                            Price for the family health plan
-                          </h6>
-                        </div>
-                        <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div>
-                              <h6 className="mb-2">Price Per Pack (NGN)</h6>
-                              <p>5,000</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">DPrice Per Pill (NGN)</h6>
-                              <p>500</p>
-                            </div>
-                            <div>
-                              <h6 className="mb-2">Price Per Carton (NGN)</h6>
-                              <p>50,000</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <HealthPlanPrice drugId={id} />
                   </div>
                 </div>
               </div>
