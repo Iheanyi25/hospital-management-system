@@ -4,7 +4,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 const $ = window.$;
 
-const UpdateDrug = ({ drug, id, fetchDrug }) => {
+const UpdateDrug = ({ drug, id, update }) => {
   const [payload, setPayload] = useState({
     id: id,
     name: drug.name,
@@ -13,8 +13,11 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
     genericName: drug.genericName,
     genericName: drug.genericName,
     drugType: drug.drugType,
+    measurment: drug.measurment,
+    costPricePerContainer: drug.costPricePerContainer,
     containersPerCarton: drug.containersPerCarton,
     quantityPerContainer: drug.quantityPerContainer,
+    expiryDate: drug.expiryDate,
   });
 
   const handleChange = (e) => {
@@ -25,6 +28,7 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(payload);
     e.preventDefault();
     try {
       let res = await fetch(`${apiUrl}/Pharmacy/UpdateDrug`, {
@@ -36,7 +40,7 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
       console.log(res);
       if (res.status === 200) {
         console.log(res);
-        fetchDrug();
+        update();
         $("#update-drug").modal("hide");
       }
     } catch (error) {
@@ -48,9 +52,11 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
     type,
     genericName,
     manufacturer,
-    drugType,
+    measurment,
+    costPricePerContainer,
     containersPerCarton,
     quantityPerContainer,
+    expiryDate,
   } = payload;
   return (
     <div
@@ -99,13 +105,13 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
                 />
               </div>
               <div className="form-group">
-                <label>Drug Type</label>
+                <label>Measurement</label>
                 <input
                   className="form-control"
                   type="text"
                   tabIndex={-98}
-                  name="drugType"
-                  value={drugType}
+                  name="measurment"
+                  value={measurment}
                   onChange={handleChange}
                 />
               </div>
@@ -144,6 +150,29 @@ const UpdateDrug = ({ drug, id, fetchDrug }) => {
                   type="number"
                   name="containersPerCarton"
                   value={containersPerCarton}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Cost Price</label>
+                <input
+                  className="form-control"
+                  type="number"
+                  tabIndex={-98}
+                  name="costPricePerContainer"
+                  value={costPricePerContainer}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Expiry Date</label>
+                <input
+                  className="form-control"
+                  type="date"
+                  tabIndex={-98}
+                  name="expiryDate"
+                  value={expiryDate}
                   onChange={handleChange}
                 />
               </div>
