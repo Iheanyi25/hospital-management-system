@@ -14,6 +14,10 @@ export const getAllDrugsUrl = () => `${apiUrl}//Pharmacy/GetAllDrugs`;
 export const postDrugUrl = () => `${apiUrl}/Pharmacy/RegisterDrug`;
 export const updateDrugInventoryUrl = (drugId, drugQuantity) => `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
 export const updateDrugBasePriceUrl = () => `${apiUrl}/Pharmacy/UpdateDefaultDrugPrice`;
+export const getDrugPricesUrl = () => `${apiUrl}/Pharmacy/GetDrugPrices`;
+export const postDrugPricesUrl = () => `${apiUrl}/Pharmacy/CreateDrugPrice`;
+export const updateDrugPricesUrl = () => `${apiUrl}/Pharmacy/UpdateDrugPrice`;
+export const deleteDrugPricesUrl = () => `${apiUrl}/Pharmacy/DeleteDrugPrice`;
 
 //accountant endpoints
 export const getAccountantProfileUrl = (accountantId) => `${apiUrl}/Accountant/GetAccountant?AccountantId=${accountantId}`;
