@@ -21,7 +21,8 @@ class Clarking extends React.Component {
       healthHistory: {},
       labHistory: {},
       message: "",
-      success: false
+      success: false,
+      reMount: true
     };
   }
 
@@ -39,6 +40,7 @@ class Clarking extends React.Component {
     });
 
     this.submitRequest(payload);
+    this.setState({reMount: !this.state.reMount})
   };
 
   componentDidMount() {
@@ -137,6 +139,7 @@ class Clarking extends React.Component {
   }
 
   render() {
+    console.log(this.state.reMount, "remount is here")
     const { firstName, lastName, id } = this.props.location.state.patient
     return (
       <>
@@ -1219,7 +1222,7 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <ClarkingHistory patientDetails={{ id, firstName, lastName }} />
+                                <ClarkingHistory patientDetails={{ id, firstName, lastName }} reMount={this.state.reMount} />
                               </div>
                             </div>
                           </div>
