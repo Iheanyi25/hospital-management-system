@@ -221,15 +221,6 @@ class ServiceRequestContents extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
-              </div>
             </div>
           </div>
         </main>

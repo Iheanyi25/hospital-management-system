@@ -162,7 +162,7 @@ class DoctorConsultations extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
@@ -587,15 +587,6 @@ class DoctorConsultations extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>
