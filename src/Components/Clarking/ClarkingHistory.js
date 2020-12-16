@@ -70,9 +70,7 @@ class ClarkingHistory extends React.Component {
                       aria-controls={`collapse${index + 1}`}
                     >
                       {`Captured on ${
-                        formatDate(
-                          clerkingHistory?.consultation?.dateOfConsultation
-                        ) ?? ""
+                        formatDate(clerkingHistory?.dateOfClerking) ?? ""
                       }`}
                     </button>
                   </h5>
