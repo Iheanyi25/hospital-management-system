@@ -13,3 +13,4 @@ export * from "./searchDoctorBySpecialization";
 export * from "./AddSpecialization";
 export * from "./UpdateDrug";
 export * from "./UpdateInventory";
+export * from "./AddPrescriptionQuantity";

@@ -370,6 +370,7 @@ class CreateServiceRequest extends Component {
                           <button
                             onClick={this.handleSubmit}
                             className="btn btn-primary"
+                            disabled={this.state.values.length === 0}
                           >
                             {this.state.isFromClarking
                               ? "Request for service"

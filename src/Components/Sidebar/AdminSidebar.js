@@ -356,10 +356,23 @@ class AdminSidebar extends React.Component {
                       </li>
                     </ul>
                   </li>
-                  <li className="menu-item">
-                    <Link to="/AdminDrugPrescription" className="item-link">
-                      <span className="link-text">Prescription</span>
-                    </Link>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-text">Prescription</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link to="/AdminDrugPrescription" className="item-link">
+                          <span className="link-text">Prescribe a drug</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link to="/AdminManagePrescriptionInvoice" className="item-link">
+                          <span className="link-text">Manage Prescriptions</span>
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </nav>

@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader, TemplateSettings } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,7 +12,22 @@ class ServiceCategory extends React.Component {
     description: "",
 
     success: false,
+    formDone: false
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if ( this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    }
+    else if(!this.checkValidity() && formDone){
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,8 +52,13 @@ class ServiceCategory extends React.Component {
     }
   };
 
+   checkValidity = () => {
+    const { name, description } = this.state;
+    return isNotEmptyString(name) && isNotEmptyString(description);
+  }
+
   render() {
-    const { user } = this.state;
+    const { user, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -111,7 +132,7 @@ class ServiceCategory extends React.Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" disabled={!formDone}>
                               Submit
                             </button>
                           </div>
