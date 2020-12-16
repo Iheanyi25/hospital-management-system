@@ -1,12 +1,38 @@
 import React, { useState } from "react";
+import { isNotEmptyString, isValidPositiveInteger } from "../../../../../utils/validationUtils";
+import Inhalers from "./registerdrug-components/Inhalers";
+import Liquid from "./registerdrug-components/Liquid";
+import Powder from "./registerdrug-components/Powder";
+import Tablets from "./registerdrug-components/Tablets";
 
-const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
-  const [drugType, setDrugType] = useState("");
+const DrugType = ({ prevStep, setPayload, handleSubmit, drugTypeDetails, submitting }) => {
 
   const handleChange = (e) => {
-    setPayload(e.target.name, e.target.value);
-    if (e.target.name === "drugType") setDrugType(e.target.value);
+    if (e.target.name === "drugType") {
+      setPayload(e.target.name, e.target.id);
+    }else {
+      setPayload(e.target.name, e.target.value);
+    }
   };
+
+  const checkValidity = () => {
+    const {quantityPerContainer,containersPerCarton,measurment,costPricePerContainer, drugType } = drugTypeDetails;
+    return (
+      isNotEmptyString(drugType) &&
+      isValidPositiveInteger(quantityPerContainer) &&
+      isValidPositiveInteger(containersPerCarton) &&
+      isNotEmptyString(measurment) &&
+      isValidPositiveInteger(costPricePerContainer) 
+    );
+  }
+  const { drugType } = drugTypeDetails;
+
+  const drugAttrs = {
+    tabs : <Tablets handleChange={handleChange} drugTypeDetails={drugTypeDetails} />,
+    liquid: <Liquid handleChange={handleChange}  drugTypeDetails={drugTypeDetails} />,
+    inhalers: <Inhalers handleChange={handleChange}  drugTypeDetails={drugTypeDetails} />,
+    powder: <Powder handleChange={handleChange}  drugTypeDetails={drugTypeDetails} />
+  }
 
   return (
     <form className="mb-4 p-5 needs-validation" noValidate onSubmit={handleSubmit}>
@@ -19,8 +45,9 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             className="custom-control-input"
             name="drugType"
             id="tabs"
-            value="tabs"
+            value={drugType}
             onChange={handleChange}
+            checked={drugType === "tabs" && "checked"}
           />{" "}
           <label className="custom-control-label" for="tabs">
             Tablets, capsules or suppository
@@ -32,8 +59,9 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             className="custom-control-input"
             name="drugType"
             id="liquid"
-            value="liquid"
+            value={drugType}
             onChange={handleChange}
+            checked={drugType === "liquid" && "checked"}
           />{" "}
           <label className="custom-control-label" for="liquid">
             Liquid, gel or paste
@@ -45,8 +73,9 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             className="custom-control-input"
             name="drugType"
             id="inhalers"
-            value="inhalers"
+            value={drugType}
             onChange={handleChange}
+            checked={drugType === "inhalers" && "checked"}
           />{" "}
           <label className="custom-control-label" for="inhalers">
             Inhalers
@@ -58,251 +87,16 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
             className="custom-control-input"
             name="drugType"
             id="powder"
-            value="powder"
+            value={drugType}
             onChange={handleChange}
+            checked={drugType === "powder" && "checked"}
           />{" "}
           <label className="custom-control-label" for="powder">
             Powder
           </label>
         </div>
       </div>
-      {drugType === "tabs" ? (
-        <>
-          <div className="form-group">
-            <label>Number of pills in a packet/container</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="quantityPerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Number of packets in a carton</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="containersPerCarton"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Measurement</label>
-            <input
-              className="form-control"
-              type="text"
-              tabIndex={-98}
-              placeholder="eg. 100mg"
-              name="measurment"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Cost Price per parcket/container (NGN)</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="costPricePerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-        </>
-      ) : drugType === "liquid" ? (
-        <>
-          <div className="form-group">
-            <label>Volume (ml) per bottle/tube</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="quantityPerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Number of bottles/tubes in a carton</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="containersPerCarton"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Measurement</label>
-            <input
-              className="form-control"
-              type="text"
-              tabIndex={-98}
-              placeholder="eg. 100mg"
-              name="measurment"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Cost Price per bottle/tube (NGN)</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="costPricePerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-        </>
-      ) : drugType === "inhalers" ? (
-        <>
-          <div className="form-group">
-            <label>Volume (metered acutations)</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="quantityPerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Number of cannisters in a carton</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="containersPerCarton"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Measurement</label>
-            <input
-              className="form-control"
-              type="text"
-              tabIndex={-98}
-              placeholder="eg. 100mg"
-              name="measurment"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Cost Price per cannister (NGN)</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="costPricePerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-        </>
-      ) : drugType === "powder" ? (
-        <>
-          <div className="form-group">
-            <label>Volume (grams) per can</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="quantityPerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Number of cans in a carton</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="containersPerCarton"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Measurement</label>
-            <input
-              className="form-control"
-              type="text"
-              tabIndex={-98}
-              placeholder="eg. 100mg"
-              name="measurment"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-          <div className="form-group">
-            <label>Cost Price per can (NGN)</label>
-            <input
-              className="form-control"
-              type="number"
-              tabIndex={-98}
-              placeholder="eg. 100"
-              name="costPricePerContainer"
-              onChange={handleChange}
-              required
-            />
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid name.</div>
-          </div>
-        </>
-      ) : null}
+     {drugAttrs[drugType]}
       <div className="row">
         <div className="col">
           <button
@@ -317,9 +111,10 @@ const DrugType = ({ prevStep, setPayload, handleSubmit }) => {
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={drugType === "" ? true : false}
+            disabled={!checkValidity() || submitting}
           >
-            Register drug
+            {submitting ? "Registering..." : "Register drug"}
+            
           </button>
         </div>
       </div>

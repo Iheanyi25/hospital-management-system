@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { isValidEmail } from "../../utils/validationUtils";
 
 class RegisterUserModal extends React.Component {
   constructor(props) {
@@ -280,7 +281,7 @@ class RegisterUserModal extends React.Component {
                     className="btn btn-info"
                     onClick={(e) => this.registerUser(e)}
                     disabled={
-                      email === "" ||
+                      !isValidEmail(email) ||
                         firstName === "" ||
                         lastName === "" ||
                         roleName === ""
