@@ -4,6 +4,7 @@ import { Success } from "../../../Components/Alerts";
 import { postDrugUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
 class RegisterDrug extends React.Component {
   state = {
@@ -33,26 +34,24 @@ class RegisterDrug extends React.Component {
   }
 
   componentDidUpdate() {
-    const {
-      sku,
-      name,
-      genericName,
-      manufacturer,
-      expiryDate,
-      firstStepDone,
-    } = this.state;
-    if (
-      sku &&
-      name &&
-      genericName &&
-      manufacturer &&
-      expiryDate !== "" &&
-      !firstStepDone
-    ) {
+    const { firstStepDone } = this.state;
+    if ( this.verifyValidity() && !firstStepDone) {
       this.setState((state) => ({ ...state, firstStepDone: true }));
     }
+    else if(!this.verifyValidity() && firstStepDone){
+      this.setState((state) => ({ ...state, firstStepDone: false }));
+    }
   }
-
+  verifyValidity = () => {
+    const { sku, name, genericName, manufacturer, expiryDate } = this.state;
+    return (
+      isNotEmptyString(sku) &&
+      isNotEmptyString(name) &&
+      isNotEmptyString(genericName) &&
+      isNotEmptyString(manufacturer) &&
+      isNotEmptyString(expiryDate)
+    );
+  }; 
   nextStep = () => {
     this.setState((state) => ({ ...state, step: state.step + 1 }));
   };
@@ -62,7 +61,6 @@ class RegisterDrug extends React.Component {
   };
 
   setPayload = (key, value) => {
-    console.log(key, value);
     this.setState((state) => ({ ...state, [key]: value }));
   };
 
@@ -100,7 +98,6 @@ class RegisterDrug extends React.Component {
     });
     try {
       let res = await fetchWrapper(postdrugConfig);
-      console.log(res);
       if (res.status === 200) {
         this.setState({ success: true, message: res.message });
       }
@@ -111,6 +108,7 @@ class RegisterDrug extends React.Component {
   };
 
   render() {
+
     const {
       sku,
       step,
@@ -121,6 +119,7 @@ class RegisterDrug extends React.Component {
       expiryDate,
       success,
       user,
+      ...otherDrugDetails
     } = this.state;
     return (
       <main className="main-content">
@@ -162,6 +161,7 @@ class RegisterDrug extends React.Component {
                         prevStep={this.prevStep}
                         setPayload={this.setPayload}
                         handleSubmit={this.handleSubmit}
+                        drugTypeDetails={otherDrugDetails}
                       />
                     )}
                   </div>
