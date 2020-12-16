@@ -27,6 +27,7 @@ class RegisterDrug extends React.Component {
 
     success: false,
     message: "",
+    isSubmitting: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -66,6 +67,7 @@ class RegisterDrug extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    this.setState((state) => ({ ...state, isSubmitting: true }));
     const {
       sku,
       name,
@@ -104,11 +106,12 @@ class RegisterDrug extends React.Component {
     } catch (error) {
       console.log(error);
     }
+    this.setState((state) => ({ ...state, isSubmitting: false }));
     console.log(payload);
   };
 
   render() {
-
+console.log(this.state,7777777777)
     const {
       sku,
       step,
@@ -130,6 +133,7 @@ class RegisterDrug extends React.Component {
           <Success
             history={this.props.history}
             message="Well done, you successfully created a category"
+            timeOut={400}
             nextRoute={
               user.userType === "Admin"
                 ? "/AdminViewDrugs"
@@ -162,6 +166,7 @@ class RegisterDrug extends React.Component {
                         setPayload={this.setPayload}
                         handleSubmit={this.handleSubmit}
                         drugTypeDetails={otherDrugDetails}
+                        submitting={this.state.isSubmitting}
                       />
                     )}
                   </div>

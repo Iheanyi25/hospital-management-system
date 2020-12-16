@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -14,6 +15,7 @@ class CreateService extends React.Component {
     cost: "",
 
     success: false,
+    formDone: false
   };
 
   componentDidMount() {
@@ -21,6 +23,20 @@ class CreateService extends React.Component {
       user: JSON.parse(localStorage.getItem("authenticatedUser")),
     });
     this.fetchServiceCategories();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if ( this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    }
+    else if(!this.checkValidity() && formDone){
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
   }
 
   fetchServiceCategories = async () => {
@@ -66,8 +82,17 @@ class CreateService extends React.Component {
     }
   };
 
+   checkValidity = () => {
+    const {name,cost,serviceCategoryId } = this.state;
+    return (
+      isNotEmptyString(name) &&
+      isNotEmptyString(serviceCategoryId) &&
+      isValidPositiveInteger(cost) 
+    );
+  }
+
   render() {
-    const { user, success, categories } = this.state;
+    const { user, success, categories, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -164,7 +189,7 @@ class CreateService extends React.Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" disabled={formDone? false : true}>
                               Submit
                             </button>
                           </div>

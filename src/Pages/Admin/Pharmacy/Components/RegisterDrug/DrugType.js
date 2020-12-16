@@ -5,7 +5,7 @@ import Liquid from "./registerdrug-components/Liquid";
 import Powder from "./registerdrug-components/Powder";
 import Tablets from "./registerdrug-components/Tablets";
 
-const DrugType = ({ prevStep, setPayload, handleSubmit, drugTypeDetails }) => {
+const DrugType = ({ prevStep, setPayload, handleSubmit, drugTypeDetails, submitting }) => {
 
   const handleChange = (e) => {
     if (e.target.name === "drugType") {
@@ -111,9 +111,10 @@ const DrugType = ({ prevStep, setPayload, handleSubmit, drugTypeDetails }) => {
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={!checkValidity()}
+            disabled={!checkValidity() || submitting}
           >
-            Register drug
+            {submitting ? "Registering..." : "Register drug"}
+            
           </button>
         </div>
       </div>
