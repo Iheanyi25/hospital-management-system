@@ -54,12 +54,12 @@ class Clarking extends React.Component {
   }
 
   submitRequest = async (payload) => {
-    const { id, type } = this.props.location.state;
+    const { id, type, patient } = this.props.location.state;
 
-    console.log(payload);
+    console.log(patient);
 
     let res = await fetch(
-      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}&UserId=${this.state.userID}`,
+      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}&UserId=${this.state.userID}&PatientId=${patient.id}`,
       {
         method: "PATCH",
         headers: {
