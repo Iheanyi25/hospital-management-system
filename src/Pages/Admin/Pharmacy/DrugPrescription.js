@@ -67,7 +67,7 @@ const DrugPrescription = () => {
         <div className="main-content-wrap">
           <header className="page-header d-flex justify-content-between">
             <h3>Prescription</h3>
-            <button className="btn btn-primary">Preview</button>
+            <button className="btn btn-primary my-4">Preview</button>
           </header>
           <div className="page-content">
             <div className="card mb-0">
