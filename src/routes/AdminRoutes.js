@@ -54,6 +54,7 @@ import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans
 import SelectHealthPlan from "../Pages/Admin/SelectHealthPlan";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
+import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
 
 export default function AdminRoutes() {
   return (
@@ -82,6 +83,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminAppointments"
             component={AdminAppointments}
+          />
+           <Route
+            exact
+            path="/AdminProfile"
+            component={ViewAdminProfile}
           />
           <Route
             exact
