@@ -25,7 +25,7 @@ class AddDrugModal extends React.Component {
       var price = drugPrice;
       var description = drugDescription;
 
-      const request = await fetch(`${apiUrl}/Pharmacy/CreateDrug`, {
+      const request = await fetch(`${apiUrl}/Pharmac y/CreateDrug`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
