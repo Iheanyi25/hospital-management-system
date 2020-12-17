@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { AuthRoute } from "./routes";
 import PatientRoutes from "./routes/PatientRoutes";
@@ -7,32 +7,27 @@ import DoctorRoutes from "./routes/DoctorRoutes";
 import PharmacyRoutes from "./routes/PharmacyRoutes";
 import LabRoutes from "./routes/LabRoutes";
 import AccountantRoutes from "./routes/AccountantRoutes";
+import { UserContext } from "./mobx/UserState";
+import { observer } from "mobx-react";
 
-function AppRouter() {
-  const [isAuthenticated, setisAuthenticated] = useState(
-    Boolean(JSON.parse(localStorage.getItem("authenticatedUser")))
-  );
-  const [userType, setUserType] = useState(
-    Boolean(localStorage.getItem("authenticatedUser"))
-      ? JSON.parse(
-        localStorage.getItem("authenticatedUser")
-      ).userType.toLowerCase()
-      : null
-  );
+const AppRouter = observer(() => {
+  // const [isAuthenticated, setisAuthenticated] = useState(null);
+  // const [userType, setUserType] = useState(
+  //   Boolean(localStorage.getItem("authenticatedUser"))
+  //     ? JSON.parse(
+  //       localStorage.getItem("authenticatedUser")
+  //     ).userType.toLowerCase()
+  //     : null
+  // );
 
+  const { loadUser, user } = useContext(UserContext)
   useEffect(() => {
-    setisAuthenticated(
-      Boolean(JSON.parse(localStorage.getItem("authenticatedUser")))
-    );
-    if (isAuthenticated) {
-      setUserType(
-        JSON.parse(
-          localStorage.getItem("authenticatedUser")
-        ).userType.toLowerCase()
-      );
-    }
-  }, [isAuthenticated]);
-
+    loadUser()
+  }, []);
+  console.log(user)
+  const userType = user?.userType?.toLowerCase();
+  const isAuthenticated = Boolean(user);
+   
   const getRouteToRender = () => {
     if (isAuthenticated) {
       const rootPath = window.location.pathname.split("/")[1].toLowerCase();
@@ -62,9 +57,9 @@ function AppRouter() {
         <AuthRoute />
       );
     }
-  };
+  }
 
   return getRouteToRender();
-}
+})
 
-export default AppRouter;
+export default  AppRouter;
