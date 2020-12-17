@@ -1,4 +1,6 @@
 const apiUrl = process.env.REACT_APP_API_URL;
+// Login endpoints
+export const logInUrl = () => `${apiUrl}/Auth/Login`;
 
 //labTechnician endpoints
 export const getLabProfileUrl = (labId) =>
@@ -18,8 +20,10 @@ export const updatePharmacistContactDetailsUrl = () =>
 export const getDrugUrl = (drugId) => `${apiUrl}/Pharmacy/GetDrug/${drugId}`;
 export const getAllDrugsUrl = () => `${apiUrl}//Pharmacy/GetAllDrugs`;
 export const postDrugUrl = () => `${apiUrl}/Pharmacy/RegisterDrug`;
-export const updateDrugInventoryUrl = (drugId, drugQuantity) => `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
-export const updateDrugBasePriceUrl = () => `${apiUrl}/Pharmacy/UpdateDefaultDrugPrice`;
+export const updateDrugInventoryUrl = (drugId, drugQuantity) =>
+  `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
+export const updateDrugBasePriceUrl = () =>
+  `${apiUrl}/Pharmacy/UpdateDefaultDrugPrice`;
 export const getDrugPricesUrl = () => `${apiUrl}/Pharmacy/GetDrugPrices`;
 export const postDrugPricesUrl = () => `${apiUrl}/Pharmacy/CreateDrugPrice`;
 export const updateDrugPricesUrl = () => `${apiUrl}/Pharmacy/UpdateDrugPrice`;

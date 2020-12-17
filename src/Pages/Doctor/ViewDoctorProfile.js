@@ -1,11 +1,13 @@
 import React from "react";
-import { DoctorProfile } from '../../Components/Profiles'
+import { observer } from "mobx-react";
+import { DoctorProfile } from "../../Components/Profiles";
+import { UserContext } from "../../mobx/UserState";
 class ViewDoctorProfile extends React.Component {
-
+  static contextType = UserContext;
   render() {
-    return (
-      <DoctorProfile doctorId={JSON.parse(localStorage.getItem("authenticatedUser")).id}/>
-    );
+    const content = this.context;
+    const { user } = content;
+    return <DoctorProfile doctorId={user.id} />;
   }
 }
 
