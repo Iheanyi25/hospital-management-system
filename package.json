@@ -11,6 +11,8 @@
     "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.22",
     "jquery": "^3.5.1",
+    "mobx": "^6.0.4",
+    "mobx-react": "^7.0.5",
     "react": "^16.13.1",
     "react-data-table-component": "^6.11.5",
     "react-dom": "^16.13.1",
