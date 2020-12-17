@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
   const userStore = useLocalObservable(() => ({
     user: null,
     loading: null,
+    isLoadingUser: true,
     error: null,
     logIn: flow(function* logIn(data) {
       console.log(data, "log in data");
@@ -33,15 +34,17 @@ export const UserProvider = ({ children }) => {
         }
         userStore.user = res.data.authenticatedUser;
         userStore.loading = false;
+        window.location.reload();
       } catch (error) {
-          console.log(error,8888)
+        console.log(error, 8888);
         userStore.error = error;
         userStore.loading = false;
       }
     }),
     loadUser: () => {
-      userStore.user = JSON.parse(localStorage.getItem("authenticatedUser"))
-    }
+      userStore.user = JSON.parse(localStorage.getItem("authenticatedUser"));
+      userStore.isLoadingUser = false;
+    },
   }));
   return (
     <UserContext.Provider value={userStore}>{children}</UserContext.Provider>

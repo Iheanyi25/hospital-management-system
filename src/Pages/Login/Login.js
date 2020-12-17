@@ -43,7 +43,7 @@ class Login extends Component {
   };
 
   componentDidMount = async () => {
-    this.setJquery();
+    // this.setJquery();
     const params = new URLSearchParams(window.location.search);
     const url = this.state.apiUrl;
     const userEmailFromLink = params.get("email");

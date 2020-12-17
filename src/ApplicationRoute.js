@@ -20,7 +20,7 @@ const AppRouter = observer(() => {
   //     : null
   // );
 
-  const { loadUser, user } = useContext(UserContext)
+  const { loadUser, user, isLoadingUser } = useContext(UserContext)
   useEffect(() => {
     loadUser()
   }, []);
@@ -29,12 +29,15 @@ const AppRouter = observer(() => {
   const isAuthenticated = Boolean(user);
    
   const getRouteToRender = () => {
+    if (!user && isLoadingUser) return "loadding"
     if (isAuthenticated) {
       const rootPath = window.location.pathname.split("/")[1].toLowerCase();
       let tempUserRoute =
         userType === rootPath ? rootPath : userType.toLowerCase();
+        console.log(tempUserRoute)
       switch (tempUserRoute) {
         case "admin":
+          console.log(9999999999999)
           return <AdminRoutes />;
         case "patient":
           return <PatientRoutes />;
