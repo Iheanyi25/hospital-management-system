@@ -29,6 +29,7 @@ export const postDrugPricesUrl = () => `${apiUrl}/Pharmacy/CreateDrugPrice`;
 export const updateDrugPricesUrl = () => `${apiUrl}/Pharmacy/UpdateDrugPrice`;
 export const deleteDrugPricesUrl = () => `${apiUrl}/Pharmacy/DeleteDrugPrice`;
 export const getAllPrescriptionsUrl = () => `${apiUrl}/Pharmacy/GetPrescriptions`;
+export const getPrescriptionUrl = (id) => `${apiUrl}/Pharmacy/GetPrescription?ClerkingId=${id}`;
 
 //accountant endpoints
 export const getAccountantProfileUrl = (accountantId) =>
