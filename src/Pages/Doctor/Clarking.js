@@ -16,7 +16,7 @@ class Clarking extends React.Component {
     super(props);
 
     this.state = {
-      // patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      userID: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctorQueue: null,
       canceledConsultations: [],
       completedConsultations: [],
@@ -45,7 +45,7 @@ class Clarking extends React.Component {
     });
 
     this.submitRequest(payload);
-    this.setState({ reMount: !this.state.reMount });
+    this.setState({ reMount: !this.state.reMount })
   };
 
   componentDidMount() {
@@ -54,12 +54,12 @@ class Clarking extends React.Component {
   }
 
   submitRequest = async (payload) => {
-    const { id, type } = this.props.location.state;
+    const { id, type, patient } = this.props.location.state;
 
-    console.log(payload);
+    console.log(patient);
 
     let res = await fetch(
-      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}`,
+      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}&UserId=${this.state.userID}&PatientId=${patient.id}`,
       {
         method: "PATCH",
         headers: {
