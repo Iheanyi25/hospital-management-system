@@ -43,3 +43,11 @@ export const postServiceRequestUrl = () =>
 export const getAllHealthPlansUrl = () => `${apiUrl}/Admin/GetAllHealthPlans`;
 export const updateHealthPlanUrl = () => `${apiUrl}/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `${apiUrl}/Admin/DisableHealthPlan`;
+
+//Admin Profile
+export const getAdminProfileUrl = (adminId) =>
+  `${apiUrl}/Admin/GetAdmin?AdminId=${adminId}`;
+  export const updateAdminBasicInfoUrl = () =>
+  `${apiUrl}/Admin/UpdateAdminBasicInfo`;
+export const updateAdminContactDetailsUrl = () =>
+  `${apiUrl}/Admin/UpdateAdminContactDetails`;

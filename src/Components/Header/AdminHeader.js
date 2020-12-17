@@ -140,7 +140,7 @@ class AdminHeader extends React.Component {
 											</Link>
 										</li> */}
 										<li>
-											<Link to="#" className="align-items-center">
+											<Link to="/AdminProfile" className="align-items-center">
 												<span className="icon icofont-ui-user" /> User profile
 											</Link>
 										</li>
