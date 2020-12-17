@@ -1,15 +1,16 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { DrugDescription, DrugType } from "./Components/RegisterDrug";
 import { Success } from "../../../Components/Alerts";
 import { postDrugUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { isNotEmptyString } from "../../../utils/validationUtils";
+import { UserContext } from "../../../mobx/UserState";
 
 class RegisterDrug extends React.Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
-
     step: 1,
     firstStepDone: false,
 
@@ -29,10 +30,6 @@ class RegisterDrug extends React.Component {
     message: "",
     isSubmitting: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState !== this.state;
-  }
 
   componentDidUpdate() {
     const { firstStepDone } = this.state;
@@ -111,7 +108,8 @@ class RegisterDrug extends React.Component {
   };
 
   render() {
-console.log(this.state,7777777777)
+    const content = this.context;
+    const { user } = content;
     const {
       sku,
       step,
@@ -121,7 +119,6 @@ console.log(this.state,7777777777)
       manufacturer,
       expiryDate,
       success,
-      user,
       ...otherDrugDetails
     } = this.state;
     return (
@@ -180,4 +177,4 @@ console.log(this.state,7777777777)
   }
 }
 
-export default RegisterDrug;
+export default observer(RegisterDrug);
