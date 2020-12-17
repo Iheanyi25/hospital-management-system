@@ -1,12 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const $ = window.$;
 class AdminSidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       endpoint: process.env.REACT_APP_API_URL,
     };
+  }
+  componentWillMount () {
+    // $('.navbar-toggle').click(function () {
+    //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').toggleClass('opened');
+    //   $('.content-overlay').toggleClass('show');
+    // });
+    // $('.content-overlay').click(function () {
+    //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').removeClass('opened');
+    //   $(this).removeClass('show');
+    // });
+    console.log($);
   }
 
   render() {

@@ -5,6 +5,8 @@ import { InvalidDetails, Success } from "../../Components/Alerts";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../mobx/UserState";
 
+let $ = undefined
+let interval = undefined;
 class Login extends Component {
   static contextType = UserContext;
   state = {
@@ -17,11 +19,20 @@ class Login extends Component {
     success: false,
   };
 
+  // setJquery = () => {
+  //   interval = setInterval(() => {
+  //     if (window.$) {
+  //       console.log("i dey");
+  //       clearInterval(interval);
+  //       $ = window.$;
+  //     }
+  //   }, 1000);
+  // };
+
   handleSubmit = async (e) => {
     e.preventDefault();
     const content = this.context;
     const { logIn } = content;
-    this.setState({ submitting: true });
     const { email, password } = this.state;
     const data = { email, password };
     logIn(data);
@@ -32,6 +43,7 @@ class Login extends Component {
   };
 
   componentDidMount = async () => {
+    this.setJquery();
     const params = new URLSearchParams(window.location.search);
     const url = this.state.apiUrl;
     const userEmailFromLink = params.get("email");
