@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDrugsUrl } from '../../../api/URLs'
-import { fetchConfig } from '../../../api/fetchConfig'
+import { getAllDrugsUrl } from "../../../api/URLs";
+import { fetchConfig } from "../../../api/fetchConfig";
 import user from "../../../assets/img/user.png";
 import remove from "../../../assets/img/remove.svg";
-import { AddPrescriptionQuantity, SelectableDropDown } from "../../../Components";
+import {
+  AddPrescriptionQuantity,
+  SelectableDropDown,
+} from "../../../Components";
 import { useRequest } from "../../../api/fetcher";
+import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
 
 const DrugPrescription = () => {
-
   const getDrugsUrl = getAllDrugsUrl();
   const getDrugConfig = fetchConfig({
     url: getDrugsUrl,
@@ -17,7 +20,9 @@ const DrugPrescription = () => {
   const [selectedDrugs, setSelectedDrugs] = useState([]);
   const [activeDrugs, setActiveDrugs] = useState(null);
 
-  const { data, error, mutate } = useRequest(getDrugConfig, { revalidateOnFocus: false })
+  const { data, error, mutate } = useRequest(getDrugConfig, {
+    revalidateOnFocus: false,
+  });
 
   const onChange = (key, e) => {
     e.preventDefault();
@@ -26,22 +31,21 @@ const DrugPrescription = () => {
     rawData = rawData.split("#");
 
     let allDrugs = selectedDrugs;
-    let existingIndex = allDrugs.find(element => element.id === rawData[2]);
+    let existingIndex = allDrugs.find((element) => element.id === rawData[2]);
 
     if (!existingIndex) {
       let newValue = {
         name: rawData[3],
-        id: rawData[2]
+        id: rawData[2],
       };
       setActiveDrugs(newValue);
       loadModal();
-    }
-    else return;
-  }
+    } else return;
+  };
 
   const loadModal = () => {
     document.getElementById("prescriptionTrigger").click();
-  }
+  };
 
   const addPresQuality = (newValue) => {
     let allDrugs = selectedDrugs;
@@ -49,14 +53,14 @@ const DrugPrescription = () => {
 
     setSelectedDrugs(allDrugs);
     setActiveDrugs(null);
-  }
+  };
 
   const removeFromSelected = (id) => {
     let arrayToRemoveFrom = selectedDrugs;
 
     arrayToRemoveFrom.splice(id, 1);
     setSelectedDrugs(arrayToRemoveFrom);
-  }
+  };
 
   return (
     <>
@@ -67,7 +71,9 @@ const DrugPrescription = () => {
         <div className="main-content-wrap">
           <header className="page-header d-flex justify-content-between">
             <h3>Prescription</h3>
-            <button className="btn btn-primary">Preview</button>
+            <button to="#"
+                        data-toggle="modal"
+                        data-target="#showInvoice" className="btn btn-primary">Preview</button>
           </header>
           <div className="page-content">
             <div className="card mb-0">
@@ -94,7 +100,6 @@ const DrugPrescription = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="col-12 col-md-3">
                     <label className={"mb-3"}>Search & select drugs</label>
                     <SelectableDropDown
@@ -121,44 +126,47 @@ const DrugPrescription = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {
-                            selectedDrugs && selectedDrugs.length > 0 ?
-                              selectedDrugs.map((item, index) =>
-                                <tr key={index}>
-                                  <td>
-                                    <strong>{index + 1}</strong>
-                                  </td>
-                                  <td>
-                                    <strong>
-                                      <div className="d-flex align-items-center nowrap">
-                                        {item.name}
-                                      </div>
-                                    </strong>
-                                  </td>
-                                  <td>{`${Number(item?.packs) ?? 0} packs, `}  {`${Number(item?.tablets) ?? 0}  tablets`}</td>
-                                  <td>
-                                    <div className="d-flex align-items-center nowrap">
-                                      <Link
-                                        title="Delete"
-                                        to="#"
-                                        onClick={() => removeFromSelected(index)}
-                                        className="text-danger mr-4"
-                                      >
-                                        <img src={remove} alt="delete" />
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-                              )
-                              :
-                              <tr>
-                                <td colSpan="4">
-                                  <p className="w-50 text-secondary">
-                                    Search and select the drugs prescribed to the
-                                    patient
-                              </p>
+                          {selectedDrugs && selectedDrugs.length > 0 ? (
+                            selectedDrugs.map((item, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <strong>{index + 1}</strong>
                                 </td>
-                              </tr>}
+                                <td>
+                                  <strong>
+                                    <div className="d-flex align-items-center nowrap">
+                                      {item.name}
+                                    </div>
+                                  </strong>
+                                </td>
+                                <td>
+                                  {`${Number(item?.packs) ?? 0} packs, `}{" "}
+                                  {`${Number(item?.tablets) ?? 0}  tablets`}
+                                </td>
+                                <td>
+                                  <div className="d-flex align-items-center nowrap">
+                                    <Link
+                                      title="Delete"
+                                      to="#"
+                                      onClick={() => removeFromSelected(index)}
+                                      className="text-danger mr-4"
+                                    >
+                                      <img src={remove} alt="delete" />
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="4">
+                                <p className="w-50 text-secondary">
+                                  Search and select the drugs prescribed to the
+                                  patient
+                                </p>
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -174,10 +182,11 @@ const DrugPrescription = () => {
         className="btn d-none"
         id="prescriptionTrigger"
         data-toggle="modal"
-        data-target="#add-prescription-quantity" />
+        data-target="#add-prescription-quantity"
+      />
 
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
-
+      <PrescriptionInvoice />
     </>
   );
 };
