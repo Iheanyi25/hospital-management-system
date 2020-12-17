@@ -193,8 +193,6 @@ class Dashboard extends React.Component {
                               <th className="text-nowrap" scope="col">
                                 Status
                               </th>
-
-                              <th scope="col">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -241,16 +239,6 @@ class Dashboard extends React.Component {
                                   </td>
 
                                   <td>mumps</td>
-                                  <td>
-                                    {/* <div className="actions">
-                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-edit" />
-                                      </button>
-                                      <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-delete" />
-                                      </button>
-                                    </div> */}
-                                  </td>
                                 </tr>
                               )
                             )}
@@ -295,8 +283,6 @@ class Dashboard extends React.Component {
                               <th className="text-nowrap" scope="col">
                                 Status
                               </th>
-
-                              <th scope="col">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -342,16 +328,6 @@ class Dashboard extends React.Component {
                                   </td> */}
                                   <td>
                                     <div>Not Completed</div>
-                                  </td>
-                                  <td>
-                                    {/* <div className="actions">
-                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-edit" />
-                                      </button>
-                                      <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-delete" />
-                                      </button>
-                                    </div> */}
                                   </td>
                                 </tr>
                               )
