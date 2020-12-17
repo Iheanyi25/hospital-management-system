@@ -52,6 +52,7 @@ export default class ManageServices extends Component {
 
   render() {
     const { user } = this.state;
+    console.log(this.state)
     return (
       <>
         <PageLoader />

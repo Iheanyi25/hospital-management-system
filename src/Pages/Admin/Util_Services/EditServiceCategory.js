@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 export default class EditServiceCategory extends Component {
@@ -8,6 +9,7 @@ export default class EditServiceCategory extends Component {
     user: JSON.parse(localStorage.getItem("authenticatedUser")),
     name: "",
     description: "",
+    formDone: true
   };
 
   async componentDidMount() {
@@ -20,6 +22,25 @@ export default class EditServiceCategory extends Component {
     } else {
       return this.props.history.push("/AdminDashboard");
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if ( this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    }
+    else if(!this.checkValidity() && formDone){
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
+  }
+
+  checkValidity = () => {
+    const { name, description } = this.state;
+    return isNotEmptyString(name) && isNotEmptyString(description);
   }
 
   handleSubmit = async (e) => {
@@ -50,7 +71,7 @@ export default class EditServiceCategory extends Component {
   };
 
   render() {
-    const { success, name, description, user } = this.state;
+    const { success, name, description, user, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -120,7 +141,7 @@ export default class EditServiceCategory extends Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" disabled={!formDone}>
                               Submit
                             </button>
                           </div>
