@@ -18,8 +18,11 @@ export default class EditService extends Component {
       user: JSON.parse(localStorage.getItem("authenticatedUser")),
     });
     if (this.props.history.location.state) {
-      let stateData = this.props.history.location.state;
-      this.setState({ name: stateData.name, cost: stateData.cost }, () => {
+      console.log(this.props.history.location.state)
+      const { history : { location }}= this.props;
+      const { name, id, cost} = location.state;
+
+      this.setState({ name: name, cost: cost }, () => {
         this.fetchServiceCategories();
       });
     } else {
@@ -76,6 +79,7 @@ export default class EditService extends Component {
 
   render() {
     const { user } = this.state;
+    console.log(this.state)
     return (
       <>
         <PageLoader />

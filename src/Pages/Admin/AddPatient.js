@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { PageLoader } from "../../Components";
 import SelectHealthPlan from "./SelectHealthPlan";
 import { Success } from "../../Components/Alerts";
+import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -15,7 +16,7 @@ export default class AddPatient extends Component {
     healthPlan: "",
     healthPlanId: "",
     accountId: "",
-
+    isDisabled: true,
     success: false,
   };
 
@@ -23,6 +24,19 @@ export default class AddPatient extends Component {
     this.fetchHealthPlans();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+  componentDidUpdate(prevProps, prevState){
+    if (!this.verifyValidity() && !prevState.isDisabled) {
+      this.setState((state) => ({...state, isDisabled: true }));
+    } else if(this.verifyValidity() && prevState.isDisabled){
+      this.setState((state) => ({...state, isDisabled: false }));
+    }
+  //    else {
+  //     this.setState((state) => ({...state, isDisabled: false }));
+	// }
+  }
   fetchHealthPlans = async () => {
     try {
       let res = await fetch(`${apiUrl}/Admin/GetAllHealthPlans`, {
@@ -51,7 +65,6 @@ export default class AddPatient extends Component {
             });
           } else {
             alert("please fill in the empty fields");
-            console.log(this.state);
             this.setState({
               [name]: "",
             });
@@ -67,8 +80,19 @@ export default class AddPatient extends Component {
 
     this.setState({
       [name]: value,
-    });
+    },);
   }
+
+  verifyValidity = () => {
+    const { firstName, lastName, email, healthPlan } = this.state;
+    return (
+      isNotEmptyString(firstName) &&
+      isNotEmptyString(lastName) &&
+      isNotEmptyString(email) &&
+      isNotEmptyString(healthPlan) &&
+      isValidEmail(email)
+    );
+  };
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -234,7 +258,7 @@ export default class AddPatient extends Component {
                           <div className="row">
                             <div className="col"></div>
                             <div className="col text-right">
-                              <button type="submit" className="btn btn-primary">
+                              <button type="submit" className="btn btn-primary" disabled={this.state.isDisabled}>
                                 Register Patient
                               </button>
                             </div>

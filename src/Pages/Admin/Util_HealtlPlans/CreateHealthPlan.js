@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { PageLoader, TemplateSettings } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { isBoolean, isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-
 export default class CreateHealthPlan extends Component {
   state = {
     name: "",
@@ -14,6 +14,33 @@ export default class CreateHealthPlan extends Component {
     instantBilling: false,
 
     success: false,
+    formDone: false
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if ( this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    }
+    else if(!this.checkValidity() && formDone){
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
+  }
+
+  checkValidity = () => {
+    const { name, cost, renewal, noOfPatients, noOfAccounts, instantBilling } = this.state
+    return (
+      isNotEmptyString(name) &&
+      isValidPositiveInteger(cost) &&
+      isValidPositiveInteger(renewal) &&
+      isValidPositiveInteger(noOfPatients) &&
+      isValidPositiveInteger(noOfAccounts) &&
+      isBoolean(instantBilling)
+    );
   };
 
   handleSubmit = async (e) => {
@@ -201,7 +228,7 @@ export default class CreateHealthPlan extends Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" disabled={!this.state.formDone}>
                               Submit
                             </button>
                           </div>
