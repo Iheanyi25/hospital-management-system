@@ -2,7 +2,12 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
-import { PreConsultationHistory, ClarkingHistory, PatientProfile, LabResults } from '../../Components/Clarking'
+import {
+  PreConsultationHistory,
+  ClarkingHistory,
+  PatientProfile,
+  LabResults,
+} from "../../Components/Clarking";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,7 +16,7 @@ class Clarking extends React.Component {
     super(props);
 
     this.state = {
-      // patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      userID: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctorQueue: null,
       canceledConsultations: [],
       completedConsultations: [],
@@ -22,7 +27,7 @@ class Clarking extends React.Component {
       labHistory: {},
       message: "",
       success: false,
-      reMount: true
+      reMount: true,
     };
   }
 
@@ -40,21 +45,21 @@ class Clarking extends React.Component {
     });
 
     this.submitRequest(payload);
-    this.setState({reMount: !this.state.reMount})
+    this.setState({ reMount: !this.state.reMount })
   };
 
   componentDidMount() {
-    console.log(this.props.location.state)
-    this.props.location.state?.id ?? this.props.history.push("/")
+    console.log(this.props.location.state);
+    this.props.location.state?.id ?? this.props.history.push("/");
   }
 
   submitRequest = async (payload) => {
-    const { id, type } = this.props.location.state;
+    const { id, type, patient } = this.props.location.state;
 
-    console.log(payload);
+    console.log(patient);
 
     let res = await fetch(
-      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}`,
+      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}&UserId=${this.state.userID}&PatientId=${patient.id}`,
       {
         method: "PATCH",
         headers: {
@@ -64,7 +69,7 @@ class Clarking extends React.Component {
       }
     );
     let response = await res.json();
-    this.setState({ success: true, message: response.message })
+    this.setState({ success: true, message: response.message });
     // alert(response.message);
   };
 
@@ -112,8 +117,8 @@ class Clarking extends React.Component {
   }
 
   changeSuccess = () => {
-    this.setState({ success: false })
-  }
+    this.setState({ success: false });
+  };
 
   finishClarking = async (e, key) => {
     e.preventDefault();
@@ -121,26 +126,25 @@ class Clarking extends React.Component {
     let payload = {
       id: this.props.location.state.id,
       isAdmitted: false,
-      isSentHome: false
-    }
+      isSentHome: false,
+    };
 
     payload[key] = true; //change here
 
     const request = await fetch(apiUrl + "/Doctor/AdmitOrSendPatientHome", {
       method: "POST",
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     const response = await request.json();
-    this.setState({ success: true, message: response.message, nextRoute: "/" })
-  }
+    this.setState({ success: true, message: response.message, nextRoute: "/" });
+  };
 
   render() {
-    console.log(this.state.reMount, "remount is here")
-    const { firstName, lastName, id } = this.props.location.state.patient
+    const { firstName, lastName, id } = this.props.location.state.patient;
     return (
       <>
         <PageLoader />
@@ -159,7 +163,12 @@ class Clarking extends React.Component {
           ) : null}
           <div className="main-content-wrap">
             <header className="page-header d-flex justify-content-between">
-              <h3 className="page-title">Doctor Clarking: <font>{lastName.toUpperCase() + " " + firstName.toUpperCase()}</font></h3>
+              <h3 className="page-title">
+                Doctor Clarking:{" "}
+                <font>
+                  {lastName.toUpperCase() + " " + firstName.toUpperCase()}
+                </font>
+              </h3>
               <div>
                 <div className="col"></div>
                 <div className="col text-right">
@@ -168,20 +177,20 @@ class Clarking extends React.Component {
                     className="btn btn-primary mr-2 mb-2"
                   >
                     Send Home
-                    </Link>
+                  </Link>
                   <Link
                     onClick={(e) => this.finishClarking(e, "isAdmitted")}
                     className="btn btn-outline-primary mr-2 mb-2"
                   >
                     Admit
-                    </Link>
+                  </Link>
                 </div>
               </div>
             </header>
             <div className="page-content">
               <div className="row">
                 <div
-                  className="nav flex-column nav-pills col-md-3"
+                  className="nav flex-column nav-tabs col-md-3"
                   id="v-pills-tab"
                   role="tablist"
                   aria-orientation="vertical"
@@ -233,7 +242,7 @@ class Clarking extends React.Component {
                   <NavLink
                     to={{
                       pathname: "/AdminServiceRequests",
-                      state: this.props.location.state
+                      state: this.props.location.state,
                     }}
                     className="nav-link"
                     aria-selected="false"
@@ -250,7 +259,7 @@ class Clarking extends React.Component {
                   >
                     <div>
                       <ul
-                        className="nav nav-pills mb-3"
+                        className="nav nav-tabs mb-3"
                         id="pills-tab"
                         role="tablist"
                       >
@@ -576,7 +585,7 @@ class Clarking extends React.Component {
                   >
                     <div>
                       <ul
-                        className="nav nav-pills mb-3"
+                        className="nav nav-tabs mb-3"
                         id="pills-tab"
                         role="tablist"
                       >
@@ -671,7 +680,7 @@ class Clarking extends React.Component {
                             Obstetrics and Gynecology
                           </a>
                         </li>
-                        {/* <li className="nav-item">
+                        <li className="nav-item">
                           <a
                             className="nav-link"
                             id="pills-prescription-tab"
@@ -683,7 +692,7 @@ class Clarking extends React.Component {
                           >
                             Prescriptions
                           </a>
-                        </li> */}
+                        </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
@@ -1090,6 +1099,62 @@ class Clarking extends React.Component {
                             </div>
                           </div>
                         </div>
+                        <div
+                          className="tab-pane fade"
+                          id="pills-prescription"
+                          role="tabpanel"
+                          aria-labelledby="pills-prescription-tab"
+                        >
+                          <div className="row justify-content-center mt-5">
+                            <div className="col-md-12">
+                              <div className="card border-light">
+                                <div className="card-body">
+                                  <form className="mb-4">
+                                    <h4>Prescription</h4>
+
+                                    <div className="form-group">
+                                      <label>Prescription</label>
+                                      <textarea
+                                        className="form-control"
+                                        placeholder="Enter Prescriptions"
+                                        rows={3}
+                                        onChange={(e) =>
+                                          this.handleChange(
+                                            "clarking",
+                                            "prescription",
+                                            e
+                                          )
+                                        }
+                                        value={
+                                          this.state.clarking?.prescription
+                                        }
+                                      />
+                                    </div>
+
+                                    <div className="row">
+                                      <div className="col"></div>
+                                      <div className="col text-right">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary"
+                                          onClick={(e) =>
+                                            this.handleSubmit(
+                                              "clarking",
+                                              ["prescription"],
+                                              e
+                                            )
+                                          }
+                                        >
+                                          Prescribe
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
                         {/* <div
                           className="tab-pane fade"
@@ -1153,7 +1218,7 @@ class Clarking extends React.Component {
                   >
                     <div>
                       <ul
-                        className="nav nav-pills mb-3"
+                        className="nav nav-tabs mb-3"
                         id="pills-tab"
                         role="tablist"
                       >
@@ -1207,7 +1272,9 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <PreConsultationHistory patientDetails={{ id, firstName, lastName }} />
+                                <PreConsultationHistory
+                                  patientDetails={{ id, firstName, lastName }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -1222,7 +1289,10 @@ class Clarking extends React.Component {
                           <div className="row justify-content-center mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
-                                <ClarkingHistory patientDetails={{ id, firstName, lastName }} reMount={this.state.reMount} />
+                                <ClarkingHistory
+                                  patientDetails={{ id, firstName, lastName }}
+                                  reMount={this.state.reMount}
+                                />
                               </div>
                             </div>
                           </div>
@@ -1255,7 +1325,7 @@ class Clarking extends React.Component {
                   >
                     <div>
                       <ul
-                        className="nav nav-pills mb-3"
+                        className="nav nav-tabs mb-3"
                         id="pills-tab"
                         role="tablist"
                       >
@@ -1288,7 +1358,6 @@ class Clarking extends React.Component {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
