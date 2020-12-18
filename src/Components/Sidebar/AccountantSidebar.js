@@ -35,7 +35,7 @@ class AccountantSidebar extends React.Component {
                   <li className="menu-item">
                     <Link className="item-link" to="/AccountantManageAccounts">
                       <span className="link-icon icofont-pay" />{" "}
-                      <span className="link-text">Account Invoices</span>
+                      <span className="link-text">Accounts</span>
                     </Link>
                   </li>
                   <li className="menu-item">

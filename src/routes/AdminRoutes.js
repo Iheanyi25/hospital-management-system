@@ -216,7 +216,7 @@ export default function AdminRoutes() {
           <Route exact path="/AdminViewDrugs" component={ViewDrugs} />
           <Route exact path="/AdminViewDrug/:id" component={ViewDrug} />
           <Route exact path="/AdminManagePrescriptions" component={ManagePrescriptions} />
-          <Route exact path="/AdminDrugPrescription" component={DrugPrescription} />
+          <Route exact path="/AdminDrugPrescription/:id" component={DrugPrescription} />
           <Route exact path="/AdminManagePrescriptionInvoice" component={ManagePrescriptionInvoice} />
           <Route exact path="/AdminPaymentForPrescription" component={PaymentForPrescription} />
 

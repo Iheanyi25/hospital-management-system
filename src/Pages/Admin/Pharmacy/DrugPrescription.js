@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDrugsUrl } from "../../../api/URLs";
+import {
+  costDrugUrl,
+  getAllDrugsUrl,
+  getPrescriptionUrl,
+} from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import user from "../../../assets/img/user.png";
 import remove from "../../../assets/img/remove.svg";
@@ -8,10 +12,26 @@ import {
   AddPrescriptionQuantity,
   SelectableDropDown,
 } from "../../../Components";
-import { useRequest } from "../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
 
-const DrugPrescription = () => {
+const DrugPrescription = ({ match }) => {
+  const [costingDetails, setcostingDetails] = useState([]);
+
+  // fetch Prescription
+  const { id } = match.params;
+
+  const prescriptionUrl = getPrescriptionUrl(id);
+  const getPrescriptionConfig = fetchConfig({
+    url: prescriptionUrl,
+    method: "get",
+  });
+
+  const { data: prescription } = useRequest(getPrescriptionConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(prescription);
+  // fetch Drugs
   const getDrugsUrl = getAllDrugsUrl();
   const getDrugConfig = fetchConfig({
     url: getDrugsUrl,
@@ -36,7 +56,7 @@ const DrugPrescription = () => {
     if (!existingIndex) {
       let newValue = {
         name: rawData[3],
-        id: rawData[2],
+        drugId: rawData[2],
       };
       setActiveDrugs(newValue);
       loadModal();
@@ -50,7 +70,7 @@ const DrugPrescription = () => {
   const addPresQuality = (newValue) => {
     let allDrugs = selectedDrugs;
     allDrugs.push(newValue);
-
+    console.log(newValue, "heloo");
     setSelectedDrugs(allDrugs);
     setActiveDrugs(null);
   };
@@ -62,6 +82,27 @@ const DrugPrescription = () => {
     setSelectedDrugs(arrayToRemoveFrom);
   };
 
+  const generateInvoice = async () => {
+    selectedDrugs.forEach((drug, i) => {
+      const { name, ...selectedDrugDet } = drug;
+      selectedDrugs[i] = selectedDrugDet;
+    });
+    const payload = {
+      patientId: prescription?.patient?.id,
+      drugs: selectedDrugs,
+    };
+    const costUrl = costDrugUrl();
+    const costDrugConfig = fetchConfig({
+      url: costUrl,
+      method: "post",
+      data: payload,
+    });
+    let response = await fetchWrapper(costDrugConfig);
+    setcostingDetails(response?.data?.costings);
+    console.log(response);
+    console.log(payload, "payload");
+  };
+
   return (
     <>
       <main className="main-content">
@@ -69,11 +110,18 @@ const DrugPrescription = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <header className="page-header d-flex justify-content-between">
-            <h3>Prescription</h3>
-            <button to="#"
-                        data-toggle="modal"
-                        data-target="#showInvoice" className="btn btn-sm btn-primary">Preview</button>
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title">Prescription</h4>
+            {selectedDrugs.length > 0 ? (
+              <Link
+                className="btn btn-primary"
+                data-toggle="modal"
+                data-target="#showInvoice"
+                onClick={generateInvoice}
+              >
+                Preview
+              </Link>
+            ) : null}
           </header>
           <div className="page-content">
             <div className="card mb-0">
@@ -92,11 +140,11 @@ const DrugPrescription = () => {
                             }}
                             alt="user"
                           />
-                          <h6 className="mt-2 ml-2">[Patient’s name]</h6>
+                          <h6 className="mt-2 ml-2">{`[${
+                            prescription?.patient?.firstName ?? ""
+                          } ${prescription?.patient?.lastName ?? ""}]`}</h6>
                         </div>
-                        <p className="mb-0">Athesunate</p>
-                        <p className="mb-0">Athesunate 500mg x2</p>
-                        <p className="mb-0">3 wolf moon officia aute</p>
+                        <p className="mb-0">{prescription?.prescription}</p>
                       </div>
                     </div>
                   </div>
@@ -140,8 +188,15 @@ const DrugPrescription = () => {
                                   </strong>
                                 </td>
                                 <td>
-                                  {`${Number(item?.packs) ?? 0} packs, `}{" "}
-                                  {`${Number(item?.tablets) ?? 0}  tablets`}
+                                  {`${
+                                    Number(item?.numberOfUnits) ?? 0
+                                  } packs, `}{" "}
+                                  {`${
+                                    Number(item?.numberOfContainers) ?? 0
+                                  }  tablets, `}
+                                  {`${
+                                    Number(item?.numberOfCartons) ?? 0
+                                  }  cartons`}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
@@ -186,7 +241,11 @@ const DrugPrescription = () => {
       />
 
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
-      <PrescriptionInvoice />
+      <PrescriptionInvoice
+        costingDetails={costingDetails}
+        doctor={prescription?.doctor}
+        patient={prescription?.patient}
+      />
     </>
   );
 };
