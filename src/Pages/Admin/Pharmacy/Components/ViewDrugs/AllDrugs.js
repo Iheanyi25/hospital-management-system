@@ -83,7 +83,7 @@ class AllDrugs extends React.Component {
                 <td>
                   <div className="text-muted text-nowrap">
                     {drug?.name ?? "N/A"}{" "}
-                    <sub className="text-success">{drug?.measurment}</sub>
+                    <sub className="text-primary">{drug?.measurment}</sub>
                   </div>
                 </td>
                 <td>
