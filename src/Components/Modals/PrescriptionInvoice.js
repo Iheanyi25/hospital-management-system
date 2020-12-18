@@ -10,7 +10,7 @@ const PrescriptionInvoice = ()=>{
         role="dialog"
         aria-hidden="true"
       >
-        <section>
+        {/* <div className="modal fade"> */}
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -117,10 +117,10 @@ const PrescriptionInvoice = ()=>{
                     Generate Invoice
                   </button>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           </div>
-        </section>
+        </div>
       </div>
 
     );
