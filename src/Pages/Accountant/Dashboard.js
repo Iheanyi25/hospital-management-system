@@ -1,17 +1,57 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      accounts: [],
+      registrationInvoices: [],
+      serviceRequestInvoices: [],
+    };
   }
 
+  async componentDidMount() {
+    this.fetchInvoices();
+    this.fecthAllAcounts();
+    this.fetchServiceRequestInvoices();
+    this.setState({
+      user: JSON.parse(localStorage.getItem("authenticatedUser")),
+    });
+  }
+
+  async fetchInvoices() {
+    const res = await fetch(`${apiUrl}/Admin/GetRegistrationFeeInvoices`);
+    const response = await res.json();
+    this.setState({ registrationInvoices: response.registrationInvoices });
+  }
+
+  async fetchServiceRequestInvoices() {
+    const res = await fetch(`${apiUrl}/Admin/GetAllServiceRequestInvoice`);
+    const response = await res.json();
+    this.setState({ serviceRequestInvoices: response.serviceInvoices });
+  }
+
+  fecthAllAcounts = async () => {
+    const response = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`);
+    const data = await response.json();
+    this.setState({ accounts: data.accounts });
+  };
+
+  filterInvoiceLength = (value) => {
+    return this.state.registrationInvoices.filter(
+      (val) => val.paymentStatus === value
+    ).length;
+  };
+
   render() {
+    const { accounts } = this.state;
     return (
       <h2>
-         <PageLoader />
+        <PageLoader />
 
         <main className="main-content">
           <div className="app-loader">
@@ -28,8 +68,10 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">Appointments</h6>
-                          <div className="count text-primary fs-20">213</div>
+                          <h6 className="mt-0 mb-1">Accounts</h6>
+                          <div className="count text-primary fs-20">
+                            {accounts.length}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -43,8 +85,12 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">New patients</h6>
-                          <div className="count text-primary fs-20">104</div>
+                          <h6 className="mt-0 mb-1">
+                            Registration Invoices (Unpaid)
+                          </h6>
+                          <div className="count text-primary fs-20">
+                            {this.filterInvoiceLength("Paid")}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -58,25 +104,12 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">Operations</h6>
-                          <div className="count text-primary fs-20">24</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-12 col-md-6 col-xl-3">
-                  <div className="card animated fadeInUp delay-04s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-5">
-                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-dollar-true"></div>
-                        </div>
-                        <div className="col col-7">
-                          <h6 className="mt-0 mb-1 text-nowrap">
-                            Hospital Earning
+                          <h6 className="mt-0 mb-1">
+                            Service Request Invoices (Unpaid)
                           </h6>
-                          <div className="count text-primary fs-20">$5238</div>
+                          <div className="count text-primary fs-20">
+                            {this.state.serviceRequestInvoices.length}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -92,7 +125,7 @@ class Dashboard extends React.Component {
                   />
                 </div>
               </div>
-              <div className="row">
+              <div ref={(el) => (this.el = el)} className="row">
                 <div className="col col-12 col-md-6">
                   <div className="card">
                     <div className="card-body">
