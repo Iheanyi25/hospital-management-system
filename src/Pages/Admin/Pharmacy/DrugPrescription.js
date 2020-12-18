@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDrugsUrl, getPrescriptionUrl } from "../../../api/URLs";
+import {
+  costDrugUrl,
+  getAllDrugsUrl,
+  getPrescriptionUrl,
+} from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import user from "../../../assets/img/user.png";
 import remove from "../../../assets/img/remove.svg";
@@ -8,10 +12,12 @@ import {
   AddPrescriptionQuantity,
   SelectableDropDown,
 } from "../../../Components";
-import { useRequest } from "../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
 
 const DrugPrescription = ({ match }) => {
+  const [costingDetails, setcostingDetails] = useState([]);
+
   // fetch Prescription
   const { id } = match.params;
 
@@ -50,7 +56,7 @@ const DrugPrescription = ({ match }) => {
     if (!existingIndex) {
       let newValue = {
         name: rawData[3],
-        id: rawData[2],
+        drugId: rawData[2],
       };
       setActiveDrugs(newValue);
       loadModal();
@@ -64,7 +70,7 @@ const DrugPrescription = ({ match }) => {
   const addPresQuality = (newValue) => {
     let allDrugs = selectedDrugs;
     allDrugs.push(newValue);
-
+    console.log(newValue, "heloo");
     setSelectedDrugs(allDrugs);
     setActiveDrugs(null);
   };
@@ -74,6 +80,27 @@ const DrugPrescription = ({ match }) => {
 
     arrayToRemoveFrom.splice(id, 1);
     setSelectedDrugs(arrayToRemoveFrom);
+  };
+
+  const generateInvoice = async () => {
+    selectedDrugs.forEach((drug, i) => {
+      const { name, ...selectedDrugDet } = drug;
+      selectedDrugs[i] = selectedDrugDet;
+    });
+    const payload = {
+      patientId: prescription?.patient?.id,
+      drugs: selectedDrugs,
+    };
+    const costUrl = costDrugUrl();
+    const costDrugConfig = fetchConfig({
+      url: costUrl,
+      method: "post",
+      data: payload,
+    });
+    let response = await fetchWrapper(costDrugConfig);
+    setcostingDetails(response?.data?.costings);
+    console.log(response);
+    console.log(payload, "payload");
   };
 
   return (
@@ -90,7 +117,7 @@ const DrugPrescription = ({ match }) => {
                 className="btn btn-primary"
                 data-toggle="modal"
                 data-target="#showInvoice"
-                to="/AdminServiceRequests"
+                onClick={generateInvoice}
               >
                 Preview
               </Link>
@@ -117,9 +144,7 @@ const DrugPrescription = ({ match }) => {
                             prescription?.patient?.firstName ?? ""
                           } ${prescription?.patient?.lastName ?? ""}]`}</h6>
                         </div>
-                        <p className="mb-0">Athesunate</p>
-                        <p className="mb-0">Athesunate 500mg x2</p>
-                        <p className="mb-0">3 wolf moon officia aute</p>
+                        <p className="mb-0">{prescription?.prescription}</p>
                       </div>
                     </div>
                   </div>
@@ -163,8 +188,15 @@ const DrugPrescription = ({ match }) => {
                                   </strong>
                                 </td>
                                 <td>
-                                  {`${Number(item?.packs) ?? 0} packs, `}{" "}
-                                  {`${Number(item?.tablets) ?? 0}  tablets`}
+                                  {`${
+                                    Number(item?.numberOfUnits) ?? 0
+                                  } packs, `}{" "}
+                                  {`${
+                                    Number(item?.numberOfContainers) ?? 0
+                                  }  tablets, `}
+                                  {`${
+                                    Number(item?.numberOfCartons) ?? 0
+                                  }  cartons`}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
@@ -209,7 +241,11 @@ const DrugPrescription = ({ match }) => {
       />
 
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
-      <PrescriptionInvoice />
+      <PrescriptionInvoice
+        costingDetails={costingDetails}
+        doctor={prescription?.doctor}
+        patient={prescription?.patient}
+      />
     </>
   );
 };
