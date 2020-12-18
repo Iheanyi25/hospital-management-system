@@ -11,7 +11,6 @@ const UpdateDrug = ({ drug, id, update }) => {
     type: drug.type,
     manufacturer: drug.manufacturer,
     genericName: drug.genericName,
-    genericName: drug.genericName,
     drugType: drug.drugType,
     measurment: drug.measurment,
     costPricePerContainer: drug.costPricePerContainer,

@@ -121,7 +121,7 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p className="mb-0 ">
+            {/* <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdateaccountantprofile/${userId}`}
@@ -130,7 +130,7 @@ class RegisterUserModal extends React.Component {
                 <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
-            </p>
+            </p> */}
           </div>
           <div className="alert-icon">
             <i className="icon icofont-ui-check" />
@@ -144,7 +144,7 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p className="mb-0 ">
+            {/* <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdatedoctorprofile/${userId}`}
@@ -153,7 +153,7 @@ class RegisterUserModal extends React.Component {
                 <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
-            </p>
+            </p> */}
           </div>
           <div className="alert-icon">
             <i className="icon icofont-ui-check" />
@@ -167,7 +167,7 @@ class RegisterUserModal extends React.Component {
         <div className="alert alert-info with-after-icon" role="alert">
           <div className="alert-content text-center">
             {this.state.successMessage}.
-            <p className="mb-0 ">
+            {/* <p className="mb-0 ">
               Would you like to update the users profile?
               <Link
                 to={`/adminupdatepharmacistprofile/${userId}`}
@@ -176,7 +176,7 @@ class RegisterUserModal extends React.Component {
                 <span className="btn-icon icon icofont-ui-edit mr-2"></span>Update
                 Profile
               </Link>
-            </p>
+            </p> */}
           </div>
           <div className="alert-icon">
             <i className="icon icofont-ui-check" />

@@ -7,7 +7,9 @@ import {
 	updatePharmacistBasicInfoUrl,
 	updatePharmacistContactDetailsUrl,
 	updateAccountantBasicInfoUrl,
-	updateAccountantContactDetailsUrl
+	updateAccountantContactDetailsUrl,
+	updateAdminBasicInfoUrl,
+	updateAdminContactDetailsUrl
 } from '../../../../api/URLs';
 import ProfileInfoForm from '../common/ProfileInfoForm';
 const $ = window.$;
@@ -92,5 +94,10 @@ const getUrls = {
         id:"accountantId",
 		basic: updateAccountantBasicInfoUrl(),
 		contact: updateAccountantContactDetailsUrl()
+	},
+	admin: {
+		id:"adminId",
+		basic: updateAdminBasicInfoUrl(),
+		contact: updateAdminContactDetailsUrl()
 	}
 };
