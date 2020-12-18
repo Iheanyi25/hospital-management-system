@@ -11,4 +11,4 @@ class ViewDoctorProfile extends React.Component {
   }
 }
 
-export default ViewDoctorProfile;
+export default observer(ViewDoctorProfile);
