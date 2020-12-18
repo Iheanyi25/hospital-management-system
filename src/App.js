@@ -1,10 +1,13 @@
 import React from "react";
 import AppRouter from "./ApplicationRoute";
-import "./App.css"
+import "./App.css";
+import { UserProvider } from "./mobx/UserState";
 
 function App() {
   return (
-    <AppRouter />
+    <UserProvider>
+      <AppRouter />
+    </UserProvider>
   );
 }
 

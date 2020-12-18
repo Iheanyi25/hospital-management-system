@@ -1,4 +1,5 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
 import { AllDrugs } from "./Components/ViewDrugs";
@@ -7,16 +8,15 @@ import tablet from "../../../assets/img/tablet.svg";
 import liquid from "../../../assets/img/liquid.svg";
 import inhalers from "../../../assets/img/inhalers.svg";
 import powder from "../../../assets/img/powder.svg";
+import { UserContext } from "../../../mobx/UserState";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
 class ViewDrugs extends React.Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
-
     allDrugs: [],
     tabDrugs: [],
     liquidDrugs: [],
@@ -72,6 +72,8 @@ class ViewDrugs extends React.Component {
   }
 
   render() {
+    const content = this.context;
+    const { user } = content;
     const {
       allDrugs,
       tabDrugs,
@@ -81,7 +83,6 @@ class ViewDrugs extends React.Component {
       loading,
       success,
       message,
-      user,
     } = this.state;
     console.log(tabDrugs);
     return (
@@ -97,7 +98,14 @@ class ViewDrugs extends React.Component {
             <div className="main-content-wrap">
               <header className="d-flex justify-content-between align-items-center mb-5">
                 <h4 className="page-title">Drug catalog</h4>
-                <Link to={user.userType === "Admin" ? "/AdminRegisterDrug": "/PharmacyRegisterDrug"} className="btn btn-primary">
+                <Link
+                  to={
+                    user.userType === "Admin"
+                      ? "/AdminRegisterDrug"
+                      : "/PharmacyRegisterDrug"
+                  }
+                  className="btn btn-primary"
+                >
                   Register Drug
                 </Link>
               </header>
@@ -325,4 +333,4 @@ class ViewDrugs extends React.Component {
   }
 }
 
-export default ViewDrugs;
+export default observer(ViewDrugs);
