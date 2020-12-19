@@ -243,7 +243,7 @@ class Appointments extends React.Component {
                                   <tr>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src="../assets/content/user-40-1.jpg"
                                         alt="hello"
                                         width={40}
                                         height={40}
@@ -264,21 +264,15 @@ class Appointments extends React.Component {
                                     </td>
 
                                     <td>
-                                      {/* <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
+                                      <div className="actions">
+                                       
                                         <button className="btn btn-info btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-edit" />
                                         </button>
                                         <button className="btn btn-error btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-delete" />
                                         </button>
-                                      </div> */}
+                                      </div>
                                     </td>
                                   </tr>
                                 ))}
@@ -347,22 +341,12 @@ class Appointments extends React.Component {
                                     <td>
                                       <div className="actions">
                                         <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
+                                          title="View Prescriptions"
                                           className="btn btn-secondary btn-sm btn-square rounded-pill"
                                         >
                                           <span className="btn-icon icofont-stethoscope-alt" />
                                         </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
+                                        
                                       </div>
                                     </td>
                                   </tr>
@@ -432,20 +416,7 @@ class Appointments extends React.Component {
 
                                     <td>
                                       <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          onClick={() =>
-                                            (window.location.href =
-                                              "/AdminPreConsultation")
-                                          }
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
-                                        </button>
+                                       
                                         <button className="btn btn-error btn-sm btn-square rounded-pill">
                                           <span className="btn-icon icofont-ui-delete" />
                                         </button>
