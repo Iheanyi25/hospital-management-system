@@ -31,6 +31,9 @@ export const deleteDrugPricesUrl = () => `${apiUrl}/Pharmacy/DeleteDrugPrice`;
 export const getAllPrescriptionsUrl = () => `${apiUrl}/Pharmacy/GetPrescriptions`;
 export const getPrescriptionUrl = (id) => `${apiUrl}/Pharmacy/GetPrescription?ClerkingId=${id}`;
 export const costDrugUrl = () => `${apiUrl}/Pharmacy/CostDrugs`;
+export const generateDrugDispenseInvoiceUrl = () => `${apiUrl}/Pharmacy/GenerateDrugDispenseInvoice`;
+export const getDAllrugDispencingInvoicesUrl = () => `${apiUrl}/Pharmacy/GetDrugDispencingInvoices`;
+export const payForDrugsUrl = () => `${apiUrl}/Pharmacy/PayForDrugs`;
 
 //accountant endpoints
 export const getAccountantProfileUrl = (accountantId) =>

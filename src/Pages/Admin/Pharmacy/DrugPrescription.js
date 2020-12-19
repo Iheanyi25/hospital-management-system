@@ -14,9 +14,15 @@ import {
 } from "../../../Components";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
+import { Success } from "../../../Components/Alerts";
 
 const DrugPrescription = ({ match }) => {
   const [costingDetails, setcostingDetails] = useState([]);
+  const [invoiceDetails, setInvoiceDetails] = useState({});
+  const [success, setSuccess] = useState({
+    success: false,
+    message: "",
+  });
 
   // fetch Prescription
   const { id } = match.params;
@@ -40,7 +46,7 @@ const DrugPrescription = ({ match }) => {
   const [selectedDrugs, setSelectedDrugs] = useState([]);
   const [activeDrugs, setActiveDrugs] = useState(null);
 
-  const { data, error, mutate } = useRequest(getDrugConfig, {
+  const { data } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
 
@@ -82,7 +88,7 @@ const DrugPrescription = ({ match }) => {
     setSelectedDrugs(arrayToRemoveFrom);
   };
 
-  const generateInvoice = async () => {
+  const costDrugs = async () => {
     selectedDrugs.forEach((drug, i) => {
       const { name, ...selectedDrugDet } = drug;
       selectedDrugs[i] = selectedDrugDet;
@@ -97,6 +103,7 @@ const DrugPrescription = ({ match }) => {
       method: "post",
       data: payload,
     });
+    setInvoiceDetails(payload);
     let response = await fetchWrapper(costDrugConfig);
     setcostingDetails(response?.data?.costings);
     console.log(response);
@@ -109,6 +116,12 @@ const DrugPrescription = ({ match }) => {
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
+        {success.success ? (
+          <Success
+            message={success.message}
+            nextRoute="/AdminManagePrescriptionInvoice"
+          />
+        ) : null}
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Prescription</h4>
@@ -117,7 +130,7 @@ const DrugPrescription = ({ match }) => {
                 className="btn btn-primary"
                 data-toggle="modal"
                 data-target="#showInvoice"
-                onClick={generateInvoice}
+                onClick={costDrugs}
               >
                 Preview
               </Link>
@@ -140,9 +153,9 @@ const DrugPrescription = ({ match }) => {
                             }}
                             alt="user"
                           />
-                          <h6 className="mt-2 ml-2">{`[${
+                          <h6 className="mt-2 ml-2">{`${
                             prescription?.patient?.firstName ?? ""
-                          } ${prescription?.patient?.lastName ?? ""}]`}</h6>
+                          } ${prescription?.patient?.lastName ?? ""}`}</h6>
                         </div>
                         <p className="mb-0">{prescription?.prescription}</p>
                       </div>
@@ -245,6 +258,9 @@ const DrugPrescription = ({ match }) => {
         costingDetails={costingDetails}
         doctor={prescription?.doctor}
         patient={prescription?.patient}
+        invoiceDetails={invoiceDetails}
+        id={id}
+        setSuccess={setSuccess}
       />
     </>
   );
