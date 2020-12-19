@@ -28,14 +28,17 @@ class LabSidebar extends React.Component {
                   </li>
                   <li className="menu-item">
                     <Link className="item-link"to="/LabDashboard">
-                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-icon icofont-dashboard-web" />{" "}
                       <span className="link-text">Dashboard</span>
                     </Link>
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">Requests</span>
                   </li>
 
                   <li className="menu-item has-sub">
                     <div className="item-link cursor">
-                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-icon icofont-binoculars" />
                       <span className="link-text">Service Requests</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -60,7 +63,7 @@ class LabSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <Link className="item-link" to="#">
-                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-icon icofont-hard-disk" />
                       <span className="link-text">Service Category</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </Link>
@@ -82,7 +85,7 @@ class LabSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <Link className="item-link" to="#">
-                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-icon icofont-cloud" />
                       <span className="link-text">Services</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </Link>
@@ -106,6 +109,7 @@ class LabSidebar extends React.Component {
 
                   <li className="menu-item">
                     <Link className="item-link" to="#">
+                      <span className="link-icon icofont-user-suited" />
                       <span className="link-text">Profile</span>{" "}
                     </Link>
                   </li>

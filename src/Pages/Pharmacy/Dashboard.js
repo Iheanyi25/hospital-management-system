@@ -7,12 +7,7 @@ import {
   PharmacySidebar,
   TemplateSettings,
 } from "../../Components";
-// import Header from "../../Components/Header/PharmacyHeader";
-// import Sidebar from "../../Components/Sidebar/PharmacySidebar";
-// import PageLoader from "../../Components/Loader/PageLoader";
-// import AddDrug from "../../Components/Modals/AddDrug";
-// import Footer from "../../Components/Footer";
-// import TemplateSettings from "../../Components/TemplateSettings";
+
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -146,10 +141,7 @@ class Dashboard extends React.Component {
                         <div className="card-header">Welcome Phar. Michae</div>
                         <div className="card-body">
                           Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Distinctio dolore enim, nemo nihil non omnis
-                          temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                          dolor sit amet, consectetur adipisicing elit. Dicta,
-                          provident?
+                          elit. Distinctio dolore enim
                         </div>
                       </div>
                     </div>
@@ -158,10 +150,7 @@ class Dashboard extends React.Component {
                         <div className="card-header">Important Notes</div>
                         <div className="card-body">
                           Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Distinctio dolore enim, nemo nihil non omnis
-                          temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                          dolor sit amet, consectetur adipisicing elit. Dicta,
-                          provident?
+                          elit. Distinctio dolore enim
                         </div>
                       </div>
                     </div>
@@ -189,7 +178,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="./assets/content/user-40-1.jpg"
+                                  src="../assets/content/user-40-1.jpg"
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -226,7 +215,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <div className="actions">
                                   <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
+                                    <span className="btn-icon icofont-eye-open" />
                                   </button>
                                   <button className="btn btn-error btn-sm btn-square rounded-pill">
                                     <span className="btn-icon icofont-ui-delete" />
@@ -237,7 +226,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="./assets/content/user-40-2.jpg"
+                                  src="../assets/content/user-40-2.jpg"
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -274,7 +263,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <div className="actions">
                                   <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
+                                    <span className="btn-icon icofont-eye-open" />
                                   </button>
                                   <button className="btn btn-error btn-sm btn-square rounded-pill">
                                     <span className="btn-icon icofont-ui-delete" />
@@ -285,7 +274,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="./assets/content/user-40-3.jpg"
+                                  src="../assets/content/user-40-3.jpg"
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -322,7 +311,7 @@ class Dashboard extends React.Component {
                               <td>
                                 <div className="actions">
                                   <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
+                                    <span className="btn-icon icofont-eye-open" />
                                   </button>
                                   <button className="btn btn-error btn-sm btn-square rounded-pill">
                                     <span className="btn-icon icofont-ui-delete" />
@@ -330,198 +319,7 @@ class Dashboard extends React.Component {
                                 </div>
                               </td>
                             </tr>
-                            <tr>
-                              <td>
-                                <img
-                                  src="./assets/content/user-40-4.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Ava</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  ava@gmail.com
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  26 Dec 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  14:15 - 14:30
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. Emma</td>
-                              <td>diarrhoea</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <img
-                                  src="./assets/content/user-40-5.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Noah</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  noah@gmail.co
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  15 Jun 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  17:30 - 18:00
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. James</td>
-                              <td>dyslexia</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <img
-                                  src="./assets/content/user-40-6.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Isabella</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  isabella@gmail.com
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  2 Jul 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  10:00 - 10:15
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. Noah</td>
-                              <td>flu</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <img
-                                  src="./assets/content/user-40-7.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Sophia</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  sophia@gmail.com
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  9 Oct 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  8:30 - 8:45
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. Olivia</td>
-                              <td>fracture</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-edit" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
+                           
                           </tbody>
                         </table>
                       </div>
