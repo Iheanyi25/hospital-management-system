@@ -42,42 +42,27 @@ class PharmacySidebar extends React.Component {
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/PharmacyDashboard">
-                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-icon icofont-dashboard-web" />{" "}
                       <span className="link-text">Dashboard</span>{" "}
                     </Link>
                   </li>
-                  <li className="menu-item">
-                    <Link className="item-link" to="appointments.html">
-                      <span className="link-icon icofont-stethoscope-alt" />{" "}
-                      <span className="link-text">Patients</span>
-                    </Link>
-                  </li>
+                 
                   <li className="menu-item">
                     <Link className="item-link" to="doctors.html">
-                      <span className="link-icon icofont-doctor" />{" "}
+                      <span className="link-icon icofont-list" />{" "}
                       <span className="link-text">Prescriptions</span>
                     </Link>
                   </li>
-                  <li className="menu-item">
-                    <Link className="item-link" to="doctors.html">
-                      <span className="link-icon icofont-doctor" />{" "}
-                      <span className="link-text">Pharmasists</span>
-                    </Link>
-                  </li>
-                  <li className="menu-item">
-                    <Link className="item-link" to="payments.html">
-                      <span className="link-icon icofont-pay" />{" "}
-                      <span className="link-text">Payments</span>
-                    </Link>
-                  </li>
+                  
 
                   <li className="menu-item">
                     <span className="group-title">Drug Management</span>
                   </li>
 
-				  <li className="menu-item has-sub">
+				          <li className="menu-item has-sub">
                     <div className="cursor item-link">
-                      <span className="link-text">Drug</span>{" "}
+                      <span className="link-icon icofont-drug" />{" "}
+                      <span className="link-text">Drugs</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
                     <ul className="sub">
@@ -86,7 +71,7 @@ class PharmacySidebar extends React.Component {
                           <span className="link-text">Register a drug</span>
                         </Link>
                       </li>
-					  <li className="menu-item">
+					          <li className="menu-item">
                         <Link to="/PharmacyViewDrugs" className="item-link">
                           <span className="link-text">View drugs</span>
                         </Link>
@@ -99,8 +84,9 @@ class PharmacySidebar extends React.Component {
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/PharmacyProfile">
+                      <span className="link-icon icofont-user-suited" />{" "}
                       <span className="link-text">My Profile</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
+                      
                     </Link>
                   </li>
                 </ul>
