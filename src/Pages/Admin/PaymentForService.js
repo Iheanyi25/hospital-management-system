@@ -106,31 +106,15 @@ class PaymentForService extends React.Component {
     }
   };
 
-  payForServices = async (
-    reference,
-    modeOfPayment,
-    description,
-    paidOffline
-  ) => {
-    const { amount, serviceRequestId, patientId, userId } = this.state;
+  payForServices = async (reference, modeOfPayment, description) => {
+    const { amount, serviceRequestId, patientId } = this.state;
     let payload = {
       patientId: patientId,
       serviceRequestId: serviceRequestId,
       totalAmount: amount,
-      description:
-        modeOfPayment === ("online-paystack" || "online-flutterwave")
-          ? "Paid online"
-          : description.description,
+      description: description,
       modeOfPayment: modeOfPayment,
-      referenceNumber:
-        modeOfPayment === "online-paystack"
-          ? reference.trxref
-          : modeOfPayment === "online-flutterwave"
-          ? reference.data?.data?.orderRef
-          : paidOffline
-          ? reference
-          : "",
-      // userId: userId
+      referenceNumber: reference,
     };
 
     try {
