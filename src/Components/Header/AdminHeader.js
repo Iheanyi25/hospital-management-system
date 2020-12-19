@@ -22,22 +22,23 @@ class AdminHeader extends React.Component {
 							<span />
 							<span />
 						</button>
-						{/* <form className="app-search d-none d-md-block">
+						<form className="app-search d-none d-md-block">
 							<div className="form-group typeahead__container with-suffix-icon mb-0">
 								<div className="typeahead__field">
 									<div className="typeahead__query">
 										<input
 											className="form-control autocomplete-control topbar-search"
 											type="search"
-											placeholder="Type page's title"
+											placeholder="Search for a patient"
 											autoComplete="off"
+											disabled
 											data-source="./assets/data/search-menu.json"
 										/>
 										<div className="suffix-icon icofont-search" />
 									</div>
 								</div>
 							</div>
-						</form> */}
+						</form>
 						<div className="app-actions">
 							{/* <div className="dropdown item">
 								<button
