@@ -113,7 +113,7 @@ export default class AddPatient extends Component {
       healthPlanId !== ""
     ) {
 
-      if (healthPlan.includes("personal")) {
+      if (healthPlan.includes("personal") || healthPlan.includes("individual") ) {
         await this.submit(data);
 
       } else {
