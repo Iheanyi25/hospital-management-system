@@ -27,15 +27,15 @@ export default class AddPatient extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return nextState !== this.state;
   }
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps, prevState) {
     if (!this.verifyValidity() && !prevState.isDisabled) {
-      this.setState((state) => ({...state, isDisabled: true }));
-    } else if(this.verifyValidity() && prevState.isDisabled){
-      this.setState((state) => ({...state, isDisabled: false }));
+      this.setState((state) => ({ ...state, isDisabled: true }));
+    } else if (this.verifyValidity() && prevState.isDisabled) {
+      this.setState((state) => ({ ...state, isDisabled: false }));
     }
-  //    else {
-  //     this.setState((state) => ({...state, isDisabled: false }));
-	// }
+    //    else {
+    //     this.setState((state) => ({...state, isDisabled: false }));
+    // }
   }
   fetchHealthPlans = async () => {
     try {
@@ -80,7 +80,7 @@ export default class AddPatient extends Component {
 
     this.setState({
       [name]: value,
-    },);
+    });
   }
 
   verifyValidity = () => {
@@ -113,11 +113,10 @@ export default class AddPatient extends Component {
       healthPlanId !== ""
     ) {
 
-      if (healthPlan.includes("personal")) {
-        await this.submit(data);
-
-      } else {
+      if (healthPlan.includes("family")) {
         this.setNewStage(stage + 1);
+      } else {
+        await this.submit(data);
       }
     }
   };
