@@ -49,12 +49,12 @@ class UpdatePatientProfile extends React.Component {
         `${apiUrl}/Admin/GetRegistrationFeeInvoice?patientId=${this.state.patientId}`,
         {
           headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
+          method: "GET",
           redirect: "follow",
         }
       );
       const data = await res.text();
-      console.log(JSON.parse(data));
+    
       this.setState({ paymentStatus: JSON.parse(data).registrationInvoice.paymentStatus });
     } catch (error) {
       console.log(error);
@@ -229,6 +229,8 @@ class UpdatePatientProfile extends React.Component {
       disabilities,
       paymentStatus,
     } = this.state;
+
+    console.log(paymentStatus,"PaymentStatus")
     return (
       <>
         <PageLoader />
