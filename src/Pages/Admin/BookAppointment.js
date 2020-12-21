@@ -85,7 +85,7 @@ class BookAppointment extends React.Component {
 
   handleChange(name, e) {
     const value = e.target.value;
-    console.log(value);
+    // console.log(value);
     this.setState({
       [name]: value,
     });
@@ -185,6 +185,7 @@ class BookAppointment extends React.Component {
               history={this.props.history}
               message={this.state.message}
               callback={this.changeSuccess}
+              nextRoute={"/AdminAppointments"}
             />
           ) : null}
           <div className="main-content-wrap">
@@ -325,11 +326,11 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                appointmentTime === "" ||
-                                patientId === "" ||
-                                doctorId === "" ||
-                                reasonForAppointment === "" ||
-                                appointmentTitle === ""
+                                  appointmentTime === "" ||
+                                  patientId === "" ||
+                                  doctorId === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
                                   ? true
                                   : false
                               }

@@ -6,7 +6,7 @@ $.Datatable = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 
 
-export default class SelectHealthPlan extends Component {
+export default class SelectFamily extends Component {
 
     state = {
         accounts: [],
@@ -78,19 +78,12 @@ export default class SelectHealthPlan extends Component {
                 <div className="card border-light">
                     <div className="card-body">
                         <div className="table-responsive">
-                            <h5 className="text-center">Select a health plan for the patient</h5>
+                            <h5 className="text-center">Add this Patient to a Family Account</h5>
 
                             <div className="row m-0">
                                 <div className="col-12">
                                     <div className="d-flex justify-content-between my-5">
-                                        <div className="form-group mb-0 w-75">
-                                            <label>Select a health plan</label>
-                                            <select className="selectpicker">
-                                                <option className="d-none"></option>
-                                                <option>Family</option>
-                                                <option>HMO</option>
-                                            </select>
-                                        </div>
+
                                         <div className="align-items-end d-flex">
                                             <button
                                                 type="submit"
@@ -98,7 +91,7 @@ export default class SelectHealthPlan extends Component {
                                                 data-target="#add-family"
                                                 className="btn btn-primary"
                                             >
-                                                + Add New
+                                                + Create a New Account
                                             </button>
                                         </div>
                                     </div>
@@ -108,12 +101,12 @@ export default class SelectHealthPlan extends Component {
                             <table
                                 ref={(el) => (this.el = el)}
                                 className="table table-hover"
-                                // data-searching="true"
-                                // data-paging="true"
-                                data-columns='[
-                                    { "data": "name" },
-                                    { "data": "phone" }
-                                ]'
+                            // data-searching="true"
+                            // data-paging="true"
+                            // data-columns='[
+                            //     { "data": "name" },
+                            //     { "data": "phone" }
+                            // ]'
                             >
                                 <thead>
                                     <tr>
