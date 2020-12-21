@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../../Components";
+import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 let $ = window.$;
@@ -9,10 +10,11 @@ export default class ManageServiceCategory extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("authenticatedUser")),
     categories: [],
+    success: { show: false, message: "", delError: false },
   };
 
   async componentDidMount() {
-    this.fetchAllServiceCategories().then(() => this.sync());
+    this.fetchAllServiceCategories()
   }
 
   fetchAllServiceCategories = async () => {
@@ -21,7 +23,9 @@ export default class ManageServiceCategory extends Component {
     );
     let data = await request.json();
     console.log(data);
-    this.setState({ categories: data });
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    this.setState((state) => ({...state, categories: data }), () => this.sync() );
   };
 
   deleteMe = async (id) => {
@@ -35,9 +39,12 @@ export default class ManageServiceCategory extends Component {
       }
     );
     if (res.status === 200) {
-      this.setState({ success: true }, () => {
-        this.fetchAllServiceCategories();
-      });
+      this.fetchAllServiceCategories();
+      this.setState((state) => ({
+        ...state,
+        success: { show: true, message: "service category was successfully deleted", delError: false },
+      }), () => this.sync());
+      
     }
   };
 
@@ -45,6 +52,12 @@ export default class ManageServiceCategory extends Component {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
+
+  resetShowState = () =>
+    this.setState((state) => ({
+      ...state,
+      success: { show: false, message: " ", delError: false },
+    }));
 
   render() {
     const { categories, user } = this.state;
@@ -56,6 +69,13 @@ export default class ManageServiceCategory extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success.show && (
+            <Success
+              message={this.state.success.message}
+              callback={this.resetShowState}
+              isError={this.state.success.delError}
+            />
+          )}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Service Categories</h4>

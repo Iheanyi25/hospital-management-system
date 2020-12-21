@@ -22,7 +22,20 @@ class Appointments extends React.Component {
       pendingAppointmentsCount: 0,
     };
   }
+  async componentDidMount() {
+    await this.getAllAppointments()
+  }
 
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+    this.$em = $(this.em);
+    this.$em.DataTable();
+    this.$en = $(this.en);
+    this.$en.DataTable();
+    this.$eo = $(this.eo);
+    this.$eo.DataTable();
+  }
   async getAllAppointments() {
     var acceptedAppointments = [];
     var activeAppointments = [];
@@ -32,7 +45,9 @@ class Appointments extends React.Component {
     const response = await fetch(`${apiUrl}/Admin/GetDoctorAppointments`);
 
     const data = await response.json();
-    this.setState({ appointments: data.doctorsAppointments });
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    this.setState({ appointments: data.doctorsAppointments }, () => this.sync());
 
     console.log({ data });
 
@@ -49,7 +64,8 @@ class Appointments extends React.Component {
         pendingAppointments.push(appointment);
       }
     });
-
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
     this.setState({
       activeAppointments: activeAppointments,
       activeAppointmentsCount: activeAppointments.length,
@@ -60,7 +76,7 @@ class Appointments extends React.Component {
       pendingAppointments: pendingAppointments,
       pendingAppointmentsCount: pendingAppointments.length,
       rejectedAppointmentsCount: rejectedAppointments.length,
-    });
+    }, () => this.sync());
   }
 
   async deleteAppointment(id) {
@@ -75,25 +91,10 @@ class Appointments extends React.Component {
 
     const res = await request.json();
     if (res.success) {
-      this.getAllAppointments().then(() => this.sync())
+      this.getAllAppointments()
       console.log({ res })
     }
 
-  }
-
-  componentDidMount() {
-    this.getAllAppointments().then(() => this.sync());
-  }
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    this.$em = $(this.em);
-    this.$em.DataTable();
-    this.$en = $(this.en);
-    this.$en.DataTable();
-    this.$eo = $(this.eo);
-    this.$eo.DataTable();
   }
 
   render() {

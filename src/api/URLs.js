@@ -48,10 +48,14 @@ export const getAllHealthPlansUrl = () => `${apiUrl}/Admin/GetAllHealthPlans`;
 export const updateHealthPlanUrl = () => `${apiUrl}/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `${apiUrl}/Admin/DisableHealthPlan`;
 
-//Admin Profile
+//Admin endpoints
 export const getAdminProfileUrl = (adminId) =>
   `${apiUrl}/Admin/GetAdmin?AdminId=${adminId}`;
   export const updateAdminBasicInfoUrl = () =>
   `${apiUrl}/Admin/UpdateAdminBasicInfo`;
 export const updateAdminContactDetailsUrl = () =>
   `${apiUrl}/Admin/UpdateAdminContactDetails`;
+export const getPatientConsultationsUrl = () => `${apiUrl}/Admin/GetPatientConsultations`;
+export const getPatientConsultationCountUrl = () => `${apiUrl}/Admin/GetPatientConsultationCount`;
+export const getPatientsUnattentedToCountUrl = () => `${apiUrl}/Admin/GetPatientsUnattendedToCount`;
+export const getPatientsAttentedToCountUrl = () => `${apiUrl}/Admin/GetPatientsAttendedToCount`;
