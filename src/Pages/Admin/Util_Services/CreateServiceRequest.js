@@ -30,7 +30,7 @@ class CreateServiceRequest extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.location.state);
+    // console.log(this.props.location.state);
     if (this.props.location.state) {
       this.setState({
         isFromClarking: true,
