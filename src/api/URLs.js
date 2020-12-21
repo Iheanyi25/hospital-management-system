@@ -1,4 +1,6 @@
 const apiUrl = process.env.REACT_APP_API_URL;
+// Login endpoints
+export const logInUrl = () => `${apiUrl}/Auth/Login`;
 
 //labTechnician endpoints
 export const getLabProfileUrl = (labId) =>
@@ -18,12 +20,20 @@ export const updatePharmacistContactDetailsUrl = () =>
 export const getDrugUrl = (drugId) => `${apiUrl}/Pharmacy/GetDrug/${drugId}`;
 export const getAllDrugsUrl = () => `${apiUrl}//Pharmacy/GetAllDrugs`;
 export const postDrugUrl = () => `${apiUrl}/Pharmacy/RegisterDrug`;
-export const updateDrugInventoryUrl = (drugId, drugQuantity) => `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
-export const updateDrugBasePriceUrl = () => `${apiUrl}/Pharmacy/UpdateDefaultDrugPrice`;
+export const updateDrugInventoryUrl = (drugId, drugQuantity) =>
+  `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
+export const updateDrugBasePriceUrl = () =>
+  `${apiUrl}/Pharmacy/UpdateDefaultDrugPrice`;
 export const getDrugPricesUrl = () => `${apiUrl}/Pharmacy/GetDrugPrices`;
 export const postDrugPricesUrl = () => `${apiUrl}/Pharmacy/CreateDrugPrice`;
 export const updateDrugPricesUrl = () => `${apiUrl}/Pharmacy/UpdateDrugPrice`;
 export const deleteDrugPricesUrl = () => `${apiUrl}/Pharmacy/DeleteDrugPrice`;
+export const getAllPrescriptionsUrl = () => `${apiUrl}/Pharmacy/GetPrescriptions`;
+export const getPrescriptionUrl = (id) => `${apiUrl}/Pharmacy/GetPrescription?ClerkingId=${id}`;
+export const costDrugUrl = () => `${apiUrl}/Pharmacy/CostDrugs`;
+export const generateDrugDispenseInvoiceUrl = () => `${apiUrl}/Pharmacy/GenerateDrugDispenseInvoice`;
+export const getDAllrugDispencingInvoicesUrl = () => `${apiUrl}/Pharmacy/GetDrugDispencingInvoices`;
+export const payForDrugsUrl = () => `${apiUrl}/Pharmacy/PayForDrugs`;
 
 //accountant endpoints
 export const getAccountantProfileUrl = (accountantId) =>
@@ -43,3 +53,11 @@ export const postServiceRequestUrl = () =>
 export const getAllHealthPlansUrl = () => `${apiUrl}/Admin/GetAllHealthPlans`;
 export const updateHealthPlanUrl = () => `${apiUrl}/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `${apiUrl}/Admin/DisableHealthPlan`;
+
+//Admin Profile
+export const getAdminProfileUrl = (adminId) =>
+  `${apiUrl}/Admin/GetAdmin?AdminId=${adminId}`;
+  export const updateAdminBasicInfoUrl = () =>
+  `${apiUrl}/Admin/UpdateAdminBasicInfo`;
+export const updateAdminContactDetailsUrl = () =>
+  `${apiUrl}/Admin/UpdateAdminContactDetails`;

@@ -30,7 +30,8 @@ class LabHeader extends React.Component {
 										<input
 											className="form-control autocomplete-control topbar-search"
 											type="search"
-											placeholder="Type page's title"
+											placeholder="Enter to search"
+											disabled
 											autoComplete="off"
 											data-source="./assets/data/search-menu.json"
 										/>
