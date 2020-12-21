@@ -92,13 +92,10 @@ class Dashboard extends React.Component {
                             <div className="row">
                                 <div className="col-12 col-md-6">
                                     <div className="card bg-light">
-                                        <div className="card-header">Welcome Dr. Michae</div>
+                                        <div className="card-header">Welcome Michae</div>
                                         <div className="card-body">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Distinctio dolore enim, nemo nihil non omnis
-                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                                            dolor sit amet, consectetur adipisicing elit. Dicta,
-                                            provident?
+                                            elit. Distinctio dolore enim
                                             </div>
                                     </div>
                                 </div>
@@ -107,10 +104,7 @@ class Dashboard extends React.Component {
                                         <div className="card-header">Important Updates</div>
                                         <div className="card-body">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Distinctio dolore enim, nemo nihil non omnis
-                                            temporibus? Blanditiis culpa labore velit.Lorem ipsum
-                                            dolor sit amet, consectetur adipisicing elit. Dicta,
-                                            provident?
+                                            elit. Distinctio dolore enim
                                             </div>
                                     </div>
                                 </div>
@@ -118,7 +112,7 @@ class Dashboard extends React.Component {
 
 
                             <div className="card mb-0">
-                                <div className="card-header">Recent appointments</div>
+                                <div className="card-header">Recent Requests</div>
                                 <div className="card-body">
                                     <div className="table-responsive">
                                         <table className="table table-hover">
@@ -137,11 +131,11 @@ class Dashboard extends React.Component {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><img src="./assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                    <td><img src="../assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Liam</strong></td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
-                          </div>
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <div className="text-muted text-nowrap">10 Feb 2018</div>
@@ -162,11 +156,11 @@ class Dashboard extends React.Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><img src="./assets/content/user-40-2.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                    <td><img src="../assets/content/user-40-2.jpg" width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Emma</strong></td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> emma@gmail.com
-                          </div>
+                                                      </div>
                                                     </td>
                                                     <td>
                                                         <div className="text-muted text-nowrap">5 Dec 2018</div>
@@ -186,108 +180,10 @@ class Dashboard extends React.Component {
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                
+                                              
                                                 <tr>
-                                                    <td><img src="./assets/content/user-40-3.jpg" width={40} height={40} className="rounded-500" /></td>
-                                                    <td><strong>Olivia</strong></td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> olivia@gmail.com
-                          </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">13 Oct 2018</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">12:00 - 12:45</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                                                    </td>
-                                                    <td>Dr. Noah</td>
-                                                    <td>depression</td>
-                                                    <td>
-                                                        <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                                            <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./assets/content/user-40-4.jpg" width={40} height={40} className="rounded-500" /></td>
-                                                    <td><strong>Ava</strong></td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> ava@gmail.com
-                          </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">26 Dec 2018</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">14:15 - 14:30</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                                                    </td>
-                                                    <td>Dr. Emma</td>
-                                                    <td>diarrhoea</td>
-                                                    <td>
-                                                        <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                                            <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./assets/content/user-40-5.jpg" width={40} height={40} className="rounded-500" /></td>
-                                                    <td><strong>Noah</strong></td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> noah@gmail.co
-                          </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">15 Jun 2018</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">17:30 - 18:00</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                                                    </td>
-                                                    <td>Dr. James</td>
-                                                    <td>dyslexia</td>
-                                                    <td>
-                                                        <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                                            <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./assets/content/user-40-6.jpg" width={40} height={40} className="rounded-500" /></td>
-                                                    <td><strong>Isabella</strong></td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> isabella@gmail.com
-                          </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">2 Jul 2018</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="text-muted text-nowrap">10:00 - 10:15</div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-cell-phone p-0 mr-2" /> 0126595743
-                          </div>
-                                                    </td>
-                                                    <td>Dr. Noah</td>
-                                                    <td>flu</td>
-                                                    <td>
-                                                        <div className="actions"><button className="btn btn-info btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-edit" /></button>
-                                                            <button className="btn btn-error btn-sm btn-square rounded-pill"><span className="btn-icon icofont-ui-delete" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                    <td><img src="../assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Sophia</strong></td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> sophia@gmail.com

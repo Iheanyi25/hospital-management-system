@@ -28,22 +28,25 @@ class AccountantSidebar extends React.Component {
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/AccountantDashboard">
-                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-icon icofont-dashboard-web" />{" "}
                       <span className="link-text">Dashboard</span>
                     </Link>
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/AccountantManageAccounts">
-                      <span className="link-icon icofont-pay" />{" "}
-                      <span className="link-text">Account Invoices</span>
+                      <span className="link-icon icofont-users" />{" "}
+                      <span className="link-text">Accounts</span>
                     </Link>
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">INVOICES</span>
                   </li>
                   <li className="menu-item">
                     <Link
                       className="item-link"
                       to="/AccountRegistrationInvoice"
                     >
-                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-icon icofont-copy-invert" />{" "}
                       <span className="link-text">Registration Invoices</span>
                     </Link>
                   </li>
@@ -52,8 +55,20 @@ class AccountantSidebar extends React.Component {
                       className="item-link"
                       to="/AccountManageServiceRequest"
                     >
-                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-icon icofont-credit-card" />{" "}
                       <span className="link-text">Service Invoices</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">PROFILE</span>
+                  </li>
+                  <li className="menu-item">
+                    <Link
+                      className="item-link"
+                      to="/AccountantProfile"
+                    >
+                      <span className="link-icon icofont-user-suited" />{" "}
+                      <span className="link-text">My Profile</span>
                     </Link>
                   </li>
                 </ul>

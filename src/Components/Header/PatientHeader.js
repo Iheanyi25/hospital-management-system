@@ -28,7 +28,8 @@ class PatientHeader extends React.Component {
                     <input
                       className="form-control autocomplete-control topbar-search"
                       type="search"
-                      placeholder="Type page's title"
+                      placeholder="Enter to search"
+                      disabled
                       autoComplete="off"
                       data-source="./assets/data/search-menu.json"
                     />
@@ -38,7 +39,7 @@ class PatientHeader extends React.Component {
               </div>
             </form>
             <div className="app-actions">
-              {/* <div className="dropdown item">
+              <div className="dropdown item">
 								<button
 									className="no-style dropdown-toggle"
 									type="button"
@@ -48,16 +49,16 @@ class PatientHeader extends React.Component {
 									data-offset="0, 12"
 								>
 									<span className="icon icofont-notification" />{' '}
-									<span className="badge badge-danger badge-sm">5</span>
+									<span className="badge badge-danger badge-sm">0</span>
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
 									<div className="menu-header">
 										<h4 className="h5 menu-title mt-0 mb-0">Notifications</h4>
-										<Link to="#" className="text-danger">
+										{/* <Link to="#" className="text-danger">
 											Clear All
-										</Link>
+										</Link> */}
 									</div>
-									<ul className="list">
+									{/* <ul className="list">
 										<li>
 											<Link to="#">
 												<span className="icon icofont-heart" />
@@ -104,13 +105,14 @@ class PatientHeader extends React.Component {
 											</Link>
 										</li>
 									</ul>
-									<div className="menu-footer">
+									 */}
+                  <div className="menu-footer">
 										<button className="btn btn-primary btn-block">
-											View all notifications <span className="btn-icon ml-2 icofont-tasks-alt" />
+										No Notofications yet<span className="btn-icon ml-2 icofont-tasks-alt" />
 										</button>
 									</div>
 								</div>
-							</div> */}
+							</div>
               <div className="dropdown item">
                 <button
                   className="no-style dropdown-toggle"

@@ -1,24 +1,47 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { getDAllrugDispencingInvoicesUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
-// import formatDate from "../../../utils/formatDate";
-// import paid from "../../../assets/img/paid.svg";
-// import notpaid from "../../../assets/img/notpaid.svg";
-// import incomplete from "../../../assets/img/incomplete.svg";
+import formatDate from "../../../utils/formatDate";
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 
-// let $ = window.$;
-// $.DataTables = require("datatables.net");
-
+let $ = window.$;
+$.DataTables = require("datatables.net");
 class ManagePrescriptionInvoice extends React.Component {
-  //   sync() {
-  //     this.$el = $(this.el);
-  //     this.$el.DataTable();
-  //     console.log($(this.el));
-  //   }
+  state = {
+    prescriptionInvoices: [],
+  };
+  async componentDidMount() {
+    await this.fetchPrescriptionInvoices();
+  }
+
+  async fetchPrescriptionInvoices() {
+    const invoicesUrl = getDAllrugDispencingInvoicesUrl();
+    const getDAllrugDispencingInvoicesConfig = fetchConfig({
+      url: invoicesUrl,
+      method: "get",
+    });
+    const response = await fetchWrapper(getDAllrugDispencingInvoicesConfig);
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    console.log(response);
+    this.setState(
+      { prescriptionInvoices: response?.data?.drugInvoices || [] },
+      () => this.sync()
+    );
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+  }
 
   render() {
-    // const { user } = this.state;
+    const { prescriptionInvoices } = this.state;
     // console.log(this.state.categories);
     return (
       <>
@@ -30,7 +53,7 @@ class ManagePrescriptionInvoice extends React.Component {
           </div>
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Prescription Invoice</h4>
+              <h4 className="page-title">Prescription Invoices</h4>
             </header>
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -45,7 +68,7 @@ class ManagePrescriptionInvoice extends React.Component {
                           No of prescription invoice
                         </h6>
                         <div className="count text-primary fs-20">
-                          {formatAmount(500)}
+                          {formatAmount(prescriptionInvoices.length)}
                         </div>
                       </div>
                     </div>
@@ -69,57 +92,95 @@ class ManagePrescriptionInvoice extends React.Component {
                           <tr>
                             <th>#</th>
                             <th>Patient Name</th>
-                            <th>No of Drugs</th>
                             <th>Invoice No</th>
+                            <th>Date Generated</th>
                             <th>Total Cost</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>
-                              <div className="text-muted text-nowrap">1</div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">JB</div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">20</div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">
-                                krkjklref
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">
-                                {formatAmount(3000)}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">Paid</div>
-                            </td>
-                            <td>
-                              <div className="btn-group">
-                                <button
-                                  type="button"
-                                  className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                >
-                                  Action
-                                </button>
-                                <div className="dropdown-menu">
-                                  <Link to="/AdminPaymentForPrescription" className="btn btn-sm btn-block">
-                                    <span className="btn-icon icofont-server mr-2" />
-                                    Pay now
-                                  </Link>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
+                          {prescriptionInvoices?.map(
+                            (prescriptionInvoice, index) => (
+                              <tr>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {index + 1}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {`${prescriptionInvoice?.patient?.firstName} ${prescriptionInvoice?.patient?.lastName}`}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.invoiceNumber}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatDate(
+                                      prescriptionInvoice?.dateGenerated
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatAmount(
+                                      prescriptionInvoice?.amountTotal
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.paymentStatus ===
+                                    "NOT PAID" ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        paid
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Paid
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  {prescriptionInvoice?.paymentStatus ===
+                                  "NOT PAID" ? (
+                                    <div className="btn-group">
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                      >
+                                        Action
+                                      </button>
+                                      <div className="dropdown-menu">
+                                        <Link
+                                          to={{
+                                            pathname:
+                                              `/AdminPaymentForPrescription/${prescriptionInvoice.id}`,
+                                            state: prescriptionInvoice,
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-server mr-2" />
+                                          Pay now
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    "Paid"
+                                  )}
+                                </td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
                     </div>

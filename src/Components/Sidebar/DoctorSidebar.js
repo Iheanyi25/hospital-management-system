@@ -100,7 +100,7 @@ class DoctorSidebar extends React.Component {
 
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorDashboard">
-                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-icon icofont-dashboard-web" />
                       <span className="link-text">Dashboard</span>
                     </Link>
                   </li>
@@ -108,15 +108,18 @@ class DoctorSidebar extends React.Component {
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorConsultations">
                       <span className="link-icon icofont-stethoscope-alt" />
-                      <span className="link-text">My Consultations</span>
+                      <span className="link-text">Consultations</span>
                     </Link>
                   </li>
 
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorAppointments">
-                      <span className="link-icon icofont-stethoscope-alt" />
-                      <span className="link-text">My Appointments</span>
+                      <span className="link-icon icofont-notepad" />
+                      <span className="link-text">Appointments</span>
                     </Link>
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">Patients</span>
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorPatientsList">
@@ -126,7 +129,7 @@ class DoctorSidebar extends React.Component {
                   </li>
 
                   <li className="menu-item">
-                    <span className="group-title">Profile Settings</span>
+                    <span className="group-title">Profile</span>
                   </li>
 
                   <li className="menu-item">
@@ -134,37 +137,34 @@ class DoctorSidebar extends React.Component {
                       <span className="link-icon icon sli-user mr-2" />
                       <span className="link-text">Profile</span>{" "}
                     </Link>
-                    {/* <ul className="sub">
-                      <li className="menu-item">
-                        <Link className="item-link" to="/DoctorProfile">
-                          <span className="link-text">View Profile</span>
-                        </Link>{" "}
-                      </li> */}
-                    {/* <li className="menu-item">
-                        <Link className="item-link" to="/DoctorUpdateProfile">
-                          <span className="link-text">Update Profile</span>
-                        </Link>{" "}
-                      </li> */}
-                    {/* </ul> */}
+
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">Availability</span>
+                  </li>
+                  <li className="menu-item">
+                    <div className="form-group text-center">
+                      <div className="custom-control custom-switch mb-3">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id="control2"
+                          checked={doctorAvailability ? true : false}
+                          onClick={(e) => this.setAvailability(e)}
+                        />{" "}
+                        <label className="custom-control-label" for="control2">
+                          {doctorAvailability ? "Available" : "Not Available"}
+                        </label>
+                      </div>
+                    </div>
+
                   </li>
                 </ul>
               </nav>
             </div>
+
+
             <div className="add-patient">
-              <div className="form-group text-center">
-                <div className="custom-control custom-switch mb-3">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="control2"
-                    checked={doctorAvailability ? true : false}
-                    onClick={(e) => this.setAvailability(e)}
-                  />{" "}
-                  <label className="custom-control-label" for="control2">
-                    {doctorAvailability ? "Available" : "Not Available"}
-                  </label>
-                </div>
-              </div>
               <Link to="/DoctorConsultations" className="btn btn-primary">
                 <span className="btn-icon icofont-plus mr-2" /> My consultations
               </Link>
