@@ -47,6 +47,12 @@ class Appointments extends React.Component {
     const data = await response.json();
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
+    this.$em = $(this.em);
+    this.$em.DataTable().destroy();
+    this.$en = $(this.en);
+    this.$en.DataTable().destroy();
+    this.$eo = $(this.eo);
+    this.$eo.DataTable().destroy();
     this.setState({ appointments: data.doctorsAppointments }, () => this.sync());
 
     console.log({ data });
@@ -64,8 +70,6 @@ class Appointments extends React.Component {
         pendingAppointments.push(appointment);
       }
     });
-    this.$el = $(this.el);
-    this.$el.DataTable().destroy();
     this.setState({
       activeAppointments: activeAppointments,
       activeAppointmentsCount: activeAppointments.length,
@@ -76,7 +80,7 @@ class Appointments extends React.Component {
       pendingAppointments: pendingAppointments,
       pendingAppointmentsCount: pendingAppointments.length,
       rejectedAppointmentsCount: rejectedAppointments.length,
-    }, () => this.sync());
+    });
   }
 
   async deleteAppointment(id) {
@@ -344,13 +348,13 @@ class Appointments extends React.Component {
                                             <span className="mr-3 btn-icon icofont-stethoscope-alt" />
                                             ReAssign to Doctor
                                           </button>
-                                          <button
+                                          {/* <button
                                             className="btn btn-sm btn-block"
                                             onClick={(e) => this.deleteAppointment(e, appointment.id)}
                                           >
                                             <span className="mr-3 btn-icon icofont-delete-alt" />
                                             Delete Consultation
-                                          </button>
+                                          </button> */}
                                         </div>
                                       </div>
                                     </td>
