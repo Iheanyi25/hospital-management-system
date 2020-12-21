@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { PageLoader } from "../../Components";
-import SelectHealthPlan from "./SelectHealthPlan";
+import SelectFamily from "./SelectFamily";
 import { Success } from "../../Components/Alerts";
 import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
 
@@ -134,8 +134,8 @@ export default class AddPatient extends Component {
       );
       const response = await res.json();
       if (res.status === 200) {
-        this.setState({ success: true });
-        this.props.history.push("/AdminUpdatePatientProfile/" + response.response.id)
+        this.setState({ success: true, responseID: response.response.id });
+        // this.props.history.push(""/AdminUpdatePatientProfile/"" + response.response.id)
       }
       else return;
     } catch (error) {
@@ -162,6 +162,7 @@ export default class AddPatient extends Component {
             <Success
               history={this.props.history}
               message="Well done, you successfully added a patient"
+              nextRoute={"/AdminUpdatePatientProfile/" + this.state?.responseID}
             />
           ) : null}
           <div className="main-content-wrap w-75">
@@ -266,7 +267,7 @@ export default class AddPatient extends Component {
                       </div>
                     </div>
                   ) : this.state.stage === 1 ? (
-                    <SelectHealthPlan
+                    <SelectFamily
                       healthPlanId={this.state.healthPlanId}
                       currentStage={this.state.stage}
                       stageSetter={this.setNewStage}
@@ -285,10 +286,10 @@ export default class AddPatient extends Component {
 }
 
 //comments
-// selectHealthPlan(val) {
+// SelectFamily(val) {
 //     console.log(val);
 //     this.props.history.push({
-//         pathname: '/AdminSelectHealthPlan',
+//         pathname: '/AdminSelectFamily',
 //         state: this.state
 //     });
 // }

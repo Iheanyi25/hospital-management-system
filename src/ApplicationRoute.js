@@ -24,7 +24,7 @@ const AppRouter = observer(() => {
   useEffect(() => {
     loadUser()
   }, []);
-  console.log(user)
+  // console.log(user)
   const userType = user?.userType?.toLowerCase();
   const isAuthenticated = Boolean(user);
    
@@ -34,10 +34,9 @@ const AppRouter = observer(() => {
       const rootPath = window.location.pathname.split("/")[1].toLowerCase();
       let tempUserRoute =
         userType === rootPath ? rootPath : userType.toLowerCase();
-        console.log(tempUserRoute)
+       
       switch (tempUserRoute) {
         case "admin":
-          console.log(9999999999999)
           return <AdminRoutes />;
         case "patient":
           return <PatientRoutes />;
@@ -48,7 +47,6 @@ const AppRouter = observer(() => {
         case "lab":
           return <LabRoutes />;
         case "accountant":
-          console.log("i am an accountant");
           return <AccountantRoutes />;
         default:
           localStorage.clear();

@@ -9,7 +9,7 @@ class AdminSidebar extends React.Component {
       endpoint: process.env.REACT_APP_API_URL,
     };
   }
-  componentWillMount () {
+  componentWillMount() {
     // $('.navbar-toggle').click(function () {
     //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').toggleClass('opened');
     //   $('.content-overlay').toggleClass('show');
@@ -18,7 +18,7 @@ class AdminSidebar extends React.Component {
     //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').removeClass('opened');
     //   $(this).removeClass('show');
     // });
-    console.log($);
+    // console.log($);
   }
 
   render() {
@@ -92,7 +92,7 @@ class AdminSidebar extends React.Component {
                       </li>
                     </ul>
                   </li>
-                  
+
                   <li className="menu-item">
                     <Link className="item-link" to="/AdminManageAccounts">
                       <span className="link-icon icofont-users" />{" "}
@@ -105,7 +105,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
-                     <span className="link-icon icofont-patient-bed" />{" "}
+                      <span className="link-icon icofont-patient-bed" />{" "}
                       <span className="link-text">Patients</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -124,7 +124,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
-                   
+
                       <span className="link-icon icofont-doctor-alt" />{" "}
                       <span className="link-text">Doctors</span>{" "}
                       <span className="link-caret icofont-thin-right" />
@@ -254,7 +254,7 @@ class AdminSidebar extends React.Component {
 
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
-                     <span className="link-icon icofont-brand-myspace" />{" "}
+                      <span className="link-icon icofont-brand-myspace" />{" "}
                       <span className="link-text">Services</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>

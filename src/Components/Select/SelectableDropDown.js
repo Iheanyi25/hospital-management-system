@@ -18,7 +18,7 @@ const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKey
     }
 
     useEffect(() => {
-        console.log(data)
+        // console.log(data)
         setJquery();
     }, [data]);
 
