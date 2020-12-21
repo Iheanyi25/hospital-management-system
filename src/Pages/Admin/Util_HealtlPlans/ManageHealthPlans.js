@@ -205,7 +205,7 @@ export default class ManageHealthPlans extends Component {
                                         to="#"
                                         className="btn btn-sm btn-block text-danger"
                                         onClick={() =>
-                                          this.deleteHealthPlan(item.id)
+                                          this.disableHealthPlan(item.id)
                                         }
                                       >
                                         <span className="btn-icon icofont-delete-alt mr-2" />
