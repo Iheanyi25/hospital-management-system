@@ -51,7 +51,7 @@ import ManageWards from "../Pages/Admin/Util_Ward/ManageWards";
 import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
 import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
 import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans";
-import SelectHealthPlan from "../Pages/Admin/SelectHealthPlan";
+import SelectFamily from "../Pages/Admin/SelectFamily";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
 import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
@@ -163,8 +163,8 @@ export default function AdminRoutes() {
           <Route exact path="/AdminAddPatients" component={AddPatient} />
           <Route
             exact
-            path="/AdminSelectHealthPlan"
-            component={SelectHealthPlan}
+            path="/AdminSelectFamily"
+            component={SelectFamily}
           />
           <Route
             exact

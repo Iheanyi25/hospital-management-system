@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { PageLoader } from "../../Components";
-import SelectHealthPlan from "./SelectHealthPlan";
+import SelectFamily from "./SelectFamily";
 import { Success } from "../../Components/Alerts";
 import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
 
@@ -266,7 +266,7 @@ export default class AddPatient extends Component {
                       </div>
                     </div>
                   ) : this.state.stage === 1 ? (
-                    <SelectHealthPlan
+                    <SelectFamily
                       healthPlanId={this.state.healthPlanId}
                       currentStage={this.state.stage}
                       stageSetter={this.setNewStage}
@@ -285,10 +285,10 @@ export default class AddPatient extends Component {
 }
 
 //comments
-// selectHealthPlan(val) {
+// SelectFamily(val) {
 //     console.log(val);
 //     this.props.history.push({
-//         pathname: '/AdminSelectHealthPlan',
+//         pathname: '/AdminSelectFamily',
 //         state: this.state
 //     });
 // }

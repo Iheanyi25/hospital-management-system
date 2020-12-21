@@ -24,7 +24,7 @@ const AppRouter = observer(() => {
   useEffect(() => {
     loadUser()
   }, []);
-  console.log(user)
+  // console.log(user)
   const userType = user?.userType?.toLowerCase();
   const isAuthenticated = Boolean(user);
    
@@ -37,7 +37,7 @@ const AppRouter = observer(() => {
         console.log(tempUserRoute)
       switch (tempUserRoute) {
         case "admin":
-          console.log(9999999999999)
+          // console.log(9999999999999)
           return <AdminRoutes />;
         case "patient":
           return <PatientRoutes />;

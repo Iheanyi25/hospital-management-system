@@ -6,7 +6,7 @@ $.Datatable = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 
 
-export default class SelectHealthPlan extends Component {
+export default class SelectFamily extends Component {
 
     state = {
         accounts: [],
@@ -83,7 +83,7 @@ export default class SelectHealthPlan extends Component {
                             <div className="row m-0">
                                 <div className="col-12">
                                     <div className="d-flex justify-content-between my-5">
-                                       
+
                                         <div className="align-items-end d-flex">
                                             <button
                                                 type="submit"
@@ -101,12 +101,12 @@ export default class SelectHealthPlan extends Component {
                             <table
                                 ref={(el) => (this.el = el)}
                                 className="table table-hover"
-                                // data-searching="true"
-                                // data-paging="true"
-                                data-columns='[
-                                    { "data": "name" },
-                                    { "data": "phone" }
-                                ]'
+                            // data-searching="true"
+                            // data-paging="true"
+                            // data-columns='[
+                            //     { "data": "name" },
+                            //     { "data": "phone" }
+                            // ]'
                             >
                                 <thead>
                                     <tr>
