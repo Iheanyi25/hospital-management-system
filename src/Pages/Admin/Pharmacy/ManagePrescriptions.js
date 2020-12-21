@@ -6,10 +6,13 @@ import { getAllPrescriptionsUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import formatDate from "../../../utils/formatDate";
 import formatAmount from "../../../utils/formatAmount";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 class ManagePrescriptions extends React.Component {
+  static contextType = UserContext;
   state = {
     prescriptions: [],
   };
@@ -38,8 +41,9 @@ class ManagePrescriptions extends React.Component {
   }
 
   render() {
+    const content = this.context;
+    const { user } = content;
     const { prescriptions } = this.state;
-    // console.log(this.state.categories);
     return (
       <>
         <PageLoader />
@@ -96,13 +100,23 @@ class ManagePrescriptions extends React.Component {
                           {prescriptions?.map((prescription, index) => (
                             <tr key={index}>
                               <td>
-                                <div className="text-muted text-nowrap">{index + 1}</div>
+                                <div className="text-muted text-nowrap">
+                                  {index + 1}
+                                </div>
                               </td>
                               <td>
-                                <div className="text-muted text-nowrap">{`${prescription?.patient?.firstName ?? ""} ${prescription?.patient?.lastName ?? ""}`}</div>
+                                <div className="text-muted text-nowrap">{`${
+                                  prescription?.patient?.firstName ?? ""
+                                } ${
+                                  prescription?.patient?.lastName ?? ""
+                                }`}</div>
                               </td>
                               <td>
-                                <div className="text-muted text-nowrap">{`${prescription?.doctor?.firstName ?? ""} ${prescription?.doctor?.lastName ?? ""}`}</div>
+                                <div className="text-muted text-nowrap">{`${
+                                  prescription?.doctor?.firstName ?? ""
+                                } ${
+                                  prescription?.doctor?.lastName ?? ""
+                                }`}</div>
                               </td>
                               <td>
                                 <div className="text-muted text-nowrap">
@@ -122,7 +136,11 @@ class ManagePrescriptions extends React.Component {
                                   </button>
                                   <div className="dropdown-menu">
                                     <Link
-                                      to={`/AdminDrugPrescription/${prescription?.id}`}
+                                      to={
+                                        user.userType === "Admin"
+                                          ? `/AdminDrugPrescription/${prescription?.id}`
+                                          : `/PharmacyDrugPrescription/${prescription?.id}`
+                                      }
                                       className="btn btn-sm btn-block"
                                     >
                                       <span className="btn-icon icofont-server mr-2" />
@@ -147,4 +165,4 @@ class ManagePrescriptions extends React.Component {
   }
 }
 
-export default ManagePrescriptions;
+export default observer(ManagePrescriptions);
