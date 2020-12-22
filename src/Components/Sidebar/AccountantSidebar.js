@@ -60,13 +60,19 @@ class AccountantSidebar extends React.Component {
                     </Link>
                   </li>
                   <li className="menu-item">
+                    <Link
+                      className="item-link"
+                      to="/AccountManageServiceRequest"
+                    >
+                      <span className="link-icon icofont-copy-invert" />{" "}
+                      <span className="link-text">Prescription Invoices</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
                     <span className="group-title">PROFILE</span>
                   </li>
                   <li className="menu-item">
-                    <Link
-                      className="item-link"
-                      to="/AccountantProfile"
-                    >
+                    <Link className="item-link" to="/AccountantProfile">
                       <span className="link-icon icofont-user-suited" />{" "}
                       <span className="link-text">My Profile</span>
                     </Link>

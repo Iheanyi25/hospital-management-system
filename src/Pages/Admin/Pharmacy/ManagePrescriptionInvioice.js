@@ -8,10 +8,13 @@ import formatAmount from "../../../utils/formatAmount";
 import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 class ManagePrescriptionInvoice extends React.Component {
+  static contextType = UserContext;
   state = {
     prescriptionInvoices: [],
   };
@@ -41,8 +44,9 @@ class ManagePrescriptionInvoice extends React.Component {
   }
 
   render() {
+    const content = this.context;
+    const { user } = content;
     const { prescriptionInvoices } = this.state;
-    // console.log(this.state.categories);
     return (
       <>
         <PageLoader />
@@ -164,7 +168,9 @@ class ManagePrescriptionInvoice extends React.Component {
                                         <Link
                                           to={{
                                             pathname:
-                                              `/AdminPaymentForPrescription/${prescriptionInvoice.id}`,
+                                              user.userType === "Admin"
+                                                ? `/AdminPaymentForPrescription/${prescriptionInvoice.id}`
+                                                : `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
                                             state: prescriptionInvoice,
                                           }}
                                           className="btn btn-sm btn-block"
@@ -195,4 +201,4 @@ class ManagePrescriptionInvoice extends React.Component {
   }
 }
 
-export default ManagePrescriptionInvoice;
+export default observer(ManagePrescriptionInvoice);

@@ -60,7 +60,7 @@ const PaymentForPrescription = observer(({ history }) => {
         </div>
         {completed ? (
           <Success
-            nextRoute="AdminManagePrescriptionInvoice"
+            nextRoute="/AdminManagePrescriptionInvoice"
             message={message}
           />
         ) : null}

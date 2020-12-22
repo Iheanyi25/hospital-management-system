@@ -46,20 +46,22 @@ class PharmacySidebar extends React.Component {
                       <span className="link-text">Dashboard</span>{" "}
                     </Link>
                   </li>
-                 
+
                   <li className="menu-item">
-                    <Link className="item-link" to="doctors.html">
+                    <Link
+                      className="item-link"
+                      to="/PharmacyManagePrescriptions"
+                    >
                       <span className="link-icon icofont-list" />{" "}
                       <span className="link-text">Prescriptions</span>
                     </Link>
                   </li>
-                  
 
                   <li className="menu-item">
                     <span className="group-title">Drug Management</span>
                   </li>
 
-				          <li className="menu-item has-sub">
+                  <li className="menu-item has-sub">
                     <div className="cursor item-link">
                       <span className="link-icon icofont-drug" />{" "}
                       <span className="link-text">Drugs</span>{" "}
@@ -71,7 +73,7 @@ class PharmacySidebar extends React.Component {
                           <span className="link-text">Register a drug</span>
                         </Link>
                       </li>
-					          <li className="menu-item">
+                      <li className="menu-item">
                         <Link to="/PharmacyViewDrugs" className="item-link">
                           <span className="link-text">View drugs</span>
                         </Link>
@@ -86,7 +88,6 @@ class PharmacySidebar extends React.Component {
                     <Link className="item-link" to="/PharmacyProfile">
                       <span className="link-icon icofont-user-suited" />{" "}
                       <span className="link-text">My Profile</span>{" "}
-                      
                     </Link>
                   </li>
                 </ul>

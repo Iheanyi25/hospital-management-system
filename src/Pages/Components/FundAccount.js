@@ -33,21 +33,14 @@ class FundAccount extends React.Component {
     });
   };
 
-  fundAccount = async (reference, modeOfPayment, offline) => {
-    const { accountId, user } = this.state;
+  fundAccount = async (reference, modeOfPayment) => {
+    const { accountId, user, amount, paymentDescription } = this.state;
     let payload = {
       accountId: accountId,
-      amount: this.state.amount,
+      amount: amount,
       modeOfPayment: modeOfPayment,
-      transactionReference:
-        modeOfPayment === "online-paystack"
-          ? reference.trxref
-          : modeOfPayment === "online-flutterwave"
-            ? reference.data?.data?.orderRef
-            : offline
-              ? reference
-              : "",
-      paymentDescription: this.state.paymentDescription,
+      transactionReference: reference,
+      paymentDescription: paymentDescription,
       userId: user.id,
     };
     try {
