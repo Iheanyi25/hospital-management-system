@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   costDrugUrl,
@@ -6,7 +6,7 @@ import {
   getPrescriptionUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
-import user from "../../../assets/img/user.png";
+import userImage from "../../../assets/img/user.png";
 import remove from "../../../assets/img/remove.svg";
 import {
   AddPrescriptionQuantity,
@@ -15,8 +15,11 @@ import {
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
 import { Success } from "../../../Components/Alerts";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
-const DrugPrescription = ({ match }) => {
+const DrugPrescription = observer(({ match }) => {
+  const { user } = useContext(UserContext);
   const [costingDetails, setcostingDetails] = useState([]);
   const [invoiceDetails, setInvoiceDetails] = useState({});
   const [success, setSuccess] = useState({
@@ -97,6 +100,7 @@ const DrugPrescription = ({ match }) => {
       patientId: prescription?.patient?.id,
       drugs: selectedDrugs,
     };
+    console.log(payload, "payload");
     const costUrl = costDrugUrl();
     const costDrugConfig = fetchConfig({
       url: costUrl,
@@ -107,7 +111,6 @@ const DrugPrescription = ({ match }) => {
     let response = await fetchWrapper(costDrugConfig);
     setcostingDetails(response?.data?.costings);
     console.log(response);
-    console.log(payload, "payload");
   };
 
   return (
@@ -119,7 +122,11 @@ const DrugPrescription = ({ match }) => {
         {success.success ? (
           <Success
             message={success.message}
-            nextRoute="/AdminManagePrescriptionInvoice"
+            nextRoute={
+              user.userType === "Admin"
+                ? "/AdminManagePrescriptionInvoice"
+                : "/PharmacyManagePrescriptions"
+            }
           />
         ) : null}
         <div className="main-content-wrap">
@@ -145,7 +152,7 @@ const DrugPrescription = ({ match }) => {
                       <div className="card-body p-5 m-auto">
                         <div className="d-flex">
                           <img
-                            src={user}
+                            src={userImage}
                             style={{
                               height: "32px",
                               width: "32px",
@@ -196,20 +203,26 @@ const DrugPrescription = ({ match }) => {
                                 <td>
                                   <strong>
                                     <div className="d-flex align-items-center nowrap">
-                                      {item.name}
+                                      {item?.name ?? "N/A"}
                                     </div>
                                   </strong>
                                 </td>
                                 <td>
-                                  {`${
-                                    Number(item?.numberOfUnits) ?? 0
-                                  } packs, `}{" "}
-                                  {`${
-                                    Number(item?.numberOfContainers) ?? 0
-                                  }  tablets, `}
-                                  {`${
-                                    Number(item?.numberOfCartons) ?? 0
-                                  }  cartons`}
+                                  {Number(item?.numberOfUnits) === 1
+                                    ? `${item.numberOfUnits} tablet * `
+                                    : Number(item?.numberOfUnits) > 1
+                                    ? `${item.numberOfUnits} tablets * `
+                                    : null}
+                                  {Number(item?.numberOfContainers) === 1
+                                    ? `${item.numberOfContainers} pack * `
+                                    : Number(item?.numberOfContainers) > 1
+                                    ? `${item.numberOfContainers} packs * `
+                                    : null}
+                                  {Number(item?.numberOfCartons) === 1
+                                    ? `${item.numberOfCartons} carton * `
+                                    : Number(item?.numberOfCartons) > 1
+                                    ? `${item.numberOfCartons} cartons * `
+                                    : null}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
@@ -264,6 +277,6 @@ const DrugPrescription = ({ match }) => {
       />
     </>
   );
-};
+});
 
 export default DrugPrescription;
