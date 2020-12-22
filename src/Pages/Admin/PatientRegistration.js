@@ -67,27 +67,15 @@ class PatientRegistration extends React.Component {
     this.$el.DataTable();
   }
 
-  register = async (reference, modeOfPayment, description, paidOffline) => {
+  register = async (reference, modeOfPayment, description) => {
     const { amount, patientId, invoiceNumber } = this.state;
     let payload = {
       patientId: patientId,
       amount: amount,
       invoiceNumber: invoiceNumber,
-      description:
-        modeOfPayment === ("online-paystack" || "online-flutterwave")
-          ? "Paid online"
-          : paidOffline
-          ? description
-          : description.description,
+      description: description,
       modeOfPayment: modeOfPayment,
-      referenceNumber:
-        modeOfPayment === "online-paystack"
-          ? reference.trxref
-          : modeOfPayment === "online-flutterwave"
-          ? reference.data?.data?.orderRef
-          : paidOffline
-          ? reference
-          : "",
+      referenceNumber: reference
     };
 
     console.log(payload);
