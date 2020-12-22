@@ -100,6 +100,7 @@ const DrugPrescription = observer(({ match }) => {
       patientId: prescription?.patient?.id,
       drugs: selectedDrugs,
     };
+    console.log(payload, "payload");
     const costUrl = costDrugUrl();
     const costDrugConfig = fetchConfig({
       url: costUrl,
@@ -110,7 +111,6 @@ const DrugPrescription = observer(({ match }) => {
     let response = await fetchWrapper(costDrugConfig);
     setcostingDetails(response?.data?.costings);
     console.log(response);
-    console.log(payload, "payload");
   };
 
   return (
@@ -203,20 +203,26 @@ const DrugPrescription = observer(({ match }) => {
                                 <td>
                                   <strong>
                                     <div className="d-flex align-items-center nowrap">
-                                      {item.name}
+                                      {item?.name ?? "N/A"}
                                     </div>
                                   </strong>
                                 </td>
                                 <td>
-                                  {`${
-                                    Number(item?.numberOfUnits) ?? 0
-                                  } packs, `}{" "}
-                                  {`${
-                                    Number(item?.numberOfContainers) ?? 0
-                                  }  tablets, `}
-                                  {`${
-                                    Number(item?.numberOfCartons) ?? 0
-                                  }  cartons`}
+                                  {Number(item?.numberOfUnits) === 1
+                                    ? `${item.numberOfUnits} tablet * `
+                                    : Number(item?.numberOfUnits) > 1
+                                    ? `${item.numberOfUnits} tablets * `
+                                    : null}
+                                  {Number(item?.numberOfContainers) === 1
+                                    ? `${item.numberOfContainers} pack * `
+                                    : Number(item?.numberOfContainers) > 1
+                                    ? `${item.numberOfContainers} packs * `
+                                    : null}
+                                  {Number(item?.numberOfCartons) === 1
+                                    ? `${item.numberOfCartons} carton * `
+                                    : Number(item?.numberOfCartons) > 1
+                                    ? `${item.numberOfCartons} cartons * `
+                                    : null}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
