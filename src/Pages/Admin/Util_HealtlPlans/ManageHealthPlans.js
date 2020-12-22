@@ -209,7 +209,7 @@ export default class ManageHealthPlans extends Component {
                                         }
                                       >
                                         <span className="btn-icon icofont-delete-alt mr-2" />
-                                        Delete
+                                        Disable
                                       </Link>
                                     </div>
                                   </div>

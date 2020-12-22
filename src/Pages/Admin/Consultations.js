@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientConsultationCountUrl, getPatientConsultationsUrl, getPatientsAttentedToCountUrl, getPatientsUnattentedToCountUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
 import { ReAssign } from "../../Components/Modals/ReAssignModal";
@@ -26,15 +29,20 @@ class Consultations extends React.Component {
     const { apiUrl } = this.state;
     const response = await fetch(`${apiUrl}/Patient/GetPatients`);
     const data = await response.json();
-    this.setState({ patients: data.patients });
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    this.setState({ patients: data.patients },  () =>
+    this.sync()
+  );
   }
 
-  componentDidMount() {
-    this.getAllConsultations().then(() => this.sync());
+  async componentDidMount() {
+    await this.getAllConsultations();
   }
 
   async deleteConsultation(e, id) {
     e.preventDefault();
+    console.log("deleting...")
     const request = await fetch(apiUrl + "/Admin/DeleteConsultation", {
       method: "POST",
       headers: {
@@ -58,26 +66,27 @@ class Consultations extends React.Component {
     this.$en = $(this.en);
     this.$en.DataTable();
   }
-
+  resetShowState = () =>  this.setState((state) => ({ ...state, show: false }));
   async getAllConsultations() {
-    var patientsOnOpenList = [];
-    var patientsOnOpenListCount = 0;
-    var patientsAttachedToDoctors = [];
-    var patientsAttachedToDoctorsCount = 0;
-    var patientsAttendedTo = [];
-    var patientsAttendedToCount = 0;
+    const patientsOnOpenList = [];
+    const patientsAttachedToDoctors = [];
+    const patientsAttendedTo = [];
 
-    let response = await fetch(`${apiUrl}/Admin/GetPatientConsultations`);
-    const data = await response.json();
+    const getPatientConsultations = getPatientConsultationsUrl()
+    const getPatientConsultationsConfig = fetchConfig({ url: getPatientConsultations, method: 'get' })
+    const { data }  = await fetchWrapper(getPatientConsultationsConfig);
 
-    let response1 = await fetch(`${apiUrl}/Admin/GetPatientConsultationCount`);
-    const data1 = await response1.json();
-    console.log(data1);
-    let response2 = await fetch(`${apiUrl}/Admin/GetPatientsUnattendedToCount`);
-    const data2 = await response2.json();
+    const getPatientConsultationsCount = getPatientConsultationCountUrl()
+    const getPatientConsultationsCountConfig = fetchConfig({ url: getPatientConsultationsCount, method: 'get' })
+    const { data : data1 }  = await fetchWrapper(getPatientConsultationsCountConfig);
 
-    let response3 = await fetch(`${apiUrl}/Admin/GetPatientsAttendedToCount`);
-    const data3 = await response3.json();
+    const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl()
+    const getPatientsUnattentedToCountConfig = fetchConfig({ url: getPatientsUnattentedToCount, method: 'get' })
+    const { data : data2 }  = await fetchWrapper(getPatientsUnattentedToCountConfig);
+
+    const getPatientsAttentedToCount = getPatientsAttentedToCountUrl()
+    const getPatientsAttentedToCountConfig = fetchConfig({ url: getPatientsAttentedToCount, method: 'get' })
+    const { data : data3 }  = await fetchWrapper(getPatientsAttentedToCountConfig);
 
     this.setState({ consultations: data.patientConsultations });
 
@@ -125,6 +134,7 @@ class Consultations extends React.Component {
               <Success
                 history={this.props.history}
                 message={this.state.message}
+                callback={this.resetShowState}
               />
               :
               null
