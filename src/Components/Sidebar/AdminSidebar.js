@@ -22,6 +22,7 @@ class AdminSidebar extends React.Component {
   }
 
   render() {
+    const { setUserType } = this.props;
     return (
       <>
         {/* Vertical navbar */}
@@ -124,7 +125,6 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
-
                       <span className="link-icon icofont-doctor-alt" />{" "}
                       <span className="link-text">Doctors</span>{" "}
                       <span className="link-caret icofont-thin-right" />
@@ -136,6 +136,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
+                          onClick={()=>setUserType("doctor")}
                         >
                           <span className="link-text">Register Doctors</span>
                         </Link>
@@ -161,6 +162,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
+                          onClick={()=>setUserType("pharmacy")}
                         >
                           <span className="link-text">
                             Register Pharmacists
@@ -188,9 +190,37 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
+                          onClick={()=>setUserType("accountant")}
                         >
                           <span className="link-text">
                             Register Accountants
+                          </span>
+                        </Link>
+                      </li>
+                      {/* <li className="menu-item">
+												<div className="item-link">
+													<span className="link-text">Manage Accountants</span>
+												</Link>
+											</li> */}
+                    </ul>
+                  </li>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-doctor-alt" />{" "}
+                      <span className="link-text">Lab</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link
+                          to="#"
+                          className="item-link"
+                          data-toggle="modal"
+                          data-target="#add-user"
+                          onClick={()=>setUserType("lab")}
+                        >
+                          <span className="link-text">
+                            Register Lab 
                           </span>
                         </Link>
                       </li>
@@ -386,13 +416,21 @@ class AdminSidebar extends React.Component {
                     </div>
                     <ul className="sub">
                       <li className="menu-item">
-                        <Link to="/AdminManagePrescriptions" className="item-link">
+                        <Link
+                          to="/AdminManagePrescriptions"
+                          className="item-link"
+                        >
                           <span className="link-text">Prescriptions</span>
                         </Link>
                       </li>
                       <li className="menu-item">
-                        <Link to="/AdminManagePrescriptionInvoice" className="item-link">
-                          <span className="link-text">Prescription Invoices</span>
+                        <Link
+                          to="/AdminManagePrescriptionInvoice"
+                          className="item-link"
+                        >
+                          <span className="link-text">
+                            Prescription Invoices
+                          </span>
                         </Link>
                       </li>
                     </ul>

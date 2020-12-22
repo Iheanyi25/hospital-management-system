@@ -1,6 +1,10 @@
 const apiUrl = process.env.REACT_APP_API_URL;
-// Login endpoints
+
+// Authentication endpoints
 export const logInUrl = () => `${apiUrl}/Auth/Login`;
+
+// Create users endpoint
+export const registerUserUrl = () => `${apiUrl}/Admin/Register`;
 
 //labTechnician endpoints
 export const getLabProfileUrl = (labId) =>
@@ -28,11 +32,15 @@ export const getDrugPricesUrl = () => `${apiUrl}/Pharmacy/GetDrugPrices`;
 export const postDrugPricesUrl = () => `${apiUrl}/Pharmacy/CreateDrugPrice`;
 export const updateDrugPricesUrl = () => `${apiUrl}/Pharmacy/UpdateDrugPrice`;
 export const deleteDrugPricesUrl = () => `${apiUrl}/Pharmacy/DeleteDrugPrice`;
-export const getAllPrescriptionsUrl = () => `${apiUrl}/Pharmacy/GetPrescriptions`;
-export const getPrescriptionUrl = (id) => `${apiUrl}/Pharmacy/GetPrescription?ClerkingId=${id}`;
+export const getAllPrescriptionsUrl = () =>
+  `${apiUrl}/Pharmacy/GetPrescriptions`;
+export const getPrescriptionUrl = (id) =>
+  `${apiUrl}/Pharmacy/GetPrescription?ClerkingId=${id}`;
 export const costDrugUrl = () => `${apiUrl}/Pharmacy/CostDrugs`;
-export const generateDrugDispenseInvoiceUrl = () => `${apiUrl}/Pharmacy/GenerateDrugDispenseInvoice`;
-export const getDAllrugDispencingInvoicesUrl = () => `${apiUrl}/Pharmacy/GetDrugDispencingInvoices`;
+export const generateDrugDispenseInvoiceUrl = () =>
+  `${apiUrl}/Pharmacy/GenerateDrugDispenseInvoice`;
+export const getDAllrugDispencingInvoicesUrl = () =>
+  `${apiUrl}/Pharmacy/GetDrugDispencingInvoices`;
 export const payForDrugsUrl = () => `${apiUrl}/Pharmacy/PayForDrugs`;
 
 //accountant endpoints
@@ -57,7 +65,7 @@ export const disableHealthPlanUrl = () => `${apiUrl}/Admin/DisableHealthPlan`;
 //Admin Profile
 export const getAdminProfileUrl = (adminId) =>
   `${apiUrl}/Admin/GetAdmin?AdminId=${adminId}`;
-  export const updateAdminBasicInfoUrl = () =>
+export const updateAdminBasicInfoUrl = () =>
   `${apiUrl}/Admin/UpdateAdminBasicInfo`;
 export const updateAdminContactDetailsUrl = () =>
   `${apiUrl}/Admin/UpdateAdminContactDetails`;
