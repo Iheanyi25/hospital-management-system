@@ -71,9 +71,9 @@ const DrugPrescription = () => {
         <div className="main-content-wrap">
           <header className="page-header d-flex justify-content-between">
             <h3>Prescription</h3>
-            <button to="#"
+            <button
                         data-toggle="modal"
-                        data-target="#showInvoice" className="btn btn-sm btn-primary">Preview</button>
+                        data-target="#showInvoice" className="btn btn-primary">Preview</button>
           </header>
           <div className="page-content">
             <div className="card mb-0">

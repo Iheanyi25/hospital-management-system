@@ -4,6 +4,7 @@ import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
+import AdminAllPharmacists from "../Pages/Admin/AllPharmacist"
 import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
 import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
@@ -74,6 +75,7 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminAllPatients" component={AllPatients} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
+          <Route exact path="/AdminAllPharmacists" component={AdminAllPharmacists}/>
           <Route
             exact
             path="/AdminBookAppointment"

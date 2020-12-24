@@ -10,9 +10,11 @@ export const updateLabTechnicianBasicInfoUrl = () =>
 export const updateLabTechnicianContactDetailsUrl = () =>
   `${apiUrl}/Lab/UpdateLabProfileContactDetails`;
 
-//Pharmacy endpoints
-export const getPharmacistProfileUrl = (pharmId) =>
-  `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
+  //Pharmacy endpoints
+  export const getAllPharmacistUrl = () =>
+    `${apiUrl}/Pharmacy/GetAllPharmacists?`;
+  export const getPharmacistProfileUrl = (pharmId) =>
+    `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
 export const updatePharmacistBasicInfoUrl = () =>
   `${apiUrl}/Pharmacy/UpdatePharmacistBasicInfo`;
 export const updatePharmacistContactDetailsUrl = () =>
