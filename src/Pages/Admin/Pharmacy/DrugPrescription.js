@@ -1,17 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { getAllDrugsUrl } from "../../../api/URLs";
+import {
+  costDrugUrl,
+  getAllDrugsUrl,
+  getPrescriptionUrl,
+} from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
-import user from "../../../assets/img/user.png";
+import userImage from "../../../assets/img/user.png";
 import remove from "../../../assets/img/remove.svg";
 import {
   AddPrescriptionQuantity,
   SelectableDropDown,
 } from "../../../Components";
-import { useRequest } from "../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
+import { Success } from "../../../Components/Alerts";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
-const DrugPrescription = () => {
+const DrugPrescription = observer(({ match }) => {
+  const { user } = useContext(UserContext);
+  const [costingDetails, setcostingDetails] = useState([]);
+  const [invoiceDetails, setInvoiceDetails] = useState({});
+  const [success, setSuccess] = useState({
+    success: false,
+    message: "",
+  });
+
+  // fetch Prescription
+  const { id } = match.params;
+
+  const prescriptionUrl = getPrescriptionUrl(id);
+  const getPrescriptionConfig = fetchConfig({
+    url: prescriptionUrl,
+    method: "get",
+  });
+
+  const { data: prescription } = useRequest(getPrescriptionConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(prescription);
+  // fetch Drugs
   const getDrugsUrl = getAllDrugsUrl();
   const getDrugConfig = fetchConfig({
     url: getDrugsUrl,
@@ -20,7 +49,7 @@ const DrugPrescription = () => {
   const [selectedDrugs, setSelectedDrugs] = useState([]);
   const [activeDrugs, setActiveDrugs] = useState(null);
 
-  const { data, error, mutate } = useRequest(getDrugConfig, {
+  const { data } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
 
@@ -36,7 +65,7 @@ const DrugPrescription = () => {
     if (!existingIndex) {
       let newValue = {
         name: rawData[3],
-        id: rawData[2],
+        drugId: rawData[2],
       };
       setActiveDrugs(newValue);
       loadModal();
@@ -50,7 +79,7 @@ const DrugPrescription = () => {
   const addPresQuality = (newValue) => {
     let allDrugs = selectedDrugs;
     allDrugs.push(newValue);
-
+    console.log(newValue, "heloo");
     setSelectedDrugs(allDrugs);
     setActiveDrugs(null);
   };
@@ -62,18 +91,57 @@ const DrugPrescription = () => {
     setSelectedDrugs(arrayToRemoveFrom);
   };
 
+  const costDrugs = async () => {
+    selectedDrugs.forEach((drug, i) => {
+      const { name, ...selectedDrugDet } = drug;
+      selectedDrugs[i] = selectedDrugDet;
+    });
+    const payload = {
+      patientId: prescription?.patient?.id,
+      drugs: selectedDrugs,
+    };
+    console.log(payload, "payload");
+    const costUrl = costDrugUrl();
+    const costDrugConfig = fetchConfig({
+      url: costUrl,
+      method: "post",
+      data: payload,
+    });
+    setInvoiceDetails(payload);
+    let response = await fetchWrapper(costDrugConfig);
+    setcostingDetails(response?.data?.costings);
+    console.log(response);
+  };
+
   return (
     <>
       <main className="main-content">
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
+        {success.success ? (
+          <Success
+            message={success.message}
+            nextRoute={
+              user.userType === "Admin"
+                ? "/AdminManagePrescriptionInvoice"
+                : "/PharmacyManagePrescriptions"
+            }
+          />
+        ) : null}
         <div className="main-content-wrap">
-          <header className="page-header d-flex justify-content-between">
-            <h3>Prescription</h3>
-            <button
-                        data-toggle="modal"
-                        data-target="#showInvoice" className="btn btn-primary">Preview</button>
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title">Prescription</h4>
+            {selectedDrugs.length > 0 ? (
+              <Link
+                className="btn btn-primary"
+                data-toggle="modal"
+                data-target="#showInvoice"
+                onClick={costDrugs}
+              >
+                Preview
+              </Link>
+            ) : null}
           </header>
           <div className="page-content">
             <div className="card mb-0">
@@ -84,7 +152,7 @@ const DrugPrescription = () => {
                       <div className="card-body p-5 m-auto">
                         <div className="d-flex">
                           <img
-                            src={user}
+                            src={userImage}
                             style={{
                               height: "32px",
                               width: "32px",
@@ -92,11 +160,11 @@ const DrugPrescription = () => {
                             }}
                             alt="user"
                           />
-                          <h6 className="mt-2 ml-2">[Patient’s name]</h6>
+                          <h6 className="mt-2 ml-2">{`${
+                            prescription?.patient?.firstName ?? ""
+                          } ${prescription?.patient?.lastName ?? ""}`}</h6>
                         </div>
-                        <p className="mb-0">Athesunate</p>
-                        <p className="mb-0">Athesunate 500mg x2</p>
-                        <p className="mb-0">3 wolf moon officia aute</p>
+                        <p className="mb-0">{prescription?.prescription}</p>
                       </div>
                     </div>
                   </div>
@@ -135,13 +203,26 @@ const DrugPrescription = () => {
                                 <td>
                                   <strong>
                                     <div className="d-flex align-items-center nowrap">
-                                      {item.name}
+                                      {item?.name ?? "N/A"}
                                     </div>
                                   </strong>
                                 </td>
                                 <td>
-                                  {`${Number(item?.packs) ?? 0} packs, `}{" "}
-                                  {`${Number(item?.tablets) ?? 0}  tablets`}
+                                  {Number(item?.numberOfUnits) === 1
+                                    ? `${item.numberOfUnits} tablet * `
+                                    : Number(item?.numberOfUnits) > 1
+                                    ? `${item.numberOfUnits} tablets * `
+                                    : null}
+                                  {Number(item?.numberOfContainers) === 1
+                                    ? `${item.numberOfContainers} pack * `
+                                    : Number(item?.numberOfContainers) > 1
+                                    ? `${item.numberOfContainers} packs * `
+                                    : null}
+                                  {Number(item?.numberOfCartons) === 1
+                                    ? `${item.numberOfCartons} carton * `
+                                    : Number(item?.numberOfCartons) > 1
+                                    ? `${item.numberOfCartons} cartons * `
+                                    : null}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
@@ -186,9 +267,16 @@ const DrugPrescription = () => {
       />
 
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
-      <PrescriptionInvoice />
+      <PrescriptionInvoice
+        costingDetails={costingDetails}
+        doctor={prescription?.doctor}
+        patient={prescription?.patient}
+        invoiceDetails={invoiceDetails}
+        id={id}
+        setSuccess={setSuccess}
+      />
     </>
   );
-};
+});
 
 export default DrugPrescription;

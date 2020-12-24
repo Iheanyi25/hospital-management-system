@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { PageLoader } from "../../Components";
-import SelectHealthPlan from "./SelectHealthPlan";
+import SelectFamily from "./SelectFamily";
 import { Success } from "../../Components/Alerts";
 import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
 
@@ -15,6 +15,7 @@ export default class AddPatient extends Component {
     email: "",
     healthPlan: "",
     healthPlanId: "",
+    patientId:"",
     accountId: "",
     isDisabled: true,
     success: false,
@@ -27,15 +28,15 @@ export default class AddPatient extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return nextState !== this.state;
   }
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps, prevState) {
     if (!this.verifyValidity() && !prevState.isDisabled) {
-      this.setState((state) => ({...state, isDisabled: true }));
-    } else if(this.verifyValidity() && prevState.isDisabled){
-      this.setState((state) => ({...state, isDisabled: false }));
+      this.setState((state) => ({ ...state, isDisabled: true }));
+    } else if (this.verifyValidity() && prevState.isDisabled) {
+      this.setState((state) => ({ ...state, isDisabled: false }));
     }
-  //    else {
-  //     this.setState((state) => ({...state, isDisabled: false }));
-	// }
+    //    else {
+    //     this.setState((state) => ({...state, isDisabled: false }));
+    // }
   }
   fetchHealthPlans = async () => {
     try {
@@ -80,7 +81,7 @@ export default class AddPatient extends Component {
 
     this.setState({
       [name]: value,
-    },);
+    });
   }
 
   verifyValidity = () => {
@@ -113,11 +114,10 @@ export default class AddPatient extends Component {
       healthPlanId !== ""
     ) {
 
-      if (healthPlan.includes("personal")) {
-        await this.submit(data);
-
-      } else {
+      if (healthPlan.includes("family")) {
         this.setNewStage(stage + 1);
+      } else {
+        await this.submit(data);
       }
     }
   };
@@ -134,9 +134,9 @@ export default class AddPatient extends Component {
         }
       );
       const response = await res.json();
+      console.log(response,"Response Status")
       if (res.status === 200) {
-        this.setState({ success: true });
-        this.props.history.push("/AdminUpdatePatientProfile/" + response.response.id)
+        this.setState({ success: true,patientId: response.patient.id });
       }
       else return;
     } catch (error) {
@@ -163,6 +163,7 @@ export default class AddPatient extends Component {
             <Success
               history={this.props.history}
               message="Well done, you successfully added a patient"
+              nextRoute={"/AdminUpdatePatientProfile/" + this.state.patientId}
             />
           ) : null}
           <div className="main-content-wrap w-75">
@@ -267,7 +268,7 @@ export default class AddPatient extends Component {
                       </div>
                     </div>
                   ) : this.state.stage === 1 ? (
-                    <SelectHealthPlan
+                    <SelectFamily
                       healthPlanId={this.state.healthPlanId}
                       currentStage={this.state.stage}
                       stageSetter={this.setNewStage}
@@ -286,10 +287,10 @@ export default class AddPatient extends Component {
 }
 
 //comments
-// selectHealthPlan(val) {
+// SelectFamily(val) {
 //     console.log(val);
 //     this.props.history.push({
-//         pathname: '/AdminSelectHealthPlan',
+//         pathname: '/AdminSelectFamily',
 //         state: this.state
 //     });
 // }

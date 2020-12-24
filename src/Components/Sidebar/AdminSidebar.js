@@ -9,7 +9,7 @@ class AdminSidebar extends React.Component {
       endpoint: process.env.REACT_APP_API_URL,
     };
   }
-  componentWillMount () {
+  componentWillMount() {
     // $('.navbar-toggle').click(function () {
     //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').toggleClass('opened');
     //   $('.content-overlay').toggleClass('show');
@@ -18,10 +18,11 @@ class AdminSidebar extends React.Component {
     //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').removeClass('opened');
     //   $(this).removeClass('show');
     // });
-    console.log($);
+    // console.log($);
   }
 
   render() {
+    const { setUserType } = this.props;
     return (
       <>
         {/* Vertical navbar */}
@@ -47,14 +48,14 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/AdminDashboard">
-                      <span className="link-icon icofont-thermometer-alt" />{" "}
+                      <span className="link-icon icofont-dashboard-web" />{" "}
                       <span className="link-text">Dashboard</span>
                     </Link>
                   </li>
 
                   <li className="menu-item has-sub">
                     <div className="item-link cursor">
-                      <span className="link-icon icofont-stethoscope-alt" />{" "}
+                      <span className="link-icon icofont-contact-add" />{" "}
                       <span className="link-text">Consultations</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -75,7 +76,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
-                      <span className="link-icon icofont-stethoscope-alt" />{" "}
+                      <span className="link-icon icofont-ui-contact-list" />{" "}
                       <span className="link-text">Appointments</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -95,7 +96,7 @@ class AdminSidebar extends React.Component {
 
                   <li className="menu-item">
                     <Link className="item-link" to="/AdminManageAccounts">
-                      <span className="link-icon icofont-user" />{" "}
+                      <span className="link-icon icofont-users" />{" "}
                       <span className="link-text">Accounts</span>
                     </Link>
                   </li>
@@ -105,6 +106,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-patient-bed" />{" "}
                       <span className="link-text">Patients</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -123,6 +125,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-doctor-alt" />{" "}
                       <span className="link-text">Doctors</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -133,6 +136,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
+                          onClick={()=>setUserType("doctor")}
                         >
                           <span className="link-text">Register Doctors</span>
                         </Link>
@@ -147,6 +151,7 @@ class AdminSidebar extends React.Component {
 
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-drug-pack" />{" "}
                       <span className="link-text">Pharmacists</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -157,6 +162,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
+                          onClick={()=>setUserType("pharmacy")}
                         >
                           <span className="link-text">
                             Register Pharmacists
@@ -173,6 +179,7 @@ class AdminSidebar extends React.Component {
 
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-money" />{" "}
                       <span className="link-text">Accountants</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -183,6 +190,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
+                          onClick={()=>setUserType("accountant")}
                         >
                           <span className="link-text">
                             Register Accountants
@@ -194,6 +202,33 @@ class AdminSidebar extends React.Component {
 													<span className="link-text">Manage Accountants</span>
 												</Link>
 											</li>
+                    </ul>
+                  </li>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-doctor-alt" />{" "}
+                      <span className="link-text">Lab</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link
+                          to="#"
+                          className="item-link"
+                          data-toggle="modal"
+                          data-target="#add-user"
+                          onClick={()=>setUserType("lab")}
+                        >
+                          <span className="link-text">
+                            Register Lab 
+                          </span>
+                        </Link>
+                      </li>
+                      {/* <li className="menu-item">
+												<div className="item-link">
+													<span className="link-text">Manage Accountants</span>
+												</Link>
+											</li> */}
                     </ul>
                   </li>
 
@@ -226,6 +261,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="item-link cursor">
+                      <span className="link-icon icofont-architecture-alt" />{" "}
                       <span className="link-text">Service Requests</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -248,6 +284,7 @@ class AdminSidebar extends React.Component {
 
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-brand-myspace" />{" "}
                       <span className="link-text">Services</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -308,6 +345,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-package" />{" "}
                       <span className="link-text">Health Plans</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -331,6 +369,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-hospital" />{" "}
                       <span className="link-text">Wards</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -352,6 +391,7 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-drug" />{" "}
                       <span className="link-text">Drug</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
@@ -370,18 +410,27 @@ class AdminSidebar extends React.Component {
                   </li>
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-prescription" />{" "}
                       <span className="link-text">Prescription</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
                     <ul className="sub">
                       <li className="menu-item">
-                        <Link to="/AdminManagePrescriptions" className="item-link">
+                        <Link
+                          to="/AdminManagePrescriptions"
+                          className="item-link"
+                        >
                           <span className="link-text">Prescriptions</span>
                         </Link>
                       </li>
                       <li className="menu-item">
-                        <Link to="/AdminManagePrescriptionInvoice" className="item-link">
-                          <span className="link-text">Prescription Invoices</span>
+                        <Link
+                          to="/AdminManagePrescriptionInvoice"
+                          className="item-link"
+                        >
+                          <span className="link-text">
+                            Prescription Invoices
+                          </span>
                         </Link>
                       </li>
                     </ul>

@@ -28,7 +28,7 @@ const PayWithFlutter = ({ paymentDetails, paidSuccessfully }) => {
   };
 
   const onSuccess = (reference) => {
-    paidSuccessfully(reference, "online-flutterwave");
+    paidSuccessfully(reference.data?.data?.orderRef, "online-flutterwave", "Paid online");
   };
 
   const onClose = () => {

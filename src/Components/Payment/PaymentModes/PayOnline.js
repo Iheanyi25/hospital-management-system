@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { PageLoader } from "../../../Components";
-import {
-  PayWithPaystack,
-  PayWithFlutter,
-} from "../PaymentGateways";
+import { PayWithPaystack, PayWithFlutter } from "../PaymentGateways";
 
 const PayOnline = ({ details, paidSuccessfully }) => {
   const [userDetails, setUserDetails] = useState({
-    // invoiceId: "",
     amount: "",
     email: "",
-    // serviceRequestId : [],
-    // fundAccount: true
   });
 
   useEffect(() => {
     setUserDetails({
       ...userDetails,
-      // invoiceId: details.invoiceId,
       email: details.email,
       amount: details.amount,
-      // serviceRequestId: details.serviceRequestId
     });
   }, [details]);
   console.log(userDetails);
@@ -44,8 +36,14 @@ const PayOnline = ({ details, paidSuccessfully }) => {
                       </h5>
                       <div className="m-auto mt-2">
                         <div className="row">
-                          <PayWithPaystack paymentDetails={userDetails} paidSuccessfully={paidSuccessfully}/>
-                          <PayWithFlutter paymentDetails={userDetails} paidSuccessfully={paidSuccessfully}/>
+                          <PayWithPaystack
+                            paymentDetails={userDetails}
+                            paidSuccessfully={paidSuccessfully}
+                          />
+                          <PayWithFlutter
+                            paymentDetails={userDetails}
+                            paidSuccessfully={paidSuccessfully}
+                          />
                         </div>
                       </div>
                     </form>

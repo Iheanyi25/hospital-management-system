@@ -26,7 +26,7 @@ const PayWithPaystack = ({ paymentDetails, paidSuccessfully }) => {
     initializePayment(onSuccess, onClose);
   };
   const onSuccess = (reference) => {
-    paidSuccessfully(reference, "online-paystack");
+    paidSuccessfully(reference.trxref, "online-paystack", "Paid online");
   };
 
   const onClose = () => {

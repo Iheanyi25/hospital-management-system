@@ -18,10 +18,10 @@ const Table = ({ content }) => {
 
     const setJquery = () => {
         interval = setInterval(() => {
-            if (window.$ && window.$.prototype.DataTable) {
+            if (window.$) {
                 clearInterval(interval)
                 $ = window.$;
-                sync()
+                // sync()
             }
         }, 1000);
     }

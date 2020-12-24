@@ -29,7 +29,8 @@ class DoctorHeader extends React.Component {
 										<input
 											className="form-control autocomplete-control topbar-search"
 											type="search"
-											placeholder="Type page's title"
+											placeholder="Enter to Search"
+											disabled
 											autoComplete="off"
 											data-source="./assets/data/search-menu.json"
 										/>
@@ -49,7 +50,7 @@ class DoctorHeader extends React.Component {
 									data-offset="0, 12"
 								>
 									<span className="icon icofont-notification" />{' '}
-									<span className="badge badge-danger badge-sm">0p</span>
+									<span className="badge badge-danger badge-sm">0</span>
 								</button>
 								<div className="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
 									{/* <div className="menu-header">

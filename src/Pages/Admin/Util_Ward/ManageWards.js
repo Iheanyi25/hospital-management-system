@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { PageLoader } from '../../../Components'
+import { Success } from '../../../Components/Alerts';
 import TableSize from '../../../Components/DataTable/TableSize';
-
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageWards extends Component {
 
     state = {
-        wards: []
+        wards: [],
+        success: { show: false, message: "", delError: false },
     }
 
     async componentDidMount() {
@@ -19,7 +20,9 @@ export default class ManageWards extends Component {
     fetchAllWards = async () => {
         const request = await fetch(`${process.env.REACT_APP_API_URL}/Admin/Ward/GetAllWards`);
         let data = await request.json();
-        this.setState({ wards: data.wards }, () => this.sync())
+        this.$el = $(this.el);
+        this.$el.DataTable().destroy();
+        this.setState(state => ({ ...state, wards: data.wards }), () => this.sync())
 
     }
 
@@ -36,13 +39,21 @@ export default class ManageWards extends Component {
             redirect: "follow",
         });
         if (res.status === 200) {
-            this.setState({ success: true }, () => {
-                this.fetchAllWards();
-            });
+            this.fetchAllWards();
+            this.setState((state) => ({
+                ...state,
+                success: { show: true, message: "ward was successfully deleted ", delError: false },
+              }));
         }
     }
 
+    resetShowState = () =>
+    this.setState((state) => ({
+      ...state,
+      success: { show: false, message: " ", delError: false },
+    }));
     render() {
+    console.log(this.state.success.show,77777)
         return (
             <>
                 <PageLoader />
@@ -51,6 +62,13 @@ export default class ManageWards extends Component {
                     <div className="app-loader">
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
+                    {this.state.success.show && (
+            <Success
+              message={this.state.success.message}
+              callback={this.resetShowState}
+              isError={this.state.success.delError}
+            />
+          )}
                     <div className="main-content-wrap">
                         <header className="page-header justify-content-between d-flex align-items-center mb-2">
                             <h4 className="page-title mb-0"> Manage Wards</h4>

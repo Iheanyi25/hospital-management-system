@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-const PayCash = ({details, paidSuccessfully }) => {
+const PayCash = ({ details, paidSuccessfully }) => {
   const [description, setDescription] = useState("");
 
   const handleSubmit = (e) => {
     console.log(e);
     e.preventDefault();
-    paidSuccessfully("", "cash", description);
+    paidSuccessfully("", "cash", description.description);
   };
 
-  useEffect(() => {
-    console.log(details);
-   
-  }, [details])
+  useEffect(() => {}, [details]);
 
   return (
     <div className="table-responsive">

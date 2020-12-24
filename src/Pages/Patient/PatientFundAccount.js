@@ -36,12 +36,7 @@ class FundAccount extends React.Component {
       patientId: patientId,
       amount: amount,
       modeOfPayment: modeOfPayment,
-      transactionReference:
-        modeOfPayment === "online-paystack"
-          ? reference.trxref
-          : modeOfPayment === "online-flutterwave"
-          ? reference.data?.data?.orderRef
-          : "",
+      transactionReference: reference,
     };
     try {
       let res = await fetch(`${apiUrl}/Patient/Account/FundAccount`, {

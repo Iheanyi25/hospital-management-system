@@ -28,8 +28,9 @@ class AccountantHeader extends React.Component {
                     <input
                       className="form-control autocomplete-control topbar-search"
                       type="search"
-                      placeholder="Type page's title"
+                      placeholder="Search an account"
                       autoComplete="off"
+                      disabled
                       data-source="./assets/data/search-menu.json"
                     />
                     <div className="suffix-icon icofont-search" />
