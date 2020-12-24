@@ -29,6 +29,7 @@ import DrugPrescription from '../Pages/Admin/Pharmacy/DrugPrescription'
 import ManagePrescriptionInvoice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
 import PaymentForPrescription from "../Pages/Admin/Pharmacy/PaymentForPrescription";
 import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
+import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -221,6 +222,8 @@ export default function AdminRoutes() {
           <Route exact path="/AdminDrugPrescription/:id" component={DrugPrescription} />
           <Route exact path="/AdminManagePrescriptionInvoice" component={ManagePrescriptionInvoice} />
           <Route exact path="/AdminPaymentForPrescription/:id" component={PaymentForPrescription} />
+          
+          <Route exact path="/AdminViewPharmacistProfile/:id" component={ViewPharmacyProfile} />
 
           <Route
             exact

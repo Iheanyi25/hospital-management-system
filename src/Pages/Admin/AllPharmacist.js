@@ -19,53 +19,47 @@ class AllPharmacists extends React.Component {
     super(props);
 
     this.state = {
-      categories: [],
-      user: {},
+      pharmacists: [],
     };
-}
-// console.log(categories);
-  
+  }
+  // console.log(categories);
 
   async componentDidMount() {
     this.fetchPharmacists().then(() => this.sync());
     // this.setState({
-        //   user: JSON.parse(localStorage.getItem("authenticatedUser")),
-        // });
-        console.log(this.state.categories, 2435452);
+    //   user: JSON.parse(localStorage.getItem("authenticatedUser")),
+    // });
   }
 
   async fetchPharmacists() {
-    const fetchPharmacistsUrl = getAllPharmacistUrl()
+    const fetchPharmacistsUrl = getAllPharmacistUrl();
     const fetchPharmacistConfig = fetchConfig({
-        url:fetchPharmacistsUrl, 
-        method: "get",
-    })
+      url: fetchPharmacistsUrl,
+      method: "get",
+    });
     try {
-        const response = await fetchWrapper(fetchPharmacistConfig)
-        console.log("nana", response);
-        
+      const response = await fetchWrapper(fetchPharmacistConfig);
+      console.log("name", response);
+      this.setState({ pharmacists: response.data.pharmacists });
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
     }
     // const res = await fetch(`${apiUrl}Pharmacy/GetAllPharmacists`);
     // const response = await res.json();
-    // this.setState({ categories: response.pharmacy });
   }
 
   sync() {
     this.$el = $(this.el);
-    this.$el.DataTable(); 
+    this.$el.DataTable();
     console.log($(this.el));
   }
 
   render() {
-    const { user } = this.state;
-    console.log("findam", this.state.categories);
+    const { pharmacists } = this.state;
+    console.log("findam", pharmacists);
     return (
       <>
         <PageLoader />
-
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -90,7 +84,7 @@ class AllPharmacists extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">No of Pharmacists</h6>
                         <div className="count text-primary fs-20">
-                          {this.state.categories.length}
+                          {pharmacists?.length}
                         </div>
                       </div>
                     </div>
@@ -123,7 +117,7 @@ class AllPharmacists extends React.Component {
                           </tr>
                         </thead>
                         <tbody>
-                          {this.state.categories.map((category, index) => {
+                          {pharmacists.map((pharmacist, index) => {
                             return (
                               <tr>
                                 <td>
@@ -133,47 +127,47 @@ class AllPharmacists extends React.Component {
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.fullName}
+                                    {pharmacist?.fullName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap" style={{textTransform: "lowercase"}}>
+                                    {pharmacist?.pharmacy?.email}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.pharmacy.email}
+                                    {pharmacist?.pharmacy?.phoneNumber ?? "N/A"}
+                                  </div>
+                                </td>
+                                {/* <td>
+                                  <div className="text-muted text-nowrap">
+                                    {pharmacist?.noofServices}
+                                  </div>
+                                </td> */}
+                                {/* <td>
+                                  <div className="text-muted text-nowrap">
+                                    {pharmacist?.invoiceNumber}
+                                  </div>
+                                </td> */}
+                                {/* <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatDate(pharmacist?.dateGenerated) ?? ""}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.pharmacy.phoneNumber}
-                                  </div>
-                                </td>
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {category?.noofServices}
+                                    {formatAmount(pharmacist?.cost) ?? ""}
                                   </div>
                                 </td> */}
                                 {/* <td>
                                   <div className="text-muted text-nowrap">
-                                    {category?.invoiceNumber}
-                                  </div>
-                                </td> */}
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatDate(category?.dateGenerated) ?? ""}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatAmount(category?.cost) ?? ""}
-                                  </div>
-                                </td> */}
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {category?.paymentStatus === "NOT PAID" ? (
+                                    {pharmacist?.paymentStatus === "NOT PAID" ? (
                                       <>
                                         <img src={notpaid} alt="not paid" /> Not
                                         paid
                                       </>
-                                    ) : category?.paymentStatus === "PAID" ? (
+                                    ) : pharmacist?.paymentStatus === "PAID" ? (
                                       <>
                                         <img src={paid} alt="paid" /> Paid
                                       </>
@@ -198,58 +192,12 @@ class AllPharmacists extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                     <NavLink
-                                    to={`/DoctorProfile/${category.pharmacyId}`}
+                                    to={`/AdminViewPharmacistProfile/${pharmacist?.pharmacy?.id}`}
                                     className="btn btn-sm btn-block"
                                   >
-                                      {/* {user.userType ===
-                                      "Lab" ? null : category?.paymentStatus ===
-                                          "NOT PAID" ||
-                                        category?.paymentStatus ===
-                                          "INCOMPLETE" ? (
-                                        <NavLink
-                                          to={{
-                                            pathname:
-                                              user.userType === "Admin"
-                                                ? `/AdminPaymentForService/${category.id}`
-                                                : `/AccountPaymentForService/${category.id}`,
-                                            state: {
-                                              invoiceId: category.id,
-                                              patientId: category.patientId,
-                                              invoiceNumber:
-                                                category.invoiceNumber,
-                                              user: user,
-                                            },
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                          Pay for Services
-                                        </NavLink>
-                                      ) : null}
-
-                                      <NavLink
-                                        to={{
-                                          pathname:
-                                            user.userType === "Admin"
-                                              ? `/AdminViewServiceRequestContents/${category.id}`
-                                              : user.userType === "Lab"
-                                              ? `/LabServiceRequestContents/${category.id}`
-                                              : `/AccountServiceRequestContents/${category.id}`,
-                                          state: {
-                                            invoiceId: category.id,
-                                            patientId: category.patientId,
-                                            invoiceNumber:
-                                              category.invoiceNumber,
-                                            paymentStatus:
-                                              category.paymentStatus,
-                                            user: user,
-                                          },
-                                        }}
-                                        className="btn btn-sm btn-block"
-                                      >
-                                        <span className="btn-icon icofont-server mr-2" />
-                                        View Contents */}
-                                      </NavLink>
+                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                    View Profile
+                                  </NavLink>
                                     </div>
                                   </div>
                                 </td>
@@ -265,12 +213,12 @@ class AllPharmacists extends React.Component {
             </div>
           </div>
         </main>
-    //   </>
-    // <div>
-    //     hello world
-    // </div>
+        //{" "}
+      </>
+      // <div>
+      //     hello world
+      // </div>
     );
-
   }
 }
 
