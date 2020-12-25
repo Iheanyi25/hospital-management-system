@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import formatDate from "../../utils/formatDate";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
@@ -138,8 +139,8 @@ class PatientAccount extends React.Component {
                             </thead>
                             <tbody>
                               {accountTransactions
-                                ? accountTransactions.map((transaction) => (
-                                    <tr>
+                                ? accountTransactions.map((transaction, index) => (
+                                    <tr key={index}>
                                       <td>{transaction.amount}</td>
                                       <td>
                                         <td>{transaction.transactionType}</td>
@@ -151,12 +152,14 @@ class PatientAccount extends React.Component {
                                         <td>{transaction.description}</td>
                                       </td>
                                       <td>
-                                        <td>{transaction.trasactionDate}</td>
+                                        <td>
+                                          {formatDate(
+                                            transaction.trasactionDate
+                                          )}
+                                        </td>
                                       </td>
                                       <td>
-                                        <td>
-                                          {transaction.amount}
-                                        </td>
+                                        <td>{transaction.amount}</td>
                                       </td>
                                     </tr>
                                   ))
