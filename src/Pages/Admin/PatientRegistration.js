@@ -7,25 +7,23 @@ import {
 } from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
 import { Success } from "../../Components/Alerts";
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class PatientRegistration extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-      patients: [],
-      apiUrl: process.env.REACT_APP_API_URL,
-      patientId: "",
-      email: "",
-      amount: "",
-      invoiceNumber: "",
-      success: false,
-    };
-  }
+  static contextType = UserContext;
+  state = {
+    patients: [],
+    apiUrl: process.env.REACT_APP_API_URL,
+    patientId: "",
+    email: "",
+    amount: "",
+    invoiceNumber: "",
+    success: false,
+  };
 
   componentDidMount() {
     const { patientId, email, cost } = this.props.location.state;
@@ -46,7 +44,7 @@ class PatientRegistration extends React.Component {
         }
       );
       const data = await res.json();
-      console.log( data.patientRegistrationInvoice);
+      console.log(data.patientRegistrationInvoice);
       this.setState({
         invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber,
       });
@@ -75,7 +73,7 @@ class PatientRegistration extends React.Component {
       invoiceNumber: invoiceNumber,
       description: description,
       modeOfPayment: modeOfPayment,
-      referenceNumber: reference
+      referenceNumber: reference,
     };
 
     console.log(payload);
@@ -98,7 +96,9 @@ class PatientRegistration extends React.Component {
     }
   };
   render() {
-    const { amount, email, user } = this.state;
+    const content = this.context;
+    const { user } = content;
+    const { amount, email } = this.state;
     return (
       <>
         <PageLoader />
@@ -124,7 +124,7 @@ class PatientRegistration extends React.Component {
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">{formatAmount(this.state.amount)}</h4>
+              <h4 className="text-info">{formatAmount(amount)}</h4>
             </div>
 
             <div className="page-content">
@@ -225,4 +225,4 @@ class PatientRegistration extends React.Component {
   }
 }
 
-export default PatientRegistration;
+export default observer(PatientRegistration);
