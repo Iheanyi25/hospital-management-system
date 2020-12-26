@@ -1,6 +1,8 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -8,11 +10,8 @@ const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class PatientAccount extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+  static contextType = UserContext;
+    state = {
       accountBalance: 0,
       accountTransactions: [],
       acceptedAppointments: [],
@@ -20,17 +19,18 @@ class PatientAccount extends React.Component {
       pendingAppointments: [],
       completedAppointments: [],
     };
-  }
 
   async componentDidMount() {
+    const content = this.context;
+    const { user } = content;
     const { patientId } = this.state;
     const response = await fetch(
-      `${apiUrl}/Patient/Account/GetAccountBalance?PatientId=${this.state.patientId}`
+      `${apiUrl}/Patient/Account/GetAccountBalance?PatientId=${user.id}`
     );
     const data = await response.json();
 
     const response1 = await fetch(
-      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${patientId}`
+      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${user.id}`
     );
     const data1 = await response1.json();
     console.log(data1.accountTransactions);
@@ -55,6 +55,7 @@ class PatientAccount extends React.Component {
 
   render() {
     const { accountBalance, accountTransactions } = this.state;
+    console.log(accountTransactions);
 
     return (
       <>
@@ -139,30 +140,32 @@ class PatientAccount extends React.Component {
                             </thead>
                             <tbody>
                               {accountTransactions
-                                ? accountTransactions.map((transaction, index) => (
-                                    <tr key={index}>
-                                      <td>{transaction.amount}</td>
-                                      <td>
-                                        <td>{transaction.transactionType}</td>
-                                      </td>
-                                      <td>
-                                        <td>{transaction.paidBy}</td>
-                                      </td>
-                                      <td>
-                                        <td>{transaction.description}</td>
-                                      </td>
-                                      <td>
-                                        <td>
-                                          {formatDate(
-                                            transaction.trasactionDate
-                                          )}
-                                        </td>
-                                      </td>
-                                      <td>
+                                ? accountTransactions.map(
+                                    (transaction, index) => (
+                                      <tr key={index}>
                                         <td>{transaction.amount}</td>
-                                      </td>
-                                    </tr>
-                                  ))
+                                        <td>
+                                          <td>{transaction.transactionType}</td>
+                                        </td>
+                                        <td>
+                                          <td>{transaction.paidBy}</td>
+                                        </td>
+                                        <td>
+                                          <td>{transaction.description}</td>
+                                        </td>
+                                        <td>
+                                          <td>
+                                            {formatDate(
+                                              transaction.trasactionDate
+                                            )}
+                                          </td>
+                                        </td>
+                                        <td>
+                                          <td>{transaction.amount}</td>
+                                        </td>
+                                      </tr>
+                                    )
+                                  )
                                 : null}
                             </tbody>
                           </table>
@@ -288,4 +291,4 @@ class PatientAccount extends React.Component {
   }
 }
 
-export default PatientAccount;
+export default observer(PatientAccount);

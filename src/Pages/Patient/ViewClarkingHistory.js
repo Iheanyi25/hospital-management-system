@@ -1,8 +1,10 @@
+import { observer } from "mobx-react";
 import React from "react";
-import { PageLoader } from "../../Components";
 import { ClarkingHistory } from "../../Components/Clarking";
+import { UserContext } from "../../mobx/UserState";
 
 class ViewClarkingHistory extends React.Component {
+  static contextType = UserContext;
   state = {
     count: "",
   };
@@ -13,9 +15,10 @@ class ViewClarkingHistory extends React.Component {
   };
 
   render() {
-    const { firstName, lastName, id } = JSON.parse(
-      localStorage.getItem("authenticatedUser")
-    );
+    const content = this.context;
+    const { user } = content;
+    const { firstName, lastName, id } = user;
+    const { count } = this.state;
     return (
       <main className="main-content">
         <div className="app-loader">
@@ -38,7 +41,7 @@ class ViewClarkingHistory extends React.Component {
                     <div className="col col-7">
                       <h6 className="mt-0 mb-1">Clarking</h6>
                       <div className="count text-primary fs-20">
-                        {this.state.count}
+                        {count}
                       </div>
                     </div>
                   </div>
@@ -59,4 +62,4 @@ class ViewClarkingHistory extends React.Component {
   }
 }
 
-export default ViewClarkingHistory;
+export default observer(ViewClarkingHistory);
