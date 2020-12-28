@@ -5,6 +5,8 @@ import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
 import AdminAllPharmacists from "../Pages/Admin/AllPharmacist"
+import AdminAllAccountants from "../Pages/Admin/AllAccountants";
+import AdminAllLabTechnicians from "../Pages/Admin/AllLab";
 import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
 import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
@@ -30,6 +32,9 @@ import ManagePrescriptionInvoice from "../Pages/Admin/Pharmacy/ManagePrescriptio
 import PaymentForPrescription from "../Pages/Admin/Pharmacy/PaymentForPrescription";
 import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
 import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
+import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
+import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
+import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -56,7 +61,6 @@ import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans
 import SelectFamily from "../Pages/Admin/SelectFamily";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
-import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
 
 export default function AdminRoutes() {
   return (
@@ -77,6 +81,8 @@ export default function AdminRoutes() {
           <Route exact path="/AdminAllPatients" component={AllPatients} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
           <Route exact path="/AdminAllPharmacists" component={AdminAllPharmacists}/>
+          <Route exact path="/AdminAllAccountants" component={AdminAllAccountants}/>
+          <Route exact path="/AdminAllLabTechnicians" component={AdminAllLabTechnicians}/>
           <Route
             exact
             path="/AdminBookAppointment"
@@ -222,8 +228,11 @@ export default function AdminRoutes() {
           <Route exact path="/AdminDrugPrescription/:id" component={DrugPrescription} />
           <Route exact path="/AdminManagePrescriptionInvoice" component={ManagePrescriptionInvoice} />
           <Route exact path="/AdminPaymentForPrescription/:id" component={PaymentForPrescription} />
-          
+          <Route exact path="/AdminViewAccountantProfile/:id" component={ViewAccountantProfile} />
           <Route exact path="/AdminViewPharmacistProfile/:id" component={ViewPharmacyProfile} />
+          <Route exact path="/AdminViewLabProfile/:id" component={ViewLabProfile} />
+
+
 
           <Route
             exact

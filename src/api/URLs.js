@@ -7,6 +7,8 @@ export const logInUrl = () => `${apiUrl}/Auth/Login`;
 export const registerUserUrl = () => `${apiUrl}/Admin/Register`;
 
 //labTechnician endpoints
+export const getAllLabTechniciansUrl = () =>
+    `${apiUrl}/Lab/GetAllLabTechnicians?`;
 export const getLabProfileUrl = (labId) =>
   `${apiUrl}/Lab/GetALabTechnician?id=${labId}`;
 export const updateLabTechnicianBasicInfoUrl = () =>
@@ -46,6 +48,8 @@ export const getDAllrugDispencingInvoicesUrl = () =>
 export const payForDrugsUrl = () => `${apiUrl}/Pharmacy/PayForDrugs`;
 
 //accountant endpoints
+export const getAllAccountantsUrl = () =>
+    `${apiUrl}/Accountant/GetAccountants?`;
 export const getAccountantProfileUrl = (accountantId) =>
   `${apiUrl}/Accountant/GetAccountant?AccountantId=${accountantId}`;
 export const updateAccountantBasicInfoUrl = () =>
