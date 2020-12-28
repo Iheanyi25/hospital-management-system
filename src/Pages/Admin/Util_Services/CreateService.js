@@ -1,13 +1,17 @@
 import React from "react";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
-import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
+import { UserContext } from "../../../mobx/UserState";
+import {
+  isNotEmptyString,
+  isValidPositiveInteger,
+} from "../../../utils/validationUtils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class CreateService extends React.Component {
+  static contextType = UserContext;
   state = {
-    user: {},
     categories: [],
 
     name: "",
@@ -15,13 +19,10 @@ class CreateService extends React.Component {
     cost: "",
 
     success: false,
-    formDone: false
+    formDone: false,
   };
 
   componentDidMount() {
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
     this.fetchServiceCategories();
   }
 
@@ -31,10 +32,9 @@ class CreateService extends React.Component {
 
   componentDidUpdate() {
     const { formDone } = this.state;
-    if ( this.checkValidity() && !formDone) {
+    if (this.checkValidity() && !formDone) {
       this.setState((state) => ({ ...state, formDone: true }));
-    }
-    else if(!this.checkValidity() && formDone){
+    } else if (!this.checkValidity() && formDone) {
       this.setState((state) => ({ ...state, formDone: false }));
     }
   }
@@ -82,17 +82,19 @@ class CreateService extends React.Component {
     }
   };
 
-   checkValidity = () => {
-    const {name,cost,serviceCategoryId } = this.state;
+  checkValidity = () => {
+    const { name, cost, serviceCategoryId } = this.state;
     return (
       isNotEmptyString(name) &&
       isNotEmptyString(serviceCategoryId) &&
-      isValidPositiveInteger(cost) 
+      isValidPositiveInteger(cost)
     );
-  }
+  };
 
   render() {
-    const { user, success, categories, formDone } = this.state;
+    const content = this.context;
+    const { user } = content;
+    const { success, categories, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -189,7 +191,11 @@ class CreateService extends React.Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary" disabled={formDone? false : true}>
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              disabled={formDone ? false : true}
+                            >
                               Submit
                             </button>
                           </div>
