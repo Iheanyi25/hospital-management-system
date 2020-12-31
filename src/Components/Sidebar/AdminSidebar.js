@@ -198,7 +198,7 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                       <li className="menu-item">
-												<Link className="item-link">
+												<Link to="/AdminAllAccountants" className="item-link">
 													<span className="link-text">Manage Accountants</span>
 												</Link>
 											</li>
@@ -224,11 +224,11 @@ class AdminSidebar extends React.Component {
                           </span>
                         </Link>
                       </li>
-                      {/* <li className="menu-item">
-												<div className="item-link">
-													<span className="link-text">Manage Accountants</span>
+                      <li className="menu-item">
+												<Link to="/AdminAllLabTechnicians" className="item-link">
+													<span className="link-text">Manage Lab Techicians</span>
 												</Link>
-											</li> */}
+											</li>
                     </ul>
                   </li>
 
