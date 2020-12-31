@@ -10,9 +10,9 @@ export default function Bio({ bioDetails }) {
     const { firstName, lastName, phoneNumber, email, userType  } = bioDetails;
     const title = {
         Pharmacy: "Pharm.",
-        lab: "Lab scientist.",
+        Lab: "Lab scientist.",
         Accountant: "Acc."
-    }
+	}
 	return (
 		<div>
 			<header className="page-header ml-3">
