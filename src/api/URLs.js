@@ -14,11 +14,11 @@ export const updateLabTechnicianBasicInfoUrl = () =>
 export const updateLabTechnicianContactDetailsUrl = () =>
   `${apiUrl}/Lab/UpdateLabProfileContactDetails`;
 
-  //Pharmacy endpoints
-  export const getAllPharmacistUrl = () =>
-    `${apiUrl}/Pharmacy/GetAllPharmacists?`;
-  export const getPharmacistProfileUrl = (pharmId) =>
-    `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
+//Pharmacy endpoints
+export const getAllPharmacistUrl = () =>
+  `${apiUrl}/Pharmacy/GetAllPharmacists?`;
+export const getPharmacistProfileUrl = (pharmId) =>
+  `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
 export const updatePharmacistBasicInfoUrl = () =>
   `${apiUrl}/Pharmacy/UpdatePharmacistBasicInfo`;
 export const updatePharmacistContactDetailsUrl = () =>
@@ -44,7 +44,8 @@ export const generateDrugDispenseInvoiceUrl = () =>
 export const getDAllrugDispencingInvoicesUrl = () =>
   `${apiUrl}/Pharmacy/GetDrugDispencingInvoices`;
 export const payForDrugsUrl = () => `${apiUrl}/Pharmacy/PayForDrugs`;
-
+export const getDrugsInAnInvoice = (invoiceNumber) =>
+  `${apiUrl}/Pharmacy/GetDrugsInAnInvoice/${invoiceNumber}`;
 //accountant endpoints
 export const getAccountantProfileUrl = (accountantId) =>
   `${apiUrl}/Accountant/GetAccountant?AccountantId=${accountantId}`;
@@ -71,7 +72,11 @@ export const updateAdminBasicInfoUrl = () =>
   `${apiUrl}/Admin/UpdateAdminBasicInfo`;
 export const updateAdminContactDetailsUrl = () =>
   `${apiUrl}/Admin/UpdateAdminContactDetails`;
-export const getPatientConsultationsUrl = () => `${apiUrl}/Admin/GetPatientConsultations`;
-export const getPatientConsultationCountUrl = () => `${apiUrl}/Admin/GetPatientConsultationCount`;
-export const getPatientsUnattentedToCountUrl = () => `${apiUrl}/Admin/GetPatientsUnattendedToCount`;
-export const getPatientsAttentedToCountUrl = () => `${apiUrl}/Admin/GetPatientsAttendedToCount`;
+export const getPatientConsultationsUrl = () =>
+  `${apiUrl}/Admin/GetPatientConsultations`;
+export const getPatientConsultationCountUrl = () =>
+  `${apiUrl}/Admin/GetPatientConsultationCount`;
+export const getPatientsUnattentedToCountUrl = () =>
+  `${apiUrl}/Admin/GetPatientsUnattendedToCount`;
+export const getPatientsAttentedToCountUrl = () =>
+  `${apiUrl}/Admin/GetPatientsAttendedToCount`;
