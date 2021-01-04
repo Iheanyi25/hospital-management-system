@@ -2,7 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
-import { getDAllrugDispencingInvoicesUrl } from "../../../api/URLs";
+import {
+  getDAllrugDispencingInvoicesUrl,
+  getDrugsInAnInvoice,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
 import formatDate from "../../../utils/formatDate";
@@ -10,6 +13,7 @@ import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
+import { PrescriptionReciept } from "../../../Components/Modals";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -17,6 +21,7 @@ class ManagePrescriptionInvoice extends React.Component {
   static contextType = UserContext;
   state = {
     prescriptionInvoices: [],
+    drugs: [],
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
@@ -38,6 +43,19 @@ class ManagePrescriptionInvoice extends React.Component {
     );
   }
 
+  async fetchDrugsInAnInvoice(invoiceNumber) {
+    const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
+    const getDrugsInAnInvoiceConfig = fetchConfig({
+      url: invoicesUrl,
+      method: "get",
+    });
+    const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
+    console.log(response);
+    this.setState({ drugs: response?.data?.drugsInInvoice || [] }, () =>
+      $("#showInvoice").modal("show")
+    );
+  }
+
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
@@ -46,7 +64,8 @@ class ManagePrescriptionInvoice extends React.Component {
   render() {
     const content = this.context;
     const { user } = content;
-    const { prescriptionInvoices } = this.state;
+    const { prescriptionInvoices, drugs } = this.state;
+    console.log(prescriptionInvoices);
     return (
       <>
         <PageLoader />
@@ -152,19 +171,19 @@ class ManagePrescriptionInvoice extends React.Component {
                                   </div>
                                 </td>
                                 <td>
-                                  {prescriptionInvoice?.paymentStatus ===
-                                  "NOT PAID" ? (
-                                    <div className="btn-group">
-                                      <button
-                                        type="button"
-                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                      >
-                                        Action
-                                      </button>
-                                      <div className="dropdown-menu">
+                                  <div className="btn-group">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                    >
+                                      Action
+                                    </button>
+                                    <div className="dropdown-menu">
+                                      {prescriptionInvoice?.paymentStatus ===
+                                      "NOT PAID" ? (
                                         <Link
                                           to={{
                                             pathname:
@@ -178,11 +197,22 @@ class ManagePrescriptionInvoice extends React.Component {
                                           <span className="btn-icon icofont-server mr-2" />
                                           Pay now
                                         </Link>
-                                      </div>
+                                      ) : (
+                                        <Link
+                                          to="#"
+                                          className="btn btn-sm btn-block"
+                                          onClick={() =>
+                                            this.fetchDrugsInAnInvoice(
+                                              prescriptionInvoice.invoiceNumber
+                                            )
+                                          }
+                                        >
+                                          <span className="btn-icon icofont-server mr-2" />
+                                          View Reciept
+                                        </Link>
+                                      )}
                                     </div>
-                                  ) : (
-                                    "Paid"
-                                  )}
+                                  </div>
                                 </td>
                               </tr>
                             )
@@ -196,6 +226,11 @@ class ManagePrescriptionInvoice extends React.Component {
             </div>
           </div>
         </main>
+        <PrescriptionReciept
+          costingDetails={drugs}
+          // doctor={prescription?.doctor}
+          // patient={prescription?.patient}
+        />
       </>
     );
   }
