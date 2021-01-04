@@ -4,9 +4,9 @@ import { fetchConfig } from "../../../../../api/fetchConfig";
 import { useRequest, fetchWrapper } from "../../../../../api/fetcher";
 import { getDrugPricesUrl, deleteDrugPricesUrl } from "../../../../../api/URLs";
 import edit from "../../../../../assets/img/edit.svg";
-import empty from "../../../../../assets/img/empty.svg";
 import remove from "../../../../../assets/img/remove.svg";
 import { PageLoader } from "../../../../../Components";
+import EmptyState from "../../../../../Components/EmptyState/EmptyUploadState";
 import { CreateHealthPlanPrice } from "../../../../../Components/Modals/CreateHealthPlanPrice";
 import { EditHealthPlanPrice } from "../../../../../Components/Modals/EditHealthPlanPrice";
 import formatAmount from "../../../../../utils/formatAmount";
@@ -48,18 +48,12 @@ const HealthPlanPrice = ({ drugId }) => {
       {!data ? (
         <PageLoader />
       ) : prices.length === 0 ? (
-        <div className="text-center" style={{ marginTop: "200px" }}>
-          <img src={empty} alt="empty" />
-          <p className="text-secondary mb-0 mt-3">
-            Set prices for different health plans here
-          </p>
-          <Link
-            to="#"
-            data-toggle="modal"
-            data-target="#create-healthplan-price"
-          >
-            Create new price
-          </Link>
+        <div style={{ marginTop: "200px" }}>
+          <EmptyState
+            message="Set prices for different health plans here"
+            target="#create-healthplan-price"
+            targetDescription="Create new price"
+          />
         </div>
       ) : (
         <>
