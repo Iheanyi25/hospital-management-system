@@ -13,7 +13,7 @@ import {
   SelectableDropDown,
 } from "../../../Components";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import PrescriptionInvoice from "../../../Components/Modals/PrescriptionInvoice";
+import { PrescriptionInvoice } from "../../../Components/Modals";
 import { Success } from "../../../Components/Alerts";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";

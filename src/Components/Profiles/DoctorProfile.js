@@ -28,6 +28,7 @@ import location from "../../assets/img/location.svg";
 import remove from "../../assets/img/remove.svg";
 import close from "../../assets/img/close.svg";
 import { UserContext } from "../../mobx/UserState";
+import EmptyState from "../EmptyState/EmptyUploadState";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 class DocProfile extends React.Component {
@@ -227,15 +228,21 @@ class DocProfile extends React.Component {
                             ) ?? "N/A"}
                             {/* General practioner, nuerosurgeon * */}
                           </p>
-                          <Link
-                            to={{
-                              pathname: "/changepassword",
-                              query: { userType: "doctor" },
-                            }}
-                          >
-                            <img src={reset} alt="reset" className="mr-2" />
-                            <img src={resetText} alt="reset" className="mr-2" />
-                          </Link>
+                          {user.userType === "Doctor" ? (
+                            <Link
+                              to={{
+                                pathname: "/changepassword",
+                                query: { userType: "doctor" },
+                              }}
+                            >
+                              <img src={reset} alt="reset" className="mr-2" />
+                              <img
+                                src={resetText}
+                                alt="reset"
+                                className="mr-2"
+                              />
+                            </Link>
+                          ) : null}
                         </div>
                       </div>
                       <div className="mt-2">
@@ -260,7 +267,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                            {this.props.user ? null : (
+                            {user.userType === "Doctor" ? (
                               <img
                                 src={add}
                                 alt="reset"
@@ -269,33 +276,34 @@ class DocProfile extends React.Component {
                                 data-target="#add-education"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            ) : null}
                           </div>
-                          {this.props.user ? null : this.state
-                              .displayDeleteEducation ? (
-                            <img
-                              src={close}
-                              alt="reset"
-                              className="ml-2 mode-animation"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteEducation: false,
-                                })
-                              }
-                            />
-                          ) : (
-                            <img
-                              src={remove}
-                              alt="reset"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteEducation: true,
-                                })
-                              }
-                            />
-                          )}
+                          {user.userType === "Doctor" ? (
+                            this.state.displayDeleteEducation ? (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2 mode-animation"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteEducation: false,
+                                  })
+                                }
+                              />
+                            ) : (
+                              <img
+                                src={remove}
+                                alt="reset"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteEducation: true,
+                                  })
+                                }
+                              />
+                            )
+                          ) : null}
                         </div>
                         {educations?.map((education, index) => (
                           <div className="row mx-0 mt-4" key={index}>
@@ -314,8 +322,7 @@ class DocProfile extends React.Component {
                             </div>
                             <div className="col-1 p-0 text-right">
                               <p></p>
-                              {this.props.user ? null : this.state
-                                  .displayDeleteEducation ? (
+                              {this.state.displayDeleteEducation ? (
                                 <img
                                   src={remove}
                                   alt="reset"
@@ -332,6 +339,18 @@ class DocProfile extends React.Component {
                             </div>
                           </div>
                         )) ?? "N/A"}
+                        {educations.length === 0 ? (
+                          <div style={{ marginTop: "50px" }}>
+                            <EmptyState
+                              message="Nothing uploaded yet"
+                              target="#add-education"
+                              targetDescription="Upload"
+                              noAction={
+                                user.userType === "Doctor" ? false : true
+                              }
+                            />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -343,7 +362,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Experience
                             </h6>
-                            {this.props.user ? null : (
+                            {user.userType === "Doctor" ? (
                               <img
                                 src={add}
                                 alt="reset"
@@ -352,33 +371,34 @@ class DocProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            ) : null}
                           </div>
-                          {this.props.user ? null : this.state
-                              .displayDeleteExperience ? (
-                            <img
-                              src={close}
-                              alt="reset"
-                              className="ml-2 mode-animation"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteExperience: false,
-                                })
-                              }
-                            />
-                          ) : (
-                            <img
-                              src={remove}
-                              alt="reset"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteExperience: true,
-                                })
-                              }
-                            />
-                          )}
+                          {user.userType === "Doctor" ? (
+                            this.state.displayDeleteExperience ? (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2 mode-animation"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteExperience: false,
+                                  })
+                                }
+                              />
+                            ) : (
+                              <img
+                                src={remove}
+                                alt="reset"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteExperience: true,
+                                  })
+                                }
+                              />
+                            )
+                          ) : null}
                         </div>
                         {experiences?.map((experience, index) => (
                           <div className="row mx-0 mt-4" key={index}>
@@ -396,8 +416,7 @@ class DocProfile extends React.Component {
                             </div>
                             <div className="col-2 p-0 text-right">
                               <p></p>
-                              {this.props.user ? null : this.state
-                                  .displayDeleteExperience ? (
+                              {this.state.displayDeleteExperience ? (
                                 <img
                                   src={remove}
                                   alt="reset"
@@ -414,6 +433,18 @@ class DocProfile extends React.Component {
                             </div>
                           </div>
                         ))}
+                        {experiences.length === 0 ? (
+                          <div style={{ marginTop: "50px" }}>
+                            <EmptyState
+                              message="Nothing uploaded yet"
+                              target="#add-experience"
+                              targetDescription="Upload"
+                              noAction={
+                                user.userType === "Doctor" ? false : true
+                              }
+                            />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -427,7 +458,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Office Time
                             </h6>
-                            {this.props.user ? null : (
+                            {user.userType === "Doctor" ? (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -436,78 +467,94 @@ class DocProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            ) : null}
                           </div>
-                          {this.props.user ? null : this.state
-                              .displayDeleteOfficeTime ? (
-                            <img
-                              src={close}
-                              alt="reset"
-                              className="ml-2 mode-animation"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteOfficeTime: false,
-                                })
-                              }
-                            />
-                          ) : (
-                            <img
-                              src={remove}
-                              alt="reset"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteOfficeTime: true,
-                                })
-                              }
-                            />
-                          )}
+                          {user.userType === "Doctor" ? (
+                            this.state.displayDeleteOfficeTime ? (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2 mode-animation"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteOfficeTime: false,
+                                  })
+                                }
+                              />
+                            ) : (
+                              <img
+                                src={remove}
+                                alt="reset"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteOfficeTime: true,
+                                  })
+                                }
+                              />
+                            )
+                          ) : null}
                           {/* {this.props.user ? null : (
                             <img src={edit} alt="reset" className="mr-3 " />
                           )} */}
                         </div>
-                        <div className="row mx-0 mt-4 mb-2">
-                          <div className="col-8 p-0">
-                            <p className="font-weight-bold mb-2">Work days</p>
-                          </div>
-                          <div className="col-3 p-0">
-                            <p className="font-weight-bold mb-2">Period</p>
-                          </div>
-                          <div className="col-1 p-0"></div>
-                        </div>
                         {officeTime?.map((officeTime, index) => (
-                          <div className="row mx-0 mb-2" key={index}>
-                            <div className="col-8 p-0">
-                              <p className="mb-2">
-                                {officeTime?.workDays ?? "N/A"}
-                              </p>
+                          <>
+                            <div className="row mx-0 mt-4 mb-2">
+                              <div className="col-8 p-0">
+                                <p className="font-weight-bold mb-2">
+                                  Work days
+                                </p>
+                              </div>
+                              <div className="col-3 p-0">
+                                <p className="font-weight-bold mb-2">Period</p>
+                              </div>
+                              <div className="col-1 p-0"></div>
                             </div>
-                            <div className="col-3 p-0">
-                              <p className="text-nowrap">
-                                {formatTime(officeTime?.startTime) ?? "N/A"} -{" "}
-                                {formatTime(officeTime?.endTime) ?? "N/A"}
-                              </p>
+                            <div className="row mx-0 mb-2" key={index}>
+                              <div className="col-8 p-0">
+                                <p className="mb-2">
+                                  {officeTime?.workDays ?? "N/A"}
+                                </p>
+                              </div>
+                              <div className="col-3 p-0">
+                                <p className="text-nowrap">
+                                  {formatTime(officeTime?.startTime) ?? "N/A"} -{" "}
+                                  {formatTime(officeTime?.endTime) ?? "N/A"}
+                                </p>
+                              </div>
+                              <div className="col-1 p-0 text-right">
+                                {this.state.displayDeleteOfficeTime ? (
+                                  <img
+                                    src={remove}
+                                    alt="reset"
+                                    className="mode-animation"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      this.deleteItem(
+                                        "DeleteDoctorOfficeTime",
+                                        officeTime.id
+                                      )
+                                    }
+                                  />
+                                ) : null}
+                              </div>
                             </div>
-                            <div className="col-1 p-0 text-right">
-                              {this.props.user ? null : this.state
-                                  .displayDeleteOfficeTime ? (
-                                <img
-                                  src={remove}
-                                  alt="reset"
-                                  className="mode-animation"
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() =>
-                                    this.deleteItem(
-                                      "DeleteDoctorOfficeTime",
-                                      officeTime.id
-                                    )
-                                  }
-                                />
-                              ) : null}
-                            </div>
-                          </div>
+                          </>
                         )) ?? "N/A"}
+                        {officeTime.length === 0 ? (
+                          <div style={{ marginTop: "50px" }}>
+                            <EmptyState
+                              message="Nothing uploaded yet"
+                              target="#add-office-time"
+                              targetDescription="Upload"
+                              noAction={
+                                user.userType === "Doctor" ? false : true
+                              }
+                            />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -519,18 +566,8 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Contact Information
                             </h6>
-                            {/* {this.props.user ? null : (
-                              <img
-                                src={add}
-                                data-toggle="modal"
-                                data-target="#add-contact-info"
-                                alt="reset"
-                                className="ml-3 mb-2"
-                                style={{ cursor: "pointer" }}
-                              />
-                            )} */}
                           </div>
-                          {this.props.user ? null : (
+                          {user.userType === "Doctor" ? (
                             <img
                               src={edit}
                               data-toggle="modal"
@@ -539,7 +576,7 @@ class DocProfile extends React.Component {
                               className="mb-2"
                               style={{ cursor: "pointer" }}
                             />
-                          )}
+                          ) : null}
                         </div>
                         <div className="d-flex mt-4">
                           <img src={darkEmail} alt="email" className="mt-0" />
@@ -580,7 +617,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Specialization
                             </h6>
-                            {this.props.user ? null : (
+                            {user.userType === "Doctor" ? (
                               <img
                                 src={add}
                                 alt="reset"
@@ -589,40 +626,40 @@ class DocProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            ) : null}
                           </div>
-                          {this.props.user ? null : this.state
-                              .displayDeleteSpecialization ? (
-                            <img
-                              src={close}
-                              alt="reset"
-                              className="ml-2 mode-animation"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteSpecialization: false,
-                                })
-                              }
-                            />
-                          ) : (
-                            <img
-                              src={remove}
-                              alt="reset"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteSpecialization: true,
-                                })
-                              }
-                            />
-                          )}
+                          {user.userType === "Doctor" ? (
+                            this.state.displayDeleteSpecialization ? (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2 mode-animation"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteSpecialization: false,
+                                  })
+                                }
+                              />
+                            ) : (
+                              <img
+                                src={remove}
+                                alt="reset"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteSpecialization: true,
+                                  })
+                                }
+                              />
+                            )
+                          ) : null}
                         </div>
                         <div className="d-flex flex-wrap mt-4">
                           {specializations?.map((specialization, index) => (
-                            <p className="mr-5">
+                            <p className="mr-5" key={index}>
                               {specialization?.specialization}
-                              {this.props.user ? null : this.state
-                                  .displayDeleteSpecialization ? (
+                              {this.state.displayDeleteSpecialization ? (
                                 <img
                                   src={remove}
                                   alt="reset"
@@ -639,6 +676,18 @@ class DocProfile extends React.Component {
                             </p>
                           )) ?? "N/A"}
                         </div>
+                        {specializations.length === 0 ? (
+                          <div style={{ marginTop: "50px" }}>
+                            <EmptyState
+                              message="Nothing uploaded yet"
+                              target="#add-specialization"
+                              targetDescription="Upload"
+                              noAction={
+                                user.userType === "Doctor" ? false : true
+                              }
+                            />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -652,7 +701,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Websites & Socials
                             </h6>
-                            {this.props.user ? null : (
+                            {user.userType === "Doctor" ? (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -661,33 +710,34 @@ class DocProfile extends React.Component {
                                 className="ml-3 mb-2"
                                 style={{ cursor: "pointer" }}
                               />
-                            )}
+                            ) : null}
                           </div>
-                          {this.props.user ? null : this.state
-                              .displayDeleteWebsite ? (
-                            <img
-                              src={close}
-                              alt="reset"
-                              className="ml-2 mode-animation"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteWebsite: false,
-                                })
-                              }
-                            />
-                          ) : (
-                            <img
-                              src={remove}
-                              alt="reset"
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.setState({
-                                  displayDeleteWebsite: true,
-                                })
-                              }
-                            />
-                          )}
+                          {user.userType === "Doctor" ? (
+                            this.state.displayDeleteWebsite ? (
+                              <img
+                                src={close}
+                                alt="reset"
+                                className="ml-2 mode-animation"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteWebsite: false,
+                                  })
+                                }
+                              />
+                            ) : (
+                              <img
+                                src={remove}
+                                alt="reset"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  this.setState({
+                                    displayDeleteWebsite: true,
+                                  })
+                                }
+                              />
+                            )
+                          ) : null}
                         </div>
                         <div className="d-flex flex-wrap">
                           {socials?.map((social, index) =>
@@ -699,8 +749,7 @@ class DocProfile extends React.Component {
                                     <p className="mt-3 font-weight-bold mb-2">
                                       {social.webSite}
                                     </p>
-                                    {this.props.user ? null : this.state
-                                        .displayDeleteWebsite ? (
+                                    {this.state.displayDeleteWebsite ? (
                                       <img
                                         src={remove}
                                         alt="reset"
@@ -726,8 +775,7 @@ class DocProfile extends React.Component {
                                     <p className="mt-3 font-weight-bold mb-2">
                                       {social.webSite}
                                     </p>
-                                    {this.props.user ? null : this.state
-                                        .displayDeleteWebsite ? (
+                                    {this.state.displayDeleteWebsite ? (
                                       <img
                                         src={remove}
                                         alt="reset"
@@ -753,8 +801,7 @@ class DocProfile extends React.Component {
                                     <p className="mt-3 font-weight-bold mb-2">
                                       {social.webSite}
                                     </p>
-                                    {this.props.user ? null : this.state
-                                        .displayDeleteWebsite ? (
+                                    {this.state.displayDeleteWebsite ? (
                                       <img
                                         src={remove}
                                         alt="reset"
@@ -775,6 +822,18 @@ class DocProfile extends React.Component {
                             ) : null
                           ) ?? "N/A"}
                         </div>
+                        {socials.length === 0 ? (
+                          <div style={{ marginTop: "50px" }}>
+                            <EmptyState
+                              message="Nothing uploaded yet"
+                              target="#add-specialization"
+                              targetDescription="Upload"
+                              noAction={
+                                user.userType === "Doctor" ? false : true
+                              }
+                            />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -824,5 +883,5 @@ class DocProfile extends React.Component {
     );
   }
 }
- const DoctorProfile = observer(DocProfile);
+const DoctorProfile = observer(DocProfile);
 export { DoctorProfile };

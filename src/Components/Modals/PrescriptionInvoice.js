@@ -114,8 +114,8 @@ const PrescriptionInvoice = observer(
               {/* <div> */}
               <div className="container">
                 {details?.map((detail, index) => (
-                  <>
-                    <div className="row" key={index}>
+                  <div key={index}>
+                    <div className="row">
                       <p className="col-5 m-0">{detail?.drugName}</p>
                       <p className="col-4 m-0">
                         {" "}
@@ -129,7 +129,7 @@ const PrescriptionInvoice = observer(
                       {/* </div> */}
                     </div>
                     <hr />
-                  </>
+                  </div>
                 ))}
                 <div className="row">
                   <small className=" col-5 m-0"> </small>
@@ -172,4 +172,4 @@ const PrescriptionInvoice = observer(
   }
 );
 
-export default PrescriptionInvoice;
+export { PrescriptionInvoice };

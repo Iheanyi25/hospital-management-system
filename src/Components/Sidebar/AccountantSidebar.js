@@ -62,7 +62,7 @@ class AccountantSidebar extends React.Component {
                   <li className="menu-item">
                     <Link
                       className="item-link"
-                      to="/AccountManageServiceRequest"
+                      to="/AccountManagePrescriptionInvoice"
                     >
                       <span className="link-icon icofont-copy-invert" />{" "}
                       <span className="link-text">Prescription Invoices</span>

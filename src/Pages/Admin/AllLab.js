@@ -6,7 +6,7 @@ import formatDate from "../../utils/formatDate";
 import paid from "../../assets/img/paid.svg";
 import notpaid from "../../assets/img/notpaid.svg";
 import incomplete from "../../assets/img/incomplete.svg";
-import { getAllAccountantsUrl } from "../../api/URLs";
+import { getAllLabTechniciansUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 
@@ -14,33 +14,33 @@ let $ = window.$;
 $.DataTables = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 
-class AllAccountants extends React.Component {
+class AllLabTechnicians extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      accountants: [],
+        labTechnicians: [],
     };
   }
   // console.log(categories);
 
   async componentDidMount() {
-    this.fetchAccountants().then(() => this.sync());
+    this.fetchLabTechnicians().then(() => this.sync());
     // this.setState({
     //   user: JSON.parse(localStorage.getItem("authenticatedUser")),
     // });
   }
 
-  async fetchAccountants() {
-    const fetchAccountantsUrl = getAllAccountantsUrl();
-    const fetchAccountantsConfig = fetchConfig({
-      url: fetchAccountantsUrl,
+  async fetchLabTechnicians() {
+    const fetchLabTechniciansUrl = getAllLabTechniciansUrl();
+    const fetchLabTechniciansConfig = fetchConfig({
+      url: fetchLabTechniciansUrl,
       method: "get",
     });
     try {
-      const response = await fetchWrapper(fetchAccountantsConfig);
+      const response = await fetchWrapper(fetchLabTechniciansConfig);
       console.log("name", response);
-      this.setState({ accountants: response.data.labTechnicians });
+      this.setState({ labTechnicians: response.data.labTechnicians });
     } catch (error) {
       console.log(error);
     }
@@ -53,8 +53,8 @@ class AllAccountants extends React.Component {
   }
 
   render() {
-    const { accountants } = this.state;
-    console.log("findam", accountants);
+    const { labTechnicians } = this.state;
+    console.log("findam", labTechnicians);
     return (
       <>
         <PageLoader />
@@ -64,7 +64,7 @@ class AllAccountants extends React.Component {
           </div>
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Our Accountants</h4>
+              <h4 className="page-title">Our Lab Technicians</h4>
             </header>
             <div className="row">
               <div className="col col-12 col-md-6 col-xl-4">
@@ -75,9 +75,9 @@ class AllAccountants extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">No of Accountants</h6>
+                        <h6 className="mt-0 mb-1">No of Lab Technicians</h6>
                         <div className="count text-primary fs-20">
-                          {accountants?.length}
+                          {labTechnicians?.length}
                         </div>
                       </div>
                     </div>
@@ -99,14 +99,14 @@ class AllAccountants extends React.Component {
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Accountant Name</th>
+                            <th>Lab Technicians Name</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {accountants.map((accountant, index) => {
+                          {labTechnicians.map((labTechnicians, index) => {
                             return (
                               <tr key={index}>
                                 <td>
@@ -116,17 +116,17 @@ class AllAccountants extends React.Component {
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {accountant?.fullName}
+                                    {labTechnicians?.fullName}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap" style={{textTransform: "lowercase"}}>
-                                    {accountant?.accountant?.email}
+                                    {labTechnicians?.lab?.email}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {accountant?.accountant?.phoneNumber ?? "N/A"}
+                                    {labTechnicians?.lab?.phoneNumber ?? "N/A"}
                                   </div>
                                 </td>
                                 <td>
@@ -142,7 +142,7 @@ class AllAccountants extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                     <NavLink
-                                    to={`/AdminViewAccountantProfile/${accountant?.accountant?.id}`}
+                                    to={`/AdminViewLabProfile/${labTechnicians?.lab?.id}`}
                                     className="btn btn-sm btn-block"
                                   >
                                     <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
@@ -165,11 +165,8 @@ class AllAccountants extends React.Component {
         </main>
         //{" "}
       </>
-      // <div>
-      //     hello world
-      // </div>
     );
   }
 }
 
-export default AllAccountants;
+export default AllLabTechnicians;
