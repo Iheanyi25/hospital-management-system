@@ -151,7 +151,7 @@ class DocProfile extends React.Component {
             ) : null}
             <div className="main-content-wrap">
               <div className="page-content">
-                {this.props.user ? (
+                {user.userType === "Patient" ? (
                   <header className="page-header d-flex justify-content-between">
                     <h3 className="page-title">{`Dr. ${
                       doctor?.firstName ?? ""
@@ -598,10 +598,20 @@ class DocProfile extends React.Component {
                         </div>
                         <div className="d-flex mt-4">
                           <img src={location} alt="location" className="mt-0" />
-                          <div className="mt-4 ml-3">
+                          <div className="mt-3 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
-                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
-                            <p className="m-0">{`${doctorDetails.country}`}.</p>
+                            {doctorDetails.city === null &&
+                            doctorDetails.state === null &&
+                            doctorDetails.country === null ? (
+                              <p>N/A</p>
+                            ) : (
+                              <>
+                                <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                                <p className="m-0">
+                                  {`${doctorDetails.country}`}.
+                                </p>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
