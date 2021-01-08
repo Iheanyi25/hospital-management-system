@@ -14,7 +14,6 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
       ...details,
       [e.target.name]: e.target.value,
     });
-    console.log(details);
   };
 
   const handleSubmit = async (e) => {
@@ -23,6 +22,9 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
     drugData["numberOfContainers"] = details.numberOfContainers;
     drugData["numberOfUnits"] = details.numberOfUnits;
     drugData["numberOfCartons"] = details.numberOfCartons;
+
+    // validation to make sure that something was parsed
+    if (Object.values(details).includes("")) return;
 
     await setSubmit(drugData);
     setDetails({ numberOfContainers: "", numberOfUnits: "" });
