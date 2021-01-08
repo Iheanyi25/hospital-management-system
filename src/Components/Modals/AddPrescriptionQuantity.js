@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const $ = window.$;
 
@@ -8,6 +8,17 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
     numberOfContainers: "",
     numberOfCartons: "",
   });
+  const [canSubmit, setCanSubmit] = useState(false);
+
+  useEffect(() => {
+    // validation to make sure that something was parsed
+    if (Object.values(details).includes("")) {
+      setCanSubmit(false)
+    }
+    else {
+      setCanSubmit(true)
+    }
+  }, [details])
 
   const handleChange = (e) => {
     setDetails({
@@ -22,9 +33,6 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
     drugData["numberOfContainers"] = details.numberOfContainers;
     drugData["numberOfUnits"] = details.numberOfUnits;
     drugData["numberOfCartons"] = details.numberOfCartons;
-
-    // validation to make sure that something was parsed
-    if (Object.values(details).includes("")) return;
 
     await setSubmit(drugData);
     setDetails({ numberOfContainers: "", numberOfUnits: "" });
@@ -97,7 +105,7 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
                 >
                   Close
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" disabled={!canSubmit}>
                   Save
                 </button>
               </div>
