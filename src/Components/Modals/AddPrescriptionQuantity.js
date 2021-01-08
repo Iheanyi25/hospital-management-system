@@ -12,7 +12,10 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
 
   useEffect(() => {
     // validation to make sure that something was parsed
-    if (Object.values(details).includes("")) {
+    let vals = Object.values(details);
+    vals = vals.find(element => element > 0);
+
+    if (!vals) {
       setCanSubmit(false)
     }
     else {
@@ -29,9 +32,6 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (Object.values(details).findIndex(element => element > 0)) {
-      console.log("themes")
-    }
     let drugData = drug;
     drugData["numberOfContainers"] = details.numberOfContainers;
     drugData["numberOfUnits"] = details.numberOfUnits;
