@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import formatDate from "../../utils/formatDate";
 import formatAmount from "../../utils/formatAmount";
 
 const $ = window.$;
 
-const PrescriptionReciept = ({ costingDetails, doctor, patient }) => {
-  const [details, setDetails] = useState([]);
-  useEffect(() => {
-    setDetails(costingDetails);
-  }, [costingDetails]);
+const PrescriptionReciept = ({ recieptDetails }) => {
+  const patient = recieptDetails[0]?.clerking.patient;
+  const doctor = recieptDetails[0]?.clerking?.doctor;
   console.log(patient, "doctor");
-  console.log(details, "costingDetails");
+  console.log(recieptDetails, "costingDetails");
 
-  const totalPrice = details.reduce(
+  const totalPrice = recieptDetails.reduce(
     (amount, newAmount) => amount + newAmount.priceTotal,
     0
   );
@@ -20,7 +18,7 @@ const PrescriptionReciept = ({ costingDetails, doctor, patient }) => {
   return (
     <div
       className="modal fade"
-      id="showInvoice"
+      id="view-reciept"
       tabIndex={-1}
       role="dialog"
       aria-hidden="true"
@@ -80,18 +78,28 @@ const PrescriptionReciept = ({ costingDetails, doctor, patient }) => {
             <hr />
             {/* <div> */}
             <div className="container">
-              {details?.map((detail, index) => (
+              {recieptDetails?.map((detail, index) => (
                 <div key={index}>
                   <div className="row">
-                    <p className="col-5 m-0">{detail?.drugName}</p>
+                    <p className="col-5 m-0">{detail?.drug.name}</p>
                     <p className="col-4 m-0">
-                      {" "}
-                      {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
-                      {`${Number(detail?.numberOfContainers) ?? 0}  tablets, `}
-                      {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
+                      {Number(detail?.numberOfUnits) === 1
+                        ? `${detail.numberOfUnits} tablet * `
+                        : Number(detail?.numberOfUnits) > 1
+                        ? `${detail.numberOfUnits} tablets * `
+                        : null}
+                      {Number(detail?.numberOfContainers) === 1
+                        ? `${detail.numberOfContainers} pack * `
+                        : Number(detail?.numberOfContainers) > 1
+                        ? `${detail.numberOfContainers} packs * `
+                        : null}
+                      {Number(detail?.numberOfCartons) === 1
+                        ? `${detail.numberOfCartons} carton * `
+                        : Number(detail?.numberOfCartons) > 1
+                        ? `${detail.numberOfCartons} cartons * `
+                        : null}{" "}
                     </p>
                     <p className="col-2 m-0">&#8358; {detail?.priceTotal}</p>
-                    {/* </div> */}
                   </div>
                   <hr />
                 </div>

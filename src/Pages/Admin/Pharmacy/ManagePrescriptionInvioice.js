@@ -65,7 +65,6 @@ class ManagePrescriptionInvoice extends React.Component {
     const content = this.context;
     const { user } = content;
     const { prescriptionInvoices, drugs } = this.state;
-    console.log(prescriptionInvoices);
     return (
       <>
         <PageLoader />
@@ -201,6 +200,8 @@ class ManagePrescriptionInvoice extends React.Component {
                                         <Link
                                           to="#"
                                           className="btn btn-sm btn-block"
+                                          data-toggle="modal"
+                                          data-target="#view-reciept"
                                           onClick={() =>
                                             this.fetchDrugsInAnInvoice(
                                               prescriptionInvoice.invoiceNumber
@@ -226,11 +227,7 @@ class ManagePrescriptionInvoice extends React.Component {
             </div>
           </div>
         </main>
-        <PrescriptionReciept
-          costingDetails={drugs}
-          // doctor={prescription?.doctor}
-          // patient={prescription?.patient}
-        />
+        <PrescriptionReciept recieptDetails={drugs} />
       </>
     );
   }
