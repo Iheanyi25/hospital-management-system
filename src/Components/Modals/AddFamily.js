@@ -5,14 +5,28 @@ class AddFamily extends React.Component {
     // state = { familyName: "" }
     state = {
         name: '',
-        phoneNumber: ""
+        phoneNumber: "",
+        submit: true
     }
     componentDidMount() {
         console.log(this.props);
     }
 
+    // componentDidUpdate() {
+    //     if (Object.entries(this.state).includes("")) {
+    //         this.setState({ ...this.state, submit: false });
+    //         return;
+    //     }
+    //     else {
+    //         this.setState({ ...this.state, submit: true });
+    //         return;
+    //     }
+    // }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({ ...this.state, submit: true })
+
         const data = {
             name: this.state.name,
             phoneNumber: this.state.phoneNumber,
@@ -35,6 +49,7 @@ class AddFamily extends React.Component {
                 console.log(error);
             }
         }
+        await this.setState({ ...this.state, submit: false })
     };
 
     closeModal = () => {
@@ -102,6 +117,7 @@ class AddFamily extends React.Component {
                                             <button
                                                 type="submit"
                                                 className="btn btn-primary"
+                                                disabled={!this.state.submit}
                                             >
                                                 Save
                                             </button>

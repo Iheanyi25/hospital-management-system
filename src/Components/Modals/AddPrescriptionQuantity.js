@@ -4,9 +4,9 @@ const $ = window.$;
 
 const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
   const [details, setDetails] = useState({
-    numberOfUnits: "",
     numberOfContainers: "",
-    numberOfCartons: "",
+    numberOfUnits: "0",
+    numberOfCartons: "0",
   });
   const [canSubmit, setCanSubmit] = useState(false);
 
@@ -29,6 +29,9 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).findIndex(element => element > 0)) {
+      console.log("themes")
+    }
     let drugData = drug;
     drugData["numberOfContainers"] = details.numberOfContainers;
     drugData["numberOfUnits"] = details.numberOfUnits;
