@@ -173,15 +173,14 @@ class ManagePrescriptionInvoice extends React.Component {
                                 </td>
                                 <td>
                                   <div className="text-muted text-nowrap">
-                                    {prescriptionInvoice?.paymentStatus ===
-                                    "NOT PAID" ? (
+                                    {prescriptionInvoice?.isDispensed ? (
                                       <>
-                                        <img src={notpaid} alt="not paid" /> Not
-                                        Dispensed
+                                        <img src={paid} alt="paid" /> Dispensed
                                       </>
                                     ) : (
                                       <>
-                                        <img src={paid} alt="paid" /> Dispensed
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        Dispensed
                                       </>
                                     )}
                                   </div>
