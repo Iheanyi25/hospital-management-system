@@ -1,6 +1,5 @@
 import React from "react";
 import { PageLoader } from "../../Components";
-import { formatInputDate } from "../../utils/formatInputDate";
 
 //const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 
@@ -156,7 +155,6 @@ class BookAppointment extends React.Component {
                               <label>Appointment Date</label>
                               <input
                                 type="date"
-                                min={formatInputDate()}
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"
