@@ -108,9 +108,12 @@ class LabSidebar extends React.Component {
                   </li>
 
                   <li className="menu-item">
-                    <Link className="item-link" to="#">
-                      <span className="link-icon icofont-user-suited" />
-                      <span className="link-text">Profile</span>{" "}
+                    <span className="group-title">PROFILE</span>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/LabProfile">
+                      <span className="link-icon icofont-user-suited" />{" "}
+                      <span className="link-text">My Profile</span>
                     </Link>
                   </li>
                 </ul>
