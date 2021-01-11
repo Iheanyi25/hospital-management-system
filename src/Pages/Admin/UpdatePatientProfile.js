@@ -474,15 +474,20 @@ class UpdatePatientProfile extends React.Component {
                                 <option disabled value="">
                                   Select Blood Group
                                 </option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
                                 <option>O+</option>
                                 <option>O-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
                               </select>
                             </div>
                           </div>
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
                               <label>Genotype</label>
-
                               <select
                                 className="form-control"
                                 title="genoType"
@@ -526,7 +531,7 @@ class UpdatePatientProfile extends React.Component {
                               <label>Allergies</label>{" "}
                               <textarea
                                 className="form-control"
-                                placeholder="Address"
+                                placeholder="Allergies"
                                 rows={3}
                                 value={allergies ? allergies : ""}
                                 onChange={(e) =>
@@ -537,10 +542,10 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Disabilities </label>{" "}
+                              <label>Disabilities</label>{" "}
                               <textarea
                                 className="form-control"
-                                placeholder="Address"
+                                placeholder="Disabilities"
                                 rows={3}
                                 value={disabilities ? disabilities : ""}
                                 onChange={(e) =>

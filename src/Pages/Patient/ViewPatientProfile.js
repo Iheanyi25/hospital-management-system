@@ -1,13 +1,11 @@
-import React from "react";
+import { observer } from "mobx-react";
+import React, { useContext } from "react";
 import { PatientProfile } from "../../Components/Profiles";
+import { UserContext } from "../../mobx/UserState";
 
-class ViewPatientProfile extends React.Component {
-	componentDidMount(){
-		console.log(JSON.parse(localStorage.getItem("authenticatedUser")).id);
-	}
-  render() {
-	return <PatientProfile patientId={JSON.parse(localStorage.getItem("authenticatedUser")).id} />
-  }
-}
+const ViewPatientProfile = () => {
+  const { user } = useContext(UserContext);
+  return <PatientProfile patientId={user.id} />;
+};
 
-export default ViewPatientProfile;
+export default observer(ViewPatientProfile);

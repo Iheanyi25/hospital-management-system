@@ -77,7 +77,7 @@ const AddEducation = ({
                   onChange={handleChange}
                 >
                   <option value="" selected disabled>
-                    Select a category
+                    Select a certificate
                   </option>
                   <option value="Bachelors">Bachelors</option>
                   <option value="Masters">Masters</option>
