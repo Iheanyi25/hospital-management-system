@@ -60,7 +60,11 @@ const PaymentForPrescription = observer(({ history }) => {
         </div>
         {completed ? (
           <Success
-            nextRoute="/AdminManagePrescriptionInvoice"
+            nextRoute={
+              user.userType === "Admin"
+                ? "/AdminManagePrescriptionInvoice"
+                : "/AccountManagePrescriptionInvoice"
+            }
             message={message}
           />
         ) : null}
@@ -75,21 +79,6 @@ const PaymentForPrescription = observer(({ history }) => {
           <div className="page-content">
             <div className="card mb-0">
               <div className="card-body">
-                {/* <div className="row"> */}
-                {/* <div className="col-12 col-md-5">
-                    <div className="card bg-light">
-                      <div className="card-body p-5 m-auto">
-                        <h4>[Patient Name]</h4>
-                        <div className="border-bottom p-3">
-                          <p className="m-0">Paracetamol</p>
-                          <small className="mt-0 text-info">
-                            {formatAmount(3000) + " - " ?? ""}
-                            <span className="text-dark">3 packets</span>
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                 <div className="col-12 col-md-10 m-auto">
                   <div>
                     <ul
@@ -183,7 +172,6 @@ const PaymentForPrescription = observer(({ history }) => {
                     </div>
                   </div>
                 </div>
-                {/* </div> */}
               </div>
             </div>
           </div>
