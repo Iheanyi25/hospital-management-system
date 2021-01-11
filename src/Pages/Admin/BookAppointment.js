@@ -202,7 +202,7 @@ class BookAppointment extends React.Component {
                         <div className="row">
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Date</label>
+                              <label>Appointment Date<small className="text-danger">*</small></label>
 
                               <input
                                 type="date"
@@ -219,7 +219,7 @@ class BookAppointment extends React.Component {
 
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Time</label>
+                              <label>Appointment Time<small className="text-danger">*</small></label>
 
                               <input
                                 type="time"
@@ -235,7 +235,7 @@ class BookAppointment extends React.Component {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label>Select A Patient</label>
+                          <label>Select A Patient<small className="text-danger">*</small></label>
                           <select
                             className=" custom-patient-picker rounded form-control"
                             data-live-search="true"
@@ -281,7 +281,7 @@ class BookAppointment extends React.Component {
                         </div>
 
                         <div className="form-group">
-                          <label>Title of Appointment</label>
+                          <label>Title of Appointment<small className="text-danger">*</small></label>
 
                           <input
                             className="form-control"
@@ -295,7 +295,7 @@ class BookAppointment extends React.Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label>Reason for Appointment</label>{" "}
+                          <label>Reason for Appointment<small className="text-danger">*</small></label>{" "}
                           <textarea
                             className="form-control"
                             placeholder="Reason For Appointment"
