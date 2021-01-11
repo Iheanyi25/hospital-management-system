@@ -15,8 +15,9 @@ export default class AddPatient extends Component {
     email: "",
     healthPlan: "",
     healthPlanId: "",
-    patientId:"",
+    patientId: "",
     accountId: "",
+    message: "",
     isDisabled: true,
     success: false,
   };
@@ -65,10 +66,8 @@ export default class AddPatient extends Component {
               stage: this.state.stage + 1,
             });
           } else {
-            alert("please fill in the empty fields");
-            this.setState({
-              [name]: "",
-            });
+            this.setState({ ...this.state, [name]: "" });
+            alert("please fill in the empty fields")
             return;
           }
           break;
@@ -134,9 +133,9 @@ export default class AddPatient extends Component {
         }
       );
       const response = await res.json();
-      console.log(response,"Response Status")
+      console.log(response, "Response Status")
       if (res.status === 200) {
-        this.setState({ success: true,patientId: response.patient.id });
+        this.setState({ success: true, patientId: response.patient.id, message: "Well done, you successfully added a patient" });
       }
       else return;
     } catch (error) {
@@ -162,7 +161,7 @@ export default class AddPatient extends Component {
           {this.state.success ? (
             <Success
               history={this.props.history}
-              message="Well done, you successfully added a patient"
+              message={this.state.message}
               nextRoute={"/AdminUpdatePatientProfile/" + this.state.patientId}
             />
           ) : null}

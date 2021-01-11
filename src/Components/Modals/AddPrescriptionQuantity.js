@@ -4,15 +4,18 @@ const $ = window.$;
 
 const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
   const [details, setDetails] = useState({
-    numberOfUnits: "",
     numberOfContainers: "",
-    numberOfCartons: "",
+    numberOfUnits: "0",
+    numberOfCartons: "0",
   });
   const [canSubmit, setCanSubmit] = useState(false);
 
   useEffect(() => {
     // validation to make sure that something was parsed
-    if (Object.values(details).includes("")) {
+    let vals = Object.values(details);
+    vals = vals.find(element => element > 0);
+
+    if (!vals) {
       setCanSubmit(false)
     }
     else {
