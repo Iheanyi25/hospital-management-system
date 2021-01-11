@@ -1,7 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts/Success";
-import { formatInputDate } from "../../utils/formatInputDate";
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
@@ -30,6 +29,7 @@ class BookAppointment extends React.Component {
 
   renderPatientPicker() {
     var select = $(".custom-patient-picker");
+
     if (select.length) {
       select.each(function () {
         $(this).selectpicker({
@@ -149,7 +149,6 @@ class BookAppointment extends React.Component {
   };
 
   render() {
-    console.log(Date.now());
     let {
       patientId,
       doctorId,
@@ -210,7 +209,6 @@ class BookAppointment extends React.Component {
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"
-                                min={formatInputDate()}
                                 onChange={(e) =>
                                   this.handleChange("appointmentDate", e)
                                 }
@@ -328,11 +326,11 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                appointmentTime === "" ||
-                                patientId === "" ||
-                                doctorId === "" ||
-                                reasonForAppointment === "" ||
-                                appointmentTitle === ""
+                                  appointmentTime === "" ||
+                                  patientId === "" ||
+                                  doctorId === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
                                   ? true
                                   : false
                               }

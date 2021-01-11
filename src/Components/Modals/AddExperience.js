@@ -17,17 +17,12 @@ const AddExperience = ({
     doctorProfileId: doctorId,
     createdBy: doctorEmail,
   });
-  const [checked, setChecked] = useState(false);
+
   const handleChange = (e) => {
-    if (e.target.checked) {
-      setDetails({ ...details, endYear: "till date" });
-      setChecked(e.target.checked);
-    } else {
-      setDetails({
-        ...details,
-        [e.target.name]: e.target.value,
-      });
-    }
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -102,20 +97,8 @@ const AddExperience = ({
                     className="form-control"
                     onChange={handleChange}
                     placeholder="eg. 1990"
-                    disabled={checked ? true : false}
                   />
                 </div>
-              </div>
-              <div className="custom-control custom-checkbox mb-3">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="customCheck1"
-                  onChange={handleChange}
-                />{" "}
-                <label className="custom-control-label" for="customCheck1">
-                  Currently working here?
-                </label>
               </div>
               <div className="col"></div>
               <div className="col text-right">
