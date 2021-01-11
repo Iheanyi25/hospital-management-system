@@ -60,12 +60,12 @@ const DrugPrescription = observer(({ match }) => {
     rawData = rawData.split("#");
 
     let allDrugs = selectedDrugs;
-    let existingIndex = allDrugs.find((element) => element.id === rawData[2]);
+    let existingIndex = allDrugs.find((element) => element.id === rawData[1]);
 
     if (!existingIndex) {
       let newValue = {
-        name: rawData[3],
-        drugId: rawData[2],
+        name: rawData[2],
+        drugId: rawData[1],
       };
       setActiveDrugs(newValue);
       loadModal();
@@ -160,9 +160,8 @@ const DrugPrescription = observer(({ match }) => {
                             }}
                             alt="user"
                           />
-                          <h6 className="mt-2 ml-2">{`${
-                            prescription?.patient?.firstName ?? ""
-                          } ${prescription?.patient?.lastName ?? ""}`}</h6>
+                          <h6 className="mt-2 ml-2">{`${prescription?.patient?.firstName ?? ""
+                            } ${prescription?.patient?.lastName ?? ""}`}</h6>
                         </div>
                         <p className="mb-0">{prescription?.prescription}</p>
                       </div>
@@ -171,6 +170,7 @@ const DrugPrescription = observer(({ match }) => {
                   <div className="col-12 col-md-3">
                     <label className={"mb-3"}>Search & select drugs</label>
                     <SelectableDropDown
+                      searchParams={['name', 'sku']}
                       data={data?.drugs ?? []}
                       valueKeys={["name"]}
                       label={"Drug"}
@@ -178,7 +178,7 @@ const DrugPrescription = observer(({ match }) => {
                       search
                       onChange={onChange}
                       stateKey={["name"]}
-                      itemKey={["SKU", "genericName", "id", "name"]}
+                      itemKey={["genericName", "id", "name"]}
                     />
                   </div>
 
@@ -209,20 +209,20 @@ const DrugPrescription = observer(({ match }) => {
                                 </td>
                                 <td>
                                   {Number(item?.numberOfUnits) === 1
-                                    ? `${item.numberOfUnits} tablet * `
+                                    ? `${item.numberOfUnits} tablet, `
                                     : Number(item?.numberOfUnits) > 1
-                                    ? `${item.numberOfUnits} tablets * `
-                                    : null}
+                                      ? `${item.numberOfUnits} tablets, `
+                                      : null}
                                   {Number(item?.numberOfContainers) === 1
-                                    ? `${item.numberOfContainers} pack * `
+                                    ? `${item.numberOfContainers} pack, `
                                     : Number(item?.numberOfContainers) > 1
-                                    ? `${item.numberOfContainers} packs * `
-                                    : null}
+                                      ? `${item.numberOfContainers} packs,  `
+                                      : null}
                                   {Number(item?.numberOfCartons) === 1
-                                    ? `${item.numberOfCartons} carton * `
+                                    ? `${item.numberOfCartons} carton `
                                     : Number(item?.numberOfCartons) > 1
-                                    ? `${item.numberOfCartons} cartons * `
-                                    : null}
+                                      ? `${item.numberOfCartons} cartons `
+                                      : null}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
@@ -239,15 +239,15 @@ const DrugPrescription = observer(({ match }) => {
                               </tr>
                             ))
                           ) : (
-                            <tr>
-                              <td colSpan="4">
-                                <p className="w-50 text-secondary">
-                                  Search and select the drugs prescribed to the
-                                  patient
+                              <tr>
+                                <td colSpan="4">
+                                  <p className="w-50 text-secondary">
+                                    Search and select the drugs prescribed to the
+                                    patient
                                 </p>
-                              </td>
-                            </tr>
-                          )}
+                                </td>
+                              </tr>
+                            )}
                         </tbody>
                       </table>
                     </div>
