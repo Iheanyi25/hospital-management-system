@@ -73,7 +73,7 @@ const Others = ({
                       </div>
                     </div>
                     <div className="form-group">
-                      <label>Tranfer Reference Number</label>
+                      <label>Reference Number</label>
                       <input
                         className="form-control"
                         type="text"

@@ -65,6 +65,7 @@ class ManagePrescriptionInvoice extends React.Component {
     const content = this.context;
     const { user } = content;
     const { prescriptionInvoices, drugs } = this.state;
+    console.log(prescriptionInvoices);
     return (
       <>
         <PageLoader />
@@ -117,7 +118,8 @@ class ManagePrescriptionInvoice extends React.Component {
                             <th>Invoice No</th>
                             <th>Date Generated</th>
                             <th>Total Cost</th>
-                            <th>Status</th>
+                            <th>Payment Status</th>
+                            <th>Dispensed</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -170,6 +172,21 @@ class ManagePrescriptionInvoice extends React.Component {
                                   </div>
                                 </td>
                                 <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.paymentStatus ===
+                                    "NOT PAID" ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        Dispensed
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Dispensed
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
                                   <div className="btn-group">
                                     <button
                                       type="button"
@@ -182,7 +199,9 @@ class ManagePrescriptionInvoice extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                       {prescriptionInvoice?.paymentStatus ===
-                                      "NOT PAID" ? (
+                                        "NOT PAID" &&
+                                      (user.userType === "Admin" ||
+                                        user.userType === "Accountant") ? (
                                         <Link
                                           to={{
                                             pathname:
@@ -197,20 +216,39 @@ class ManagePrescriptionInvoice extends React.Component {
                                           Pay now
                                         </Link>
                                       ) : (
-                                        <Link
-                                          to="#"
-                                          className="btn btn-sm btn-block"
-                                          data-toggle="modal"
-                                          data-target="#view-reciept"
-                                          onClick={() =>
-                                            this.fetchDrugsInAnInvoice(
-                                              prescriptionInvoice.invoiceNumber
-                                            )
-                                          }
-                                        >
-                                          <span className="btn-icon icofont-server mr-2" />
-                                          View Reciept
-                                        </Link>
+                                        <>
+                                          <Link
+                                            to="#"
+                                            className="btn btn-sm btn-block"
+                                            data-toggle="modal"
+                                            data-target="#view-reciept"
+                                            onClick={() =>
+                                              this.fetchDrugsInAnInvoice(
+                                                prescriptionInvoice.invoiceNumber
+                                              )
+                                            }
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            View Reciept
+                                          </Link>
+                                          {user.userType === "Admin" ||
+                                          user.userType === "Pharmacy" ? (
+                                            <Link
+                                              to="#"
+                                              className="btn btn-sm btn-block"
+                                              data-toggle="modal"
+                                              data-target="#view-reciept"
+                                              onClick={() =>
+                                                this.fetchDrugsInAnInvoice(
+                                                  prescriptionInvoice.invoiceNumber
+                                                )
+                                              }
+                                            >
+                                              <span className="btn-icon icofont-server mr-2" />
+                                              Dispense
+                                            </Link>
+                                          ) : null}
+                                        </>
                                       )}
                                     </div>
                                   </div>

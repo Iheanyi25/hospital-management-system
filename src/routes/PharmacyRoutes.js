@@ -8,6 +8,7 @@ import ViewDrugs from "../Pages/Admin/Pharmacy/ViewDrugs";
 import ViewDrug from "../Pages/Admin/Pharmacy/ViewDrug";
 import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
 import DrugPrescription from '../Pages/Admin/Pharmacy/DrugPrescription'
+import ManagePrescriptionInvioice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
 
 export default function PharmacyRoutes() {
   return (
@@ -29,6 +30,7 @@ export default function PharmacyRoutes() {
           <Route exact path="/PharmacyViewDrugs" component={ViewDrugs} />
           <Route exact path="/PharmacyViewDrug/:id" component={ViewDrug} />
           <Route exact path="/PharmacyManagePrescriptions" component={ManagePrescriptions} />
+          <Route exact path="/PharmacyManagePrescriptionInvoice" component={ManagePrescriptionInvioice} />
           <Route exact path="/PharmacyDrugPrescription/:id" component={DrugPrescription} />
 
           <Route
