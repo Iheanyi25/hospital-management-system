@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { formatInputDate } from "../../utils/formatInputDate";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -174,6 +175,7 @@ const UpdateDrug = ({ drug, id, update }) => {
                     <input
                       className="form-control"
                       type="date"
+                      min={formatInputDate()}
                       tabIndex={-98}
                       name="expiryDate"
                       value={expiryDate}
