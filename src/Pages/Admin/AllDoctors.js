@@ -33,6 +33,9 @@ class AllDoctors extends React.Component {
   }
 
   render() {
+    const { doctors } = this.state;
+    console.log(doctors);
+    console.log();
     return (
       <>
         <PageLoader />
@@ -46,7 +49,7 @@ class AllDoctors extends React.Component {
               <h4 className="page-title">Our Doctors</h4>
             </header>
             <div className="page-content">
-              <TableSize size={this.state.doctors.length} heading="Doctors"  />
+              <TableSize size={doctors.length} heading="Doctors" />
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -59,19 +62,17 @@ class AllDoctors extends React.Component {
                       data-info="true"
                     >
                       <thead>
-                        <tr >
+                        <tr>
                           <th>Photo</th>
                           <th>Name</th>
                           <th>Email</th>
                           <th>Phone</th>
-                          <th>Specialization</th>
-                          <th>Office Time</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {this.state.doctors.map((doctor) => (
+                        {doctors.map((doctor) => (
                           <tr>
                             <td>
                               <img
@@ -96,16 +97,6 @@ class AllDoctors extends React.Component {
                             <td>
                               <div className="d-flex align-items-center nowrap">
                                 {doctor.doctor.phoneNumber}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">
-                                Anatomy and Chemistry
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-muted text-nowrap">
-                                9:15 - 9:45
                               </div>
                             </td>
 

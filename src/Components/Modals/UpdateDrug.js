@@ -49,7 +49,7 @@ const UpdateDrug = ({ drug, id, update }) => {
   };
   const {
     name,
-    type,
+    drugType,
     genericName,
     manufacturer,
     measurment,
@@ -122,11 +122,11 @@ const UpdateDrug = ({ drug, id, update }) => {
                 <div className="col-12 col-md-6">
                   {" "}
                   <div className="form-group">
-                    {type === "tabs" ? (
+                    {drugType === "tabs" ? (
                       <label>Number of tablets</label>
-                    ) : type === "liquid" ? (
+                    ) : drugType === "liquid" ? (
                       <label>Number of bottles</label>
-                    ) : type === "powder" ? (
+                    ) : drugType === "powder" ? (
                       <label>Number of cans</label>
                     ) : (
                       <label>Number of cannisters</label>
@@ -141,11 +141,11 @@ const UpdateDrug = ({ drug, id, update }) => {
                     />
                   </div>
                   <div className="form-group">
-                    {type === "tabs" ? (
+                    {drugType === "tabs" ? (
                       <label>Number of packets in a carton</label>
-                    ) : type === "liquid" ? (
+                    ) : drugType === "liquid" ? (
                       <label>Number of bottles/tubes in a carton</label>
-                    ) : type === "powder" ? (
+                    ) : drugType === "powder" ? (
                       <label>Number of cannisters in a carton</label>
                     ) : (
                       <label>Number of cans in a carton</label>

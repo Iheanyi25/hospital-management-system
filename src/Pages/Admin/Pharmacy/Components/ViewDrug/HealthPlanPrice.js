@@ -11,7 +11,7 @@ import { CreateHealthPlanPrice } from "../../../../../Components/Modals/CreateHe
 import { EditHealthPlanPrice } from "../../../../../Components/Modals/EditHealthPlanPrice";
 import formatAmount from "../../../../../utils/formatAmount";
 
-const HealthPlanPrice = ({ drugId }) => {
+const HealthPlanPrice = ({ drugId, drugType }) => {
   const [healthPlanPrice, setHealthPlanPrice] = useState({});
   const drugPricesUrl = getDrugPricesUrl();
   const getDrugPricesConfig = fetchConfig({
@@ -57,6 +57,16 @@ const HealthPlanPrice = ({ drugId }) => {
         </div>
       ) : (
         <>
+          <div className="text-right">
+            <Link
+              to="#"
+              data-toggle="modal"
+              data-target="#create-healthplan-price"
+              className="btn btn-primary"
+            >
+              Create health plan price
+            </Link>
+          </div>
           <div className="row p-5">
             {prices?.map((price, index) => (
               <div className="col-12 col-md-6" key={index}>
@@ -92,15 +102,23 @@ const HealthPlanPrice = ({ drugId }) => {
                     <div className="row">
                       <div className="col-12 col-md-6">
                         <div>
-                          <h6 className="mb-2">Price Per Pill (NGN)</h6>
+                          <h6 className="mb-2">{`Price per ${
+                            drugType === "tabs"
+                              ? "tablet"
+                              : drugType === "liquid"
+                              ? "bottle"
+                              : drugType === "powder"
+                              ? "can"
+                              : "cannister"
+                          } (NGN)`}</h6>
                           <p>{formatAmount(price?.pricePerUnit) ?? ""}</p>
                         </div>
                         <div>
-                          <h6 className="mb-2">Price Per Pack (NGN)</h6>
+                          <h6 className="mb-2">Price per pack (NGN)</h6>
                           <p>{formatAmount(price?.pricePerContainer) ?? ""}</p>
                         </div>
                         <div>
-                          <h6 className="mb-2">Price Per Carton (NGN)</h6>
+                          <h6 className="mb-2">Price per carton (NGN)</h6>
                           <p>{formatAmount(price?.pricePerCarton) ?? ""}</p>
                         </div>
                       </div>
@@ -109,16 +127,6 @@ const HealthPlanPrice = ({ drugId }) => {
                 </div>
               </div>
             ))}
-          </div>
-          <div className="text-right">
-            <Link
-              to="#"
-              data-toggle="modal"
-              data-target="#create-healthplan-price"
-              className="btn btn-primary"
-            >
-              Create health plan price
-            </Link>
           </div>
         </>
       )}
