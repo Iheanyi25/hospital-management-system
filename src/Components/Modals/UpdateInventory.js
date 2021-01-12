@@ -41,7 +41,7 @@ const UpdateInventory = ({ drug, setSuccess }) => {
             <h5 className="text-center">{`Update ${drug.name}`}</h5>
             <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Amount</label>
+                <label>Quantity</label>
                 <input
                   className="form-control"
                   type="number"

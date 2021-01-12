@@ -198,18 +198,34 @@ class ManagePrescriptionInvoice extends React.Component {
                                           Pay now
                                         </Link>
                                       ) : (
-                                        <Link
-                                          to="#"
-                                          className="btn btn-sm btn-block"
-                                          onClick={() =>
-                                            this.fetchDrugsInAnInvoice(
-                                              prescriptionInvoice.invoiceNumber
-                                            )
-                                          }
-                                        >
-                                          <span className="btn-icon icofont-server mr-2" />
-                                          View Reciept
-                                        </Link>
+                                        <>
+                                          <Link
+                                            to="#"
+                                            className="btn btn-sm btn-block"
+                                            data-toggle="modal"
+                                            data-target="#view-reciept"
+                                            onClick={() =>
+                                              this.fetchDrugsInAnInvoice(
+                                                prescriptionInvoice.invoiceNumber
+                                              )
+                                            }
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            View Reciept
+                                          </Link>
+                                          {(user.userType === "Admin" ||
+                                            user.userType === "Pharmacy") &&
+                                          prescriptionInvoice?.isDispensed ===
+                                            false ? (
+                                            <Link
+                                              to="#"
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-server mr-2" />
+                                              Dispense
+                                            </Link>
+                                          ) : null}
+                                        </>
                                       )}
                                     </div>
                                   </div>

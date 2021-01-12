@@ -96,8 +96,7 @@ class Login extends Component {
             </h1>
             <h2>Login</h2>
             <form
-              className={`${styles.form} needs-validation`}
-              noValidate
+              className={styles.form}
               onSubmit={(e) => this.handleSubmit(e)}
             >
               <div className="form-group">
@@ -113,10 +112,6 @@ class Login extends Component {
                   placeholder="Your Email Address"
                   required
                 />
-                <div className="valid-feedback">Looks good!</div>
-                <div className="invalid-feedback">
-                  Please provide a valid email.
-                </div>
               </div>
 
               <div className="form-group">
@@ -132,10 +127,6 @@ class Login extends Component {
                   placeholder="Your Password"
                   required
                 />
-                <div className="valid-feedback">Looks good!</div>
-                <div className="invalid-feedback">
-                  Please provide a valid password.
-                </div>
               </div>
               <div className="row justify-content-between">
                 <button
