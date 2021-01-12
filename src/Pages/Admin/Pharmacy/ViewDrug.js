@@ -7,7 +7,7 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
 import { BasePrice, DrugDetails, HealthPlanPrice } from "./Components/ViewDrug";
 
-const ViewDrug = ({ match }) => {
+const ViewDrug = ({ match, history }) => {
   const { id } = match.params;
   const drugUrl = getDrugUrl(id);
   const getDrugConfig = fetchConfig({
@@ -20,6 +20,7 @@ const ViewDrug = ({ match }) => {
   });
   const drug = data?.drug;
   console.log(drug);
+  console.log(history);
 
   return (
     <>
@@ -43,11 +44,7 @@ const ViewDrug = ({ match }) => {
             </header>
             <div className="col col-md-12">
               <div>
-                <ul
-                  className="nav nav-tabs mb-3"
-                  id="pills-tab"
-                  role="tablist"
-                >
+                <ul className="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                   <li className="nav-item">
                     <a
                       className="nav-link active show"
@@ -111,6 +108,7 @@ const ViewDrug = ({ match }) => {
                       }}
                       drugId={id}
                       mutate={mutate}
+                      drugType={history.location.state}
                     />
                   </div>
                   <div
@@ -119,7 +117,10 @@ const ViewDrug = ({ match }) => {
                     role="tabpanel"
                     aria-labelledby="pills-health-tab"
                   >
-                    <HealthPlanPrice drugId={id} />
+                    <HealthPlanPrice
+                      drugId={id}
+                      drugType={history.location.state}
+                    />
                   </div>
                 </div>
               </div>
