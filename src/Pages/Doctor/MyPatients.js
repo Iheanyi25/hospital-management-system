@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 class MyPatients extends React.Component {
@@ -36,10 +37,27 @@ class MyPatients extends React.Component {
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
                     <div className="main-content-wrap">
-                        <header className="page-header">
-                            <h4 className="page-title">My Patients</h4>
-                        </header>
                         <div className="page-content">
+                            <div className="row">
+                                <div className="col col-12 col-md-6 col-xl-3">
+                                    <div className="card animated fadeInUp delay-01s bg-light">
+                                        <div className="card-body">
+                                            <div className="row align-items-center">
+                                                <div className="col col-5">
+                                                    <div className="icon p-0 fs-48 text-primary opacity-50 icofont-users"></div>
+                                                </div>
+                                                <div className="col col-7">
+                                                    <h6 className="mt-0 mb-1">Patients</h6>
+                                                    <div className="count text-primary fs-20">{patients.length ?? 0}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <header className="page-header">
+                                <h4 className="page-title">My Patients</h4>
+                            </header>
                             <div className="table-responsive">
                                 <table
                                     ref={(el) => (this.el = el)}
@@ -63,8 +81,8 @@ class MyPatients extends React.Component {
                                                 <tr>
                                                     <td>
                                                         <img
-                                                            src="../assets/content/user-40-1.jpg"
-                                                            alt=""
+                                                            src={PatientAndAdminImage}
+                                                            alt="Patient Image"
                                                             width={40}
                                                             height={40}
                                                             className="rounded-500"

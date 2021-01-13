@@ -1,12 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import user from "../../assets/img/user.png";
-import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
-import edit from "../../assets/img/edit.svg";
-import resetText from "../../assets/img/resetText.svg";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getPatientUrl } from "../../api/URLs";
