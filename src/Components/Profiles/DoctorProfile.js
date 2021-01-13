@@ -32,6 +32,7 @@ import EmptyState from "../EmptyState/EmptyUploadState";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
+import DoctorImage from "../../assets/img/DoctorIcon.svg"
 
 class DocProfile extends React.Component {
   static contextType = UserContext;
@@ -203,10 +204,10 @@ class DocProfile extends React.Component {
                       <div className="card-body d-flex justify-content-between">
                         <div className="d-flex justify-content-between">
                           <img
-                            src={userImage}
+                            src={DoctorImage}
                             style={{ height: "100px", width: "100px" }}
                             className="mr-3"
-                            alt="user"
+                            alt="Doctor Image"
                           />
                           <div>
                             <h5 className="mb-2 mt-2 font-weight-bold">

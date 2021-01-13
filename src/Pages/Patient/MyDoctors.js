@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import DoctorImage from "../../assets/img/DoctorIcon.svg";
+
 
 class MyDoctors extends React.Component {
     constructor(props) {
@@ -61,7 +63,7 @@ class MyDoctors extends React.Component {
                                             <tr>
                                                 <td>
                                                     <img
-                                                        src="../assets/content/user-40-1.jpg"
+                                                        src={DoctorImage}
                                                         alt=""
                                                         width={40}
                                                         height={40}

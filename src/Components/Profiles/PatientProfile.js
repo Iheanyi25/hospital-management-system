@@ -11,6 +11,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getPatientUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
+
 class PatientProfile extends React.Component {
   static contextType = UserContext;
   state = {
@@ -62,7 +63,7 @@ class PatientProfile extends React.Component {
                           src={user}
                           style={{ height: "100px", width: "100px" }}
                           className="mr-3"
-                          alt="user"
+                          alt="Patient Image"
                         />
                         <div>
                           <h5 className="mb-2 mt-2 font-weight-bold">
