@@ -5,6 +5,7 @@ import { fetchWrapper } from "../../../api/fetcher";
 import {
   getDAllrugDispencingInvoicesUrl,
   getDrugsInAnInvoice,
+  markInvoiceAsDispensedUrl,
 } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
@@ -14,6 +15,7 @@ import notpaid from "../../../assets/img/notpaid.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionReciept } from "../../../Components/Modals";
+import { Success } from "../../../Components/Alerts";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -22,6 +24,7 @@ class ManagePrescriptionInvoice extends React.Component {
   state = {
     prescriptionInvoices: [],
     drugs: [],
+    success: false,
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
@@ -56,15 +59,30 @@ class ManagePrescriptionInvoice extends React.Component {
     );
   }
 
+  async markInvoiceAsDispensed(id) {
+    const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
+    const markInvoiceAsDispensedConfig = fetchConfig({
+      url: markInvoiceUrl,
+      method: "post",
+    });
+    const response = await fetchWrapper(markInvoiceAsDispensedConfig);
+    console.log(response);
+    if (response.status === 200) {
+      this.setState({ ...this.state, success: true });
+      this.fetchPrescriptionInvoices();
+    }
+  }
+
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
 
   render() {
-    const content = this.context;
-    const { user } = content;
-    const { prescriptionInvoices, drugs } = this.state;
+    const {
+      user: { userType },
+    } = this.context;
+    const { prescriptionInvoices, drugs, success } = this.state;
     console.log(prescriptionInvoices);
     return (
       <>
@@ -74,6 +92,9 @@ class ManagePrescriptionInvoice extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {success ? (
+            <Success message="You have successfully dispensed this drug" />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title">Prescription Invoices</h4>
@@ -119,6 +140,7 @@ class ManagePrescriptionInvoice extends React.Component {
                             <th>Date Generated</th>
                             <th>Total Cost</th>
                             <th>Status</th>
+                            <th>Dispensed</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -171,6 +193,21 @@ class ManagePrescriptionInvoice extends React.Component {
                                   </div>
                                 </td>
                                 <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.isDispensed ===
+                                    false ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        dispensed
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Dispensed
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
                                   <div className="btn-group">
                                     <button
                                       type="button"
@@ -187,7 +224,7 @@ class ManagePrescriptionInvoice extends React.Component {
                                         <Link
                                           to={{
                                             pathname:
-                                              user.userType === "Admin"
+                                              userType === "Admin"
                                                 ? `/AdminPaymentForPrescription/${prescriptionInvoice.id}`
                                                 : `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
                                             state: prescriptionInvoice,
@@ -213,13 +250,18 @@ class ManagePrescriptionInvoice extends React.Component {
                                             <span className="btn-icon icofont-server mr-2" />
                                             View Reciept
                                           </Link>
-                                          {(user.userType === "Admin" ||
-                                            user.userType === "Pharmacy") &&
+                                          {(userType === "Admin" ||
+                                            userType === "Pharmacy") &&
                                           prescriptionInvoice?.isDispensed ===
                                             false ? (
                                             <Link
                                               to="#"
                                               className="btn btn-sm btn-block"
+                                              onClick={() =>
+                                                this.markInvoiceAsDispensed(
+                                                  prescriptionInvoice.id
+                                                )
+                                              }
                                             >
                                               <span className="btn-icon icofont-server mr-2" />
                                               Dispense
@@ -242,11 +284,7 @@ class ManagePrescriptionInvoice extends React.Component {
             </div>
           </div>
         </main>
-        <PrescriptionReciept
-          costingDetails={drugs}
-          // doctor={prescription?.doctor}
-          // patient={prescription?.patient}
-        />
+        <PrescriptionReciept costingDetails={drugs} />
       </>
     );
   }

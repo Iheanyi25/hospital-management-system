@@ -25,9 +25,9 @@ class PatientProfile extends React.Component {
 
   fetchPatientDetails = async () => {
     try {
-      const getPatient = getPatientUrl(this.props.patientId)
-      const getPatientConfig = fetchConfig({ url: getPatient, method: 'get' })
-      const { data } = await fetchWrapper(getPatientConfig)
+      const getPatient = getPatientUrl(this.props.patientId);
+      const getPatientConfig = fetchConfig({ url: getPatient, method: "get" });
+      const { data } = await fetchWrapper(getPatientConfig);
 
       this.setState({
         patientDetails: data.patientProfile,
@@ -41,8 +41,9 @@ class PatientProfile extends React.Component {
   render() {
     const { patientDetails, loading } = this.state;
     const { patientId, state } = this.props;
-    const { user } = this.context;
-    console.log(user);
+    const {
+      user: { userType },
+    } = this.context;
     return (
       <>
         {loading ? (
@@ -104,14 +105,15 @@ class PatientProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Health details
                           </h6>
-                            {state ? <Link
-                              to={{
-                                pathname: `/AdminUpdatePatientProfile/${patientId}`,
-                                state: state,
-                              }}
-                            >
-                              <img src={edit} alt="reset" className="mr-3 mb-2" />
-                            </Link> : null}
+                            {userType === "Admin" ? (
+                              <Link
+                                to={{
+                                  pathname: `/AdminUpdatePatientProfile/${patientId}`,
+                                  state: state,
+                                }}
+                              >
+                                <img src={edit} alt="reset" className="mr-3 mb-2" />
+                              </Link>) : null}
                           </div>
                           <div className="basic-info d-flex justify-content-between mt-4">
                             <div>
@@ -154,14 +156,15 @@ class PatientProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Contact Information
                           </h6>
-                            {state ? <Link
-                              to={{
-                                pathname: `/AdminUpdatePatientProfile/${patientId}`,
-                                state: state,
-                              }}
-                            >
-                              <img src={edit} alt="reset" className="mr-3 mb-2" />
-                            </Link> : null}
+                            {userType === "Admin" ? (
+                              <Link
+                                to={{
+                                  pathname: `/AdminUpdatePatientProfile/${patientId}`,
+                                  state: state,
+                                }}
+                              >
+                                <img src={edit} alt="reset" className="mr-3 mb-2" />
+                              </Link>) : null}
 
                           </div>
                           <div className="contact-info">
