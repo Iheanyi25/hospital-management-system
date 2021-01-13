@@ -288,9 +288,9 @@ class UpdatePatientProfile extends React.Component {
                               <label>First name</label>{" "}
                               <input
                                 required
-                                required
                                 className="form-control"
                                 type="text"
+                                onChange={(e) => this.handleChange("firstName", e)}
                                 placeholder="First name"
                                 value={firstName}
                               />
@@ -301,9 +301,9 @@ class UpdatePatientProfile extends React.Component {
                               <label>Last name</label>{" "}
                               <input
                                 required
-                                required
                                 className="form-control"
                                 type="text"
+                                onChange={(e) => this.handleChange("lastName", e)}
                                 value={lastName}
                                 placeholder="Last name"
                               />
@@ -314,7 +314,6 @@ class UpdatePatientProfile extends React.Component {
                         <div className="form-group">
                           <label>Other Name</label>{" "}
                           <input
-                            required
                             required
                             className="form-control"
                             type="text"
@@ -329,7 +328,6 @@ class UpdatePatientProfile extends React.Component {
                             <div className="form-group">
                               <label>Date of Birth</label>{" "}
                               <input
-                                required
                                 required
                                 className="form-control"
                                 type="date"
