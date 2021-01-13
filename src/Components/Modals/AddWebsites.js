@@ -26,6 +26,9 @@ const AddWebsites = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       const postDoctorSocial = postDoctorSocialUrl()
       const postDoctorSocialConfig = fetchConfig({url : postDoctorSocial, data:JSON.stringify([details]), method : 'post'})
