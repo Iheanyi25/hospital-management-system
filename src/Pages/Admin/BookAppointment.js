@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, getPatientsUrl, postAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts/Success";
+import { formatInputDate } from "../../utils/formatInputDate";
 const $ = window.$;
 
 class BookAppointment extends React.Component {
@@ -200,6 +201,7 @@ class BookAppointment extends React.Component {
 
                               <input
                                 type="date"
+                                min={formatInputDate()}
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"
