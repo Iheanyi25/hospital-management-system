@@ -17,26 +17,26 @@ class Dashboard extends React.Component {
         };
 
     }
-    async componentDidMount(){
+    async componentDidMount() {
         console.log("svdgyg");
         const getLabDashboardCounters = labDashboardUrl();
-        const getLabDashboardCountersConfig = fetchConfig({url: getLabDashboardCounters, method: "get"});
-        console.log(getLabDashboardCountersConfig,11111)
-        const {data} = await fetchWrapper(getLabDashboardCountersConfig);
+        const getLabDashboardCountersConfig = fetchConfig({ url: getLabDashboardCounters, method: "get" });
+        console.log(getLabDashboardCountersConfig, 11111)
+        const { data } = await fetchWrapper(getLabDashboardCountersConfig);
         console.log(444, data);
-        this.setState({serviceCategory: data.serviceCategoryCount});
-        this.setState({service: data.servicesCount});
-        this.setState({completedServiceRequest: data.serviceRequestPaidAndDoneCount});
-        this.setState({uncompletedServiceRequest: data.serviceRequestPaidAndNotDoneCount})
+        this.setState({ serviceCategory: data.serviceCategoryCount });
+        this.setState({ service: data.servicesCount });
+        this.setState({ completedServiceRequest: data.serviceRequestPaidAndDoneCount });
+        this.setState({ uncompletedServiceRequest: data.serviceRequestPaidAndNotDoneCount })
 
     }
 
     render() {
 
-        const {serviceCategory,
+        const { serviceCategory,
             service,
             completedServiceRequest,
-            uncompletedServiceRequest,} = this.state
+            uncompletedServiceRequest, } = this.state
         return (
 
             <>
@@ -104,7 +104,7 @@ class Dashboard extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="col col-7">
-                                                    <h6 className="mt-0 mb-1 text-nowrap">Completed Service Request</h6>
+                                                    <h6 className="mt-0 mb-1">Completed Service Request</h6>
                                                     <div className="count text-primary fs-20">{completedServiceRequest}</div>
                                                 </div>
                                             </div>
@@ -203,8 +203,8 @@ class Dashboard extends React.Component {
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                
-                                              
+
+
                                                 <tr>
                                                     <td><img src="../assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Sophia</strong></td>

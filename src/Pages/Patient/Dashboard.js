@@ -27,8 +27,8 @@ class Dashboard extends React.Component {
   }
 
   sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
+    this.$dash = $(this.dash);
+    this.$dash.DataTable();
   }
 
   async getPatientAppointments() {
@@ -150,10 +150,10 @@ class Dashboard extends React.Component {
                 <div className="card-body">
                   <div className="table-responsive">
                     <table
-                      ref={(el) => (this.el = el)}
+                      ref={(dash) => (this.dash = dash)}
                       className="table table-striped"
-                      data-paging="true"
-                      data-info="true"
+                      // data-paging="true"
+                      // data-info="true"
                     >
                       <thead>
                         <tr>

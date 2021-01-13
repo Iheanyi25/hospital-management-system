@@ -6,6 +6,8 @@ import { PageLoader } from '../Loader';
 import { Success } from '../Alerts';
 import Bio from './profile-components/common/Bio';
 import ContactDetail from './profile-components/common/ContactDetail';
+import LabImage from "../../assets/img/PharmacistIcon.svg";
+
 
 function LabProfile({ labId }) {
 	const [ success, setSucces ] = useState({ show: false, message: '' });
@@ -27,7 +29,7 @@ function LabProfile({ labId }) {
 					{success.show && <Success message={success.message} callback={resetShowState} />}
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<Bio bioDetails={data.labTechnician.lab} user="lab" />
+							<Bio bioDetails={data.labTechnician.lab} user="lab" image={LabImage} />
 							<ContactDetail
 								otherDetails={data.labTechnician}
 								primaryDetails={data.labTechnician.lab}

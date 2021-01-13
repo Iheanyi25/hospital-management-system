@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getDoctorAllConsultationsUrl } from "../../api/URLs";
+import { getDoctorAllConsultationsUrl, getDoctorDashboardUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 class Dashboard extends React.Component {
@@ -15,7 +15,10 @@ class Dashboard extends React.Component {
         " " +
         JSON.parse(localStorage.getItem("authenticatedUser")).lastName,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-
+      pendingAppointment : 0,
+      completedAppointment: 0,
+      pendingConsultation: 0,
+      completedConsultation: 0,
     };
   }
 
@@ -37,12 +40,23 @@ class Dashboard extends React.Component {
     this.setState({
       pendingAppointments: pendingAppointments
     })
+    const getDoctorDashboard = getDoctorDashboardUrl(this.state.doctorId);
+    const getDoctorDashboardConfig = fetchConfig({url: getDoctorDashboard, method: "get"});
+    const {data:data2} = await fetchWrapper (getDoctorDashboardConfig);
+    this.setState({pendingAppointment: data2.pendingAppoinmentsCount});
+    this.setState({completedAppointment: data2.completedAppoinmentsCount});
+    this.setState({pendingConsultation:data2.pendingConsultationsCount});
+    this.setState({completedConsultation:data2.completedConsultationCount})
   }
 
   render() {
     const {
       pendingAppointments,
       doctorName,
+      completedAppointment,
+      completedConsultation,
+      pendingAppointment,
+      pendingConsultation,
     } = this.state;
     return (
       <>
@@ -63,8 +77,8 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">Appointments</h6>
-                          <div className="count text-primary fs-20">213</div>
+                          <h6 className="mt-0 mb-1">Completed Appointments</h6>
+                          <div className="count text-primary fs-20">{completedAppointment}</div>
                         </div>
                       </div>
                     </div>
@@ -78,8 +92,8 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">My Patients</h6>
-                          <div className="count text-primary fs-20">104</div>
+                          <h6 className="mt-0 mb-1">Pending Appointments</h6>
+                          <div className="count text-primary fs-20">{pendingAppointment}</div>
                         </div>
                       </div>
                     </div>
@@ -93,8 +107,8 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">My Prescriptions</h6>
-                          <div className="count text-primary fs-20">24</div>
+                          <h6 className="mt-0 mb-1">Completed Consultations</h6>
+                          <div className="count text-primary fs-20">{completedConsultation}</div>
                         </div>
                       </div>
                     </div>
@@ -108,8 +122,8 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list"></div>
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1 text-nowrap">Schedules</h6>
-                          <div className="count text-primary fs-20">5238</div>
+                          <h6 className="mt-0 mb-1 text-wrap">Pending Consultations</h6>
+                          <div className="count text-primary fs-20">{pendingConsultation}</div>
                         </div>
                       </div>
                     </div>
@@ -137,7 +151,7 @@ class Dashboard extends React.Component {
               </div>
 
               <div className="card mb-0">
-                <div className="card-header">Pending consultations</div>
+                <div className="card-header">Pending Consultations</div>
                 <div className="card-body">
                   <div className="table-responsive">
                     <table className="table table-striped">
