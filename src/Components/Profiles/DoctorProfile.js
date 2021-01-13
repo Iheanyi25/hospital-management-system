@@ -29,8 +29,10 @@ import remove from "../../assets/img/remove.svg";
 import close from "../../assets/img/close.svg";
 import { UserContext } from "../../mobx/UserState";
 import EmptyState from "../EmptyState/EmptyUploadState";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 class DocProfile extends React.Component {
   static contextType = UserContext;
   state = {
@@ -61,17 +63,12 @@ class DocProfile extends React.Component {
 
   fetchPatientDetails = async () => {
     try {
-      let res = await fetch(
-        `${apiUrl}/Doctor/GetDoctor?DoctorId=${this.props.doctorId}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-      let doctorDetails = JSON.parse(data).doctorProfile;
-      console.log(doctorDetails);
+      const getDoctor = getDoctorUrl(this.props.doctorId);
+      const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
+      const { data } = await fetchWrapper(getDoctorConfig);
+
+      let doctorDetails = data.doctorProfile;
+
       this.setState({
         ...this.state,
         doctorDetails: doctorDetails,
@@ -92,11 +89,10 @@ class DocProfile extends React.Component {
 
   deleteItem = async (action, id) => {
     try {
-      let res = await fetch(`${apiUrl}/Doctor/${action}/${id}`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "DELETE",
-        redirect: "follow",
-      });
+      const deleteDoctorProfileInfo = deleteDoctorProfileInfoUrl(action,id);
+      const deleteDoctorProfileInfoConfig = fetchConfig({ url: deleteDoctorProfileInfo, method: "delete" });
+      const res = await fetchWrapper(deleteDoctorProfileInfoConfig);
+
       if (res.status === 200) {
         this.displaySuccess(res.message);
         this.fetchPatientDetails();
@@ -151,7 +147,7 @@ class DocProfile extends React.Component {
             ) : null}
             <div className="main-content-wrap">
               <div className="page-content">
-                {user.userType === "Patient" ? (
+                {this.props.user ? (
                   <header className="page-header d-flex justify-content-between">
                     <h3 className="page-title">{`Dr. ${
                       doctor?.firstName ?? ""
@@ -598,20 +594,10 @@ class DocProfile extends React.Component {
                         </div>
                         <div className="d-flex mt-4">
                           <img src={location} alt="location" className="mt-0" />
-                          <div className="mt-3 ml-3">
+                          <div className="mt-4 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
-                            {doctorDetails.city === null &&
-                            doctorDetails.state === null &&
-                            doctorDetails.country === null ? (
-                              <p>N/A</p>
-                            ) : (
-                              <>
-                                <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
-                                <p className="m-0">
-                                  {`${doctorDetails.country}`}.
-                                </p>
-                              </>
-                            )}
+                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                            <p className="m-0">{`${doctorDetails.country}`}.</p>
                           </div>
                         </div>
                       </div>

@@ -5,9 +5,6 @@ class SearchPatientModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
-    };
   }
 
 

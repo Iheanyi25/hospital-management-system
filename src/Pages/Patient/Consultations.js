@@ -1,11 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import {
+  getPatientAllConsulationsUrl,
+  cancelPatientConsulationsUrl
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class Consultations extends React.Component {
   constructor(props) {
@@ -20,29 +23,22 @@ class Consultations extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    await  this.getpatientConsultations();
+   }
+
   async getpatientConsultations() {
     var canceledConsultations = [];
     var completedConsultations = [];
     var pendingConsultations = [];
-    const response = await fetch(
-      `${apiUrl}/Patient/GetAllConsultations?PatientId=${this.state.patientId}`
-    );
-    const data = await response.json();
+    const { patientId } = this.state;
 
-    let response1 = await fetch(
-      `${apiUrl}/Patient/GetPendingConsultationsCount`
-    );
-    const data1 = await response1.json();
-
-    let response2 = await fetch(
-      `${apiUrl}/Patient/GetCompletedConsultationsCount`
-    );
-    const data2 = await response2.json();
-
-    let response3 = await fetch(
-      `${apiUrl}/Patient/GetCanceledConsultationsCount`
-    );
-    const data3 = await response3.json();
+    const getPatientAllConsulations = getPatientAllConsulationsUrl(patientId);
+    const getPatientAllConsulationsConfig = fetchConfig({
+      url: getPatientAllConsulations,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getPatientAllConsulationsConfig);
 
     await this.setState({ patientConsultations: data.patientConsultations });
 
@@ -57,18 +53,14 @@ class Consultations extends React.Component {
       }
     });
 
-    this.setState({
-      canceledConsultations: canceledConsultations,
-      canceledConsultationsCount: data1.consultationCount,
-      completedConsultations: completedConsultations,
-      completedConsultationsCount: data2.consultationCount,
-      pendingConsultations: pendingConsultations,
-      pendingConsultationsCount: pendingConsultations.length,
-    }, () => this.sync());
-  }
-
-  componentDidMount() {
-    this.getpatientConsultations();
+    this.setState(
+      {
+        canceledConsultations: canceledConsultations,
+        completedConsultations: completedConsultations,
+        pendingConsultations: pendingConsultations,
+      },
+      () => this.sync()
+    );
   }
 
   sync() {
@@ -81,30 +73,23 @@ class Consultations extends React.Component {
   }
 
   cancelConsultation = async (id) => {
-    let request = await fetch(`${apiUrl}/Patient/CancelConsultation?patientQueueId=${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        }
-      });
-
-    let response = await request.json();
-
-    if (response) {
-      alert(response.message);
+    const cancelPatientConsulations = cancelPatientConsulationsUrl(id);
+    const cancelPatientConsulationsConfig = fetchConfig({
+      url: cancelPatientConsulations,
+      method: "patch",
+    });
+    const res = await fetchWrapper(cancelPatientConsulationsConfig);
+    if (res) {
+      alert(res.message);
       this.getpatientConsultations();
     }
-  }
+  };
 
   render() {
     const {
       canceledConsultations,
-      canceledConsultationsCount,
       completedConsultations,
-      completedConsultationsCount,
       pendingConsultations,
-      pendingConsultationsCount,
     } = this.state;
     return (
       <>
@@ -266,15 +251,16 @@ class Consultations extends React.Component {
                                     </td>
                                     <td>
                                       {queue.doctor?.firstName}{" "}
-                                      {queue.doctor?.lastName ?? "none assigned"}
+                                      {queue.doctor?.lastName ??
+                                        "none assigned"}
                                     </td>
-                                    <td>
-                                      {queue.consultationTitle}
-                                    </td>
+                                    <td>{queue.consultationTitle}</td>
                                     <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        {new Date(queue.dateOfConsultation).toDateString()}
+                                        {new Date(
+                                          queue.dateOfConsultation
+                                        ).toDateString()}
                                       </div>
                                     </td>
 
@@ -347,15 +333,16 @@ class Consultations extends React.Component {
                                     </td>
                                     <td>
                                       {queue.doctor?.firstName}{" "}
-                                      {queue.doctor?.lastName ?? "none assigned"}
+                                      {queue.doctor?.lastName ??
+                                        "none assigned"}
                                     </td>
-                                    <td>
-                                      {queue.consultationTitle}
-                                    </td>
+                                    <td>{queue.consultationTitle}</td>
                                     <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        {new Date(queue.dateOfConsultation).toDateString()}
+                                        {new Date(
+                                          queue.dateOfConsultation
+                                        ).toDateString()}
                                       </div>
                                     </td>
 
@@ -404,7 +391,7 @@ class Consultations extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr >
+                              <tr>
                                 <th></th>
                                 <th>Doctors Name</th>
                                 <th>Consultation Title</th>
@@ -427,18 +414,18 @@ class Consultations extends React.Component {
                                     </td>
                                     <td>
                                       {queue.doctor?.firstName}{" "}
-                                      {queue.doctor?.lastName ?? "none assigned"}
+                                      {queue.doctor?.lastName ??
+                                        "none assigned"}
                                     </td>
-                                    <td>
-                                      {queue.consultationTitle}
-                                    </td>
+                                    <td>{queue.consultationTitle}</td>
                                     <td>{queue.reasonForConsultation}</td>
                                     <td>
                                       <div className="text-muted text-nowrap">
-                                        {new Date(queue.dateOfConsultation).toDateString()}
+                                        {new Date(
+                                          queue.dateOfConsultation
+                                        ).toDateString()}
                                       </div>
                                     </td>
-
                                   </tr>
                                 ))}
                             </tbody>

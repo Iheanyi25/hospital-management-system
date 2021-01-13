@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { formatInputDate } from "../../utils/formatInputDate";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { updateDrugUrl } from "../../api/URLs";
 
 const $ = window.$;
 
@@ -31,13 +31,10 @@ const UpdateDrug = ({ drug, id, update }) => {
     console.log(payload);
     e.preventDefault();
     try {
-      let res = await fetch(`${apiUrl}/Pharmacy/UpdateDrug`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      });
-      console.log(res);
+      const updateDrug = updateDrugUrl()
+      const updateDrugConfig = fetchConfig({url : updateDrug, data: payload, method : 'post'})
+      const res = await fetchWrapper(updateDrugConfig)
+
       if (res.status === 200) {
         console.log(res);
         update();
@@ -175,7 +172,6 @@ const UpdateDrug = ({ drug, id, update }) => {
                     <input
                       className="form-control"
                       type="date"
-                      min={formatInputDate()}
                       tabIndex={-98}
                       name="expiryDate"
                       value={expiryDate}

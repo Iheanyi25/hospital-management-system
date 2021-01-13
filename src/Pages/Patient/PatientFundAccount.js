@@ -6,8 +6,10 @@ import {
 import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postPatientFundAccountUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 class FundAccount extends React.Component {
   static contextType = UserContext;
   state = {
@@ -30,12 +32,10 @@ class FundAccount extends React.Component {
       transactionReference: reference,
     };
     try {
-      let res = await fetch(`${apiUrl}/Patient/Account/FundAccount`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      });
+      const postPatientFundAccount = postPatientFundAccountUrl()
+      const postPatientFundAccountConfig = fetchConfig({url : postPatientFundAccount, data: payload, method : 'post'})
+      const res = await fetchWrapper(postPatientFundAccountConfig)
+     
       if (res.status === 200) {
         this.handleSuccess(true);
       }

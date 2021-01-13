@@ -1,4 +1,7 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientAllAppointmentsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -9,7 +12,6 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientName:
         JSON.parse(localStorage.getItem("authenticatedUser")).firstName +
@@ -32,12 +34,12 @@ class Dashboard extends React.Component {
   async getPatientAppointments() {
     var pendingAppointments = [];
     var pendingAppointmentsCount = 0;
-    const { apiUrl } = this.state;
-    const response = await fetch(
-      `${apiUrl}/Patient/ViewAllAppointments?PatientId=${this.state.patientId}`
-    );
-    const data = await response.json();
 
+    const getPatientAllAppointments = getPatientAllAppointmentsUrl(this.state.patientId);
+    const getPatientAllAppointmentsConfig = fetchConfig({ url: getPatientAllAppointments, method: "get" });
+    const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
+
+    console.log(data,77777)
     this.setState({ patientAppointments: data.appointments });
 
     data.appointments.forEach((appointment) => {

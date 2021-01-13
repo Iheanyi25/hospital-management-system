@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRavePayment } from "react-ravepayment";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postAdminFundAccountsUrl, postPatientFundAccountUrl } from "../../api/URLs";
 import flutterwave1 from "../../assets/img/flutterwave1.svg";
 import flutterwave2 from "../../assets/img/flutterwave2.svg";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 const PayWithFlutter = ({ paymentDetails, handleSuccess }) => {
   let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
@@ -45,14 +46,11 @@ const PayWithFlutter = ({ paymentDetails, handleSuccess }) => {
       transactionRefrence: reference.data.data.orderRef,
       paymentDescription: paymentDetails.paymentDescription,
     };
-    console.log(payload);
     try {
-      let res = await fetch(`${apiUrl}/${userType}/Account/FundAccount`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      });
+      const postFundAccounts = userType === "Admin" ? postAdminFundAccountsUrl() : postPatientFundAccountUrl()
+      const postAdminFundAccountsConfig = fetchConfig({ url: postFundAccounts, data: payload, method: "post" });
+      const res = await fetchWrapper(postAdminFundAccountsConfig)
+      
       if (res.status === 200) {
         handleSuccess(true);
       }

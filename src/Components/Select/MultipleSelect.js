@@ -5,7 +5,7 @@ let interval = undefined;
 let selectBasic = Math.random();
 selectBasic = selectBasic.toString().replace(".", "_");
 
-const MultipleSelect = ({ data, showServices, label, itemKey, onChange, valueKey, notAvailableText }) => {
+const MultipleSelect = ({ data, isFetchingServicesInCategory, showServices, label, itemKey, onChange, valueKey, notAvailableText }) => {
 
     useEffect(() => {
         console.log("the data from the useEffect", data)
@@ -60,8 +60,8 @@ const MultipleSelect = ({ data, showServices, label, itemKey, onChange, valueKey
                         >
                             <option disabled value="">
                                 {
-                                    data.length > 0
-                                        ? `Select ${label}`
+                                    !isFetchingServicesInCategory
+                                        ? data.length > 0 ? `Select ${label}` : 'No Services in this category'
                                         : 'Loading...'
                                 }
                                 {/** added loading this.state to the form ** */}

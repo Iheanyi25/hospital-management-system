@@ -1,9 +1,10 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getAllAccountsUrl, getAllServiceRequestInvoiceUrl, getRegistrationFeeInvoiceUrl  } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 const $ = require("jquery");
 const echarts = require("echarts");
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -125,20 +126,26 @@ class Dashboard extends React.Component {
   }
 
   async fetchInvoices() {
-    const res = await fetch(`${apiUrl}/Admin/GetRegistrationFeeInvoices`);
-    const response = await res.json();
-    this.setState({ registrationInvoices: response.registrationInvoices });
+    const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl(this.state.doctorId)
+    const getRegistrationFeeInvoiceConfig = fetchConfig({url : getRegistrationFeeInvoice, method : 'get'})
+    const { data } = await fetchWrapper(getRegistrationFeeInvoiceConfig)
+
+    this.setState({ registrationInvoices: data.registrationInvoices });
   }
 
   async fetchServiceRequestInvoices() {
-    const res = await fetch(`${apiUrl}/Admin/GetAllServiceRequestInvoice`);
-    const response = await res.json();
-    this.setState({ serviceRequestInvoices: response.serviceInvoices });
+    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl()
+    const getAllServiceRequestInvoiceConfig = fetchConfig({url : getAllServiceRequestInvoice, method : 'get'})
+    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig)
+
+    this.setState({ serviceRequestInvoices: data.serviceInvoices });
   }
 
   fecthAllAcounts = async () => {
-    const response = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`);
-    const data = await response.json();
+    const getAllAccounts = getAllAccountsUrl()
+    const getAllAccountsUrlConfig = fetchConfig({url : getAllAccounts, method : 'get'})
+    const { data } = await fetchWrapper(getAllAccountsUrlConfig)
+
     this.setState({ accounts: data.accounts });
   };
 

@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl } from "../../api/URLs";
 import { SelectableDropDown } from "../Select/SelectableDropDown";
 import { SearchDoctorsBySpecializationModal } from "./searchDoctorBySpecialization";
 const $ = window.$;
+
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class SearchDoctorsModal extends React.Component {
   constructor(props) {
@@ -27,8 +30,10 @@ class SearchDoctorsModal extends React.Component {
   }
 
   fetchDoctors = async () => {
-    let res = await fetch(apiUrl + "/Doctor/GetDoctors");
-    const data = await res.json();
+    const getDoctors = getDoctorsUrl()
+    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+    const {data} = await fetchWrapper(getDoctorsConfig)
+
     const doctorArray = [];
 
     data.doctors.forEach((element) => {

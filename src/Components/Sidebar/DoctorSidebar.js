@@ -1,6 +1,9 @@
 import React from "react";
 import { NavLink as Link } from "react-router-dom";
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorAvailabilityUrl, updateDoctorAvailabilityUrl } from "../../api/URLs";
+
 class DoctorSidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -13,22 +16,19 @@ class DoctorSidebar extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctorAvailability?DoctorId=${this.state.doctorId}`
-    );
-
-    const data = await response.json();
-
-    this.setState({ doctorAvailability: data.isAvailable });
+    await this.fetchDoctorAvailability()
   }
 
   async fetchDoctorAvailability() {
-    const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctorAvailability?DoctorId=${this.state.doctorId}`
-    );
+    try {
+      const getDoctorAvailability = getDoctorAvailabilityUrl(this.state.doctorId)
+      const getDoctorAvailabilityConfig = fetchConfig({url : getDoctorAvailability, method : 'get'})
+      const { data } = await fetchWrapper(getDoctorAvailabilityConfig)
 
-    const data = await response.json();
-    this.setState({ doctorAvailability: data.isAvailable });
+      this.setState({ doctorAvailability: data.isAvailable }); 
+    } catch (err) {
+      this.setState({ showErrorMessage: true, errorMessage: err.message });
+    }
   }
 
   async setAvailability(e) {
@@ -37,30 +37,22 @@ class DoctorSidebar extends React.Component {
     const { doctorId } = this.state;
 
     try {
-      const request = await fetch(
-        `${apiUrl}/Doctor/UpdateDoctorAvailability?DoctorId=${doctorId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const updateDoctorAvailability = updateDoctorAvailabilityUrl(doctorId)
+      const updateDoctorAvailabilityConfig = fetchConfig({url : updateDoctorAvailability, method : 'post'})
+      const res = await fetchWrapper(updateDoctorAvailabilityConfig)
+      const {error, data} = res;
 
-      if (!request.ok) {
-        const error = await request.json();
+      if (res.status !== 200) {
         throw Error(error.message);
       }
-
-      const data = await request.json();
-
       this.setState({
         showSuccessMessage: true,
         successMessage: data.message,
         consultationTitle: "",
         reasonForConsultation: "",
+        doctorAvailability: !this.state.doctorAvailability
       });
-      this.fetchDoctorAvailability();
+      
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
@@ -73,7 +65,7 @@ class DoctorSidebar extends React.Component {
 
   render() {
     const { doctorAvailability } = this.state;
-
+    console.log(doctorAvailability,55555)
     return (
       <>
         {/* Vertical navbar */}
@@ -149,7 +141,7 @@ class DoctorSidebar extends React.Component {
                           type="checkbox"
                           className="custom-control-input"
                           id="control2"
-                          checked={doctorAvailability ? true : false}
+                          checked={doctorAvailability}
                           onClick={(e) => this.setAvailability(e)}
                         />{" "}
                         <label className="custom-control-label" for="control2">
