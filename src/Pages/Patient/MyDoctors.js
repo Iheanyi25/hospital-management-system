@@ -4,6 +4,10 @@ import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
 
 
+
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
+
 class MyDoctors extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +27,12 @@ class MyDoctors extends React.Component {
     }
 
     componentDidMount() {
-        this.getAllDoctors();
+        this.getAllDoctors().then(() => this.sync());
+    }
+
+    sync() {
+        this.$el = $(this.el);
+        this.$el.DataTable();
     }
 
     render() {
@@ -37,9 +46,27 @@ class MyDoctors extends React.Component {
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
                     <div className="main-content-wrap">
+                        <div className="row">
+                            <div className="col col-12 col-md-6 col-xl-3">
+                                <div className="card animated fadeInUp delay-01s bg-light">
+                                    <div className="card-body">
+                                        <div className="row align-items-center">
+                                            <div className="col col-5">
+                                                <div className="icon p-0 fs-48 text-primary opacity-50 icofont-users"></div>
+                                            </div>
+                                            <div className="col col-7">
+                                                <h6 className="mt-0 mb-1">Doctors</h6>
+                                                <div className="count text-primary fs-20">{doctors.length ?? 0}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <header className="page-header">
                             <h4 className="page-title">My Doctors</h4>
                         </header>
+
                         <div className="page-content">
                             <div className="table-responsive">
                                 <table
@@ -59,7 +86,7 @@ class MyDoctors extends React.Component {
                                     </thead>
 
                                     <tbody>
-                                        {this.state.doctors.map((doctor) => (
+                                        {doctors.map((doctor) => (
                                             <tr>
                                                 <td>
                                                     <img

@@ -34,6 +34,8 @@ class Consultations extends React.Component {
       patientsAttendedToCount: 0,
       success: { show: false, message: "", delError: false },
     };
+
+    this.getAllConsultations = this.getAllConsultations.bind(this);
   }
 
   async componentDidMount() {
@@ -263,7 +265,8 @@ class Consultations extends React.Component {
 
         <ReAssign
           consultationId={this.state.activeConsultation}
-          route={"ReassignConsultation"}
+          route={"ReassignPatientToAnotherDoctor"}
+          reRun={this.getAllConsultations}
         />
       </>
     );
