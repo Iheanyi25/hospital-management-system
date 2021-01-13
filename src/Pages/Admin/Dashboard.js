@@ -22,20 +22,20 @@ class Dashboard extends React.Component {
 
   async componentDidMount() {
     const getPatientConsultations = getPatientConsultationsUrl();
-    const getPatientConsultationsConfig = fetchConfig({url: getPatientConsultations, method: "get" });
+    const getPatientConsultationsConfig = fetchConfig({ url: getPatientConsultations, method: "get" });
     const { data } = await fetchWrapper(getPatientConsultationsConfig);
     this.setState({ doctorConsultations: data.consultations });
 
     const getDoctorAppointments = getDoctorAppointmentsUrl();
     const getDoctorAppointmentsConfig = fetchConfig({ url: getDoctorAppointments, method: "get" });
-    const { data: {doctorsAppointments} } = await fetchWrapper(getDoctorAppointmentsConfig);
+    const { data: { doctorsAppointments } } = await fetchWrapper(getDoctorAppointmentsConfig);
 
     this.setState({ doctorAppointments: doctorsAppointments });
 
     const getAdminDashboard = getAdminDashboardUrl();
     const getAdminDashboardConfig = fetchConfig({ url: getAdminDashboard, method: "get" });
 
-    const {data: systemCount} = await fetchWrapper(getAdminDashboardConfig);
+    const { data: systemCount } = await fetchWrapper(getAdminDashboardConfig);
     this.setState({ systemCount }, () => {
       this.sync();
     });
@@ -239,8 +239,15 @@ class Dashboard extends React.Component {
                                       ) ?? ""}
                                     </div>
                                   </td>
-
-                                  <td>mumps</td>
+                                  <td>{
+                                    consultation.isCompleted ?
+                                      "COMPLETED" :
+                                      consultation.isCancelled ?
+                                        "CANCELLED" :
+                                        consultation.isExpired ?
+                                          "EXPIRED" :
+                                          "PENDING"
+                                  }</td>
                                 </tr>
                               )
                             )}
@@ -329,7 +336,21 @@ class Dashboard extends React.Component {
                                     </div>
                                   </td> */}
                                   <td>
-                                    <div>Not Completed</div>
+                                    <div>{
+                                      appointment.isCompleted ?
+                                        "COMPLETED" :
+                                        appointment.isRejected ?
+                                          "REJECTED" :
+                                          appointment.isAccepted ?
+                                            "ACCEPTED" :
+                                            appointment.isCancelled ?
+                                              "CANCELLED" :
+                                              appointment.isPending ?
+                                                "PENDING" :
+                                                appointment.isExpired ?
+                                                  "EXPIRED" :
+                                                  ""
+                                    }</div>
                                   </td>
                                 </tr>
                               )
