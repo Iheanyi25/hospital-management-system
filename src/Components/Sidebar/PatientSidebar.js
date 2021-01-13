@@ -92,7 +92,7 @@ class PatientSidebar extends React.Component {
 													<span className="link-text">View Profle</span>
 												</Link>
 											</li>
-											
+
 										</ul>
 									</li>
 
@@ -101,7 +101,7 @@ class PatientSidebar extends React.Component {
 									</li>
 									<li className="menu-item has-sub">
 										<Link className="item-link" to="#">
-										
+
 											<span className="link-icon icofont-history" />
 											<span className="link-text">Health Records</span>{' '}
 											<span className="link-caret icofont-thin-right" />
@@ -118,6 +118,12 @@ class PatientSidebar extends React.Component {
 												</Link>
 											</li>
 										</ul>
+									</li>
+									<li className="menu-item">
+										<Link className="item-link" to="/MyDoctors">
+											<span className="link-icon icofont-users" />
+											<span className="link-text">My Doctors</span>{' '}
+										</Link>
 									</li>
 								</ul>
 							</nav>

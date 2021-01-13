@@ -16,6 +16,7 @@ import ViewServiceRequests from "../Pages/Components/ViewServiceRequests";
 import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
 import ClarkingHistory from "../Pages/Components/ClarkingHistory";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
+import MyPatients from "../Pages/Doctor/MyPatients";
 
 export default function DoctorRoutes() {
   return (
@@ -27,6 +28,11 @@ export default function DoctorRoutes() {
             exact
             path="/DoctorPatientsList"
             component={DoctorPatientsList}
+          />
+          <Route
+            exact
+            path="/myPatients"
+            component={MyPatients}
           />
           <Route
             exact

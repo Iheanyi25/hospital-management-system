@@ -28,6 +28,10 @@ const AddExperience = ({
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
+
     try {
       const postDoctorExperience = postDoctorExperienceUrl()
       const postDoctorExperienceConfig = fetchConfig({url : postDoctorExperience, data:JSON.stringify([details]), method : 'post'})
