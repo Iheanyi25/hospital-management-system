@@ -57,15 +57,14 @@ class ReAssign extends React.Component {
             doctorId: this.state.doctorId
         };
 
-        console.log(data)
-
         const postReAssignment = postReAssignmentUrl(this.props[key[1]])
         const postReAssignmentConfig = fetchConfig({ url: postReAssignment, data, method: 'post' })
         const res = await fetchWrapper(postReAssignmentConfig)
 
-        this.setState({ success: true, message: res.message }, () =>
-            this.closeModal()
-        )
+        this.setState({ success: true, message: res.message }, () => {
+            this.closeModal();
+            this.props["reRun"]();
+        })
     }
 
     closeModal = () => {
