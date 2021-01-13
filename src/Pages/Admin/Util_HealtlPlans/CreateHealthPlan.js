@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { createHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, TemplateSettings } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { isBoolean, isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 export default class CreateHealthPlan extends Component {
   state = {
@@ -14,6 +16,33 @@ export default class CreateHealthPlan extends Component {
     instantBilling: false,
 
     success: false,
+    formDone: false
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if ( this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    }
+    else if(!this.checkValidity() && formDone){
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
+  }
+
+  checkValidity = () => {
+    const { name, cost, renewal, noOfPatients, noOfAccounts, instantBilling } = this.state
+    return (
+      isNotEmptyString(name) &&
+      isValidPositiveInteger(cost) &&
+      isValidPositiveInteger(renewal) &&
+      isValidPositiveInteger(noOfPatients) &&
+      isValidPositiveInteger(noOfAccounts) &&
+      isBoolean(instantBilling)
+    );
   };
 
   handleSubmit = async (e) => {
@@ -35,12 +64,10 @@ export default class CreateHealthPlan extends Component {
       this.state.noOfAccounts !== ""
     ) {
       try {
-        let res = await fetch(`${apiUrl}/Admin/CreateHealthPlan`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+        const createHealthPlan = createHealthPlanUrl()
+        const createHealthPlanConfig = fetchConfig({url : createHealthPlan, data, method : 'post'})
+        const res = await fetchWrapper(createHealthPlanConfig)
+
         if (res.status === 200 || res.status === 201) {
           this.setState({ success: true });
         }
@@ -76,7 +103,7 @@ export default class CreateHealthPlan extends Component {
                         onSubmit={this.handleSubmit}
                         noValidate
                       >
-                        <h4 className="text-center">Create a health plan</h4>
+                        <h4 className="text-center">Create a Health Plan</h4>
                         <div className="form-group">
                           <label>Name</label>
                           <input
@@ -201,7 +228,7 @@ export default class CreateHealthPlan extends Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" disabled={!this.state.formDone}>
                               Submit
                             </button>
                           </div>

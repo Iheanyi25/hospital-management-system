@@ -1,12 +1,18 @@
 import React from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { createServiceUrl, getAllServicesCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { UserContext } from "../../../mobx/UserState";
+import {
+  isNotEmptyString,
+  isValidPositiveInteger,
+} from "../../../utils/validationUtils";
 
 class CreateService extends React.Component {
+  static contextType = UserContext;
   state = {
-    user: {},
     categories: [],
 
     name: "",
@@ -14,25 +20,34 @@ class CreateService extends React.Component {
     cost: "",
 
     success: false,
+    formDone: false,
   };
 
   componentDidMount() {
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
     this.fetchServiceCategories();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if (this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    } else if (!this.checkValidity() && formDone) {
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
   }
 
   fetchServiceCategories = async () => {
     try {
-      let res = await fetch(`${apiUrl}/Admin/GetAllServiceCategories`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      console.log(JSON.parse(data));
-      this.setState({ categories: JSON.parse(data) });
+     
+      const getAllServicesCategory = getAllServicesCategoryUrl()
+      const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
+      const {data} = await fetchWrapper(getAllServicesCategoryConfig)
+
+      this.setState({ categories: data });
     } catch (error) {
       console.log(error);
     }
@@ -51,12 +66,9 @@ class CreateService extends React.Component {
       this.state.cost !== ""
     ) {
       try {
-        let res = await fetch(`${apiUrl}/Admin/CreateService`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+        const createService = createServiceUrl()
+        const createServiceConfig = fetchConfig({url : createService, data, method : 'post'})
+        const res = await fetchWrapper(createServiceConfig)
         if (res.status === 200) {
           this.setState({ success: true });
         }
@@ -66,8 +78,19 @@ class CreateService extends React.Component {
     }
   };
 
+  checkValidity = () => {
+    const { name, cost, serviceCategoryId } = this.state;
+    return (
+      isNotEmptyString(name) &&
+      isNotEmptyString(serviceCategoryId) &&
+      isValidPositiveInteger(cost)
+    );
+  };
+
   render() {
-    const { user, success, categories } = this.state;
+    const content = this.context;
+    const { user } = content;
+    const { success, categories, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -164,7 +187,11 @@ class CreateService extends React.Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              disabled={formDone ? false : true}
+                            >
                               Submit
                             </button>
                           </div>

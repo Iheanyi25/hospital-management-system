@@ -1,38 +1,43 @@
-import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import PharmacyDashboard from "../Pages/Pharmacy/Dashboard";
-import PharmacyCreateDrugCategories from "../Pages/Pharmacy/CreateCategories";
-import PharmacyManageDrugCategories from "../Pages/Pharmacy/ManageCategories";
-import PharmacyCreateDrugSubCategories from "../Pages/Pharmacy/CreateSubCategories";
-import PharmacyManageDrugSubCategories from "../Pages/Pharmacy/ManageSubCategories";
-import PharmacyCreateDrug from "../Pages/Pharmacy/CreateDrug";
-import PharmacyManageDrugs from "../Pages/Pharmacy/ManageDrugs";
-import { PharmacyLayout } from '../Components/Layout';
-import ViewPharmacyProfile from '../Pages/Pharmacy/ViewPharmacyProfile';
-import ViewChangePassword from '../Pages/Components/ViewChangePassword';
-
-
+import { PharmacyLayout } from "../Components/Layout";
+import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
+import RegisterDrug from "../Pages/Admin/Pharmacy/RegisterDrug";
+import ViewDrugs from "../Pages/Admin/Pharmacy/ViewDrugs";
+import ViewDrug from "../Pages/Admin/Pharmacy/ViewDrug";
+import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
+import DrugPrescription from '../Pages/Admin/Pharmacy/DrugPrescription'
 
 export default function PharmacyRoutes() {
-    return (
-        <BrowserRouter basename="pharmacy"  >
-            <PharmacyLayout>
-                <Switch >
+  return (
+    <BrowserRouter basename="pharmacy">
+      <PharmacyLayout>
+        <Switch>
+          <Route
+            exact
+            path="/PharmacyDashboard"
+            component={PharmacyDashboard}
+          />
+          <Route
+            exact
+            path="/PharmacyProfile"
+            component={ViewPharmacyProfile}
+          />
 
-                    <Route exact path="/PharmacyDashboard" component={PharmacyDashboard} />
-                    <Route exact path="/PharmacyCreateDrugCategories" component={PharmacyCreateDrugCategories} />
-                    <Route exact path="/PharmacyManageDrugCategories" component={PharmacyManageDrugCategories} />
-                    <Route exact path="/PharmacyCreateDrugSubCategories" component={PharmacyCreateDrugSubCategories} />
-                    <Route exact path="/PharmacyManageDrugSubCategories" component={PharmacyManageDrugSubCategories} />
-                    <Route exact path="/PharmacyCreateDrug" component={PharmacyCreateDrug} />
-                    <Route exact path="/PharmacyManageDrugs" component={PharmacyManageDrugs} />
-                    <Route exact path="/ChangePassword" component={ViewChangePassword} />
-                    <Route exact path="/PharmacyProfile" component={ViewPharmacyProfile} />
+          <Route exact path="/PharmacyRegisterDrug" component={RegisterDrug} />
+          <Route exact path="/PharmacyViewDrugs" component={ViewDrugs} />
+          <Route exact path="/PharmacyViewDrug/:id" component={ViewDrug} />
+          <Route exact path="/PharmacyManagePrescriptions" component={ManagePrescriptions} />
+          <Route exact path="/PharmacyDrugPrescription/:id" component={DrugPrescription} />
 
-                    <Route exact path="*" render={() => <Redirect to="/PharmacyDashboard" />} />
-
-                </Switch>
-            </PharmacyLayout>
-        </BrowserRouter>
-    )
+          <Route
+            exact
+            path="*"
+            render={() => <Redirect to="/PharmacyDashboard" />}
+          />
+        </Switch>
+      </PharmacyLayout>
+    </BrowserRouter>
+  );
 }

@@ -2,12 +2,13 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import user from "../../assets/img/user.png";
 import formatDate from "../../utils/formatDate";
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
+import { getPatientClarkingHistoryUrl } from "../../api/URLs";
+
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
-
 class ClarkingHistory extends React.Component {
   state = {
     clerkingHistories: [],
@@ -17,18 +18,18 @@ class ClarkingHistory extends React.Component {
     this.fetchClarkingHistories();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.reMount !== this.props.reMount) {
+      this.fetchClarkingHistories();
+    }
+  }
+
   fetchClarkingHistories = async () => {
     const { id } = this.props.patientDetails;
     try {
-      let res = await fetch(
-        `${apiUrl}/Doctor/GetClerkingHistoryForPatient?PatientId=${id}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.json();
+      const getPatientClarkingHistory = getPatientClarkingHistoryUrl(id)
+      const getPatientClarkingHistoryConfig = fetchConfig({ url: getPatientClarkingHistory, method : 'GET'})
+      const {data} = await fetchWrapper(getPatientClarkingHistoryConfig)
       this.setState({
         clerkingHistories: data.clerkingHistory,
       });
@@ -40,6 +41,8 @@ class ClarkingHistory extends React.Component {
   };
 
   render() {
+    const { clerkingHistories } = this.state;
+    // console.log(clerkingHistories, "histories");
     const { firstName, lastName } = this.props.patientDetails;
     return (
       <div className="card-body">
@@ -47,10 +50,10 @@ class ClarkingHistory extends React.Component {
           <h4 className="text-center mb-4">{`${firstName} ${lastName}`}</h4>
         )}
         <div id="accordion" className="mb-3">
-          {this.state.clerkingHistories.length === 0 ? (
+          {clerkingHistories.length === 0 ? (
             <h5 className="text-center mt-5">Nothing to see here</h5>
           ) : (
-              this.state.clerkingHistories.map((clerkingHistory, index) => (
+              clerkingHistories.map((clerkingHistory, index) => (
                 <div className="card mb-0">
                   <div className="card-header" id="headingTwo">
                     <h5 className="mb-0">
@@ -61,9 +64,7 @@ class ClarkingHistory extends React.Component {
                         aria-expanded="true"
                         aria-controls={`collapse${index + 1}`}
                       >
-                        {`Captured on ${formatDate(
-                          clerkingHistory?.consultation?.dateOfConsultation
-                        ) ?? ""
+                        {`Captured on ${formatDate(clerkingHistory?.dateOfClerking) ?? ""
                           }`}
                       </button>
                     </h5>
@@ -83,12 +84,10 @@ class ClarkingHistory extends React.Component {
                         />
                         <div>
                           <h5 className="mb-2 mt-1 font-weight-bold">
-                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
+                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName ?? clerkingHistory?.doctor?.firstName ?? ""} ${clerkingHistory?.consultation?.doctor?.lastName ?? clerkingHistory?.doctor?.lastName ?? ""}`}</u>
                           </h5>
                           <p className="mb-2">
-                            {`Clerked patient on ${formatDate(
-                              clerkingHistory?.consultation?.dateOfConsultation
-                            ) ?? ""
+                            {`Clerked patient on ${formatDate(clerkingHistory?.dateOfClerking) ?? ""
                               }`}
                           </p>
                         </div>
@@ -188,12 +187,7 @@ class ClarkingHistory extends React.Component {
                           </div>
                           <div className="col col-md-6">
                             <h5>Priscriptions</h5>
-                            <p>
-                              Anim pariatur cliche reprehenderit, enim eiusmod
-                              high life accusamus terry richardson ad squid. 3
-                              wolf moon officia aute, non cupidatat skateboard
-                            dolor brunch.{" "}
-                            </p>
+                            <p>{clerkingHistory?.prescription ?? "N/A"}</p>
                           </div>
                         </div>
                       </div>

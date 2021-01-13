@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorAllAppointmentsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -9,7 +12,6 @@ class DoctorConsultations extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       acceptedAppointments: [],
       acceptedAppointmentsCount: 0,
@@ -22,18 +24,18 @@ class DoctorConsultations extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl, doctorId } = this.state;
+    const { doctorId } = this.state;
     var acceptedAppointments = [];
     var activeAppointments = [];
     var pendingAppointments = [];
     var completedAppointments = [];
     var rejectedAppointments = [];
 
-    const response = await fetch(
-      `${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${doctorId}`
-    );
-    const data = await response.json();
-    console.log(data);
+    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(doctorId)
+    const getDoctorAllAppointmentsConfig = fetchConfig({url : getDoctorAllAppointments, method : 'get'})
+    const { data } = await fetchWrapper(getDoctorAllAppointmentsConfig)
+    
+    console.log(data,999999);
     this.setState({ appointments: data });
     if (data.length > 0) {
       data.appointments.forEach((appointment) => {
@@ -162,7 +164,7 @@ class DoctorConsultations extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
@@ -587,15 +589,6 @@ class DoctorConsultations extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

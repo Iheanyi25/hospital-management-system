@@ -1,18 +1,10 @@
-const apiUrl = process.env.REACT_APP_API_URL;
-
-//labTechnician endpoints
-export const getLabProfileUrl = (labId) => `${apiUrl}/Lab/GetALabTechnician?id=${labId}`;
-export const updateLabTechnicianBasicInfoUrl = () => `${apiUrl}/Lab/UpdateLabProfileBasicInfo`;
-export const updateLabTechnicianContactDetailsUrl = () => `${apiUrl}/Lab/UpdateLabProfileContactDetails`;
-
-//Pharmacy endpoints
-export const getPharmacistProfileUrl = (pharmId) => `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
-export const updatePharmacistBasicInfoUrl = () => `${apiUrl}/Pharmacy/UpdatePharmacistBasicInfo`;
-export const updatePharmacistContactDetailsUrl = () => `${apiUrl}/Pharmacy/UpdatePharmacistContactDetails`;
-
-//accountant endpoints
-export const getAccountantProfileUrl = (accountantId) => `${apiUrl}/Accountant/GetAccountant?AccountantId=${accountantId}`;
-export const updateAccountantBasicInfoUrl = () => `${apiUrl}/Accountant/UpdateAccountactBasicInfo`;
-export const updateAccountantContactDetailsUrl = () => `${apiUrl}/Accountant/UpdateAccountantContactDetails`;
+// Authentication endpoints
+export * from './urlCategories/loginUrls.js';
+export * from './urlCategories/adminUrls.js';
+export * from './urlCategories/accountantUrls.js';
+export * from './urlCategories/doctorUrls.js';
+export * from './urlCategories/labUrls.js';
+export * from './urlCategories/pharmacyUrls.js';
+export * from './urlCategories/patientUrls.js';
 
 

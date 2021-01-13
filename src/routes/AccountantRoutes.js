@@ -11,8 +11,8 @@ import PaymentForService from "../Pages/Admin/PaymentForService";
 import RegistrationInvoice from "../Pages/Accountant/RegistrationInvoice";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
-import ViewChangePassword from "../Pages/Components/ViewChangePassword"
-
+import ManagePrescriptionInvoice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
+import PaymentForPrescription from "../Pages/Admin/Pharmacy/PaymentForPrescription";
 
 export default function AccountantRoutes() {
   return (
@@ -24,13 +24,21 @@ export default function AccountantRoutes() {
             path="/AccountantDashboard"
             component={AccountantDashboard}
           />
-          <Route exact path="/AccountantProfile" component={ViewAccountantProfile} />
+          <Route
+            exact
+            path="/AccountantProfile"
+            component={ViewAccountantProfile}
+          />
           <Route
             exact
             path="/AccountFundAccount/:id"
             component={AccountFundAccount}
           />
-          <Route exact path="/AccountantManageAccounts" component={ManageAccounts} />
+          <Route
+            exact
+            path="/AccountantManageAccounts"
+            component={ManageAccounts}
+          />
           <Route
             exact
             path="/AccountManageServiceRequest"
@@ -58,9 +66,15 @@ export default function AccountantRoutes() {
           />
           <Route
             exact
-            path="/changepassword"
-            component={ViewChangePassword}
+            path="/AccountManagePrescriptionInvoice"
+            component={ManagePrescriptionInvoice}
           />
+          <Route
+            exact
+            path="/AccountPaymentForPrescription/:id"
+            component={PaymentForPrescription}
+          />
+
           <Route
             exact
             path="*"

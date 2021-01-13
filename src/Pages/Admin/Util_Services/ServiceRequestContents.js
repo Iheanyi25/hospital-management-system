@@ -4,11 +4,12 @@ import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { getServicesInAnInvoiceUrl } from "../../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class ServiceRequestContents extends React.Component {
   constructor(props) {
@@ -30,12 +31,11 @@ class ServiceRequestContents extends React.Component {
   }
 
   async fetchServiceRequestsInInvoice(invoiceId) {
-    const res = await fetch(
-      apiUrl + `/Admin/GetServicesInAnInvoice/${invoiceId}`
-    );
-    const response = await res.json();
-    console.log(response);
-    this.setState({ serviceRequests: response.serviceRequest });
+    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(invoiceId);
+      const getServicesInAnInvoiceConfig = fetchConfig({ url: getServicesInAnInvoice, method: "get" });
+      const {data} = await fetchWrapper(getServicesInAnInvoiceConfig)
+
+    this.setState({ serviceRequests: data.serviceRequest });
   }
 
   sync() {
@@ -73,6 +73,7 @@ class ServiceRequestContents extends React.Component {
                       invoiceId: invoiceId,
                       patientId: patientId,
                       invoiceNumber: invoiceNumber,
+                      user
                     },
                   }}
                 >
@@ -220,15 +221,6 @@ class ServiceRequestContents extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

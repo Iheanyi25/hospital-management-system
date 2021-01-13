@@ -7,7 +7,9 @@ import {
 	updatePharmacistBasicInfoUrl,
 	updatePharmacistContactDetailsUrl,
 	updateAccountantBasicInfoUrl,
-	updateAccountantContactDetailsUrl
+	updateAccountantContactDetailsUrl,
+	updateAdminBasicInfoUrl,
+	updateAdminContactDetailsUrl
 } from '../../../../api/URLs';
 import ProfileInfoForm from '../common/ProfileInfoForm';
 const $ = window.$;
@@ -35,8 +37,8 @@ export default function EditInfo({ otherDetails, userId : userProfileId, primary
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-        const { firstName, lastName, otherNames, userType } = primaryDetails;
-        const { id, basic, contact} = getUrls[userType]
+		const { firstName, lastName, otherNames, userType } = primaryDetails;
+        const { id, basic, contact} = getUrls[userType.toLowerCase()]
 		const basicInfoUrl = basic;
 		const postBasicInfoUrl = fetchConfig({
 			url: basicInfoUrl,
@@ -78,7 +80,7 @@ export default function EditInfo({ otherDetails, userId : userProfileId, primary
 }
 
 const getUrls = {
-	Pharmacy: {
+	pharmacy: {
         id: "pharmacistId",
 		basic: updatePharmacistBasicInfoUrl(),
 		contact: updatePharmacistContactDetailsUrl()
@@ -88,9 +90,14 @@ const getUrls = {
 		basic: updateLabTechnicianBasicInfoUrl(),
 		contact: updateLabTechnicianContactDetailsUrl()
 	},
-	Accountant: {
+	accountant: {
         id:"accountantId",
 		basic: updateAccountantBasicInfoUrl(),
 		contact: updateAccountantContactDetailsUrl()
+	},
+	admin: {
+		id:"adminId",
+		basic: updateAdminBasicInfoUrl(),
+		contact: updateAdminContactDetailsUrl()
 	}
 };

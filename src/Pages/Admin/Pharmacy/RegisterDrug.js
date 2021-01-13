@@ -1,93 +1,125 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { DrugDescription, DrugType } from "./Components/RegisterDrug";
 import { Success } from "../../../Components/Alerts";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { postDrugUrl } from "../../../api/URLs";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { isNotEmptyString } from "../../../utils/validationUtils";
+import { UserContext } from "../../../mobx/UserState";
 
 class RegisterDrug extends React.Component {
+  static contextType = UserContext;
   state = {
     step: 1,
     firstStepDone: false,
 
+    sku: "",
     name: "",
     title: "",
     genericName: "",
     manufacturer: "",
     drugType: "",
-    // quantityInStock: "",
     quantityPerContainer: "",
     containersPerCarton: "",
+    costPricePerContainer: "",
+    measurment:"",
+    expiryDate: "",
 
     success: false,
     message: "",
+    isSubmitting: false
   };
 
+  componentDidUpdate() {
+    const { firstStepDone } = this.state;
+    if ( this.verifyValidity() && !firstStepDone) {
+      this.setState((state) => ({ ...state, firstStepDone: true }));
+    }
+    else if(!this.verifyValidity() && firstStepDone){
+      this.setState((state) => ({ ...state, firstStepDone: false }));
+    }
+  }
+  verifyValidity = () => {
+    const { sku, name, genericName, manufacturer, expiryDate } = this.state;
+    return (
+      isNotEmptyString(sku) &&
+      isNotEmptyString(name) &&
+      isNotEmptyString(genericName) &&
+      isNotEmptyString(manufacturer) &&
+      isNotEmptyString(expiryDate)
+    );
+  }; 
   nextStep = () => {
-    this.setState({ step: this.state.step + 1 });
+    this.setState((state) => ({ ...state, step: state.step + 1 }));
   };
 
   prevStep = () => {
-    this.setState({ step: this.state.step - 1 });
+    this.setState((state) => ({ ...state, step: state.step - 1 }));
   };
 
   setPayload = (key, value) => {
-    const { name, title, genericName, manufacturer } = this.state;
-    this.setState({
-      ...this.state,
-      [key]: value,
-    });
-    if (name && title && genericName && manufacturer !== "") {
-      this.setState({ firstStepDone: true });
-    }
-    console.log(this.state);
+    this.setState((state) => ({ ...state, [key]: value }));
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    this.setState((state) => ({ ...state, isSubmitting: true }));
     const {
+      sku,
       name,
-      title,
       genericName,
       manufacturer,
       drugType,
       quantityPerContainer,
       containersPerCarton,
+      costPricePerContainer,
+      measurment,
+      expiryDate,
     } = this.state;
     const payload = {
+      sku,
       name,
-      title,
       genericName,
       manufacturer,
       drugType,
       quantityPerContainer,
       containersPerCarton,
+      costPricePerContainer,
+      measurment,
+      expiryDate,
     };
+    const drugUrl = postDrugUrl();
+    const postdrugConfig = fetchConfig({
+      url: drugUrl,
+      method: "post",
+      data: payload,
+    });
     try {
-      let res = await fetch(`${apiUrl}/Pharmacy/RegisterDrug`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      });
+      let res = await fetchWrapper(postdrugConfig);
       if (res.status === 200) {
-        console.log(res);
         this.setState({ success: true, message: res.message });
       }
     } catch (error) {
       console.log(error);
     }
+    this.setState((state) => ({ ...state, isSubmitting: false }));
     console.log(payload);
   };
 
   render() {
+    const content = this.context;
+    const { user } = content;
     const {
+      sku,
       step,
       firstStepDone,
       name,
-      title,
       genericName,
       manufacturer,
+      expiryDate,
       success,
+      ...otherDrugDetails
     } = this.state;
     return (
       <main className="main-content">
@@ -98,7 +130,12 @@ class RegisterDrug extends React.Component {
           <Success
             history={this.props.history}
             message="Well done, you successfully created a category"
-            nextRoute="/AdminViewDrugs"
+            timeOut={400}
+            nextRoute={
+              user.userType === "Admin"
+                ? "/AdminViewDrugs"
+                : "/PharmacyViewDrugs"
+            }
           />
         ) : null}
         <div className="main-content-wrap w-50">
@@ -112,13 +149,21 @@ class RegisterDrug extends React.Component {
                         nextStep={this.nextStep}
                         setPayload={this.setPayload}
                         firstStepDone={firstStepDone}
-                        data={{ name, title, genericName, manufacturer }}
+                        data={{
+                          sku,
+                          name,
+                          genericName,
+                          manufacturer,
+                          expiryDate,
+                        }}
                       />
                     ) : (
                       <DrugType
                         prevStep={this.prevStep}
                         setPayload={this.setPayload}
                         handleSubmit={this.handleSubmit}
+                        drugTypeDetails={otherDrugDetails}
+                        submitting={this.state.isSubmitting}
                       />
                     )}
                   </div>
@@ -132,4 +177,4 @@ class RegisterDrug extends React.Component {
   }
 }
 
-export default RegisterDrug;
+export default observer(RegisterDrug);

@@ -6,10 +6,12 @@ import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 import incomplete from "../../../assets/img/incomplete.svg";
+import { getAllServiceRequestInvoiceUrl } from "../../../api/URLs";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class ManageServiceRequest extends React.Component {
   constructor(props) {
@@ -29,9 +31,11 @@ class ManageServiceRequest extends React.Component {
   }
 
   async fetchCategory() {
-    const res = await fetch(`${apiUrl}/Admin/GetAllServiceRequestInvoice`);
-    const response = await res.json();
-    this.setState({ categories: response.serviceInvoices });
+    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl()
+    const getAllServiceRequestInvoiceConfig = fetchConfig({url : getAllServiceRequestInvoice, method : 'get'})
+    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig)
+
+    this.setState({ categories: data.serviceInvoices });
   }
 
   sync() {
@@ -228,15 +232,6 @@ class ManageServiceRequest extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

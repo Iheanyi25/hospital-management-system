@@ -1,5 +1,8 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -10,15 +13,15 @@ class Patients extends React.Component {
     super(props);
 
     this.state = {
-      patients: [],
-      apiUrl: process.env.REACT_APP_API_URL,
+      patients: []
     };
   }
 
   async getAllPatients() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+  
     this.setState({ patients: data.patients });
   }
 
@@ -174,15 +177,6 @@ class Patients extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

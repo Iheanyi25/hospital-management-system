@@ -9,14 +9,15 @@ import emailImg from '../../../../assets/img/email.svg';
 export default function Bio({ bioDetails }) {
     const { firstName, lastName, phoneNumber, email, userType  } = bioDetails;
     const title = {
-        Pharmacy: "Pharm.",
+        pharmacy: "Pharm.",
         lab: "Lab scientist.",
-        Accountant: "Acc."
-    }
+		accountant: "Acc.",
+		admin: "Admin"
+	}
 	return (
 		<div>
 			<header className="page-header ml-3">
-				<h3 className="page-title">{`${title[userType]} ${firstName || ''} ${lastName || ''}`}</h3>
+				<h3 className="page-title">{`${title[userType.toLowerCase()]} ${firstName || ''} ${lastName || ''}`}</h3>
 			</header>
 			<div className="col col-md-12">
 				<div className="card border-light p-4">

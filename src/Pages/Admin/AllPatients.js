@@ -1,6 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
+import TableSize from "../../Components/DataTable/TableSize";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -10,16 +14,21 @@ class AllPatients extends React.Component {
     super(props);
 
     this.state = {
-      patients: [],
-      apiUrl: process.env.REACT_APP_API_URL,
+      patients: []
     };
   }
 
   async getAllPatients() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
-    this.setState({ patients: data.patients.map((x) => x.patient) });
+    try {
+      const getPatients = getPatientsUrl()
+      const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+      const {data} = await fetchWrapper(getPatientsConfig)
+    
+      this.setState({ patients: data.patients.map((x) => x.patient) });
+    } catch (error) {
+      console.log(error)
+    }
+  
   }
 
   componentDidMount() {
@@ -143,9 +152,10 @@ class AllPatients extends React.Component {
             <header className="page-header">
               <h4 className="page-title">Our Patients</h4>
             </header>
-
+            
             <div className="page-content">
-              <div className="card-body"></div>
+              <TableSize size={this.state.patients.length} heading="Patients"  />
+              {/* <div className="card-body"></div> */}
             </div>
             <div className="page-content">
               <div className="card mb-0">
@@ -165,15 +175,6 @@ class AllPatients extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

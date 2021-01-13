@@ -1,16 +1,21 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { UpdateDrug } from "../../../../../Components/Modals";
+import { UpdateInventory } from "../../../../../Components/Modals";
+import formatAmount from "../../../../../utils/formatAmount";
 import remove from "../../../../../assets/img/remove.svg";
-import update from "../../../../../assets/img/update.svg";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import view from "../../../../../assets/img/view.svg";
+import inventory from "../../../../../assets/img/inventory.svg";
+import { fetchWrapper } from "../../../../../api/fetcher";
+import { fetchConfig } from "../../../../../api/fetchConfig";
+import { deleteDrugUrl } from "../../../../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
 class AllDrugs extends React.Component {
   state = {
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
+
     allDrugs: [],
     singleDrug: {},
   };
@@ -26,18 +31,15 @@ class AllDrugs extends React.Component {
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
-    console.log($(this.el));
   }
 
   deleteDrug = async (id) => {
     const { setSuccess } = this.props;
     try {
-      let res = await fetch(`${apiUrl}/Pharmacy/DeleteDrug`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "DELETE",
-        body: JSON.stringify({ id: id }),
-        redirect: "follow",
-      });
+      const deleteDrugs = deleteDrugUrl();
+      const deleteDrugsConfig = fetchConfig({ url: deleteDrugs, data:{id: id}, method: "delete" });
+      const res = await fetchWrapper(deleteDrugsConfig)
+
       if (res.status === 200) {
         setSuccess(res.message);
       }
@@ -47,8 +49,7 @@ class AllDrugs extends React.Component {
   };
 
   render() {
-    const { allDrugs, singleDrug } = this.state;
-    console.log(allDrugs, "hello");
+    const { allDrugs, singleDrug, user } = this.state;
     return allDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
     ) : (
@@ -63,10 +64,10 @@ class AllDrugs extends React.Component {
             <tr>
               <th>#</th>
               <th>Drug Name</th>
-              <th>Title</th>
               <th>Generic Name</th>
               <th>Type</th>
               <th>Manufacturer</th>
+              <th>Quantity in stock</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -78,12 +79,8 @@ class AllDrugs extends React.Component {
                 </td>
                 <td>
                   <div className="text-muted text-nowrap">
-                    {drug?.name ?? "N/A"}
-                  </div>
-                </td>
-                <td>
-                  <div className="text-muted text-nowrap">
-                    {drug?.title ?? "N/A"}
+                    {drug?.name ?? "N/A"}{" "}
+                    <sub className="text-primary">{drug?.measurment}</sub>
                   </div>
                 </td>
                 <td>
@@ -92,13 +89,21 @@ class AllDrugs extends React.Component {
                   </div>
                 </td>
                 <td>
-                  <div className="text-muted text-nowrap">
+                  <div
+                    className="text-muted text-nowrap"
+                    style={{ textTransform: "capitalize" }}
+                  >
                     {drug?.drugType ?? "N/A"}
                   </div>
                 </td>
                 <td>
                   <div className="text-muted text-nowrap">
                     {drug?.manufacturer ?? "N/A"}
+                  </div>
+                </td>
+                <td>
+                  <div className="text-muted text-nowrap">
+                    {formatAmount(drug?.quantityInStock) ?? "N/A"}
                   </div>
                 </td>
                 <td>
@@ -114,18 +119,29 @@ class AllDrugs extends React.Component {
                     </button>
                     <div className="dropdown-menu">
                       <NavLink
+                        to={{
+                          pathname:
+                            user.userType === "Admin"
+                              ? `/AdminViewDrug/${drug.id}`
+                              : `/PharmacyViewDrug/${drug.id}`,
+                          state: drug?.drugType,
+                        }}
+                        className="btn btn-sm btn-block"
+                      >
+                        <img src={view} alt="view" className="mr-2" />
+                        View drug
+                      </NavLink>
+                      <NavLink
                         to="#"
                         data-toggle="modal"
-                        data-target="#update-drug"
+                        data-target="#update-inventory"
                         className="btn btn-sm btn-block"
-                        onClick={() =>
-                          this.setState({
-                            singleDrug: drug,
-                          })
-                        }
+                        onClick={() => {
+                          this.setState({ singleDrug: drug });
+                        }}
                       >
-                        <img src={update} alt="delete" className="mr-2" />
-                        Update drug
+                        <img src={inventory} alt="inventory" className="mr-2" />
+                        Update inventory
                       </NavLink>
                       <NavLink
                         to="#"
@@ -142,7 +158,7 @@ class AllDrugs extends React.Component {
             )) ?? "N/A"}
           </tbody>
         </table>
-        <UpdateDrug drug={singleDrug} />
+        <UpdateInventory drug={singleDrug} setSuccess={this.props.setSuccess} />
       </div>
     );
   }

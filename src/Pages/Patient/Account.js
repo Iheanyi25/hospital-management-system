@@ -1,17 +1,19 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientAccountBalanceUrl, getPatientAccountTransactionsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
+import formatDate from "../../utils/formatDate";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class PatientAccount extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+  static contextType = UserContext;
+    state = {
       accountBalance: 0,
       accountTransactions: [],
       acceptedAppointments: [],
@@ -19,24 +21,28 @@ class PatientAccount extends React.Component {
       pendingAppointments: [],
       completedAppointments: [],
     };
-  }
 
   async componentDidMount() {
-    const { patientId } = this.state;
-    const response = await fetch(
-      `${apiUrl}/Patient/Account/GetAccountBalance?PatientId=${this.state.patientId}`
-    );
-    const data = await response.json();
+    const content = this.context;
+    const { user } = content;
 
-    const response1 = await fetch(
-      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${patientId}`
-    );
-    const data1 = await response1.json();
+    try {
+      const getPatientAccountBalance = getPatientAccountBalanceUrl(user.id);
+    const getPatientAccountBalanceConfig = fetchConfig({ url: getPatientAccountBalance, method: "get" });
+    const {data} = await fetchWrapper(getPatientAccountBalanceConfig);
+
+    const getPatientAccountTransactions = getPatientAccountTransactionsUrl(user.id);
+    const getPatientAccountTransactionsConfig = fetchConfig({ url: getPatientAccountTransactions, method: "get" });
+    const {data : data1} = await fetchWrapper(getPatientAccountTransactionsConfig);
+
     console.log(data1.accountTransactions);
     this.setState({
       accountBalance: data.accountBalance,
       accountTransactions: data1.accountTransactions,
     });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   sync() {
@@ -44,16 +50,10 @@ class PatientAccount extends React.Component {
     this.$el.DataTable();
   }
 
-  fetchAccountsHistory = async () => {
-    const request = await fetch(
-      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${this.state.patientId}`
-    );
-    const responses = await request.json();
-    console.log({ responses });
-  };
 
   render() {
     const { accountBalance, accountTransactions } = this.state;
+    console.log(accountTransactions);
 
     return (
       <>
@@ -138,28 +138,32 @@ class PatientAccount extends React.Component {
                             </thead>
                             <tbody>
                               {accountTransactions
-                                ? accountTransactions.map((transaction) => (
-                                    <tr>
-                                      <td>{transaction.amount}</td>
-                                      <td>
-                                        <td>{transaction.transactionType}</td>
-                                      </td>
-                                      <td>
-                                        <td>{transaction.paidBy}</td>
-                                      </td>
-                                      <td>
-                                        <td>{transaction.description}</td>
-                                      </td>
-                                      <td>
-                                        <td>{transaction.trasactionDate}</td>
-                                      </td>
-                                      <td>
+                                ? accountTransactions.map(
+                                    (transaction, index) => (
+                                      <tr key={index}>
+                                        <td>{transaction.amount}</td>
                                         <td>
-                                          {transaction.amount}
+                                          <td>{transaction.transactionType}</td>
                                         </td>
-                                      </td>
-                                    </tr>
-                                  ))
+                                        <td>
+                                          <td>{transaction.paidBy}</td>
+                                        </td>
+                                        <td>
+                                          <td>{transaction.description}</td>
+                                        </td>
+                                        <td>
+                                          <td>
+                                            {formatDate(
+                                              transaction.trasactionDate
+                                            )}
+                                          </td>
+                                        </td>
+                                        <td>
+                                          <td>{transaction.amount}</td>
+                                        </td>
+                                      </tr>
+                                    )
+                                  )
                                 : null}
                             </tbody>
                           </table>
@@ -277,15 +281,6 @@ class PatientAccount extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
-              </div>
             </div>
           </div>
         </main>
@@ -294,4 +289,4 @@ class PatientAccount extends React.Component {
   }
 }
 
-export default PatientAccount;
+export default observer(PatientAccount);

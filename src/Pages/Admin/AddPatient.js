@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { PageLoader } from "../../Components";
-import SelectHealthPlan from "./SelectHealthPlan";
+import SelectFamily from "./SelectFamily";
 import { Success } from "../../Components/Alerts";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
+import { getAllHealthPlansUrl, registerPatientUrl } from "../../api/URLs";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
 
 export default class AddPatient extends Component {
   state = {
@@ -14,8 +16,10 @@ export default class AddPatient extends Component {
     email: "",
     healthPlan: "",
     healthPlanId: "",
+    patientId: "",
     accountId: "",
-
+    message: "",
+    isDisabled: true,
     success: false,
   };
 
@@ -23,15 +27,26 @@ export default class AddPatient extends Component {
     this.fetchHealthPlans();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.verifyValidity() && !prevState.isDisabled) {
+      this.setState((state) => ({ ...state, isDisabled: true }));
+    } else if (this.verifyValidity() && prevState.isDisabled) {
+      this.setState((state) => ({ ...state, isDisabled: false }));
+    }
+    //    else {
+    //     this.setState((state) => ({...state, isDisabled: false }));
+    // }
+  }
   fetchHealthPlans = async () => {
     try {
-      let res = await fetch(`${apiUrl}/Admin/GetAllHealthPlans`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      this.setState({ healthPlans: JSON.parse(data).plans });
+      const getAllHealthPlans = getAllHealthPlansUrl();
+      const getAllHealthPlansConfig = fetchConfig({ url: getAllHealthPlans, method: "get", });
+      const { data } = await fetchWrapper(getAllHealthPlansConfig);
+
+      this.setState({ healthPlans: data.plans });
     } catch (error) { }
   };
 
@@ -50,11 +65,8 @@ export default class AddPatient extends Component {
               stage: this.state.stage + 1,
             });
           } else {
-            alert("please fill in the empty fields");
-            console.log(this.state);
-            this.setState({
-              [name]: "",
-            });
+            this.setState({ ...this.state, [name]: "" });
+            alert("please fill in the empty fields")
             return;
           }
           break;
@@ -69,6 +81,17 @@ export default class AddPatient extends Component {
       [name]: value,
     });
   }
+
+  verifyValidity = () => {
+    const { firstName, lastName, email, healthPlan } = this.state;
+    return (
+      isNotEmptyString(firstName) &&
+      isNotEmptyString(lastName) &&
+      isNotEmptyString(email) &&
+      isNotEmptyString(healthPlan) &&
+      isValidEmail(email)
+    );
+  };
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,32 +112,24 @@ export default class AddPatient extends Component {
       healthPlanId !== ""
     ) {
 
-      if (healthPlan.includes("personal")) {
-        await this.submit(data);
-
-      } else {
+      if (healthPlan.includes("family")) {
         this.setNewStage(stage + 1);
+      } else {
+        await this.submit(data);
       }
     }
   };
 
   submit = async (data) => {
     try {
-      let res = await fetch(
-        process.env.REACT_APP_API_URL + "/Admin/RegisterPatient",
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        }
-      );
-      const response = await res.json();
+      const registerPatient = registerPatientUrl()
+      const registerPatientConfig = fetchConfig({ url: registerPatient, data: data, method: 'post' })
+      const res = await fetchWrapper(registerPatientConfig)
+
+      console.log(res, "Response Status")
       if (res.status === 200) {
-        this.setState({ success: true });
-        this.props.history.push("/AdminUpdatePatientProfile/" + response.response.id)
+        this.setState({ success: true, patientId: res.patient.id, message: "Well done, you successfully added a patient" });
       }
-      else return;
     } catch (error) {
       console.log(error);
     }
@@ -138,7 +153,8 @@ export default class AddPatient extends Component {
           {this.state.success ? (
             <Success
               history={this.props.history}
-              message="Well done, you successfully added a patient"
+              message={this.state.message}
+              nextRoute={"/AdminUpdatePatientProfile/" + this.state.patientId}
             />
           ) : null}
           <div className="main-content-wrap w-75">
@@ -234,7 +250,7 @@ export default class AddPatient extends Component {
                           <div className="row">
                             <div className="col"></div>
                             <div className="col text-right">
-                              <button type="submit" className="btn btn-primary">
+                              <button type="submit" className="btn btn-primary" disabled={this.state.isDisabled}>
                                 Register Patient
                               </button>
                             </div>
@@ -243,7 +259,7 @@ export default class AddPatient extends Component {
                       </div>
                     </div>
                   ) : this.state.stage === 1 ? (
-                    <SelectHealthPlan
+                    <SelectFamily
                       healthPlanId={this.state.healthPlanId}
                       currentStage={this.state.stage}
                       stageSetter={this.setNewStage}
@@ -261,84 +277,3 @@ export default class AddPatient extends Component {
   }
 }
 
-//comments
-// selectHealthPlan(val) {
-//     console.log(val);
-//     this.props.history.push({
-//         pathname: '/AdminSelectHealthPlan',
-//         state: this.state
-//     });
-// }
-// async registerPatient(e) {
-// 	e.preventDefault();
-
-// 	const { email, firstName, lastName, password } = this.state;
-// 	try {
-// 		const request = await fetch(`${this.state.apiUrl}/Admin/Register`, {
-// 			method: 'POST',
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify({
-// 				email,
-// 				firstName,
-// 				lastName,
-// 				password,
-// 			}),
-// 		});
-
-// 		if (!request.ok) {
-// 			const error = await request.json();
-// 			throw Error(error.message);
-// 		}
-
-// 		const data = await request.json();
-
-// 		this.setState({
-// 			showSuccessMessage: true,
-// 			successMessage: data.message,
-// 			patientId: data.newApplicationUser.id,
-// 		});
-// 		localStorage.setItem('registeredPatient', JSON.stringify(data.authenticatedUser));
-// 	} catch (err) {
-// 		console.log(err.message);
-// 		this.setState({ showErrorMessage: true, errorMessage: err.message });
-// 	}
-// }
-
-// displayError() {
-// 	if (this.state.showErrorMessage) {
-// 		return (
-// 			<div className="alert alert-danger with-after-icon" role="alert">
-// 				<div className="alert-content">{this.state.errorMessage}</div>
-// 				<div className="alert-icon">
-// 					<i className="icofont-alarm" />
-// 				</div>
-// 			</div>
-// 		);
-// 	}
-// }
-
-// displaySuccess() {
-// 	if (this.state.showSuccessMessage) {
-// 		return (
-// 			<div className="alert alert-info with-after-icon" role="alert">
-// 				<div className="alert-content text-center">
-// 					{this.state.successMessage}.
-// 					<p className="mb-0 ">
-// 						Would you like to update his profile?
-// 						<Link
-// 							to={`/adminupdatepatientprofile/${this.state.patientId}`}
-// 							className="btn btn-outline-light"
-// 						>
-// 							<span className="btn-icon icon icofont-ui-edit mr-2"></span>Update Profile
-// 						</Link>
-// 					</p>
-// 				</div>
-// 				<div className="alert-icon">
-// 					<i className="icon icofont-ui-check" />
-// 				</div>
-// 			</div>
-// 		);
-// 	}
-// }

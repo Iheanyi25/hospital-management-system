@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DoctorProfile } from "../../Components/Profiles";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 const ViewDoctorProfile = (props) => {
   // state = {
   //   id: this.props.match.params.id,

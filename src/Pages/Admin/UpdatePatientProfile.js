@@ -2,8 +2,10 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
 import { Success } from "../../Components/Alerts";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientRegistrationInvoiceUrl, getPatientUrl, updatePatientBasicInfoUrl, updatePatientContactDetailsUrl, UpdatePatientHealthDetailsUrl } from "../../api/URLs";
+import  CountryRegionDropdown  from "../../Components/Select/CountryRegionSelectableDropdown";
 
 class UpdatePatientProfile extends React.Component {
   constructor(props) {
@@ -32,30 +34,35 @@ class UpdatePatientProfile extends React.Component {
 
       success: false,
     };
+    this.saveLocation = this.saveLocation.bind(this);
   }
 
   async componentDidMount() {
     const { params } = this.props.match;
 
     if (params.id) {
-      this.fetchPatientDetails(params.id);
+      await this.fetchPatientDetails(params.id);
       return;
     }
   }
+  // this.state = { country: '', region: '' };
+  // }
+
+  // selectCountry (val) {
+  //   this.setState({ country: val });
+  // }
+
+  // selectRegion (val) {
+  //   this.setState({ region: val });
+  // }
 
   getRegistrationStatus = async () => {
     try {
-      let res = await fetch(
-        `${apiUrl}/Admin/GetRegistrationFeeInvoice?patientId=${this.state.patientId}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-      console.log(JSON.parse(data));
-      this.setState({ paymentStatus: JSON.parse(data).registrationInvoice.paymentStatus });
+      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(this.state.patientId)
+      const getPatientRegistrationInvoiceConfig = fetchConfig({url : getPatientRegistrationInvoice, method : 'get'})
+      const { data } = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+      console.log(data,1111)
+      this.setState({ paymentStatus: data.registrationInvoice.paymentStatus });
     } catch (error) {
       console.log(error);
     }
@@ -64,10 +71,12 @@ class UpdatePatientProfile extends React.Component {
   fetchPatientDetails = async (id) => {
     this.setState({ patientId: id });
 
-    const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${id}`);
-    const data = await response.json();
+    const getPatient = getPatientUrl(this.state.patientId)
+    const getPatientConfig = fetchConfig({url : getPatient, method : 'get'})
+    const { data } = await fetchWrapper(getPatientConfig)
+    console.log(data,222222)
 
-    console.log(data);
+    console.log(data,999999);
 
     this.setState({
       firstName: data.patientProfile.patient.firstName,
@@ -87,7 +96,7 @@ class UpdatePatientProfile extends React.Component {
       allergies: data.patientProfile?.allergies,
       disabilities: data.patientProfile?.disabilities,
     });
-    this.getRegistrationStatus();
+    await this.getRegistrationStatus();
   };
 
   handleChange(name, e) {
@@ -97,36 +106,30 @@ class UpdatePatientProfile extends React.Component {
     });
   }
 
+  saveLocation(name, value) {
+    this.setState({ [name]: value });
+  }
+
   updateCoreDetails = async (e) => {
     e.preventDefault();
     this.setState({ success: false });
 
     try {
-      const {
-        firstName,
-        lastName,
-        otherNames,
-        dateOfBirth,
-        gender,
-        patientId,
-      } = this.state;
+      const payload = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        otherNames: this.state.otherNames,
+        dateOfBirth: this.state.dateOfBirth,
+        gender: this.state.gender,
+        patientId: this.state.patientId,
+      };
 
-      const request = await fetch(`${apiUrl}/Patient/UpdatePatientBasicInfo`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          patientId,
-          firstName,
-          lastName,
-          otherNames,
-          dateOfBirth,
-          gender,
-        }),
-      });
-      console.log(request);
-      if (request.status === 200) {
+      const updatePatientBasicInfo = updatePatientBasicInfoUrl()
+      const updatePatientBasicInfoConfig = fetchConfig({url : updatePatientBasicInfo, data: payload, method : 'post'})
+      const res = await fetchWrapper(updatePatientBasicInfoConfig)
+  
+      console.log(res,33333);
+      if (res.status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -138,33 +141,22 @@ class UpdatePatientProfile extends React.Component {
     e.preventDefault();
 
     try {
-      const {
-        phoneNumber,
-        email,
-        address,
-        state,
-        country,
-        patientId,
-      } = this.state;
+      const payload = {
+        phoneNumber: this.state.phoneNumber,
+        email: this.state.email,
+        address: this.state.address,
+        state: this.state.state,
+        country: this.state.country,
+        patientId: this.state.patientId,
+      };
 
-      const request = await fetch(
-        `${apiUrl}/Patient/UpdatePatientContactDetails`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            phoneNumber,
-            email,
-            address,
-            state,
-            country,
-          }),
-        }
-      );
-      if (request.status === 200) {
+      const updatePatientContactDetails = updatePatientContactDetailsUrl()
+      const updatePatientContactDetailsConfig = fetchConfig({url : updatePatientContactDetails, data: payload, method : 'post'})
+      const res = await fetchWrapper(updatePatientContactDetailsConfig)
+
+      console.log(res,4444)
+
+      if (res.status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -176,33 +168,21 @@ class UpdatePatientProfile extends React.Component {
     e.preventDefault();
 
     try {
-      const {
-        bloodGroup,
-        genoType,
-        diabetic,
-        allergies,
-        disabilities,
-        patientId,
-      } = this.state;
+      const payload = {
+        bloodGroup: this.state.bloodGroup,
+        genoType: this.state.genoType,
+        diabetic: this.state.diabetic,
+        allergies: this.state.allergies,
+        disabilities: this.state.disabilities,
+        patientId:this.state.patientId,
+      };
 
-      const request = await fetch(
-        `${apiUrl}/Patient/UpdatePatientHealthDetails`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            bloodGroup,
-            genoType,
-            allergies,
-            disabilities,
-            diabetic,
-          }),
-        }
-      );
-      if (request.status === 200) {
+      // );
+      const UpdatePatientHealthDetails = UpdatePatientHealthDetailsUrl()
+      const UpdatePatientHealthDetailsConfig = fetchConfig({url : UpdatePatientHealthDetails, data: payload, method : 'post'})
+      const res = await fetchWrapper(UpdatePatientHealthDetailsConfig)
+      console.log(res,55555)
+      if (res.status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -229,6 +209,8 @@ class UpdatePatientProfile extends React.Component {
       disabilities,
       paymentStatus,
     } = this.state;
+
+    console.log(paymentStatus, "PaymentStatus");
     return (
       <>
         <PageLoader />
@@ -249,7 +231,7 @@ class UpdatePatientProfile extends React.Component {
                 <div className="card-body bg-warning p-4">
                   <div className="d-flex justify-content-between">
                     <div className="">
-                      <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>{" "}
+                      <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click, the pay now button to complete registration`}</h6>{" "}
                     </div>
                     <div className="">
                       <Link
@@ -424,48 +406,13 @@ class UpdatePatientProfile extends React.Component {
                             value={address ? address : ""}
                           />
                         </div>
-                        <div className="row">
-                          <div className="col-12 col-sm-6">
-                            <div className="form-group">
-                              <label>State of Origin</label>
-
-                              <select
-                                className="form-control"
-                                title="state"
-                                tabIndex={-98}
-                                onChange={(e) => this.handleChange("state", e)}
-                                value={state ? state : ""}
-                              >
-                                <option disabled value="">
-                                  Select State
-                                </option>
-                                <option>Enugu</option>
-                                <option>Abuja</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-12 col-sm-6">
-                            <div className="form-group">
-                              <label>Country</label>
-
-                              <select
-                                className="form-control"
-                                title="country"
-                                tabIndex={-98}
-                                onChange={(e) =>
-                                  this.handleChange("country", e)
-                                }
-                                value={country ? country : ""}
-                              >
-                                <option disabled value="">
-                                  Select Country
-                                </option>
-                                <option>Nigeria</option>
-                                <option>Ghana</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
+                        {email && (
+                          <CountryRegionDropdown
+                            setLocation={this.saveLocation}
+                            country={this.state.country}
+                            state={this.state.state}
+                          />
+                        )}
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">

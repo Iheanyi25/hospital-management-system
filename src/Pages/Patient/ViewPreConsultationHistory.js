@@ -1,20 +1,23 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { PreConsultationHistory } from "../../Components/Clarking";
+import { UserContext } from "../../mobx/UserState";
 
 class ViewPreConsultationHistory extends React.Component {
+  static contextType = UserContext;
   state = {
     count: "",
   };
 
   setCount = (count) => {
-    console.log(count);
     this.setState({ count: count });
   };
 
   render() {
-    const { firstName, lastName, id } = JSON.parse(
-      localStorage.getItem("authenticatedUser")
-    );
+    const content = this.context;
+    const { user } = content;
+    const { firstName, lastName, id } = user;
+    const { count } = this.state;
     return (
       <main className="main-content">
         <div className="app-loader">
@@ -36,9 +39,7 @@ class ViewPreConsultationHistory extends React.Component {
                     </div>
                     <div className="col col-7">
                       <h6 className="mt-0 mb-1">Pre-consultations</h6>
-                      <div className="count text-primary fs-20">
-                        {this.state.count}
-                      </div>
+                      <div className="count text-primary fs-20">{count}</div>
                     </div>
                   </div>
                 </div>
@@ -58,4 +59,4 @@ class ViewPreConsultationHistory extends React.Component {
   }
 }
 
-export default ViewPreConsultationHistory;
+export default observer(ViewPreConsultationHistory);

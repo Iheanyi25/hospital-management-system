@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorExperienceUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
 const AddExperience = ({
@@ -24,17 +26,17 @@ const AddExperience = ({
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
+
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify([details]),
-        redirect: "follow",
-      });
-      console.log(res);
+      const postDoctorExperience = postDoctorExperienceUrl()
+      const postDoctorExperienceConfig = fetchConfig({url : postDoctorExperience, data:JSON.stringify([details]), method : 'post'})
+      const res = await fetchWrapper(postDoctorExperienceConfig)
+      
       if (res.status === 200) {
         displaySuccess();
         updatePatientDetails();
@@ -56,7 +58,7 @@ const AddExperience = ({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-body">
-            <h5 className="text-center">Add Education</h5>
+            <h5 className="text-center">Add Experience</h5>
             <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Company</label>

@@ -43,7 +43,7 @@ class PatientSidebar extends React.Component {
 
 									<li className="menu-item">
 										<Link className="item-link" to="/PatientDashboard">
-											<span className="link-icon icofont-thermometer-alt" />
+											<span className="link-icon icofont-dashboard-web" />
 											<span className="link-text">Dashboard</span>
 										</Link>
 									</li>
@@ -51,13 +51,13 @@ class PatientSidebar extends React.Component {
 									<li className="menu-item">
 										<Link className="item-link" to="/PatientConsultations">
 											<span className="link-icon icofont-stethoscope-alt" />
-											<span className="link-text">My Consultations </span>
+											<span className="link-text">Consultations </span>
 										</Link>
 									</li>
 									<li className="menu-item">
 										<Link className="item-link" to="/PatientAppointments">
-											<span className="link-icon icofont-stethoscope-alt" />
-											<span className="link-text">My Appointments </span>
+											<span className="link-icon icofont-papers" />
+											<span className="link-text">Appointments </span>
 										</Link>
 									</li>
 									<li className="menu-item">
@@ -67,9 +67,13 @@ class PatientSidebar extends React.Component {
 										</Link>
 									</li>
 									<li className="menu-item">
+										<span className="group-title">WALLET</span>
+									</li>
+
+									<li className="menu-item">
 										<Link className="item-link" to="/PatientAccount">
-											<span className="link-icon icofont-doctor" />
-											<span className="link-text">Accounts</span>
+											<span className="link-icon icofont-wallet" />
+											<span className="link-text">My Account</span>
 										</Link>
 									</li>
 
@@ -78,6 +82,7 @@ class PatientSidebar extends React.Component {
 									</li>
 									<li className="menu-item has-sub">
 										<Link className="item-link" to="#">
+											<span className="link-icon icofont-user-suited" />
 											<span className="link-text">My Profile</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
@@ -87,7 +92,7 @@ class PatientSidebar extends React.Component {
 													<span className="link-text">View Profle</span>
 												</Link>
 											</li>
-											
+
 										</ul>
 									</li>
 
@@ -96,7 +101,9 @@ class PatientSidebar extends React.Component {
 									</li>
 									<li className="menu-item has-sub">
 										<Link className="item-link" to="#">
-											<span className="link-text">My Health Records</span>{' '}
+
+											<span className="link-icon icofont-history" />
+											<span className="link-text">Health Records</span>{' '}
 											<span className="link-caret icofont-thin-right" />
 										</Link>
 										<ul className="sub">
@@ -106,11 +113,17 @@ class PatientSidebar extends React.Component {
 												</Link>
 											</li>
 											<li className="menu-item">
-												<Link className="item-link" to="/PatientClarkingHistory">
-													<span className="link-text">View Clarking History</span>
+												<Link className="item-link" to="/PatientclerkingHistory">
+													<span className="link-text">View clerking History</span>
 												</Link>
 											</li>
 										</ul>
+									</li>
+									<li className="menu-item">
+										<Link className="item-link" to="/MyDoctors">
+											<span className="link-icon icofont-users" />
+											<span className="link-text">My Doctors</span>{' '}
+										</Link>
 									</li>
 								</ul>
 							</nav>

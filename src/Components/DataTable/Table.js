@@ -6,7 +6,7 @@ let tableID = Math.random();
 tableID = tableID.toString().replace(".", "_");
 
 const Table = ({ content }) => {
-
+    console.log("table updated")
     useEffect(() => {
         setJquery();
     }, []);
@@ -18,10 +18,10 @@ const Table = ({ content }) => {
 
     const setJquery = () => {
         interval = setInterval(() => {
-            if (window.$ && window.$.prototype.DataTable) {
+            if (window.$) {
                 clearInterval(interval)
                 $ = window.$;
-                sync()
+                // sync()
             }
         }, 1000);
     }

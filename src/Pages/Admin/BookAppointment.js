@@ -1,7 +1,9 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl, getPatientsUrl, postAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { Success } from "../../Components/Alerts/Success";
 const $ = window.$;
 
 class BookAppointment extends React.Component {
@@ -18,6 +20,7 @@ class BookAppointment extends React.Component {
       appointmentTime: "",
       appointmentTitle: "",
       reasonForAppointment: "",
+      success: false,
     };
   }
 
@@ -55,8 +58,10 @@ class BookAppointment extends React.Component {
   }
 
   fetchPatients = async () => {
-    let res = await fetch(apiUrl + "/Patient/GetPatients");
-    const data = await res.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+    console.log(data,77777)
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -69,8 +74,10 @@ class BookAppointment extends React.Component {
   };
 
   fetchDoctors = async () => {
-    let res = await fetch(apiUrl + "/Doctor/GetDoctors");
-    const data = await res.json();
+    const getDoctors = getDoctorsUrl()
+    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+    const {data} = await fetchWrapper(getDoctorsConfig)
+    console.log(data,66666)
     const doctorArray = [];
 
     data.doctors.forEach((element) => {
@@ -84,7 +91,7 @@ class BookAppointment extends React.Component {
 
   handleChange(name, e) {
     const value = e.target.value;
-    console.log(value);
+    // console.log(value);
     this.setState({
       [name]: value,
     });
@@ -93,37 +100,25 @@ class BookAppointment extends React.Component {
   async bookAppointment(e) {
     e.preventDefault();
 
-    const {
-      appointmentDate,
-      appointmentTime,
-      appointmentTitle,
-      reasonForAppointment,
-      patientId,
-      doctorId,
-    } = this.state;
+    const bookAppointmentDet = {
+      appointmentDate: this.state.appointmentDate,
+      appointmentTime: this.state.appointmentTime,
+      appointmentTitle: this.state.appointmentTitle,
+      reasonForAppointment: this.state.reasonForAppointment,
+      patientId: this.state.patientId,
+      doctorId: this.state.doctorId,
+    }
 
     try {
-      const request = await fetch(`${apiUrl}/Admin/BookAppointment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          appointmentDate,
-          appointmentTime,
-          appointmentTitle,
-          reasonForAppointment,
-          patientId,
-          doctorId,
-        }),
-      });
+      
+      const postAppointment = postAppointmentUrl()
+    const postAppointmentConfig = fetchConfig({url : postAppointment, data: bookAppointmentDet, method : 'post'})
+    const res = await fetchWrapper(postAppointmentConfig)
+      const {data, error} = res;
 
-      if (!request.ok) {
-        const error = await request.json();
+      if (res.status === 200) {
         throw Error(error.message);
       }
-
-      const data = await request.json();
 
       this.setState({
         showSuccessMessage: true,
@@ -133,10 +128,19 @@ class BookAppointment extends React.Component {
         appointmentTitle: "",
         reasonForAppointment: "",
       });
+      this.displaySuccess(this.state.successMessage);
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
   }
+
+  displaySuccess = (message) => {
+    this.setState({ success: true, message: message });
+  };
+
+  changeSuccess = () => {
+    this.setState({ success: false });
+  };
 
   render() {
     let {
@@ -162,19 +166,6 @@ class BookAppointment extends React.Component {
       );
     }
 
-    if (this.state.showSuccessMessage) {
-      displaySuccessMessage = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
-      );
-    }
-
     return (
       <>
         <PageLoader />
@@ -183,6 +174,14 @@ class BookAppointment extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message={this.state.message}
+              callback={this.changeSuccess}
+              nextRoute={"/AdminAppointments"}
+            />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3 className="page-title">Book Appointment</h3>
@@ -197,7 +196,7 @@ class BookAppointment extends React.Component {
                         <div className="row">
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Date</label>
+                              <label>Appointment Date<small className="text-danger">*</small></label>
 
                               <input
                                 type="date"
@@ -214,7 +213,7 @@ class BookAppointment extends React.Component {
 
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Time</label>
+                              <label>Appointment Time<small className="text-danger">*</small></label>
 
                               <input
                                 type="time"
@@ -230,7 +229,7 @@ class BookAppointment extends React.Component {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label>Select A Patient</label>
+                          <label>Select A Patient<small className="text-danger">*</small></label>
                           <select
                             className=" custom-patient-picker rounded form-control"
                             data-live-search="true"
@@ -276,7 +275,7 @@ class BookAppointment extends React.Component {
                         </div>
 
                         <div className="form-group">
-                          <label>Title of Appointment</label>
+                          <label>Title of Appointment<small className="text-danger">*</small></label>
 
                           <input
                             className="form-control"
@@ -290,10 +289,10 @@ class BookAppointment extends React.Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label>Reason for Appointment</label>{" "}
+                          <label>Reason for Appointment<small className="text-danger">*</small></label>{" "}
                           <textarea
                             className="form-control"
-                            placeholder="Readon For Appointment"
+                            placeholder="Reason For Appointment"
                             rows={3}
                             onChange={(e) =>
                               this.handleChange("reasonForAppointment", e)
@@ -333,7 +332,6 @@ class BookAppointment extends React.Component {
                               Book Appointment
                             </button>
                           </div>
-
                         </div>
                       </form>
                     </div>

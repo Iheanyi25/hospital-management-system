@@ -1,8 +1,10 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getAdminDashboardUrl, getDoctorAppointmentsUrl, getPatientConsultationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
@@ -19,22 +21,22 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    const patientQueue = await fetch(
-      `${apiUrl}/Admin/GetPatientConsultations`
-    );
-    let data = await patientQueue.json();
+    const getPatientConsultations = getPatientConsultationsUrl();
+    const getPatientConsultationsConfig = fetchConfig({url: getPatientConsultations, method: "get" });
+    const { data } = await fetchWrapper(getPatientConsultationsConfig);
     this.setState({ doctorConsultations: data.consultations });
 
-    const doctorAppointments = await fetch(
-      `${apiUrl}/Admin/GetDoctorAppointments`
-    );
-    let tempData = await doctorAppointments.json();
-    this.setState({ doctorAppointments: tempData.doctorsAppointments });
+    const getDoctorAppointments = getDoctorAppointmentsUrl();
+    const getDoctorAppointmentsConfig = fetchConfig({ url: getDoctorAppointments, method: "get" });
+    const { data: {doctorsAppointments} } = await fetchWrapper(getDoctorAppointmentsConfig);
 
-    const systemCount = await fetch(`${apiUrl}/Admin/Dashboard`);
-    let systemData = await systemCount.json();
+    this.setState({ doctorAppointments: doctorsAppointments });
 
-    this.setState({ systemCount: systemData }, () => {
+    const getAdminDashboard = getAdminDashboardUrl();
+    const getAdminDashboardConfig = fetchConfig({ url: getAdminDashboard, method: "get" });
+
+    const {data: systemCount} = await fetchWrapper(getAdminDashboardConfig);
+    this.setState({ systemCount }, () => {
       this.sync();
     });
   }
@@ -193,8 +195,6 @@ class Dashboard extends React.Component {
                               <th className="text-nowrap" scope="col">
                                 Status
                               </th>
-
-                              <th scope="col">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -241,16 +241,6 @@ class Dashboard extends React.Component {
                                   </td>
 
                                   <td>mumps</td>
-                                  <td>
-                                    {/* <div className="actions">
-                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-edit" />
-                                      </button>
-                                      <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-delete" />
-                                      </button>
-                                    </div> */}
-                                  </td>
                                 </tr>
                               )
                             )}
@@ -295,8 +285,6 @@ class Dashboard extends React.Component {
                               <th className="text-nowrap" scope="col">
                                 Status
                               </th>
-
-                              <th scope="col">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -342,16 +330,6 @@ class Dashboard extends React.Component {
                                   </td> */}
                                   <td>
                                     <div>Not Completed</div>
-                                  </td>
-                                  <td>
-                                    {/* <div className="actions">
-                                      <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-edit" />
-                                      </button>
-                                      <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                        <span className="btn-icon icofont-ui-delete" />
-                                      </button>
-                                    </div> */}
                                   </td>
                                 </tr>
                               )

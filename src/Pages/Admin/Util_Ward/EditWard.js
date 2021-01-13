@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
+import { fetchConfig } from '../../../api/fetchConfig';
+import { fetchWrapper } from '../../../api/fetcher';
+import { updateWardUrl } from '../../../api/URLs';
 import { PageLoader, TemplateSettings } from '../../../Components';
 import { Success } from '../../../Components/Alerts';
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { isNotEmptyString, isValidPositiveInteger } from '../../../utils/validationUtils';
 
 export default class EditWard extends Component {
 
 	state = {
 		name: "",
 		capacity: "",
-		description: ""
+		description: "",
+		formDone: true,
 	};
 
 	componentDidMount() {
@@ -20,6 +23,29 @@ export default class EditWard extends Component {
 			return this.props.history.push("/AdminDashboard");
 		}
 	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextState !== this.state;
+	  }
+	
+	  componentDidUpdate() {
+		const { formDone } = this.state;
+		if ( this.checkValidity() && !formDone) {
+		  this.setState((state) => ({ ...state, formDone: true }));
+		}
+		else if(!this.checkValidity() && formDone){
+		  this.setState((state) => ({ ...state, formDone: false }));
+		}
+	  }
+	
+	  checkValidity = () => {
+		const { name, capacity, description } = this.state
+		return (
+		  isNotEmptyString(name) &&
+		  isValidPositiveInteger(capacity) &&
+		  isNotEmptyString(description)
+		);
+	  };	
 
 	handleSubmit = async (e) => {
 		e.preventDefault();
@@ -40,12 +66,11 @@ export default class EditWard extends Component {
 			description !== ""
 		) {
 			try {
-				let res = await fetch(`${apiUrl}/Admin/Ward/UpdateWard`, {
-					headers: { "Content-Type": "application/json-patch+json" },
-					method: "POST",
-					body: JSON.stringify(data),
-					// redirect: "follow",
-				});
+				const updateWard = updateWardUrl();
+				const updateWardConfig = fetchConfig({ url: updateWard, data, method: "post" });
+				const res = await fetchWrapper(updateWardConfig)
+
+				console.log(res,99999)
 
 				if (res.status === 200) {
 					this.setState({ success: true });
@@ -124,7 +149,7 @@ export default class EditWard extends Component {
 												<div className="row">
 													<div className="col"></div>
 													<div className="col text-right">
-														<button type="submit" className="btn btn-primary">
+														<button type="submit" className="btn btn-primary" disabled={!this.state.formDone}>
 															Submit
 														</button>
 													</div>

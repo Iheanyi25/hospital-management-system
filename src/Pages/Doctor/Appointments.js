@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorAcceptAppointmentUrl, getDoctorAllAppointmentsUrl, postDoctorCancelAppointmentUrl, postDoctorRejectAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class Appointments extends React.Component {
   constructor(props) {
@@ -32,13 +34,12 @@ class Appointments extends React.Component {
     var completedAppointments = [];
     var rejectedAppointments = [];
 
-    const response = await fetch(
-      `${apiUrl}/Doctor/ViewAllAppointments?DoctorId=${this.state.doctorId}`
-    );
-    const data = await response.json();
+    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(this.state.doctorId)
+    const getDoctorAllAppointmentsConfig = fetchConfig({url : getDoctorAllAppointments, method : 'get'})
+    const { data } = await fetchWrapper(getDoctorAllAppointmentsConfig)
 
     this.setState({ appointments: data.appointments });
-    console.log(data.appointments);
+    console.log(data.appointments,11111);
     data.appointments.forEach((appointment) => {
       if (appointment.isAccepted === true) {
         acceptedAppointments.push(appointment);
@@ -81,21 +82,14 @@ class Appointments extends React.Component {
 
   async acceptAppointment(e, id) {
     e.preventDefault();
-    const { appointmentId } = this.state;
 
     try {
-      const request = await fetch(
-        `${apiUrl}/Doctor/AcceptAnAppointment?AppointmentId=${id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!request.ok) {
-        const error = await request.json();
+      const postDoctorAcceptAppointment = postDoctorAcceptAppointmentUrl(id)
+      const postDoctorAcceptAppointmentConfig = fetchConfig({url : postDoctorAcceptAppointment, method : 'post'})
+      const res = await fetchWrapper(postDoctorAcceptAppointmentConfig)
+      const {error} = res;
+      console.log(res,22222)
+      if (res.status !== 200) {
         throw Error(error.message);
       }
 
@@ -110,18 +104,14 @@ class Appointments extends React.Component {
     e.preventDefault();
 
     try {
-      const request = await fetch(
-        `${apiUrl}/Doctor/RejectAnAppointment?AppointmentId=${id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
 
-      if (!request.ok) {
-        const error = await request.json();
+      const postDoctorRejectAppointment = postDoctorRejectAppointmentUrl(id)
+      const postDoctorRejectAppointmentConfig = fetchConfig({url : postDoctorRejectAppointment, method : 'post'})
+      const res = await fetchWrapper(postDoctorRejectAppointmentConfig)
+      const {error} = res;
+      console.log(res,33333)
+
+      if (res.status !== 200) {
         throw Error(error.message);
       }
 
@@ -136,21 +126,14 @@ class Appointments extends React.Component {
     e.preventDefault();
 
     try {
-      const request = await fetch(
-        `${apiUrl}/Doctor/CancelAnAppointment?AppointmentId=${id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!request.ok) {
-        const error = await request.json();
+      const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id)
+      const postDoctorCancelAppointmentConfig = fetchConfig({url : postDoctorCancelAppointment, method : 'post'})
+      const res = await fetchWrapper(postDoctorCancelAppointmentConfig)
+      const {error} = res;
+      console.log(res,4444)
+      if (res.status !== 200) {
         throw Error(error.message);
       }
-
       this.setState({ success: true });
       this.getDoctorAppointments().then(() => this.sync());
     } catch (err) {
@@ -244,7 +227,7 @@ class Appointments extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
@@ -469,6 +452,36 @@ class Appointments extends React.Component {
                                           Action
                                           </button>
                                         <div className="dropdown-menu text-left">
+                                        <Link
+                                            title="Go for clarking"
+                                            to={{
+                                              pathname: "/DoctorClarking",
+                                              state: {
+                                                id: appointment.id,
+                                                type: "appointment",
+                                                patient: appointment.patient
+                                              }
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-user" />
+                                            Go for Clarking
+                                          </Link>
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: appointment.patient.id,
+                                                firstName: appointment.patient.firstName,
+                                                lastName: appointment.patient.lastName
+                                              },
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
                                           <button
                                             title="Accept Appointment"
                                             onClick={(e) =>
@@ -577,6 +590,21 @@ class Appointments extends React.Component {
                                           Action
                                           </button>
                                         <div className="dropdown-menu text-left">
+                                          <Link
+                                            title="Clarking History"
+                                            to={{
+                                              pathname: "/ViewClarkingHistory",
+                                              state: {
+                                                id: appointment.patient.id,
+                                                firstName: appointment.patient.firstName,
+                                                lastName: appointment.patient.lastName
+                                              },
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                            Clarking History
+                                          </Link>
                                           {/* <button
                                             title="Accept Appointment"
                                             onClick={(e) =>

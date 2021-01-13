@@ -6,9 +6,12 @@ import {
   PageLoader,
   SelectableDropDown,
 } from "../../../Components";
+import { fetchWrapper } from "../../../api/fetcher";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { getAllServicesCategoryUrl, getAllServicesInACategoryUrl, getPatientsUrl, postRequestServicesUrl } from "../../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
+
 
 let selectBasic = Math.random();
 selectBasic = selectBasic.toString().replace(".", "_");
@@ -27,10 +30,12 @@ class CreateServiceRequest extends Component {
     description: "",
     showServices: false,
     success: false,
+    isFetchingCategories: null,
+    isFetchingServicesInCategory: null,
   };
 
   componentDidMount() {
-    console.log(this.props.location.state);
+    // console.log(this.props.location.state);
     if (this.props.location.state) {
       this.setState({
         isFromClarking: true,
@@ -43,9 +48,11 @@ class CreateServiceRequest extends Component {
   }
 
   fetchServiceCategories = async () => {
-    let repsonse = await fetch(apiUrl + "/Admin/GetAllServiceCategories");
-    const data = await repsonse.json();
-    this.setState({ categories: data });
+    const getAllServicesCategory = getAllServicesCategoryUrl()
+    const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
+    const {data} = await fetchWrapper(getAllServicesCategoryConfig)
+    console.log(data,11111)
+    this.setState({ categories: data, isFetchingCategories: false });
   };
 
   renderPicker(customClass) {
@@ -63,8 +70,10 @@ class CreateServiceRequest extends Component {
   }
 
   fetchPatients = async () => {
-    let res = await fetch(apiUrl + "/Patient/GetPatients");
-    const data = await res.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+    console.log(data,2222)
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -77,12 +86,13 @@ class CreateServiceRequest extends Component {
   };
 
   fetchServicesInACategory = async (id) => {
-    let res = await fetch(
-      apiUrl + "/Admin/GetAllServicesInAServiceCategory?serviceCategoryId=" + id
-    );
-    let data = await res.json();
+    this.setState({ isFetchingServicesInCategory: true });
+    const getAllServicesInACategory = getAllServicesInACategoryUrl(id)
+    const getAllServicesInACategoryConfig = fetchConfig({url : getAllServicesInACategory, method : 'get'})
+    const {data} = await fetchWrapper(getAllServicesInACategoryConfig)
 
-    this.setState({ services: data, showServices: true }, () => {
+    console.log(data,99999999)
+    this.setState({ services: data, showServices: true, isFetchingServicesInCategory: false }, () => {
       this.renderPicker(".custom-picker-services");
     });
   };
@@ -189,15 +199,11 @@ class CreateServiceRequest extends Component {
     console.log(payload);
 
     payload.serviceId = serviceId;
-    const request = await fetch(`${apiUrl}/Admin/RequestServices`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    const res = await request.json();
-    console.log(res);
+    const postRequestServices = postRequestServicesUrl()
+    const postRequestServicesConfig = fetchConfig({url : postRequestServices, data:payload, method : 'post'})
+    const res = await fetchWrapper(postRequestServicesConfig)
+
+    console.log(res,8888);
     if (res.message === "Service Request submitted successfully") {
       this.setState({ success: true });
     }
@@ -260,6 +266,7 @@ class CreateServiceRequest extends Component {
                           label={"Service Category"}
                           data={this.state.categories}
                           valueKeys={["name"]}
+                          isFetchingCategories={this.state.isFetchingCategories}
                         />
 
                         <div className="form-group">
@@ -286,6 +293,7 @@ class CreateServiceRequest extends Component {
                           notAvailableText={
                             "Please select a category to continue"
                           }
+                          isFetchingServicesInCategory={this.state.isFetchingServicesInCategory}
                         />
                       </form>
                     </div>
@@ -370,6 +378,7 @@ class CreateServiceRequest extends Component {
                           <button
                             onClick={this.handleSubmit}
                             className="btn btn-primary"
+                            disabled={this.state.values.length === 0}
                           >
                             {this.state.isFromClarking
                               ? "Request for service"

@@ -1,47 +1,58 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { deleteServiceUrl, getAllServicesUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
+import { Success } from "../../../Components/Alerts";
+import TableSize from "../../../Components/DataTable/TableSize";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageServices extends Component {
   state = {
-    user: {},
+    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     services: [],
+    success: { show: false, message: "", delError: false },
   };
 
-  componentDidMount() {
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
-    this.fetchAllServices().then(() => this.sync());
+  async componentDidMount() {
+    await this.fetchAllServices()
   }
 
-  fetchAllServices = async () => {
-    const request = await fetch(
-      `${process.env.REACT_APP_API_URL}/Admin/GetAllServices`
-    );
-    let data = await request.json();
-    this.setState({ services: data });
+  async fetchAllServices() {
+    const getAllServices = getAllServicesUrl();
+    const getAllServicesConfig = fetchConfig({ url: getAllServices, method: "get" });
+    const {data} = await fetchWrapper(getAllServicesConfig)
+    
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    this.setState((state) => ({ ...state, services: data }), () => this.sync());
     console.log({ data });
   };
 
   deleteMe = async (id) => {
-    let res = await fetch(
-      `${process.env.REACT_APP_API_URL}/Admin/DeleteService`,
-      {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify({ id }),
-        redirect: "follow",
-      }
-    );
-    if (res.status === 200) {
-      this.setState({ success: true }, () => {
+    try {
+      const deleteService = deleteServiceUrl();
+      const deleteServiceConfig = fetchConfig({ url: deleteService, data: {id}, method: "post" });
+      const res = await fetchWrapper(deleteServiceConfig)
+
+      if (res.status === 200) {
         this.fetchAllServices();
-      });
+        this.setState((state) => ({
+          ...state,
+          success: { show: true, message: "service successfully deleted", delError: false },
+        }));
+      } else {
+        throw "error occured";
+      }
+    } catch (error) {
+      console.log(error);
+      this.setState((state) => ({
+        ...state,
+        success: { show: true, message: "an error occured", delError: true },
+      }));
     }
-    console.log({ res });
   };
 
   sync() {
@@ -49,8 +60,16 @@ export default class ManageServices extends Component {
     this.$el.DataTable();
   }
 
+  resetShowState = () =>
+  this.setState((state) => ({
+    ...state,
+    success: { show: false, message: " ", delError: false },
+  }));
+
+
   render() {
     const { user } = this.state;
+    console.log(this.state)
     return (
       <>
         <PageLoader />
@@ -59,6 +78,13 @@ export default class ManageServices extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success.show && (
+            <Success
+              message={this.state.success.message}
+              callback={this.resetShowState}
+              isError={this.state.success.delError}
+            />
+          )}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Services</h4>
@@ -73,7 +99,8 @@ export default class ManageServices extends Component {
                 Create Service
               </NavLink>
             </header>
-            <div className="page-content mt-5">
+            <div className="page-content mt-5"> 
+              <TableSize size={this.state.services.length} heading="Services"  />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
@@ -96,7 +123,7 @@ export default class ManageServices extends Component {
                           </thead>
 
                           <tbody>
-                            {this.state.services.length > 0 ? (
+                            {
                               this.state.services.map((item, index) => (
                                 <tr key={index}>
                                   <td>
@@ -156,13 +183,7 @@ export default class ManageServices extends Component {
                                   </td>
                                 </tr>
                               ))
-                            ) : (
-                              <tr>
-                                <td></td>
-                                <td colSpan={2}>Loading...</td>
-                                <td></td>
-                              </tr>
-                            )}
+                            }
                           </tbody>
                         </table>
                       </div>

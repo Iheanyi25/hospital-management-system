@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorOfficeTimeUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
 const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
@@ -20,15 +22,15 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
+
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorOfficeTime`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify([details]),
-        redirect: "follow",
-      });
-      console.log(res);
-      console.log(res.message);
+      const postDoctorOfficeTime = postDoctorOfficeTimeUrl()
+      const postDoctorOfficeTimeConfig = fetchConfig({ url: postDoctorOfficeTime, data: JSON.stringify([details]), method: 'post' })
+      const res = await fetchWrapper(postDoctorOfficeTimeConfig)
+
       if (res.status === 200) {
         displaySuccess(res.message)
         updatePatientDetails();
@@ -59,7 +61,7 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
                   name="workDays"
                   onChange={handleChange}
                 >
-                  <option value="" disabled>
+                  <option value="" selected disabled>
                     Select a day
                   </option>
                   <option value="Monday">Monday</option>

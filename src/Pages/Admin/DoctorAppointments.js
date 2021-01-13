@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 class DoctorAppointments extends React.Component {
@@ -7,7 +10,6 @@ class DoctorAppointments extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       acceptedAppointments: [],
       activeAppointments: [],
@@ -21,34 +23,18 @@ class DoctorAppointments extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl, doctorId } = this.state;
+    const { doctorId } = this.state;
     console.log(this.state);
     var acceptedAppointments = [];
     var activeAppointments = [];
     var pendingAppointments = [];
     var completedAppointments = [];
     var rejectedAppointments = [];
+    const getDoctor = getDoctorUrl(doctorId);
+    const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
+    const { data } = await fetchWrapper(getDoctorConfig);
 
-    const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctor?DoctorId=${doctorId}`
-    );
-    const data = await response.json();
-    console.log(data);
     this.setState({ doctor: data.doctor });
-
-    // data.doctor.forEach((appointment) => {
-    //   if (appointment.applicationUser.appointment.isActive === true) {
-    //     activeAppointments.push(appointment);
-    //   } else if (appointment.applicationUser.appointment.isAccepted === true) {
-    //     acceptedAppointments.push(appointment);
-    //   } else if (appointment.applicationUser.appointment.isCompleted === true) {
-    //     completedAppointments.push(appointment);
-    //   } else if (appointment.applicationUser.appointment.isRejected === true) {
-    //     rejectedAppointments.push(appointment);
-    //   } else {
-    //     pendingAppointments.push(appointment);
-    //   }
-    // });
 
     this.setState({
       activeAppointments: activeAppointments,
@@ -151,7 +137,7 @@ class DoctorAppointments extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
@@ -593,15 +579,6 @@ class DoctorAppointments extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

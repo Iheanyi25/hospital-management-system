@@ -14,7 +14,7 @@ function LabProfile({ labId }) {
 	const { data, error, mutate } = useRequest(getLabProfileConfig);
 
 	const resetShowState = () => setSucces((state) => ({ ...state, show: false }));
-	if (error) return <div>failed to lod</div>;
+	if (error) return <div>failed to load</div>;
 	return (
 		<Fragment>
 			{!data ? (

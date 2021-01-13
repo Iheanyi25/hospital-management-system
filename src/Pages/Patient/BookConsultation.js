@@ -1,4 +1,7 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl, postPatientConsultationUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 class BookConsultation extends React.Component {
@@ -7,7 +10,6 @@ class BookConsultation extends React.Component {
 
     this.state = {
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-      apiUrl: process.env.REACT_APP_API_URL,
       doctor: "",
       doctorProfile: "",
       doctorId: "",
@@ -22,11 +24,10 @@ class BookConsultation extends React.Component {
     //grab the logged in user
     this.setState({ doctorId: params.doctorId });
 
-    const data = await (
-      await fetch(
-        `${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`
-      )
-    ).json();
+    const getDoctors = getDoctorsUrl()
+    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+    const {data} = await fetchWrapper(getDoctorsConfig)
+
     this.setState({
       doctor: data.doctor,
       doctorProfile: data.doctor,
@@ -43,37 +44,22 @@ class BookConsultation extends React.Component {
   async bookConsultation(e) {
     e.preventDefault();
 
-    const {
-      consultationTitle,
-      reasonForConsultation,
-      doctorId,
-      patientId,
-    } = this.state;
-
+    const consultationDet = {
+      consultationTitle: this.state.consultationTitle,
+      reasonForConsultation: this.state.reasonForConsultation,
+      doctorId: this.state.doctorId,
+      patientId: this.state.patientId,
+    }
     try {
-      const request = await fetch(
-        `${this.state.apiUrl}/Patient/BookConsultation`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            consultationTitle,
-            reasonForConsultation,
-            patientId,
-            doctorId,
-          }),
-        }
-      );
 
-      if (!request.ok) {
-        const error = await request.json();
+      const postPatientConsultation = postPatientConsultationUrl()
+      const postPatientConsultationConfig = fetchConfig({url : postPatientConsultation, data: consultationDet, method : 'post'})
+      const res = await fetchWrapper(postPatientConsultationConfig)
+      const {data, error} = res;
+
+      if (res.status !== 200) {
         throw Error(error.message);
       }
-
-      const data = await request.json();
-
       this.setState({
         showSuccessMessage: true,
         successMessage: data.message,

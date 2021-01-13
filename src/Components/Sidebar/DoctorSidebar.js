@@ -1,6 +1,9 @@
 import React from "react";
 import { NavLink as Link } from "react-router-dom";
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorAvailabilityUrl, updateDoctorAvailabilityUrl } from "../../api/URLs";
+
 class DoctorSidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -13,22 +16,19 @@ class DoctorSidebar extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctorAvailability?DoctorId=${this.state.doctorId}`
-    );
-
-    const data = await response.json();
-
-    this.setState({ doctorAvailability: data.isAvailable });
+    await this.fetchDoctorAvailability()
   }
 
   async fetchDoctorAvailability() {
-    const response = await fetch(
-      `${apiUrl}/Doctor/GetDoctorAvailability?DoctorId=${this.state.doctorId}`
-    );
+    try {
+      const getDoctorAvailability = getDoctorAvailabilityUrl(this.state.doctorId)
+      const getDoctorAvailabilityConfig = fetchConfig({url : getDoctorAvailability, method : 'get'})
+      const { data } = await fetchWrapper(getDoctorAvailabilityConfig)
 
-    const data = await response.json();
-    this.setState({ doctorAvailability: data.isAvailable });
+      this.setState({ doctorAvailability: data.isAvailable }); 
+    } catch (err) {
+      this.setState({ showErrorMessage: true, errorMessage: err.message });
+    }
   }
 
   async setAvailability(e) {
@@ -37,30 +37,22 @@ class DoctorSidebar extends React.Component {
     const { doctorId } = this.state;
 
     try {
-      const request = await fetch(
-        `${apiUrl}/Doctor/UpdateDoctorAvailability?DoctorId=${doctorId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const updateDoctorAvailability = updateDoctorAvailabilityUrl(doctorId)
+      const updateDoctorAvailabilityConfig = fetchConfig({url : updateDoctorAvailability, method : 'post'})
+      const res = await fetchWrapper(updateDoctorAvailabilityConfig)
+      const {error, data} = res;
 
-      if (!request.ok) {
-        const error = await request.json();
+      if (res.status !== 200) {
         throw Error(error.message);
       }
-
-      const data = await request.json();
-
       this.setState({
         showSuccessMessage: true,
         successMessage: data.message,
         consultationTitle: "",
         reasonForConsultation: "",
+        doctorAvailability: !this.state.doctorAvailability
       });
-      this.fetchDoctorAvailability();
+      
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
@@ -73,7 +65,7 @@ class DoctorSidebar extends React.Component {
 
   render() {
     const { doctorAvailability } = this.state;
-
+    console.log(doctorAvailability,55555)
     return (
       <>
         {/* Vertical navbar */}
@@ -100,7 +92,7 @@ class DoctorSidebar extends React.Component {
 
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorDashboard">
-                      <span className="link-icon icofont-thermometer-alt" />
+                      <span className="link-icon icofont-dashboard-web" />
                       <span className="link-text">Dashboard</span>
                     </Link>
                   </li>
@@ -108,15 +100,18 @@ class DoctorSidebar extends React.Component {
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorConsultations">
                       <span className="link-icon icofont-stethoscope-alt" />
-                      <span className="link-text">My Consultations</span>
+                      <span className="link-text">Consultations</span>
                     </Link>
                   </li>
 
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorAppointments">
-                      <span className="link-icon icofont-stethoscope-alt" />
-                      <span className="link-text">My Appointments</span>
+                      <span className="link-icon icofont-notepad" />
+                      <span className="link-text">Appointments</span>
                     </Link>
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">Patients</span>
                   </li>
                   <li className="menu-item">
                     <Link className="item-link" to="/DoctorPatientsList">
@@ -126,7 +121,7 @@ class DoctorSidebar extends React.Component {
                   </li>
 
                   <li className="menu-item">
-                    <span className="group-title">Profile Settings</span>
+                    <span className="group-title">Profile</span>
                   </li>
 
                   <li className="menu-item">
@@ -134,37 +129,38 @@ class DoctorSidebar extends React.Component {
                       <span className="link-icon icon sli-user mr-2" />
                       <span className="link-text">Profile</span>{" "}
                     </Link>
-                    {/* <ul className="sub">
-                      <li className="menu-item">
-                        <Link className="item-link" to="/DoctorProfile">
-                          <span className="link-text">View Profile</span>
-                        </Link>{" "}
-                      </li> */}
-                    {/* <li className="menu-item">
-                        <Link className="item-link" to="/DoctorUpdateProfile">
-                          <span className="link-text">Update Profile</span>
-                        </Link>{" "}
-                      </li> */}
-                    {/* </ul> */}
+                    <Link to="/myPatients" className="item-link">
+                      <span className="link-icon icon sli-user mr-2" />
+                      <span className="link-text">My Patients</span>{" "}
+                    </Link>
+                  </li>
+
+                  <li className="menu-item">
+                    <span className="group-title">Availability</span>
+                  </li>
+                  <li className="menu-item">
+                    <div className="form-group text-center">
+                      <div className="custom-control custom-switch mb-3">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id="control2"
+                          checked={doctorAvailability}
+                          onClick={(e) => this.setAvailability(e)}
+                        />{" "}
+                        <label className="custom-control-label" for="control2">
+                          {doctorAvailability ? "Available" : "Not Available"}
+                        </label>
+                      </div>
+                    </div>
+
                   </li>
                 </ul>
               </nav>
             </div>
+
+
             <div className="add-patient">
-              <div className="form-group text-center">
-                <div className="custom-control custom-switch mb-3">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="control2"
-                    checked={doctorAvailability ? true : false}
-                    onClick={(e) => this.setAvailability(e)}
-                  />{" "}
-                  <label className="custom-control-label" for="control2">
-                    {doctorAvailability ? "Available" : "Not Available"}
-                  </label>
-                </div>
-              </div>
               <Link to="/DoctorConsultations" className="btn btn-primary">
                 <span className="btn-icon icofont-plus mr-2" /> My consultations
               </Link>

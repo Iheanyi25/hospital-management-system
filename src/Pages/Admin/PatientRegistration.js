@@ -7,25 +7,25 @@ import {
 } from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
 import { Success } from "../../Components/Alerts";
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientRegistrationInvoiceUrl, getPatientsUrl, postPayPatientRegistrationFeeUrl } from "../../api/URLs";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class PatientRegistration extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-      patients: [],
-      apiUrl: process.env.REACT_APP_API_URL,
-      patientId: "",
-      email: "",
-      amount: "",
-      invoiceNumber: "",
-      success: false,
-    };
-  }
+  static contextType = UserContext;
+  state = {
+    patients: [],
+    patientId: "",
+    email: "",
+    amount: "",
+    invoiceNumber: "",
+    success: false,
+  };
 
   componentDidMount() {
     const { patientId, email, cost } = this.props.location.state;
@@ -37,16 +37,11 @@ class PatientRegistration extends React.Component {
   }
   fetPatientRegistrationIvoice = async (id) => {
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice?patientId=${id}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.json();
-      console.log( data.patientRegistrationInvoice);
+      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(id)
+      const getPatientRegistrationInvoiceConfig = fetchConfig({url : getPatientRegistrationInvoice, method : 'get'})
+      const {data} = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+
+      console.log(data.patientRegistrationInvoice,111111);
       this.setState({
         invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber,
       });
@@ -56,9 +51,10 @@ class PatientRegistration extends React.Component {
   };
 
   async getAllPatients() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+    console.log(data,22222)
     this.setState({ patients: data.patients });
   }
 
@@ -67,40 +63,23 @@ class PatientRegistration extends React.Component {
     this.$el.DataTable();
   }
 
-  register = async (reference, modeOfPayment, description, paidOffline) => {
+  register = async (reference, modeOfPayment, description) => {
     const { amount, patientId, invoiceNumber } = this.state;
     let payload = {
       patientId: patientId,
       amount: amount,
       invoiceNumber: invoiceNumber,
-      description:
-        modeOfPayment === ("online-paystack" || "online-flutterwave")
-          ? "Paid online"
-          : paidOffline
-          ? description
-          : description.description,
+      description: description,
       modeOfPayment: modeOfPayment,
-      referenceNumber:
-        modeOfPayment === "online-paystack"
-          ? reference.trxref
-          : modeOfPayment === "online-flutterwave"
-          ? reference.data?.data?.orderRef
-          : paidOffline
-          ? reference
-          : "",
+      referenceNumber: reference,
     };
 
     console.log(payload);
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/PayPatientRegistrationFee`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      const postPayPatientRegistrationFee = postPayPatientRegistrationFeeUrl()
+      const getPatientRegistrationInvoiceConfig = fetchConfig({url : postPayPatientRegistrationFee, data: payload, method : 'post'})
+      const res = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+      console.log(res,4444)
       if (res.status === 200) {
         console.log(res);
         this.setState({ success: true });
@@ -110,7 +89,9 @@ class PatientRegistration extends React.Component {
     }
   };
   render() {
-    const { amount, email, user } = this.state;
+    const content = this.context;
+    const { user } = content;
+    const { amount, email } = this.state;
     return (
       <>
         <PageLoader />
@@ -136,7 +117,7 @@ class PatientRegistration extends React.Component {
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">{formatAmount(this.state.amount)}</h4>
+              <h4 className="text-info">{formatAmount(amount)}</h4>
             </div>
 
             <div className="page-content">
@@ -147,7 +128,7 @@ class PatientRegistration extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
@@ -229,15 +210,6 @@ class PatientRegistration extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
-              </div>
             </div>
           </div>
         </main>
@@ -246,4 +218,4 @@ class PatientRegistration extends React.Component {
   }
 }
 
-export default PatientRegistration;
+export default observer(PatientRegistration);

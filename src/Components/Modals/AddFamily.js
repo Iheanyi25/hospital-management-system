@@ -1,18 +1,35 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postAdminAccountUrl } from "../../api/URLs";
 
 class AddFamily extends React.Component {
 
     // state = { familyName: "" }
     state = {
         name: '',
-        phoneNumber: ""
+        phoneNumber: "",
+        submit: true
     }
     componentDidMount() {
         console.log(this.props);
     }
 
+    // componentDidUpdate() {
+    //     if (Object.entries(this.state).includes("")) {
+    //         this.setState({ ...this.state, submit: false });
+    //         return;
+    //     }
+    //     else {
+    //         this.setState({ ...this.state, submit: true });
+    //         return;
+    //     }
+    // }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({ ...this.state, submit: true })
+
         const data = {
             name: this.state.name,
             phoneNumber: this.state.phoneNumber,
@@ -21,20 +38,18 @@ class AddFamily extends React.Component {
         console.log(data)
         if (this.state.name !== '' && this.state.phoneNumber !== '') {
             try {
-                let res = await fetch(process.env.REACT_APP_API_URL + '/Admin/Account/CreateAccount', {
-                    headers: { 'Content-Type': 'application/json-patch+json' },
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    redirect: 'follow',
-                });
-                let response = await res.json();
-                alert(response.message)
+                const postAdminAccount = postAdminAccountUrl()
+                const postAdminAccountConfig = fetchConfig({url : postAdminAccount, data:JSON.stringify(data), method : 'post'})
+                const res = await fetchWrapper(postAdminAccountConfig)
+               
+                alert(res.message)
                 await this.props.callbackFromProps();
                 this.closeModal();
             } catch (error) {
                 console.log(error);
             }
         }
+        await this.setState({ ...this.state, submit: false })
     };
 
     closeModal = () => {
@@ -102,6 +117,7 @@ class AddFamily extends React.Component {
                                             <button
                                                 type="submit"
                                                 className="btn btn-primary"
+                                                disabled={!this.state.submit}
                                             >
                                                 Save
                                             </button>

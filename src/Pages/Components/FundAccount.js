@@ -2,6 +2,9 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./FundingPaymentModes";
 import { Success } from "../../Components/Alerts";
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
+import { postAdminFundAccountsUrl } from "../../api/URLs";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -33,33 +36,21 @@ class FundAccount extends React.Component {
     });
   };
 
-  fundAccount = async (reference, modeOfPayment, offline) => {
-    const { accountId, user } = this.state;
+  fundAccount = async (reference, modeOfPayment) => {
+    const { accountId, user, amount, paymentDescription } = this.state;
     let payload = {
       accountId: accountId,
-      amount: this.state.amount,
+      amount: amount,
       modeOfPayment: modeOfPayment,
-      transactionReference:
-        modeOfPayment === "online-paystack"
-          ? reference.trxref
-          : modeOfPayment === "online-flutterwave"
-            ? reference.data?.data?.orderRef
-            : offline
-              ? reference
-              : "",
-      paymentDescription: this.state.paymentDescription,
+      transactionReference: reference,
+      paymentDescription: paymentDescription,
       userId: user.id,
     };
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      const fundAccounts = postAdminFundAccountsUrl();
+      const fundAccountsConfig = fetchConfig({ url: fundAccounts, data: payload, method: "post" });
+      const res = await fetchWrapper(fundAccountsConfig);
+
       if (res.status === 200) {
         this.handleSuccess(true);
       }
@@ -107,7 +98,7 @@ class FundAccount extends React.Component {
                 <div className="card-body">
                   <div>
                     <ul
-                      className="nav nav-pills nav-fill mb-3"
+                      className="nav nav-tabs mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
@@ -189,15 +180,6 @@ class FundAccount extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="add-action-box">
-                <button
-                  className="btn btn-primary btn-lg btn-square rounded-pill"
-                  data-toggle="modal"
-                  data-target="#add-appointment"
-                >
-                  <span className="btn-icon icofont-stethoscope-alt" />
-                </button>
               </div>
             </div>
           </div>

@@ -1,12 +1,12 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getServiceRequestResultUrl, getServiceRequestResultForPatientUrl } from "../../api/URLs";
 // import { PageLoader } from "../../../Components";
 import resultImage from "../../assets/img/resultImage.svg";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
-
 class LabResults extends React.Component {
   state = {
     serviceRequestResults: [],
@@ -20,20 +20,11 @@ class LabResults extends React.Component {
     console.log(this.props.patientId);
     const { serviceRequestId, patientId } = this.props;
     try {
-      let res = await fetch(
-        patientId
-          ? `${apiUrl}/Admin/GetServiceRequestResultsForPatient/${patientId}`
-          : `${apiUrl}/Admin/GetServiceRequestResults/${serviceRequestId}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-      console.log(JSON.parse(data).serviceRequestResults);
+      const getServiceRequestResult = patientId ? getServiceRequestResultForPatientUrl(patientId)  : getServiceRequestResultUrl(serviceRequestId)
+      const getServiceRequestResultConfig = fetchConfig({ url: getServiceRequestResult, method : 'GET'})
+      const {data} = await fetchWrapper(getServiceRequestResultConfig)
       this.setState({
-        serviceRequestResults: JSON.parse(data).serviceRequestResults,
+        serviceRequestResults: data.serviceRequestResults,
       });
     } catch (error) {
       console.log(error);
@@ -68,6 +59,7 @@ class LabResults extends React.Component {
                     <div
                       id={`collapse${index + 1}`}
                       className="collapse"
+                      className={`collapse ${ serviceRequestResult.id === this.props.showId && "show"}`}
                       aria-labelledby="headingOne"
                       data-parent="#accordion"
                     >

@@ -1,13 +1,17 @@
 import React, { Component } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { updateServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 export default class EditServiceCategory extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("authenticatedUser")),
     name: "",
     description: "",
+    formDone: true
   };
 
   async componentDidMount() {
@@ -22,6 +26,25 @@ export default class EditServiceCategory extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
+  componentDidUpdate() {
+    const { formDone } = this.state;
+    if ( this.checkValidity() && !formDone) {
+      this.setState((state) => ({ ...state, formDone: true }));
+    }
+    else if(!this.checkValidity() && formDone){
+      this.setState((state) => ({ ...state, formDone: false }));
+    }
+  }
+
+  checkValidity = () => {
+    const { name, description } = this.state;
+    return isNotEmptyString(name) && isNotEmptyString(description);
+  }
+
   handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -33,12 +56,10 @@ export default class EditServiceCategory extends Component {
     console.log({ data });
     if (this.state.name !== "" && this.state.description !== "") {
       try {
-        let res = await fetch(`${apiUrl}/Admin/UpdateServiceCategory`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+        const updateServiceCategory = updateServiceCategoryUrl()
+        const updateServiceCategoryConfig = fetchConfig({url : updateServiceCategory, data, method : 'post'})
+        const res = await fetchWrapper(updateServiceCategoryConfig)
+
         if (res.status === 200) {
           this.setState({ success: true });
         } else {
@@ -50,7 +71,7 @@ export default class EditServiceCategory extends Component {
   };
 
   render() {
-    const { success, name, description, user } = this.state;
+    const { success, name, description, user, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -120,7 +141,7 @@ export default class EditServiceCategory extends Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary" disabled={!formDone}>
                               Submit
                             </button>
                           </div>

@@ -1,99 +1,88 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react";
 import styles from "./css/Login.module.css";
 import { InvalidDetails, Success } from "../../Components/Alerts";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../mobx/UserState";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { logInUrl } from "../../api/URLs";
 
+let $ = undefined
+let interval = undefined;
 class Login extends Component {
+  static contextType = UserContext;
   state = {
-    apiUrl: process.env.REACT_APP_API_URL,
     email: "",
     password: "",
     submitting: false,
     error: false,
     response: "",
-    success: false
-
+    success: false,
   };
 
+  // setJquery = () => {
+  //   interval = setInterval(() => {
+  //     if (window.$) {
+  //       console.log("i dey");
+  //       clearInterval(interval);
+  //       $ = window.$;
+  //     }
+  //   }, 1000);
+  // };
+
   handleSubmit = async (e) => {
-    this.setState({ submitting: true });
     e.preventDefault();
-    const url = this.state.apiUrl;
+    const content = this.context;
+    const { logIn } = content;
     const { email, password } = this.state;
     const data = { email, password };
-    console.log(data);
-    if (email !== "" && password !== "") {
-      try {
-        let res = await fetch(`${url}/Auth/Login`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
-        if (res.status === 200) {
-          console.log(res);
-          const data = await res.json();
-          console.log(data);
-          localStorage.setItem("token", data.token);
-          localStorage.setItem(
-            "authenticatedUser",
-            JSON.stringify(data.authenticatedUser)
-          );
-
-          window.location.reload();
-        } else {
-          console.log(res);
-          this.setState({ error: true, submitting: false, password: "" });
-        }
-      } catch (error) { }
-    }
+    logIn(data);
   };
 
   setErrorStatus = () => {
     this.setState({ error: false });
-  }
-
+  };
 
   componentDidMount = async () => {
+    // this.setJquery();
     const params = new URLSearchParams(window.location.search);
-    const url = this.state.apiUrl;
-    const userEmailFromLink = params.get('email');
-    const userTokenFromLink = params.get('token');
+    const userEmailFromLink = params.get("email");
+    const userTokenFromLink = params.get("token");
 
     if (userEmailFromLink !== "" && userTokenFromLink !== "") {
       try {
-        let res = await fetch(`${url}/Admin/VerifyEmail`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify({
-            email: userEmailFromLink,
-            authenticationToken: userTokenFromLink
-          }),
-          redirect: "follow",
-        });
+        const payload = {
+          email: userEmailFromLink,
+          authenticationToken: userTokenFromLink,
+        }
+        const logIn = logInUrl();
+        const logInConfig = fetchConfig({ url: logIn, data: payload, method: "post",});
+          const res = await fetchWrapper(logInConfig);
+
         if (res.status === 200) {
-          const data = await res.json();
+          const data = res;
           console.log(data);
           this.setState({ success: true, response: data.message });
           window.location.reload();
         } else {
           console.log(res);
         }
-      } catch (error) { }
+      } catch (error) {}
     }
-  }
+  };
 
   render() {
-    const { submitting, error, email, password, success } = this.state;
+    const content = this.context;
+    const { loading, error } = content;
+    const { email, password, success } = this.state;
     return (
       <>
         <div className={styles.background}>
-          {success ?
-            <Success
-              message={this.state.response}
-            />
-            : null}
-          {error ? <InvalidDetails setErrorStatus={this.setErrorStatus} /> : null}
+          {success ? <Success message={this.state.response} /> : null}
+          {error ? (
+            <InvalidDetails setErrorStatus={this.setErrorStatus} />
+          ) : null}
           <div className={styles.div}>
             <h1>
               <img
@@ -107,8 +96,7 @@ class Login extends Component {
             </h1>
             <h2>Login</h2>
             <form
-              className={`${styles.form} needs-validation`}
-              noValidate
+              className={styles.form}
               onSubmit={(e) => this.handleSubmit(e)}
             >
               <div className="form-group">
@@ -124,10 +112,6 @@ class Login extends Component {
                   placeholder="Your Email Address"
                   required
                 />
-                <div className="valid-feedback">Looks good!</div>
-                <div className="invalid-feedback">
-                  Please provide a valid email.
-                </div>
               </div>
 
               <div className="form-group">
@@ -143,26 +127,20 @@ class Login extends Component {
                   placeholder="Your Password"
                   required
                 />
-                <div className="valid-feedback">Looks good!</div>
-                <div className="invalid-feedback">
-                  Please provide a valid password.
-                </div>
               </div>
               <div className="row justify-content-between">
-              <button
-                className="btn btn-primary mt-3"
-                type="submit"
-                disabled={submitting}
-              >
-                <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
-                Login
-              </button>
+                <button
+                  className="btn btn-primary mt-3"
+                  type="submit"
+                  disabled={loading}
+                >
+                  <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
+                  Login
+                </button>
 
-              <Link to="/resetmypassword" className="justify-self-right mt-3">
-                <p className="mt-3">
-                  Forgot Password
-                </p>
-              </Link>
+                <Link to="/resetmypassword" className="justify-self-right mt-3">
+                  <p className="mt-3">Forgot Password</p>
+                </Link>
               </div>
             </form>
           </div>
@@ -172,4 +150,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default observer(Login);
