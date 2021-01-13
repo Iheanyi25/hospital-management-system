@@ -12,7 +12,7 @@ import {
   LabResults,
 } from "../../Components/Clarking";
 
-class Clarking extends React.Component {
+class Clerking extends React.Component {
   constructor(props) {
     super(props);
 
@@ -136,7 +136,7 @@ class Clarking extends React.Component {
           <div className="main-content-wrap">
             <header className="page-header d-flex justify-content-between">
               <h3 className="page-title">
-                Doctor Clarking:{" "}
+                Doctor Clerking:{" "}
                 <font>
                   {lastName.toUpperCase() + " " + firstName.toUpperCase()}
                 </font>
@@ -187,7 +187,7 @@ class Clarking extends React.Component {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    Clarking
+                    Clerking
                   </a>
                   <a
                     className="nav-link"
@@ -681,7 +681,6 @@ class Clarking extends React.Component {
                                     <h4>Presenting Complains</h4>
 
                                     <div className="form-group">
-                                      <label>Presenting Complaints</label>
                                       <textarea
                                         className="form-control"
                                         onChange={(e) =>
@@ -739,9 +738,6 @@ class Clarking extends React.Component {
                                     <h4>History of Presenting Complain</h4>
 
                                     <div className="form-group">
-                                      <label>
-                                        Patient History of Presenting Complains
-                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter History of Presenting Complain Here"
@@ -799,7 +795,6 @@ class Clarking extends React.Component {
                                     <h4>Review of System</h4>
 
                                     <div className="form-group">
-                                      <label>Review of System Here</label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Riview od System Here"
@@ -856,9 +851,6 @@ class Clarking extends React.Component {
                                     <h4>Physical Examination</h4>
 
                                     <div className="form-group">
-                                      <label>
-                                        Patient Physical Examination
-                                      </label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Patient Physical Examination"
@@ -916,7 +908,6 @@ class Clarking extends React.Component {
                                     <h4>Diagnosis</h4>
 
                                     <div className="form-group">
-                                      <label>Diagnosis</label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Diagnosis"
@@ -971,7 +962,6 @@ class Clarking extends React.Component {
                                     <h4>Treatment Plan</h4>
 
                                     <div className="form-group">
-                                      <label>Patient Treatment Plan</label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Treatment Plan"
@@ -1028,7 +1018,6 @@ class Clarking extends React.Component {
                                     <h4>Obstetrics and Gynecology</h4>
 
                                     <div className="form-group">
-                                      <label>Obstetrics and Gynecology</label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Obstetrics"
@@ -1085,7 +1074,6 @@ class Clarking extends React.Component {
                                     <h4>Prescription</h4>
 
                                     <div className="form-group">
-                                      <label>Prescription</label>
                                       <textarea
                                         className="form-control"
                                         placeholder="Enter Prescriptions"
@@ -1217,7 +1205,7 @@ class Clarking extends React.Component {
                             aria-controls="pills-clarking-history"
                             aria-selected="false"
                           >
-                            Clarking History
+                            Clerking History
                           </a>
                         </li>
                         <li className="nav-item">
@@ -1343,4 +1331,4 @@ class Clarking extends React.Component {
   }
 }
 
-export default Clarking;
+export default Clerking;

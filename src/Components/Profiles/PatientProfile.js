@@ -66,7 +66,12 @@ class PatientProfile extends React.Component {
                             {`${patientDetails?.fullName ?? ""} `}
                           </h5>
                           <p className="mb-2">Patient</p>
-                          <Link to="/">
+                          <Link to={{
+                                pathname: "/changepassword",
+                                query: { userType: "patient" },
+                              }}
+                            >
+
                             <img src={reset} alt="reset" className="mr-2" />
                             <img src={resetText} alt="reset" className="mr-2" />
                           </Link>

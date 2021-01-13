@@ -21,7 +21,7 @@ const DrugDetails = ({ drug, update }) => {
                   : drug.drugType === "liquid"
                   ? "bottles in stock"
                   : drug.drugType === "powder"
-                  ? "caans in stock"
+                  ? "cans in stock"
                   : "cannisters in stock"}
               </span>
             </p>
@@ -51,11 +51,7 @@ const DrugDetails = ({ drug, update }) => {
             </div>
             <div>
               <h6 className="mb-2">Drug Type</h6>
-              <p>{drug.drugType}</p>
-            </div>
-            <div>
-              <h6 className="mb-2">Expiry Date</h6>
-              <p>{formatDate(drug.expiryDate)}</p>
+              <p style={{ textTransform: "capitalize" }}>{drug.drugType}</p>
             </div>
           </div>
           <div className="col-12 col-md-6">
@@ -64,16 +60,34 @@ const DrugDetails = ({ drug, update }) => {
               <p>{drug.measurment}</p>
             </div>
             <div>
-              <h6 className="mb-2">Number of packets in a carton</h6>
-              <p>{drug.containersPerCarton}</p>
-            </div>
-            <div>
-              <h6 className="mb-2">Number of pills in a packet/container</h6>
+              <h6 className="mb-2">
+                {drug.drugType === "tabs"
+                  ? "Number of pills in a packet/container"
+                  : drug.drugType === "liquid"
+                  ? "Volume (ml) per bottle/tube"
+                  : drug.drugType === "powder"
+                  ? "Volume (grams) per can"
+                  : "Volume (metered acutations)"}
+              </h6>
               <p>{drug.quantityPerContainer}</p>
             </div>
             <div>
-              <h6 className="mb-2">Price per parcket/container (NGN)</h6>
+              <h6 className="mb-2">{drug.drugType === "tabs"
+                  ? "Number of packets in a carton"
+                  : drug.drugType === "liquid"
+                  ? "Number of bottles/tubes in a carton"
+                  : drug.drugType === "powder"
+                  ? "Number of cannisters in a carton"
+                  : "Number of cans in a carton"}</h6>
+              <p>{drug.containersPerCarton}</p>
+            </div>
+            <div>
+              <h6 className="mb-2">Price per packet/container (NGN)</h6>
               <p>{formatAmount(drug.costPricePerContainer) ?? "N/A"}</p>
+            </div>
+            <div>
+              <h6 className="mb-2">Expiry Date</h6>
+              <p>{formatDate(drug.expiryDate)}</p>
             </div>
           </div>
         </div>

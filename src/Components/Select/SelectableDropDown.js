@@ -5,7 +5,7 @@ let interval = undefined;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
 
-const SelectableDropDown = ({ data, isFetchingCategories, label, itemKey, stateKey, onChange, valueKeys, search, multiple }) => {
+const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKeys, search, multiple, searchParams }) => {
 
     const setJquery = () => {
         interval = setInterval(() => {
@@ -74,7 +74,7 @@ const SelectableDropDown = ({ data, isFetchingCategories, label, itemKey, stateK
 
                     {
                         data.map((item, index) => {
-                            return <option data-tokens={valueKeys.map((key) => (item[key] + " "))} key={index}
+                            return <option data-tokens={searchParams ? searchParams.map((key) => (item[key] + " ")) : valueKeys.map((key) => (item[key] + " "))} key={index}
                                 value={itemKey.length > 1 ?
                                     generatePath(item, itemKey)
                                     // item[itemKey.join["#"]]

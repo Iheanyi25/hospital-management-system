@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const $ = window.$;
 
 const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
   const [details, setDetails] = useState({
-    numberOfUnits: "",
     numberOfContainers: "",
-    numberOfCartons: "",
+    numberOfUnits: "0",
+    numberOfCartons: "0",
   });
+  const [canSubmit, setCanSubmit] = useState(false);
+
+  useEffect(() => {
+    // validation to make sure that something was parsed
+    let vals = Object.values(details);
+    vals = vals.find(element => element > 0);
+
+    if (!vals) {
+      setCanSubmit(false)
+    }
+    else {
+      setCanSubmit(true)
+    }
+  }, [details])
 
   const handleChange = (e) => {
     setDetails({
       ...details,
       [e.target.name]: e.target.value,
     });
-    console.log(details);
   };
 
   const handleSubmit = async (e) => {
@@ -95,7 +108,7 @@ const AddPrescriptionQuantity = ({ drug, setSubmit }) => {
                 >
                   Close
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" disabled={!canSubmit}>
                   Save
                 </button>
               </div>

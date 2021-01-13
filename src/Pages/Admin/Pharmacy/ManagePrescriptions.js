@@ -144,7 +144,7 @@ class ManagePrescriptions extends React.Component {
                                       className="btn btn-sm btn-block"
                                     >
                                       <span className="btn-icon icofont-server mr-2" />
-                                      Prescribe
+                                      Dispense
                                     </Link>
                                   </div>
                                 </div>

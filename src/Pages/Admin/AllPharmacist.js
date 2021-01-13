@@ -103,10 +103,7 @@ class AllPharmacists extends React.Component {
                           <tr>
                             <th>#</th>
                             <th>Pharmacists Name</th>
-                            {/* <th>Name</th> */}
-                            {/* <th>Invoice No</th> */}
                             <th>Email</th>
-                            {/* <th>Total Cost</th> */}
                             <th>Phone</th>
                             <th>Action</th>
                           </tr>
@@ -135,45 +132,6 @@ class AllPharmacists extends React.Component {
                                     {pharmacist?.pharmacy?.phoneNumber ?? "N/A"}
                                   </div>
                                 </td>
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {pharmacist?.noofServices}
-                                  </div>
-                                </td> */}
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {pharmacist?.invoiceNumber}
-                                  </div>
-                                </td> */}
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatDate(pharmacist?.dateGenerated) ?? ""}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatAmount(pharmacist?.cost) ?? ""}
-                                  </div>
-                                </td> */}
-                                {/* <td>
-                                  <div className="text-muted text-nowrap">
-                                    {pharmacist?.paymentStatus === "NOT PAID" ? (
-                                      <>
-                                        <img src={notpaid} alt="not paid" /> Not
-                                        paid
-                                      </>
-                                    ) : pharmacist?.paymentStatus === "PAID" ? (
-                                      <>
-                                        <img src={paid} alt="paid" /> Paid
-                                      </>
-                                    ) : (
-                                      <>
-                                        <img src={incomplete} alt="paid" />{" "}
-                                        Incomplete
-                                      </>
-                                    )}
-                                  </div>
-                                </td> */}
                                 <td>
                                   <div className="btn-group">
                                     <button

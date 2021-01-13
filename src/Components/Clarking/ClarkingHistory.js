@@ -42,7 +42,7 @@ class ClarkingHistory extends React.Component {
 
   render() {
     const { clerkingHistories } = this.state;
-    console.log(clerkingHistories, "histories");
+    // console.log(clerkingHistories, "histories");
     const { firstName, lastName } = this.props.patientDetails;
     return (
       <div className="card-body">

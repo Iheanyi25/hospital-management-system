@@ -89,7 +89,10 @@ class AllDrugs extends React.Component {
                   </div>
                 </td>
                 <td>
-                  <div className="text-muted text-nowrap">
+                  <div
+                    className="text-muted text-nowrap"
+                    style={{ textTransform: "capitalize" }}
+                  >
                     {drug?.drugType ?? "N/A"}
                   </div>
                 </td>
@@ -116,11 +119,13 @@ class AllDrugs extends React.Component {
                     </button>
                     <div className="dropdown-menu">
                       <NavLink
-                        to={
-                          user.userType === "Admin"
-                            ? `/AdminViewDrug/${drug.id}`
-                            : `/PharmacyViewDrug/${drug.id}`
-                        }
+                        to={{
+                          pathname:
+                            user.userType === "Admin"
+                              ? `/AdminViewDrug/${drug.id}`
+                              : `/PharmacyViewDrug/${drug.id}`,
+                          state: drug?.drugType,
+                        }}
                         className="btn btn-sm btn-block"
                       >
                         <img src={view} alt="view" className="mr-2" />
