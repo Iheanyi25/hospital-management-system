@@ -1,14 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 class MyPatients extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            doctors: [],
-            apiUrl: process.env.REACT_APP_API_URL,
+            patients: [],
         };
     }
 
@@ -17,8 +17,8 @@ class MyPatients extends React.Component {
         const data = await (
             await fetch(`${this.state.apiUrl}/Patient/GetPatientsByDoctor?DoctorId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
         ).json();
-        console.log(data.doctors);
-        // this.setState({ doctors: data.doctors });
+        console.log(data.patients);
+        this.setState({ patients: data.patients });
     }
 
     componentDidMount() {
@@ -26,7 +26,7 @@ class MyPatients extends React.Component {
     }
 
     render() {
-        const { doctors } = this.state;
+        const { patients } = this.state;
         return (
             <>
                 <PageLoader />
@@ -48,9 +48,9 @@ class MyPatients extends React.Component {
                                     data-info="true"
                                 >
                                     <thead>
-                                        <tr >
+                                        <tr>
                                             <th>Photo</th>
-                                            <th>Name</th>
+                                            <th>Patient Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Actions</th>
@@ -58,57 +58,63 @@ class MyPatients extends React.Component {
                                     </thead>
 
                                     <tbody>
-                                        {this.state.doctors.map((doctor) => (
-                                            <tr>
-                                                <td>
-                                                    <img
-                                                        src="../assets/content/user-40-1.jpg"
-                                                        alt=""
-                                                        width={40}
-                                                        height={40}
-                                                        className="rounded-500"
-                                                    />
-                                                </td>
-                                                <td>
-                                                    {doctor?.doctor?.firstName} {doctor?.doctor?.lastName}
-                                                </td>
-                                                <td>
-                                                    <strong>
-                                                        {" "}
+                                        {
+                                            patients.map((patient) => (
+                                                <tr>
+                                                    <td>
+                                                        <img
+                                                            src="../assets/content/user-40-1.jpg"
+                                                            alt=""
+                                                            width={40}
+                                                            height={40}
+                                                            className="rounded-500"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        {patient.patient.firstName}{" "}
+                                                        {patient.patient.lastName}
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            {" "}
+                                                            <div className="d-flex align-items-center nowrap">
+                                                                {patient.patient.email}
+                                                            </div>
+                                                        </strong>
+                                                    </td>
+                                                    <td>
                                                         <div className="d-flex align-items-center nowrap">
-                                                            {doctor?.doctor?.email}
+                                                            {patient.patient.phoneNumber}
                                                         </div>
-                                                    </strong>
-                                                </td>
-                                                <td>
-                                                    <div className="d-flex align-items-center nowrap">
-                                                        {doctor?.doctor?.phoneNumber ?? "not available yet"}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="btn-group">
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                                            data-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false"
-                                                        >
-                                                            Action
-                                                        </button>
-                                                        <div className="dropdown-menu">
-                                                            <NavLink
-                                                                to={`/ViewDoctorProfile/${doctor?.doctor?.id}`}
-                                                                className="btn btn-sm btn-block"
+                                                    </td>
+                                                    <td>
+                                                        <div className="btn-group">
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false"
                                                             >
-                                                                <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                                                View Profile
-                                                            </NavLink>
+                                                                Action
+                                      </button>
+                                                            <div className="dropdown-menu text-left">
+                                                                <Link
+                                                                    title="Patient Profile"
+                                                                    to={{
+                                                                        pathname: `/DoctorPatientProfile/${patient.id}`,
+                                                                        state: patient.patient,
+                                                                    }}
+                                                                    className="btn btn-sm btn-block"
+                                                                >
+                                                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                                                Patient Profile
+                                                                </Link>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </table>
                             </div>
