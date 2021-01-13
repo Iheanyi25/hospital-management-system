@@ -89,7 +89,7 @@ class ClarkingHistory extends React.Component {
                         />
                         <div>
                           <h5 className="mb-2 mt-1 font-weight-bold">
-                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
+                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName ?? clerkingHistory?.doctor?.firstName ?? ""} ${clerkingHistory?.consultation?.doctor?.lastName ?? clerkingHistory?.doctor?.lastName ?? ""}`}</u>
                           </h5>
                           <p className="mb-2">
                             {`Clerked patient on ${formatDate(clerkingHistory?.dateOfClerking) ?? ""
