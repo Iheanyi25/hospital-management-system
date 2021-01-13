@@ -15,7 +15,7 @@ class MyPatients extends React.Component {
     async getMyPatients() {
         console.log(JSON.parse(localStorage.getItem("authenticatedUser")).id)
         const data = await (
-            await fetch(`${this.state.apiUrl}/Patient/GetPatientsByDoctor?DoctorId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
+            await fetch(`${apiUrl}/Patient/GetPatientsByDoctor?DoctorId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
         ).json();
         console.log(data.patients);
         this.setState({ patients: data.patients });
@@ -36,10 +36,27 @@ class MyPatients extends React.Component {
                         <i className="icofont-spinner-alt-4 rotate" />
                     </div>
                     <div className="main-content-wrap">
-                        <header className="page-header">
-                            <h4 className="page-title">My Patients</h4>
-                        </header>
                         <div className="page-content">
+                            <div className="row">
+                                <div className="col col-12 col-md-6 col-xl-3">
+                                    <div className="card animated fadeInUp delay-01s bg-light">
+                                        <div className="card-body">
+                                            <div className="row align-items-center">
+                                                <div className="col col-5">
+                                                    <div className="icon p-0 fs-48 text-primary opacity-50 icofont-users"></div>
+                                                </div>
+                                                <div className="col col-7">
+                                                    <h6 className="mt-0 mb-1">Patients</h6>
+                                                    <div className="count text-primary fs-20">{patients.length ?? 0}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <header className="page-header">
+                                <h4 className="page-title">My Patients</h4>
+                            </header>
                             <div className="table-responsive">
                                 <table
                                     ref={(el) => (this.el = el)}

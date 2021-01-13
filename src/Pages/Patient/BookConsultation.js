@@ -3,6 +3,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, postPatientConsultationUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
 
 class BookConsultation extends React.Component {
   constructor(props) {
@@ -25,8 +26,8 @@ class BookConsultation extends React.Component {
     this.setState({ doctorId: params.doctorId });
 
     const getDoctors = getDoctorsUrl()
-    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
-    const {data} = await fetchWrapper(getDoctorsConfig)
+    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: 'get' })
+    const { data } = await fetchWrapper(getDoctorsConfig)
 
     this.setState({
       doctor: data.doctor,
@@ -53,9 +54,9 @@ class BookConsultation extends React.Component {
     try {
 
       const postPatientConsultation = postPatientConsultationUrl()
-      const postPatientConsultationConfig = fetchConfig({url : postPatientConsultation, data: consultationDet, method : 'post'})
+      const postPatientConsultationConfig = fetchConfig({ url: postPatientConsultation, data: consultationDet, method: 'post' })
       const res = await fetchWrapper(postPatientConsultationConfig)
-      const {data, error} = res;
+      const { data, error } = res;
 
       if (res.status !== 200) {
         throw Error(error.message);
@@ -89,23 +90,16 @@ class BookConsultation extends React.Component {
       );
     }
 
-    if (this.state.showSuccessMessage) {
-      displaySuccessMessage = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
-      );
-    }
-
     return (
       <>
         <PageLoader />
-
+        {this.state.showSuccessMessage ? (
+          <Success
+            history={this.props.history}
+            message={this.state.successMessage}
+            nextRoute={"/PatientConsultations"}
+          />
+        ) : null}
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -156,7 +150,7 @@ class BookConsultation extends React.Component {
                               onClick={(e) => this.bookConsultation(e)}
                               disabled={
                                 reasonForConsultation === "" ||
-                                consultationTitle === ""
+                                  consultationTitle === ""
                                   ? true
                                   : false
                               }
