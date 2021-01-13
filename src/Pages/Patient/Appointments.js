@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getPatientAllAppointmentsUrl } from "../../api/URLs";
+import { patientCancelAppointments } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -67,6 +68,19 @@ class Appointments extends React.Component {
     this.$en = $(this.en);
     this.$en.DataTable();
   }
+
+  cancelAppointments = async (id) => {
+    const cancelPatientAppointment = patientCancelAppointments(id);
+    const cancelPatientAppointmentConfig = fetchConfig({
+      url: cancelPatientAppointment,
+      method: "post",
+    });
+    const res = await fetchWrapper(cancelPatientAppointmentConfig);
+    if (res) {
+      alert(res.message);
+      this.getPatientAppointments();
+    }
+  };
 
   render() {
     const {
@@ -240,8 +254,8 @@ class Appointments extends React.Component {
                                     <td>
                                       {appointment.doctor?.firstName ??
                                         "None specified yet" +
-                                          " " +
-                                          appointment.doctor?.lastName}
+                                        " " +
+                                        appointment.doctor?.lastName}
                                     </td>
                                     <td>
                                       {appointment.doctor?.phoneNumber ??
@@ -249,14 +263,27 @@ class Appointments extends React.Component {
                                     </td>
 
                                     <td>
-                                      <div className="actions">
-                                       
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
+                                        >
+                                          Action
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
+                                        <div className="dropdown-menu text-left">
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={(e) =>
+                                              this.cancelAppointments(appointment.id)
+                                            }
+                                          >
+                                            Cancel Consultation
+                                          </button>
+                                        </div>
                                       </div>
                                     </td>
                                   </tr>
@@ -280,12 +307,11 @@ class Appointments extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
+                                <th></th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th>Doctor's Name</th>
+                                <th>Doctor's Phone Number</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
@@ -302,36 +328,39 @@ class Appointments extends React.Component {
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>Ogbona</td>
+                                    <td>{appointment.appointmentTitle}</td>
+                                    <td>{appointment.reasonForAppointment}</td>
                                     <td>
-                                      <strong>Liam</strong>
+                                      {appointment.doctor?.firstName ??
+                                        "None specified yet" +
+                                        " " +
+                                        appointment.doctor?.lastName}
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        liam@gmail.com
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                      </div>
+                                      {appointment.doctor?.phoneNumber ??
+                                        "None Specified Yet"}
                                     </td>
 
                                     <td>
-                                      <div className="actions">
-                                        <Link
-                                          title="View Prescriptions"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
                                         >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        
+                                          Action
+                                        </button>
+                                        <div className="dropdown-menu text-left">
+                                          <Link
+                                            type="button"
+                                            className="btn btn-primary"
+                                            to="/PatientClarkingHistory"
+                                          >
+                                            View Clerking History
+                                          </Link>
+                                        </div>
                                       </div>
                                     </td>
                                   </tr>
@@ -356,13 +385,11 @@ class Appointments extends React.Component {
                           >
                             <thead>
                               <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Date Of Birth</th>
-                                <th>Address</th>
-                                <th>Actions</th>
+                                <th></th>
+                                <th>Title</th>
+                                <th>Reason for appointment</th>
+                                <th>Doctor's Name</th>
+                                <th>Doctor's Phone Number</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -378,34 +405,17 @@ class Appointments extends React.Component {
                                         className="rounded-500"
                                       />
                                     </td>
-                                    <td>Ogbona</td>
+                                    <td>{appointment.appointmentTitle}</td>
+                                    <td>{appointment.reasonForAppointment}</td>
                                     <td>
-                                      <strong>Liam</strong>
+                                      {appointment.doctor?.firstName ??
+                                        "None specified yet" +
+                                        " " +
+                                        appointment.doctor?.lastName}
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
-                                        <span className="icofont-ui-email p-0 mr-2" />
-                                        liam@gmail.com
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        10 Feb 2018
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        9:15 - 9:45
-                                      </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="actions">
-                                       
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div>
+                                      {appointment.doctor?.phoneNumber ??
+                                        "None Specified Yet"}
                                     </td>
                                   </tr>
                                 ))}
