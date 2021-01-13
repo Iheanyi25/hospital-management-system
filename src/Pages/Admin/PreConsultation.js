@@ -7,6 +7,7 @@ import {
   updatePatientPreConsultationBMIUrl,
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
 
 class PreConsultation extends React.Component {
   constructor(props) {
@@ -191,94 +192,26 @@ class PreConsultation extends React.Component {
             </div>
             <div className="main-content-wrap">
               {displayBMISuccessNotification === true ? (
-                <div className="col-12 col-md-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div
-                        className="alert alert-primary alert-dismissible fade show mb-0"
-                        role="alert"
-                      >
-                        BMI successfully Updated{" "}
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="alert"
-                          aria-label="Close"
-                        >
-                          <span className="icofont-close-line"></span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Success
+                  message={"BMI successfully Updated"}
+                />
               ) : null}
 
               {displayBMIFailureNotification === true ? (
-                <div className="col-12 col-md-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div
-                        className="alert alert-primary alert-dismissible fade show mb-0"
-                        role="alert"
-                      >
-                        There was an error{" "}
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="alert"
-                          aria-label="Close"
-                        >
-                          <span className="icofont-close-line"></span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Success
+                  message={" There was an error"}
+                />
               ) : null}
 
               {displayVitalsSuccessNotification === true ? (
-                <div className="col-12 col-md-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div
-                        className="alert alert-primary alert-dismissible fade show mb-0"
-                        role="alert"
-                      >
-                        Patient Vitals successfully Updated{" "}
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="alert"
-                          aria-label="Close"
-                        >
-                          <span className="icofont-close-line"></span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Success
+                  message={"Patient Vitals successfully Updated"}
+                />
               ) : null}
               {displayVitalsFailureNotification === true ? (
-                <div className="col-12 col-md-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div
-                        className="alert alert-primary alert-dismissible fade show mb-0"
-                        role="alert"
-                      >
-                        There was an error{" "}
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="alert"
-                          aria-label="Close"
-                        >
-                          <span className="icofont-close-line"></span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Success
+                  message={"There was an error"}
+                />
               ) : null}
               <header className="page-header">
                 <h3 className="page-title">

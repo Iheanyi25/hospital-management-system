@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
@@ -24,8 +25,8 @@ class Consultations extends React.Component {
   }
 
   async componentDidMount() {
-    await  this.getpatientConsultations();
-   }
+    await this.getpatientConsultations();
+  }
 
   async getpatientConsultations() {
     var canceledConsultations = [];
@@ -358,15 +359,13 @@ class Consultations extends React.Component {
                                           Action
                                         </button>
                                         <div className="dropdown-menu text-left">
-                                          <button
+                                          <Link
                                             type="button"
-                                            className="btn btn-danger"
-                                            onClick={(e) =>
-                                              this.cancelConsultation(queue.id)
-                                            }
+                                            className="btn btn-primary"
+                                            to="/PatientClarkingHistory"
                                           >
-                                            Cancel Consultation
-                                          </button>
+                                            View Clerking History
+                                          </Link>
                                         </div>
                                       </div>
                                     </td>
