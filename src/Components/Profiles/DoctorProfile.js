@@ -151,7 +151,7 @@ class DocProfile extends React.Component {
             ) : null}
             <div className="main-content-wrap">
               <div className="page-content">
-                {this.props.user ? (
+                {user.userType === "Patient" ? (
                   <header className="page-header d-flex justify-content-between">
                     <h3 className="page-title">{`Dr. ${
                       doctor?.firstName ?? ""
@@ -412,7 +412,9 @@ class DocProfile extends React.Component {
                               <p className="font-weight-bold mb-2">Year</p>
                               <p className="text-nowrap">{`${
                                 experience?.startYear ?? "N/A"
-                              } - ${experience?.endYear ?? "N/A"}`}</p>
+                              } ${
+                                experience.endYear === "till date" ? "" : "-"
+                              } ${experience?.endYear ?? "N/A"}`}</p>
                             </div>
                             <div className="col-2 p-0 text-right">
                               <p></p>
@@ -499,19 +501,17 @@ class DocProfile extends React.Component {
                             <img src={edit} alt="reset" className="mr-3 " />
                           )} */}
                         </div>
+                        <div className="row mx-0 mt-4 mb-2">
+                          <div className="col-8 p-0">
+                            <p className="font-weight-bold mb-2">Work days</p>
+                          </div>
+                          <div className="col-3 p-0">
+                            <p className="font-weight-bold mb-2">Period</p>
+                          </div>
+                          <div className="col-1 p-0"></div>
+                        </div>
                         {officeTime?.map((officeTime, index) => (
                           <>
-                            <div className="row mx-0 mt-4 mb-2">
-                              <div className="col-8 p-0">
-                                <p className="font-weight-bold mb-2">
-                                  Work days
-                                </p>
-                              </div>
-                              <div className="col-3 p-0">
-                                <p className="font-weight-bold mb-2">Period</p>
-                              </div>
-                              <div className="col-1 p-0"></div>
-                            </div>
                             <div className="row mx-0 mb-2" key={index}>
                               <div className="col-8 p-0">
                                 <p className="mb-2">
@@ -598,10 +598,20 @@ class DocProfile extends React.Component {
                         </div>
                         <div className="d-flex mt-4">
                           <img src={location} alt="location" className="mt-0" />
-                          <div className="mt-4 ml-3">
+                          <div className="mt-3 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
-                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
-                            <p className="m-0">{`${doctorDetails.country}`}.</p>
+                            {doctorDetails.city === null &&
+                            doctorDetails.state === null &&
+                            doctorDetails.country === null ? (
+                              <p>N/A</p>
+                            ) : (
+                              <>
+                                <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                                <p className="m-0">
+                                  {`${doctorDetails.country}`}.
+                                </p>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>

@@ -3,17 +3,15 @@ import { Link } from "react-router-dom";
 import empty from "../../../../../assets/img/empty.svg";
 import edit from "../../../../../assets/img/edit.svg";
 import { UpdateBasePrice } from "../../../../../Components/Modals/UpdateBasePrice";
-import formatAmount from '../../../../../utils/formatAmount'
+import formatAmount from "../../../../../utils/formatAmount";
 
-const BasePrice = ({ basePrice, drugId, mutate }) => {
+const BasePrice = ({ basePrice, drugId, mutate, drugType }) => {
   return (
     <>
       {Object.values(basePrice).every((value) => value === 0) ? (
         <div className="text-center" style={{ marginTop: "200px" }}>
           <img src={empty} alt="empty" />
-          <p className="text-secondary mb-0 mt-3">
-            Set the base price here
-          </p>
+          <p className="text-secondary mb-0 mt-3">Set the base price here</p>
           <Link to="#" data-toggle="modal" data-target="#update-base-price">
             Create new price
           </Link>
@@ -35,15 +33,23 @@ const BasePrice = ({ basePrice, drugId, mutate }) => {
             <div className="row">
               <div className="col-12 col-md-6">
                 <div>
-                  <h6 className="mb-2">Price Per Pack (NGN)</h6>
+                  <h6 className="mb-2">{`Price per ${
+                    drugType === "tabs"
+                      ? "tablet"
+                      : drugType === "liquid"
+                      ? "bottle"
+                      : drugType === "powder"
+                      ? "can"
+                      : "cannister"
+                  } (NGN)`}</h6>
                   <p>{formatAmount(basePrice?.defaultPricePerUnit)}</p>
                 </div>
                 <div>
-                  <h6 className="mb-2">DPrice Per Pill (NGN)</h6>
+                  <h6 className="mb-2">Price per pack (NGN)</h6>
                   <p>{formatAmount(basePrice?.defaultPricePerContainer)}</p>
                 </div>
                 <div>
-                  <h6 className="mb-2">Price Per Carton (NGN)</h6>
+                  <h6 className="mb-2">Price per carton (NGN)</h6>
                   <p>{formatAmount(basePrice?.defaultPricePerCarton)}</p>
                 </div>
               </div>

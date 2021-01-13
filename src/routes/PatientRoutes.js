@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-
 import PatientDashboard from "../Pages/Patient/Dashboard";
 import PatientAppointments from "../Pages/Patient/Appointments";
 import PatientConsultations from "../Pages/Patient/Consultations";
@@ -15,6 +14,8 @@ import ViewPatientProfile from '../Pages/Patient/ViewPatientProfile';
 import ViewPreConsultationHistory from '../Pages/Patient/ViewPreConsultationHistory';
 import ViewClarkingHistory from '../Pages/Patient/ViewClarkingHistory';
 import MyDoctors from '../Pages/Patient/MyDoctors';
+import ViewChangePassword from "../Pages/Components/ViewChangePassword";
+import { PatientProfile } from '../Components/Profiles/PatientProfile';
 
 export default function PatientRoutes() {
     return (
@@ -33,6 +34,9 @@ export default function PatientRoutes() {
                     <Route exact path="/ViewDoctorProfile/:id" component={ViewDoctorProfile} />
 
                     <Route exact path="/MyDoctors" component={MyDoctors} />
+                    <Route exact path="/changepassword" component={ViewChangePassword}/>
+                    <Route exact path="/PatientProfile" component={PatientProfile} />
+      
                     <Route exact path="/PatientProfile" component={ViewPatientProfile} />
                     <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
                     <Route exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />

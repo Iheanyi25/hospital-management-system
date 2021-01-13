@@ -2,7 +2,7 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
 import { Success } from "../../Components/Alerts";
-
+import  CountryRegionDropdown  from "../../Components/Select/CountryRegionSelectableDropdown";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class UpdatePatientProfile extends React.Component {
@@ -42,6 +42,16 @@ class UpdatePatientProfile extends React.Component {
       return;
     }
   }
+  // this.state = { country: '', region: '' };
+  // }
+
+  // selectCountry (val) {
+  //   this.setState({ country: val });
+  // }
+
+  // selectRegion (val) {
+  //   this.setState({ region: val });
+  // }
 
   getRegistrationStatus = async () => {
     try {
@@ -251,8 +261,7 @@ class UpdatePatientProfile extends React.Component {
                 <div className="card-body bg-warning p-4">
                   <div className="d-flex justify-content-between">
                     <div className="">
-                      <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click the pay button and complete registration`}</h6>{" "}
-                    </div>
+                    <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click, the pay now button to complete registration`}</h6>{" "}                    </div>
                     <div className="">
                       <Link
                         className="btn btn-sm btn-primary"
@@ -426,48 +435,7 @@ class UpdatePatientProfile extends React.Component {
                             value={address ? address : ""}
                           />
                         </div>
-                        <div className="row">
-                          <div className="col-12 col-sm-6">
-                            <div className="form-group">
-                              <label>State of Origin</label>
-
-                              <select
-                                className="form-control"
-                                title="state"
-                                tabIndex={-98}
-                                onChange={(e) => this.handleChange("state", e)}
-                                value={state ? state : ""}
-                              >
-                                <option disabled value="">
-                                  Select State
-                                </option>
-                                <option>Enugu</option>
-                                <option>Abuja</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-12 col-sm-6">
-                            <div className="form-group">
-                              <label>Country</label>
-
-                              <select
-                                className="form-control"
-                                title="country"
-                                tabIndex={-98}
-                                onChange={(e) =>
-                                  this.handleChange("country", e)
-                                }
-                                value={country ? country : ""}
-                              >
-                                <option disabled value="">
-                                  Select Country
-                                </option>
-                                <option>Nigeria</option>
-                                <option>Ghana</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
+                              <CountryRegionDropdown/>
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
@@ -506,15 +474,20 @@ class UpdatePatientProfile extends React.Component {
                                 <option disabled value="">
                                   Select Blood Group
                                 </option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
                                 <option>O+</option>
                                 <option>O-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
                               </select>
                             </div>
                           </div>
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
                               <label>Genotype</label>
-
                               <select
                                 className="form-control"
                                 title="genoType"
@@ -558,7 +531,7 @@ class UpdatePatientProfile extends React.Component {
                               <label>Allergies</label>{" "}
                               <textarea
                                 className="form-control"
-                                placeholder="Address"
+                                placeholder="Allergies"
                                 rows={3}
                                 value={allergies ? allergies : ""}
                                 onChange={(e) =>
@@ -569,10 +542,10 @@ class UpdatePatientProfile extends React.Component {
                           </div>
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Disabilities </label>{" "}
+                              <label>Disabilities</label>{" "}
                               <textarea
                                 className="form-control"
-                                placeholder="Address"
+                                placeholder="Disabilities"
                                 rows={3}
                                 value={disabilities ? disabilities : ""}
                                 onChange={(e) =>

@@ -1,6 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts/Success";
+import { formatInputDate } from "../../utils/formatInputDate";
 const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
@@ -29,7 +30,6 @@ class BookAppointment extends React.Component {
 
   renderPatientPicker() {
     var select = $(".custom-patient-picker");
-
     if (select.length) {
       select.each(function () {
         $(this).selectpicker({
@@ -149,6 +149,7 @@ class BookAppointment extends React.Component {
   };
 
   render() {
+    console.log(Date.now());
     let {
       patientId,
       doctorId,
@@ -202,13 +203,14 @@ class BookAppointment extends React.Component {
                         <div className="row">
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Date</label>
+                              <label>Appointment Date<small className="text-danger">*</small></label>
 
                               <input
                                 type="date"
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"
+                                min={formatInputDate()}
                                 onChange={(e) =>
                                   this.handleChange("appointmentDate", e)
                                 }
@@ -219,7 +221,7 @@ class BookAppointment extends React.Component {
 
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Time</label>
+                              <label>Appointment Time<small className="text-danger">*</small></label>
 
                               <input
                                 type="time"
@@ -235,7 +237,7 @@ class BookAppointment extends React.Component {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label>Select A Patient</label>
+                          <label>Select A Patient<small className="text-danger">*</small></label>
                           <select
                             className=" custom-patient-picker rounded form-control"
                             data-live-search="true"
@@ -281,7 +283,7 @@ class BookAppointment extends React.Component {
                         </div>
 
                         <div className="form-group">
-                          <label>Title of Appointment</label>
+                          <label>Title of Appointment<small className="text-danger">*</small></label>
 
                           <input
                             className="form-control"
@@ -295,7 +297,7 @@ class BookAppointment extends React.Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label>Reason for Appointment</label>{" "}
+                          <label>Reason for Appointment<small className="text-danger">*</small></label>{" "}
                           <textarea
                             className="form-control"
                             placeholder="Reason For Appointment"
@@ -326,11 +328,11 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                  appointmentTime === "" ||
-                                  patientId === "" ||
-                                  doctorId === "" ||
-                                  reasonForAppointment === "" ||
-                                  appointmentTitle === ""
+                                appointmentTime === "" ||
+                                patientId === "" ||
+                                doctorId === "" ||
+                                reasonForAppointment === "" ||
+                                appointmentTitle === ""
                                   ? true
                                   : false
                               }

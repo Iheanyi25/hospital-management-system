@@ -353,7 +353,7 @@ class AdminSidebar extends React.Component {
                       <li className="menu-item">
                         <Link to="/AdminCreateHealthPlan" className="item-link">
                           <span className="link-text">
-                            Create a health plan
+                            Create a Health Plan
                           </span>
                         </Link>
                       </li>

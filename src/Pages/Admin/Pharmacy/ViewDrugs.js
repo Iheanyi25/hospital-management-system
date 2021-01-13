@@ -234,7 +234,7 @@ class ViewDrugs extends React.Component {
                             aria-controls="pills-liquid"
                             aria-selected="false"
                           >
-                            Liquid/Syrups
+                            Liquid/Syrup
                           </a>
                         </li>
                         <li className="nav-item">

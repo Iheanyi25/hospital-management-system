@@ -103,7 +103,7 @@ export default class CreateHealthPlan extends Component {
                         onSubmit={this.handleSubmit}
                         noValidate
                       >
-                        <h4 className="text-center">Create a health plan</h4>
+                        <h4 className="text-center">Create a Health Plan</h4>
                         <div className="form-group">
                           <label>Name</label>
                           <input

@@ -123,7 +123,7 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="col col-7">
                               <h6 className="mt-0 mb-1 text-nowrap">
-                                Pharmasists
+                                Pharmacists
                               </h6>
                               <div className="count text-primary fs-20">
                                 5238
@@ -138,7 +138,7 @@ class Dashboard extends React.Component {
                   <div className="row">
                     <div className="col-12 col-md-6">
                       <div className="card bg-light">
-                        <div className="card-header">Welcome Phar. Michae</div>
+                        <div className="card-header">Welcome Pharm. Michael</div>
                         <div className="card-body">
                           Lorem ipsum dolor sit amet, consectetur adipisicing
                           elit. Distinctio dolore enim
