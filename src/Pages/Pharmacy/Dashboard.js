@@ -9,6 +9,7 @@ import {
 import { pharmacyDashboardUrl } from "../../api/URLs";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -168,7 +169,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="../assets/content/user-40-1.jpg"
+                                  src={PatientAndAdminImage}
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -216,7 +217,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="../assets/content/user-40-2.jpg"
+                                  src={PatientAndAdminImage}
                                   width={40}
                                   height={40}
                                   className="rounded-500"
@@ -264,7 +265,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="../assets/content/user-40-3.jpg"
+                                  src={PatientAndAdminImage}
                                   width={40}
                                   height={40}
                                   className="rounded-500"

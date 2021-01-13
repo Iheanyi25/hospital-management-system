@@ -5,6 +5,8 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getAllAccountsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
+import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -143,7 +145,7 @@ class ManageAccounts extends React.Component {
                                   <tr key={index}>
                                     <td>
                                       <img
-                                        src="../assets/content/user-40-1.jpg"
+                                        src={PatientAndAdminImage}
                                         alt=""
                                         width={40}
                                         height={40}
