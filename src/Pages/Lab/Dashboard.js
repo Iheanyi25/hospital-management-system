@@ -3,6 +3,8 @@ import { PageLoader } from '../../Components';
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { labDashboardUrl } from "../../api/URLs";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
+
 
 class Dashboard extends React.Component {
 
@@ -154,7 +156,7 @@ class Dashboard extends React.Component {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><img src="../assets/content/user-40-1.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                    <td><img src={PatientAndAdminImage} width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Liam</strong></td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> liam@gmail.com
@@ -179,7 +181,7 @@ class Dashboard extends React.Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><img src="../assets/content/user-40-2.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                    <td><img src={PatientAndAdminImage} width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Emma</strong></td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> emma@gmail.com
@@ -206,7 +208,7 @@ class Dashboard extends React.Component {
 
 
                                                 <tr>
-                                                    <td><img src="../assets/content/user-40-7.jpg" width={40} height={40} className="rounded-500" /></td>
+                                                    <td><img src={PatientAndAdminImage} width={40} height={40} className="rounded-500" /></td>
                                                     <td><strong>Sophia</strong></td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap text-primary"><span className="icofont-ui-email p-0 mr-2" /> sophia@gmail.com
