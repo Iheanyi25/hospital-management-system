@@ -12,6 +12,8 @@ export const getDAllrugDispencingInvoicesUrl = () =>
 export const payForDrugsUrl = () => `/Pharmacy/PayForDrugs`;
 export const getDrugsInAnInvoice = (invoiceNumber) =>
   `/Pharmacy/GetDrugsInAnInvoice/${invoiceNumber}`;
+export const markInvoiceAsDispensedUrl = (drugInvoiceId) =>
+  `/Pharmacy/MarkInvoiceAsDispensed?DrugInvoiceId=${drugInvoiceId}`;
 
 // Pharmacy - Manage Drug Prices
 export const updateDrugBasePriceUrl = () => `/Pharmacy/UpdateDefaultDrugPrice`;
@@ -30,6 +32,7 @@ export const updateDrugUrl = () => `/Pharmacy/UpdateDrug`;
 export const deleteDrugUrl = () => `/Pharmacy/DeleteDrug`;
 
 // Pharmacy- Dashboard
+export const pharmacyDashboardUrl = () => `/Pharmacy/SystemSummary`;
 
 // Pharmacy- Manage Profile
 export const getAllPharmacistUrl = () => `/Pharmacy/GetAllPharmacists?`;

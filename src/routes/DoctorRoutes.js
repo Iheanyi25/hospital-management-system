@@ -16,6 +16,7 @@ import ViewServiceRequests from "../Pages/Components/ViewServiceRequests";
 import CreateServiceRequest from "../Pages/Admin/Util_Services/CreateServiceRequest";
 import ClarkingHistory from "../Pages/Components/ClarkingHistory";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
+import MyPatients from "../Pages/Doctor/MyPatients";
 
 export default function DoctorRoutes() {
   return (
@@ -30,6 +31,11 @@ export default function DoctorRoutes() {
           />
           <Route
             exact
+            path="/myPatients"
+            component={MyPatients}
+          />
+          <Route
+            exact
             path="/DoctorConsultations"
             component={DoctorConsultations}
           />
@@ -39,11 +45,11 @@ export default function DoctorRoutes() {
             component={DoctorAppointments}
           />
           <Route exact path="/DoctorClarking" component={DoctorClarking} />
-          <Route
+          {/* <Route
             exact
             path="/DoctorPatientProfile"
             component={DoctorPatientProfile}
-          />
+          /> */}
           <Route
             exact
             path="/DoctorPatientMedicalHistory"
@@ -77,7 +83,7 @@ export default function DoctorRoutes() {
           />
           <Route
             exact
-            path="/changepassword"
+            path="/ChangePassword"
             component={ViewChangePassword}
           />
           <Route

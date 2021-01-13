@@ -27,9 +27,9 @@ class ReAssign extends React.Component {
 
     fetchDoctors = async () => {
         const getDoctors = getDoctorsUrl()
-        const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
-        const {data} = await fetchWrapper(getDoctorsConfig)
-        
+        const getDoctorsConfig = fetchConfig({ url: getDoctors, method: 'get' })
+        const { data } = await fetchWrapper(getDoctorsConfig)
+
         const doctorArray = [];
 
         data.doctors.forEach((element) => {
@@ -58,12 +58,13 @@ class ReAssign extends React.Component {
         };
 
         const postReAssignment = postReAssignmentUrl(this.props[key[1]])
-        const postReAssignmentConfig = fetchConfig({url : postReAssignment, data, method : 'post'})
+        const postReAssignmentConfig = fetchConfig({ url: postReAssignment, data, method: 'post' })
         const res = await fetchWrapper(postReAssignmentConfig)
 
-        this.setState({ success: true, message: res.message }, () =>
-            this.closeModal()
-        )
+        this.setState({ success: true, message: res.message }, () => {
+            this.closeModal();
+            this.props["reRun"]();
+        })
     }
 
     closeModal = () => {
@@ -86,6 +87,7 @@ class ReAssign extends React.Component {
                         null
                 }
                 {/* Search Doctors modals */}
+
                 <div
                     className="modal fade"
                     id="reassign-patient"
@@ -125,10 +127,11 @@ class ReAssign extends React.Component {
                                         style={{ fontSize: "0.9em" }}
                                     >
                                         Cancel
-                  </button>
+                                    </button>
                                     <button
                                         // data-dismiss="modal"
                                         onClick={this.routeToDoctor}
+                                        disabled={!this.state.doctorId}
                                         style={{ fontSize: "0.9em" }}
                                         className="btn btn-primary mb-3"
                                         onClick={this.handleSubmit}

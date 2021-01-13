@@ -66,11 +66,11 @@ const SelectableDropDown = ({ isFetchingCategories, data, label, itemKey, stateK
                     <option disabled selected="true" value="">
                         {/** added loading this.state to the form */}
                         {
-                           !isFetchingCategories
-                                ?  (data.length  > 0 ?  `Select ${label}`: 'No Service Categories Found')
-                                : 'Loading...'
+                            // data
+                            (data.length > 0 ? `Select ${label}` : 'Loading...')
+                            // : 'Loading...'
                         }
-                    </option>
+                    </option>,
 
                     {
                         data.map((item, index) => {

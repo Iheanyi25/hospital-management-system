@@ -33,6 +33,9 @@ const EditContactInfo = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       const updateDoctorContactDetails = updateDoctorContactDetailsUrl()
       const updateDoctorContactDetailsConfig = fetchConfig({url : updateDoctorContactDetails, data: details, method : 'post'})

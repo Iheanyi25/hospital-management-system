@@ -29,6 +29,9 @@ const AddEducation = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       const postDoctorEducation = postDoctorEducationUrl()
       const postDoctorEducationConfig = fetchConfig({url : postDoctorEducation, data:JSON.stringify([details]), method : 'post'})

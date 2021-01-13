@@ -22,12 +22,15 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
 
     try {
       const postDoctorOfficeTime = postDoctorOfficeTimeUrl()
-      const postDoctorOfficeTimeConfig = fetchConfig({url : postDoctorOfficeTime, data:JSON.stringify([details]), method : 'post'})
+      const postDoctorOfficeTimeConfig = fetchConfig({ url: postDoctorOfficeTime, data: JSON.stringify([details]), method: 'post' })
       const res = await fetchWrapper(postDoctorOfficeTimeConfig)
-      
+
       if (res.status === 200) {
         displaySuccess(res.message)
         updatePatientDetails();

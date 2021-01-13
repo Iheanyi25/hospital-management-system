@@ -129,8 +129,12 @@ class DoctorSidebar extends React.Component {
                       <span className="link-icon icon sli-user mr-2" />
                       <span className="link-text">Profile</span>{" "}
                     </Link>
-
+                    <Link to="/myPatients" className="item-link">
+                      <span className="link-icon icon sli-user mr-2" />
+                      <span className="link-text">My Patients</span>{" "}
+                    </Link>
                   </li>
+
                   <li className="menu-item">
                     <span className="group-title">Availability</span>
                   </li>

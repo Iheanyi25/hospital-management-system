@@ -14,7 +14,7 @@ import { Success } from "../Alerts";
 import formatTime from "../../utils/formatTime";
 import userImage from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
-import email from "../../assets/img/email.svg";
+import emailImage from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
 import edit from "../../assets/img/edit.svg";
 import add from "../../assets/img/add.svg";
@@ -89,8 +89,11 @@ class DocProfile extends React.Component {
 
   deleteItem = async (action, id) => {
     try {
-      const deleteDoctorProfileInfo = deleteDoctorProfileInfoUrl(action,id);
-      const deleteDoctorProfileInfoConfig = fetchConfig({ url: deleteDoctorProfileInfo, method: "delete" });
+      const deleteDoctorProfileInfo = deleteDoctorProfileInfoUrl(action, id);
+      const deleteDoctorProfileInfoConfig = fetchConfig({
+        url: deleteDoctorProfileInfo,
+        method: "delete",
+      });
       const res = await fetchWrapper(deleteDoctorProfileInfoConfig);
 
       if (res.status === 200) {
@@ -112,8 +115,9 @@ class DocProfile extends React.Component {
 
   render() {
     const content = this.context;
-    const { user } = content;
-    console.log(user);
+    const {
+      user: { userType, email },
+    } = content;
     const {
       doctorDetails,
       doctorId,
@@ -147,7 +151,7 @@ class DocProfile extends React.Component {
             ) : null}
             <div className="main-content-wrap">
               <div className="page-content">
-                {this.props.user ? (
+                {userType === "Patient" ? (
                   <header className="page-header d-flex justify-content-between">
                     <h3 className="page-title">{`Dr. ${
                       doctor?.firstName ?? ""
@@ -222,9 +226,8 @@ class DocProfile extends React.Component {
                                 ? `${specialization.specialization}`
                                 : `${specialization.specialization}, `
                             ) ?? "N/A"}
-                            {/* General practioner, nuerosurgeon * */}
                           </p>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             <Link
                               to={{
                                 pathname: "/changepassword",
@@ -243,7 +246,11 @@ class DocProfile extends React.Component {
                       </div>
                       <div className="mt-2">
                         <div className="d-flex mb-3 mt-2">
-                          <img src={email} alt="reset" className="mr-2 mb-2" />
+                          <img
+                            src={emailImage}
+                            alt="reset"
+                            className="mr-2 mb-2"
+                          />
                           <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
                         </div>
                         <div className="d-flex pl-1">
@@ -263,7 +270,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Education
                             </h6>
-                            {user.userType === "Doctor" ? (
+                            {userType === "Doctor" ? (
                               <img
                                 src={add}
                                 alt="reset"
@@ -274,7 +281,7 @@ class DocProfile extends React.Component {
                               />
                             ) : null}
                           </div>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             this.state.displayDeleteEducation ? (
                               <img
                                 src={close}
@@ -341,9 +348,7 @@ class DocProfile extends React.Component {
                               message="Nothing uploaded yet"
                               target="#add-education"
                               targetDescription="Upload"
-                              noAction={
-                                user.userType === "Doctor" ? false : true
-                              }
+                              noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -358,7 +363,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Experience
                             </h6>
-                            {user.userType === "Doctor" ? (
+                            {userType === "Doctor" ? (
                               <img
                                 src={add}
                                 alt="reset"
@@ -369,7 +374,7 @@ class DocProfile extends React.Component {
                               />
                             ) : null}
                           </div>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             this.state.displayDeleteExperience ? (
                               <img
                                 src={close}
@@ -437,9 +442,7 @@ class DocProfile extends React.Component {
                               message="Nothing uploaded yet"
                               target="#add-experience"
                               targetDescription="Upload"
-                              noAction={
-                                user.userType === "Doctor" ? false : true
-                              }
+                              noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -447,6 +450,7 @@ class DocProfile extends React.Component {
                     </div>
                   </div>
                 </div>
+
                 <div className="row mx-0">
                   <div className="col-12 col-md-7">
                     <div className="card border-light p-4">
@@ -456,7 +460,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Office Time
                             </h6>
-                            {user.userType === "Doctor" ? (
+                            {userType === "Doctor" ? (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -467,7 +471,7 @@ class DocProfile extends React.Component {
                               />
                             ) : null}
                           </div>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             this.state.displayDeleteOfficeTime ? (
                               <img
                                 src={close}
@@ -493,19 +497,18 @@ class DocProfile extends React.Component {
                               />
                             )
                           ) : null}
-                          {/* {this.props.user ? null : (
-                            <img src={edit} alt="reset" className="mr-3 " />
-                          )} */}
                         </div>
-                        <div className="row mx-0 mt-4 mb-2">
-                          <div className="col-8 p-0">
-                            <p className="font-weight-bold mb-2">Work days</p>
+                        {officeTime?.length === 0 ? null : (
+                          <div className="row mx-0 mt-4 mb-2">
+                            <div className="col-8 p-0">
+                              <p className="font-weight-bold mb-2">Work days</p>
+                            </div>
+                            <div className="col-3 p-0">
+                              <p className="font-weight-bold mb-2">Period</p>
+                            </div>
+                            <div className="col-1 p-0"></div>
                           </div>
-                          <div className="col-3 p-0">
-                            <p className="font-weight-bold mb-2">Period</p>
-                          </div>
-                          <div className="col-1 p-0"></div>
-                        </div>
+                        )}
                         {officeTime?.map((officeTime, index) => (
                           <>
                             <div className="row mx-0 mb-2" key={index}>
@@ -545,9 +548,7 @@ class DocProfile extends React.Component {
                               message="Nothing uploaded yet"
                               target="#add-office-time"
                               targetDescription="Upload"
-                              noAction={
-                                user.userType === "Doctor" ? false : true
-                              }
+                              noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -563,7 +564,7 @@ class DocProfile extends React.Component {
                               Contact Information
                             </h6>
                           </div>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             <img
                               src={edit}
                               data-toggle="modal"
@@ -594,10 +595,20 @@ class DocProfile extends React.Component {
                         </div>
                         <div className="d-flex mt-4">
                           <img src={location} alt="location" className="mt-0" />
-                          <div className="mt-4 ml-3">
+                          <div className="mt-3 ml-3">
                             <p className="font-weight-bold mb-0">Location</p>
-                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
-                            <p className="m-0">{`${doctorDetails.country}`}.</p>
+                            {doctorDetails.city === null &&
+                            doctorDetails.state === null &&
+                            doctorDetails.country === null ? (
+                              <p>N/A</p>
+                            ) : (
+                              <>
+                                <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                                <p className="m-0">
+                                  {`${doctorDetails.country}`}.
+                                </p>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -613,7 +624,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Specialization
                             </h6>
-                            {user.userType === "Doctor" ? (
+                            {userType === "Doctor" ? (
                               <img
                                 src={add}
                                 alt="reset"
@@ -624,7 +635,7 @@ class DocProfile extends React.Component {
                               />
                             ) : null}
                           </div>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             this.state.displayDeleteSpecialization ? (
                               <img
                                 src={close}
@@ -678,9 +689,7 @@ class DocProfile extends React.Component {
                               message="Nothing uploaded yet"
                               target="#add-specialization"
                               targetDescription="Upload"
-                              noAction={
-                                user.userType === "Doctor" ? false : true
-                              }
+                              noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -697,7 +706,7 @@ class DocProfile extends React.Component {
                             <h6 className="card-title mt-0 font-weight-bold">
                               Websites & Socials
                             </h6>
-                            {user.userType === "Doctor" ? (
+                            {userType === "Doctor" ? (
                               <img
                                 src={add}
                                 data-toggle="modal"
@@ -708,7 +717,7 @@ class DocProfile extends React.Component {
                               />
                             ) : null}
                           </div>
-                          {user.userType === "Doctor" ? (
+                          {userType === "Doctor" ? (
                             this.state.displayDeleteWebsite ? (
                               <img
                                 src={close}
@@ -760,7 +769,12 @@ class DocProfile extends React.Component {
                                       />
                                     ) : null}
                                   </div>
-                                  <Link to="#">{social.url}</Link>
+                                  <Link
+                                    to="#"
+                                    onClick={() => window.open(social.url)}
+                                  >
+                                    {social.url}
+                                  </Link>
                                 </div>
                               </div>
                             ) : social.webSite === "Facebook" ? (
@@ -786,7 +800,12 @@ class DocProfile extends React.Component {
                                       />
                                     ) : null}
                                   </div>
-                                  <Link to="#">{social.url}</Link>
+                                  <Link
+                                    to="#"
+                                    onClick={() => window.open(social.url)}
+                                  >
+                                    {social.url}
+                                  </Link>
                                 </div>
                               </div>
                             ) : social.webSite === "Twitter" ? (
@@ -812,7 +831,12 @@ class DocProfile extends React.Component {
                                       />
                                     ) : null}
                                   </div>
-                                  <Link to="#">{social.url}</Link>
+                                  <Link
+                                    to="#"
+                                    onClick={() => window.open(social.url)}
+                                  >
+                                    {social.url}
+                                  </Link>
                                 </div>
                               </div>
                             ) : null
@@ -824,9 +848,7 @@ class DocProfile extends React.Component {
                               message="Nothing uploaded yet"
                               target="#add-specialization"
                               targetDescription="Upload"
-                              noAction={
-                                user.userType === "Doctor" ? false : true
-                              }
+                              noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -839,38 +861,38 @@ class DocProfile extends React.Component {
             <AddEducation
               doctorId={doctorId}
               displaySuccess={this.displaySuccess}
-              doctorEmail={user.email}
+              doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddExperience
               doctorId={doctorId}
               displaySuccess={this.displaySuccess}
-              doctorEmail={user.email}
+              doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddOfficeTime
               doctorId={doctorId}
               displaySuccess={this.displaySuccess}
-              doctorEmail={user.email}
+              doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <EditContactInfo
               doctorId={this.props.doctorId}
               displaySuccess={this.displaySuccess}
-              doctorEmail={user.email}
+              doctorEmail={email}
               doctor={doctorDetails}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddWebsites
               doctorId={doctorId}
               displaySuccess={this.displaySuccess}
-              doctorEmail={user.email}
+              doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddSpecialization
               doctorId={doctorId}
               displaySuccess={this.displaySuccess}
-              doctorEmail={user.email}
+              doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
           </main>

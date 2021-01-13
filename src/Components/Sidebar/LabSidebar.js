@@ -53,13 +53,15 @@ class LabSidebar extends React.Component {
                           to="/LabManageServiceRequests"
                           className="item-link"
                         >
-                          <span className="link-text">Manage Services</span>
+                          <span className="link-text">Manage Service Requests</span>
                         </Link>
                       </li>
                     </ul>
                   </li>
                   <li className="menu-item">
-                    <span className="group-title">Manage Services</span>
+                    <Link className="item-link" to="#">
+                      <span className="group-title">Manage Services</span>
+                    </Link>
                   </li>
                   <li className="menu-item has-sub">
                     <Link className="item-link" to="#">
@@ -96,7 +98,7 @@ class LabSidebar extends React.Component {
                         </Link>
                       </li>
                       <li className="menu-item">
-                        <Link to="/AdminManageServices" className="item-link">
+                        <Link to="/LabManageServices" className="item-link">
                           <span className="link-text">View Services</span>
                         </Link>
                       </li>

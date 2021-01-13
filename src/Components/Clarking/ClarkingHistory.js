@@ -28,8 +28,8 @@ class ClarkingHistory extends React.Component {
     const { id } = this.props.patientDetails;
     try {
       const getPatientClarkingHistory = getPatientClarkingHistoryUrl(id)
-      const getPatientClarkingHistoryConfig = fetchConfig({ url: getPatientClarkingHistory, method : 'GET'})
-      const {data} = await fetchWrapper(getPatientClarkingHistoryConfig)
+      const getPatientClarkingHistoryConfig = fetchConfig({ url: getPatientClarkingHistory, method: 'GET' })
+      const { data } = await fetchWrapper(getPatientClarkingHistoryConfig)
       this.setState({
         clerkingHistories: data.clerkingHistory,
       });
@@ -51,7 +51,9 @@ class ClarkingHistory extends React.Component {
         )}
         <div id="accordion" className="mb-3">
           {clerkingHistories.length === 0 ? (
-            <h5 className="text-center mt-5">Nothing to see here</h5>
+            <div className="d-flex justify-content-center my-4">
+              <img src={require("../../assets/img/emptyData.svg")} alt="empty states" />
+            </div>
           ) : (
               clerkingHistories.map((clerkingHistory, index) => (
                 <div className="card mb-0">
@@ -84,7 +86,7 @@ class ClarkingHistory extends React.Component {
                         />
                         <div>
                           <h5 className="mb-2 mt-1 font-weight-bold">
-                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
+                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName ?? clerkingHistory?.doctor?.firstName ?? ""} ${clerkingHistory?.consultation?.doctor?.lastName ?? clerkingHistory?.doctor?.lastName ?? ""}`}</u>
                           </h5>
                           <p className="mb-2">
                             {`Clerked patient on ${formatDate(clerkingHistory?.dateOfClerking) ?? ""

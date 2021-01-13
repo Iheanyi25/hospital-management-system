@@ -34,6 +34,8 @@ class Consultations extends React.Component {
       patientsAttendedToCount: 0,
       success: { show: false, message: "", delError: false },
     };
+
+    this.getAllConsultations = this.getAllConsultations.bind(this);
   }
 
   async componentDidMount() {
@@ -45,7 +47,7 @@ class Consultations extends React.Component {
     console.log("deleting...");
     try {
       const deleteConsultation = deleteConsultationUrl()
-      const deleteConsultationConfig = fetchConfig({url : deleteConsultation, data: { consultationId: id }, method : 'post'})
+      const deleteConsultationConfig = fetchConfig({ url: deleteConsultation, data: { consultationId: id }, method: 'post' })
       const res = await fetchWrapper(deleteConsultationConfig)
 
       console.log(res, 5555);
@@ -125,9 +127,9 @@ class Consultations extends React.Component {
     data.consultations.forEach((consultation) => {
       if (consultation.isCompleted === true) {
         patientsAttendedTo.push(consultation);
-      } else if (consultation.doctorId === undefined) {
+      } else if (!consultation.doctorId) {
         patientsOnOpenList.push(consultation);
-      } else if (consultation.doctorId !== undefined) {
+      } else if (consultation.doctorId) {
         patientsAttachedToDoctors.push(consultation);
       }
     });
@@ -263,7 +265,8 @@ class Consultations extends React.Component {
 
         <ReAssign
           consultationId={this.state.activeConsultation}
-          route={"ReassignConsultation"}
+          route={"ReassignPatientToAnotherDoctor"}
+          reRun={this.getAllConsultations}
         />
       </>
     );

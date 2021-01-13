@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import styles from "./css/Login.module.css";
+import "./css/Login.css";
 import { InvalidDetails, Success } from "../../Components/Alerts";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../mobx/UserState";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { logInUrl } from "../../api/URLs";
+import logoMakeshift from "../../assets/img/logo-makeshift.svg";
 
-let $ = undefined
+let $ = undefined;
 let interval = undefined;
 class Login extends Component {
   static contextType = UserContext;
@@ -20,16 +21,6 @@ class Login extends Component {
     response: "",
     success: false,
   };
-
-  // setJquery = () => {
-  //   interval = setInterval(() => {
-  //     if (window.$) {
-  //       console.log("i dey");
-  //       clearInterval(interval);
-  //       $ = window.$;
-  //     }
-  //   }, 1000);
-  // };
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,10 +46,14 @@ class Login extends Component {
         const payload = {
           email: userEmailFromLink,
           authenticationToken: userTokenFromLink,
-        }
+        };
         const logIn = logInUrl();
-        const logInConfig = fetchConfig({ url: logIn, data: payload, method: "post",});
-          const res = await fetchWrapper(logInConfig);
+        const logInConfig = fetchConfig({
+          url: logIn,
+          data: payload,
+          method: "post",
+        });
+        const res = await fetchWrapper(logInConfig);
 
         if (res.status === 200) {
           const data = res;
@@ -77,75 +72,77 @@ class Login extends Component {
     const { loading, error } = content;
     const { email, password, success } = this.state;
     return (
-      <>
-        <div className={styles.background}>
-          {success ? <Success message={this.state.response} /> : null}
-          {error ? (
-            <InvalidDetails setErrorStatus={this.setErrorStatus} />
-          ) : null}
-          <div className={styles.div}>
-            <h1>
-              <img
-                src="./assets/img/logo.svg"
-                alt="logo"
-                width={147}
-                height={33}
-                className="logo-img"
-              />
-              Hospital Management Solution
-            </h1>
-            <h2>Login</h2>
-            <form
-              className={styles.form}
-              onSubmit={(e) => this.handleSubmit(e)}
-            >
-              <div className="form-group">
-                <label>Email Address</label>
-                <input
-                  className="form-control"
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => {
-                    this.setState({ [e.target.name]: e.target.value });
-                  }}
-                  placeholder="Your Email Address"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  className="form-control"
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => {
-                    this.setState({ [e.target.name]: e.target.value });
-                  }}
-                  placeholder="Your Password"
-                  required
-                />
-              </div>
-              <div className="row justify-content-between">
-                <button
-                  className="btn btn-primary mt-3"
-                  type="submit"
-                  disabled={loading}
+      <div className="auth-background">
+        {success ? <Success message={this.state.response} /> : null}
+        {error ? <InvalidDetails setErrorStatus={this.setErrorStatus} /> : null}
+        <div className="row mx-0 d-flex justify-content-center align-items-center">
+          <div className="">
+            <img src={logoMakeshift} alt="logo" />
+            <h1 className="text-white">Hospital Management Solution</h1>
+            <p className="text-white">
+              It was some time before he obtained any answer, and the reply,
+              when made, was unpropitious. After exchanging a mute glance or
+              two, the hermit went to the further side of the hut, and opened a
+              hutch, which was concealed with great care and some ingenuity.{" "}
+            </p>
+          </div>
+          <div className="">
+            <div className="card border-light">
+              <div className="card-body">
+                <form
+                  className="mb-4 p-5"
+                  onSubmit={(e) => this.handleSubmit(e)}
                 >
-                  <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
-                  Login
-                </button>
-
-                <Link to="/resetmypassword" className="justify-self-right mt-3">
-                  <p className="mt-3">Forgot Password</p>
-                </Link>
+                  <h4 className="text-center">Welcome back!</h4>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      className="form-control"
+                      type="email"
+                      tabIndex={-98}
+                      name="email"
+                      value={email}
+                      onChange={(e) => {
+                        this.setState({ [e.target.name]: e.target.value });
+                      }}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Password</label>
+                    <input
+                      className="form-control"
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(e) => {
+                        this.setState({ [e.target.name]: e.target.value });
+                      }}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-block btn-primary"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    Log in
+                  </button>
+                  <Link to="/resetmypassword" className="text-center mt-3">
+                    <p
+                      className="text-center mt-3"
+                      style={{ color: "#007BFF" }}
+                    >
+                      Forgot Password
+                    </p>
+                  </Link>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

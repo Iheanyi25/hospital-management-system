@@ -19,8 +19,11 @@ const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       const postDoctorSpecialization = postDoctorSpecializationUrl()
       const postDoctorSpecializationConfig = fetchConfig({url : postDoctorSpecialization, data:JSON.stringify([details]), method : 'post'})
