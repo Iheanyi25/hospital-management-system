@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorAllConsultationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -10,7 +13,6 @@ class Consultations extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientQueue: null,
       acceptedAppointments: [],
@@ -24,48 +26,52 @@ class Consultations extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl } = this.state;
 
-    var acceptedAppointments = [];
-    var activeAppointments = [];
-    var pendingAppointments = [];
-    var completedAppointments = [];
-    var rejectedAppointments = [];
+    const acceptedAppointments = [];
+    const activeAppointments = [];
+    const pendingAppointments = [];
+    const completedAppointments = [];
+    const rejectedAppointments = [];
 
-    const response = await fetch(
-      `${apiUrl}/Doctor/ViewAllConsultations?DoctorId=${this.state.doctorId}`
-    );
+    try {
+      const getDoctorAllConsultations = getDoctorAllConsultationsUrl(this.state.doctorId);
+      const getDoctorAllConsultationsConfig = fetchConfig({ url: getDoctorAllConsultations, method: "get" });
+      const { data } = await fetchWrapper(getDoctorAllConsultationsConfig);
 
-    const data = await response.json();
-    console.log({ data });
+      console.log(data, 55555);
 
-    this.setState({ doctorConsultations: data.doctorConsultations });
+      this.setState({ doctorConsultations: data.doctorConsultations });
+  
+      data.doctorConsultations.forEach((queue) => {
+        if (queue.isActive === true) {
+          activeAppointments.push(queue);
+        } else if (queue.isAccepted === true) {
+          acceptedAppointments.push(queue);
+        } else if (queue.isCompleted === true) {
+          completedAppointments.push(queue);
+        } else if (queue.isRejected === true) {
+          rejectedAppointments.push(queue);
+        } else {
+          pendingAppointments.push(queue);
+        }
+      });
+  
+      this.setState({
+        activeAppointments: activeAppointments,
+        activeAppointmentsCount: activeAppointments.length,
+        acceptedAppointments: acceptedAppointments,
+        acceptedAppointmentsCount: acceptedAppointments.length,
+        completedAppointments: completedAppointments,
+        completedAppointmentsCount: completedAppointments.length,
+        pendingAppointments: pendingAppointments,
+        pendingAppointmentsCount: pendingAppointments.length,
+        rejectedAppointmentsCount: rejectedAppointments.length,
+      });
 
-    data.doctorConsultations.forEach((queue) => {
-      if (queue.isActive === true) {
-        activeAppointments.push(queue);
-      } else if (queue.isAccepted === true) {
-        acceptedAppointments.push(queue);
-      } else if (queue.isCompleted === true) {
-        completedAppointments.push(queue);
-      } else if (queue.isRejected === true) {
-        rejectedAppointments.push(queue);
-      } else {
-        pendingAppointments.push(queue);
-      }
-    });
+    } catch (error) {
+      console.log(error)
+    }
 
-    this.setState({
-      activeAppointments: activeAppointments,
-      activeAppointmentsCount: activeAppointments.length,
-      acceptedAppointments: acceptedAppointments,
-      acceptedAppointmentsCount: acceptedAppointments.length,
-      completedAppointments: completedAppointments,
-      completedAppointmentsCount: completedAppointments.length,
-      pendingAppointments: pendingAppointments,
-      pendingAppointmentsCount: pendingAppointments.length,
-      rejectedAppointmentsCount: rejectedAppointments.length,
-    });
   }
 
   sync() {

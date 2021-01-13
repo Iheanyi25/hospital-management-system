@@ -1,4 +1,7 @@
 import React from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { createServiceUrl, getAllServicesCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import { UserContext } from "../../../mobx/UserState";
@@ -6,8 +9,6 @@ import {
   isNotEmptyString,
   isValidPositiveInteger,
 } from "../../../utils/validationUtils";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class CreateService extends React.Component {
   static contextType = UserContext;
@@ -41,14 +42,12 @@ class CreateService extends React.Component {
 
   fetchServiceCategories = async () => {
     try {
-      let res = await fetch(`${apiUrl}/Admin/GetAllServiceCategories`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      console.log(JSON.parse(data));
-      this.setState({ categories: JSON.parse(data) });
+     
+      const getAllServicesCategory = getAllServicesCategoryUrl()
+      const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
+      const {data} = await fetchWrapper(getAllServicesCategoryConfig)
+
+      this.setState({ categories: data });
     } catch (error) {
       console.log(error);
     }
@@ -67,12 +66,9 @@ class CreateService extends React.Component {
       this.state.cost !== ""
     ) {
       try {
-        let res = await fetch(`${apiUrl}/Admin/CreateService`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+        const createService = createServiceUrl()
+        const createServiceConfig = fetchConfig({url : createService, data, method : 'post'})
+        const res = await fetchWrapper(createServiceConfig)
         if (res.status === 200) {
           this.setState({ success: true });
         }

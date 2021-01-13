@@ -4,13 +4,15 @@ import styles from "./css/Login.module.css";
 import { InvalidDetails, Success } from "../../Components/Alerts";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../mobx/UserState";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { logInUrl } from "../../api/URLs";
 
 let $ = undefined
 let interval = undefined;
 class Login extends Component {
   static contextType = UserContext;
   state = {
-    apiUrl: process.env.REACT_APP_API_URL,
     email: "",
     password: "",
     submitting: false,
@@ -45,23 +47,21 @@ class Login extends Component {
   componentDidMount = async () => {
     // this.setJquery();
     const params = new URLSearchParams(window.location.search);
-    const url = this.state.apiUrl;
     const userEmailFromLink = params.get("email");
     const userTokenFromLink = params.get("token");
 
     if (userEmailFromLink !== "" && userTokenFromLink !== "") {
       try {
-        let res = await fetch(`${url}/Auth/Login`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify({
-            email: userEmailFromLink,
-            authenticationToken: userTokenFromLink,
-          }),
-          redirect: "follow",
-        });
+        const payload = {
+          email: userEmailFromLink,
+          authenticationToken: userTokenFromLink,
+        }
+        const logIn = logInUrl();
+        const logInConfig = fetchConfig({ url: logIn, data: payload, method: "post",});
+          const res = await fetchWrapper(logInConfig);
+
         if (res.status === 200) {
-          const data = await res.json();
+          const data = res;
           console.log(data);
           this.setState({ success: true, response: data.message });
           window.location.reload();

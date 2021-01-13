@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorExperienceUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
 const AddExperience = ({
@@ -17,29 +19,24 @@ const AddExperience = ({
     doctorProfileId: doctorId,
     createdBy: doctorEmail,
   });
-  const [checked, setChecked] = useState(false);
-  const handleChange = (e) => {
-    if (e.target.checked) {
-      setDetails({ ...details, endYear: "till date" });
-      setChecked(e.target.checked);
-    } else {
-      setDetails({
-        ...details,
-        [e.target.name]: e.target.value,
-      });
-    }
-  };
 
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
+
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify([details]),
-        redirect: "follow",
-      });
-      console.log(res);
+      const postDoctorExperience = postDoctorExperienceUrl()
+      const postDoctorExperienceConfig = fetchConfig({url : postDoctorExperience, data:JSON.stringify([details]), method : 'post'})
+      const res = await fetchWrapper(postDoctorExperienceConfig)
+      
       if (res.status === 200) {
         displaySuccess();
         updatePatientDetails();
@@ -102,20 +99,8 @@ const AddExperience = ({
                     className="form-control"
                     onChange={handleChange}
                     placeholder="eg. 1990"
-                    disabled={checked ? true : false}
                   />
                 </div>
-              </div>
-              <div className="custom-control custom-checkbox mb-3">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="customCheck1"
-                  onChange={handleChange}
-                />{" "}
-                <label className="custom-control-label" for="customCheck1">
-                  Currently working here?
-                </label>
               </div>
               <div className="col"></div>
               <div className="col text-right">

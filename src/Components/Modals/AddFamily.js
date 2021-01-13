@@ -1,4 +1,7 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postAdminAccountUrl } from "../../api/URLs";
 
 class AddFamily extends React.Component {
 
@@ -35,14 +38,11 @@ class AddFamily extends React.Component {
         console.log(data)
         if (this.state.name !== '' && this.state.phoneNumber !== '') {
             try {
-                let res = await fetch(process.env.REACT_APP_API_URL + '/Admin/Account/CreateAccount', {
-                    headers: { 'Content-Type': 'application/json-patch+json' },
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    redirect: 'follow',
-                });
-                let response = await res.json();
-                alert(response.message)
+                const postAdminAccount = postAdminAccountUrl()
+                const postAdminAccountConfig = fetchConfig({url : postAdminAccount, data:JSON.stringify(data), method : 'post'})
+                const res = await fetchWrapper(postAdminAccountConfig)
+               
+                alert(res.message)
                 await this.props.callbackFromProps();
                 this.closeModal();
             } catch (error) {

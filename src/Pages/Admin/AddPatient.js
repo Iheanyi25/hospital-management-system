@@ -3,8 +3,9 @@ import { PageLoader } from "../../Components";
 import SelectFamily from "./SelectFamily";
 import { Success } from "../../Components/Alerts";
 import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { getAllHealthPlansUrl, registerPatientUrl } from "../../api/URLs";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
 
 export default class AddPatient extends Component {
   state = {
@@ -41,13 +42,11 @@ export default class AddPatient extends Component {
   }
   fetchHealthPlans = async () => {
     try {
-      let res = await fetch(`${apiUrl}/Admin/GetAllHealthPlans`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      this.setState({ healthPlans: JSON.parse(data).plans });
+      const getAllHealthPlans = getAllHealthPlansUrl();
+      const getAllHealthPlansConfig = fetchConfig({ url: getAllHealthPlans, method: "get", });
+      const { data } = await fetchWrapper(getAllHealthPlansConfig);
+
+      this.setState({ healthPlans: data.plans });
     } catch (error) { }
   };
 
@@ -123,21 +122,14 @@ export default class AddPatient extends Component {
 
   submit = async (data) => {
     try {
-      let res = await fetch(
-        process.env.REACT_APP_API_URL + "/Admin/RegisterPatient",
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        }
-      );
-      const response = await res.json();
-      console.log(response, "Response Status")
+      const registerPatient = registerPatientUrl()
+      const registerPatientConfig = fetchConfig({ url: registerPatient, data: data, method: 'post' })
+      const res = await fetchWrapper(registerPatientConfig)
+
+      console.log(res, "Response Status")
       if (res.status === 200) {
-        this.setState({ success: true, patientId: response.patient.id, message: "Well done, you successfully added a patient" });
+        this.setState({ success: true, patientId: res.patient.id, message: "Well done, you successfully added a patient" });
       }
-      else return;
     } catch (error) {
       console.log(error);
     }
@@ -285,84 +277,3 @@ export default class AddPatient extends Component {
   }
 }
 
-//comments
-// SelectFamily(val) {
-//     console.log(val);
-//     this.props.history.push({
-//         pathname: '/AdminSelectFamily',
-//         state: this.state
-//     });
-// }
-// async registerPatient(e) {
-// 	e.preventDefault();
-
-// 	const { email, firstName, lastName, password } = this.state;
-// 	try {
-// 		const request = await fetch(`${this.state.apiUrl}/Admin/Register`, {
-// 			method: 'POST',
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify({
-// 				email,
-// 				firstName,
-// 				lastName,
-// 				password,
-// 			}),
-// 		});
-
-// 		if (!request.ok) {
-// 			const error = await request.json();
-// 			throw Error(error.message);
-// 		}
-
-// 		const data = await request.json();
-
-// 		this.setState({
-// 			showSuccessMessage: true,
-// 			successMessage: data.message,
-// 			patientId: data.newApplicationUser.id,
-// 		});
-// 		localStorage.setItem('registeredPatient', JSON.stringify(data.authenticatedUser));
-// 	} catch (err) {
-// 		console.log(err.message);
-// 		this.setState({ showErrorMessage: true, errorMessage: err.message });
-// 	}
-// }
-
-// displayError() {
-// 	if (this.state.showErrorMessage) {
-// 		return (
-// 			<div className="alert alert-danger with-after-icon" role="alert">
-// 				<div className="alert-content">{this.state.errorMessage}</div>
-// 				<div className="alert-icon">
-// 					<i className="icofont-alarm" />
-// 				</div>
-// 			</div>
-// 		);
-// 	}
-// }
-
-// displaySuccess() {
-// 	if (this.state.showSuccessMessage) {
-// 		return (
-// 			<div className="alert alert-info with-after-icon" role="alert">
-// 				<div className="alert-content text-center">
-// 					{this.state.successMessage}.
-// 					<p className="mb-0 ">
-// 						Would you like to update his profile?
-// 						<Link
-// 							to={`/adminupdatepatientprofile/${this.state.patientId}`}
-// 							className="btn btn-outline-light"
-// 						>
-// 							<span className="btn-icon icon icofont-ui-edit mr-2"></span>Update Profile
-// 						</Link>
-// 					</p>
-// 				</div>
-// 				<div className="alert-icon">
-// 					<i className="icon icofont-ui-check" />
-// 				</div>
-// 			</div>
-// 		);
-// 	}
-// }

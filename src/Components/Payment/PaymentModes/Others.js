@@ -66,7 +66,7 @@ const Others = ({ details, paidSuccessfully }) => {
                       </div>
                     </div>
                     <div className="form-group">
-                      <label>Reference Number</label>
+                      <label>Tranfer Reference Number</label>
                       <input
                         className="form-control"
                         type="text"

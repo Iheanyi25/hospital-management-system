@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../Login/css/Login.module.css";
 import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
+import { fetchWrapper } from "../../../api/fetcher";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { postResetPasswordUrl } from "../../../api/URLs";
 
 function ResetPassword() {
   const [allPasswordDetails, setAllPasswordDetails] = useState({
@@ -23,20 +26,15 @@ function ResetPassword() {
   const handleSubmit = async (e) => {
     setAllPasswordDetails({ ...allPasswordDetails, submitting: true });
     e.preventDefault();
-    const url = process.env.REACT_APP_API_URL;
 
     if (email !== "") {
-      let res = await fetch(
-        `${url}/Auth/SendResetPasswordMail?email=${email}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          redirect: "follow",
-        }
-      );
+      const postResetPassword = postResetPasswordUrl(email)
+      const postResetPasswordConfig = fetchConfig({url : postResetPassword, method : 'post'})
+      const res = await fetchWrapper(postResetPasswordConfig)
+
       if (res.status === 200) {
         console.log("Res is ", res);
-        const data = await res.json();
+        const data = res;
         setAllPasswordDetails({
           ...allPasswordDetails,
           response: data.message,

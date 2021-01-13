@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styles from "../../Login/css/Login.module.css";
 import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { useHistory } from 'react-router-dom'
+import { Success } from '../../../Components/Alerts/Success';
+import { fetchWrapper } from '../../../api/fetcher';
+import { fetchConfig } from '../../../api/fetchConfig';
+import { postPasswordUrl } from '../../../api/URLs';
 
 function ChangePassword() {
 
@@ -14,25 +18,22 @@ function ChangePassword() {
     const handleSubmit = async (e) => {
         setAllPasswordDetails({ ...allPasswordDetails, submitting: true });
         e.preventDefault();
-        const url = process.env.REACT_APP_API_URL;
         const userId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 
 
         if (newPassword !== "" && currentPassword !== "") {
-
-            let res = await fetch(`${url}/Auth/ChangePassword?userId=&currentPassword=${currentPassword}&newPassword=${newPassword}`, {
-                headers: { "Content-Type": "application/json-patch+json" },
-                method: "POST",
-                redirect: "follow",
-                body: JSON.stringify({
-                    userId,
+            const payload = {
+                userId,
                     currentPassword,
                     newPassword,
-                }),
-            });
+            }
+            const postPassword = postPasswordUrl()
+            const postPasswordConfig = fetchConfig({url : postPassword, data: payload, method : 'post'})
+            const res = await fetchWrapper(postPasswordConfig)
+
             if (res.status === 200) {
                 console.log('Res is ', res);
-                const data = await res.json();
+                const {data} = res;
                 setAllPasswordDetails({ ...allPasswordDetails, passwordStatus: true, response: data.message })
                 console.log('Data is ', data);
 
@@ -77,55 +78,56 @@ function ChangePassword() {
                                             noValidate
                                             onSubmit={(e) => handleSubmit(e)}
                                         >
-                                            {
-                                                passwordStatus === false ? (
-                                                    <>
-                                                        <div className="form-group">
-                                                            <div className="valid-feedback">Looks good!</div>
-                                                            <div className="invalid-feedback">
-                                                                Oops! should be numbers only.
+                                            <div className="form-group">
+                                                <div className="valid-feedback">Looks good!</div>
+                                                <div className="invalid-feedback">
+                                                    Oops! should be numbers only.
                           </div>
-                                                            <div className="form-group">
-                                                                <label className="pt-1">Current Password</label>
-                                                                <input
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    name="currentPassword"
-                                                                    onChange={(e) => {
-                                                                        handleNewPassword(e.target.value);
-                                                                    }}
-                                                                    placeholder="Enter your current password"
-                                                                    required
-                                                                />
-                                                            </div>
+                                                <div className="form-group">
+                                                    <label className="pt-1">Current Password</label>
+                                                    <input
+                                                        className="form-control"
+                                                        type="password"
+                                                        name="currentPassword"
+                                                        onChange={(e) => {
+                                                            handleCurrentPasssword(e.target.value);
+                                                        }}
+                                                        placeholder="Enter your current password"
+                                                        required
+                                                        autoComplete="off"
+                                                    />
+                                                </div>
 
-                                                            <div className="form-group">
-                                                                <label>New Password</label>
-                                                                <input
-                                                                    className="form-control"
-                                                                    type="text"
-                                                                    name="newPassword"
-                                                                    onChange={(e) => {
-                                                                        handleCurrentPasssword(e.target.value);
-                                                                    }}
-                                                                    placeholder="Enter your new password"
-                                                                    required
-                                                                />
-                                                            </div>
+                                                <div className="form-group">
+                                                    <label>New Password</label>
+                                                    <input
+                                                        className="form-control"
+                                                        type="password"
+                                                        name="newPassword"
+                                                        onChange={(e) => {
+                                                            handleNewPassword(e.target.value);
+                                                        }}
+                                                        placeholder="Enter your new password"
+                                                        required
+                                                        autoComplete="off"
+                                                    />
+                                                </div>
 
-                                                        </div>
-                                                        <div className="m-auto">
-                                                            <div className="row">
-                                                                <button className="btn btn-primary" type="submit" disabled={submitting}>
-                                                                    <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
+                                            </div>
+                                            <div className="m-auto">
+                                                <div className="row">
+                                                    <button className="btn btn-primary" type="submit" disabled={submitting}>
+                                                        <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
                                                         Change password
                                                         </button>
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                ) : <>
-                                                        <p className="text-center"> {response} </p>
-                                                    </>
+                                                </div>
+                                            </div>
+
+                                            {
+                                                passwordStatus === true ? (
+                                                    <Success message={response} />
+                                                ) :
+                                                    null
                                             }
                                         </form>
                                     </div>

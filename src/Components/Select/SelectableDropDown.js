@@ -5,7 +5,7 @@ let interval = undefined;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
 
-const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKeys, search, multiple, searchParams }) => {
+const SelectableDropDown = ({ isFetchingCategories, data, label, itemKey, stateKey, onChange, valueKeys, search, multiple, searchParams }) => {
 
     const setJquery = () => {
         interval = setInterval(() => {
@@ -66,11 +66,11 @@ const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKey
                     <option disabled selected="true" value="">
                         {/** added loading this.state to the form */}
                         {
-                            data.length > 0
-                                ? `Select ${label}`
-                                : 'Loading...'
+                            // data
+                            (data.length > 0 ? `Select ${label}` : 'No Service Categories Found')
+                            // : 'Loading...'
                         }
-                    </option>
+                    </option>,
 
                     {
                         data.map((item, index) => {

@@ -2,12 +2,13 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import user from "../../assets/img/user.png";
 import formatDate from "../../utils/formatDate";
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
+import { getPatientClarkingHistoryUrl } from "../../api/URLs";
+
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
-
 class ClarkingHistory extends React.Component {
   state = {
     clerkingHistories: [],
@@ -26,15 +27,9 @@ class ClarkingHistory extends React.Component {
   fetchClarkingHistories = async () => {
     const { id } = this.props.patientDetails;
     try {
-      let res = await fetch(
-        `${apiUrl}/Doctor/GetClerkingHistoryForPatient?PatientId=${id}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.json();
+      const getPatientClarkingHistory = getPatientClarkingHistoryUrl(id)
+      const getPatientClarkingHistoryConfig = fetchConfig({ url: getPatientClarkingHistory, method : 'GET'})
+      const {data} = await fetchWrapper(getPatientClarkingHistoryConfig)
       this.setState({
         clerkingHistories: data.clerkingHistory,
       });
@@ -89,7 +84,7 @@ class ClarkingHistory extends React.Component {
                         />
                         <div>
                           <h5 className="mb-2 mt-1 font-weight-bold">
-                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName} ${clerkingHistory?.consultation?.doctor?.lastName}`}</u>
+                            <u>{`Dr. ${clerkingHistory?.consultation?.doctor?.firstName ?? clerkingHistory?.doctor?.firstName ?? ""} ${clerkingHistory?.consultation?.doctor?.lastName ?? clerkingHistory?.doctor?.lastName ?? ""}`}</u>
                           </h5>
                           <p className="mb-2">
                             {`Clerked patient on ${formatDate(clerkingHistory?.dateOfClerking) ?? ""
