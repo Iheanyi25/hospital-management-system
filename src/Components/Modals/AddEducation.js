@@ -27,6 +27,9 @@ const AddEducation = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorEducation`, {
         headers: { "Content-Type": "application/json-patch+json" },

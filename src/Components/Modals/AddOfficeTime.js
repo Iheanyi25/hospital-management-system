@@ -20,6 +20,9 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorOfficeTime`, {
         headers: { "Content-Type": "application/json-patch+json" },

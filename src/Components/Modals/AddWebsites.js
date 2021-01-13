@@ -25,6 +25,9 @@ const AddWebsites = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorSocial`, {
         headers: { "Content-Type": "application/json-patch+json" },

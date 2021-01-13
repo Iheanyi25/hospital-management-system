@@ -32,6 +32,10 @@ const AddExperience = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
+
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
         headers: { "Content-Type": "application/json-patch+json" },

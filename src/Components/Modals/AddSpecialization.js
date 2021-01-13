@@ -17,8 +17,11 @@ const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       let res = await fetch(`${apiUrl}/Doctor/AddDoctorSpecialization`, {
         headers: { 'Content-Type': 'application/json-patch+json' },
