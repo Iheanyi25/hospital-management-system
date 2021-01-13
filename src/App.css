@@ -95,3 +95,28 @@ body {
     background-color: #336cfb;
     color: white;
 }
+
+  .bar-container{
+    width: 100vw;
+    z-index: 300000;
+    height: 5px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to right, #007db6, #0546ea, #009c9e, #0546ea, #0546ea, #0546ea, #0546ea)
+  }
+  
+  .bar {
+    position:absolute;
+    width: calc(100% * 2/7);
+    height: 100%;
+    display: flex;
+    animation: move 2s linear infinite;
+    background-color: white;
+  }
+  
+  @keyframes move
+  {
+      0%   {transform: translate(-100%, 0)}
+      100% {transform: translate(calc(7/2*100%), 0)}
+  }
+  
