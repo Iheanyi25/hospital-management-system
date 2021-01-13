@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorAllConsultationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -19,11 +20,10 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch(
-      `${apiUrl}/Doctor/ViewAllConsultations?DoctorId=${this.state.doctorId}`
-    );
+    const getDoctorAllConsultations = getDoctorAllConsultationsUrl(this.state.patientId);
+    const getDoctorAllConsultationsConfig = fetchConfig({ url: getDoctorAllConsultations, method: "get" });
+    const { data } = await fetchWrapper(getDoctorAllConsultationsConfig);
 
-    const data = await response.json();
     this.setState({ doctorConsultations: data.doctorConsultations });
 
     console.log({ data });

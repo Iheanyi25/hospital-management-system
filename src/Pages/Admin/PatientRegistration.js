@@ -9,6 +9,9 @@ import formatAmount from "../../utils/formatAmount";
 import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientRegistrationInvoiceUrl, getPatientsUrl, postPayPatientRegistrationFeeUrl } from "../../api/URLs";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -17,7 +20,6 @@ class PatientRegistration extends React.Component {
   static contextType = UserContext;
   state = {
     patients: [],
-    apiUrl: process.env.REACT_APP_API_URL,
     patientId: "",
     email: "",
     amount: "",
@@ -35,16 +37,11 @@ class PatientRegistration extends React.Component {
   }
   fetPatientRegistrationIvoice = async (id) => {
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/GetPatientRegistrationInvoice?patientId=${id}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.json();
-      console.log(data.patientRegistrationInvoice);
+      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(id)
+      const getPatientRegistrationInvoiceConfig = fetchConfig({url : getPatientRegistrationInvoice, method : 'get'})
+      const {data} = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+
+      console.log(data.patientRegistrationInvoice,111111);
       this.setState({
         invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber,
       });
@@ -54,9 +51,10 @@ class PatientRegistration extends React.Component {
   };
 
   async getAllPatients() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+    console.log(data,22222)
     this.setState({ patients: data.patients });
   }
 
@@ -78,15 +76,10 @@ class PatientRegistration extends React.Component {
 
     console.log(payload);
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/PayPatientRegistrationFee`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      const postPayPatientRegistrationFee = postPayPatientRegistrationFeeUrl()
+      const getPatientRegistrationInvoiceConfig = fetchConfig({url : postPayPatientRegistrationFee, data: payload, method : 'post'})
+      const res = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+      console.log(res,4444)
       if (res.status === 200) {
         console.log(res);
         this.setState({ success: true });

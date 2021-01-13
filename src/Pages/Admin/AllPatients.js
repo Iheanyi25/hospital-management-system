@@ -1,5 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 
@@ -11,16 +14,21 @@ class AllPatients extends React.Component {
     super(props);
 
     this.state = {
-      patients: [],
-      apiUrl: process.env.REACT_APP_API_URL,
+      patients: []
     };
   }
 
   async getAllPatients() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
-    this.setState({ patients: data.patients.map((x) => x.patient) });
+    try {
+      const getPatients = getPatientsUrl()
+      const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+      const {data} = await fetchWrapper(getPatientsConfig)
+    
+      this.setState({ patients: data.patients.map((x) => x.patient) });
+    } catch (error) {
+      console.log(error)
+    }
+  
   }
 
   componentDidMount() {

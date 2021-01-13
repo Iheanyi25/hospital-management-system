@@ -2,10 +2,12 @@ import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
+  deleteConsultationUrl,
   getPatientConsultationCountUrl,
   getPatientConsultationsUrl,
   getPatientsAttentedToCountUrl,
   getPatientsUnattentedToCountUrl,
+  getPatientsUrl
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
@@ -16,7 +18,6 @@ import ConsultationTabHeader from "./consultation-components/ConsultationTabHead
 import PatientAttachedToDoctors from "./consultation-components/PatientAttachedToDoctors";
 import PatientsOnOpenList from "./consultation-components/PatientsOnOpenList";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
@@ -35,15 +36,6 @@ class Consultations extends React.Component {
     };
   }
 
-  async getAllConsultations() {
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Patient/GetPatients`);
-    const data = await response.json();
-    this.$el = $(this.el);
-    this.$el.DataTable().destroy();
-    this.setState({ patients: data.patients }, () => this.sync());
-  }
-
   async componentDidMount() {
     await this.getAllConsultations();
   }
@@ -52,17 +44,13 @@ class Consultations extends React.Component {
     e.preventDefault();
     console.log("deleting...");
     try {
-      const request = await fetch(apiUrl + "/Admin/DeleteConsultation", {
-        method: "POST",
-        headers: {
-          "Content-type": " application/json",
-        },
-        body: JSON.stringify({ consultationId: id }),
-      });
-      const res = await request.json();
+      const deleteConsultation = deleteConsultationUrl()
+      const deleteConsultationConfig = fetchConfig({url : deleteConsultation, data: { consultationId: id }, method : 'post'})
+      const res = await fetchWrapper(deleteConsultationConfig)
+
       console.log(res, 5555);
 
-      if (request.status === 200) {
+      if (res.status === 200) {
         this.getAllConsultations();
         this.setState((state) => ({
           ...state,

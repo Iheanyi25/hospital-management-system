@@ -4,24 +4,19 @@ import { AuthLayout } from "../Components/Layout";
 import ViewResetPassword from "../Pages/Components/ViewResetPassword";
 import ViewResetPasswordFromMail from "../Pages/Components/ViewResetPasswordFromMail";
 import Login from "../Pages/Login/Login";
-import {useRouteMatch, useLocation} from 'react-router-dom'
 
-const AuthRoute = (props) => {
-    const {path} = useRouteMatch();
-    const {pathname} = useLocation();
-    console.log("path in route", pathname)
-    if(pathname === "/"){
-        window.location.href = "/login"
-    }
+const AuthRoute = () => {
+
     return (
         <Router>
             <AuthLayout>
                 <Switch>
                     <Route
                         exact
-                        path={"/login"}
+                        path={"/"}
                         component={Login}
                     />
+
                     <Route
                         exact
                         path="/resetmypassword"

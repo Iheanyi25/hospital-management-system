@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientAllAppointmentsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 const $ = require("jquery");
@@ -10,7 +13,6 @@ class Appointments extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientAppointments: null,
       canceledAppointments: [],
@@ -26,27 +28,10 @@ class Appointments extends React.Component {
     var canceledAppointments = [];
     var completedAppointments = [];
     var pendingAppointments = [];
-    const { apiUrl } = this.state;
-    const response = await fetch(
-      `${apiUrl}/Patient/ViewAllAppointments?PatientId=${this.state.patientId}`
-    );
-    const data = await response.json();
-    console.log(data);
 
-    let response1 = await fetch(
-      `${apiUrl}/Patient/GetPendingAppointmentsCount`
-    );
-    const data1 = await response1.json();
-
-    let response2 = await fetch(
-      `${apiUrl}/Patient/GetCompletedAppointmentsCount`
-    );
-    const data2 = await response2.json();
-
-    let response3 = await fetch(
-      `${apiUrl}/Patient/GetCanceledAppointmentsCount`
-    );
-    const data3 = await response3.json();
+    const getPatientAllAppointments = getPatientAllAppointmentsUrl(this.state.patientId);
+    const getPatientAllAppointmentsConfig = fetchConfig({ url: getPatientAllAppointments, method: "get" });
+    const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
 
     this.setState({ patientAppointments: data.appointments });
 
@@ -62,9 +47,9 @@ class Appointments extends React.Component {
 
     this.setState({
       canceledAppointments: canceledAppointments,
-      canceledAppointmentsCount: data1.appointmentsCount,
+      canceledAppointmentsCount: canceledAppointments.length,
       completedAppointments: completedAppointments,
-      completedAppointmentsCount: data2.appointmentsCount,
+      completedAppointmentsCount: completedAppointments.length,
       pendingAppointments: pendingAppointments,
       pendingAppointmentsCount: pendingAppointments.length,
     });

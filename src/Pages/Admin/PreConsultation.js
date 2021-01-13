@@ -1,4 +1,11 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import {
+  getPatientUrl,
+  updatePatientPreConsultationVitalsUrl,
+  updatePatientPreConsultationBMIUrl,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 class PreConsultation extends React.Component {
@@ -6,7 +13,6 @@ class PreConsultation extends React.Component {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: "",
       patient: null,
 
@@ -29,14 +35,13 @@ class PreConsultation extends React.Component {
   }
 
   async componentDidMount() {
-    const { apiUrl } = this.state;
     const { params } = this.props.match;
     await this.setState({ patientId: params.id });
-    const response = await fetch(
-      `${apiUrl}/Patient/GetPatient?id=${this.state.patientId}`
-    );
-    const data = await response.json();
-    console.log(data)
+    const getPatient = getPatientUrl(this.state.patientId);
+    const getPatientConfig = fetchConfig({ url: getPatient, method: "get" });
+    const { data } = await fetchWrapper(getPatientConfig);
+
+    console.log(data, 111111);
     this.setState({
       patient: data,
     });
@@ -60,35 +65,25 @@ class PreConsultation extends React.Component {
     e.preventDefault();
 
     try {
-      const {
-        apiUrl,
-        bloodPressure,
-        respiration,
-        pulse,
-        spo2,
-        temperature,
-        patientId,
-      } = this.state;
+      const payload = {
+        bloodPressure: this.state.bloodPressure,
+        respiration: this.state.respiration,
+        pulse: this.state.pulse,
+        spo2: this.state.spo2,
+        temperature: this.state.spo2,
+        patientId: this.state.patientId,
+      };
       //
-      const request = await fetch(
-        `${apiUrl}/PatientPreConsultation/UpdatePatientVitals`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            bloodPressure,
-            respiration,
-            pulse,
-            spo2,
-            temperature,
-          }),
-        }
-      );
-      if (!request.ok) {
-        const error = await request.json();
+      const updatePatientPreConsultationVitals = updatePatientPreConsultationVitalsUrl();
+      const getPatientConfig = fetchConfig({
+        url: updatePatientPreConsultationVitals,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(getPatientConfig);
+      const { data, error } = res;
+      console.log(data, 7777);
+      if (res.status !== 200) {
         throw Error(error.message);
       }
 
@@ -122,25 +117,23 @@ class PreConsultation extends React.Component {
     e.preventDefault();
 
     try {
-      const { apiUrl, weight, height, calculatedBMI, patientId } = this.state;
+      const payload = {
+        weight: this.state.weight,
+        height: this.state.height,
+        calculatedBMI: this.state.calculatedBMI,
+        patientId: this.state.patientId,
+      };
+      const updatePatientPreConsultationBMI = updatePatientPreConsultationBMIUrl();
+      const updatePatientPreConsultationBMIConfig = fetchConfig({
+        url: updatePatientPreConsultationBMI,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(updatePatientPreConsultationBMIConfig);
+      const { data, error } = res;
+      console.log(data, 8888);
 
-      const request = await fetch(
-        `${apiUrl}/PatientPreConsultation/UpdatePatientBMI`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            weight,
-            height,
-            calculatedBMI,
-          }),
-        }
-      );
-      if (!request.ok) {
-        const error = await request.json();
+      if (res.status !== 200) {
         throw Error(error.message);
       }
 
@@ -288,7 +281,9 @@ class PreConsultation extends React.Component {
                 </div>
               ) : null}
               <header className="page-header">
-                <h3 className="page-title">Patient Preconsultation( {patient.patientProfile?.fullName} )</h3>
+                <h3 className="page-title">
+                  Patient Preconsultation( {patient.patientProfile?.fullName} )
+                </h3>
               </header>
               <div className="page-content">
                 <div className="row justify-content-center">
@@ -304,9 +299,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
-                                  value={
-                                    bloodPressure ? bloodPressure : ""
-                                  }
+                                  value={bloodPressure ? bloodPressure : ""}
                                   required
                                   onChange={(e) =>
                                     this.handleChange("bloodPressure", e)
@@ -349,9 +342,7 @@ class PreConsultation extends React.Component {
                                   className="form-control"
                                   type="number"
                                   value={spo2 ? spo2 : ""}
-                                  onChange={(e) =>
-                                    this.handleChange("spo2", e)
-                                  }
+                                  onChange={(e) => this.handleChange("spo2", e)}
                                 />
                               </div>
                             </div>
@@ -388,7 +379,7 @@ class PreConsultation extends React.Component {
                                 onClick={(e) => this.updatePatientVitals(e)}
                               >
                                 Save Patient Vitals
-                                  </button>
+                              </button>
                             </div>
                           </div>
                         </form>
@@ -461,7 +452,7 @@ class PreConsultation extends React.Component {
                                 onClick={(e) => this.updatePatientBMI(e)}
                               >
                                 Save Patient BMI
-                                  </button>
+                              </button>
                             </div>
                           </div>
                         </form>

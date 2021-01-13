@@ -12,8 +12,6 @@ import { fetchWrapper } from "../../api/fetcher";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
-
 class AllPharmacists extends React.Component {
   constructor(props) {
     super(props);
@@ -32,20 +30,17 @@ class AllPharmacists extends React.Component {
   }
 
   async fetchPharmacists() {
-    const fetchPharmacistsUrl = getAllPharmacistUrl();
-    const fetchPharmacistConfig = fetchConfig({
-      url: fetchPharmacistsUrl,
-      method: "get",
-    });
+    
     try {
+      const fetchPharmacistsUrl = getAllPharmacistUrl();
+      const fetchPharmacistConfig = fetchConfig({ url: fetchPharmacistsUrl, method: "get" });
       const response = await fetchWrapper(fetchPharmacistConfig);
       console.log("name", response);
       this.setState({ pharmacists: response.data.pharmacists });
     } catch (error) {
       console.log(error);
     }
-    // const res = await fetch(`${apiUrl}Pharmacy/GetAllPharmacists`);
-    // const response = await res.json();
+
   }
 
   sync() {

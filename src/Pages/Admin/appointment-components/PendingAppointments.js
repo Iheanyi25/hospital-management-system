@@ -119,7 +119,7 @@ export default function PendingAppointments({pendingAppointments, setAppointment
                         onClick={(e) => deleteAppointment(appointment.id)}
                       >
                         <span className="mr-3 btn-icon icofont-delete-alt" />
-                        Delete Consultation
+                        Delete Appointment
                       </button>
                     </div>
                   </div>

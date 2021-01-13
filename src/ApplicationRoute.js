@@ -9,20 +9,8 @@ import LabRoutes from "./routes/LabRoutes";
 import AccountantRoutes from "./routes/AccountantRoutes";
 import { UserContext } from "./mobx/UserState";
 import { observer } from "mobx-react";
-import {BrowserRouter, Switch, Route, useRouteMatch} from 'react-router-dom'
 
 const AppRouter = observer(() => {
-  // const [isAuthenticated, setisAuthenticated] = useState(null);
-  // const [userType, setUserType] = useState(
-  //   Boolean(localStorage.getItem("authenticatedUser"))
-  //     ? JSON.parse(
-  //       localStorage.getItem("authenticatedUser")
-  //     ).userType.toLowerCase()
-  //     : null
-  // );
-  const {path} = useRouteMatch();
-  console.log("path 1", path)
-
   const { loadUser, user, isLoadingUser } = useContext(UserContext)
   useEffect(() => {
     loadUser()
@@ -30,13 +18,10 @@ const AppRouter = observer(() => {
   // console.log(user)
   const userType = user?.userType?.toLowerCase();
   const isAuthenticated = Boolean(user);
-
    
   const getRouteToRender = () => {
-    if (!user && isLoadingUser) return ""
-    console.log("state check 1", isAuthenticated, userType)
+    if (!user && isLoadingUser) return "loadding"
     if (isAuthenticated) {
-
       const rootPath = window.location.pathname.split("/")[1].toLowerCase();
       let tempUserRoute =
         userType === rootPath ? rootPath : userType.toLowerCase();
@@ -55,13 +40,11 @@ const AppRouter = observer(() => {
         case "accountant":
           return <AccountantRoutes />;
         default:
-        //   localStorage.clear();
-        //   window.location.reload();
-        return  <AuthRoute />
-          // return;
+          localStorage.clear();
+          window.location.reload();
+          return;
       }
     } else {
-      console.log("state check", isAuthenticated, userType)
       return (
         <AuthRoute />
       );
@@ -71,16 +54,4 @@ const AppRouter = observer(() => {
   return getRouteToRender();
 })
 
-const RootRouter = () => {
-
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/home" component={AuthRoute} exact={true} />
-        <Route path="/" component={AppRouter}/>
-      </Switch>
-    </BrowserRouter>
-  )
-}
-
-export default  RootRouter;
+export default  AppRouter;

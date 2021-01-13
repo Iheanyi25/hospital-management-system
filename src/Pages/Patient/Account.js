@@ -1,11 +1,13 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientAccountBalanceUrl, getPatientAccountTransactionsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
@@ -23,21 +25,24 @@ class PatientAccount extends React.Component {
   async componentDidMount() {
     const content = this.context;
     const { user } = content;
-    const { patientId } = this.state;
-    const response = await fetch(
-      `${apiUrl}/Patient/Account/GetAccountBalance?PatientId=${user.id}`
-    );
-    const data = await response.json();
 
-    const response1 = await fetch(
-      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${user.id}`
-    );
-    const data1 = await response1.json();
+    try {
+      const getPatientAccountBalance = getPatientAccountBalanceUrl(user.id);
+    const getPatientAccountBalanceConfig = fetchConfig({ url: getPatientAccountBalance, method: "get" });
+    const {data} = await fetchWrapper(getPatientAccountBalanceConfig);
+
+    const getPatientAccountTransactions = getPatientAccountTransactionsUrl(user.id);
+    const getPatientAccountTransactionsConfig = fetchConfig({ url: getPatientAccountTransactions, method: "get" });
+    const {data : data1} = await fetchWrapper(getPatientAccountTransactionsConfig);
+
     console.log(data1.accountTransactions);
     this.setState({
       accountBalance: data.accountBalance,
       accountTransactions: data1.accountTransactions,
     });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   sync() {
@@ -45,13 +50,6 @@ class PatientAccount extends React.Component {
     this.$el.DataTable();
   }
 
-  fetchAccountsHistory = async () => {
-    const request = await fetch(
-      `${apiUrl}/Patient/Account/GetPatientAccountTransactions?PatientId=${this.state.patientId}`
-    );
-    const responses = await request.json();
-    console.log({ responses });
-  };
 
   render() {
     const { accountBalance, accountTransactions } = this.state;

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { deleteServiceUrl, getAllServicesUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -18,10 +21,10 @@ export default class ManageServices extends Component {
   }
 
   async fetchAllServices() {
-    const request = await fetch(
-      `${process.env.REACT_APP_API_URL}/Admin/GetAllServices`
-    );
-    let data = await request.json();
+    const getAllServices = getAllServicesUrl();
+    const getAllServicesConfig = fetchConfig({ url: getAllServices, method: "get" });
+    const {data} = await fetchWrapper(getAllServicesConfig)
+    
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
     this.setState((state) => ({ ...state, services: data }), () => this.sync());
@@ -30,15 +33,10 @@ export default class ManageServices extends Component {
 
   deleteMe = async (id) => {
     try {
-      let res = await fetch(
-        `${process.env.REACT_APP_API_URL}/Admin/DeleteService`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify({ id }),
-          redirect: "follow",
-        }
-      );
+      const deleteService = deleteServiceUrl();
+      const deleteServiceConfig = fetchConfig({ url: deleteService, data: {id}, method: "post" });
+      const res = await fetchWrapper(deleteServiceConfig)
+
       if (res.status === 200) {
         this.fetchAllServices();
         this.setState((state) => ({

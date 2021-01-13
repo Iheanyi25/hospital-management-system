@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { createHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, TemplateSettings } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import { isBoolean, isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 export default class CreateHealthPlan extends Component {
   state = {
     name: "",
@@ -62,12 +64,10 @@ export default class CreateHealthPlan extends Component {
       this.state.noOfAccounts !== ""
     ) {
       try {
-        let res = await fetch(`${apiUrl}/Admin/CreateHealthPlan`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+        const createHealthPlan = createHealthPlanUrl()
+        const createHealthPlanConfig = fetchConfig({url : createHealthPlan, data, method : 'post'})
+        const res = await fetchWrapper(createHealthPlanConfig)
+
         if (res.status === 200 || res.status === 201) {
           this.setState({ success: true });
         }
