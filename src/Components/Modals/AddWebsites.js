@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorSocialUrl } from "../../api/URLs";
 const $ = window.$;
 
 const AddWebsites = ({
@@ -29,13 +30,10 @@ const AddWebsites = ({
       return;
     }
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorSocial`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify([details]),
-        redirect: "follow",
-      });
-      console.log(res);
+      const postDoctorSocial = postDoctorSocialUrl()
+      const postDoctorSocialConfig = fetchConfig({url : postDoctorSocial, data:JSON.stringify([details]), method : 'post'})
+      const res = await fetchWrapper(postDoctorSocialConfig)
+
       if (res.status === 200) {
         displaySuccess(res.message);
         updatePatientDetails();

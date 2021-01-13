@@ -1,8 +1,9 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl, getPatientsUrl, postAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts/Success";
-import { formatInputDate } from "../../utils/formatInputDate";
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
 class BookAppointment extends React.Component {
@@ -30,6 +31,7 @@ class BookAppointment extends React.Component {
 
   renderPatientPicker() {
     var select = $(".custom-patient-picker");
+
     if (select.length) {
       select.each(function () {
         $(this).selectpicker({
@@ -56,8 +58,10 @@ class BookAppointment extends React.Component {
   }
 
   fetchPatients = async () => {
-    let res = await fetch(apiUrl + "/Patient/GetPatients");
-    const data = await res.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+    console.log(data,77777)
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -70,8 +74,10 @@ class BookAppointment extends React.Component {
   };
 
   fetchDoctors = async () => {
-    let res = await fetch(apiUrl + "/Doctor/GetDoctors");
-    const data = await res.json();
+    const getDoctors = getDoctorsUrl()
+    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+    const {data} = await fetchWrapper(getDoctorsConfig)
+    console.log(data,66666)
     const doctorArray = [];
 
     data.doctors.forEach((element) => {
@@ -94,37 +100,25 @@ class BookAppointment extends React.Component {
   async bookAppointment(e) {
     e.preventDefault();
 
-    const {
-      appointmentDate,
-      appointmentTime,
-      appointmentTitle,
-      reasonForAppointment,
-      patientId,
-      doctorId,
-    } = this.state;
+    const bookAppointmentDet = {
+      appointmentDate: this.state.appointmentDate,
+      appointmentTime: this.state.appointmentTime,
+      appointmentTitle: this.state.appointmentTitle,
+      reasonForAppointment: this.state.reasonForAppointment,
+      patientId: this.state.patientId,
+      doctorId: this.state.doctorId,
+    }
 
     try {
-      const request = await fetch(`${apiUrl}/Admin/BookAppointment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          appointmentDate,
-          appointmentTime,
-          appointmentTitle,
-          reasonForAppointment,
-          patientId,
-          doctorId,
-        }),
-      });
+      
+      const postAppointment = postAppointmentUrl()
+    const postAppointmentConfig = fetchConfig({url : postAppointment, data: bookAppointmentDet, method : 'post'})
+    const res = await fetchWrapper(postAppointmentConfig)
+      const {data, error} = res;
 
-      if (!request.ok) {
-        const error = await request.json();
+      if (res.status === 200) {
         throw Error(error.message);
       }
-
-      const data = await request.json();
 
       this.setState({
         showSuccessMessage: true,
@@ -149,7 +143,6 @@ class BookAppointment extends React.Component {
   };
 
   render() {
-    console.log(Date.now());
     let {
       patientId,
       doctorId,
@@ -210,7 +203,6 @@ class BookAppointment extends React.Component {
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"
-                                min={formatInputDate()}
                                 onChange={(e) =>
                                   this.handleChange("appointmentDate", e)
                                 }
@@ -328,11 +320,11 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                appointmentTime === "" ||
-                                patientId === "" ||
-                                doctorId === "" ||
-                                reasonForAppointment === "" ||
-                                appointmentTitle === ""
+                                  appointmentTime === "" ||
+                                  patientId === "" ||
+                                  doctorId === "" ||
+                                  reasonForAppointment === "" ||
+                                  appointmentTitle === ""
                                   ? true
                                   : false
                               }

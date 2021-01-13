@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl, postReAssignmentUrl } from "../../api/URLs";
 import { Success } from "../Alerts";
 import { SelectableDropDown } from "../Select/SelectableDropDown";
 const $ = window.$;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class ReAssign extends React.Component {
     constructor(props) {
@@ -25,8 +26,10 @@ class ReAssign extends React.Component {
     }
 
     fetchDoctors = async () => {
-        let res = await fetch(apiUrl + "/Doctor/GetDoctors");
-        const data = await res.json();
+        const getDoctors = getDoctorsUrl()
+        const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+        const {data} = await fetchWrapper(getDoctorsConfig)
+        
         const doctorArray = [];
 
         data.doctors.forEach((element) => {
@@ -54,15 +57,11 @@ class ReAssign extends React.Component {
             doctorId: this.state.doctorId
         };
 
-        const request = await fetch(apiUrl + "/Admin/" + this.props[key[1]], {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
-        const response = await request.json();
-        this.setState({ success: true, message: response.message }, () =>
+        const postReAssignment = postReAssignmentUrl(this.props[key[1]])
+        const postReAssignmentConfig = fetchConfig({url : postReAssignment, data, method : 'post'})
+        const res = await fetchWrapper(postReAssignmentConfig)
+
+        this.setState({ success: true, message: res.message }, () =>
             this.closeModal()
         )
     }

@@ -29,8 +29,10 @@ import remove from "../../assets/img/remove.svg";
 import close from "../../assets/img/close.svg";
 import { UserContext } from "../../mobx/UserState";
 import EmptyState from "../EmptyState/EmptyUploadState";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 class DocProfile extends React.Component {
   static contextType = UserContext;
   state = {
@@ -61,17 +63,12 @@ class DocProfile extends React.Component {
 
   fetchPatientDetails = async () => {
     try {
-      let res = await fetch(
-        `${apiUrl}/Doctor/GetDoctor?DoctorId=${this.props.doctorId}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-      let doctorDetails = JSON.parse(data).doctorProfile;
-      console.log(doctorDetails);
+      const getDoctor = getDoctorUrl(this.props.doctorId);
+      const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
+      const { data } = await fetchWrapper(getDoctorConfig);
+
+      let doctorDetails = data.doctorProfile;
+
       this.setState({
         ...this.state,
         doctorDetails: doctorDetails,
@@ -92,11 +89,10 @@ class DocProfile extends React.Component {
 
   deleteItem = async (action, id) => {
     try {
-      let res = await fetch(`${apiUrl}/Doctor/${action}/${id}`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "DELETE",
-        redirect: "follow",
-      });
+      const deleteDoctorProfileInfo = deleteDoctorProfileInfoUrl(action, id);
+      const deleteDoctorProfileInfoConfig = fetchConfig({ url: deleteDoctorProfileInfo, method: "delete" });
+      const res = await fetchWrapper(deleteDoctorProfileInfoConfig);
+
       if (res.status === 200) {
         this.displaySuccess(res.message);
         this.fetchPatientDetails();
@@ -169,7 +165,7 @@ class DocProfile extends React.Component {
                             className="btn btn-outline-primary mr-2 mb-2"
                           >
                             Book Appointment
-                        </Link>
+                                          </Link>
                           {doctorAvailability ? (
                             <Link
                               to={{
@@ -348,6 +344,32 @@ class DocProfile extends React.Component {
                               />
                             </div>
                           ) : null}
+                        </div>
+                        <div className="d-flex mt-4">
+                          <img src={darkEmail} alt="email" className="mt-0" />
+                          <div className="mt-3 ml-4">
+                            <p className="font-weight-bold mb-0">Email</p>
+                            <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
+                          </div>
+                        </div>
+                        <div className="d-flex mt-4">
+                          <img
+                            src={darkPhone}
+                            alt="email"
+                            className="mt-0 ml-1"
+                          />
+                          <div className="mt-3 ml-4">
+                            <p className="font-weight-bold mb-0">Mobile</p>
+                            <p>{doctor?.phoneNumber ?? "N/A"}</p>
+                          </div>
+                        </div>
+                        <div className="d-flex mt-4">
+                          <img src={location} alt="location" className="mt-0" />
+                          <div className="mt-4 ml-3">
+                            <p className="font-weight-bold mb-0">Location</p>
+                            <p className="m-0">{`${doctorDetails.city}, ${doctorDetails.state}`}</p>
+                            <p className="m-0">{`${doctorDetails.country}`}.</p>
+                          </div>
                         </div>
                       </div>
                     </div>

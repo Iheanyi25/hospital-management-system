@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import paystack1 from "../../assets/img/paystack-icon1.svg";
-import paystack2 from "../../assets/img/paystack-icon2.svg";
 import { usePaystackPayment } from "react-paystack";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postAdminFundAccountsUrl, postPatientFundAccountUrl } from "../../api/URLs";
+import paystack1 from "../../assets/img/paystack-icon1.svg";
+import paystack2 from "../../assets/img/paystack-icon2.svg";
 
 const PayWithPaystack = ({ paymentDetails, handleSuccess }) => {
   let userType = JSON.parse(localStorage.getItem("authenticatedUser")).userType;
@@ -60,14 +62,10 @@ const PayWithPaystack = ({ paymentDetails, handleSuccess }) => {
       transactionRefrence: reference.trxref,
       paymentDescription: paymentDetails.paymentDescription,
     };
-    console.log(payload);
     try {
-      let res = await fetch(`${apiUrl}/${userType}/Account/FundAccount`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify(payload),
-        redirect: "follow",
-      });
+      const postFundAccounts = userType === "Admin" ? postAdminFundAccountsUrl() : postPatientFundAccountUrl()
+      const postAdminFundAccountsConfig = fetchConfig({ url: postFundAccounts, data: payload, method: "post" });
+      const res = await fetchWrapper(postAdminFundAccountsConfig)
       if (res.status === 200) {
         handleSuccess(true);
       }

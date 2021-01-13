@@ -1,8 +1,10 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getAdminDashboardUrl, getDoctorAppointmentsUrl, getPatientConsultationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
@@ -19,22 +21,22 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    const patientQueue = await fetch(
-      `${apiUrl}/Admin/GetPatientConsultations`
-    );
-    let data = await patientQueue.json();
+    const getPatientConsultations = getPatientConsultationsUrl();
+    const getPatientConsultationsConfig = fetchConfig({url: getPatientConsultations, method: "get" });
+    const { data } = await fetchWrapper(getPatientConsultationsConfig);
     this.setState({ doctorConsultations: data.consultations });
 
-    const doctorAppointments = await fetch(
-      `${apiUrl}/Admin/GetDoctorAppointments`
-    );
-    let tempData = await doctorAppointments.json();
-    this.setState({ doctorAppointments: tempData.doctorsAppointments });
+    const getDoctorAppointments = getDoctorAppointmentsUrl();
+    const getDoctorAppointmentsConfig = fetchConfig({ url: getDoctorAppointments, method: "get" });
+    const { data: {doctorsAppointments} } = await fetchWrapper(getDoctorAppointmentsConfig);
 
-    const systemCount = await fetch(`${apiUrl}/Admin/Dashboard`);
-    let systemData = await systemCount.json();
+    this.setState({ doctorAppointments: doctorsAppointments });
 
-    this.setState({ systemCount: systemData }, () => {
+    const getAdminDashboard = getAdminDashboardUrl();
+    const getAdminDashboardConfig = fetchConfig({ url: getAdminDashboard, method: "get" });
+
+    const {data: systemCount} = await fetchWrapper(getAdminDashboardConfig);
+    this.setState({ systemCount }, () => {
       this.sync();
     });
   }

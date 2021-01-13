@@ -7,6 +7,9 @@ import {
   PayCash,
   Others,
 } from "../../Components/Payment/PaymentModes";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getServicesInAnInvoiceUrl, postPayForServicesUrl } from "../../api/URLs";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -17,7 +20,6 @@ class PaymentForService extends React.Component {
     this.myRef = [];
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       services: [],
       invoiceId: "",
       patientId: "",
@@ -42,11 +44,11 @@ class PaymentForService extends React.Component {
   }
 
   async getSerivices() {
-    const { apiUrl } = this.state;
-    const response = await fetch(
-      `${apiUrl}/Admin/GetServicesInAnInvoice/${this.props.history.location.state.invoiceId}`
-    );
-    const data = await response.json();
+    const { history : { location } } = this.props;
+    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(location.state.invoiceId);
+      const getServicesInAnInvoiceConfig = fetchConfig({ url: getServicesInAnInvoice, method: "get" });
+      const {data} = await fetchWrapper(getServicesInAnInvoiceConfig)
+      console.log(data,44444)
     this.initializeComponent(data.serviceRequest);
   }
 
@@ -118,15 +120,10 @@ class PaymentForService extends React.Component {
     };
 
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/PayForServices`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      const postPayForServices = postPayForServicesUrl();
+      const postPayForServicesConfig = fetchConfig({ url: postPayForServices, data: payload, method: "post" });
+      const res = await fetchWrapper(postPayForServicesConfig)
+      console.log(res,999999)
       if (res.status === 200) {
         console.log(res);
         this.setState({ success: true });

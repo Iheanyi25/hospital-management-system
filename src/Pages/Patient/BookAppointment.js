@@ -1,15 +1,15 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorUrl, postPatientAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import { formatInputDate } from "../../utils/formatInputDate";
 
 //const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
-
 class BookAppointment extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
       patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctor: "",
       doctorProfile: "",
@@ -23,15 +23,13 @@ class BookAppointment extends React.Component {
 
   async componentDidMount() {
     const { params } = this.props.match;
-
-    //grab the logged in user
     this.setState({ doctorId: params.doctorId });
 
-    const data = await (
-      await fetch(
-        `${this.state.apiUrl}/Doctor/GetDoctor?DoctorId=${params.doctorId}`
-      )
-    ).json();
+    const getDoctor = getDoctorUrl(this.props.doctorId);
+    const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
+    const { data } = await fetchWrapper(getDoctorConfig);
+
+    console.log(data,11111)
     this.setState({
       doctor: data,
     });
@@ -46,41 +44,23 @@ class BookAppointment extends React.Component {
 
   async bookAppointment(e) {
     e.preventDefault();
-
-    const {
-      appointmentDate,
-      appointmentTime,
-      appointmentTitle,
-      reasonForAppointment,
-      patientId,
-      doctorId,
-    } = this.state;
-    console.log(patientId);
+    const appointmentDet = {
+      appointmentDate: this.state.appointmentDate,
+      appointmentTime: this.state.appointmentTime,
+      appointmentTitle: this.state.appointmentTitle,
+      reasonForAppointment: this.state.reasonForAppointment,
+      patientId: this.state.patientId,
+      doctorId: this.state.doctorId,
+    }
     try {
-      const request = await fetch(
-        `${this.state.apiUrl}/Patient/BookAppointment`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            appointmentDate,
-            appointmentTime,
-            appointmentTitle,
-            reasonForAppointment,
-            patientId,
-            doctorId,
-          }),
-        }
-      );
+      const postPatientAppointment = postPatientAppointmentUrl()
+      const postPatientAppointmentConfig = fetchConfig({url : postPatientAppointment, data: appointmentDet, method : 'post'})
+      const res = await fetchWrapper(postPatientAppointmentConfig)
+      const {data, error} = res;
 
-      if (!request.ok) {
-        const error = await request.json();
+      if (res.status !== 200) {
         throw Error(error.message);
       }
-
-      const data = await request.json();
 
       this.setState({
         showSuccessMessage: true,
@@ -156,7 +136,6 @@ class BookAppointment extends React.Component {
                               <label>Appointment Date</label>
                               <input
                                 type="date"
-                                min={formatInputDate()}
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"

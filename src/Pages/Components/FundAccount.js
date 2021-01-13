@@ -2,6 +2,9 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./FundingPaymentModes";
 import { Success } from "../../Components/Alerts";
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
+import { postAdminFundAccountsUrl } from "../../api/URLs";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -44,15 +47,10 @@ class FundAccount extends React.Component {
       userId: user.id,
     };
     try {
-      let res = await fetch(
-        `https://hms-tenece.azurewebsites.net/api/Admin/Account/FundAccount`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(payload),
-          redirect: "follow",
-        }
-      );
+      const fundAccounts = postAdminFundAccountsUrl();
+      const fundAccountsConfig = fetchConfig({ url: fundAccounts, data: payload, method: "post" });
+      const res = await fetchWrapper(fundAccountsConfig);
+
       if (res.status === 200) {
         this.handleSuccess(true);
       }

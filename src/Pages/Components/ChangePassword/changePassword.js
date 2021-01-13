@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from "../../Login/css/Login.module.css";
 import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { useHistory } from 'react-router-dom'
+import { fetchWrapper } from '../../../api/fetcher';
+import { fetchConfig } from '../../../api/fetchConfig';
+import { postPasswordUrl } from '../../../api/URLs';
 
 function ChangePassword() {
 
@@ -14,25 +17,22 @@ function ChangePassword() {
     const handleSubmit = async (e) => {
         setAllPasswordDetails({ ...allPasswordDetails, submitting: true });
         e.preventDefault();
-        const url = process.env.REACT_APP_API_URL;
         const userId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 
 
         if (newPassword !== "" && currentPassword !== "") {
-
-            let res = await fetch(`${url}/Auth/ChangePassword?userId=&currentPassword=${currentPassword}&newPassword=${newPassword}`, {
-                headers: { "Content-Type": "application/json-patch+json" },
-                method: "POST",
-                redirect: "follow",
-                body: JSON.stringify({
-                    userId,
+            const payload = {
+                userId,
                     currentPassword,
                     newPassword,
-                }),
-            });
+            }
+            const postPassword = postPasswordUrl()
+            const postPasswordConfig = fetchConfig({url : postPassword, data: payload, method : 'post'})
+            const res = await fetchWrapper(postPasswordConfig)
+
             if (res.status === 200) {
                 console.log('Res is ', res);
-                const data = await res.json();
+                const {data} = res;
                 setAllPasswordDetails({ ...allPasswordDetails, passwordStatus: true, response: data.message })
                 console.log('Data is ', data);
 

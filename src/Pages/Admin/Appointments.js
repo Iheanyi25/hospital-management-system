@@ -1,4 +1,7 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { deleteAppointmentUrl, getDoctorAppointmentsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
 import { ReAssign } from "../../Components/Modals/ReAssignModal";
@@ -8,7 +11,6 @@ import AppointmentTabHeader from "./appointment-components/AppointmentTabHeader"
 import CompletedAppointments from "./appointment-components/CompletedAppointments";
 import PendingAppointments from "./appointment-components/PendingAppointments";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
@@ -39,52 +41,53 @@ class Appointments extends React.Component {
     var pendingAppointments = [];
     var completedAppointments = [];
     var rejectedAppointments = [];
-    const response = await fetch(`${apiUrl}/Admin/GetDoctorAppointments`);
 
-    const data = await response.json();
-    this.setState({ appointments: data.doctorsAppointments });
+    try {
+      const getDoctorAppointments = getDoctorAppointmentsUrl();
+      const getDoctorAppointmentsUrlConfig = fetchConfig({ url: getDoctorAppointments, method: "get" });
+      const { data } = await fetchWrapper(getDoctorAppointmentsUrlConfig);
 
-    console.log({ data });
-
-    data.doctorsAppointments.forEach((appointment) => {
-      if (appointment.isActive === true) {
-        activeAppointments.push(appointment);
-      } else if (appointment.isAccepted === true) {
-        acceptedAppointments.push(appointment);
-      } else if (appointment.isCompleted === true) {
-        completedAppointments.push(appointment);
-      } else if (appointment.isRejected === true) {
-        rejectedAppointments.push(appointment);
-      } else {
-        pendingAppointments.push(appointment);
-      }
-    });
-
-    this.setState({
-      activeAppointments: activeAppointments,
-      activeAppointmentsCount: activeAppointments.length,
-      acceptedAppointments: acceptedAppointments,
-      acceptedAppointmentsCount: acceptedAppointments.length,
-      completedAppointments: completedAppointments,
-      completedAppointmentsCount: completedAppointments.length,
-      pendingAppointments: pendingAppointments,
-      pendingAppointmentsCount: pendingAppointments.length,
-      rejectedAppointmentsCount: rejectedAppointments.length,
-    });
+      this.setState({ appointments: data.doctorsAppointments });
+  
+      console.log({ data });
+  
+      data.doctorsAppointments.forEach((appointment) => {
+        if (appointment.isActive === true) {
+          activeAppointments.push(appointment);
+        } else if (appointment.isAccepted === true) {
+          acceptedAppointments.push(appointment);
+        } else if (appointment.isCompleted === true) {
+          completedAppointments.push(appointment);
+        } else if (appointment.isRejected === true) {
+          rejectedAppointments.push(appointment);
+        } else {
+          pendingAppointments.push(appointment);
+        }
+      });
+  
+      this.setState({
+        activeAppointments: activeAppointments,
+        activeAppointmentsCount: activeAppointments.length,
+        acceptedAppointments: acceptedAppointments,
+        acceptedAppointmentsCount: acceptedAppointments.length,
+        completedAppointments: completedAppointments,
+        completedAppointmentsCount: completedAppointments.length,
+        pendingAppointments: pendingAppointments,
+        pendingAppointmentsCount: pendingAppointments.length,
+        rejectedAppointmentsCount: rejectedAppointments.length,
+      });
+    } catch (error) {
+      console.log(error) 
+    }
   }
 
    deleteAppointment = async (id) => {
     try {
-      const request = await fetch(apiUrl + "/Admin/DeleteAppointment", {
-        method: "POST",
-        headers: {
-          "Content-type": " application/json",
-        },
-        body: JSON.stringify({ appointmentId: id }),
-      });
+      const deleteAppointment = deleteAppointmentUrl();
+      const deleteAppointmentConfig = fetchConfig({ url: deleteAppointment, data: JSON.stringify({ appointmentId: id }), method: "post" });
+      const res = await fetchWrapper(deleteAppointmentConfig);
 
-      const res = await request.json();
-      if (request.status === 200) {
+      if (res.status === 200) {
         this.getAllAppointments().then(() => this.sync());
         this.setState({
           success: { show: true, message: res.message, delError: false },

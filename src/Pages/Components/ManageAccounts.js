@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getAllAccountsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
@@ -25,11 +27,15 @@ class ManageAccounts extends React.Component {
   }
 
   fecthAllAcounts = async () => {
-    const response = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`);
-    const data = await response.json();
-    console.log(data.accounts);
-    this.setState({ accounts: data.accounts });
-    console.log(data.accounts);
+    try {
+      const getAllAccounts = getAllAccountsUrl()
+      const getAllAccountsConfig = fetchConfig({url : getAllAccounts, method : 'get'})
+      const { data } = await fetchWrapper(getAllAccountsConfig)
+  
+      this.setState({ accounts: data.accounts });
+    } catch (error) {
+        console.log(error)
+    }
   };
 
   sync() {
@@ -152,7 +158,7 @@ class ManageAccounts extends React.Component {
                                     </td>
                                     <td>
                                       <div className="d-flex align-items-center nowrap">
-                                        {account?.healthPlan.name}
+                                        {account?.healthPlan?.name}
                                       </div>
                                     </td>
                                     <td>

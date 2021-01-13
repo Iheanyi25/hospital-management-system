@@ -1,5 +1,4 @@
 import React from "react";
-import { formatInputDate } from "../../../../../utils/formatInputDate";
 
 const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
   const handleChange = (e) => {
@@ -78,7 +77,6 @@ const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
         <input
           className="form-control"
           type="date"
-          min={formatInputDate()}
           tabIndex={-98}
           placeholder="Expiry Date"
           name="expiryDate"
