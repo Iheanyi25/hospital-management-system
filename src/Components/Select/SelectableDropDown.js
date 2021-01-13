@@ -5,7 +5,7 @@ let interval = undefined;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
 
-const SelectableDropDown = ({ data, label, itemKey, stateKey, onChange, valueKeys, search, multiple, searchParams }) => {
+const SelectableDropDown = ({ isFetchingCategories, data, label, itemKey, stateKey, onChange, valueKeys, search, multiple, searchParams }) => {
 
     const setJquery = () => {
         interval = setInterval(() => {

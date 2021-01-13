@@ -128,7 +128,7 @@ export default class AddPatient extends Component {
 
       console.log(res,"Response Status")
       if (res.status === 200) {
-        this.setState({ success: true, patientId: response.patient.id, message: "Well done, you successfully added a patient" });
+        this.setState({ success: true, patientId: res.patient.id, message: "Well done, you successfully added a patient" });
       }
     } catch (error) {
       console.log(error);
