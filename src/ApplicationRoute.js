@@ -11,15 +11,6 @@ import { UserContext } from "./mobx/UserState";
 import { observer } from "mobx-react";
 
 const AppRouter = observer(() => {
-  // const [isAuthenticated, setisAuthenticated] = useState(null);
-  // const [userType, setUserType] = useState(
-  //   Boolean(localStorage.getItem("authenticatedUser"))
-  //     ? JSON.parse(
-  //       localStorage.getItem("authenticatedUser")
-  //     ).userType.toLowerCase()
-  //     : null
-  // );
-
   const { loadUser, user, isLoadingUser } = useContext(UserContext)
   useEffect(() => {
     loadUser()

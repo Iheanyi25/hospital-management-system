@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { fetchConfig } from '../../api/fetchConfig';
+import { fetchWrapper } from '../../api/fetcher';
+import { getAllAccountsUrl } from '../../api/URLs';
 import { AddFamily } from '../../Components/Modals';
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
-
-
 export default class SelectFamily extends Component {
 
     state = {
@@ -27,13 +27,10 @@ export default class SelectFamily extends Component {
 
     fetchAccounts = async () => {
         try {
-            let res = await fetch(`${apiUrl}/Admin/Account/GetAllAccounts`, {
-                headers: { "Content-Type": "application/json-patch+json" },
-                method: "GET",
-                redirect: "follow",
-            });
-            const data = await res.text();
-            this.setState({ accounts: JSON.parse(data).accounts });
+            const getAllAccounts = getAllAccountsUrl()
+            const getAllAccountsConfig = fetchConfig({url : getAllAccounts, method : 'get'})
+            const { data } = await fetchWrapper(getAllAccountsConfig)
+            this.setState({ accounts: data.accounts });
         } catch (error) { }
     };
 

@@ -6,7 +6,7 @@ let tableID = Math.random();
 tableID = tableID.toString().replace(".", "_");
 
 const Table = ({ content }) => {
-
+    console.log("table updated")
     useEffect(() => {
         setJquery();
     }, []);

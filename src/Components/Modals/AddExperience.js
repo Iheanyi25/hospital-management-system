@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorExperienceUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
 const AddExperience = ({
@@ -24,17 +26,13 @@ const AddExperience = ({
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorExperience`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify([details]),
-        redirect: "follow",
-      });
-      console.log(res);
+      const postDoctorExperience = postDoctorExperienceUrl()
+      const postDoctorExperienceConfig = fetchConfig({url : postDoctorExperience, data:JSON.stringify([details]), method : 'post'})
+      const res = await fetchWrapper(postDoctorExperienceConfig)
+      
       if (res.status === 200) {
         displaySuccess();
         updatePatientDetails();

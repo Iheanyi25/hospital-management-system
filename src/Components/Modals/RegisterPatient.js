@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { registerUserUrl } from "../../api/URLs";
 
 class RegisterPatientModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apiUrl: process.env.REACT_APP_API_URL,
-
       email: "",
       firstName: "",
       lastName: "",
@@ -34,28 +35,19 @@ class RegisterPatientModal extends React.Component {
     e.preventDefault();
 
     const { email, firstName, lastName, password, roleName } = this.state;
-    const url = this.state.apiUrl;
+    const payload = {email, firstName, lastName, password, roleName };
     try {
-      const request = await fetch(`${url}/Admin/Register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          firstName,
-          lastName,
-          password,
-          roleName,
-        }),
-      });
+      const registerUser = registerUserUrl()
+      const registerUserConfig = fetchConfig({url : registerUser, data: payload, method : 'post'})
+      const res = await fetchWrapper(registerUserConfig)
 
-      if (!request.ok) {
-        const error = await request.json();
+      const { data, error} = res;
+      if (!res.ok) {
+        // const error = await request.json();
         throw Error(error.message);
       }
 
-      const data = await request.json();
+      // const data = await request.json();
 
       this.setState({
         showSuccessMessage: true,

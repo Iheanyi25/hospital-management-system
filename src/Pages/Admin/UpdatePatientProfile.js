@@ -2,8 +2,10 @@ import React from "react";
 import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
 import { Success } from "../../Components/Alerts";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientRegistrationInvoiceUrl, getPatientUrl, updatePatientBasicInfoUrl, updatePatientContactDetailsUrl, UpdatePatientHealthDetailsUrl } from "../../api/URLs";
 import  CountryRegionDropdown  from "../../Components/Select/CountryRegionSelectableDropdown";
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class UpdatePatientProfile extends React.Component {
   constructor(props) {
@@ -38,7 +40,7 @@ class UpdatePatientProfile extends React.Component {
     const { params } = this.props.match;
 
     if (params.id) {
-      this.fetchPatientDetails(params.id);
+      await this.fetchPatientDetails(params.id);
       return;
     }
   }
@@ -55,17 +57,11 @@ class UpdatePatientProfile extends React.Component {
 
   getRegistrationStatus = async () => {
     try {
-      let res = await fetch(
-        `${apiUrl}/Admin/GetRegistrationFeeInvoice?patientId=${this.state.patientId}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-    
-      this.setState({ paymentStatus: JSON.parse(data).registrationInvoice.paymentStatus });
+      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(this.state.patientId)
+      const getPatientRegistrationInvoiceConfig = fetchConfig({url : getPatientRegistrationInvoice, method : 'get'})
+      const { data } = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+      console.log(data,1111)
+      this.setState({ paymentStatus: data.registrationInvoice.paymentStatus });
     } catch (error) {
       console.log(error);
     }
@@ -74,10 +70,12 @@ class UpdatePatientProfile extends React.Component {
   fetchPatientDetails = async (id) => {
     this.setState({ patientId: id });
 
-    const response = await fetch(`${apiUrl}/Patient/GetPatient?id=${id}`);
-    const data = await response.json();
+    const getPatient = getPatientUrl(this.state.patientId)
+    const getPatientConfig = fetchConfig({url : getPatient, method : 'get'})
+    const { data } = await fetchWrapper(getPatientConfig)
+    console.log(data,222222)
 
-    console.log(data);
+    console.log(data,999999);
 
     this.setState({
       firstName: data.patientProfile.patient.firstName,
@@ -97,7 +95,7 @@ class UpdatePatientProfile extends React.Component {
       allergies: data.patientProfile?.allergies,
       disabilities: data.patientProfile?.disabilities,
     });
-    this.getRegistrationStatus();
+    await this.getRegistrationStatus();
   };
 
   handleChange(name, e) {
@@ -112,31 +110,21 @@ class UpdatePatientProfile extends React.Component {
     this.setState({ success: false });
 
     try {
-      const {
-        firstName,
-        lastName,
-        otherNames,
-        dateOfBirth,
-        gender,
-        patientId,
-      } = this.state;
+      const payload = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        otherNames: this.state.otherNames,
+        dateOfBirth: this.state.dateOfBirth,
+        gender: this.state.gender,
+        patientId: this.state.patientId,
+      };
 
-      const request = await fetch(`${apiUrl}/Patient/UpdatePatientBasicInfo`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          patientId,
-          firstName,
-          lastName,
-          otherNames,
-          dateOfBirth,
-          gender,
-        }),
-      });
-      console.log(request);
-      if (request.status === 200) {
+      const updatePatientBasicInfo = updatePatientBasicInfoUrl()
+      const updatePatientBasicInfoConfig = fetchConfig({url : updatePatientBasicInfo, data: payload, method : 'post'})
+      const res = await fetchWrapper(updatePatientBasicInfoConfig)
+  
+      console.log(res,33333);
+      if (res.status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -148,33 +136,22 @@ class UpdatePatientProfile extends React.Component {
     e.preventDefault();
 
     try {
-      const {
-        phoneNumber,
-        email,
-        address,
-        state,
-        country,
-        patientId,
-      } = this.state;
+      const payload = {
+        phoneNumber: this.state.phoneNumber,
+        email: this.state.email,
+        address: this.state.address,
+        state: this.state.state,
+        country: this.state.country,
+        patientId: this.state.patientId,
+      };
 
-      const request = await fetch(
-        `${apiUrl}/Patient/UpdatePatientContactDetails`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            phoneNumber,
-            email,
-            address,
-            state,
-            country,
-          }),
-        }
-      );
-      if (request.status === 200) {
+      const updatePatientContactDetails = updatePatientContactDetailsUrl()
+      const updatePatientContactDetailsConfig = fetchConfig({url : updatePatientContactDetails, data: payload, method : 'post'})
+      const res = await fetchWrapper(updatePatientContactDetailsConfig)
+
+      console.log(res,4444)
+
+      if (res.status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -186,33 +163,21 @@ class UpdatePatientProfile extends React.Component {
     e.preventDefault();
 
     try {
-      const {
-        bloodGroup,
-        genoType,
-        diabetic,
-        allergies,
-        disabilities,
-        patientId,
-      } = this.state;
+      const payload = {
+        bloodGroup: this.state.bloodGroup,
+        genoType: this.state.genoType,
+        diabetic: this.state.diabetic,
+        allergies: this.state.allergies,
+        disabilities: this.state.disabilities,
+        patientId:this.state.patientId,
+      };
 
-      const request = await fetch(
-        `${apiUrl}/Patient/UpdatePatientHealthDetails`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            patientId,
-            bloodGroup,
-            genoType,
-            allergies,
-            disabilities,
-            diabetic,
-          }),
-        }
-      );
-      if (request.status === 200) {
+      // );
+      const UpdatePatientHealthDetails = UpdatePatientHealthDetailsUrl()
+      const UpdatePatientHealthDetailsConfig = fetchConfig({url : UpdatePatientHealthDetails, data: payload, method : 'post'})
+      const res = await fetchWrapper(UpdatePatientHealthDetailsConfig)
+      console.log(res,55555)
+      if (res.status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {

@@ -1,12 +1,12 @@
 import React from "react";
 import { PageLoader } from "../../../Components";
-import resultImage from "../../../assets/img/resultImage.svg";
 import { LabResults } from "../../../Components/Clarking";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { getServiceRequestResultUrl } from "../../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class ViewLabResults extends React.Component {
   state = {
@@ -20,15 +20,11 @@ class ViewLabResults extends React.Component {
   fetchServiceCategories = async () => {
     const { id } = this.props.match.params;
     try {
-      let res = await fetch(`${apiUrl}/Admin/GetServiceRequestResults/${id}`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      console.log(JSON.parse(data).serviceRequestResults);
+      const getServiceRequestResult = getServiceRequestResultUrl(id)
+      const getServiceRequestResultConfig = fetchConfig({ url: getServiceRequestResult, method : 'GET'})
+      const {data} = await fetchWrapper(getServiceRequestResultConfig)
       this.setState({
-        serviceRequestResults: JSON.parse(data).serviceRequestResults,
+        serviceRequestResults: data.serviceRequestResults,
       });
     } catch (error) {
       console.log(error);

@@ -12,7 +12,6 @@ import { fetchWrapper } from "../../api/fetcher";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class AllAccountants extends React.Component {
   constructor(props) {

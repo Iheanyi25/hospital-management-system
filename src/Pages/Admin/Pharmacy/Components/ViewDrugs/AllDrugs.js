@@ -5,8 +5,9 @@ import formatAmount from "../../../../../utils/formatAmount";
 import remove from "../../../../../assets/img/remove.svg";
 import view from "../../../../../assets/img/view.svg";
 import inventory from "../../../../../assets/img/inventory.svg";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchWrapper } from "../../../../../api/fetcher";
+import { fetchConfig } from "../../../../../api/fetchConfig";
+import { deleteDrugUrl } from "../../../../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -35,12 +36,10 @@ class AllDrugs extends React.Component {
   deleteDrug = async (id) => {
     const { setSuccess } = this.props;
     try {
-      let res = await fetch(`${apiUrl}/Pharmacy/DeleteDrug`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "DELETE",
-        body: JSON.stringify({ id: id }),
-        redirect: "follow",
-      });
+      const deleteDrugs = deleteDrugUrl();
+      const deleteDrugsConfig = fetchConfig({ url: deleteDrugs, data:{id: id}, method: "delete" });
+      const res = await fetchWrapper(deleteDrugsConfig)
+
       if (res.status === 200) {
         setSuccess(res.message);
       }
@@ -51,8 +50,6 @@ class AllDrugs extends React.Component {
 
   render() {
     const { allDrugs, singleDrug, user } = this.state;
-    console.log(singleDrug);
-    console.log(allDrugs, "hello");
     return allDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
     ) : (

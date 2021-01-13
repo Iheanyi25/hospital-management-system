@@ -2,10 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import paid from "../../assets/img/paid.svg";
 import notpaid from "../../assets/img/notpaid.svg";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getRegistrationFeeInvoiceUrl } from "../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class RegistrationInvoice extends React.Component {
   constructor(props) {
@@ -21,10 +23,16 @@ class RegistrationInvoice extends React.Component {
   }
 
   async fetchInvoices() {
-    const res = await fetch(`${apiUrl}/Admin/GetRegistrationFeeInvoices`);
-    const response = await res.json();
-    console.log(response);
-    this.setState({ registrationInvoices: response.registrationInvoices });
+    try {
+      const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl(this.state.doctorId)
+      const getRegistrationFeeInvoiceConfig = fetchConfig({url : getRegistrationFeeInvoice, method : 'get'})
+      const { data } = await fetchWrapper(getRegistrationFeeInvoiceConfig)
+  
+      this.setState({ registrationInvoices: data.registrationInvoices });
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   sync() {

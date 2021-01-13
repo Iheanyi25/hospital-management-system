@@ -26,7 +26,6 @@ const EditHealthPlanPrice = ({ healthPlanPrice, mutate }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(payload);
     const drugPriceUrl = updateDrugPricesUrl();
     const updateDrugPricesConfig = fetchConfig({
       url: drugPriceUrl,
@@ -35,7 +34,6 @@ const EditHealthPlanPrice = ({ healthPlanPrice, mutate }) => {
     });
     try {
       let res = await fetchWrapper(updateDrugPricesConfig);
-      console.log(res);
       if (res.status === 200) {
         $("#edit-healthplan-price").modal("hide");
         mutate();
