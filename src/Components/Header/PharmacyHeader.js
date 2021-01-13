@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { logOut } from "../../utils/logout";
+import PharmacistImage from "../../assets/img/PharmacistIcon.svg";
 
 class PharmacyHeader extends React.Component {
   constructor(props) {
@@ -129,7 +130,7 @@ class PharmacyHeader extends React.Component {
                 >
                   <span className="d-flex align-items-center">
                     <img
-                      src="../../assets/content/user-400-1.jpg"
+                      src={PharmacistImage}
                       alt="hello"
                       width={40}
                       height={40}

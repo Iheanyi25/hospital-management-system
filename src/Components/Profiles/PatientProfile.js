@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
-import user from "../../assets/img/user.png";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
@@ -11,6 +11,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getPatientUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
+
 class PatientProfile extends React.Component {
   static contextType = UserContext;
   state = {
@@ -60,7 +61,7 @@ class PatientProfile extends React.Component {
                       <div className="card-body d-flex justify-content-between">
                         <div className="d-flex justify-content-between">
                           <img
-                            src={user}
+                            src={PatientAndAdminImage}
                             style={{ height: "100px", width: "100px" }}
                             className="mr-3"
                             alt="user"
