@@ -32,6 +32,7 @@ export const updateDrugUrl = () => `/Pharmacy/UpdateDrug`;
 export const deleteDrugUrl = () => `/Pharmacy/DeleteDrug`;
 
 // Pharmacy- Dashboard
+export const pharmacyDashboardUrl = () => `/Pharmacy/SystemSummary`;
 
 // Pharmacy- Manage Profile
 export const getAllPharmacistUrl = () => `/Pharmacy/GetAllPharmacists?`;

@@ -6,7 +6,9 @@ import {
   PharmacySidebar,
   TemplateSettings,
 } from "../../Components";
-
+import { pharmacyDashboardUrl } from "../../api/URLs";
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -16,15 +18,22 @@ class Dashboard extends React.Component {
       numberOfDrugs: 0,
       numberOfDrugCategories: 0,
       numberOfDrugSubCategories: 0,
+      drugCount:0,
     };
   }
-
+  async componentDidMount(){
+    const getPharmacyDashboard = pharmacyDashboardUrl();
+    const getPharmacyDashboardConfig = fetchConfig({url: getPharmacyDashboard, method: "get"});
+    const {data} = await fetchWrapper(getPharmacyDashboardConfig);
+    this.setState({drugCount:data.drugCount});
+  }
 
   render() {
     const {
       numberOfDrugs,
       numberOfDrugCategories,
       numberOfDrugSubCategories,
+      drugCount,
     } = this.state;
     return (
       <>
@@ -51,16 +60,16 @@ class Dashboard extends React.Component {
                               <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
                             </div>
                             <div className="col col-7">
-                              <h6 className="mt-0 mb-1">Drug Categories</h6>
+                              <h6 className="mt-0 mb-1">Number of Drugs </h6>
                               <div className="count text-primary fs-20">
-                                {numberOfDrugCategories}
+                                {drugCount}
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="col col-12 col-md-6 col-xl-3">
+                    {/* <div className="col col-12 col-md-6 col-xl-3">
                       <div className="card animated fadeInUp delay-02s bg-light">
                         <div className="card-body">
                           <div className="row align-items-center">
@@ -94,8 +103,8 @@ class Dashboard extends React.Component {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col col-12 col-md-6 col-xl-3">
+                    </div> */}
+                    {/* <div className="col col-12 col-md-6 col-xl-3">
                       <div className="card animated fadeInUp delay-04s bg-light">
                         <div className="card-body">
                           <div className="row align-items-center">
@@ -113,7 +122,7 @@ class Dashboard extends React.Component {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="row">
