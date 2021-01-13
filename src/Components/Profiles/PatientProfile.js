@@ -10,8 +10,9 @@ import resetText from "../../assets/img/resetText.svg";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getPatientUrl } from "../../api/URLs";
-
+import { UserContext } from "../../mobx/UserState";
 class PatientProfile extends React.Component {
+  static contextType = UserContext;
   state = {
     patientDetails: {},
 
@@ -40,6 +41,8 @@ class PatientProfile extends React.Component {
   render() {
     const { patientDetails, loading } = this.state;
     const { patientId, state } = this.props;
+    const { user } = this.context;
+    console.log(user);
     return (
       <>
         {loading ? (
