@@ -7,3 +7,4 @@ export const updateLabTechnicianContactDetailsUrl = () =>
   `/Lab/UpdateLabProfileContactDetails`;
   
 // Lab Attendant - Dashboard
+export const labDashboardUrl = () => `/Lab/Dashboard`;
