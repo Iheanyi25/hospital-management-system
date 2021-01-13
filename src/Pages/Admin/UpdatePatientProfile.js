@@ -34,6 +34,7 @@ class UpdatePatientProfile extends React.Component {
 
       success: false,
     };
+    this.saveLocation = this.saveLocation.bind(this);
   }
 
   async componentDidMount() {
@@ -103,6 +104,10 @@ class UpdatePatientProfile extends React.Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  saveLocation(name, value) {
+    this.setState({ [name]: value });
   }
 
   updateCoreDetails = async (e) => {
@@ -205,7 +210,7 @@ class UpdatePatientProfile extends React.Component {
       paymentStatus,
     } = this.state;
 
-    console.log(paymentStatus,"PaymentStatus")
+    console.log(paymentStatus, "PaymentStatus");
     return (
       <>
         <PageLoader />
@@ -226,7 +231,8 @@ class UpdatePatientProfile extends React.Component {
                 <div className="card-body bg-warning p-4">
                   <div className="d-flex justify-content-between">
                     <div className="">
-                    <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click, the pay now button to complete registration`}</h6>{" "}                    </div>
+                      <h6 className="m-0 p-0 text-left">{`${firstName} ${lastName} is yet to pay for a hospital card. To have access to the services click, the pay now button to complete registration`}</h6>{" "}
+                    </div>
                     <div className="">
                       <Link
                         className="btn btn-sm btn-primary"
@@ -400,7 +406,13 @@ class UpdatePatientProfile extends React.Component {
                             value={address ? address : ""}
                           />
                         </div>
-                              <CountryRegionDropdown/>
+                        {email && (
+                          <CountryRegionDropdown
+                            setLocation={this.saveLocation}
+                            country={this.state.country}
+                            state={this.state.state}
+                          />
+                        )}
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
