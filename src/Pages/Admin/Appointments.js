@@ -29,6 +29,8 @@ class Appointments extends React.Component {
       pendingAppointmentsCount: 0,
       success: { show: false, message: "", delError: false },
     };
+
+    this.getAllAppointments = this.getAllAppointments.bind(this);
   }
 
   async componentDidMount() {
@@ -48,9 +50,9 @@ class Appointments extends React.Component {
       const { data } = await fetchWrapper(getDoctorAppointmentsUrlConfig);
 
       this.setState({ appointments: data.doctorsAppointments });
-  
+
       console.log({ data });
-  
+
       data.doctorsAppointments.forEach((appointment) => {
         if (appointment.isActive === true) {
           activeAppointments.push(appointment);
@@ -64,7 +66,7 @@ class Appointments extends React.Component {
           pendingAppointments.push(appointment);
         }
       });
-  
+
       this.setState({
         activeAppointments: activeAppointments,
         activeAppointmentsCount: activeAppointments.length,
@@ -77,11 +79,11 @@ class Appointments extends React.Component {
         rejectedAppointmentsCount: rejectedAppointments.length,
       });
     } catch (error) {
-      console.log(error) 
+      console.log(error)
     }
   }
 
-   deleteAppointment = async (id) => {
+  deleteAppointment = async (id) => {
     try {
       const deleteAppointment = deleteAppointmentUrl();
       const deleteAppointmentConfig = fetchConfig({ url: deleteAppointment, data: JSON.stringify({ appointmentId: id }), method: "post" });
@@ -238,6 +240,7 @@ class Appointments extends React.Component {
         <ReAssign
           appointmentId={this.state.activeAppointment}
           route={"ReassignAppointment"}
+          reRun={this.getAllAppointments}
         />
       </>
     );
