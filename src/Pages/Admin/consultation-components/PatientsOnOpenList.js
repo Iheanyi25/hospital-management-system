@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 export default function PatientsOnOpenList({patientsOnOpenList, setConsultationId, deleteConsultation}) {
+  console.log("Patient on Open List",patientsOnOpenList)
   return (
     <Fragment>
       <thead>
