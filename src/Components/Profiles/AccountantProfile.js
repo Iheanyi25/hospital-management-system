@@ -6,6 +6,7 @@ import { PageLoader } from '../Loader';
 import { Success } from '../Alerts';
 import Bio from './profile-components/common/Bio';
 import ContactDetail from './profile-components/common/ContactDetail';
+import AccountantImage from '../../assets/img/AccountantIcon.svg';
 
 function AccountantProfile({ AccountantId }) {
 	const [ success, setSucces ] = useState({ show: false, message: '' });
@@ -27,7 +28,7 @@ function AccountantProfile({ AccountantId }) {
 					{success.show && <Success message={success.message} callback={resetShowState} />}
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<Bio bioDetails={data.accountant.accountant} user="accountant" />
+							<Bio bioDetails={data.accountant.accountant} user="accountant" image={AccountantImage} />
 							<ContactDetail
 								otherDetails={data.accountant}
 								primaryDetails={data.accountant.accountant}

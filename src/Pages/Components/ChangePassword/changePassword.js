@@ -27,17 +27,23 @@ function ChangePassword() {
                     currentPassword,
                     newPassword,
             }
-            const postPassword = postPasswordUrl()
-            const postPasswordConfig = fetchConfig({url : postPassword, data: payload, method : 'post'})
-            const res = await fetchWrapper(postPasswordConfig)
-
-            if (res.status === 200) {
-                console.log('Res is ', res);
-                const {data} = res;
-                setAllPasswordDetails({ ...allPasswordDetails, passwordStatus: true, response: data.message })
-                console.log('Data is ', data);
-
+            try {
+                const postPassword = postPasswordUrl()
+                const postPasswordConfig = fetchConfig({url : postPassword, data: payload, method : 'post'})
+                console.log(postPasswordConfig)
+                const res = await fetchWrapper(postPasswordConfig,6666666)
+                console.log(res,11111)
+                if (res.status === 200) {
+                    console.log('Res is ', res);
+                    const {data} = res;
+                    setAllPasswordDetails({ ...allPasswordDetails, passwordStatus: true, response: data.message })
+                    console.log('Data is ', data);
+    
+                }
+            } catch (error) {
+                console.log(error,888888)
             }
+           
         }
         setTimeout(() => {
             history.push('/DoctorProfile')

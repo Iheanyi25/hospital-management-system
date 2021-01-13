@@ -4,6 +4,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import DoctorImage from "../../assets/img/DoctorIcon.svg";
 
 class DoctorList extends React.Component {
   constructor(props) {
@@ -44,13 +45,13 @@ class DoctorList extends React.Component {
               <div className="row">
                 {doctors.map((doctor, index) => (
                   <div className="col-12 col-md-4 col-sm-6" key={index}>
-                    <div className="contact">
+                    <div className="contact pt-2">
                       <div className="img-box">
                         <img
-                          src="../assets/content/doctor-400-1.jpg"
-                          width={400}
-                          height={400}
-                          alt="Hello"
+                          src={DoctorImage}
+                          width={200}
+                          height={200}
+                          alt="Doctor image"
                         />
                       </div>
                       <div className="info-box">
