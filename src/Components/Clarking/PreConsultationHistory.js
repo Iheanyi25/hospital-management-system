@@ -1,10 +1,11 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getPatientPreConsultationUrl } from "../../api/URLs";
 import formatDate from "../../utils/formatDate";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class PreConsultationHistory extends React.Component {
   state = {
@@ -18,19 +19,14 @@ class PreConsultationHistory extends React.Component {
 
   fetchServiceCategories = async () => {
     const { id } = this.props.patientDetails;
+
     try {
-      let res = await fetch(
-        `${apiUrl}/PatientPreConsultation/GetPatientPreConsultation?PatientId=${id}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-      console.log(JSON.parse(data));
+      const getPatientPreConsultation = getPatientPreConsultationUrl(id)
+      const getPatientPreConsultationConfig = fetchConfig({ url: getPatientPreConsultation, method: 'GET'});
+      const { data } = await fetchWrapper(getPatientPreConsultationConfig)
+
       this.setState({
-        patientPreConsultations: JSON.parse(data).patientPreConsultation,
+        patientPreConsultations: data.patientPreConsultation,
       });
       if (this.props.setCount)
         this.props.setCount(this.state.patientPreConsultations.length);

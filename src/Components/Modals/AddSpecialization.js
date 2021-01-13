@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postDoctorSpecializationUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 
 const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
@@ -17,16 +19,16 @@ const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
-      let res = await fetch(`${apiUrl}/Doctor/AddDoctorSpecialization`, {
-        headers: { 'Content-Type': 'application/json-patch+json' },
-        method: 'POST',
-        body: JSON.stringify([details]),
-        redirect: 'follow',
-      });
-      console.log(res);
+      const postDoctorSpecialization = postDoctorSpecializationUrl()
+      const postDoctorSpecializationConfig = fetchConfig({url : postDoctorSpecialization, data:JSON.stringify([details]), method : 'post'})
+      const res = await fetchWrapper(postDoctorSpecializationConfig)
+
       if (res.status === 200) {
         updatePatientDetails()
         $('#add-specialization').modal('hide')

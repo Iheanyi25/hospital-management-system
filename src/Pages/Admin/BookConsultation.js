@@ -1,8 +1,10 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl, getPatientsUrl, postBookConsultationUrl } from "../../api/URLs";
 import { PageLoader, SelectableDropDown } from "../../Components";
 import { Success } from '../../Components/Alerts'
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const $ = window.$;
 let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
@@ -75,23 +77,26 @@ class BookConsultation extends React.Component {
   }
 
   fetchPatients = async () => {
-    let res = await fetch(apiUrl + "/Patient/GetPatients");
-    const data = await res.json();
+    const getPatients = getPatientsUrl()
+    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
+    const {data} = await fetchWrapper(getPatientsConfig)
+
     const patientArray = [];
 
     data.patients.forEach((element) => {
       patientArray.push(element.patient);
     });
-    console.log("dd");
-    console.log(patientArray);
+
     this.setState({ patients: patientArray }, () => {
       this.renderPatientPicker();
     });
   };
 
   fetchDoctors = async () => {
-    let res = await fetch(apiUrl + "/Doctor/GetDoctors");
-    const data = await res.json();
+    const getDoctors = getDoctorsUrl()
+    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+    const {data} = await fetchWrapper(getDoctorsConfig)
+
     const doctorArray = [];
 
     data.doctors.forEach((element) => {
@@ -132,16 +137,12 @@ class BookConsultation extends React.Component {
     }
 
     try {
-      const request = await fetch(`${apiUrl}/Admin/BookConsultation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const postBookConsultation = postBookConsultationUrl()
+      const postBookConsultationConfig = fetchConfig({url : postBookConsultation, data, method : 'post'})
+      const res = await fetchWrapper(postBookConsultationConfig)
 
-      if (!request.ok) {
-        const error = await request.json();
+      const { error } = res;
+      if (res.status !== 200) {
         throw Error(error.message);
       }
 

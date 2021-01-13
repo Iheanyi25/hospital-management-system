@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { updateServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 export default class EditServiceCategory extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("authenticatedUser")),
@@ -54,12 +56,10 @@ export default class EditServiceCategory extends Component {
     console.log({ data });
     if (this.state.name !== "" && this.state.description !== "") {
       try {
-        let res = await fetch(`${apiUrl}/Admin/UpdateServiceCategory`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+        const updateServiceCategory = updateServiceCategoryUrl()
+        const updateServiceCategoryConfig = fetchConfig({url : updateServiceCategory, data, method : 'post'})
+        const res = await fetchWrapper(updateServiceCategoryConfig)
+
         if (res.status === 200) {
           this.setState({ success: true });
         } else {

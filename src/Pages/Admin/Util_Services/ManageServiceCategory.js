@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { deleteServiceCategoryUrl, getAllServicesCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -18,26 +21,21 @@ export default class ManageServiceCategory extends Component {
   }
 
   fetchAllServiceCategories = async () => {
-    const request = await fetch(
-      `${process.env.REACT_APP_API_URL}/Admin/GetAllServiceCategories`
-    );
-    let data = await request.json();
-    console.log(data);
+    const getAllServicesCategory = getAllServicesCategoryUrl()
+    const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
+    const {data} = await fetchWrapper(getAllServicesCategoryConfig)
+
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
     this.setState((state) => ({...state, categories: data }), () => this.sync() );
   };
 
   deleteMe = async (id) => {
-    let res = await fetch(
-      `${process.env.REACT_APP_API_URL}/Admin/DeleteServiceCategory`,
-      {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "POST",
-        body: JSON.stringify({ id }),
-        redirect: "follow",
-      }
-    );
+   
+    const deleteServiceCategory = deleteServiceCategoryUrl()
+    const deleteServiceCategoryConfig = fetchConfig({url : deleteServiceCategory, data: {id}, method : 'post'})
+    const res = await fetchWrapper(deleteServiceCategoryConfig)
+    
     if (res.status === 200) {
       this.fetchAllServiceCategories();
       this.setState((state) => ({

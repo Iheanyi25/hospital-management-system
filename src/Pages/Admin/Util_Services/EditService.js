@@ -1,9 +1,11 @@
 import { observer } from "mobx-react";
 import React, { Component } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { getAllServicesCategoryUrl, updateServiceUrl } from "../../../api/URLs";
 import { Success } from "../../../Components/Alerts";
 import { UserContext } from "../../../mobx/UserState";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 class EditService extends Component {
   static contextType = UserContext;
   state = {
@@ -31,14 +33,10 @@ class EditService extends Component {
 
   fetchServiceCategories = async () => {
     try {
-      let res = await fetch(`${apiUrl}/Admin/GetAllServiceCategories`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      // console.log(JSON.parse(data));
-      this.setState({ categories: JSON.parse(data) });
+      const getAllServicesCategory = getAllServicesCategoryUrl()
+      const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
+      const {data} = await fetchWrapper(getAllServicesCategoryConfig)
+      this.setState({ categories: data });
     } catch (error) {
       console.log(error);
     }
@@ -54,17 +52,12 @@ class EditService extends Component {
     };
 
     console.log({ data });
-    if (
-      this.state.name !== "" &&
-      this.state.serviceCategoryId !== "" &&
-      this.state.cost !== ""
-    ) {
+  
       try {
-        let res = await fetch(`${apiUrl}/Admin/UpdateService`, {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "POST",
-          body: JSON.stringify(data),
-        });
+        const updateService = updateServiceUrl()
+        const updateServiceConfig = fetchConfig({url : updateService, data, method : 'post'})
+        const res = await fetchWrapper(updateServiceConfig)
+        console.log(data,22222)
 
         if (res.status === 200) {
           this.setState({ success: true });
@@ -72,7 +65,6 @@ class EditService extends Component {
       } catch (error) {
         console.log(error);
       }
-    }
   };
 
   render() {

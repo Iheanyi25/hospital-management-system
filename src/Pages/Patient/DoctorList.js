@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { getDoctorsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 
 class DoctorList extends React.Component {
@@ -8,15 +11,14 @@ class DoctorList extends React.Component {
 
     this.state = {
       doctors: [],
-      apiUrl: process.env.REACT_APP_API_URL,
     };
   }
 
   async getAllDoctors() {
-    const data = await (
-      await fetch(`${this.state.apiUrl}/Doctor/GetDoctors`)
-    ).json();
-    console.log(data.doctors);
+    const getDoctor = getDoctorsUrl();
+    const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
+    const { data } = await fetchWrapper(getDoctorConfig);
+
     this.setState({ doctors: data.doctors });
   }
 

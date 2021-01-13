@@ -1,5 +1,8 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { postAdmitOrSendPatientHomeUrl, updatePatientClerkingUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
 import {
@@ -8,8 +11,6 @@ import {
   PatientProfile,
   LabResults,
 } from "../../Components/Clarking";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 class Clerking extends React.Component {
   constructor(props) {
@@ -58,19 +59,17 @@ class Clerking extends React.Component {
 
     console.log(patient);
 
-    let res = await fetch(
-      `${apiUrl}/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}&UserId=${this.state.userID}&PatientId=${patient.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      }
-    );
-    let response = await res.json();
-    this.setState({ success: true, message: response.message });
-    // alert(response.message);
+    try {
+      const updatePatientClerking = updatePatientClerkingUrl(id, type, this.state.userID, patient.id );
+      const updatePatientClerkingConfig = fetchConfig({ url: updatePatientClerking, data: JSON.stringify(payload), method: "patch" });
+      console.log(updatePatientClerkingConfig,11111)
+      const res = await fetchWrapper(updatePatientClerkingConfig);
+      console.log(res,11113)
+      
+      this.setState({ success: true, message: res.message });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   handleChange = (type, key, e) => {
@@ -89,33 +88,6 @@ class Clerking extends React.Component {
     this.setState({ [type]: { [key]: "" } });
   };
 
-  async getDoctorQueue() {
-    var canceledConsultations = [];
-    var completedConsultations = [];
-    var pendingConsultations = [];
-    const { apiUrl } = this.state;
-    const response = await fetch(`${apiUrl}/Doctor/GetDoctorQueue`);
-    const data = await response.json();
-
-    this.setState({ doctorQueue: data.patientQueue });
-
-    data.patientQueue.forEach((patientQueue) => {
-      if (patientQueue.isCanceled === true) {
-        canceledConsultations.push(patientQueue);
-      } else if (patientQueue.isCompleted === true) {
-        completedConsultations.push(patientQueue);
-      } else {
-        pendingConsultations.push(patientQueue);
-      }
-    });
-
-    this.setState({
-      canceledConsultations: canceledConsultations,
-      completedConsultations: completedConsultations,
-      pendingConsultations: pendingConsultations,
-    });
-  }
-
   changeSuccess = () => {
     this.setState({ success: false });
   };
@@ -130,17 +102,17 @@ class Clerking extends React.Component {
     };
 
     payload[key] = true; //change here
+    try {
+      const postAdmitOrSendPatientHome = postAdmitOrSendPatientHomeUrl();
+      const postAdmitOrSendPatientHomeConfig = fetchConfig({ url: postAdmitOrSendPatientHome, data: payload, method: "post" });
+      const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
 
-    const request = await fetch(apiUrl + "/Doctor/AdmitOrSendPatientHome", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const response = await request.json();
-    this.setState({ success: true, message: response.message, nextRoute: "/" });
+      console.log(res,22223)
+      this.setState({ success: true, message: res.message, nextRoute: "/" });
+    } catch (error) {
+      console.log(error)
+    }
+    
   };
 
   render() {

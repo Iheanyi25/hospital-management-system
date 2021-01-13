@@ -5,8 +5,6 @@ import { ClarkingHistory } from "../../Components/Clarking";
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 class ViewClarkingHistory extends React.Component {
 
   render() {

@@ -9,11 +9,13 @@ import liquid from "../../../assets/img/liquid.svg";
 import inhalers from "../../../assets/img/inhalers.svg";
 import powder from "../../../assets/img/powder.svg";
 import { UserContext } from "../../../mobx/UserState";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { fetchWrapper } from "../../../api/fetcher";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { getAllDrugsUrl } from "../../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
+
 class ViewDrugs extends React.Component {
   static contextType = UserContext;
   state = {
@@ -35,16 +37,12 @@ class ViewDrugs extends React.Component {
       ...state,
       loading: true,
     }));
-    try {
-      let res = await fetch(`${apiUrl}/Pharmacy/GetAllDrugs`, {
-        headers: { "Content-Type": "application/json-patch+json" },
-        method: "GET",
-        redirect: "follow",
-      });
-      const data = await res.text();
-      console.log(JSON.parse(data), "999999999999999999999999");
+    try { 
+      const getAllDrugs = getAllDrugsUrl();
+      const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
+      const { data } = await fetchWrapper(getAllDrugsConfig)
       //   this.setState({ drugs: JSON.parse(data).drugs });
-      this.filterDrug(JSON.parse(data).drugs);
+      this.filterDrug(data.drugs);
     } catch (error) {
       console.log(error);
     }

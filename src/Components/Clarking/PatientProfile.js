@@ -7,8 +7,10 @@ import email from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
 import edit from "../../assets/img/edit.svg";
 import resetText from "../../assets/img/resetText.svg";
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
+import { getPatientUrl } from "../../api/URLs";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 class PatientProfile extends React.Component {
   state = {
     patientDetails: {},
@@ -20,18 +22,11 @@ class PatientProfile extends React.Component {
 
   fetchPatientDetails = async () => {
     try {
-      let res = await fetch(
-        `${apiUrl}/Patient/GetPatient?id=${this.props.patientId}`,
-        {
-          headers: { "Content-Type": "application/json-patch+json" },
-          method: "GET",
-          redirect: "follow",
-        }
-      );
-      const data = await res.text();
-      console.log(JSON.parse(data).patientProfile);
+      const getPatient = getPatientUrl(this.props.patientId)
+      const getPatientConfig = fetchConfig({ url: getPatient, method: 'GET'});
+      const { data } = await fetchWrapper(getPatientConfig)
       this.setState({
-        patientDetails: JSON.parse(data).patientProfile,
+        patientDetails: data.patientProfile,
       });
     } catch (error) {
       console.log(error);

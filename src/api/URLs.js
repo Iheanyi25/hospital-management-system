@@ -1,86 +1,10 @@
-const apiUrl = process.env.REACT_APP_API_URL;
-
 // Authentication endpoints
-export const logInUrl = () => `${apiUrl}/Auth/Login`;
+export * from './urlCategories/loginUrls.js';
+export * from './urlCategories/adminUrls.js';
+export * from './urlCategories/accountantUrls.js';
+export * from './urlCategories/doctorUrls.js';
+export * from './urlCategories/labUrls.js';
+export * from './urlCategories/pharmacyUrls.js';
+export * from './urlCategories/patientUrls.js';
 
-// Create users endpoint
-export const registerUserUrl = () => `${apiUrl}/Admin/Register`;
 
-//labTechnician endpoints
-export const getAllLabTechniciansUrl = () =>
-    `${apiUrl}/Lab/GetAllLabTechnicians?`;
-export const getLabProfileUrl = (labId) =>
-  `${apiUrl}/Lab/GetALabTechnician?id=${labId}`;
-export const updateLabTechnicianBasicInfoUrl = () =>
-  `${apiUrl}/Lab/UpdateLabProfileBasicInfo`;
-export const updateLabTechnicianContactDetailsUrl = () =>
-  `${apiUrl}/Lab/UpdateLabProfileContactDetails`;
-
-//Pharmacy endpoints
-export const getAllPharmacistUrl = () =>
-  `${apiUrl}/Pharmacy/GetAllPharmacists?`;
-export const getPharmacistProfileUrl = (pharmId) =>
-  `${apiUrl}/Pharmacy/GetAPharmacistById?id=${pharmId}`;
-export const updatePharmacistBasicInfoUrl = () =>
-  `${apiUrl}/Pharmacy/UpdatePharmacistBasicInfo`;
-export const updatePharmacistContactDetailsUrl = () =>
-  `${apiUrl}/Pharmacy/UpdatePharmacistContactDetails`;
-export const getDrugUrl = (drugId) => `${apiUrl}/Pharmacy/GetDrug/${drugId}`;
-export const getAllDrugsUrl = () => `${apiUrl}/Pharmacy/GetAllDrugs`;
-export const postDrugUrl = () => `${apiUrl}/Pharmacy/RegisterDrug`;
-export const updateDrugInventoryUrl = (drugId, drugQuantity) =>
-  `${apiUrl}/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;
-export const updateDrugBasePriceUrl = () =>
-  `${apiUrl}/Pharmacy/UpdateDefaultDrugPrice`;
-export const getDrugPricesUrl = () => `${apiUrl}/Pharmacy/GetDrugPrices`;
-export const postDrugPricesUrl = () => `${apiUrl}/Pharmacy/CreateDrugPrice`;
-export const updateDrugPricesUrl = () => `${apiUrl}/Pharmacy/UpdateDrugPrice`;
-export const deleteDrugPricesUrl = () => `${apiUrl}/Pharmacy/DeleteDrugPrice`;
-export const getAllPrescriptionsUrl = () =>
-  `${apiUrl}/Pharmacy/GetPrescriptions`;
-export const getPrescriptionUrl = (id) =>
-  `${apiUrl}/Pharmacy/GetPrescription?ClerkingId=${id}`;
-export const costDrugUrl = () => `${apiUrl}/Pharmacy/CostDrugs`;
-export const generateDrugDispenseInvoiceUrl = () =>
-  `${apiUrl}/Pharmacy/GenerateDrugDispenseInvoice`;
-export const getDAllrugDispencingInvoicesUrl = () =>
-  `${apiUrl}/Pharmacy/GetDrugDispencingInvoices`;
-export const payForDrugsUrl = () => `${apiUrl}/Pharmacy/PayForDrugs`;
-export const getDrugsInAnInvoice = (invoiceNumber) =>
-  `${apiUrl}/Pharmacy/GetDrugsInAnInvoice/${invoiceNumber}`;
-//accountant endpoints
-export const getAllAccountantsUrl = () =>
-    `${apiUrl}/Accountant/GetAccountants?`;
-export const getAccountantProfileUrl = (accountantId) =>
-  `${apiUrl}/Accountant/GetAccountant?AccountantId=${accountantId}`;
-export const updateAccountantBasicInfoUrl = () =>
-  `${apiUrl}/Accountant/UpdateAccountactBasicInfo`;
-export const updateAccountantContactDetailsUrl = () =>
-  `${apiUrl}/Accountant/UpdateAccountantContactDetails`;
-
-//service endpoint
-export const getServiceRequestUrl = (serviceRequestId) =>
-  `${apiUrl}/Admin/GetServiceRequest/${serviceRequestId}`;
-export const postServiceRequestUrl = () =>
-  `${apiUrl}/Admin/UploadServiceRequestResult`;
-
-// Health plan endpoint
-export const getAllHealthPlansUrl = () => `${apiUrl}/Admin/GetAllHealthPlans`;
-export const updateHealthPlanUrl = () => `${apiUrl}/Admin/UpdateHealthPlan`;
-export const disableHealthPlanUrl = () => `${apiUrl}/Admin/DisableHealthPlan`;
-
-//Admin endpoints
-export const getAdminProfileUrl = (adminId) =>
-  `${apiUrl}/Admin/GetAdmin?AdminId=${adminId}`;
-export const updateAdminBasicInfoUrl = () =>
-  `${apiUrl}/Admin/UpdateAdminBasicInfo`;
-export const updateAdminContactDetailsUrl = () =>
-  `${apiUrl}/Admin/UpdateAdminContactDetails`;
-export const getPatientConsultationsUrl = () =>
-  `${apiUrl}/Admin/GetPatientConsultations`;
-export const getPatientConsultationCountUrl = () =>
-  `${apiUrl}/Admin/GetPatientConsultationCount`;
-export const getPatientsUnattentedToCountUrl = () =>
-  `${apiUrl}/Admin/GetPatientsUnattendedToCount`;
-export const getPatientsAttentedToCountUrl = () =>
-  `${apiUrl}/Admin/GetPatientsAttendedToCount`;
