@@ -44,7 +44,7 @@ export default class AddPatient extends Component {
     try {
       const getAllHealthPlans = getAllHealthPlansUrl();
       const getAllHealthPlansConfig = fetchConfig({ url: getAllHealthPlans, method: "get", });
-      const {data} = await fetchWrapper(getAllHealthPlansConfig);
+      const { data } = await fetchWrapper(getAllHealthPlansConfig);
 
       this.setState({ healthPlans: data.plans });
     } catch (error) { }
@@ -123,12 +123,12 @@ export default class AddPatient extends Component {
   submit = async (data) => {
     try {
       const registerPatient = registerPatientUrl()
-      const registerPatientConfig = fetchConfig({url : registerPatient, data: data, method : 'post'})
+      const registerPatientConfig = fetchConfig({ url: registerPatient, data: data, method: 'post' })
       const res = await fetchWrapper(registerPatientConfig)
 
-      console.log(res,"Response Status")
+      console.log(res, "Response Status")
       if (res.status === 200) {
-        this.setState({ success: true, patientId: response.patient.id, message: "Well done, you successfully added a patient" });
+        this.setState({ success: true, patientId: res.patient.id, message: "Well done, you successfully added a patient" });
       }
     } catch (error) {
       console.log(error);
