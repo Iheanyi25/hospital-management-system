@@ -1,5 +1,8 @@
 import React from 'react'
 import { PageLoader } from '../../Components';
+import { fetchWrapper } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
+import { labDashboardUrl } from "../../api/URLs";
 
 class Dashboard extends React.Component {
 
@@ -7,13 +10,33 @@ class Dashboard extends React.Component {
         super(props);
 
         this.state = {
-
+            serviceCategory: 0,
+            service: 0,
+            completedServiceRequest: 0,
+            uncompletedServiceRequest: 0,
         };
+
+    }
+    async componentDidMount(){
+        console.log("svdgyg");
+        const getLabDashboardCounters = labDashboardUrl();
+        const getLabDashboardCountersConfig = fetchConfig({url: getLabDashboardCounters, method: "get"});
+        console.log(getLabDashboardCountersConfig,11111)
+        const {data} = await fetchWrapper(getLabDashboardCountersConfig);
+        console.log(444, data);
+        this.setState({serviceCategory: data.serviceCategoryCount});
+        this.setState({service: data.servicesCount});
+        this.setState({completedServiceRequest: data.serviceRequestPaidAndDoneCount});
+        this.setState({uncompletedServiceRequest: data.serviceRequestPaidAndNotDoneCount})
 
     }
 
     render() {
 
+        const {serviceCategory,
+            service,
+            completedServiceRequest,
+            uncompletedServiceRequest,} = this.state
         return (
 
             <>
@@ -34,8 +57,8 @@ class Dashboard extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="col col-7">
-                                                    <h6 className="mt-0 mb-1">Appointments</h6>
-                                                    <div className="count text-primary fs-20">213</div>
+                                                    <h6 className="mt-0 mb-1">Services</h6>
+                                                    <div className="count text-primary fs-20">{service}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,8 +73,8 @@ class Dashboard extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="col col-7">
-                                                    <h6 className="mt-0 mb-1">My Patients</h6>
-                                                    <div className="count text-primary fs-20">104</div>
+                                                    <h6 className="mt-0 mb-1">Service Category</h6>
+                                                    <div className="count text-primary fs-20">{serviceCategory}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,8 +88,8 @@ class Dashboard extends React.Component {
                                                     <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                                                 </div>
                                                 <div className="col col-7">
-                                                    <h6 className="mt-0 mb-1">My Prescriptions</h6>
-                                                    <div className="count text-primary fs-20">24</div>
+                                                    <h6 className="mt-0 mb-1">Pending Service Request</h6>
+                                                    <div className="count text-primary fs-20">{uncompletedServiceRequest}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,8 +104,8 @@ class Dashboard extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="col col-7">
-                                                    <h6 className="mt-0 mb-1 text-nowrap">Schedules</h6>
-                                                    <div className="count text-primary fs-20">5238</div>
+                                                    <h6 className="mt-0 mb-1 text-nowrap">Completed Service Request</h6>
+                                                    <div className="count text-primary fs-20">{completedServiceRequest}</div>
                                                 </div>
                                             </div>
                                         </div>
