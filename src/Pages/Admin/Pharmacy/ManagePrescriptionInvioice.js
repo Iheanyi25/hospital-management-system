@@ -5,6 +5,7 @@ import { fetchWrapper } from "../../../api/fetcher";
 import {
   getDAllrugDispencingInvoicesUrl,
   getDrugsInAnInvoice,
+  markInvoiceAsDispensedUrl,
 } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
@@ -54,6 +55,19 @@ class ManagePrescriptionInvoice extends React.Component {
     this.setState({ drugs: response?.data?.drugsInInvoice || [] }, () =>
       $("#showInvoice").modal("show")
     );
+  }
+
+  async markInvoiceAsDispensed (id) {
+    const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
+    const markInvoiceAsDispensedConfig = fetchConfig({
+      url: markInvoiceUrl,
+      method: "post"
+    })
+    const response = await fetchWrapper(markInvoiceAsDispensedConfig);
+    console.log(response);
+   if (response.status === 200) {
+     this.fetchPrescriptionInvoices();
+   }
   }
 
   sync() {
@@ -119,6 +133,7 @@ class ManagePrescriptionInvoice extends React.Component {
                             <th>Date Generated</th>
                             <th>Total Cost</th>
                             <th>Status</th>
+                            <th>Dispensed</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -166,6 +181,21 @@ class ManagePrescriptionInvoice extends React.Component {
                                     ) : (
                                       <>
                                         <img src={paid} alt="paid" /> Paid
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.isDispensed ===
+                                    false ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        dispensed
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Dispensed
                                       </>
                                     )}
                                   </div>
@@ -220,6 +250,11 @@ class ManagePrescriptionInvoice extends React.Component {
                                             <Link
                                               to="#"
                                               className="btn btn-sm btn-block"
+                                              onClick={() =>
+                                                this.markInvoiceAsDispensed(
+                                                  prescriptionInvoice.id
+                                                )
+                                              }
                                             >
                                               <span className="btn-icon icofont-server mr-2" />
                                               Dispense
