@@ -54,9 +54,7 @@ class ManagePrescriptionInvoice extends React.Component {
     });
     const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
     console.log(response);
-    this.setState({ drugs: response?.data?.drugsInInvoice || [] }, () =>
-      $("#showInvoice").modal("show")
-    );
+    this.setState({ drugs: response?.data?.drugsInInvoice || [] });
   }
 
   async markInvoiceAsDispensed(id) {

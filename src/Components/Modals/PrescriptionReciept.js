@@ -4,23 +4,20 @@ import formatAmount from "../../utils/formatAmount";
 
 const $ = window.$;
 
-const PrescriptionReciept = ({ costingDetails, doctor, patient }) => {
-  const [details, setDetails] = useState([]);
-  useEffect(() => {
-    setDetails(costingDetails);
-  }, [costingDetails]);
-  console.log(patient, "doctor");
-  console.log(details, "costingDetails");
+const PrescriptionReciept = ({ costingDetails }) => {
+  console.log(costingDetails, "costingDetails");
 
-  const totalPrice = details.reduce(
+  const totalPrice = costingDetails.reduce(
     (amount, newAmount) => amount + newAmount.priceTotal,
     0
   );
+  const doctor = costingDetails[0]?.clerking?.doctor;
+  const patient = costingDetails[0]?.clerking?.patient;
 
   return (
     <div
       className="modal fade"
-      id="showInvoice"
+      id="view-reciept"
       tabIndex={-1}
       role="dialog"
       aria-hidden="true"
@@ -80,10 +77,10 @@ const PrescriptionReciept = ({ costingDetails, doctor, patient }) => {
             <hr />
             {/* <div> */}
             <div className="container">
-              {details?.map((detail, index) => (
+              {costingDetails?.map((detail, index) => (
                 <div key={index}>
                   <div className="row">
-                    <p className="col-5 m-0">{detail?.drugName}</p>
+                    <p className="col-5 m-0">{detail?.drug?.name}</p>
                     <p className="col-4 m-0">
                       {" "}
                       {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
