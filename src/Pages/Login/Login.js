@@ -62,7 +62,7 @@ class Login extends Component {
 
     if (userEmailFromLink !== "" && userTokenFromLink !== "") {
       try {
-        let res = await fetch(`${url}/Auth/Login`, {
+        let res = await fetch(`${url}/Admin/VerifyEmail`, {
           headers: { "Content-Type": "application/json-patch+json" },
           method: "POST",
           body: JSON.stringify({

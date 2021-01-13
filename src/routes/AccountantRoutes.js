@@ -11,6 +11,7 @@ import PaymentForService from "../Pages/Admin/PaymentForService";
 import RegistrationInvoice from "../Pages/Accountant/RegistrationInvoice";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
+import ViewChangePassword from "../Pages/Components/ViewChangePassword"
 
 
 export default function AccountantRoutes() {
@@ -55,7 +56,11 @@ export default function AccountantRoutes() {
             path="/AccountPatientRegistration/:id"
             component={PatientRegistration}
           />
-
+          <Route
+            exact
+            path="/changepassword"
+            component={ViewChangePassword}
+          />
           <Route
             exact
             path="*"

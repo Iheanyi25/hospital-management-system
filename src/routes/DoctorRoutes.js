@@ -83,7 +83,7 @@ export default function DoctorRoutes() {
           />
           <Route
             exact
-            path="/changepassword"
+            path="/ChangePassword"
             component={ViewChangePassword}
           />
           <Route

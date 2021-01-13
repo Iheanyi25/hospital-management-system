@@ -28,7 +28,7 @@ export default function Bio({ bioDetails }) {
 									{firstName || lastName ? `${firstName || ''} ${lastName || ''}` : 'N/A'}
 								</h5>
 								<p className="mb-2">{userType}</p>
-								<Link to="/">
+								<Link to="/ChangePassword">
 									<img src={reset} alt="reset" className="mr-2" />
 									<img src={resetText} alt="reset" className="mr-2" />
 								</Link>
