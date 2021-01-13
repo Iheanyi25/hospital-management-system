@@ -3,6 +3,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl, postPatientAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { formatInputDate } from "../../utils/formatInputDate";
 
 //const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 class BookAppointment extends React.Component {
@@ -136,6 +137,7 @@ class BookAppointment extends React.Component {
                               <label>Appointment Date</label>
                               <input
                                 type="date"
+                                min={formatInputDate()}
                                 className="form-control"
                                 tabIndex={-98}
                                 placeholder="Appointment Date"
