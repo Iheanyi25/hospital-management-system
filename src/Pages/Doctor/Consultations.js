@@ -34,7 +34,7 @@ class Consultations extends React.Component {
     const rejectedAppointments = [];
 
     try {
-      const getDoctorAllConsultations = getDoctorAllConsultationsUrl(this.state.patientId);
+      const getDoctorAllConsultations = getDoctorAllConsultationsUrl(this.state.doctorId);
       const getDoctorAllConsultationsConfig = fetchConfig({ url: getDoctorAllConsultations, method: "get" });
       const { data } = await fetchWrapper(getDoctorAllConsultationsConfig);
 
