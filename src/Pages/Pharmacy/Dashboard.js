@@ -11,6 +11,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import formatDate from "../../utils/formatDate";
 import { Link } from "react-router-dom";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");

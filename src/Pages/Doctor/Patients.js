@@ -4,6 +4,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -102,8 +103,8 @@ class Patients extends React.Component {
                                 <tr>
                                   <td>
                                     <img
-                                      src="../assets/content/user-40-1.jpg"
-                                      alt=""
+                                      src={PatientAndAdminImage}
+                                      alt="patient avatar"
                                       width={40}
                                       height={40}
                                       className="rounded-500"
