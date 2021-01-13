@@ -34,9 +34,8 @@ export default function PatientRoutes() {
                     <Route exact path="/ViewDoctorProfile/:id" component={ViewDoctorProfile} />
 
                     <Route exact path="/MyDoctors" component={MyDoctors} />
-                    <Route exact path="/changepassword" component={ViewChangePassword}/>
-                    <Route exact path="/PatientProfile" component={PatientProfile} />
-      
+                    <Route exact path="/changepassword" component={ViewChangePassword} />
+
                     <Route exact path="/PatientProfile" component={ViewPatientProfile} />
                     <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
                     <Route exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />
