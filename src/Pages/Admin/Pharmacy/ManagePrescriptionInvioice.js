@@ -15,6 +15,7 @@ import notpaid from "../../../assets/img/notpaid.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionReciept } from "../../../Components/Modals";
+import { Success } from "../../../Components/Alerts";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -23,6 +24,7 @@ class ManagePrescriptionInvoice extends React.Component {
   state = {
     prescriptionInvoices: [],
     drugs: [],
+    success: false,
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
@@ -57,17 +59,18 @@ class ManagePrescriptionInvoice extends React.Component {
     );
   }
 
-  async markInvoiceAsDispensed (id) {
+  async markInvoiceAsDispensed(id) {
     const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
     const markInvoiceAsDispensedConfig = fetchConfig({
       url: markInvoiceUrl,
-      method: "post"
-    })
+      method: "post",
+    });
     const response = await fetchWrapper(markInvoiceAsDispensedConfig);
     console.log(response);
-   if (response.status === 200) {
-     this.fetchPrescriptionInvoices();
-   }
+    if (response.status === 200) {
+      this.setState({ ...this.state, success: true });
+      this.fetchPrescriptionInvoices();
+    }
   }
 
   sync() {
@@ -76,9 +79,10 @@ class ManagePrescriptionInvoice extends React.Component {
   }
 
   render() {
-    const content = this.context;
-    const { user } = content;
-    const { prescriptionInvoices, drugs } = this.state;
+    const {
+      user: { userType },
+    } = this.context;
+    const { prescriptionInvoices, drugs, success } = this.state;
     console.log(prescriptionInvoices);
     return (
       <>
@@ -88,6 +92,9 @@ class ManagePrescriptionInvoice extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {success ? (
+            <Success message="You have successfully dispensed this drug" />
+          ) : null}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title">Prescription Invoices</h4>
@@ -217,7 +224,7 @@ class ManagePrescriptionInvoice extends React.Component {
                                         <Link
                                           to={{
                                             pathname:
-                                              user.userType === "Admin"
+                                              userType === "Admin"
                                                 ? `/AdminPaymentForPrescription/${prescriptionInvoice.id}`
                                                 : `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
                                             state: prescriptionInvoice,
@@ -243,8 +250,8 @@ class ManagePrescriptionInvoice extends React.Component {
                                             <span className="btn-icon icofont-server mr-2" />
                                             View Reciept
                                           </Link>
-                                          {(user.userType === "Admin" ||
-                                            user.userType === "Pharmacy") &&
+                                          {(userType === "Admin" ||
+                                            userType === "Pharmacy") &&
                                           prescriptionInvoice?.isDispensed ===
                                             false ? (
                                             <Link
@@ -277,11 +284,7 @@ class ManagePrescriptionInvoice extends React.Component {
             </div>
           </div>
         </main>
-        <PrescriptionReciept
-          costingDetails={drugs}
-          // doctor={prescription?.doctor}
-          // patient={prescription?.patient}
-        />
+        <PrescriptionReciept costingDetails={drugs} />
       </>
     );
   }
