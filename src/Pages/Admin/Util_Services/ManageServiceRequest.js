@@ -32,7 +32,7 @@ class ManageServiceRequest extends React.Component {
 
   async fetchCategory() {
     const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl()
-    const getAllServiceRequestInvoiceConfig = fetchConfig({url : getAllServiceRequestInvoice, method : 'get'})
+    const getAllServiceRequestInvoiceConfig = fetchConfig({ url: getAllServiceRequestInvoice, method: 'get' })
     const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig)
 
     this.setState({ categories: data.serviceInvoices });
@@ -153,11 +153,11 @@ class ManageServiceRequest extends React.Component {
                                         <img src={paid} alt="paid" /> Paid
                                       </>
                                     ) : (
-                                      <>
-                                        <img src={incomplete} alt="paid" />{" "}
+                                          <>
+                                            <img src={incomplete} alt="paid" />{" "}
                                         Incomplete
                                       </>
-                                    )}
+                                        )}
                                   </div>
                                 </td>
                                 <td>
@@ -173,30 +173,30 @@ class ManageServiceRequest extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                       {user.userType ===
-                                      "Lab" ? null : category?.paymentStatus ===
+                                        "Lab" ? null : category?.paymentStatus ===
                                           "NOT PAID" ||
-                                        category?.paymentStatus ===
+                                          category?.paymentStatus ===
                                           "INCOMPLETE" ? (
-                                        <NavLink
-                                          to={{
-                                            pathname:
-                                              user.userType === "Admin"
-                                                ? `/AdminPaymentForService/${category.id}`
-                                                : `/AccountPaymentForService/${category.id}`,
-                                            state: {
-                                              invoiceId: category.id,
-                                              patientId: category.patientId,
-                                              invoiceNumber:
-                                                category.invoiceNumber,
-                                              user: user,
-                                            },
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                            <NavLink
+                                              to={{
+                                                pathname:
+                                                  user.userType === "Admin"
+                                                    ? `/AdminPaymentForService/${category.id}`
+                                                    : `/AccountPaymentForService/${category.id}`,
+                                                state: {
+                                                  invoiceId: category.id,
+                                                  patientId: category.patientId,
+                                                  invoiceNumber:
+                                                    category.invoiceNumber,
+                                                  user: user,
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                           Pay for Services
-                                        </NavLink>
-                                      ) : null}
+                                            </NavLink>
+                                          ) : null}
 
                                       <NavLink
                                         to={{
@@ -204,8 +204,8 @@ class ManageServiceRequest extends React.Component {
                                             user.userType === "Admin"
                                               ? `/AdminViewServiceRequestContents/${category.id}`
                                               : user.userType === "Lab"
-                                              ? `/LabServiceRequestContents/${category.id}`
-                                              : `/AccountServiceRequestContents/${category.id}`,
+                                                ? `/LabServiceRequestContents/${category.id}`
+                                                : `/AccountServiceRequestContents/${category.id}`,
                                           state: {
                                             invoiceId: category.id,
                                             patientId: category.patientId,

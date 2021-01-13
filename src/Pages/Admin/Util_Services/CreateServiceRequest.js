@@ -49,9 +49,9 @@ class CreateServiceRequest extends Component {
 
   fetchServiceCategories = async () => {
     const getAllServicesCategory = getAllServicesCategoryUrl()
-    const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
-    const {data} = await fetchWrapper(getAllServicesCategoryConfig)
-    console.log(data,11111)
+    const getAllServicesCategoryConfig = fetchConfig({ url: getAllServicesCategory, method: 'get' })
+    const { data } = await fetchWrapper(getAllServicesCategoryConfig)
+    console.log(data, 11111)
     this.setState({ categories: data, isFetchingCategories: false });
   };
 
@@ -71,9 +71,9 @@ class CreateServiceRequest extends Component {
 
   fetchPatients = async () => {
     const getPatients = getPatientsUrl()
-    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
-    const {data} = await fetchWrapper(getPatientsConfig)
-    console.log(data,2222)
+    const getPatientsConfig = fetchConfig({ url: getPatients, method: 'get' })
+    const { data } = await fetchWrapper(getPatientsConfig)
+    console.log(data, 2222)
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -88,10 +88,10 @@ class CreateServiceRequest extends Component {
   fetchServicesInACategory = async (id) => {
     this.setState({ isFetchingServicesInCategory: true });
     const getAllServicesInACategory = getAllServicesInACategoryUrl(id)
-    const getAllServicesInACategoryConfig = fetchConfig({url : getAllServicesInACategory, method : 'get'})
-    const {data} = await fetchWrapper(getAllServicesInACategoryConfig)
+    const getAllServicesInACategoryConfig = fetchConfig({ url: getAllServicesInACategory, method: 'get' })
+    const { data } = await fetchWrapper(getAllServicesInACategoryConfig)
 
-    console.log(data,99999999)
+    console.log(data, 99999999)
     this.setState({ services: data, showServices: true, isFetchingServicesInCategory: false }, () => {
       this.renderPicker(".custom-picker-services");
     });
@@ -200,11 +200,11 @@ class CreateServiceRequest extends Component {
 
     payload.serviceId = serviceId;
     const postRequestServices = postRequestServicesUrl()
-    const postRequestServicesConfig = fetchConfig({url : postRequestServices, data:payload, method : 'post'})
+    const postRequestServicesConfig = fetchConfig({ url: postRequestServices, data: payload, method: 'post' })
     const res = await fetchWrapper(postRequestServicesConfig)
 
-    console.log(res,8888);
-    if (res.message === "Service Request submitted successfully") {
+    console.log(res, 8888);
+    if (String(res.status).startsWith("2")) {
       this.setState({ success: true });
     }
   };
