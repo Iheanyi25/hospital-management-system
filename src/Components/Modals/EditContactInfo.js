@@ -31,6 +31,9 @@ const EditContactInfo = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.values(details).includes("")) {
+      return;
+    }
     try {
       let res = await fetch(`${apiUrl}/Doctor/UpdateDoctorContactDetails`, {
         headers: { "Content-Type": "application/json-patch+json" },
