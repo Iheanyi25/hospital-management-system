@@ -15,7 +15,7 @@ class MyPatients extends React.Component {
     async getMyPatients() {
         console.log(JSON.parse(localStorage.getItem("authenticatedUser")).id)
         const data = await (
-            await fetch(`${this.state.apiUrl}/Patient/GetPatientsByDoctor?DoctorId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
+            await fetch(`${apiUrl}/Patient/GetPatientsByDoctor?DoctorId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
         ).json();
         console.log(data.patients);
         this.setState({ patients: data.patients });

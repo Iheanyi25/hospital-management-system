@@ -45,11 +45,11 @@ export default function DoctorRoutes() {
             component={DoctorAppointments}
           />
           <Route exact path="/DoctorClarking" component={DoctorClarking} />
-          <Route
+          {/* <Route
             exact
             path="/DoctorPatientProfile"
             component={DoctorPatientProfile}
-          />
+          /> */}
           <Route
             exact
             path="/DoctorPatientMedicalHistory"
