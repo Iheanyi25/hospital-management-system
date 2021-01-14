@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
-const InvalidDetails = ({ setErrorStatus, message }) => {
+const InvalidDetails = ({ message }) => {
   useEffect(() => {
     setTimeout(() => {
-      setErrorStatus();
+      // setErrorStatus();
     }, 3000);
   });
 

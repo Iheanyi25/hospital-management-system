@@ -20,6 +20,7 @@ class BookAppointment extends React.Component {
       appointmentTime: "",
       appointmentTitle: "",
       reasonForAppointment: "",
+      success: false,
     };
   }
 
@@ -31,7 +32,7 @@ class BookAppointment extends React.Component {
     const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
     const { data } = await fetchWrapper(getDoctorConfig);
 
-    console.log(data, 11111)
+    console.log(data, 11111);
     this.setState({
       doctor: data,
     });
@@ -53,11 +54,15 @@ class BookAppointment extends React.Component {
       reasonForAppointment: this.state.reasonForAppointment,
       patientId: this.state.patientId,
       doctorId: this.state.doctorId,
-    }
+    };
     try {
-      const postPatientAppointment = postPatientAppointmentUrl()
-      const postPatientAppointmentConfig = fetchConfig({ url: postPatientAppointment, data: appointmentDet, method: 'post' })
-      const res = await fetchWrapper(postPatientAppointmentConfig)
+      const postPatientAppointment = postPatientAppointmentUrl();
+      const postPatientAppointmentConfig = fetchConfig({
+        url: postPatientAppointment,
+        data: appointmentDet,
+        method: "post",
+      });
+      const res = await fetchWrapper(postPatientAppointmentConfig);
       const { data, error } = res;
 
       if (res.status !== 200) {
@@ -72,10 +77,15 @@ class BookAppointment extends React.Component {
         appointmentTitle: "",
         reasonForAppointment: "",
       });
+      this.displaySuccess(this.state.successMessage);
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
   }
+
+  displaySuccess = (message) => {
+    this.setState({ success: true, message: message });
+  };
 
   render() {
     const { firstName, lastName } = this.props.location.state;
@@ -118,6 +128,14 @@ class BookAppointment extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {this.state.success ? (
+            <Success
+              history={this.props.history}
+              message={this.state.message}
+              callback={this.changeSuccess}
+              nextRoute={"/AdminAppointments"}
+            />
+          ) : null}
           <div className="main-content-wrap">
             <div className="page-content">
               <div className="row justify-content-center">
@@ -191,8 +209,7 @@ class BookAppointment extends React.Component {
                         {displayErrorMessage}
                         {displaySuccessMessage}
                         <div className="row mt-5">
-                          <div className="col">
-                          </div>
+                          <div className="col"></div>
                           <div className="col text-right">
                             <button
                               type="button"
@@ -200,9 +217,9 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                  appointmentTime === "" ||
-                                  reasonForAppointment === "" ||
-                                  appointmentTitle === ""
+                                appointmentTime === "" ||
+                                reasonForAppointment === "" ||
+                                appointmentTitle === ""
                                   ? true
                                   : false
                               }
