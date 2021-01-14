@@ -7,7 +7,7 @@ import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Appointments extends React.Component {
@@ -35,11 +35,11 @@ class Appointments extends React.Component {
     var rejectedAppointments = [];
 
     const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(this.state.doctorId)
-    const getDoctorAllAppointmentsConfig = fetchConfig({url : getDoctorAllAppointments, method : 'get'})
+    const getDoctorAllAppointmentsConfig = fetchConfig({ url: getDoctorAllAppointments, method: 'get' })
     const { data } = await fetchWrapper(getDoctorAllAppointmentsConfig)
 
     this.setState({ appointments: data.appointments });
-    console.log(data.appointments,11111);
+    console.log(data.appointments, 11111);
     data.appointments.forEach((appointment) => {
       if (appointment.isAccepted === true) {
         acceptedAppointments.push(appointment);
@@ -85,10 +85,10 @@ class Appointments extends React.Component {
 
     try {
       const postDoctorAcceptAppointment = postDoctorAcceptAppointmentUrl(id)
-      const postDoctorAcceptAppointmentConfig = fetchConfig({url : postDoctorAcceptAppointment, method : 'post'})
+      const postDoctorAcceptAppointmentConfig = fetchConfig({ url: postDoctorAcceptAppointment, method: 'post' })
       const res = await fetchWrapper(postDoctorAcceptAppointmentConfig)
-      const {error} = res;
-      console.log(res,22222)
+      const { error } = res;
+      console.log(res, 22222)
       if (res.status !== 200) {
         throw Error(error.message);
       }
@@ -106,10 +106,10 @@ class Appointments extends React.Component {
     try {
 
       const postDoctorRejectAppointment = postDoctorRejectAppointmentUrl(id)
-      const postDoctorRejectAppointmentConfig = fetchConfig({url : postDoctorRejectAppointment, method : 'post'})
+      const postDoctorRejectAppointmentConfig = fetchConfig({ url: postDoctorRejectAppointment, method: 'post' })
       const res = await fetchWrapper(postDoctorRejectAppointmentConfig)
-      const {error} = res;
-      console.log(res,33333)
+      const { error } = res;
+      console.log(res, 33333)
 
       if (res.status !== 200) {
         throw Error(error.message);
@@ -127,10 +127,10 @@ class Appointments extends React.Component {
 
     try {
       const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id)
-      const postDoctorCancelAppointmentConfig = fetchConfig({url : postDoctorCancelAppointment, method : 'post'})
+      const postDoctorCancelAppointmentConfig = fetchConfig({ url: postDoctorCancelAppointment, method: 'post' })
       const res = await fetchWrapper(postDoctorCancelAppointmentConfig)
-      const {error} = res;
-      console.log(res,4444)
+      const { error } = res;
+      console.log(res, 4444)
       if (res.status !== 200) {
         throw Error(error.message);
       }
@@ -301,12 +301,12 @@ class Appointments extends React.Component {
                                 ? pendingAppointments.map((appointment) => (
                                   <tr>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center">
                                         {appointment.appointmentTitle}
                                       </div>
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center">
                                         {appointment.reasonForAppointment}
                                       </div>
                                     </td>
@@ -409,12 +409,12 @@ class Appointments extends React.Component {
                                 ? acceptedAppointments.map((appointment) => (
                                   <tr>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center">
                                         {appointment.appointmentTitle}
                                       </div>
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center">
                                         {appointment.reasonForAppointment}
                                       </div>
                                     </td>
@@ -452,7 +452,7 @@ class Appointments extends React.Component {
                                           Action
                                           </button>
                                         <div className="dropdown-menu text-left">
-                                        <Link
+                                          <Link
                                             title="Go for clarking"
                                             to={{
                                               pathname: "/DoctorClarking",
@@ -547,12 +547,12 @@ class Appointments extends React.Component {
                                 ? completedAppointments.map((appointment) => (
                                   <tr>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center">
                                         {appointment.appointmentTitle}
                                       </div>
                                     </td>
                                     <td>
-                                      <div className="d-flex align-items-center nowrap text-primary">
+                                      <div className="d-flex align-items-center">
                                         {appointment.reasonForAppointment}
                                       </div>
                                     </td>
@@ -605,32 +605,6 @@ class Appointments extends React.Component {
                                             <span className="mr-3 btn-icon icofont-stethoscope-alt" />
                                             Clarking History
                                           </Link>
-                                          {/* <button
-                                            title="Accept Appointment"
-                                            onClick={(e) =>
-                                              this.acceptAppointment(
-                                                e,
-                                                appointment.id
-                                              )
-                                            }
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Accept Appointment
-                                            </button>
-                                          <button
-                                            title="Reject Appointment"
-                                            onClick={(e) =>
-                                              this.rejectAppointment(
-                                                e,
-                                                appointment.id
-                                              )
-                                            }
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Reject Appointment
-                                            </button> */}
                                         </div>
                                       </div>
                                     </td>

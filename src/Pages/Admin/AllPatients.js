@@ -7,7 +7,7 @@ import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 const imageDefaulturl = "https://webmeup.com/upload/blog/lead-image-105.png";
 class AllPatients extends React.Component {
@@ -22,14 +22,14 @@ class AllPatients extends React.Component {
   async getAllPatients() {
     try {
       const getPatients = getPatientsUrl()
-      const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
-      const {data} = await fetchWrapper(getPatientsConfig)
-    
+      const getPatientsConfig = fetchConfig({ url: getPatients, method: 'get' })
+      const { data } = await fetchWrapper(getPatientsConfig)
+
       this.setState({ patients: data.patients.map((x) => x.patient) });
     } catch (error) {
       console.log(error)
     }
-  
+
   }
 
   componentDidMount() {
@@ -56,7 +56,7 @@ class AllPatients extends React.Component {
         ),
         Name: `${x.firstName} ${x.lastName}`,
         Email: <a href={"mailto:" + x.email}>{x.email}</a>,
-        Phone: x.phoneNumber,
+        Phone: x.phoneNumber || "Not available",
         // "Date Of Birth": "10 Feb 2018",
         // "Address": "9:15 - 9:45",
         Actions: this.generateTableFunctions(x),
@@ -153,9 +153,9 @@ class AllPatients extends React.Component {
             <header className="page-header">
               <h4 className="page-title">Our Patients</h4>
             </header>
-            
+
             <div className="page-content">
-              <TableSize size={this.state.patients.length} heading="Patients"  />
+              <TableSize size={this.state.patients.length} heading="Patients" />
               {/* <div className="card-body"></div> */}
             </div>
             <div className="page-content">

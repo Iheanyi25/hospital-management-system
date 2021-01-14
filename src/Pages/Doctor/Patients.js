@@ -6,7 +6,7 @@ import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Patients extends React.Component {
@@ -124,7 +124,7 @@ class Patients extends React.Component {
                                   </td>
                                   <td>
                                     <div className="d-flex align-items-center nowrap">
-                                      {patient.patient.phoneNumber}
+                                      {patient.patient.phoneNumber || "Not available"}
                                     </div>
                                   </td>
                                   <td>

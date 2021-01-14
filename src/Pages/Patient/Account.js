@@ -8,41 +8,45 @@ import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class PatientAccount extends React.Component {
   static contextType = UserContext;
-    state = {
-      accountBalance: 0,
-      accountTransactions: [],
-      acceptedAppointments: [],
-      activeAppointments: [],
-      pendingAppointments: [],
-      completedAppointments: [],
-    };
+  state = {
+    accountBalance: 0,
+    accountTransactions: [],
+    acceptedAppointments: [],
+    activeAppointments: [],
+    pendingAppointments: [],
+    completedAppointments: [],
+  };
 
   async componentDidMount() {
     const content = this.context;
     const { user } = content;
 
     try {
+
       const getPatientAccountBalance = getPatientAccountBalanceUrl(user.id);
-    const getPatientAccountBalanceConfig = fetchConfig({ url: getPatientAccountBalance, method: "get" });
-    const {data} = await fetchWrapper(getPatientAccountBalanceConfig);
+      const getPatientAccountBalanceConfig = fetchConfig({ url: getPatientAccountBalance, method: "get" });
+      const { data } = await fetchWrapper(getPatientAccountBalanceConfig);
 
-    const getPatientAccountTransactions = getPatientAccountTransactionsUrl(user.id);
-    const getPatientAccountTransactionsConfig = fetchConfig({ url: getPatientAccountTransactions, method: "get" });
-    const {data : data1} = await fetchWrapper(getPatientAccountTransactionsConfig);
+      const getPatientAccountTransactions = getPatientAccountTransactionsUrl(user.id);
+      const getPatientAccountTransactionsConfig = fetchConfig({ url: getPatientAccountTransactions, method: "get" });
+      const { data: data1 } = await fetchWrapper(getPatientAccountTransactionsConfig);
 
-    console.log(data1.accountTransactions);
-    this.setState({
-      accountBalance: data.accountBalance,
-      accountTransactions: data1.accountTransactions,
-    });
+      console.log(data1.accountTransactions);
+
+      this.setState({
+        accountBalance: data.accountBalance,
+        accountTransactions: data1.accountTransactions,
+      }, () => this.sync());
+
     } catch (error) {
       console.log(error)
     }
+
   }
 
   sync() {
@@ -127,7 +131,7 @@ class PatientAccount extends React.Component {
                             data-info="true"
                           >
                             <thead>
-                              <tr className="bg-primary text-white">
+                              <tr>
                                 <th>Amount</th>
                                 <th>Transaction Type</th>
                                 <th>Paid By</th>
@@ -139,31 +143,31 @@ class PatientAccount extends React.Component {
                             <tbody>
                               {accountTransactions
                                 ? accountTransactions.map(
-                                    (transaction, index) => (
-                                      <tr key={index}>
+                                  (transaction, index) => (
+                                    <tr key={index}>
+                                      <td>{transaction.amount}</td>
+                                      <td>
+                                        <td>{transaction.transactionType}</td>
+                                      </td>
+                                      <td>
+                                        <td>{transaction.paidBy}</td>
+                                      </td>
+                                      <td>
+                                        <td>{transaction.description}</td>
+                                      </td>
+                                      <td>
+                                        <td>
+                                          {formatDate(
+                                            transaction.trasactionDate
+                                          )}
+                                        </td>
+                                      </td>
+                                      <td>
                                         <td>{transaction.amount}</td>
-                                        <td>
-                                          <td>{transaction.transactionType}</td>
-                                        </td>
-                                        <td>
-                                          <td>{transaction.paidBy}</td>
-                                        </td>
-                                        <td>
-                                          <td>{transaction.description}</td>
-                                        </td>
-                                        <td>
-                                          <td>
-                                            {formatDate(
-                                              transaction.trasactionDate
-                                            )}
-                                          </td>
-                                        </td>
-                                        <td>
-                                          <td>{transaction.amount}</td>
-                                        </td>
-                                      </tr>
-                                    )
+                                      </td>
+                                    </tr>
                                   )
+                                )
                                 : null}
                             </tbody>
                           </table>

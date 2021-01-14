@@ -18,7 +18,7 @@ import notpaid from "../../assets/img/notpaid.svg";
 import { PrescriptionReciept } from "../../Components/Modals";
 import { Success } from "../../Components/Alerts";
 
-// const $ = require("jquery");
+// const $ = window.$;
 let $ = window.$;
 const echarts = require("echarts");
 $.DataTables = require("datatables.net");
