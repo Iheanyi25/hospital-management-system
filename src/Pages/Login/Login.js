@@ -131,7 +131,7 @@ const Login = observer(() => {
                 >
                   Log in
                 </button>
-                <Link to="/resetmypassword" className="text-center mt-3">
+                <Link to="/ResetPasswordRedirect" className="text-center mt-3">
                   <p className="text-center mt-3" style={{ color: "#007BFF" }}>
                     Forgot Password
                   </p>

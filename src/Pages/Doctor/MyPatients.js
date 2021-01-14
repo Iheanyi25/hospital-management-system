@@ -6,7 +6,7 @@ import { getMyPatients } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 class MyPatients extends React.Component {

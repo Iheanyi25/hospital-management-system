@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 
-let $ = undefined;
+let $ = undefined || window.$;
 let interval = undefined;
 let tableID = Math.random();
 tableID = tableID.toString().replace(".", "_");
 
 const Table = ({ content }) => {
-  console.log("table updated");
-  useEffect(() => {
-    setJquery();
-  }, []);
+    console.log("table updated")
+    useEffect(() => {
+        setJquery();
+        if ($) {
+            sync()
+        }
+    }, []);
 
   const sync = () => {
     let element = $(`#custom_table_${tableID}`);
