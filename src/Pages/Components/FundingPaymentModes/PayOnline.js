@@ -39,7 +39,7 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5 needs-validation" noValidate>
-                      <h4 className="text-center">Fund user account account</h4>
+                      <h4 className="text-center">Fund account</h4>
                       <div className="form-group">
                         <label>Amount(NGN)</label>
                         <input
