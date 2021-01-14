@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import styles from "../../Login/css/Login.module.css";
+import React, { useState } from "react";
 import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { Link, useHistory } from "react-router-dom";
 import { Success } from "../../../Components/Alerts/Success";
@@ -161,56 +160,80 @@ function ChangePassword() {
     //   </main>
     // </>
 
-    <div className="auth-background d-flex justify-content-center align-items-center">
-      {error ? <InvalidDetails setErrorStatus={setErrorStatus()} /> : null}
-      <div className="card border-light">
-        <div className="card-body">
-          <form className="mb-4 p-5" onSubmit={(e) => handleSubmit(e)}>
-            <h4 className="text-center">Change Password!</h4>
-            <div className="form-group">
-              <label>Current Password</label>
-              <input
-                className="form-control"
-                type="password"
-                name="currentPassword"
-                onChange={(e) => {
-                  handleCurrentPasssword(e.target.value);
-                }}
-                required
-                autoComplete="off"
-              />
+    // <div
+    //   className="d-flex justify-content-center align-items-center"
+    //   style={{
+    //     overflowY: "scroll",
+    //   }}
+    // >
+    <main className="main-content">
+      <div className="main-content-wrap">
+      {/* <header className="page-header">
+        <h4 className="page-title pl-4">Change Password</h4>
+      </header> */}
+        <div className="page-content">
+          <div className="row justify-content-center">
+            <div className="col col-md-6">
+              {error ? (
+                <InvalidDetails setErrorStatus={setErrorStatus()} />
+              ) : null}
+              <div className="card border-light">
+                <div className="card-body">
+                  <form className="mb-4 p-5" onSubmit={(e) => handleSubmit(e)}>
+                    <h4 className="text-center">Change Password!</h4>
+                    <div className="form-group">
+                      <label>Current Password</label>
+                      <input
+                        className="form-control"
+                        type="password"
+                        name="currentPassword"
+                        onChange={(e) => {
+                          handleCurrentPasssword(e.target.value);
+                        }}
+                        required
+                        autoComplete="off"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>New Password</label>
+                      <input
+                        className="form-control"
+                        type="password"
+                        name="newPassword"
+                        onChange={(e) => {
+                          handleNewPassword(e.target.value);
+                        }}
+                        required
+                        autoComplete="off"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-block btn-primary"
+                      type="submit"
+                      disabled={submitting}
+                    >
+                      Submit
+                    </button>
+                    <Link to="#" className="text-center mt-3">
+                      <p
+                        className="text-center mt-3"
+                        style={{ color: "#007BFF" }}
+                      >
+                        Go back
+                      </p>
+                    </Link>
+                    {passwordStatus === true ? (
+                      <Success message={response} />
+                    ) : null}
+                  </form>
+                </div>
+              </div>
             </div>
-            <div className="form-group">
-              <label>New Password</label>
-              <input
-                className="form-control"
-                type="password"
-                name="newPassword"
-                onChange={(e) => {
-                  handleNewPassword(e.target.value);
-                }}
-                required
-                autoComplete="off"
-              />
-            </div>
-            <button
-              type="submit"
-              className="btn btn-block btn-primary"
-              type="submit"
-              disabled={submitting}
-            >
-              Submit
-            </button>
-            <Link to="#" className="text-center mt-3">
-              <p className="text-center mt-3" style={{ color: "#007BFF" }}>
-                Go back
-              </p>
-            </Link>
-            {passwordStatus === true ? <Success message={response} /> : null}
-          </form>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 export { ChangePassword };
