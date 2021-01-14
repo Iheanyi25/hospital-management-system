@@ -35,38 +35,7 @@ class Login extends Component {
     this.setState({ error: false });
   };
 
-  componentDidMount = async () => {
-    // this.setJquery();
-    const params = new URLSearchParams(window.location.search);
-    const userEmailFromLink = params.get("email");
-    const userTokenFromLink = params.get("token");
-
-    if (userEmailFromLink !== "" && userTokenFromLink !== "") {
-      try {
-        const payload = {
-          email: userEmailFromLink,
-          authenticationToken: userTokenFromLink,
-        };
-        const logIn = logInUrl();
-        const logInConfig = fetchConfig({
-          url: logIn,
-          data: payload,
-          method: "post",
-        });
-        const res = await fetchWrapper(logInConfig);
-
-        if (res.status === 200) {
-          const data = res;
-          console.log(data);
-          this.setState({ success: true, response: data.message });
-          window.location.reload();
-        } else {
-          console.log(res);
-        }
-      } catch (error) {}
-    }
-  };
-
+  
   render() {
     const content = this.context;
     const { loading, error } = content;

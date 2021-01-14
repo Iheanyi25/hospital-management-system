@@ -19,7 +19,7 @@ const AuthRoute = () => {
 
                     <Route
                         exact
-                        path="/resetmypassword"
+                        path="/ResetPasswordRedirect"
                         component={ViewResetPassword}
                     />
 
