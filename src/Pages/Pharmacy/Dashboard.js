@@ -6,10 +6,15 @@ import {
   PharmacySidebar,
   TemplateSettings,
 } from "../../Components";
-import { pharmacyDashboardUrl } from "../../api/URLs";
+import { getAllPrescriptionsUrl, pharmacyDashboardUrl } from "../../api/URLs";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
+import formatDate from "../../utils/formatDate";
+import { Link } from "react-router-dom";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
+let $ = window.$;
+$.DataTables = require("datatables.net");
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -18,14 +23,39 @@ class Dashboard extends React.Component {
       numberOfDrugs: 0,
       numberOfDrugCategories: 0,
       numberOfDrugSubCategories: 0,
-      drugCount:0,
+      drugCount: 0,
+      prescriptions: [],
     };
   }
-  async componentDidMount(){
+  async componentDidMount() {
+    await this.fetchPrescriptions();
     const getPharmacyDashboard = pharmacyDashboardUrl();
-    const getPharmacyDashboardConfig = fetchConfig({url: getPharmacyDashboard, method: "get"});
-    const {data} = await fetchWrapper(getPharmacyDashboardConfig);
-    this.setState({drugCount:data.drugCount});
+    const getPharmacyDashboardConfig = fetchConfig({
+      url: getPharmacyDashboard,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getPharmacyDashboardConfig);
+    this.setState({ drugCount: data.drugCount });
+  }
+
+  async fetchPrescriptions() {
+    const getPrescriptionsUrl = getAllPrescriptionsUrl();
+    const getAllPrescriptionsConfig = fetchConfig({
+      url: getPrescriptionsUrl,
+      method: "get",
+    });
+    const response = await fetchWrapper(getAllPrescriptionsConfig);
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    console.log(response.data.prescriptions);
+    this.setState({ prescriptions: response?.data?.prescriptions || [] }, () =>
+      this.sync()
+    );
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   render() {
@@ -34,42 +64,43 @@ class Dashboard extends React.Component {
       numberOfDrugCategories,
       numberOfDrugSubCategories,
       drugCount,
+      prescriptions,
     } = this.state;
     return (
       <>
         <PageLoader />
-        <div >
-            {/* Horizontal navbar---Header */}
-            {/* <PharmacyHeader /> */}
+        <div>
+          {/* Horizontal navbar---Header */}
+          {/* <PharmacyHeader /> */}
 
-            {/* Vertical navbar */}
-            <PharmacySidebar />
+          {/* Vertical navbar */}
+          <PharmacySidebar />
 
-            <main className="main-content">
-              <div className="app-loader">
-                <i className="icofont-spinner-alt-4 rotate" />
-              </div>
-              <div className="main-content-wrap">
-                <div className="page-content">
-                  <div className="row">
-                    <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-01s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1">Number of Drugs </h6>
-                              <div className="count text-primary fs-20">
-                                {drugCount}
-                              </div>
+          <main className="main-content">
+            <div className="app-loader">
+              <i className="icofont-spinner-alt-4 rotate" />
+            </div>
+            <div className="main-content-wrap">
+              <div className="page-content">
+                <div className="row">
+                  <div className="col col-12 col-md-6 col-xl-3">
+                    <div className="card animated fadeInUp delay-01s bg-light">
+                      <div className="card-body">
+                        <div className="row align-items-center">
+                          <div className="col col-5">
+                            <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
+                          </div>
+                          <div className="col col-7">
+                            <h6 className="mt-0 mb-1">Number of Drugs</h6>
+                            <div className="count text-primary fs-20">
+                              {drugCount}
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    {/* <div className="col col-12 col-md-6 col-xl-3">
+                  </div>
+                  <div className="col col-12 col-md-6 col-xl-3">
                       <div className="card animated fadeInUp delay-02s bg-light">
                         <div className="card-body">
                           <div className="row align-items-center">
@@ -77,34 +108,16 @@ class Dashboard extends React.Component {
                               <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                             </div>
                             <div className="col col-7">
-                              <h6 className="mt-0 mb-1">SubCategories</h6>
+                              <h6 className="mt-0 mb-1">Recent Prescriptions</h6>
                               <div className="count text-primary fs-20">
-                                {numberOfDrugSubCategories}
+                                {prescriptions.length}
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-03s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1">Drugs</h6>
-                              <div className="count text-primary fs-20">
-                                {" "}
-                                {numberOfDrugs}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
-                    {/* <div className="col col-12 col-md-6 col-xl-3">
+                  {/* <div className="col col-12 col-md-6 col-xl-3">
                       <div className="card animated fadeInUp delay-04s bg-light">
                         <div className="card-body">
                           <div className="row align-items-center">
@@ -123,7 +136,7 @@ class Dashboard extends React.Component {
                         </div>
                       </div>
                     </div> */}
-                  </div>
+                </div>
 
                   <div className="row">
                     <div className="col-12 col-md-6">
@@ -143,171 +156,79 @@ class Dashboard extends React.Component {
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <div className="card mb-0">
-                    <div className="card-header">Recent Prescriptions</div>
-                    <div className="card-body">
+                <div className="card mb-0">
+                  <div className="card-header">Recent Prescriptions</div>
+                  <div className="card-body">
+                    <div>
                       <div className="table-responsive">
-                        <table className="table table-hover">
+                        <table
+                          ref={(el) => (this.el = el)}
+                          className="table table-striped"
+                          data-paging="true"
+                          data-info="true"
+                        >
                           <thead>
                             <tr>
-                              <th scope="col">Photo</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Email</th>
-                              <th scope="col">Date</th>
-                              <th scope="col">Visit time</th>
-                              <th scope="col">Number</th>
-                              <th scope="col">Doctor</th>
-                              <th scope="col">Injury / Condition</th>
-                              <th scope="col">Actions</th>
+                              <th>#</th>
+                              <th>Patient Name</th>
+                              <th>Doctor Name</th>
+                              <th>Date of Prescription</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>
-                                <img
-                                  src="../assets/content/user-40-1.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Liam</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  liam@gmail.com
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  10 Feb 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  9:15 - 9:45
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. Benjamin</td>
-                              <td>mumps</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-eye-open" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <img
-                                  src="../assets/content/user-40-2.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Emma</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  emma@gmail.com
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  5 Dec 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  9:00 - 9:30
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. Liam</td>
-                              <td>arthritis</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-eye-open" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <img
-                                  src="../assets/content/user-40-3.jpg"
-                                  width={40}
-                                  height={40}
-                                  className="rounded-500"
-                                  alt="hello"
-                                />
-                              </td>
-                              <td>
-                                <strong>Olivia</strong>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-email p-0 mr-2" />{" "}
-                                  olivia@gmail.com
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  13 Oct 2018
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  12:00 - 12:45
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex align-items-center nowrap text-primary">
-                                  <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                                  0126595743
-                                </div>
-                              </td>
-                              <td>Dr. Noah</td>
-                              <td>depression</td>
-                              <td>
-                                <div className="actions">
-                                  <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-eye-open" />
-                                  </button>
-                                  <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                    <span className="btn-icon icofont-ui-delete" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                           
+                            {prescriptions?.map((prescription, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {index + 1}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">{`${
+                                    prescription?.patient?.firstName ?? ""
+                                  } ${
+                                    prescription?.patient?.lastName ?? ""
+                                  }`}</div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">{`${
+                                    prescription?.doctor?.firstName ?? ""
+                                  } ${
+                                    prescription?.doctor?.lastName ?? ""
+                                  }`}</div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatDate(prescription?.datePrescribed)}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="btn-group">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                    >
+                                      Action
+                                    </button>
+                                    <div className="dropdown-menu">
+                                      <Link
+                                        to={`/PharmacyDrugPrescription/${prescription?.id}`}
+                                        className="btn btn-sm btn-block"
+                                      >
+                                        <span className="btn-icon icofont-server mr-2" />
+                                        Dispense
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
@@ -315,17 +236,17 @@ class Dashboard extends React.Component {
                   </div>
                 </div>
               </div>
-            </main>
+            {/* </div> */}
+          </main>
 
-            {/* Footer */}
-            <Footer />
-
+          {/* Footer */}
+          <Footer />
         </div>
         {/* App Settings modals */}
         <TemplateSettings />
       </>
     );
-  }
-}
+  };
+};
 
 export default Dashboard;

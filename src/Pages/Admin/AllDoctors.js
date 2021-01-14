@@ -5,6 +5,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
+import DoctorImage from "../../assets/img/DoctorIcon.svg"
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -79,7 +80,7 @@ class AllDoctors extends React.Component {
                           <tr>
                             <td>
                               <img
-                                src="../assets/content/user-40-1.jpg"
+                                src={DoctorImage}
                                 alt=""
                                 width={40}
                                 height={40}

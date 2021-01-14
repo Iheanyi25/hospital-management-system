@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { logOut } from "../../utils/logout";
+import AccountantImage from '../../assets/img/AccountantIcon.svg';
+
 
 class AccountantHeader extends React.Component {
   constructor(props) {
@@ -124,7 +126,7 @@ class AccountantHeader extends React.Component {
                 >
                   <span className="d-flex align-items-center">
                     <img
-                      src="../../assets/content/user-400-1.jpg"
+                      src={AccountantImage}
                       alt=""
                       width={40}
                       height={40}

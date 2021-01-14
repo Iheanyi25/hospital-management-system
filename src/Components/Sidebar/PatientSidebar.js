@@ -89,7 +89,7 @@ class PatientSidebar extends React.Component {
 										<ul className="sub">
 											<li className="menu-item">
 												<Link className="item-link" to="/PatientProfile">
-													<span className="link-text">View Profle</span>
+													<span className="link-text">View Profile</span>
 												</Link>
 											</li>
 

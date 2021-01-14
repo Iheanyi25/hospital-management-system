@@ -4,6 +4,8 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+
 
 class DoctorAppointments extends React.Component {
   constructor(props) {
@@ -223,7 +225,7 @@ class DoctorAppointments extends React.Component {
                                   <tr>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src={PatientAndAdminImage}
                                         alt=""
                                         width={40}
                                         height={40}
@@ -316,7 +318,7 @@ class DoctorAppointments extends React.Component {
                                     <tr>
                                       <td>
                                         <img
-                                          src="./assets/content/user-40-1.jpg"
+                                          src={PatientAndAdminImage}
                                           alt=""
                                           width={40}
                                           height={40}
@@ -409,7 +411,7 @@ class DoctorAppointments extends React.Component {
                                     <tr>
                                       <td>
                                         <img
-                                          src="./assets/content/user-40-1.jpg"
+                                          src={PatientAndAdminImage}
                                           alt=""
                                           width={40}
                                           height={40}
@@ -512,7 +514,7 @@ class DoctorAppointments extends React.Component {
                                   <tr>
                                     <td>
                                       <img
-                                        src="./assets/content/user-40-1.jpg"
+                                        src={PatientAndAdminImage}
                                         alt=""
                                         width={40}
                                         height={40}

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -87,8 +88,8 @@ class MyPatients extends React.Component {
                                                 <tr>
                                                     <td>
                                                         <img
-                                                            src="../assets/content/user-40-1.jpg"
-                                                            alt=""
+                                                            src={PatientAndAdminImage}
+                                                            alt="Patient Image"
                                                             width={40}
                                                             height={40}
                                                             className="rounded-500"

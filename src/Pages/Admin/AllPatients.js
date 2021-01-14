@@ -5,6 +5,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
+import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -46,7 +47,7 @@ class AllPatients extends React.Component {
         "#": ++index,
         Photo: (
           <img
-            src={imageDefaulturl}
+            src={PatientAndAdminImage}
             alt=""
             width={40}
             height={40}

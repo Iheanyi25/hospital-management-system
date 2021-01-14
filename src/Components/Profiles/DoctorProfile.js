@@ -12,7 +12,6 @@ import {
 } from "../../Components/Modals";
 import { Success } from "../Alerts";
 import formatTime from "../../utils/formatTime";
-import userImage from "../../assets/img/user.png";
 import reset from "../../assets/img/reset.svg";
 import emailImage from "../../assets/img/email.svg";
 import phone from "../../assets/img/phone.svg";
@@ -32,6 +31,7 @@ import EmptyState from "../EmptyState/EmptyUploadState";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
+import DoctorImage from "../../assets/img/DoctorIcon.svg"
 
 class DocProfile extends React.Component {
   static contextType = UserContext;
@@ -130,7 +130,7 @@ class DocProfile extends React.Component {
       socials,
       loading,
     } = this.state;
-    console.log(doctor);
+    console.log(this.props.doctorId);
     const specArray = specializations.slice(0, 3);
 
     return (
@@ -209,10 +209,10 @@ class DocProfile extends React.Component {
                     <div className="card-body d-flex justify-content-between">
                       <div className="d-flex justify-content-between">
                         <img
-                          src={userImage}
+                          src={DoctorImage}
                           style={{ height: "100px", width: "100px" }}
                           className="mr-3"
-                          alt="user"
+                          alt="Doctor Image"
                         />
                         <div>
                           <h5 className="mb-2 mt-2 font-weight-bold">
