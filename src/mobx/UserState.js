@@ -39,7 +39,6 @@ export const UserProvider = ({ children }) => {
         userStore.loading = false;
         window.location.href  = "/";
       } catch (error) {
-        console.log(error, 8888);
         userStore.error = error;
         userStore.loading = false;
       }

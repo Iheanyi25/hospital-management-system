@@ -2,6 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
+import { getMyDoctors } from "../../api/URLs";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
 
 
 
@@ -18,16 +21,18 @@ class MyDoctors extends React.Component {
         };
     }
 
-    async getAllDoctors() {
-        const data = await (
-            await fetch(`${this.state.apiUrl}/Doctor/GetDoctorsByPatient?PatientId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
-        ).json();
+    async getAllMyDoctors() {
+
+        const myDoctors = getMyDoctors(this.state.patientId);
+        const getMyDoctorsConfig = fetchConfig({ url: myDoctors, method: "get" });
+        const { data } = await fetchWrapper(getMyDoctorsConfig);
+
         console.log(data.doctors);
         this.setState({ doctors: data.doctors });
     }
 
     componentDidMount() {
-        this.getAllDoctors().then(() => this.sync());
+        this.getAllMyDoctors().then(() => this.sync());
     }
 
     sync() {

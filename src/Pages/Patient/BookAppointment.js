@@ -3,8 +3,8 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl, postPatientAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
 import { formatInputDate } from "../../utils/formatInputDate";
-import { Success } from "../../Components/Alerts/Success";
 
 //const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 class BookAppointment extends React.Component {
@@ -99,6 +99,26 @@ class BookAppointment extends React.Component {
 
     let displayErrorMessage;
     let displaySuccessMessage;
+
+    if (this.state.showErrorMessage) {
+      displayErrorMessage = (
+        <div className="alert alert-danger with-after-icon" role="alert">
+          <div className="alert-content">{this.state.errorMessage}</div>
+          <div className="alert-icon">
+            <i className="icofont-alarm" />
+          </div>
+        </div>
+      );
+    }
+
+    if (this.state.showSuccessMessage) {
+      displaySuccessMessage = (
+        <Success
+          message={this.state.successMessage}
+          nextRoute={"/PatientAppointments"}
+        />
+      );
+    }
 
     return (
       <>
