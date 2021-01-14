@@ -7,7 +7,7 @@ import { PageLoader } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class AllDoctors extends React.Component {

@@ -24,15 +24,19 @@ class RegistrationInvoice extends React.Component {
 
   async fetchInvoices() {
     try {
-      const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl(this.state.doctorId)
-      const getRegistrationFeeInvoiceConfig = fetchConfig({url : getRegistrationFeeInvoice, method : 'get'})
-      const { data } = await fetchWrapper(getRegistrationFeeInvoiceConfig)
-  
+      const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl(
+        this.state.doctorId
+      );
+      const getRegistrationFeeInvoiceConfig = fetchConfig({
+        url: getRegistrationFeeInvoice,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getRegistrationFeeInvoiceConfig);
+
       this.setState({ registrationInvoices: data.registrationInvoices });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   }
 
   sync() {
@@ -190,37 +194,42 @@ class RegistrationInvoice extends React.Component {
                                     </div>
                                   </td>
                                   <td>
-                                    <div className="btn-group">
-                                      <button
-                                        type="button"
-                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                      >
-                                        Action
-                                      </button>
-                                      <div className="dropdown-menu">
-                                        <NavLink
-                                          className="btn btn-sm btn-block"
-                                          to={{
-                                            pathname: `/AccountPatientRegistration/${this.state.patientId}`,
-                                            state: {
-                                              patientId:
-                                                registrationInvoice?.patient
-                                                  ?.id,
-                                              email:
-                                                registrationInvoice?.patient
-                                                  ?.email,
-                                              cost: registrationInvoice.amount,
-                                            },
-                                          }}
+                                    {registrationInvoice?.paymentStatus ===
+                                    "Not Paid" ? (
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
                                         >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                          Pay Now
-                                        </NavLink>
+                                          Action
+                                        </button>
+                                        <div className="dropdown-menu">
+                                          <NavLink
+                                            className="btn btn-sm btn-block"
+                                            to={{
+                                              pathname: `/AccountPatientRegistration/${this.state.patientId}`,
+                                              state: {
+                                                patientId:
+                                                  registrationInvoice?.patient
+                                                    ?.id,
+                                                email:
+                                                  registrationInvoice?.patient
+                                                    ?.email,
+                                                cost:
+                                                  registrationInvoice.amount,
+                                                name: `${registrationInvoice?.patient?.firstName} ${registrationInvoice?.patient?.lastName}`,
+                                              },
+                                            }}
+                                          >
+                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                            Pay Now
+                                          </NavLink>
+                                        </div>
                                       </div>
-                                    </div>
+                                    ) : null}
                                   </td>
                                 </tr>
                               );

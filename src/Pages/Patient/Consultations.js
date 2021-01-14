@@ -10,7 +10,7 @@ import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
 
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Consultations extends React.Component {

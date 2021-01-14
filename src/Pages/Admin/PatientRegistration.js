@@ -13,7 +13,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getPatientRegistrationInvoiceUrl, getPatientsUrl, postPayPatientRegistrationFeeUrl } from "../../api/URLs";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class PatientRegistration extends React.Component {
@@ -92,6 +92,8 @@ class PatientRegistration extends React.Component {
     const content = this.context;
     const { user } = content;
     const { amount, email } = this.state;
+    const { history: {location} } = this.props;
+    const { state: {name} } = location;
     return (
       <>
         <PageLoader />
@@ -113,7 +115,7 @@ class PatientRegistration extends React.Component {
           ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
-              <h3>Payment for registration</h3>
+              <h3>{`Register ${name}`}</h3>
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>

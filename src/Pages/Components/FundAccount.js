@@ -6,7 +6,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { postAdminFundAccountsUrl } from "../../api/URLs";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class FundAccount extends React.Component {
@@ -66,6 +66,9 @@ class FundAccount extends React.Component {
 
   render() {
     const { amount, email, user } = this.state;
+    const { history: {location} } = this.props;
+    const { state: {name} } = location;
+    // console.log(state);
     return (
       <>
         <PageLoader />
@@ -87,7 +90,7 @@ class FundAccount extends React.Component {
           ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
-              <h3>Fund Account</h3>
+              <h3>{`Fund ${name}'s account`}</h3>
             </header>
 
             <div className="page-content">

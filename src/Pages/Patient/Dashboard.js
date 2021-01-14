@@ -7,7 +7,7 @@ import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
 
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Dashboard extends React.Component {

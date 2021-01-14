@@ -11,7 +11,7 @@ import AppointmentTabHeader from "./appointment-components/AppointmentTabHeader"
 import CompletedAppointments from "./appointment-components/CompletedAppointments";
 import PendingAppointments from "./appointment-components/PendingAppointments";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Appointments extends React.Component {

@@ -14,7 +14,7 @@ import ConsultationTabHeader from "./consultation-components/ConsultationTabHead
 import PatientAttachedToDoctors from "./consultation-components/PatientAttachedToDoctors";
 import PatientsOnOpenList from "./consultation-components/PatientsOnOpenList";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Consultations extends React.Component {
@@ -35,7 +35,7 @@ class Consultations extends React.Component {
   }
 
   async componentDidMount() {
-    await this.getAllConsultations();
+    await this.getAllConsultations().then(() => this.sync());
   }
 
   deleteConsultation = async (e, id) => {
@@ -110,7 +110,7 @@ class Consultations extends React.Component {
       patientsAttachedToDoctors: patientsAttachedToDoctors,
       patientsAttachedToDoctorsCount: patientsOnOpenList.length + patientsAttachedToDoctors.length,
       patientsAttendedTo: patientsAttendedTo,
-      patientsAttendedToCount:patientsAttendedTo.length,
+      patientsAttendedToCount: patientsAttendedTo.length,
     });
   }
 
