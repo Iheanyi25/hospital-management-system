@@ -66,7 +66,7 @@ class Appointments extends React.Component {
   }
 
   async componentDidMount() {
-    this.getDoctorAppointments().then(() => this.sync());
+    await this.getDoctorAppointments().then(() => this.sync());
   }
 
   sync() {

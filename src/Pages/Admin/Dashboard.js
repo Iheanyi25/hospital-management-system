@@ -86,7 +86,7 @@ class Dashboard extends React.Component {
                           <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                         </div>
                         <div className="col col-7">
-                          <h6 className="mt-0 mb-1">My patients</h6>
+                          <h6 className="mt-0 mb-1">My Patients</h6>
                           <div className="count text-primary fs-20">
                             {systemCount?.patientCount}
                           </div>
