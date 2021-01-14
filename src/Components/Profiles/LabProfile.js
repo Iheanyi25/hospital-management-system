@@ -13,7 +13,7 @@ function LabProfile({ labId }) {
 	const [ success, setSucces ] = useState({ show: false, message: '' });
 	const labProfileUrl = getLabProfileUrl(labId);
 	const getLabProfileConfig = fetchConfig({ url: labProfileUrl, method: 'get' });
-	const { data, error, mutate } = useRequest(getLabProfileConfig);
+	const { data, error, mutate } = useRequest(getLabProfileConfig, { revalidateOnFocus: false,});
 
 	const resetShowState = () => setSucces((state) => ({ ...state, show: false }));
 	if (error) return <div>failed to load</div>;
