@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 
+const $ = require("jquery");
+$.Datatable = require("datatables.net");
 const apiUrl = process.env.REACT_APP_API_URL;
 class MyPatients extends React.Component {
     constructor(props) {
@@ -22,7 +24,12 @@ class MyPatients extends React.Component {
     }
 
     componentDidMount() {
-        this.getMyPatients();
+        this.getMyPatients().then(() => this.sync());
+    }
+
+    sync() {
+        this.$el = $(this.el);
+        this.$el.DataTable();
     }
 
     render() {

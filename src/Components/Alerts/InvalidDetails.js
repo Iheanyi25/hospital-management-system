@@ -8,10 +8,12 @@ const InvalidDetails = ({ setErrorStatus }) => {
   });
 
   return (
-    <div className="alert alert-warning with-after-icon" role="alert">
-      <div className="alert-content">Invalid log in details!</div>
-      <div className="alert-icon">
-        <i className="icofont-alarm"></i>
+    <div className="d-flex justify-content-center" style={{width:"100vw"}}>
+      <div className="alert alert-warning with-after-icon " role="alert">
+        <div className="alert-content">Invalid log in details!</div>
+        <div className="alert-icon">
+          <i className="icofont-alarm"></i>
+        </div>
       </div>
     </div>
   );
