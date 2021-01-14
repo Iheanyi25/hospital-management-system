@@ -57,9 +57,9 @@ export default function EditInfo({ otherDetails, userId : userProfileId, primary
 			const resBasicInfoUpdate = await fetchWrapper(postBasicInfoUrl);
 			const resContactDetailsUpdate = await fetchWrapper(postContactDetails);
 			if (resBasicInfoUpdate.status === 200 && resContactDetailsUpdate.status === 200) {
-				setSucces({ show: true, message: 'updated info' });
 				mutate();
 				$('#edit-info').modal('hide');
+				setSucces({ show: true, message: 'updated info' });
 			}
 		} catch (error) {
 			console.log(error);
