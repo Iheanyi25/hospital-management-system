@@ -12,7 +12,7 @@ function PharmacyProfile({ pharmacyId }) {
 	const [ success, setSucces ] = useState({ show: false, message: '' });
 	const PharmacyProfileUrl = getPharmacistProfileUrl(pharmacyId);
 	const getPharmacyProfileConfig = fetchConfig({ url: PharmacyProfileUrl, method: 'get' });
-	const { data, error, mutate } = useRequest(getPharmacyProfileConfig);
+	const { data, error, mutate } = useRequest(getPharmacyProfileConfig, {revalidateOnFocus: false});
 
 	const resetShowState = () => setSucces((state) => ({ ...state, show: false }));
 	if (error) return <div>failed to lod</div>;

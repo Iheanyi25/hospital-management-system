@@ -20,8 +20,8 @@ class PatientProfile extends React.Component {
     loading: true,
   };
 
-  componentDidMount() {
-    this.fetchPatientDetails();
+  async componentDidMount() {
+    await this.fetchPatientDetails();
   }
 
   fetchPatientDetails = async () => {

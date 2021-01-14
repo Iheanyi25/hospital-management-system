@@ -43,7 +43,7 @@ export default function ProfileInfoForm({details, handleChange, handleSubmit }) 
 				<label>Gender</label>
 				<select className="form-control" name="gender" onChange={handleChange}>
 					<option value="" disabled selected>
-						Select a day
+						Select a gender
 					</option>
 					<option value="male">M</option>
 					<option value="female">F</option>
