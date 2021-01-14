@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientAllAppointmentsUrl } from "../../api/URLs";
-import { patientCancelAppointments } from "../../api/URLs";
+import { getPatientAllAppointmentsUrl, patientCancelAppointments } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
+import { Success } from "../../Components/Alerts";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -78,7 +78,7 @@ class Appointments extends React.Component {
     });
     const res = await fetchWrapper(cancelPatientAppointmentConfig);
     if (res) {
-      alert(res.message);
+      this.setState({ showSuccessMessage: true, successMessage: res.data.message });
       this.getPatientAppointments();
     }
   };
@@ -95,7 +95,14 @@ class Appointments extends React.Component {
     return (
       <>
         <PageLoader />
-
+        {
+          this.state?.showSuccessMessage ?
+            <Success
+              message={this.state?.successMessage}
+            />
+            :
+            <></>
+        }
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
