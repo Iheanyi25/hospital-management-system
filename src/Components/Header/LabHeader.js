@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { logOut } from '../../utils/logout';
+import PharmacistImage from "../../assets/img/PharmacistIcon.svg";
+
 
 class LabHeader extends React.Component {
 	constructor(props) {
@@ -125,7 +127,7 @@ class LabHeader extends React.Component {
 								>
 									<span className="d-flex align-items-center">
 										<img
-											src="../../assets/content/user-400-1.jpg"
+											src={PharmacistImage}
 											alt=""
 											width={40}
 											height={40}

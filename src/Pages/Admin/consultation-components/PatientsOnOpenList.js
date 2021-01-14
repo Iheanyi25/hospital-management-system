@@ -1,5 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import PatientAndAdminImage from '../../../assets/img/PatientAndAdminIcon.svg'
+
 
 export default function PatientsOnOpenList({patientsOnOpenList, setConsultationId, deleteConsultation}) {
   return (
@@ -19,7 +21,7 @@ export default function PatientsOnOpenList({patientsOnOpenList, setConsultationI
               <tr>
                 <td>
                   <img
-                    src="../assets/content/user-40-1.jpg"
+                    src={PatientAndAdminImage}
                     alt=""
                     width={40}
                     height={40}

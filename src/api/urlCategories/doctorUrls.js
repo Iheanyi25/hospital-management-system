@@ -19,7 +19,7 @@ export const postAdmitOrSendPatientHomeUrl = () => `/Doctor/AdmitOrSendPatientHo
 export const getDoctorAllConsultationsUrl = (doctorId) =>
   `/Doctor/ViewAllConsultations?DoctorId=${doctorId}`;
 // Doctor- Dashboard
-
+export const getDoctorDashboardUrl = (doctorId) => `/Doctor/Dashboard?doctorId=${doctorId}`
 // Doctor- Manage Profile
 export const getDoctorUrl = (doctorId) =>
   `/Doctor/GetDoctor?DoctorId=${doctorId}`;

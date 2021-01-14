@@ -6,7 +6,7 @@ import phone from '../../../../assets/img/phone.svg';
 import resetText from '../../../../assets/img/resetText.svg';
 import emailImg from '../../../../assets/img/email.svg';
 
-export default function Bio({ bioDetails }) {
+export default function Bio({ bioDetails, image }) {
     const { firstName, lastName, phoneNumber, email, userType  } = bioDetails;
     const title = {
         pharmacy: "Pharm.",
@@ -23,7 +23,7 @@ export default function Bio({ bioDetails }) {
 				<div className="card border-light p-4">
 					<div className="card-body d-block d-md-flex justify-content-between">
 						<div className="d-flex justify-content-between">
-							<img src={user} style={{ height: '100px', width: '100px' }} className="mr-3" alt="user" />
+							<img src={image} style={{ height: '100px', width: '100px' }} className="mr-3" alt="user" />
 							<div>
 								<h5 className="mb-2 mt-2 font-weight-bold">
 									{firstName || lastName ? `${firstName || ''} ${lastName || ''}` : 'N/A'}

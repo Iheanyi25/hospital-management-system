@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { logOut } from "../../utils/logout";
-
+import AdminAndPatientImage from "../../assets/img/PatientAndAdminIcon.svg"
 class PatientHeader extends React.Component {
   constructor(props) {
     super(props);
@@ -124,7 +124,7 @@ class PatientHeader extends React.Component {
                 >
                   <span className="d-flex align-items-center">
                     <img
-                      src="../../assets/content/user-400-1.jpg"
+                      src={AdminAndPatientImage}
                       alt="hello"
                       width={40}
                       height={40}

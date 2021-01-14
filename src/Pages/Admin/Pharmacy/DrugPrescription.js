@@ -17,6 +17,7 @@ import { PrescriptionInvoice } from "../../../Components/Modals";
 import { Success } from "../../../Components/Alerts";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
+import PatientAndAdminImage from '../../../assets/img/PatientAndAdminIcon.svg';
 
 const DrugPrescription = observer(({ match }) => {
   const { user } = useContext(UserContext);
@@ -150,7 +151,7 @@ const DrugPrescription = observer(({ match }) => {
                       <div className="card-body p-5 m-auto">
                         <div className="d-flex">
                           <img
-                            src={userImage}
+                            src={PatientAndAdminImage}
                             style={{
                               height: "32px",
                               width: "32px",

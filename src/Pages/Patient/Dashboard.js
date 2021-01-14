@@ -3,6 +3,8 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getPatientAllAppointmentsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import DoctorImage from "../../assets/img/DoctorIcon.svg";
+
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -171,7 +173,7 @@ class Dashboard extends React.Component {
                             <tr>
                               <td>
                                 <img
-                                  src="../../assets/content/user-40-1.jpg"
+                                  src={DoctorImage}
                                   alt="hello"
                                   width={40}
                                   height={40}
