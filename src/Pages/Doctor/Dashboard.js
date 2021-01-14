@@ -136,7 +136,7 @@ class Dashboard extends React.Component {
                   <div className="card bg-light">
                     <div className="card-header">Welcome {doctorName}</div>
                     <div className="card-body">
-                      You Have No New Notifications
+                      You hava 5 patients due for consultation
                     </div>
                   </div>
                 </div>
@@ -144,7 +144,7 @@ class Dashboard extends React.Component {
                   <div className="card text-white bg-primary">
                     <div className="card-header">Important Updates</div>
                     <div className="card-body">
-                      An Apple A Day Keeps the Doctor Away
+                      An apple a day keeps the doctor away
                     </div>
                   </div>
                 </div>

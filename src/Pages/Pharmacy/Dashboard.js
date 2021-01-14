@@ -130,8 +130,7 @@ class Dashboard extends React.Component {
                       <div className="card bg-light">
                         <div className="card-header">Welcome Pharm. Michael</div>
                         <div className="card-body">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Distinctio dolore enim
+                          You have 3 patients awaiting drug Prescription.
                         </div>
                       </div>
                     </div>
@@ -139,8 +138,7 @@ class Dashboard extends React.Component {
                       <div className="card text-white bg-dark">
                         <div className="card-header">Important Notes</div>
                         <div className="card-body">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Distinctio dolore enim
+                          CMD is to meet with all pharmacist heads of department for drug disbursement.
                         </div>
                       </div>
                     </div>

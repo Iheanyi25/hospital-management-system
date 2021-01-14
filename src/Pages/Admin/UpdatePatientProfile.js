@@ -465,6 +465,12 @@ class UpdatePatientProfile extends React.Component {
                                 </option>
                                 <option>O+</option>
                                 <option>O-</option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
                               </select>
                             </div>
                           </div>
@@ -488,6 +494,9 @@ class UpdatePatientProfile extends React.Component {
                                 <option value="aa">AA</option>
                                 <option value="as">AS</option>
                                 <option value="ss">SS</option>
+                                <option value="sc">SC</option>
+                                <option value="ac">AC</option>
+                                <option value="cc">CC</option>
                               </select>
                             </div>
                           </div>

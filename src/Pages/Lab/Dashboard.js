@@ -115,10 +115,9 @@ class Dashboard extends React.Component {
                             <div className="row">
                                 <div className="col-12 col-md-6">
                                     <div className="card bg-light">
-                                        <div className="card-header">Welcome Michae</div>
+                                        <div className="card-header">Welcome Michael</div>
                                         <div className="card-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Distinctio dolore enim
+                                            All hepatology tests have been forwarded to you for review please act on it.
                                             </div>
                                     </div>
                                 </div>
@@ -126,9 +125,8 @@ class Dashboard extends React.Component {
                                     <div className="card text-white bg-primary">
                                         <div className="card-header">Important Updates</div>
                                         <div className="card-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit. Distinctio dolore enim
-                                            </div>
+                                            Lab scientists council to hold meeting with CLS in view of Covid testing protocols.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
