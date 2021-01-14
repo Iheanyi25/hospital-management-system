@@ -15,7 +15,6 @@ const Login = observer(() => {
     email: "",
     password: "",
     submitting: false,
-    error: false,
     response: "",
     success: false,
   });
@@ -25,17 +24,16 @@ const Login = observer(() => {
     const { email, password } = state;
     const data = { email, password };
     logIn(data);
-    if (error) {
-      setState({ ...state, error: true });
-    }
   };
 
-  const setErrorStatus = () => {
-    setState({ ...state, error: false });
-  };
+  // const setErrorStatus = () => {
+  //   setState({ ...state, error: false });
+  // };
+
   useEffect(() => {
     loadPage();
   }, []);
+
   const loadPage = async () => {
     const params = new URLSearchParams(window.location.search);
     const userEmailFromLink = params.get("email");
@@ -68,13 +66,17 @@ const Login = observer(() => {
     }
   };
 
+  const handleChange = (name, value) => {
+    setState(state => ({ ...state, [name]: value }))
+  }
+
   const { email, password, success, response } = state;
   return (
     <div className="auth-background">
       {success ? <Success message={response} /> : null}
       {error ? (
         <InvalidDetails
-          setErrorStatus={setErrorStatus}
+          // setErrorStatus={setErrorStatus}
           message={
             error?.message === "Network Error"
               ? error?.message
@@ -106,9 +108,7 @@ const Login = observer(() => {
                     tabIndex={-98}
                     name="email"
                     value={email}
-                    onChange={(e) => {
-                      setState({ ...state, [e.target.name]: e.target.value });
-                    }}
+                    onChange={(e) => handleChange("email", e.target.value)}
                     required
                   />
                 </div>
@@ -119,9 +119,7 @@ const Login = observer(() => {
                     type="password"
                     name="password"
                     value={password}
-                    onChange={(e) => {
-                      setState({ ...state, [e.target.name]: e.target.value });
-                    }}
+                    onChange={(e) => handleChange("password", e.target.value)}
                     required
                   />
                 </div>

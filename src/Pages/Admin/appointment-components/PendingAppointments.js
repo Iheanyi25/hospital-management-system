@@ -52,7 +52,7 @@ export default function PendingAppointments({ pendingAppointments, setAppointmen
               <td>
                 <div className="text-muted text-nowrap">
                   {new Date(
-                    appointment?.appointmentDate
+                    appointment?.appointmentTime
                   ).toLocaleTimeString()}
                 </div>
               </td>
@@ -123,7 +123,7 @@ export default function PendingAppointments({ pendingAppointments, setAppointmen
                       onClick={(e) => deleteAppointment(appointment.id)}
                     >
                       <span className="mr-3 btn-icon icofont-delete-alt" />
-                        Delete Consultation
+                        Delete Appointment
                       </button>
                   </div>
                 </div>

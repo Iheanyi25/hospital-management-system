@@ -60,9 +60,8 @@ class BookAppointment extends React.Component {
 
   fetchPatients = async () => {
     const getPatients = getPatientsUrl()
-    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
-    const {data} = await fetchWrapper(getPatientsConfig)
-    console.log(data,77777)
+    const getPatientsConfig = fetchConfig({ url: getPatients, method: 'get' })
+    const { data } = await fetchWrapper(getPatientsConfig)
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -76,9 +75,8 @@ class BookAppointment extends React.Component {
 
   fetchDoctors = async () => {
     const getDoctors = getDoctorsUrl()
-    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
-    const {data} = await fetchWrapper(getDoctorsConfig)
-    console.log(data,66666)
+    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: 'get' })
+    const { data } = await fetchWrapper(getDoctorsConfig)
     const doctorArray = [];
 
     data.doctors.forEach((element) => {
@@ -110,14 +108,17 @@ class BookAppointment extends React.Component {
       doctorId: this.state.doctorId,
     }
 
-    try {
-      
-      const postAppointment = postAppointmentUrl()
-    const postAppointmentConfig = fetchConfig({url : postAppointment, data: bookAppointmentDet, method : 'post'})
-    const res = await fetchWrapper(postAppointmentConfig)
-      const {data, error} = res;
+    console.log(this.state.appointmentTime)
 
-      if (res.status === 200) {
+    try {
+
+      const postAppointment = postAppointmentUrl()
+      const postAppointmentConfig = fetchConfig({ url: postAppointment, data: bookAppointmentDet, method: 'post' })
+      const res = await fetchWrapper(postAppointmentConfig);
+
+      const { data, error } = res;
+
+      if (res.status !== 200) {
         throw Error(error.message);
       }
 
