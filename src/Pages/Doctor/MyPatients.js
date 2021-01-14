@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
+import { getMyPatients } from "../../api/URLs";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
@@ -16,13 +19,13 @@ class MyPatients extends React.Component {
     }
 
     async getMyPatients() {
-        console.log(JSON.parse(localStorage.getItem("authenticatedUser")).id)
-        const data = await (
-            await fetch(`${apiUrl}/Patient/GetPatientsByDoctor?DoctorId=${JSON.parse(localStorage.getItem("authenticatedUser")).id}`)
-        ).json();
-        console.log(data.patients);
+
+        const myPatients = getMyPatients(this.state.patientId);
+        const getPatientAllAppointmentsConfig = fetchConfig({ url: myPatients, method: "get" });
+        const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
+
         this.setState({ patients: data.patients });
-    }
+    } 
 
     componentDidMount() {
         this.getMyPatients().then(() => this.sync());
@@ -109,7 +112,7 @@ class MyPatients extends React.Component {
                                                     </td>
                                                     <td>
                                                         <div className="d-flex align-items-center nowrap">
-                                                            {patient.patient.phoneNumber}
+                                                            {patient.patient?.phoneNumber ?? "Not available"}
                                                         </div>
                                                     </td>
                                                     <td>
