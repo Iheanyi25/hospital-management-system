@@ -3,6 +3,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl, postPatientAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { Success } from "../../Components/Alerts";
 import { formatInputDate } from "../../utils/formatInputDate";
 
 //const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
@@ -30,7 +31,7 @@ class BookAppointment extends React.Component {
     const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
     const { data } = await fetchWrapper(getDoctorConfig);
 
-    console.log(data,11111)
+    console.log(data, 11111)
     this.setState({
       doctor: data,
     });
@@ -55,9 +56,9 @@ class BookAppointment extends React.Component {
     }
     try {
       const postPatientAppointment = postPatientAppointmentUrl()
-      const postPatientAppointmentConfig = fetchConfig({url : postPatientAppointment, data: appointmentDet, method : 'post'})
+      const postPatientAppointmentConfig = fetchConfig({ url: postPatientAppointment, data: appointmentDet, method: 'post' })
       const res = await fetchWrapper(postPatientAppointmentConfig)
-      const {data, error} = res;
+      const { data, error } = res;
 
       if (res.status !== 200) {
         throw Error(error.message);
@@ -102,14 +103,10 @@ class BookAppointment extends React.Component {
 
     if (this.state.showSuccessMessage) {
       displaySuccessMessage = (
-        <div className="alert alert-info with-after-icon" role="alert">
-          <div className="alert-content text-center">
-            {this.state.successMessage}
-          </div>
-          <div className="alert-icon">
-            <i className="icon icofont-ui-check" />
-          </div>
-        </div>
+        <Success
+          message={this.state.successMessage}
+          nextRoute={"/PatientAppointments"}
+        />
       );
     }
 
@@ -128,7 +125,7 @@ class BookAppointment extends React.Component {
                   <div className="card border-light">
                     <div className="card-body">
                       <form className="mb-4">
-                      <h4 className="text-center">
+                        <h4 className="text-center">
                           {`Appointment Form (${firstName} ${lastName}`})
                         </h4>
                         <div className="row">
