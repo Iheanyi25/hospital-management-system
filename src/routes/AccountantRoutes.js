@@ -13,6 +13,7 @@ import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
 import ManagePrescriptionInvoice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
 import PaymentForPrescription from "../Pages/Admin/Pharmacy/PaymentForPrescription";
+import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 export default function AccountantRoutes() {
   return (
@@ -68,6 +69,11 @@ export default function AccountantRoutes() {
             exact
             path="/AccountManagePrescriptionInvoice"
             component={ManagePrescriptionInvoice}
+          />
+          <Route
+            exact
+            path="/ChangePassword"
+            component={ViewChangePassword}
           />
           <Route
             exact
