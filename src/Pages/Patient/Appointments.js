@@ -58,7 +58,7 @@ class Appointments extends React.Component {
   }
 
   async componentDidMount() {
-   await  this.getPatientAppointments().then(() => this.sync());
+    await this.getPatientAppointments().then(() => this.sync());
   }
 
   sync() {
@@ -289,7 +289,7 @@ class Appointments extends React.Component {
                                               this.cancelAppointments(appointment.id)
                                             }
                                           >
-                                            Cancel Consultation
+                                            Cancel Appointment
                                           </button>
                                         </div>
                                       </div>

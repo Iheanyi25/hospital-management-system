@@ -233,7 +233,7 @@ class Dashboard extends React.Component {
                                               this.cancelAppointments(appointment.id)
                                             }
                                           >
-                                            Cancel Consultation
+                                            Cancel Appointment
                                           </button>
                                         </div>
                                       </div>
