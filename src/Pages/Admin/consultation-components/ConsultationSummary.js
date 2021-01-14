@@ -13,7 +13,7 @@ export default function ConsultationSummary({patientsAttachedToDoctorsCount, pat
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                       </div>
                       <div className="col col-9">
-                        <h6 className="mt-0 mb-1">Total Patient on Queue</h6>
+                        <h6 className="mt-0 mb-1">Total Patient On Open List</h6>
                         <div className="count text-primary fs-20">
                           {patientsOnOpenListCount}
                         </div>

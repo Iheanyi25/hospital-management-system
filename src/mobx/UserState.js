@@ -50,7 +50,7 @@ export const UserProvider = ({ children }) => {
       userStore.isLoadingUser = false;
       axiosInstance.interceptors.request.use(
         async config => {
-          if( userStore.user) toggleGlobalLoaderClass()
+          if( userStore.user) toggleGlobalLoaderClass('add')
           config.headers = { 
             'Authorization': `Bearer ${userStore.token}`,
             'Accept': 'application/json',
@@ -59,17 +59,19 @@ export const UserProvider = ({ children }) => {
           return config;
         },
         error => {
+          if( userStore.user) toggleGlobalLoaderClass('remove')
           Promise.reject(error)
       });
       
       axiosInstance.interceptors.response.use((response) => {
-        if( userStore.user) toggleGlobalLoaderClass()
+        if( userStore.user) toggleGlobalLoaderClass('remove')
 
         return response
       }, async function (error) {
         if (error?.status === 403) {
           logOut()
         }
+        if( userStore.user) toggleGlobalLoaderClass('remove')
         return Promise.reject(error);
       });
     }),

@@ -113,7 +113,9 @@ body {
     animation: move 2s linear infinite;
     background-color: white;
   }
-  
+  .blur-content{
+    filter:blur(3px)
+  }
   @keyframes move
   {
       0%   {transform: translate(-100%, 0)}
