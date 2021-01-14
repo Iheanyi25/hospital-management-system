@@ -4,6 +4,8 @@ import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postResetPasswordFromMailUrl } from "../../../api/URLs";
+import { Link } from "react-router-dom";
+
 
 function ResetPasswordFromMail(props) {
   const params = new URLSearchParams(window.location.search);
@@ -55,7 +57,7 @@ function ResetPasswordFromMail(props) {
             ...newPasswordDetails,
             serverRes: data.message,
           });
-          props.history.push("/")
+          props.history.push("/Login")
           // console.log('Data is ', data);
           // localStorage.setItem("token", data.token);
           // console.log(email, " from handleSubmit")
@@ -131,8 +133,14 @@ function ResetPasswordFromMail(props) {
               >
                 Create new password
                 </button>
+                <Link to="/Login" className="text-center mt-3">
+            <p className="text-center mt-3" style={{ color: "#007BFF" }}>
+              Back to Log in
+                  </p>
+          </Link>
             </form>
           </div>
+          
         </div>
       </div>
     </>

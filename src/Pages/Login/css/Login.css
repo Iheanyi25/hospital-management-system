@@ -1,13 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
 .auth-background {
   height: 100%;
   background: url("../../../assets/img/login-updated.png");
   background-size: cover;
   overflow-y: scroll;
 }
-.auth-background .row  {
-    /* margin-top: 10%; */
-    min-height: 100vh;
+
+.auth-background .row {
+  /* margin-top: 10%; */
+  min-height: 100vh;
 }
+
 .auth-background .card {
   background-color: white;
   width: 30rem;
@@ -27,4 +31,29 @@
   color: #ffffff;
   max-width: 436px;
   text-align: justify;
+}
+
+.bg_404 {
+  background: url("../../../assets/img/Background404.svg");
+  font-family: 'Inter', sans-serif;
+}
+
+.wrapper_404 > h2 {
+  font-size: 8em;
+  color: #818C8B;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 1em;
+}
+
+.wrapper_404 > p {
+  font-size: 1.5em;
+  color: #2D4642;
+  font-weight: normal;
+  line-height: 32px;
+}
+
+.btn_404 {
+  width: inherit;
+  font-size: 1em;
 }
