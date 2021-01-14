@@ -64,7 +64,7 @@ class UpdatePatientProfile extends React.Component {
       const getPatientRegistrationInvoiceConfig = fetchConfig({ url: getPatientRegistrationInvoice, method: 'get' })
       const { data } = await fetchWrapper(getPatientRegistrationInvoiceConfig)
       console.log(data, 1111)
-      this.setState({ paymentStatus: data.registrationInvoice.paymentStatus });
+      this.setState({ paymentStatus: data.patientRegistrationInvoice.paymentStatus });
     } catch (error) {
       console.log(error);
     }
@@ -315,7 +315,6 @@ class UpdatePatientProfile extends React.Component {
                         <div className="form-group">
                           <label>Other Name</label>{" "}
                           <input
-                            required
                             className="form-control"
                             type="text"
                             value={otherNames}
@@ -367,7 +366,6 @@ class UpdatePatientProfile extends React.Component {
                             <button
                               type="submit"
                               className="btn btn-primary"
-                              onClick={(e) => this.updateCoreDetails(e)}
                             >
                               Save Core Details
                             </button>
@@ -431,7 +429,6 @@ class UpdatePatientProfile extends React.Component {
                             <button
                               type="submit"
                               className="btn btn-primary"
-                              onClick={(e) => this.updateContactDetails(e)}
                             >
                               Save Contact Details
                             </button>

@@ -1,9 +1,10 @@
 import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientAllAppointmentsUrl } from "../../api/URLs";
+import { getPatientAllAppointmentsUrl, patientCancelAppointments } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
+import { Success } from "../../Components/Alerts";
 
 
 const $ = require("jquery");
@@ -60,17 +61,37 @@ class Dashboard extends React.Component {
     });
   }
 
+  cancelAppointments = async (id) => {
+    const cancelPatientAppointment = patientCancelAppointments(id);
+    const cancelPatientAppointmentConfig = fetchConfig({
+      url: cancelPatientAppointment,
+      method: "post",
+    });
+    const res = await fetchWrapper(cancelPatientAppointmentConfig);
+    if (res) {
+      this.setState({showSuccessMessage: true, successMessage: res.data.message});
+      this.getPatientAppointments().then(() => this.sync());
+    }
+  };
+
   render() {
     const {
       pendingAppointments,
       pendingAppointmentsCount,
-      patientName,
+      patientName
     } = this.state;
 
     return (
       <>
         <PageLoader />
-
+        {
+          this.state?.showSuccessMessage ?
+          <Success
+            message={this.state?.successMessage}
+          />
+          :
+          <></>
+        }
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -194,22 +215,29 @@ class Dashboard extends React.Component {
                               </td>
 
                               <td>
-                                {/* <div className="actions">
-                                        <Link
-                                          title="Pre-consultation"
-                                          to="/AdminPreConsultation"
-                                          className="btn btn-secondary btn-sm btn-square rounded-pill"
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
                                         >
-                                          <span className="btn-icon icofont-stethoscope-alt" />
-                                        </Link>
-                                        <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-edit" />
+                                          Action
                                         </button>
-                                        <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                          <span className="btn-icon icofont-ui-delete" />
-                                        </button>
-                                      </div> */}
-                              </td>
+                                        <div className="dropdown-menu text-left">
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={(e) =>
+                                              this.cancelAppointments(appointment.id)
+                                            }
+                                          >
+                                            Cancel Appointment
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
                             </tr>
                           ))}
                       </tbody>

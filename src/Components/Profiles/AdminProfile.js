@@ -14,7 +14,7 @@ function AdminProfile({ adminId }) {
     const adminProfileUrl = getAdminProfileUrl(adminId);
     console.log(adminProfileUrl)
 	const getAdminProfileConfig = fetchConfig({ url: adminProfileUrl, method: 'get' });
-	const { data, error, mutate } = useRequest(getAdminProfileConfig);
+	const { data, error, mutate } = useRequest(getAdminProfileConfig, {revalidateOnFocus: false});
     console.log(data,88888)
 	const resetShowState = () => setSucces((state) => ({ ...state, show: false }));
 	if (error) return <div>failed to lod</div>;
