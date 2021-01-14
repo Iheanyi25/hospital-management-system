@@ -5,7 +5,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
-import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -15,21 +15,23 @@ class AllPatients extends React.Component {
     super(props);
 
     this.state = {
-      patients: []
+      patients: [],
     };
   }
 
   async getAllPatients() {
     try {
-      const getPatients = getPatientsUrl()
-      const getPatientsConfig = fetchConfig({ url: getPatients, method: 'get' })
-      const { data } = await fetchWrapper(getPatientsConfig)
+      const getPatients = getPatientsUrl();
+      const getPatientsConfig = fetchConfig({
+        url: getPatients,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getPatientsConfig);
 
       this.setState({ patients: data.patients.map((x) => x.patient) });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   }
 
   componentDidMount() {
