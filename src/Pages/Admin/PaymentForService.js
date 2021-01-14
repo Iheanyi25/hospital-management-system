@@ -11,7 +11,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getServicesInAnInvoiceUrl, postPayForServicesUrl } from "../../api/URLs";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class PaymentForService extends React.Component {

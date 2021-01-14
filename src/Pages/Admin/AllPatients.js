@@ -7,7 +7,7 @@ import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 const imageDefaulturl = "https://webmeup.com/upload/blog/lead-image-105.png";
 class AllPatients extends React.Component {
@@ -58,7 +58,7 @@ class AllPatients extends React.Component {
         ),
         Name: `${x.firstName} ${x.lastName}`,
         Email: <a href={"mailto:" + x.email}>{x.email}</a>,
-        Phone: x.phoneNumber,
+        Phone: x.phoneNumber || "Not available",
         // "Date Of Birth": "10 Feb 2018",
         // "Address": "9:15 - 9:45",
         Actions: this.generateTableFunctions(x),

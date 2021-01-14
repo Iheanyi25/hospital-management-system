@@ -6,7 +6,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { postAdminFundAccountsUrl } from "../../api/URLs";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class FundAccount extends React.Component {

@@ -7,7 +7,7 @@ import { PageLoader } from "../../Components";
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
 
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 class DoctorConsultations extends React.Component {
   constructor(props) {

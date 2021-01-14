@@ -13,7 +13,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getPatientRegistrationInvoiceUrl, getPatientsUrl, postPayPatientRegistrationFeeUrl } from "../../api/URLs";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class PatientRegistration extends React.Component {
