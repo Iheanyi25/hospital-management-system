@@ -21,6 +21,7 @@ export default class AddPatient extends Component {
     message: "",
     isDisabled: true,
     success: false,
+    isSubmitting: false
   };
 
   componentDidMount() {
@@ -30,6 +31,7 @@ export default class AddPatient extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return nextState !== this.state;
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (!this.verifyValidity() && !prevState.isDisabled) {
       this.setState((state) => ({ ...state, isDisabled: true }));
@@ -121,16 +123,19 @@ export default class AddPatient extends Component {
   };
 
   submit = async (data) => {
+    this.setState({ isSubmitting: true })
+
     try {
       const registerPatient = registerPatientUrl()
       const registerPatientConfig = fetchConfig({ url: registerPatient, data: data, method: 'post' })
       const res = await fetchWrapper(registerPatientConfig)
 
-      console.log(res, "Response Status")
       if (res.status === 200) {
-        this.setState({ success: true, patientId: res.patient.id, message: "Well done, you successfully added a patient" });
+        this.setState({ success: true, patientId: res.data.patient.id, message: res.data.message });
       }
+      this.setState({ isSubmitting: false })
     } catch (error) {
+      this.setState({ isSubmitting: false })
       console.log(error);
     }
   };
