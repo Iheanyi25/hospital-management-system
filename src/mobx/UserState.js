@@ -6,8 +6,8 @@ import { fetchConfig } from "../api/fetchConfig";
 import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
 import { logOut } from "../utils/logout";
+import { toggleGlobalLoaderClass } from "../utils/toggleGlobalLoaderClass";
 
-//creating our store context
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -29,7 +29,6 @@ export const UserProvider = ({ children }) => {
       });
       try {
         const res = yield fetchWrapper(logInConfig);
-        console.log(res, "response");
         if (res.status) {
           console.log(res.data.token,66666)
           localStorage.setItem("authenticatedUser",JSON.stringify(res.data.authenticatedUser));
@@ -49,9 +48,9 @@ export const UserProvider = ({ children }) => {
       userStore.user = JSON.parse(localStorage.getItem("authenticatedUser"));
       userStore.token = JSON.parse(localStorage.getItem("userToken"));
       userStore.isLoadingUser = false;
-
       axiosInstance.interceptors.request.use(
         async config => {
+          if( userStore.user) toggleGlobalLoaderClass('add')
           config.headers = { 
             'Authorization': `Bearer ${userStore.token}`,
             'Accept': 'application/json',
@@ -60,15 +59,19 @@ export const UserProvider = ({ children }) => {
           return config;
         },
         error => {
+          if( userStore.user) toggleGlobalLoaderClass('remove')
           Promise.reject(error)
       });
       
       axiosInstance.interceptors.response.use((response) => {
+        if( userStore.user) toggleGlobalLoaderClass('remove')
+
         return response
       }, async function (error) {
         if (error?.status === 403) {
           logOut()
         }
+        if( userStore.user) toggleGlobalLoaderClass('remove')
         return Promise.reject(error);
       });
     }),

@@ -112,13 +112,9 @@ class PharmacySidebar extends React.Component {
               </nav>
             </div>
             <div className="add-patient">
-              <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#add-drug"
-              >
+              <Link to="/PharmacyRegisterDrug" className="btn btn-primary">
                 <span className="btn-icon icofont-plus mr-2" /> Add Drugs
-              </button>
+              </Link>
             </div>
             <div className="assistant-menu">
               <Link className="link" to="#">

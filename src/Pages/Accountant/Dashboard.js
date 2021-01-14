@@ -1,150 +1,266 @@
 import React from "react";
+import { PageLoader } from "../../Components";
+import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getAllAccountsUrl, getAllServiceRequestInvoiceUrl, getRegistrationFeeInvoiceUrl  } from "../../api/URLs";
-import { PageLoader } from "../../Components";
-const $ = require("jquery");
-const echarts = require("echarts");
+import {
+  getDAllrugDispencingInvoicesUrl,
+  getDrugsInAnInvoice,
+  markInvoiceAsDispensedUrl,
+  getAllAccountsUrl,
+  getAllServiceRequestInvoiceUrl,
+  getRegistrationFeeInvoiceUrl,
+} from "../../api/URLs";
+import formatAmount from "../../utils/formatAmount";
+import formatDate from "../../utils/formatDate";
+import paid from "../../assets/img/paid.svg";
+import notpaid from "../../assets/img/notpaid.svg";
+import { PrescriptionReciept } from "../../Components/Modals";
+import { Success } from "../../Components/Alerts";
 
+// const $ = require("jquery");
+let $ = window.$;
+const echarts = require("echarts");
+$.DataTables = require("datatables.net");
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       accounts: [],
-      registrationInvoices: [],
       serviceRequestInvoices: [],
+      registrationInvoices: [],
+      prescriptionInvoices: [],
+      drugs: [],
+      success: false
     };
   }
 
   async componentDidMount() {
-    this.surveyEcharts()
+    this.surveyEcharts();
     this.fetchInvoices();
     this.fecthAllAcounts();
     this.fetchServiceRequestInvoices();
     this.setState({
       user: JSON.parse(localStorage.getItem("authenticatedUser")),
     });
+    this.fetchPrescriptionInvoices();
+  }
+  async fetchPrescriptionInvoices() {
+    const invoicesUrl = getDAllrugDispencingInvoicesUrl();
+    const getDAllrugDispencingInvoicesConfig = fetchConfig({
+      url: invoicesUrl,
+      method: "get",
+    });
+    const response = await fetchWrapper(getDAllrugDispencingInvoicesConfig);
+    this.$el = $(this.el);
+    this.$el.DataTable().destroy();
+    console.log(response);
+    this.setState(
+      { prescriptionInvoices: response?.data?.drugInvoices || [] },
+      () => this.sync()
+    );
+  }
+
+  async fetchDrugsInAnInvoice(invoiceNumber) {
+    const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
+    const getDrugsInAnInvoiceConfig = fetchConfig({
+      url: invoicesUrl,
+      method: "get",
+    });
+    const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
+    console.log(response);
+    this.setState({ drugs: response?.data?.drugsInInvoice || [] });
+  }
+
+  async markInvoiceAsDispensed(id) {
+    const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
+    const markInvoiceAsDispensedConfig = fetchConfig({
+      url: markInvoiceUrl,
+      method: "post",
+    });
+    const response = await fetchWrapper(markInvoiceAsDispensedConfig);
+    console.log(response);
+    if (response.status === 200) {
+      this.setState({ ...this.state, success: true });
+      this.fetchPrescriptionInvoices();
+    }
+  }
+
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
   }
 
   async surveyEcharts() {
-    if ($('#surveyEcharts').length) {
-      var myChart = echarts.init(document.getElementById('surveyEcharts'));
+    if ($("#surveyEcharts").length) {
+      var myChart = echarts.init(document.getElementById("surveyEcharts"));
 
       var options = {
-        color: ['#ed5564', '#336cfb'],
+        color: ["#ed5564", "#336cfb"],
         tooltip: {
-          trigger: 'none',
+          trigger: "none",
           axisPointer: {
-            type: 'cross'
-          }
+            type: "cross",
+          },
         },
         legend: {
-          data: ['Patients 2018', 'Patients 2019']
+          data: ["Patients 2018", "Patients 2019"],
         },
         grid: {
           left: 30,
           right: 0,
           top: 50,
-          bottom: 50
+          bottom: 50,
         },
         xAxis: [
           {
-            type: 'category',
+            type: "category",
             axisTick: {
-              alignWithLabel: true
+              alignWithLabel: true,
             },
             axisLine: {
               onZero: false,
               lineStyle: {
-                color: '#336cfb'
-              }
+                color: "#336cfb",
+              },
             },
             axisPointer: {
               label: {
                 formatter: function (params) {
-                  return 'Patients ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
-                }
-              }
+                  return (
+                    "Patients " +
+                    params.value +
+                    (params.seriesData.length
+                      ? "：" + params.seriesData[0].data
+                      : "")
+                  );
+                },
+              },
             },
-            data: ['2019-1', '2019-2', '2019-3', '2019-4', '2019-5', '2019-6', '2019-7', '2019-8', '2019-9', '2019-10', '2019-11', '2019-12']
+            data: [
+              "2019-1",
+              "2019-2",
+              "2019-3",
+              "2019-4",
+              "2019-5",
+              "2019-6",
+              "2019-7",
+              "2019-8",
+              "2019-9",
+              "2019-10",
+              "2019-11",
+              "2019-12",
+            ],
           },
           {
-            type: 'category',
+            type: "category",
             axisTick: {
-              alignWithLabel: true
+              alignWithLabel: true,
             },
             axisLine: {
               onZero: false,
               lineStyle: {
-                color: '#ed5564'
-              }
+                color: "#ed5564",
+              },
             },
             axisPointer: {
               label: {
                 formatter: function (params) {
-                  return 'Patients ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
-                }
-              }
+                  return (
+                    "Patients " +
+                    params.value +
+                    (params.seriesData.length
+                      ? "：" + params.seriesData[0].data
+                      : "")
+                  );
+                },
+              },
             },
-            data: ['2018-1', '2018-2', '2018-3', '2018-4', '2018-5', '2018-6', '2018-7', '2018-8', '2018-9', '2018-10', '2018-11', '2018-12']
-          }
+            data: [
+              "2018-1",
+              "2018-2",
+              "2018-3",
+              "2018-4",
+              "2018-5",
+              "2018-6",
+              "2018-7",
+              "2018-8",
+              "2018-9",
+              "2018-10",
+              "2018-11",
+              "2018-12",
+            ],
+          },
         ],
         yAxis: [
           {
-            type: 'value'
-          }
+            type: "value",
+          },
         ],
         series: [
           {
-            name: 'Patients 2018',
-            type: 'line',
+            name: "Patients 2018",
+            type: "line",
             xAxisIndex: 1,
             smooth: true,
-            data: [159, 149, 174, 182, 219, 201, 175, 182, 119, 118, 112, 96]
+            data: [159, 149, 174, 182, 219, 201, 175, 182, 119, 118, 112, 96],
           },
           {
-            name: 'Patients 2019',
-            type: 'line',
+            name: "Patients 2019",
+            type: "line",
             smooth: true,
-            data: [95, 124, 132, 143, 138, 178, 194, 211, 234, 257, 241, 226]
-          }
-        ]
+            data: [95, 124, 132, 143, 138, 178, 194, 211, 234, 257, 241, 226],
+          },
+        ],
       };
 
       myChart.setOption(options);
 
       // Resize chart
-      $(function() {
-        $(window).on('resize', resize);
+      $(function () {
+        $(window).on("resize", resize);
 
         function resize() {
-          setTimeout(function() { myChart.resize() }, 200);
+          setTimeout(function () {
+            myChart.resize();
+          }, 200);
         }
-      })
+      });
     }
   }
 
   async fetchInvoices() {
-    const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl(this.state.doctorId)
-    const getRegistrationFeeInvoiceConfig = fetchConfig({url : getRegistrationFeeInvoice, method : 'get'})
-    const { data } = await fetchWrapper(getRegistrationFeeInvoiceConfig)
+    const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl(
+      this.state.doctorId
+    );
+    const getRegistrationFeeInvoiceConfig = fetchConfig({
+      url: getRegistrationFeeInvoice,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getRegistrationFeeInvoiceConfig);
 
     this.setState({ registrationInvoices: data.registrationInvoices });
   }
 
   async fetchServiceRequestInvoices() {
-    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl()
-    const getAllServiceRequestInvoiceConfig = fetchConfig({url : getAllServiceRequestInvoice, method : 'get'})
-    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig)
+    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl();
+    const getAllServiceRequestInvoiceConfig = fetchConfig({
+      url: getAllServiceRequestInvoice,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig);
 
     this.setState({ serviceRequestInvoices: data.serviceInvoices });
   }
 
   fecthAllAcounts = async () => {
-    const getAllAccounts = getAllAccountsUrl()
-    const getAllAccountsUrlConfig = fetchConfig({url : getAllAccounts, method : 'get'})
-    const { data } = await fetchWrapper(getAllAccountsUrlConfig)
+    const getAllAccounts = getAllAccountsUrl();
+    const getAllAccountsUrlConfig = fetchConfig({
+      url: getAllAccounts,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getAllAccountsUrlConfig);
 
     this.setState({ accounts: data.accounts });
   };
@@ -156,6 +272,13 @@ class Dashboard extends React.Component {
   };
 
   render() {
+    const {
+      prescriptionInvoices,
+      serviceRequestInvoices,
+      drugs,
+      success,
+    } = this.state;
+    console.log(prescriptionInvoices);
     const { accounts } = this.state;
     return (
       <>
@@ -165,6 +288,9 @@ class Dashboard extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
+          {success ? (
+            <Success message="You have successfully dispensed this drug" />
+          ) : null}
           <div className="main-content-wrap">
             <div className="page-content">
               <div className="row">
@@ -216,7 +342,7 @@ class Dashboard extends React.Component {
                             Service Request Invoices (Unpaid)
                           </h6>
                           <div className="count text-primary fs-20">
-                            {this.state.serviceRequestInvoices.length}
+                            {serviceRequestInvoices.length}
                           </div>
                         </div>
                       </div>
@@ -233,180 +359,152 @@ class Dashboard extends React.Component {
                   />
                 </div>
               </div>
-              
+
               <div className="card mb-0">
-                <div className="card-header">Recent Payments</div>
+                <div className="card-header">Prescription Invoices</div>
                 <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th scope="col">Photo</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Date</th>
-                          <th scope="col">Visit time</th>
-                          <th scope="col">Number</th>
-                          <th scope="col">Doctor</th>
-                          <th scope="col">Injury / Condition</th>
-                          <th scope="col">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <img
-                              alt="avatar"
-                              src="../assets/content/user-40-1.jpg"
-                              width={40}
-                              height={40}
-                              className="rounded-500"
-                            />
-                          </td>
-                          <td>
-                            <strong>Liam</strong>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-email p-0 mr-2" />{" "}
-                              liam@gmail.com
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              10 Feb 2018
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              9:15 - 9:45
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                              0126595743
-                            </div>
-                          </td>
-                          <td>Dr. Benjamin</td>
-                          <td>mumps</td>
-                          <td>
-                            <div className="actions">
-                              <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                <span className="btn-icon icofont-ui-edit" />
-                              </button>
-                              <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                <span className="btn-icon icofont-ui-delete" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <img
-                              alt="avatar"
-                              src="../assets/content/user-40-2.jpg"
-                              width={40}
-                              height={40}
-                              className="rounded-500"
-                            />
-                          </td>
-                          <td>
-                            <strong>Emma</strong>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-email p-0 mr-2" />{" "}
-                              emma@gmail.com
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              5 Dec 2018
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              9:00 - 9:30
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                              0126595743
-                            </div>
-                          </td>
-                          <td>Dr. Liam</td>
-                          <td>arthritis</td>
-                          <td>
-                            <div className="actions">
-                              <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                <span className="btn-icon icofont-ui-edit" />
-                              </button>
-                              <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                <span className="btn-icon icofont-ui-delete" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <img
-                              alt="avatar"
-                              src="../assets/content/user-40-3.jpg"
-                              width={40}
-                              height={40}
-                              className="rounded-500"
-                            />
-                          </td>
-                          <td>
-                            <strong>Olivia</strong>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-email p-0 mr-2" />{" "}
-                              olivia@gmail.com
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              13 Oct 2018
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-muted text-nowrap">
-                              12:00 - 12:45
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex align-items-center nowrap text-primary">
-                              <span className="icofont-ui-cell-phone p-0 mr-2" />{" "}
-                              0126595743
-                            </div>
-                          </td>
-                          <td>Dr. Noah</td>
-                          <td>depression</td>
-                          <td>
-                            <div className="actions">
-                              <button className="btn btn-info btn-sm btn-square rounded-pill">
-                                <span className="btn-icon icofont-ui-edit" />
-                              </button>
-                              <button className="btn btn-error btn-sm btn-square rounded-pill">
-                                <span className="btn-icon icofont-ui-delete" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
+                  <div>
+                    <div className="table-responsive">
+                      <table
+                        ref={(el) => (this.el = el)}
+                        className="table table-striped"
+                        data-paging="true"
+                        data-info="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Patient Name</th>
+                            <th>Invoice No</th>
+                            <th>Date Generated</th>
+                            <th>Total Cost</th>
+                            <th>Status</th>
+                            <th>Dispensed</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {prescriptionInvoices?.map(
+                            (prescriptionInvoice, index) => (
+                              <tr>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {index + 1}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {`${prescriptionInvoice?.patient?.firstName} ${prescriptionInvoice?.patient?.lastName}`}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.invoiceNumber}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatDate(
+                                      prescriptionInvoice?.dateGenerated
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {formatAmount(
+                                      prescriptionInvoice?.amountTotal
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.paymentStatus ===
+                                    "NOT PAID" ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        paid
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Paid
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-muted text-nowrap">
+                                    {prescriptionInvoice?.isDispensed ===
+                                    false ? (
+                                      <>
+                                        <img src={notpaid} alt="not paid" /> Not
+                                        dispensed
+                                      </>
+                                    ) : (
+                                      <>
+                                        <img src={paid} alt="paid" /> Dispensed
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="btn-group">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                    >
+                                      Action
+                                    </button>
+                                    <div className="dropdown-menu">
+                                      {prescriptionInvoice?.paymentStatus ===
+                                      "NOT PAID" ? (
+                                        <Link
+                                          to={{
+                                            pathname: `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
+                                            state: prescriptionInvoice,
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-server mr-2" />
+                                          Pay now
+                                        </Link>
+                                      ) : (
+                                        <>
+                                          <Link
+                                            to="#"
+                                            className="btn btn-sm btn-block"
+                                            data-toggle="modal"
+                                            data-target="#view-reciept"
+                                            onClick={() =>
+                                              this.fetchDrugsInAnInvoice(
+                                                prescriptionInvoice.invoiceNumber
+                                              )
+                                            }
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            View Reciept
+                                          </Link>
+                                        </>
+                                      )}
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </main>
-        <div className="content-overlay" />
+
+        <PrescriptionReciept costingDetails={drugs} />
       </>
     );
   }
