@@ -35,6 +35,7 @@ import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
 import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
 import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
+import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 // service utils
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -215,6 +216,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminViewPreConsultationHistory/:id"
             component={ViewPreConsultationHistory}
+          />
+          <Route
+            exact
+            path="/ChangePassword"
+            component={ViewChangePassword}
           />
           <Route
             exact
