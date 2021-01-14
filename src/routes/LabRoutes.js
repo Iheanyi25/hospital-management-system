@@ -14,6 +14,7 @@ import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestC
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
 import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
+import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 export default function LabRoutes() {
   return (
@@ -61,7 +62,11 @@ export default function LabRoutes() {
             path="/LabViewLabResults/:id"
             component={ViewLabResults}
           />
-
+          <Route
+            exact
+            path="/ChangePassword"
+            component={ViewChangePassword}
+          />
           <Route
             exact
             path="*"
