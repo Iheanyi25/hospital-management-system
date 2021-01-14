@@ -57,27 +57,9 @@ export default class AddPatient extends Component {
 
     if (name === "healthPlan") {
       let healthPlanDetails = e.target.value.split("#");
-      const { firstName, lastName, email } = this.state;
-
-      switch (healthPlanDetails[0]) {
-        case ("family" || "hmo"): //you can add others to the list as soon as they appear
-          if (firstName !== "" && lastName !== "" && email !== "") {
-            this.setState({
-              healthPlanId: healthPlanDetails[1],
-              stage: this.state.stage + 1,
-            });
-          } else {
-            this.setState({ ...this.state, [name]: "" });
-            alert("please fill in the empty fields")
-            return;
-          }
-          break;
-
-        default:
           this.setState({ healthPlanId: healthPlanDetails[1] });
-          break;
-      }
     }
+
 
     this.setState({
       [name]: value,
