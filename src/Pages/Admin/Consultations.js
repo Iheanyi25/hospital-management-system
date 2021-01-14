@@ -3,11 +3,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
   deleteConsultationUrl,
-  getPatientConsultationCountUrl,
-  getPatientConsultationsUrl,
-  getPatientsAttentedToCountUrl,
-  getPatientsUnattentedToCountUrl,
-  getPatientsUrl
+  getPatientConsultationsUrl
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
@@ -95,32 +91,6 @@ class Consultations extends React.Component {
     });
     const { data } = await fetchWrapper(getPatientConsultationsConfig);
 
-    const getPatientConsultationsCount = getPatientConsultationCountUrl();
-    const getPatientConsultationsCountConfig = fetchConfig({
-      url: getPatientConsultationsCount,
-      method: "get",
-    });
-    const { data: data1 } = await fetchWrapper(
-      getPatientConsultationsCountConfig
-    );
-
-    const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl();
-    const getPatientsUnattentedToCountConfig = fetchConfig({
-      url: getPatientsUnattentedToCount,
-      method: "get",
-    });
-    const { data: data2 } = await fetchWrapper(
-      getPatientsUnattentedToCountConfig
-    );
-
-    const getPatientsAttentedToCount = getPatientsAttentedToCountUrl();
-    const getPatientsAttentedToCountConfig = fetchConfig({
-      url: getPatientsAttentedToCount,
-      method: "get",
-    });
-    const { data: data3 } = await fetchWrapper(
-      getPatientsAttentedToCountConfig
-    );
 
     this.setState({ consultations: data.patientConsultations });
 
@@ -136,11 +106,11 @@ class Consultations extends React.Component {
 
     this.setState({
       patientsOnOpenList: patientsOnOpenList,
-      patientsOnOpenListCount: data1.consultationCount,
+      patientsOnOpenListCount: patientsOnOpenList.length,
       patientsAttachedToDoctors: patientsAttachedToDoctors,
-      patientsAttachedToDoctorsCount: data2.consultationCount,
+      patientsAttachedToDoctorsCount: patientsOnOpenList.length + patientsAttachedToDoctors.length,
       patientsAttendedTo: patientsAttendedTo,
-      patientsAttendedToCount: data3.consultationCount,
+      patientsAttendedToCount:patientsAttendedTo.length,
     });
   }
 
