@@ -5,8 +5,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getAllAccountsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
-import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
-
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -30,13 +29,16 @@ class ManageAccounts extends React.Component {
 
   fecthAllAcounts = async () => {
     try {
-      const getAllAccounts = getAllAccountsUrl()
-      const getAllAccountsConfig = fetchConfig({url : getAllAccounts, method : 'get'})
-      const { data } = await fetchWrapper(getAllAccountsConfig)
-  
+      const getAllAccounts = getAllAccountsUrl();
+      const getAllAccountsConfig = fetchConfig({
+        url: getAllAccounts,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getAllAccountsConfig);
+
       this.setState({ accounts: data.accounts });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   };
 
@@ -189,7 +191,11 @@ class ManageAccounts extends React.Component {
                                                   ? `/AdminFundAccount/${account.id}`
                                                   : `/AccountFundAccount/${account.id}`
                                               }`,
-                                              state: { id: account.id, user },
+                                              state: {
+                                                id: account.id,
+                                                user,
+                                                name: account?.name,
+                                              },
                                             }}
                                             className="btn btn-sm btn-block"
                                           >
