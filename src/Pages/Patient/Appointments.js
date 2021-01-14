@@ -2,7 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientAllAppointmentsUrl, patientCancelAppointments } from "../../api/URLs";
+import {
+  getPatientAllAppointmentsUrl,
+  patientCancelAppointments,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
@@ -31,8 +34,13 @@ class Appointments extends React.Component {
     var completedAppointments = [];
     var pendingAppointments = [];
 
-    const getPatientAllAppointments = getPatientAllAppointmentsUrl(this.state.patientId);
-    const getPatientAllAppointmentsConfig = fetchConfig({ url: getPatientAllAppointments, method: "get" });
+    const getPatientAllAppointments = getPatientAllAppointmentsUrl(
+      this.state.patientId
+    );
+    const getPatientAllAppointmentsConfig = fetchConfig({
+      url: getPatientAllAppointments,
+      method: "get",
+    });
     const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
 
     this.setState({ patientAppointments: data.appointments });
@@ -58,7 +66,7 @@ class Appointments extends React.Component {
   }
 
   async componentDidMount() {
-   await  this.getPatientAppointments().then(() => this.sync());
+    await this.getPatientAppointments().then(() => this.sync());
   }
 
   sync() {
@@ -78,7 +86,10 @@ class Appointments extends React.Component {
     });
     const res = await fetchWrapper(cancelPatientAppointmentConfig);
     if (res) {
-      this.setState({ showSuccessMessage: true, successMessage: res.data.message });
+      this.setState({
+        showSuccessMessage: true,
+        successMessage: res.data.message,
+      });
       this.getPatientAppointments();
     }
   };
@@ -95,14 +106,11 @@ class Appointments extends React.Component {
     return (
       <>
         <PageLoader />
-        {
-          this.state?.showSuccessMessage ?
-            <Success
-              message={this.state?.successMessage}
-            />
-            :
-            <></>
-        }
+        {this.state?.showSuccessMessage ? (
+          <Success message={this.state?.successMessage} />
+        ) : (
+          <></>
+        )}
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -262,8 +270,8 @@ class Appointments extends React.Component {
                                     <td>
                                       {appointment.doctor?.firstName ??
                                         "None specified yet" +
-                                        " " +
-                                        appointment.doctor?.lastName}
+                                          " " +
+                                          appointment.doctor?.lastName}
                                     </td>
                                     <td>
                                       {appointment.doctor?.phoneNumber ??
@@ -286,10 +294,12 @@ class Appointments extends React.Component {
                                             type="button"
                                             className="btn btn-danger"
                                             onClick={(e) =>
-                                              this.cancelAppointments(appointment.id)
+                                              this.cancelAppointments(
+                                                appointment.id
+                                              )
                                             }
                                           >
-                                            Cancel Consultation
+                                            Cancel Appointment
                                           </button>
                                         </div>
                                       </div>
@@ -341,8 +351,8 @@ class Appointments extends React.Component {
                                     <td>
                                       {appointment.doctor?.firstName ??
                                         "None specified yet" +
-                                        " " +
-                                        appointment.doctor?.lastName}
+                                          " " +
+                                          appointment.doctor?.lastName}
                                     </td>
                                     <td>
                                       {appointment.doctor?.phoneNumber ??
@@ -418,8 +428,8 @@ class Appointments extends React.Component {
                                     <td>
                                       {appointment.doctor?.firstName ??
                                         "None specified yet" +
-                                        " " +
-                                        appointment.doctor?.lastName}
+                                          " " +
+                                          appointment.doctor?.lastName}
                                     </td>
                                     <td>
                                       {appointment.doctor?.phoneNumber ??
