@@ -9,12 +9,18 @@ import {
 } from "../../Components/Payment/PaymentModes";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getServicesInAnInvoiceUrl, postPayForServicesUrl } from "../../api/URLs";
+import {
+  getServicesInAnInvoiceUrl,
+  postPayForServicesUrl,
+} from "../../api/URLs";
+import { observer } from "mobx-react";
+import { UserContext } from "../../mobx/UserState";
 
 const $ = require("jquery");
 $.Datatable = require("datatables.net");
 
 class PaymentForService extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
     this.myRef = [];
@@ -44,11 +50,18 @@ class PaymentForService extends React.Component {
   }
 
   async getSerivices() {
-    const { history : { location } } = this.props;
-    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(location.state.invoiceId);
-      const getServicesInAnInvoiceConfig = fetchConfig({ url: getServicesInAnInvoice, method: "get" });
-      const {data} = await fetchWrapper(getServicesInAnInvoiceConfig)
-      console.log(data,44444)
+    const {
+      history: { location },
+    } = this.props;
+    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(
+      location.state.invoiceId
+    );
+    const getServicesInAnInvoiceConfig = fetchConfig({
+      url: getServicesInAnInvoice,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getServicesInAnInvoiceConfig);
+    console.log(data, 44444);
     this.initializeComponent(data.serviceRequest);
   }
 
@@ -110,6 +123,9 @@ class PaymentForService extends React.Component {
 
   payForServices = async (reference, modeOfPayment, description) => {
     const { amount, serviceRequestId, patientId } = this.state;
+    const {
+      user: { id },
+    } = this.context;
     let payload = {
       patientId: patientId,
       serviceRequestId: serviceRequestId,
@@ -117,15 +133,18 @@ class PaymentForService extends React.Component {
       description: description,
       modeOfPayment: modeOfPayment,
       referenceNumber: reference,
+      initiatorId: id,
     };
 
     try {
       const postPayForServices = postPayForServicesUrl();
-      const postPayForServicesConfig = fetchConfig({ url: postPayForServices, data: payload, method: "post" });
-      const res = await fetchWrapper(postPayForServicesConfig)
-      console.log(res,999999)
-      if (res.status === 200) {
-        console.log(res);
+      const postPayForServicesConfig = fetchConfig({
+        url: postPayForServices,
+        data: payload,
+        method: "post",
+      });
+      const { status } = await fetchWrapper(postPayForServicesConfig);
+      if (status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -318,4 +337,4 @@ class PaymentForService extends React.Component {
   }
 }
 
-export default PaymentForService;
+export default observer(PaymentForService);
