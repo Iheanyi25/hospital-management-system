@@ -36,11 +36,11 @@ class CreateService extends Component {
   };
 
   componentDidMount() {
-    // console.log(this.props.location.state);
     if (this.props.location.state) {
       this.setState({
         isFromClarking: true,
         patient: this.props.location.state.patient.id,
+        user: JSON.parse(localStorage.getItem("authenticatedUser"))
       });
     }
 
@@ -106,7 +106,7 @@ class CreateService extends Component {
           "filter-option-inner-inner"
         )[1];
 
-        let values = valueContainer.innerText.split(",");
+        let values = valueContainer?.innerText.split(",") ?? [];
         let valueToPush = [];
         let stateValue = this.state.values;
 
