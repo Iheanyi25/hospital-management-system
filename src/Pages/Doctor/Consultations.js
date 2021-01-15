@@ -549,7 +549,7 @@ class Consultations extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="add-action-box">
+              {/* <div className="add-action-box">
                 <button
                   className="btn btn-primary btn-lg btn-square rounded-pill"
                   data-toggle="modal"
@@ -557,7 +557,7 @@ class Consultations extends React.Component {
                 >
                   <span className="btn-icon icofont-stethoscope-alt" />
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </main>

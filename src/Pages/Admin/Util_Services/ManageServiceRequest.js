@@ -73,7 +73,7 @@ class ManageServiceRequest extends React.Component {
                         <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                       </div>
                       <div className="col col-7">
-                        <h6 className="mt-0 mb-1">No of Services request</h6>
+                        <h6 className="mt-0 mb-1">No. of Services request</h6>
                         <div className="count text-primary fs-20">
                           {this.state.categories.length}
                         </div>
@@ -98,8 +98,8 @@ class ManageServiceRequest extends React.Component {
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Patient Name</th>
-                            <th>No of Services</th>
+                            <th>Patient's Name</th>
+                            <th>No. of Services</th>
                             <th>Invoice No</th>
                             <th>Date Generated</th>
                             <th>Total Cost</th>
@@ -219,7 +219,7 @@ class ManageServiceRequest extends React.Component {
                                         className="btn btn-sm btn-block"
                                       >
                                         <span className="btn-icon icofont-server mr-2" />
-                                        View Contents
+                                        View Content
                                       </NavLink>
                                     </div>
                                   </div>
