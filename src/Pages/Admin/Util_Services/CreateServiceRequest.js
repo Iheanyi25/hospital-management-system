@@ -35,11 +35,11 @@ class CreateServiceRequest extends Component {
   };
 
   componentDidMount() {
-    // console.log(this.props.location.state);
     if (this.props.location.state) {
       this.setState({
         isFromClarking: true,
         patient: this.props.location.state.patient.id,
+        user: JSON.parse(localStorage.getItem("authenticatedUser"))
       });
     }
 
