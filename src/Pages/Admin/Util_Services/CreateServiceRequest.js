@@ -105,7 +105,7 @@ class CreateServiceRequest extends Component {
           "filter-option-inner-inner"
         )[1];
 
-        let values = valueContainer.innerText.split(",");
+        let values = valueContainer?.innerText.split(",") ?? [];
         let valueToPush = [];
         let stateValue = this.state.values;
 
