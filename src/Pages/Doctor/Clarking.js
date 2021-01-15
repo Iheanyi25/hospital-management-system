@@ -304,7 +304,7 @@ class Clerking extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                        Additons like smoking, drinking etc
+                                        Additions like Smoking, Drinking etc
                                       </label>
                                       <textarea
                                         onChange={(e) =>
@@ -363,7 +363,7 @@ class Clerking extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                        Heriditory sickness like mental health,
+                                      Hereditary sickness like mental health,
                                         blood pressure etc
                                       </label>
                                       <textarea
@@ -423,7 +423,7 @@ class Clerking extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                        Common sickness like Hepitities etc
+                                      Common Sicknesses like Hepatitis,Diabetes etc
                                       </label>
                                       <textarea
                                         onChange={(e) =>
@@ -649,7 +649,7 @@ class Clerking extends React.Component {
                             aria-controls="pills-obstetrics"
                             aria-selected="false"
                           >
-                            Obstetrics and Gynecology
+                            Obstetrics and Gynaecologist
                           </a>
                         </li>
                         <li className="nav-item">
@@ -797,7 +797,7 @@ class Clerking extends React.Component {
                                     <div className="form-group">
                                       <textarea
                                         className="form-control"
-                                        placeholder="Enter Riview od System Here"
+                                        placeholder="Enter Review of System Here"
                                         rows={3}
                                         onChange={(e) =>
                                           this.handleChange(
@@ -1015,7 +1015,7 @@ class Clerking extends React.Component {
                               <div className="card border-light">
                                 <div className="card-body">
                                   <form className="mb-4">
-                                    <h4>Obstetrics and Gynecology</h4>
+                                    <h4>Obstetrics and Gynaecologist</h4>
 
                                     <div className="form-group">
                                       <textarea
@@ -1050,7 +1050,7 @@ class Clerking extends React.Component {
                                             )
                                           }
                                         >
-                                          Save Obstetrics and Gynecology
+                                          Save Obstetrics and Gynaecologist
                                         </button>
                                       </div>
                                     </div>

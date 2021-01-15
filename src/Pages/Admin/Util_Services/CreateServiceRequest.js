@@ -258,17 +258,6 @@ class CreateServiceRequest extends Component {
                           />
                         ) : null}
 
-                        <SelectableDropDown
-                          itemKey={["name", "id"]}
-                          onChange={this.handleChange}
-                          stateValue={this.state.category}
-                          stateKey={null}
-                          label={"Service Category"}
-                          data={this.state.categories}
-                          valueKeys={["name"]}
-                          isFetchingCategories={this.state.isFetchingCategories}
-                        />
-
                         <div className="form-group">
                           <label>
                             Comment / Description <span>(Optional)</span>
@@ -282,6 +271,19 @@ class CreateServiceRequest extends Component {
                             }
                           />
                         </div>
+
+                        <SelectableDropDown
+                          itemKey={["name", "id"]}
+                          onChange={this.handleChange}
+                          stateValue={this.state.category}
+                          stateKey={null}
+                          label={"Service Category"}
+                          data={this.state.categories}
+                          valueKeys={["name"]}
+                          isFetchingCategories={this.state.isFetchingCategories}
+                        />
+
+
 
                         <MultipleSelect
                           data={this.state.services}
@@ -305,7 +307,7 @@ class CreateServiceRequest extends Component {
                   <div className="card border-light">
                     <div className="card-body">
                       <header className="page-header justify-content-between d-flex align-items-center mb-2">
-                        <h4 className="page-title"> Selected services</h4>
+                        <h4 className="page-title"> Selected Services</h4>
                       </header>
                       <div className="table-responsive">
                         <table className="table table-striped">
@@ -381,8 +383,8 @@ class CreateServiceRequest extends Component {
                             disabled={this.state.values.length === 0}
                           >
                             {this.state.isFromClarking
-                              ? "Request for service"
-                              : "Request service"}
+                              ? "Request for Service"
+                              : "Request Service"}
                           </button>
                         </div>
                       </div>

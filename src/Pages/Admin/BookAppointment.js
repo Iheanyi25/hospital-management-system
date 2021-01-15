@@ -232,7 +232,7 @@ class BookAppointment extends React.Component {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label>Select A Patient<small className="text-danger">*</small></label>
+                          <label>Select a Patient<small className="text-danger">*</small></label>
                           <select
                             className=" custom-patient-picker rounded form-control"
                             data-live-search="true"
@@ -254,7 +254,7 @@ class BookAppointment extends React.Component {
                         </div>
                         <div className="form-group">
                           <label>
-                            Select A Doctor(If you want this consultation to be
+                            Select a Doctor(If you want this consultation to be
                             assigned to a doctor)
                           </label>
                           <select
