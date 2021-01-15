@@ -80,7 +80,7 @@ class LabSidebar extends React.Component {
                           to="/LabManageServiceCategory"
                           className="item-link"
                         >
-                          <span className="link-text">View Categories</span>
+                          <span className="link-text">Manage Categories</span>
                         </Link>
                       </li>
                     </ul>
@@ -99,7 +99,7 @@ class LabSidebar extends React.Component {
                       </li>
                       <li className="menu-item">
                         <Link to="/LabManageServices" className="item-link">
-                          <span className="link-text">View Services</span>
+                          <span className="link-text">Manage Services</span>
                         </Link>
                       </li>
                     </ul>
