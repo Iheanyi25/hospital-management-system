@@ -4,6 +4,7 @@ import PatientAndAdminImage from '../../../assets/img/PatientAndAdminIcon.svg'
 
 
 export default function PatientsOnOpenList({patientsOnOpenList, setConsultationId, deleteConsultation}) {
+  console.log("Patient on Open List",patientsOnOpenList)
   return (
     <Fragment>
       <thead>

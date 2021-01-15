@@ -4,6 +4,8 @@ import { AuthLayout } from "../Components/Layout";
 import ViewResetPassword from "../Pages/Components/ViewResetPassword";
 import ViewResetPasswordFromMail from "../Pages/Components/ViewResetPasswordFromMail";
 import Login from "../Pages/Login/Login";
+import { Page404 } from "../Components/Page404/Page404"
+
 
 const AuthRoute = () => {
 
@@ -19,7 +21,7 @@ const AuthRoute = () => {
 
                     <Route
                         exact
-                        path="/resetmypassword"
+                        path="/ResetPasswordRedirect"
                         component={ViewResetPassword}
                     />
 
@@ -27,6 +29,12 @@ const AuthRoute = () => {
                         exact
                         path="/ResetPassword"
                         component={ViewResetPasswordFromMail}
+                    />
+
+                    <Route
+                        exact
+                        path="/404"
+                        component={Page404}
                     />
 
                     <Route path="*" render={() => <Redirect to="/" />} />

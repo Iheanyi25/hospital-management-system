@@ -7,7 +7,7 @@ import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
 
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Dashboard extends React.Component {
@@ -152,7 +152,7 @@ class Dashboard extends React.Component {
                   <div className="card bg-light">
                     <div className="card-header">Hello {patientName}</div>
                     <div className="card-body">
-                      You Have No New Notifications
+                      You have no new notifications
                     </div>
                   </div>
                 </div>

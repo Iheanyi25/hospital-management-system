@@ -35,10 +35,15 @@ class LabResults extends React.Component {
     return (
       <>
         <div className="card-body">
-          <h4 className="text-center mb-4">Results of (lab) services</h4>
+          <h4 className="text-center mb-4">Result of Lab services</h4>
           <div id="accordion" className="mb-3">
             {this.state.serviceRequestResults.length === 0 ? (
-              <h5 className="text-center mt-5">Nothing to see here</h5>
+              <div className="d-flex justify-content-center my-4">
+               <img
+                 src={require("../../assets/img/emptyData.svg")}
+                 alt="empty states"
+               />
+             </div>
             ) : (
               this.state.serviceRequestResults.map(
                 (serviceRequestResult, index) => (

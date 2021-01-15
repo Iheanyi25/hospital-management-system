@@ -8,7 +8,7 @@ import { fetchWrapper } from "../../api/fetcher";
 
 
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class MyDoctors extends React.Component {

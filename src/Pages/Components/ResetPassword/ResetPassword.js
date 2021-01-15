@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../Login/css/Login.module.css";
-import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postResetPasswordUrl } from "../../../api/URLs";
+import { InvalidDetails } from "../../../Components/Alerts";
 
 function ResetPassword() {
   const [allPasswordDetails, setAllPasswordDetails] = useState({
     email: "",
     submitting: false,
-    error: false,
+    emailError: "",
     emailStatus: false,
     response: "",
   });
@@ -18,7 +18,7 @@ function ResetPassword() {
   const {
     email,
     submitting,
-    error,
+    emailError,
     emailStatus,
     response,
   } = allPasswordDetails;
@@ -26,31 +26,31 @@ function ResetPassword() {
   const handleSubmit = async (e) => {
     setAllPasswordDetails({ ...allPasswordDetails, submitting: true });
     e.preventDefault();
-
-    if (email !== "") {
-      const postResetPassword = postResetPasswordUrl(email);
-      const postResetPasswordConfig = fetchConfig({
-        url: postResetPassword,
-        method: "post",
-      });
-      const res = await fetchWrapper(postResetPasswordConfig);
-
-      if (res.status === 200) {
-        console.log("Res is ", res);
-        const data = res;
-        setAllPasswordDetails({
-          ...allPasswordDetails,
-          response: data.message,
-          emailStatus: true,
+    try {
+      if (email !== "") {
+        const postResetPassword = postResetPasswordUrl(email);
+        const postResetPasswordConfig = fetchConfig({
+          url: postResetPassword,
+          method: "post",
         });
-        console.log("Data is ", data);
-        // localStorage.setItem("token", data.token);
-        console.log(email, " from handleSubmit");
-        // localStorage.setItem(
-        //   "authenticatedUser",
-        //   JSON.stringify(data.authenticatedUser)
-        // );
+        const res = await fetchWrapper(postResetPasswordConfig);
+        console.log(res, 3333)
+        if (res.status === 200) {
+          console.log("Res is ", res);
+          const data = res;
+          setAllPasswordDetails({
+            ...allPasswordDetails,
+            response: data.message,
+            emailStatus: true,
+          });
+          console.log("Data is ", data);
+          console.log(email, " from handleSubmit");
+        }
       }
+
+    } catch (error) {
+      setAllPasswordDetails({ ...allPasswordDetails, emailError: error.response.data.message })
+      // console.log(error.response.data.message)
     }
   };
   const handleEmailValue = (val) => {
@@ -62,194 +62,66 @@ function ResetPassword() {
   };
 
   const setErrorStatus = () => {
-    setAllPasswordDetails({ ...allPasswordDetails, error: false });
+    setAllPasswordDetails({
+      emailError: "",
+      emailStatus: false
+    })
   };
 
   return (
-    // <>
-    //   <main className={`${styles.background} main-content`}>
-    //     {error ? <InvalidDetails setErrorStatus={setErrorStatus()} /> : null}
+    <>
+      <div>
+        {emailError !== "" ? <InvalidDetails setErrorStatus={setErrorStatus} message={emailError} /> : null}
 
-    //     <div className="main-content-wrap col-lg-4 col-md-6 col-sm-6 col-xs-6">
-    //       <div className="page-content">
-    //         <div className="row justify-content-center">
-    //           <div className="col col-md-12">
-    //             <div className="card border-light">
-    //               <div className="card-body bg-light pb-5">
-    //                 <form
-    //                   className={`${styles.form} needs-validation`}
-    //                   onSubmit={(e) => handleSubmit(e)}
-    //                   noValidate
-    //                 >
-    //                   <h4 className="text-center">Reset Password</h4>
-    //                   {emailStatus === false ? (
-    //                     <>
-    //                       <div className="form-group">
-    //                         <div className="form-group">
-    //                           <label>Email</label>
-    //                           <input
-    //                             className="form-control"
-    //                             type="email"
-    //                             name="email"
-    //                             onChange={(e) => {
-    //                               handleEmailValue(e.target.value);
-    //                             }}
-    //                             placeholder="Your Email Address"
-    //                             required
-    //                           />
-    //                           <div className="valid-feedback">Looks good!</div>
-    //                           <div className="invalid-feedback">
-    //                             Oops! should be numbers only.
-    //                           </div>
-    //                         </div>
-    //                       </div>
-    //                       <div className="m-auto">
-    //                         <div className="row">
-    //                           <button
-    //                             className="btn btn-primary"
-    //                             type="submit"
-    //                             disabled={submitting}
-    //                           >
-    //                             <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
-    //                             Submit
-    //                           </button>
-    //                         </div>
-    //                       </div>
-    //                     </>
-    //                   ) : (
-    //                     <>
-    //                       <p className="text-center"> {response} </p>
-    //                       <p className="text-center">
-    //                         {" "}
-    //                         {`Hello, click the link that was sent to ${email} to reset your password`}{" "}
-    //                       </p>
-    //                     </>
-    //                   )}
-    //                 </form>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </main>
-    // </>
-    // <>
-    //   <div className={styles.background}>
-    //     {error ? <InvalidDetails setErrorStatus={setErrorStatus()} /> : null}
-    //     <div className={styles.div} style={{ height: "400px" }}>
-    //       <h1>
-    //         <img
-    //           src="./assets/img/logo.svg"
-    //           alt="logo"
-    //           width={147}
-    //           height={33}
-    //           className="logo-img"
-    //         />
-    //         Hospital Management Solution
-    //       </h1>
-    //       <h2>Reset Password</h2>
-    //       <form
-    //         className={`${styles.form} needs-validation`}
-    //         onSubmit={(e) => handleSubmit(e)}
-    //         noValidate
-    //       >
-    //         {emailStatus === false ? (
-    //           <>
-    //             <div className="form-group">
-    //               <label>Email Address</label>
-    //               <input
-    //                 className="form-control"
-    //                 type="email"
-    //                 name="email"
-    //                 value={email}
-    //                 onChange={(e) => {
-    //                   handleEmailValue(e.target.value);
-    //                 }}
-    //                 placeholder="Your Email Address"
-    //                 required
-    //               />
-    //               <div className="valid-feedback">Looks good!</div>
-    //               <div className="invalid-feedback">
-    //                 Please provide a valid email.
-    //               </div>
-    //             </div>
-    //             <div className="row justify-content-between">
-    //               <button
-    //                 className="btn btn-primary mt-3"
-    //                 type="submit"
-    //                 disabled={submitting}
-    //               >
-    //                 <span className="btn-icon icofont-location-arrow mr-2"></span>{" "}
-    //                 Submit
-    //               </button>
-    //               <Link to="/Login" className="justify-self-right mt-3">
-    //                 <p className="mt-3">Back to Log in</p>
-    //               </Link>
-    //             </div>
-    //           </>
-    //         ) : (
-    //           <>
-    //             <p className="text-center"> {response} </p>
-    //             <p className="text-center">
-    //               {" "}
-    //               {`Hello, click the link that was sent to ${email} to reset your password`}{" "}
-    //             </p>
-    //           </>
-    //         )}
-    //       </form>
-    //     </div>
-    //   </div>
-    // </>
-    <div className="auth-background d-flex justify-content-center align-items-center">
-      {error ? <InvalidDetails setErrorStatus={setErrorStatus()} /> : null}
-      <div className="card border-light">
-        <div className="card-body">
-          <form className="mb-4 p-5" onSubmit={(e) => handleSubmit(e)}>
-            {emailStatus === false ? (
-              <>
-                <h4 className="text-center">Reset Password!</h4>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    className="form-control"
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => {
-                      handleEmailValue(e.target.value);
-                    }}
-                    tabIndex={-98}
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-block btn-primary"
-                  type="submit"
-                  disabled={submitting}
-                >
-                  Submit
+      </div>
+      <div className="auth-background d-flex justify-content-center align-items-center">
+        <div className="card border-light">
+          <div className="card-body">
+            <form className="mb-4 p-5" onSubmit={(e) => handleSubmit(e)}>
+              {emailStatus === false ? (
+                <>
+                  <h4 className="text-center">Reset Password!</h4>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      className="form-control"
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => handleEmailValue(e.target.value)}
+                      tabIndex={-98}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-block btn-primary"
+                    type="submit"
+                    disabled={submitting}
+                  >
+                    Reset Password
                 </button>
-                <Link to="/Login" className="text-center mt-3">
-                  <p className="text-center mt-3" style={{ color: "#007BFF" }}>
-                    Back to Log in
+                  <Link to="/Login" className="text-center mt-3">
+                    <p className="text-center mt-3" style={{ color: "#007BFF" }}>
+                      Back to Log in
                   </p>
-                </Link>
-              </>
-            ) : (
-              <>
-                <p className="text-center"> {response} </p>
-                <p className="text-center">
-                  {" "}
-                  {`Hello, click the link that was sent to ${email} to reset your password`}{" "}
-                </p>
-              </>
-            )}
-          </form>
+                  </Link>
+                </>
+              ) : (
+                  <>
+                    <p className="text-center text-dark" > {response} </p>
+                    <p className="text-center text-dark" style={{ color: "#00000" }}>
+                      {" "}
+                      {`Hello, click the link that was sent to ${email} to reset your password`}{" "}
+                    </p>
+                  </>
+                )}
+
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export { ResetPassword };

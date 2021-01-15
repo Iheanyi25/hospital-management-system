@@ -10,7 +10,7 @@ import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
 
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Consultations extends React.Component {
@@ -83,7 +83,7 @@ class Consultations extends React.Component {
     });
     const res = await fetchWrapper(cancelPatientConsulationsConfig);
     if (res) {
-      alert(res.message);
+      alert("Consultation Successfully Canceled");
       this.getpatientConsultations();
     }
   };
@@ -232,7 +232,7 @@ class Consultations extends React.Component {
                             <thead>
                               <tr>
                                 <th></th>
-                                <th>Doctors Name</th>
+                                <th>Doctor's Name</th>
                                 <th>Consultation Title</th>
                                 <th>Reason For Consultation</th>
                                 <th>Date</th>

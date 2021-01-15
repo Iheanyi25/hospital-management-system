@@ -16,7 +16,7 @@ import {
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 
-const $ = require("jquery");
+const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class PaymentForService extends React.Component {
