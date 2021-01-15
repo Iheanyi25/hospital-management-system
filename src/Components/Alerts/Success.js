@@ -27,7 +27,7 @@ const Success = ({ message, nextRoute, state, isError, callback, timeOut }) => {
 
   return view ? (
     <div className={`alert alert-align ${ !isError ?  "alert-success" : "alert-danger"}`} role="alert">
-      <h3 className="text-light">{ !isError ? "Success!" : "Failed"}</h3>
+      <h2 className="text-light">{ !isError ? "Success!" : "Failed"}</h2>
       <h6 className="text-light">{message}</h6>
     </div>
   ) : null;
