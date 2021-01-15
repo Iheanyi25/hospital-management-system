@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Success } from "../../../Components/Alerts";
+import { observer } from "mobx-react";
 import {
   MultipleSelect,
   PageLoader,
@@ -9,16 +10,16 @@ import {
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { getAllServicesCategoryUrl, getAllServicesInACategoryUrl, getPatientsUrl, postRequestServicesUrl } from "../../../api/URLs";
+import { UserContext } from "../../../mobx/UserState";
 
 const $ = window.$;
-
 
 let selectBasic = Math.random();
 selectBasic = selectBasic.toString().replace(".", "_");
 
-class CreateServiceRequest extends Component {
+class CreateService extends Component {
+  static contextType = UserContext;
   state = {
-    user: {},
     categorySelected: false,
     categories: [],
     values: [],
@@ -203,14 +204,13 @@ class CreateServiceRequest extends Component {
     const postRequestServicesConfig = fetchConfig({ url: postRequestServices, data: payload, method: 'post' })
     const res = await fetchWrapper(postRequestServicesConfig)
 
-    console.log(res, 8888);
     if (String(res.status).startsWith("2")) {
       this.setState({ success: true });
     }
   };
-
   render() {
-    const { isFromClarking, user } = this.state;
+    const { isFromClarking } = this.state;
+    const {user} = this.context;
     return (
       <>
         <PageLoader />
@@ -400,4 +400,5 @@ class CreateServiceRequest extends Component {
   }
 }
 
+const CreateServiceRequest = observer(CreateService);
 export default CreateServiceRequest;
