@@ -226,7 +226,7 @@ class AdminSidebar extends React.Component {
                       </li>
                       <li className="menu-item">
 												<Link to="/AdminAllLabTechnicians" className="item-link">
-													<span className="link-text">Manage Lab Techicians</span>
+													<span className="link-text">Manage Lab Technicians</span>
 												</Link>
 											</li>
                     </ul>
