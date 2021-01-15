@@ -206,34 +206,34 @@ class ManagePrescriptionInvoice extends React.Component {
                                   </div>
                                 </td>
                                 <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      {prescriptionInvoice?.paymentStatus ===
-                                      "NOT PAID" ? (
-                                        <Link
-                                          to={{
-                                            pathname:
-                                              userType === "Admin"
-                                                ? `/AdminPaymentForPrescription/${prescriptionInvoice.id}`
-                                                : `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
-                                            state: prescriptionInvoice,
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-server mr-2" />
-                                          Pay now
-                                        </Link>
-                                      ) : (
-                                        <>
+                                  {userType === "Admin" ? (
+                                    <div className="btn-group">
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                      >
+                                        Action
+                                      </button>
+                                      <div className="dropdown-menu">
+                                        {prescriptionInvoice?.paymentStatus ===
+                                        "NOT PAID" ? (
+                                          <Link
+                                            to={{
+                                              pathname:
+                                                userType === "Admin"
+                                                  ? `/AdminPaymentForPrescription/${prescriptionInvoice.id}`
+                                                  : `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
+                                              state: prescriptionInvoice,
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            Pay now
+                                          </Link>
+                                        ) : (
                                           <Link
                                             to="#"
                                             className="btn btn-sm btn-block"
@@ -248,10 +248,107 @@ class ManagePrescriptionInvoice extends React.Component {
                                             <span className="btn-icon icofont-server mr-2" />
                                             View Reciept
                                           </Link>
-                                          {(userType === "Admin" ||
-                                            userType === "Pharmacy") &&
-                                          prescriptionInvoice?.isDispensed ===
-                                            false ? (
+                                        )}
+                                        {prescriptionInvoice?.isDispensed ===
+                                          false &&
+                                        prescriptionInvoice?.paymentStatus !==
+                                          "NOT PAID" ? (
+                                          <Link
+                                            to="#"
+                                            className="btn btn-sm btn-block"
+                                            onClick={() =>
+                                              this.markInvoiceAsDispensed(
+                                                prescriptionInvoice.id
+                                              )
+                                            }
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            Dispense
+                                          </Link>
+                                        ) : null}
+                                      </div>
+                                    </div>
+                                  ) : userType === "Accountant" ? (
+                                    <div className="btn-group">
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                      >
+                                        Action
+                                      </button>
+                                      <div className="dropdown-menu">
+                                        {prescriptionInvoice?.paymentStatus ===
+                                        "NOT PAID" ? (
+                                          <Link
+                                            to={{
+                                              pathname:
+                                                userType === "Admin"
+                                                  ? `/AdminPaymentForPrescription/${prescriptionInvoice.id}`
+                                                  : `/AccountPaymentForPrescription/${prescriptionInvoice.id}`,
+                                              state: prescriptionInvoice,
+                                            }}
+                                            className="btn btn-sm btn-block"
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            Pay now
+                                          </Link>
+                                        ) : (
+                                          <Link
+                                            to="#"
+                                            className="btn btn-sm btn-block"
+                                            data-toggle="modal"
+                                            data-target="#view-reciept"
+                                            onClick={() =>
+                                              this.fetchDrugsInAnInvoice(
+                                                prescriptionInvoice.invoiceNumber
+                                              )
+                                            }
+                                          >
+                                            <span className="btn-icon icofont-server mr-2" />
+                                            View Reciept
+                                          </Link>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ) : userType === "Pharmacy" ? (
+                                    prescriptionInvoice?.paymentStatus ===
+                                    "NOT PAID" ? (
+                                      "No action"
+                                    ) : (
+                                      <div className="btn-group">
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true"
+                                          aria-expanded="false"
+                                        >
+                                          Action
+                                        </button>
+
+                                        <div className="dropdown-menu">
+                                          {prescriptionInvoice?.paymentStatus ===
+                                          "NOT PAID" ? null : (
+                                            <Link
+                                              to="#"
+                                              className="btn btn-sm btn-block"
+                                              data-toggle="modal"
+                                              data-target="#view-reciept"
+                                              onClick={() =>
+                                                this.fetchDrugsInAnInvoice(
+                                                  prescriptionInvoice.invoiceNumber
+                                                )
+                                              }
+                                            >
+                                              <span className="btn-icon icofont-server mr-2" />
+                                              View Reciept
+                                            </Link>
+                                          )}
+                                          {prescriptionInvoice?.isDispensed ===
+                                          false ? (
                                             <Link
                                               to="#"
                                               className="btn btn-sm btn-block"
@@ -265,10 +362,10 @@ class ManagePrescriptionInvoice extends React.Component {
                                               Dispense
                                             </Link>
                                           ) : null}
-                                        </>
-                                      )}
-                                    </div>
-                                  </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  ) : null}
                                 </td>
                               </tr>
                             )

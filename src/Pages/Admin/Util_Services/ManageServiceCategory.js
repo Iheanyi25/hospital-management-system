@@ -32,18 +32,27 @@ export default class ManageServiceCategory extends Component {
 
   deleteMe = async (id) => {
    
-    const deleteServiceCategory = deleteServiceCategoryUrl()
-    const deleteServiceCategoryConfig = fetchConfig({url : deleteServiceCategory, data: {id}, method : 'post'})
-    const res = await fetchWrapper(deleteServiceCategoryConfig)
-    
-    if (res.status === 200) {
-      this.fetchAllServiceCategories();
+    try {
+      const deleteServiceCategory = deleteServiceCategoryUrl()
+      const deleteServiceCategoryConfig = fetchConfig({url : deleteServiceCategory, data: {id}, method : 'post'})
+      const res = await fetchWrapper(deleteServiceCategoryConfig)
+      
+      if (res.status === 200) {
+        this.fetchAllServiceCategories();
+        this.setState((state) => ({
+          ...state,
+          success: { show: true, message: "service category was successfully deleted", delError: false },
+        }), () => this.sync());
+        
+      }
+    } catch (error) {
+      console.log(error);
       this.setState((state) => ({
         ...state,
-        success: { show: true, message: "service category was successfully deleted", delError: false },
-      }), () => this.sync());
-      
+        success: { show: true, message: error.response.data.message, delError: true },
+      }));
     }
+   
   };
 
   sync() {

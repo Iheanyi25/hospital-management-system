@@ -8,6 +8,7 @@ import {
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
+import { Success } from "../../Components/Alerts";
 
 
 const $ = window.$;
@@ -83,7 +84,8 @@ class Consultations extends React.Component {
     });
     const res = await fetchWrapper(cancelPatientConsulationsConfig);
     if (res) {
-      alert("Consultation Successfully Canceled");
+      console.log(res)
+      this.setState({ success: true, successMessage: res.data.message })
       this.getpatientConsultations();
     }
   };
@@ -97,7 +99,14 @@ class Consultations extends React.Component {
     return (
       <>
         <PageLoader />
-
+        {
+          this.state?.success ?
+            <Success
+              message={this.state.successMessage}
+            />
+            :
+            <></>
+        }
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />

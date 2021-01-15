@@ -27,7 +27,7 @@ class ViewClarkingHistory extends React.Component {
         <div className="main-content-wrap">
           <div className="page-content"></div>
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title">Clarking History</h4>
+            <h4 className="page-title">Clerking History</h4>
           </header>
 
           <div className="row">
@@ -39,7 +39,7 @@ class ViewClarkingHistory extends React.Component {
                       <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file"></div>
                     </div>
                     <div className="col col-7">
-                      <h6 className="mt-0 mb-1">Clarking</h6>
+                      <h6 className="mt-0 mb-1">Clerking</h6>
                       <div className="count text-primary fs-20">
                         {count}
                       </div>

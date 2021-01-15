@@ -66,7 +66,7 @@ export default class ManageHealthPlans extends Component {
       console.log(error);
       this.setState((state) => ({
         ...state,
-        success: { show: true, message: "an error occured", delError: true },
+        success: { show: true, message: "can't delete this health plan, delete the category first", delError: true },
       }));
     }
   };

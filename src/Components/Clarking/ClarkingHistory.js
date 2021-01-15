@@ -159,7 +159,7 @@ class ClarkingHistory extends React.Component {
                           data-toggle="collapse"
                           data-target="#collapseClarking"
                         >
-                          Clarking
+                          Clerking
                     </button>
                         <div id="collapseClarking" className="collapse">
                           <div className="row mx-0">
