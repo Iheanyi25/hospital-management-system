@@ -198,7 +198,7 @@ class BookAppointment extends React.Component {
                           <label>Reason for Appointment</label>{" "}
                           <textarea
                             className="form-control"
-                            placeholder="Readon For Appointment"
+                            placeholder="Reason For Appointment"
                             rows={3}
                             onChange={(e) =>
                               this.handleChange("reasonForAppointment", e)

@@ -152,7 +152,7 @@ class Dashboard extends React.Component {
                   <div className="card bg-light">
                     <div className="card-header">Hello {patientName}</div>
                     <div className="card-body">
-                      You Have No New Notifications
+                      You have no new notifications
                     </div>
                   </div>
                 </div>

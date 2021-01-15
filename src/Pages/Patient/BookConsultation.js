@@ -119,7 +119,7 @@ class BookConsultation extends React.Component {
 
                           <input
                             className="form-control"
-                            placeholder="Consulation Title"
+                            placeholder="Consultation Title"
                             tabIndex={-98}
                             onChange={(e) =>
                               this.handleChange("consultationTitle", e)
