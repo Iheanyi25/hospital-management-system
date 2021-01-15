@@ -57,3 +57,8 @@
   width: inherit;
   font-size: 1em;
 }
+
+.alert-wrapper {
+  z-index: 2 !important;
+  right: 50%;
+}
