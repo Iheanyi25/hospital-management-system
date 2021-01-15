@@ -127,7 +127,7 @@ function ChangePassword() {
                     >
                       Submit
                     </button>
-                    <Link to="#" className="text-center mt-3">
+                    <Link to="/AdminDashboard" className="text-center mt-3">
                       <p
                         className="text-center mt-3"
                         style={{ color: "#007BFF" }}

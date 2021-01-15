@@ -13,13 +13,13 @@ const RegisterUserModal = ({ userType }) => {
     lastName: "",
     password: "Password101@",
     success: false,
-    message: "",
+    message: "",  
     route: "",
   });
 
   const routes = {
     doctor: "/AdminAllDoctors",
-    accountant: "/AdminAllDoctors",
+    accountant: "/AdminAllAccountants",
     pharmacy: "/AdminAllPharmacists",
     lab: "/AdminAllLabTechnicians",
   };
@@ -99,6 +99,7 @@ const RegisterUserModal = ({ userType }) => {
                 Onboard a New{" "}
                 <span style={{ textTransform: "capitalize" }}>
                   {userType === "pharmacy" ? "Pharmacist" : userType}
+                  {userType === "lab"? " Scientist": userType}
                 </span>
               </h5>
               <form className="p-5">
