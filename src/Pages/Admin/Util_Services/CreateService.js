@@ -102,7 +102,7 @@ class CreateService extends React.Component {
           {success ? (
             <Success
               history={this.props.history}
-              message="Well done, you successfully created a category"
+              message="Well done, you successfully created a service"
               nextRoute={
                 user.userType === "Admin"
                   ? "/AdminManageServices"
