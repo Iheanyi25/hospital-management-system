@@ -15,7 +15,7 @@ function AccountantProfile({ AccountantId }) {
 	const { data, error, mutate } = useRequest(getAccountantProfileConfig, {revalidateOnFocus: false});
 
 	const resetShowState = () => setSucces((state) => ({ ...state, show: false }));
-	if (error) return <div>failed to lod</div>;
+	if (error) return <div>failed to load</div>;
 	return (
 		<Fragment>
 			{!data ? (

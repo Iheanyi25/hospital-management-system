@@ -396,7 +396,7 @@ class UpdatePatientProfile extends React.Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label>Email address</label>{" "}
+                          <label>Email Address</label>{" "}
                           <input
                             required
                             className="form-control"
