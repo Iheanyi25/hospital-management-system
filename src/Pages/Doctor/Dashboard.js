@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
@@ -7,17 +8,14 @@ import {
   getDoctorDashboardUrl,
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
 
 class Dashboard extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      doctorName:
-        JSON.parse(localStorage.getItem("authenticatedUser")).firstName +
-        " " +
-        JSON.parse(localStorage.getItem("authenticatedUser")).lastName,
-      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       pendingAppointment: 0,
       completedAppointment: 0,
       pendingConsultation: 0,
@@ -53,7 +51,10 @@ class Dashboard extends React.Component {
     this.setState({
       pendingAppointments: pendingAppointments,
     });
-    const getDoctorDashboard = getDoctorDashboardUrl(this.state.doctorId);
+    const {
+      user: { id },
+    } = this.context;
+    const getDoctorDashboard = getDoctorDashboardUrl(id);
     const getDoctorDashboardConfig = fetchConfig({
       url: getDoctorDashboard,
       method: "get",
@@ -68,12 +69,14 @@ class Dashboard extends React.Component {
   render() {
     const {
       pendingAppointments,
-      doctorName,
       completedAppointment,
       completedConsultation,
       pendingAppointment,
       pendingConsultation,
     } = this.state;
+    const {
+      user: { firstName, lastName },
+    } = this.context;
     return (
       <>
         <PageLoader />
@@ -160,7 +163,9 @@ class Dashboard extends React.Component {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="card bg-light">
-                    <div className="card-header">Welcome {doctorName}</div>
+                    <div className="card-header">
+                      Welcome {`${firstName} ${lastName}`}
+                    </div>
                     <div className="card-body">
                       You hava 5 patients due for consultation
                     </div>
@@ -293,4 +298,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default observer(Dashboard);

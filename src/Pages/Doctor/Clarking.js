@@ -1,8 +1,12 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { postAdmitOrSendPatientHomeUrl, updatePatientClerkingUrl } from "../../api/URLs";
+import {
+  postAdmitOrSendPatientHomeUrl,
+  updatePatientClerkingUrl,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
 import {
@@ -11,13 +15,14 @@ import {
   PatientProfile,
   LabResults,
 } from "../../Components/Clarking";
+import { UserContext } from "../../mobx/UserState";
 
 class Clerking extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      userID: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctorQueue: null,
       canceledConsultations: [],
       completedConsultations: [],
@@ -46,7 +51,7 @@ class Clerking extends React.Component {
     });
 
     this.submitRequest(payload);
-    this.setState({ reMount: !this.state.reMount })
+    this.setState({ reMount: !this.state.reMount });
   };
 
   componentDidMount() {
@@ -55,20 +60,33 @@ class Clerking extends React.Component {
   }
 
   submitRequest = async (payload) => {
+    const {
+      user: { id: userId },
+    } = this.context;
     const { id, type, patient } = this.props.location.state;
 
     console.log(patient);
 
     try {
-      const updatePatientClerking = updatePatientClerkingUrl(id, type, this.state.userID, patient.id );
-      const updatePatientClerkingConfig = fetchConfig({ url: updatePatientClerking, data: JSON.stringify(payload), method: "patch" });
-      console.log(updatePatientClerkingConfig,11111)
+      console.log(userId);
+      const updatePatientClerking = updatePatientClerkingUrl(
+        id,
+        type,
+        userId,
+        patient.id
+      );
+      const updatePatientClerkingConfig = fetchConfig({
+        url: updatePatientClerking,
+        data: JSON.stringify(payload),
+        method: "patch",
+      });
+      console.log(updatePatientClerkingConfig, 11111);
       const res = await fetchWrapper(updatePatientClerkingConfig);
-      console.log(res,11113)
-      
+      console.log(res, 11113);
+
       this.setState({ success: true, message: res.message });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -104,15 +122,18 @@ class Clerking extends React.Component {
     payload[key] = true; //change here
     try {
       const postAdmitOrSendPatientHome = postAdmitOrSendPatientHomeUrl();
-      const postAdmitOrSendPatientHomeConfig = fetchConfig({ url: postAdmitOrSendPatientHome, data: payload, method: "post" });
+      const postAdmitOrSendPatientHomeConfig = fetchConfig({
+        url: postAdmitOrSendPatientHome,
+        data: payload,
+        method: "post",
+      });
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
 
-      console.log(res,22223)
+      console.log(res, 22223);
       this.setState({ success: true, message: res.message, nextRoute: "/" });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
   };
 
   render() {
@@ -363,7 +384,7 @@ class Clerking extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                      Hereditary sickness like mental health,
+                                        Hereditary sickness like mental health,
                                         blood pressure etc
                                       </label>
                                       <textarea
@@ -423,7 +444,8 @@ class Clerking extends React.Component {
 
                                     <div className="form-group">
                                       <label>
-                                      Common Sicknesses like Hepatitis,Diabetes etc
+                                        Common Sicknesses like
+                                        Hepatitis,Diabetes etc
                                       </label>
                                       <textarea
                                         onChange={(e) =>
@@ -1331,4 +1353,4 @@ class Clerking extends React.Component {
   }
 }
 
-export default Clerking;
+export default observer(Clerking);
