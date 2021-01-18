@@ -94,7 +94,7 @@ class ViewDrugs extends React.Component {
             </div>
             {success ? <Success message={message} /> : null}
             <div className="main-content-wrap">
-              <header className="d-flex justify-content-between align-items-center mb-5">
+              <header className="d-flex justify-content-between align-items-center mb-2">
                 <h4 className="page-title">Drug catalog</h4>
                 <Link
                   to={
