@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { Link, useHistory } from "react-router-dom";
 import { Success } from "../../../Components/Alerts/Success";
 import { fetchWrapper } from "../../../api/fetcher";
@@ -58,7 +57,7 @@ function ChangePassword() {
           });
           console.log("Data is ", data);
           setTimeout(() => {
-            history.push("/DoctorProfile");
+            window.history.back();
           }, 1500);
         }
       } catch (err) {
@@ -127,14 +126,7 @@ function ChangePassword() {
                     >
                       Submit
                     </button>
-                    <Link to="/AdminDashboard" className="text-center mt-3">
-                      <p
-                        className="text-center mt-3"
-                        style={{ color: "#007BFF" }}
-                      >
-                        Go back
-                      </p>
-                    </Link>
+                    <p className="mt-3 text-danger password-notice">Password must contain uppercase, numberic and special characters</p>
                     {passwordStatus === true ? (
                       <Success message={response} />
                     ) : null}
