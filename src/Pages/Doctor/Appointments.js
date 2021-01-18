@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { postDoctorAcceptAppointmentUrl, getDoctorAllAppointmentsUrl, postDoctorCancelAppointmentUrl, postDoctorRejectAppointmentUrl } from "../../api/URLs";
+import {
+  postDoctorAcceptAppointmentUrl,
+  getDoctorAllAppointmentsUrl,
+  postDoctorCancelAppointmentUrl,
+  postDoctorRejectAppointmentUrl,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
@@ -34,9 +39,14 @@ class Appointments extends React.Component {
     var completedAppointments = [];
     var rejectedAppointments = [];
 
-    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(this.state.doctorId)
-    const getDoctorAllAppointmentsConfig = fetchConfig({ url: getDoctorAllAppointments, method: 'get' })
-    const { data } = await fetchWrapper(getDoctorAllAppointmentsConfig)
+    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(
+      this.state.doctorId
+    );
+    const getDoctorAllAppointmentsConfig = fetchConfig({
+      url: getDoctorAllAppointments,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getDoctorAllAppointmentsConfig);
 
     this.setState({ appointments: data.appointments });
     console.log(data.appointments, 11111);
@@ -84,11 +94,14 @@ class Appointments extends React.Component {
     e.preventDefault();
 
     try {
-      const postDoctorAcceptAppointment = postDoctorAcceptAppointmentUrl(id)
-      const postDoctorAcceptAppointmentConfig = fetchConfig({ url: postDoctorAcceptAppointment, method: 'post' })
-      const res = await fetchWrapper(postDoctorAcceptAppointmentConfig)
+      const postDoctorAcceptAppointment = postDoctorAcceptAppointmentUrl(id);
+      const postDoctorAcceptAppointmentConfig = fetchConfig({
+        url: postDoctorAcceptAppointment,
+        method: "post",
+      });
+      const res = await fetchWrapper(postDoctorAcceptAppointmentConfig);
       const { error } = res;
-      console.log(res, 22222)
+      console.log(res, 22222);
       if (res.status !== 200) {
         throw Error(error.message);
       }
@@ -104,12 +117,14 @@ class Appointments extends React.Component {
     e.preventDefault();
 
     try {
-
-      const postDoctorRejectAppointment = postDoctorRejectAppointmentUrl(id)
-      const postDoctorRejectAppointmentConfig = fetchConfig({ url: postDoctorRejectAppointment, method: 'post' })
-      const res = await fetchWrapper(postDoctorRejectAppointmentConfig)
+      const postDoctorRejectAppointment = postDoctorRejectAppointmentUrl(id);
+      const postDoctorRejectAppointmentConfig = fetchConfig({
+        url: postDoctorRejectAppointment,
+        method: "post",
+      });
+      const res = await fetchWrapper(postDoctorRejectAppointmentConfig);
       const { error } = res;
-      console.log(res, 33333)
+      console.log(res, 33333);
 
       if (res.status !== 200) {
         throw Error(error.message);
@@ -126,11 +141,14 @@ class Appointments extends React.Component {
     e.preventDefault();
 
     try {
-      const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id)
-      const postDoctorCancelAppointmentConfig = fetchConfig({ url: postDoctorCancelAppointment, method: 'post' })
-      const res = await fetchWrapper(postDoctorCancelAppointmentConfig)
+      const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id);
+      const postDoctorCancelAppointmentConfig = fetchConfig({
+        url: postDoctorCancelAppointment,
+        method: "post",
+      });
+      const res = await fetchWrapper(postDoctorCancelAppointmentConfig);
       const { error } = res;
-      console.log(res, 4444)
+      console.log(res, 4444);
       if (res.status !== 200) {
         throw Error(error.message);
       }
@@ -299,82 +317,82 @@ class Appointments extends React.Component {
                             <tbody>
                               {pendingAppointments
                                 ? pendingAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <div className="d-flex align-items-center">
-                                        {appointment.appointmentTitle}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center">
-                                        {appointment.reasonForAppointment}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.firstName}{" "}
-                                      {appointment.patient?.lastName}
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.phoneNumber}{" "}
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatDate(
-                                          appointment.appointmentDate
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatTime(
-                                          appointment.appointmentTime
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
+                                    <tr>
+                                      <td>
+                                        <div className="d-flex align-items-center">
+                                          {appointment.appointmentTitle}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center">
+                                          {appointment.reasonForAppointment}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.firstName}{" "}
+                                        {appointment.patient?.lastName}
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.phoneNumber}{" "}
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatDate(
+                                            appointment.appointmentDate
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatTime(
+                                            appointment.appointmentTime
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
 
-                                    <td>
-                                      <div className="btn-group">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                          data-toggle="dropdown"
-                                          aria-haspopup="true"
-                                          aria-expanded="false"
-                                        >
-                                          Action
-                                          </button>
-                                        <div className="dropdown-menu text-left">
+                                      <td>
+                                        <div className="btn-group">
                                           <button
-                                            title="Accept Appointment"
-                                            onClick={(e) =>
-                                              this.acceptAppointment(
-                                                e,
-                                                appointment.id
-                                              )
-                                            }
-                                            className="btn btn-sm btn-block"
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                           >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                            Action
+                                          </button>
+                                          <div className="dropdown-menu text-left">
+                                            <button
+                                              title="Accept Appointment"
+                                              onClick={(e) =>
+                                                this.acceptAppointment(
+                                                  e,
+                                                  appointment.id
+                                                )
+                                              }
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                               Accept Appointment
                                             </button>
-                                          <button
-                                            title="Reject Appointment"
-                                            onClick={(e) =>
-                                              this.rejectAppointment(
-                                                e,
-                                                appointment.id
-                                              )
-                                            }
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                            <button
+                                              title="Reject Appointment"
+                                              onClick={(e) =>
+                                                this.rejectAppointment(
+                                                  e,
+                                                  appointment.id
+                                                )
+                                              }
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                               Reject Appointment
                                             </button>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -407,112 +425,111 @@ class Appointments extends React.Component {
                             <tbody>
                               {acceptedAppointments
                                 ? acceptedAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <div className="d-flex align-items-center">
-                                        {appointment.appointmentTitle}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center">
-                                        {appointment.reasonForAppointment}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.firstName}{" "}
-                                      {appointment.patient?.lastName}
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.phoneNumber}{" "}
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatDate(
-                                          appointment.appointmentDate
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatTime(
-                                          appointment.appointmentTime
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="btn-group">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                          data-toggle="dropdown"
-                                          aria-haspopup="true"
-                                          aria-expanded="false"
-                                        >
-                                          Action
-                                          </button>
-                                        <div className="dropdown-menu text-left">
-                                          <Link
-                                            title="Go for clarking"
-                                            to={{
-                                              pathname: "/DoctorClarking",
-                                              state: {
-                                                id: appointment.id,
-                                                type: "appointment",
-                                                patient: appointment.patient
-                                              }
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-user" />
-                                            Go for Clarking
-                                          </Link>
-                                          <Link
-                                            title="Clarking History"
-                                            to={{
-                                              pathname: "/ViewClarkingHistory",
-                                              state: {
-                                                id: appointment.patient.id,
-                                                firstName: appointment.patient.firstName,
-                                                lastName: appointment.patient.lastName
-                                              },
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-                                            Clarking History
-                                          </Link>
-                                          <button
-                                            title="Accept Appointment"
-                                            onClick={(e) =>
-                                              this.acceptAppointment(
-                                                e,
-                                                appointment.id
-                                              )
-                                            }
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Accept Appointment
-                                            </button>
-                                          <button
-                                            title="Reject Appointment"
-                                            onClick={(e) =>
-                                              this.rejectAppointment(
-                                                e,
-                                                appointment.id
-                                              )
-                                            }
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Reject Appointment
-                                            </button>
+                                    <tr>
+                                      <td>
+                                        <div className="d-flex align-items-center">
+                                          {appointment.appointmentTitle}
                                         </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center">
+                                          {appointment.reasonForAppointment}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.firstName}{" "}
+                                        {appointment.patient?.lastName}
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.phoneNumber}{" "}
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatDate(
+                                            appointment.appointmentDate
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatTime(
+                                            appointment.appointmentTime
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
+
+                                      <td>
+                                        <div className="btn-group">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                          >
+                                            Action
+                                          </button>
+                                          <div className="dropdown-menu text-left">
+                                            <Link
+                                              title="Go for clarking"
+                                              to={{
+                                                pathname: "/DoctorClarking",
+                                                state: {
+                                                  id: appointment.id,
+                                                  type: "appointment",
+                                                  patient: appointment.patient,
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="btn-icon icofont-user" />
+                                              Go for Clarking
+                                            </Link>
+                                            <Link
+                                              title="Clarking History"
+                                              to={{
+                                                pathname:
+                                                  "/ViewClarkingHistory",
+                                                state: {
+                                                  id: appointment.patient.id,
+                                                  firstName:
+                                                    appointment.patient
+                                                      .firstName,
+                                                  lastName:
+                                                    appointment.patient
+                                                      .lastName,
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                              Clarking History
+                                            </Link>
+                                            <Link
+                                              title="Pre-Consultation History"
+                                              to={{
+                                                pathname:
+                                                  "/ViewPreConsultationHistory",
+                                                state: {
+                                                  id: appointment.patient.id,
+                                                  firstName:
+                                                    appointment.patient
+                                                      .firstName,
+                                                  lastName:
+                                                    appointment.patient
+                                                      .lastName,
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                              Pre-Consultation History
+                                            </Link>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
@@ -545,72 +562,76 @@ class Appointments extends React.Component {
                             <tbody>
                               {completedAppointments
                                 ? completedAppointments.map((appointment) => (
-                                  <tr>
-                                    <td>
-                                      <div className="d-flex align-items-center">
-                                        {appointment.appointmentTitle}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center">
-                                        {appointment.reasonForAppointment}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.firstName}{" "}
-                                      {appointment.patient?.lastName}
-                                    </td>
-                                    <td>
-                                      {appointment.patient?.phoneNumber}{" "}
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatDate(
-                                          appointment.appointmentDate
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatTime(
-                                          appointment.appointmentTime
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
-
-                                    <td>
-                                      <div className="btn-group">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                          data-toggle="dropdown"
-                                          aria-haspopup="true"
-                                          aria-expanded="false"
-                                        >
-                                          Action
-                                          </button>
-                                        <div className="dropdown-menu text-left">
-                                          <Link
-                                            title="Clarking History"
-                                            to={{
-                                              pathname: "/ViewClarkingHistory",
-                                              state: {
-                                                id: appointment.patient.id,
-                                                firstName: appointment.patient.firstName,
-                                                lastName: appointment.patient.lastName
-                                              },
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-                                            Clarking History
-                                          </Link>
+                                    <tr>
+                                      <td>
+                                        <div className="d-flex align-items-center">
+                                          {appointment.appointmentTitle}
                                         </div>
-                                      </div>
-                                    </td>
-                                  </tr>
+                                      </td>
+                                      <td>
+                                        <div className="d-flex align-items-center">
+                                          {appointment.reasonForAppointment}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.firstName}{" "}
+                                        {appointment.patient?.lastName}
+                                      </td>
+                                      <td>
+                                        {appointment.patient?.phoneNumber}{" "}
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatDate(
+                                            appointment.appointmentDate
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-muted text-nowrap">
+                                          {formatTime(
+                                            appointment.appointmentTime
+                                          ) ?? ""}
+                                        </div>
+                                      </td>
 
-                                ))
+                                      <td>
+                                        <div className="btn-group">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                          >
+                                            Action
+                                          </button>
+                                          <div className="dropdown-menu text-left">
+                                            <Link
+                                              title="Clarking History"
+                                              to={{
+                                                pathname:
+                                                  "/ViewClarkingHistory",
+                                                state: {
+                                                  id: appointment.patient.id,
+                                                  firstName:
+                                                    appointment.patient
+                                                      .firstName,
+                                                  lastName:
+                                                    appointment.patient
+                                                      .lastName,
+                                                },
+                                              }}
+                                              className="btn btn-sm btn-block"
+                                            >
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                              Clarking History
+                                            </Link>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
                                 : null}
                             </tbody>
                           </table>
