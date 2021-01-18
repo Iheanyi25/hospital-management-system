@@ -15,7 +15,9 @@ class ViewPreConsultationHistory extends React.Component {
           <div className="main-content-wrap">
             <div className="page-content">
               <header>
-                <h4 className="text-center">Patient’s pre-consultation health history</h4>
+                <h4 className="text-center">
+                  Patient’s pre-consultation health history
+                </h4>
               </header>
               <div className="card border-light w-75 m-auto">
                 <PreConsultationHistory

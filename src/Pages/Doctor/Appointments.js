@@ -507,32 +507,26 @@ class Appointments extends React.Component {
                                               <span className="mr-3 btn-icon icofont-stethoscope-alt" />
                                               Clarking History
                                             </Link>
-                                            <button
-                                              title="Accept Appointment"
-                                              onClick={(e) =>
-                                                this.acceptAppointment(
-                                                  e,
-                                                  appointment.id
-                                                )
-                                              }
+                                            <Link
+                                              title="Pre-Consultation History"
+                                              to={{
+                                                pathname:
+                                                  "/ViewPreConsultationHistory",
+                                                state: {
+                                                  id: appointment.patient.id,
+                                                  firstName:
+                                                    appointment.patient
+                                                      .firstName,
+                                                  lastName:
+                                                    appointment.patient
+                                                      .lastName,
+                                                },
+                                              }}
                                               className="btn btn-sm btn-block"
                                             >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Accept Appointment
-                                            </button>
-                                            <button
-                                              title="Reject Appointment"
-                                              onClick={(e) =>
-                                                this.rejectAppointment(
-                                                  e,
-                                                  appointment.id
-                                                )
-                                              }
-                                              className="btn btn-sm btn-block"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                              Reject Appointment
-                                            </button>
+                                              <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+                                              Pre-Consultation History
+                                            </Link>
                                           </div>
                                         </div>
                                       </td>
