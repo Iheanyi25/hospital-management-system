@@ -1,24 +1,22 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { postServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader, TemplateSettings } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { UserContext } from "../../../mobx/UserState";
 import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 class ServiceCategory extends React.Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     name: "",
     description: "",
 
     success: false,
     formDone: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState !== this.state;
-  }
 
   componentDidUpdate() {
     const { formDone } = this.state;
@@ -56,7 +54,8 @@ class ServiceCategory extends React.Component {
   }
 
   render() {
-    const { user, formDone } = this.state;
+    const { user: { userType }} = this.context;
+    const { formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -70,7 +69,7 @@ class ServiceCategory extends React.Component {
               history={this.props.history}
               message="Well done, you successfully created a category"
               nextRoute={
-                user.userType === "Admin"
+                userType === "Admin"
                   ? "/AdminManageServiceCategory"
                   : "/LabManageServiceCategory"
               }
@@ -150,4 +149,4 @@ class ServiceCategory extends React.Component {
   }
 }
 
-export default ServiceCategory;
+export default observer(ServiceCategory);

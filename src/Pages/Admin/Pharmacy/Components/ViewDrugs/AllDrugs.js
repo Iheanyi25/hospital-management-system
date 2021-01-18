@@ -8,14 +8,14 @@ import inventory from "../../../../../assets/img/inventory.svg";
 import { fetchWrapper } from "../../../../../api/fetcher";
 import { fetchConfig } from "../../../../../api/fetchConfig";
 import { deleteDrugUrl } from "../../../../../api/URLs";
+import { UserContext } from "../../../../../mobx/UserState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
 class AllDrugs extends React.Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
-
     allDrugs: [],
     singleDrug: {},
   };
@@ -49,7 +49,8 @@ class AllDrugs extends React.Component {
   };
 
   render() {
-    const { allDrugs, singleDrug, user } = this.state;
+    const { user: { userType }} = this.context;
+    const { allDrugs, singleDrug } = this.state;
     return allDrugs.length === 0 ? (
       <h4 className="text-center">Not Available!</h4>
     ) : (
@@ -121,7 +122,7 @@ class AllDrugs extends React.Component {
                       <NavLink
                         to={{
                           pathname:
-                            user.userType === "Admin"
+                            userType === "Admin"
                               ? `/AdminViewDrug/${drug.id}`
                               : `/PharmacyViewDrug/${drug.id}`,
                           state: drug?.drugType,

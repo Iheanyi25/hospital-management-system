@@ -5,14 +5,16 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
 
 
 class DoctorAppointments extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       acceptedAppointments: [],
       activeAppointments: [],
       pendingAppointments: [],
@@ -25,14 +27,13 @@ class DoctorAppointments extends React.Component {
   }
 
   async componentDidMount() {
-    const { doctorId } = this.state;
-    console.log(this.state);
+    const { user: { id }} = this.context;
     var acceptedAppointments = [];
     var activeAppointments = [];
     var pendingAppointments = [];
     var completedAppointments = [];
     var rejectedAppointments = [];
-    const getDoctor = getDoctorUrl(doctorId);
+    const getDoctor = getDoctorUrl(id);
     const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
     const { data } = await fetchWrapper(getDoctorConfig);
 
@@ -591,4 +592,4 @@ class DoctorAppointments extends React.Component {
   }
 }
 
-export default DoctorAppointments;
+export default observer(DoctorAppointments);
