@@ -1,19 +1,18 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl, postPatientAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts";
+import { UserContext } from "../../mobx/UserState";
 import { formatInputDate } from "../../utils/formatInputDate";
-
-//const patientId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
 class BookAppointment extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-      doctor: "",
       doctorProfile: "",
       doctorId: "",
       appointmentDate: "",
@@ -32,7 +31,6 @@ class BookAppointment extends React.Component {
     const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
     const { data } = await fetchWrapper(getDoctorConfig);
 
-    console.log(data, 11111);
     this.setState({
       doctor: data,
     });
@@ -47,12 +45,15 @@ class BookAppointment extends React.Component {
 
   async bookAppointment(e) {
     e.preventDefault();
+    const {
+      user: { id },
+    } = this.context;
     const appointmentDet = {
       appointmentDate: this.state.appointmentDate,
       appointmentTime: this.state.appointmentTime,
       appointmentTitle: this.state.appointmentTitle,
       reasonForAppointment: this.state.reasonForAppointment,
-      patientId: this.state.patientId,
+      patientId: id,
       doctorId: this.state.doctorId,
     };
     try {
@@ -90,7 +91,6 @@ class BookAppointment extends React.Component {
   render() {
     const { firstName, lastName } = this.props.location.state;
     let {
-      doctor,
       appointmentDate,
       appointmentTime,
       appointmentTitle,
@@ -241,4 +241,4 @@ class BookAppointment extends React.Component {
   }
 }
 
-export default BookAppointment;
+export default observer(BookAppointment);

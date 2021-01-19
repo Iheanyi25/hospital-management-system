@@ -5,21 +5,19 @@ import { getPatientAllAppointmentsUrl, patientCancelAppointments } from "../../a
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
 
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Dashboard extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
-      patientName:
-        JSON.parse(localStorage.getItem("authenticatedUser")).firstName +
-        " " +
-        JSON.parse(localStorage.getItem("authenticatedUser")).lastName,
       pendingAppointments: [],
       pendingAppointmentsCount: 0,
     };
@@ -37,8 +35,10 @@ class Dashboard extends React.Component {
   async getPatientAppointments() {
     var pendingAppointments = [];
     var pendingAppointmentsCount = 0;
-
-    const getPatientAllAppointments = getPatientAllAppointmentsUrl(this.state.patientId);
+    const {
+      user: { id },
+    } = this.context;
+    const getPatientAllAppointments = getPatientAllAppointmentsUrl(id);
     const getPatientAllAppointmentsConfig = fetchConfig({ url: getPatientAllAppointments, method: "get" });
     const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
 
@@ -78,8 +78,10 @@ class Dashboard extends React.Component {
     const {
       pendingAppointments,
       pendingAppointmentsCount,
-      patientName
     } = this.state;
+    const {
+      user: { firstName, lastName },
+    } = this.context;
 
     return (
       <>
@@ -150,7 +152,7 @@ class Dashboard extends React.Component {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="card bg-light">
-                    <div className="card-header">Hello {patientName}</div>
+                    <div className="card-header">Hello {`${firstName} ${lastName}`}</div>
                     <div className="card-body">
                       You have no new notifications
                     </div>
@@ -253,4 +255,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default observer(Dashboard);
