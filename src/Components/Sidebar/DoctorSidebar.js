@@ -43,11 +43,12 @@ class DoctorSidebar extends React.Component {
 
   async setAvailability(e) {
     e.preventDefault();
-
-    const { doctorId } = this.state;
+    const {
+      user: { id },
+    } = this.context;
 
     try {
-      const updateDoctorAvailability = updateDoctorAvailabilityUrl(doctorId);
+      const updateDoctorAvailability = updateDoctorAvailabilityUrl(id);
       const updateDoctorAvailabilityConfig = fetchConfig({
         url: updateDoctorAvailability,
         method: "post",
