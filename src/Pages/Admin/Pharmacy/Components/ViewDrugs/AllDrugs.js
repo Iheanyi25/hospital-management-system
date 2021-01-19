@@ -37,8 +37,12 @@ class AllDrugs extends React.Component {
     const { setSuccess } = this.props;
     try {
       const deleteDrugs = deleteDrugUrl();
-      const deleteDrugsConfig = fetchConfig({ url: deleteDrugs, data:{id: id}, method: "delete" });
-      const res = await fetchWrapper(deleteDrugsConfig)
+      const deleteDrugsConfig = fetchConfig({
+        url: deleteDrugs,
+        data: { id: id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deleteDrugsConfig);
 
       if (res.status === 200) {
         setSuccess(res.message);
@@ -49,10 +53,17 @@ class AllDrugs extends React.Component {
   };
 
   render() {
-    const { user: { userType }} = this.context;
+    const {
+      user: { userType },
+    } = this.context;
     const { allDrugs, singleDrug } = this.state;
     return allDrugs.length === 0 ? (
-      <h4 className="text-center">Not Available!</h4>
+      <div className="d-flex justify-content-center my-4">
+        <img
+          src={require("../../../../../assets/img/emptyData.svg")}
+          alt="empty states"
+        />
+      </div>
     ) : (
       <div className="table-responsive">
         <table
