@@ -13,6 +13,8 @@ function ChangePassword() {
     error: false,
     passwordStatus: false,
     response: "",
+    currentPasswordInputType: "password",
+    newPasswordInputType: "password"
   });
 
   const {
@@ -22,6 +24,8 @@ function ChangePassword() {
     error,
     passwordStatus,
     response,
+    currentPasswordInputType,
+    newPasswordInputType
   } = allPasswordDetails;
 
   const history = useHistory();
@@ -78,6 +82,13 @@ function ChangePassword() {
     setAllPasswordDetails({ ...allPasswordDetails, newPassword: val });
   };
 
+  const toggleCurrentPasswordView = () => {
+    currentPasswordInputType === "password" ? setAllPasswordDetails({ ...allPasswordDetails, currentPasswordInputType: "text" }) : setAllPasswordDetails({ ...allPasswordDetails, currentPasswordInputType: "password" })
+  }
+
+  const toggleNewPasswordView = () => {
+    newPasswordInputType === "password" ? setAllPasswordDetails({ ...allPasswordDetails, newPasswordInputType: "text" }) : setAllPasswordDetails({ ...allPasswordDetails, newPasswordInputType: "password" })
+  }
 
   return (
     <main className="main-content">
@@ -86,7 +97,7 @@ function ChangePassword() {
           <div className="row justify-content-center">
             <div className="col col-md-6">
               {error ? (
-                <Success message={response} isError={true} timeOut={3000}/>
+                <Success message={response} isError={true} timeOut={3000} />
               ) : null}
               <div className="card border-light">
                 <div className="card-body">
@@ -96,7 +107,7 @@ function ChangePassword() {
                       <label>Current Password</label>
                       <input
                         className="form-control"
-                        type="password"
+                        type={currentPasswordInputType}
                         name="currentPassword"
                         onChange={(e) => {
                           handleCurrentPasssword(e.target.value);
@@ -104,12 +115,18 @@ function ChangePassword() {
                         required
                         autoComplete="off"
                       />
+                      <div class="input-group-append eye-icon pull-right">
+                        <i
+                          class={currentPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                          onClick={(e) => toggleCurrentPasswordView()}
+                        ></i>
+                      </div>
                     </div>
                     <div className="form-group">
                       <label>New Password</label>
                       <input
                         className="form-control"
-                        type="password"
+                        type={newPasswordInputType}
                         name="newPassword"
                         onChange={(e) => {
                           handleNewPassword(e.target.value);
@@ -117,6 +134,12 @@ function ChangePassword() {
                         required
                         autoComplete="off"
                       />
+                      <div class="input-group-append eye-icon pull-right">
+                        <i
+                          class={newPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                          onClick={(e) => toggleNewPasswordView()}
+                        ></i>
+                      </div>
                     </div>
                     <button
                       type="submit"
