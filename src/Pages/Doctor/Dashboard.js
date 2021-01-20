@@ -10,6 +10,8 @@ import {
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
 
+const $ = window.$;
+$.Datatable = require("datatables.net");
 class Dashboard extends React.Component {
   static contextType = UserContext;
   constructor(props) {
@@ -23,9 +25,14 @@ class Dashboard extends React.Component {
     };
   }
 
+  sync() {
+    this.$el = $(this.el);
+    this.$el.DataTable();
+  }
+
   async componentDidMount() {
     const getDoctorAllConsultations = getDoctorAllConsultationsUrl(
-      this.state.patientId
+      this.state.doctorId
     );
     const getDoctorAllConsultationsConfig = fetchConfig({
       url: getDoctorAllConsultations,
@@ -38,16 +45,25 @@ class Dashboard extends React.Component {
     console.log({ data });
 
     let pendingAppointments = [];
-    data.doctorConsultations.forEach((queue) => {
-      if (
-        !queue.isActive &&
-        !queue.isAccepted &&
-        !queue.isCompleted &&
-        !queue.isRejected
-      )
-        pendingAppointments.push(queue);
+    let acceptedAppointments = [];
+    let activeAppointments = [];
+    let completedConsultations = [];
+    let rejectedAppointments = [];
+    data.doctorConsultations.forEach((consultation) => {
+      if (consultation.patientQueue.isActive === true) {
+        activeAppointments.push(consultation);
+      } else if (consultation.patientQueue.isAccepted === true) {
+        acceptedAppointments.push(consultation);
+      } else if (consultation.patientQueue.isCompleted === true) {
+        completedConsultations.push(consultation);
+      } else if (consultation.patientQueue.isRejected === true) {
+        rejectedAppointments.push(consultation);
+      } else {
+        pendingAppointments.push(consultation);
+      }
     });
 
+    console.log("www", pendingAppointments);
     this.setState({
       pendingAppointments: pendingAppointments,
     });
@@ -60,10 +76,16 @@ class Dashboard extends React.Component {
       method: "get",
     });
     const { data: data2 } = await fetchWrapper(getDoctorDashboardConfig);
-    this.setState({ pendingAppointment: data2.pendingAppoinmentsCount });
-    this.setState({ completedAppointment: data2.completedAppoinmentsCount });
-    this.setState({ pendingConsultation: data2.pendingConsultationsCount });
-    this.setState({ completedConsultation: data2.completedConsultationCount });
+
+    this.setState(
+      {
+        pendingAppointment: data2.pendingAppoinmentsCount,
+        completedAppointment: data2.completedAppoinmentsCount,
+        completedConsultation: data2.completedConsultationCount,
+        pendingConsultation: data2.pendingConsultationsCount,
+      },
+      () => this.sync()
+    );
   }
 
   render() {
@@ -185,7 +207,10 @@ class Dashboard extends React.Component {
                 <div className="card-header">Pending Consultations</div>
                 <div className="card-body">
                   <div className="table-responsive">
-                    <table className="table table-striped">
+                    <table
+                      ref={(el) => (this.el = el)}
+                      className="table table-striped"
+                    >
                       <thead>
                         <tr>
                           <th>Title</th>

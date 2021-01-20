@@ -25,7 +25,7 @@ class Consultations extends React.Component {
       activeAppointments: [],
       pendingAppointments: [],
       pendingAppointmentsCount: 0,
-      completedAppointments: [],
+      completedConsultations: [],
       rejectedAppointmentsCount: 0,
       patients: [],
     };
@@ -38,7 +38,7 @@ class Consultations extends React.Component {
     const acceptedAppointments = [];
     const activeAppointments = [];
     const pendingAppointments = [];
-    const completedAppointments = [];
+    const completedConsultations = [];
     const rejectedAppointments = [];
 
     try {
@@ -53,28 +53,30 @@ class Consultations extends React.Component {
 
       this.setState({ doctorConsultations: data.doctorConsultations });
 
-      data.doctorConsultations.forEach((queue) => {
-        if (queue.isActive === true) {
-          activeAppointments.push(queue);
-        } else if (queue.isAccepted === true) {
-          acceptedAppointments.push(queue);
-        } else if (queue.isCompleted === true) {
-          completedAppointments.push(queue);
-        } else if (queue.isRejected === true) {
-          rejectedAppointments.push(queue);
+      console.log(data.doctorConsultations[0].patientQueue);
+      data.doctorConsultations.forEach((consultation) => {
+        if (consultation.patientQueue.isActive === true) {
+          activeAppointments.push(consultation);
+        } else if (consultation.patientQueue.isAccepted === true) {
+          acceptedAppointments.push(consultation);
+        } else if (consultation.patientQueue.isCompleted === true) {
+          completedConsultations.push(consultation);
+        } else if (consultation.patientQueue.isRejected === true) {
+          rejectedAppointments.push(consultation);
         } else {
-          pendingAppointments.push(queue);
+          pendingAppointments.push(consultation);
         }
       });
-
+      console.log("com", completedConsultations);
+      console.log("pen", pendingAppointments);
       this.setState(
         {
           activeAppointments: activeAppointments,
           activeAppointmentsCount: activeAppointments.length,
           acceptedAppointments: acceptedAppointments,
           acceptedAppointmentsCount: acceptedAppointments.length,
-          completedAppointments: completedAppointments,
-          completedAppointmentsCount: completedAppointments.length,
+          completedConsultations: completedConsultations,
+          completedAppointmentsCount: completedConsultations.length,
           pendingAppointments: pendingAppointments,
           pendingAppointmentsCount: pendingAppointments.length,
           rejectedAppointmentsCount: rejectedAppointments.length,
@@ -117,7 +119,7 @@ class Consultations extends React.Component {
       acceptedAppointmentsCount,
       pendingAppointments,
       pendingAppointmentsCount,
-      completedAppointments,
+      completedConsultations,
       rejectedAppointmentsCount,
       patients,
     } = this.state;
@@ -396,8 +398,8 @@ class Consultations extends React.Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {acceptedAppointments
-                                ? acceptedAppointments.map((consultation) => (
+                              {completedConsultations
+                                ? completedConsultations.map((consultation) => (
                                     <tr>
                                       <td>
                                         {
@@ -446,23 +448,17 @@ class Consultations extends React.Component {
                                           >
                                             Action
                                           </button>
-                                          <div className="actions">
+                                          <div className="dropdown-menu">
                                             <Link
-                                              title="Clerking"
+                                              title="Patient Profile"
                                               to={{
-                                                pathname: "/DoctorClarking",
-                                                state: {
-                                                  type: "consultation",
-                                                  id:
-                                                    consultation.patientQueue
-                                                      .id,
-                                                  patient: consultation.patient,
-                                                },
+                                                pathname: `/DoctorPatientProfile/${consultation.patient.id}`,
+                                                state: consultation.patient,
                                               }}
                                               className="btn btn-sm btn-block"
                                             >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-3" />
-                                              Go to Clerking
+                                              <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
+                                              View Profile
                                             </Link>
                                           </div>
                                         </div>
@@ -531,13 +527,17 @@ class Consultations extends React.Component {
                                             Action
                                           </button>
                                           <div className="dropdown-menu">
-                                            <NavLink
-                                              to={`/DoctorProfile/${patient.patientId}`}
+                                            <Link
+                                              title="Patient Profile"
+                                              to={{
+                                                pathname: `/DoctorPatientProfile/${patient.patientId}`,
+                                                state: patient.patient,
+                                              }}
                                               className="btn btn-sm btn-block"
                                             >
                                               <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
                                               View Profile
-                                            </NavLink>
+                                            </Link>
                                           </div>
                                         </div>
                                       </td>
