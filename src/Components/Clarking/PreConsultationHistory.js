@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getPatientPreConsultationUrl } from "../../api/URLs";
 import formatDate from "../../utils/formatDate";
 import { PageLoader } from "../Loader";
+import NoDataState from "../EmptyState/NoDataState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -60,12 +61,7 @@ class PreConsultationHistory extends React.Component {
             {loading ? (
               <PageLoader />
             ) : patientPreConsultations.length === 0 ? (
-              <div className="d-flex justify-content-center my-4">
-                <img
-                  src={require("../../assets/img/emptyData.svg")}
-                  alt="empty states"
-                />
-              </div>
+              <NoDataState />
             ) : (
               patientPreConsultations.map((patientPreConsultation, index) => (
                 <div className="card mb-0">

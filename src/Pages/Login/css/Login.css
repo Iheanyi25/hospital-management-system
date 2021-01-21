@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
-
 .auth-background {
   height: 100%;
   background: url("../../../assets/img/login-updated.png") no-repeat center center fixed;
@@ -41,7 +40,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-.wrapper_404 > h2 {
+.wrapper_404>h2 {
   font-size: 8em;
   color: #818C8B;
   font-weight: 800;
@@ -49,7 +48,7 @@
   line-height: 1em;
 }
 
-.wrapper_404 > p {
+.wrapper_404>p {
   font-size: 1.5em;
   color: #2D4642;
   font-weight: normal;
@@ -63,5 +62,14 @@
 
 .alert-wrapper {
   z-index: 2 !important;
-  right: 50%;
+  margin: auto;
+}
+
+.eye-icon {
+  position: absolute;
+  font-size: x-large;
+  bottom: 8px;
+  width: max-content;
+  left: 87%;
+  cursor: pointer;
 }
