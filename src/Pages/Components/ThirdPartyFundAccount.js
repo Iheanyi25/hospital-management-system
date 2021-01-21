@@ -1,8 +1,45 @@
 import React from "react";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import logoMakeshift from "../../assets/img/logo-makeshift.svg";
+import {
+  PayWithFlutter,
+  PayWithPaystack,
+} from "../../Components/Payment/PaymentGateways";
+import { getAccountUrl, thirdPartyFundAccountUrl } from "../../api/URLs";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../api/fetcher";
 
-const ThirdPartyFundAccount = () => {
+const ThirdPartyFundAccount = ({ match }) => {
+  const {
+    params: { id },
+  } = match;
+  console.log(id);
+
+  const getAccount = getAccountUrl(id);
+  const getAccountConfig = fetchConfig({
+    url: getAccount,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAccountConfig, {
+    revalidateOnFocus: false,
+  });
+
+  const paidSuccessfully = () => {
+    const payload = {
+      accountNumber: "HMSORTYDUS",
+      amount: 200,
+      modeOfPayment: "online",
+      transactionReference: "string",
+      paymentDescription: "string",
+      initiator: "string"
+    }
+    const thirdPartyFundAccount = thirdPartyFundAccountUrl();
+    const thirdPartyFundAccountConfig = fetchConfig({
+      url: thirdPartyFundAccount,
+      method: "post"
+    })
+    const res = fetchWrapper(thirdPartyFundAccountConfig)
+  }
   return (
     <>
       <div className="row h-100">
@@ -23,7 +60,7 @@ const ThirdPartyFundAccount = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Patient name</label>
+                  <label>Account name</label>
                   <input
                     className="form-control"
                     type="text"
@@ -34,7 +71,18 @@ const ThirdPartyFundAccount = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Patient’s phone number</label>
+                  <label>Account number</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="passwword"
+                    value="08033456123"
+                    disabled
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Depositor's name</label>
                   <input
                     className="form-control"
                     type="text"
@@ -57,20 +105,31 @@ const ThirdPartyFundAccount = () => {
                   <label>Comment</label>
                   <textarea className="form-control" type="text" required />
                 </div>
-                <button
+                <p className="text-center">
+                  Select your prefered payment method
+                </p>
+                <div className="row">
+                  <PayWithPaystack
+                    paymentDetails={{ email: "a@email.com", amount: "300" }}
+                  />
+                  <PayWithFlutter
+                    paymentDetails={{ email: "a@email.com", amount: "300" }}
+                  />
+                </div>
+                {/* <button
                   type="submit"
                   className="btn btn-block btn-primary"
                   type="submit"
                 >
                   Fund account
-                </button>
+                </button> */}
               </form>
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-8 auth-background">
-        <img src={logoMakeshift} alt="logo" />
-        <h1 className="text-white">Hospital Management Solution</h1>
+        <div className="col-12 col-md-8 auth-background d-flex flex-column align-items-start justify-content-between p-5">
+          <img src={logoMakeshift} alt="logo" />
+          <h1 className="text-white">Hospital Management Solution</h1>
         </div>
       </div>
     </>
