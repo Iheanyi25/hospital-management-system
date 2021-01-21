@@ -19,7 +19,9 @@ function ResetPasswordFromMail(props) {
     serverRes: "",
     submitting: false,
     error: false,
-    errorMessage: ""
+    errorMessage: "",
+    newPasswordInputType: "password",
+    confirmPasswordInputType: "password"
   });
 
   const {
@@ -30,7 +32,9 @@ function ResetPasswordFromMail(props) {
     serverRes,
     submitting,
     error,
-    errorMessage
+    errorMessage,
+    newPasswordInputType,
+    confirmPasswordInputType
   } = newPasswordDetails;
 
   const handleSubmit = async (e) => {
@@ -58,13 +62,7 @@ function ResetPasswordFromMail(props) {
             serverRes: data.message,
           });
           props.history.push("/Login")
-          // console.log('Data is ', data);
-          // localStorage.setItem("token", data.token);
-          // console.log(email, " from handleSubmit")
-          // localStorage.setItem(
-          //   "authenticatedUser",
-          //   JSON.stringify(data.authenticatedUser)
-          // );
+          
         }
       }
     } catch (error) {
@@ -89,6 +87,14 @@ function ResetPasswordFromMail(props) {
     console.log(confirmPassword)
   };
 
+  const toggleNewPasswordView = () => {
+    newPasswordInputType === "password" ? setNewPasswordDetails({ ...newPasswordDetails, newPasswordInputType: "text" }) : setNewPasswordDetails({ ...newPasswordDetails, newPasswordInputType: "password" })
+  }
+
+  const toggleConfirmPasswordView = () => {
+    confirmPasswordInputType === "password" ? setNewPasswordDetails({ ...newPasswordDetails, confirmPasswordInputType: "text" }) : setNewPasswordDetails({ ...newPasswordDetails, confirmPasswordInputType: "password" })
+  }
+
   return (
     <>
       <div>
@@ -103,7 +109,7 @@ function ResetPasswordFromMail(props) {
                 <label>Password</label>
                 <input
                   className="form-control"
-                  type="password"
+                  type={newPasswordInputType}
                   name="passwword"
                   onChange={(e) => {
                     handleNewPasswordValue(e.target.value);
@@ -111,6 +117,12 @@ function ResetPasswordFromMail(props) {
                   placeholder="Enter your new password"
                   required
                 />
+                <div class="input-group-append eye-icon pull-right">
+                  <i
+                    class={newPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                    onClick={(e) => toggleConfirmPasswordView()}
+                  ></i>
+                </div>
               </div>
               <div className="form-group">
                 <label>Confirm Password</label>
@@ -124,6 +136,12 @@ function ResetPasswordFromMail(props) {
                   placeholder="Confirm your new password"
                   required
                 />
+                <div class="input-group-append eye-icon pull-right">
+                  <i
+                    class={confirmPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                    onClick={(e) => toggleNewPasswordView()}
+                  ></i>
+                </div>
               </div>
               <button
                 type="submit"
@@ -133,14 +151,14 @@ function ResetPasswordFromMail(props) {
               >
                 Create new password
                 </button>
-                <Link to="/Login" className="text-center mt-3">
-            <p className="text-center mt-3" style={{ color: "#007BFF" }}>
-              Back to Log in
+              <Link to="/Login" className="text-center mt-3">
+                <p className="text-center mt-3" style={{ color: "#007BFF" }}>
+                  Back to Log in
                   </p>
-          </Link>
+              </Link>
             </form>
           </div>
-          
+
         </div>
       </div>
     </>
