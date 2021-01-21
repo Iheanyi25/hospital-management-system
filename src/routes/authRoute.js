@@ -33,17 +33,17 @@ const AuthRoute = () => {
                     />
                     <Route
                         exact
-                        path="/ThirdPartyFundAccount"
+                        path="/common/ThirdPartyFundAccount/:id"
                         component={ThirdPartyFundAccount}
                     />
 
                     <Route
                         exact
-                        path="/404"
+                        path="*"
                         component={Page404}
                     />
 
-                    <Route path="*" render={() => <Redirect to="/" />} />
+                    {/* <Route path="*" render={() => <Redirect to="/404" />} /> */}
                 </Switch>
             </AuthLayout>
         </Router>

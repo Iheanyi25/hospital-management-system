@@ -2,6 +2,7 @@
 export const postPatientFundAccountUrl = () => `/Patient/Account/FundAccount`;
 export const getPatientAccountBalanceUrl = (patientId) => `/Patient/Account/GetAccountBalance?PatientId=${patientId}`;
 export const getPatientAccountTransactionsUrl = (patientId) => `/Patient/Account/GetPatientAccountTransactions?PatientId=${patientId}`;
+export const getPatientAccountUrl = (patientId) => `/Patient/Account/GetAccount?PatientId=${patientId}`;
 
 
 // Patient - Manage Profile
