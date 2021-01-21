@@ -50,7 +50,7 @@ export default class ManageServices extends Component {
       console.log(error);
       this.setState((state) => ({
         ...state,
-        success: { show: true, message: "an error occured", delError: true },
+        success: { show: true, message: "can't delete this service, service is tied to a request", delError: true },
       }));
     }
   };

@@ -310,7 +310,7 @@ class AdminSidebar extends React.Component {
                               to="/AdminManageServices"
                               className="item-link"
                             >
-                              <span className="link-text">View Services</span>
+                              <span className="link-text">Manage Services</span>
                             </Link>
                           </li>
                         </ul>
@@ -336,7 +336,7 @@ class AdminSidebar extends React.Component {
                               to="/AdminManageServiceCategory"
                               className="item-link"
                             >
-                              <span className="link-text">View Categories</span>
+                              <span className="link-text">Manage Categories</span>
                             </Link>
                           </li>
                         </ul>
