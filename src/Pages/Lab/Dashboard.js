@@ -11,11 +11,15 @@ import notpaid from "../../assets/img/notpaid.svg";
 import paid from "../../assets/img/paid.svg";
 import incomplete from "../../assets/img/incomplete.svg";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../../mobx/UserState";
+import { toJS } from "mobx";
+import { observer } from "mobx-react";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
 class Dashboard extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
@@ -25,17 +29,9 @@ class Dashboard extends React.Component {
       completedServiceRequest: 0,
       uncompletedServiceRequest: 0,
       serviceRequestInvoices: [],
-      user: {},
-      userName:
-        JSON.parse(localStorage.getItem("authenticatedUser")).firstName +
-        " " +
-        JSON.parse(localStorage.getItem("authenticatedUser")).lastName,
     };
   }
   async componentDidMount() {
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
     this.fetchServiceRequestInvoices().then(() => this.sync());
     const getLabDashboardCounters = labDashboardUrl();
     const getLabDashboardCountersConfig = fetchConfig({
@@ -78,10 +74,12 @@ class Dashboard extends React.Component {
       service,
       completedServiceRequest,
       uncompletedServiceRequest,
-      user,
+      // user,
       userName,
       serviceRequestInvoices,
     } = this.state;
+    const { user } = this.context;
+    const { firstName, lastName, userType } = user;
     return (
       <>
         <PageLoader />
@@ -167,7 +165,9 @@ class Dashboard extends React.Component {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="card bg-light">
-                    <div className="card-header">Welcome {userName}</div>
+                    <div className="card-header">
+                      Welcome {`${firstName} ${lastName}`}
+                    </div>
                     <div className="card-body">
                       You have no new notifications
                     </div>
@@ -284,7 +284,7 @@ class Dashboard extends React.Component {
                                             Action
                                           </button>
                                           <div className="dropdown-menu">
-                                            {user.userType ===
+                                            {userType ===
                                             "Lab" ? null : category?.paymentStatus ===
                                                 "NOT PAID" ||
                                               category?.paymentStatus ===
@@ -292,7 +292,7 @@ class Dashboard extends React.Component {
                                               <NavLink
                                                 to={{
                                                   pathname:
-                                                    user.userType === "Admin"
+                                                    userType === "Admin"
                                                       ? `/AdminPaymentForService/${category.id}`
                                                       : `/AccountPaymentForService/${category.id}`,
                                                   state: {
@@ -301,7 +301,7 @@ class Dashboard extends React.Component {
                                                       category.patientId,
                                                     invoiceNumber:
                                                       category.invoiceNumber,
-                                                    user: user,
+                                                    user: toJS(user),
                                                   },
                                                 }}
                                                 className="btn btn-sm btn-block"
@@ -314,9 +314,9 @@ class Dashboard extends React.Component {
                                             <NavLink
                                               to={{
                                                 pathname:
-                                                  user.userType === "Admin"
+                                                  userType === "Admin"
                                                     ? `/AdminViewServiceRequestContents/${category.id}`
-                                                    : user.userType === "Lab"
+                                                    : userType === "Lab"
                                                     ? `/LabServiceRequestContents/${category.id}`
                                                     : `/AccountServiceRequestContents/${category.id}`,
                                                 state: {
@@ -326,7 +326,7 @@ class Dashboard extends React.Component {
                                                     category.invoiceNumber,
                                                   paymentStatus:
                                                     category.paymentStatus,
-                                                  user: user,
+                                                  user: toJS(user),
                                                 },
                                               }}
                                               className="btn btn-sm btn-block"
@@ -357,4 +357,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default observer(Dashboard);

@@ -2,13 +2,17 @@ import React from "react";
 import { NavLink as Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getDoctorAvailabilityUrl, updateDoctorAvailabilityUrl } from "../../api/URLs";
+import {
+  getDoctorAvailabilityUrl,
+  updateDoctorAvailabilityUrl,
+} from "../../api/URLs";
+import { UserContext } from "../../mobx/UserState";
 
 class DoctorSidebar extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
     this.state = {
-      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       doctorAvailability: false,
     };
 
@@ -16,16 +20,22 @@ class DoctorSidebar extends React.Component {
   }
 
   async componentDidMount() {
-    await this.fetchDoctorAvailability()
+    await this.fetchDoctorAvailability();
   }
 
   async fetchDoctorAvailability() {
+    const {
+      user: { id },
+    } = this.context;
     try {
-      const getDoctorAvailability = getDoctorAvailabilityUrl(this.state.doctorId)
-      const getDoctorAvailabilityConfig = fetchConfig({url : getDoctorAvailability, method : 'get'})
-      const { data } = await fetchWrapper(getDoctorAvailabilityConfig)
+      const getDoctorAvailability = getDoctorAvailabilityUrl(id);
+      const getDoctorAvailabilityConfig = fetchConfig({
+        url: getDoctorAvailability,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getDoctorAvailabilityConfig);
 
-      this.setState({ doctorAvailability: data.isAvailable }); 
+      this.setState({ doctorAvailability: data.isAvailable });
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
@@ -33,14 +43,18 @@ class DoctorSidebar extends React.Component {
 
   async setAvailability(e) {
     e.preventDefault();
-
-    const { doctorId } = this.state;
+    const {
+      user: { id },
+    } = this.context;
 
     try {
-      const updateDoctorAvailability = updateDoctorAvailabilityUrl(doctorId)
-      const updateDoctorAvailabilityConfig = fetchConfig({url : updateDoctorAvailability, method : 'post'})
-      const res = await fetchWrapper(updateDoctorAvailabilityConfig)
-      const {error, data} = res;
+      const updateDoctorAvailability = updateDoctorAvailabilityUrl(id);
+      const updateDoctorAvailabilityConfig = fetchConfig({
+        url: updateDoctorAvailability,
+        method: "post",
+      });
+      const res = await fetchWrapper(updateDoctorAvailabilityConfig);
+      const { error, data } = res;
 
       if (res.status !== 200) {
         throw Error(error.message);
@@ -50,9 +64,8 @@ class DoctorSidebar extends React.Component {
         successMessage: data.message,
         consultationTitle: "",
         reasonForConsultation: "",
-        doctorAvailability: !this.state.doctorAvailability
+        doctorAvailability: !this.state.doctorAvailability,
       });
-      
     } catch (err) {
       this.setState({ showErrorMessage: true, errorMessage: err.message });
     }
@@ -65,7 +78,7 @@ class DoctorSidebar extends React.Component {
 
   render() {
     const { doctorAvailability } = this.state;
-    console.log(doctorAvailability,55555)
+    console.log(doctorAvailability, 55555);
     return (
       <>
         {/* Vertical navbar */}
@@ -153,12 +166,10 @@ class DoctorSidebar extends React.Component {
                         </label>
                       </div>
                     </div>
-
                   </li>
                 </ul>
               </nav>
             </div>
-
 
             <div className="add-patient">
               <Link to="/DoctorConsultations" className="btn btn-primary">

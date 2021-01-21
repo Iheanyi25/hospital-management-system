@@ -21,7 +21,7 @@ const RegisterUserModal = ({ userType }) => {
     lastName: "",
     password: "Password101@",
     success: false,
-    message: "",  
+    message: "",
     route: "",
   });
 

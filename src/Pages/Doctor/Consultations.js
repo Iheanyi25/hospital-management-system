@@ -7,16 +7,18 @@ import { PageLoader } from "../../Components";
 import { getPatientsUrl } from "../../api/URLs";
 import DoctorImage from "../../assets/img/PatientAndAdminIcon.svg";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Consultations extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientQueue: null,
       acceptedAppointments: [],
       acceptedAppointmentsCount: 0,
@@ -30,6 +32,9 @@ class Consultations extends React.Component {
   }
 
   async componentDidMount() {
+    const {
+      user: { id },
+    } = this.context;
     const acceptedAppointments = [];
     const activeAppointments = [];
     const pendingAppointments = [];
@@ -37,9 +42,7 @@ class Consultations extends React.Component {
     const rejectedAppointments = [];
 
     try {
-      const getDoctorAllConsultations = getDoctorAllConsultationsUrl(
-        this.state.doctorId
-      );
+      const getDoctorAllConsultations = getDoctorAllConsultationsUrl(id);
       const getDoctorAllConsultationsConfig = fetchConfig({
         url: getDoctorAllConsultations,
         method: "get",
@@ -566,4 +569,4 @@ class Consultations extends React.Component {
   }
 }
 
-export default Consultations;
+export default observer(Consultations);

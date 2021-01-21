@@ -11,23 +11,13 @@ $.Datatable = require("datatables.net");
 
 class FundAccount extends React.Component {
   state = {
-    email: "",
-    accountId: "",
-    user: {},
+    email: this.props.history.location.state.user.email,
+    accountId: this.props.history.location.state.id,
+    user: this.props.history.location.state.user,
     amount: "",
     paymentDescription: "",
     success: false,
   };
-
-  componentDidMount() {
-    let user = JSON.parse(localStorage.getItem("authenticatedUser"));
-    console.log("user email", this.props.history.location.state.id, user.email);
-    this.setState({
-      accountId: this.props.history.location.state.id,
-      user: this.props.history.location.state.user,
-      email: user.email,
-    });
-  }
 
   setPaymentParams = (key, value) => {
     this.setState({
@@ -48,10 +38,14 @@ class FundAccount extends React.Component {
     };
     try {
       const fundAccounts = postAdminFundAccountsUrl();
-      const fundAccountsConfig = fetchConfig({ url: fundAccounts, data: payload, method: "post" });
-      const res = await fetchWrapper(fundAccountsConfig);
+      const fundAccountsConfig = fetchConfig({
+        url: fundAccounts,
+        data: payload,
+        method: "post",
+      });
+      const { status } = await fetchWrapper(fundAccountsConfig);
 
-      if (res.status === 200) {
+      if (status === 200) {
         this.handleSuccess(true);
       }
     } catch (error) {
@@ -66,9 +60,12 @@ class FundAccount extends React.Component {
 
   render() {
     const { amount, email, user } = this.state;
-    const { history: {location} } = this.props;
-    const { state: {name} } = location;
-    // console.log(state);
+    const {
+      history: { location },
+    } = this.props;
+    const {
+      state: { name },
+    } = location;
     return (
       <>
         <PageLoader />

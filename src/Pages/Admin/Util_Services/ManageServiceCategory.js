@@ -2,57 +2,79 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
-import { deleteServiceCategoryUrl, getAllServicesCategoryUrl } from "../../../api/URLs";
+import {
+  deleteServiceCategoryUrl,
+  getAllServicesCategoryUrl,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { UserContext } from "../../../mobx/UserState";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageServiceCategory extends Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     categories: [],
     success: { show: false, message: "", delError: false },
   };
 
   async componentDidMount() {
-    this.fetchAllServiceCategories()
+    this.fetchAllServiceCategories();
   }
 
   fetchAllServiceCategories = async () => {
-    const getAllServicesCategory = getAllServicesCategoryUrl()
-    const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
-    const {data} = await fetchWrapper(getAllServicesCategoryConfig)
+    const getAllServicesCategory = getAllServicesCategoryUrl();
+    const getAllServicesCategoryConfig = fetchConfig({
+      url: getAllServicesCategory,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getAllServicesCategoryConfig);
 
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
-    this.setState((state) => ({...state, categories: data }), () => this.sync() );
+    this.setState(
+      (state) => ({ ...state, categories: data }),
+      () => this.sync()
+    );
   };
 
   deleteMe = async (id) => {
-   
     try {
-      const deleteServiceCategory = deleteServiceCategoryUrl()
-      const deleteServiceCategoryConfig = fetchConfig({url : deleteServiceCategory, data: {id}, method : 'post'})
-      const res = await fetchWrapper(deleteServiceCategoryConfig)
-      
+      const deleteServiceCategory = deleteServiceCategoryUrl();
+      const deleteServiceCategoryConfig = fetchConfig({
+        url: deleteServiceCategory,
+        data: { id },
+        method: "post",
+      });
+      const res = await fetchWrapper(deleteServiceCategoryConfig);
+
       if (res.status === 200) {
         this.fetchAllServiceCategories();
-        this.setState((state) => ({
-          ...state,
-          success: { show: true, message: "service category was successfully deleted", delError: false },
-        }), () => this.sync());
-        
+        this.setState(
+          (state) => ({
+            ...state,
+            success: {
+              show: true,
+              message: "service category was successfully deleted",
+              delError: false,
+            },
+          }),
+          () => this.sync()
+        );
       }
     } catch (error) {
       console.log(error);
       this.setState((state) => ({
         ...state,
-        success: { show: true, message: error.response.data.message, delError: true },
+        success: {
+          show: true,
+          message: error.response.data.message,
+          delError: true,
+        },
       }));
     }
-   
   };
 
   sync() {
@@ -67,7 +89,10 @@ export default class ManageServiceCategory extends Component {
     }));
 
   render() {
-    const { categories, user } = this.state;
+    const {
+      user: { userType },
+    } = this.context;
+    const { categories } = this.state;
     return (
       <>
         <PageLoader />
@@ -89,7 +114,7 @@ export default class ManageServiceCategory extends Component {
               <NavLink
                 className="btn btn-primary"
                 to={
-                  user.userType === "Admin"
+                  userType === "Admin"
                     ? "/AdminServiceCategory"
                     : "/LabServiceCategory"
                 }
@@ -98,7 +123,10 @@ export default class ManageServiceCategory extends Component {
               </NavLink>
             </header>
             <div className="page-content mt-5">
-              <TableSize size={this.state.categories.length} heading="Service Categories"/>
+              <TableSize
+                size={this.state.categories.length}
+                heading="Service Categories"
+              />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
@@ -152,7 +180,7 @@ export default class ManageServiceCategory extends Component {
                                         title="Pre-consultation"
                                         to={{
                                           pathname:
-                                            user.userType === "Admin"
+                                            userType === "Admin"
                                               ? `/AdminEditServiceCategory/${item.id}`
                                               : `/LabEditServiceCategory/${item.id}`,
                                           state: item,

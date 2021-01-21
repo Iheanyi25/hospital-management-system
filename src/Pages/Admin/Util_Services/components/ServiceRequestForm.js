@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { observer } from "mobx-react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../api/fetcher";
 import { postServiceRequestUrl } from "../../../../api/URLs";
+import { UserContext } from "../../../../mobx/UserState";
 
-
-export default function UploadLabResultForm({
-  serviceRequest,
-  setNotification,
-}) {
+const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const formRef = React.useRef();
   const history = useHistory();
   const [state, setState] = useState({
@@ -48,19 +49,34 @@ export default function UploadLabResultForm({
       try {
         const resServiceRequestUpdate = await fetchWrapper(postServiceRequest);
         if (resServiceRequestUpdate.status === 200) {
-          setNotification({ show: true, message: resServiceRequestUpdate.data.message, isError: false });
+          setNotification({
+            show: true,
+            message: resServiceRequestUpdate.data.message,
+            isError: false,
+          });
           history.push({
-            pathname: `/AdminViewLabResults/${serviceRequest.id}`,
+            pathname:
+              userType === "Admin"
+                ? `/AdminViewLabResults/${serviceRequest.id}`
+                : `/LabViewLabResults/${serviceRequest.id}`,
             state: resServiceRequestUpdate.data.serviceRequestResult.id,
           });
         } else {
-          setNotification({ show: true, message: resServiceRequestUpdate.data.message, isError: true });
+          setNotification({
+            show: true,
+            message: resServiceRequestUpdate.data.message,
+            isError: true,
+          });
         }
       } catch (error) {
         console.log(error);
-        setNotification({ show: true, message: "a fatal error occured", isError: true });
+        setNotification({
+          show: true,
+          message: "a fatal error occured",
+          isError: true,
+        });
       }
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -133,4 +149,6 @@ export default function UploadLabResultForm({
       </div>
     </form>
   );
-}
+});
+
+export default UploadLabResultForm;
