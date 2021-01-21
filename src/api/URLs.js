@@ -6,5 +6,6 @@ export * from './urlCategories/doctorUrls.js';
 export * from './urlCategories/labUrls.js';
 export * from './urlCategories/pharmacyUrls.js';
 export * from './urlCategories/patientUrls.js';
+export * from './urlCategories/commonUrls';
 
 

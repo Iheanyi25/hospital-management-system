@@ -24,9 +24,6 @@ class AllLabTechnicians extends React.Component {
 
   async componentDidMount() {
     this.fetchLabTechnicians().then(() => this.sync());
-    // this.setState({
-    //   user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    // });
   }
 
   async fetchLabTechnicians() {

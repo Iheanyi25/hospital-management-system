@@ -4,22 +4,23 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
   getPatientAllConsulationsUrl,
-  cancelPatientConsulationsUrl
+  cancelPatientConsulationsUrl,
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import DoctorImage from "../../assets/img/DoctorIcon.svg"
+import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
-
+import { observer } from "mobx-react";
+import { UserContext } from "../../mobx/UserState";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Consultations extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientConsultations: null,
       canceledConsultations: [],
       completedConsultations: [],
@@ -35,9 +36,11 @@ class Consultations extends React.Component {
     var canceledConsultations = [];
     var completedConsultations = [];
     var pendingConsultations = [];
-    const { patientId } = this.state;
+    const {
+      user: { id },
+    } = this.context;
 
-    const getPatientAllConsulations = getPatientAllConsulationsUrl(patientId);
+    const getPatientAllConsulations = getPatientAllConsulationsUrl(id);
     const getPatientAllConsulationsConfig = fetchConfig({
       url: getPatientAllConsulations,
       method: "get",
@@ -84,8 +87,8 @@ class Consultations extends React.Component {
     });
     const res = await fetchWrapper(cancelPatientConsulationsConfig);
     if (res) {
-      console.log(res)
-      this.setState({ success: true, successMessage: res.data.message })
+      console.log(res);
+      this.setState({ success: true, successMessage: res.data.message });
       this.getpatientConsultations();
     }
   };
@@ -99,14 +102,11 @@ class Consultations extends React.Component {
     return (
       <>
         <PageLoader />
-        {
-          this.state?.success ?
-            <Success
-              message={this.state.successMessage}
-            />
-            :
-            <></>
-        }
+        {this.state?.success ? (
+          <Success message={this.state.successMessage} />
+        ) : (
+          <></>
+        )}
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -454,4 +454,4 @@ class Consultations extends React.Component {
   }
 }
 
-export default Consultations;
+export default observer(Consultations);

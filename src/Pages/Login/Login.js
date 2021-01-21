@@ -17,6 +17,7 @@ const Login = observer(() => {
     submitting: false,
     response: "",
     success: false,
+    inputType: "password"
   });
 
   const handleSubmit = async (e) => {
@@ -70,7 +71,11 @@ const Login = observer(() => {
     setState(state => ({ ...state, [name]: value }))
   }
 
-  const { email, password, success, response } = state;
+  const togglePasswordView = () => {
+    inputType === "password" ?  setState({ ...state, inputType: "text" }) : setState({ ...state, inputType: "password" })
+  }
+
+  const { email, password, success, response, inputType } = state;
   return (
     <div className="auth-background">
       {success ? <Success message={response} /> : null}
@@ -115,13 +120,19 @@ const Login = observer(() => {
                 <div className="form-group">
                   <label>Password</label>
                   <input
-                    className="form-control"
-                    type="password"
+                    className="form-control pr-2"
+                    type={inputType}
                     name="password"
                     value={password}
                     onChange={(e) => handleChange("password", e.target.value)}
                     required
                   />
+                  <div class="input-group-append eye-icon pull-right">
+                      <i
+                      class={inputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                      onClick={(e) => togglePasswordView()}
+                      ></i>
+                  </div>
                 </div>
                 <button
                   type="submit"

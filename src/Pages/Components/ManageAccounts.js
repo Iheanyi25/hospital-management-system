@@ -6,25 +6,25 @@ import { getAllAccountsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
+import { toJS } from "mobx";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class ManageAccounts extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
       accounts: [],
-      user: "",
     };
   }
 
   async componentDidMount() {
     this.fecthAllAcounts().then(() => this.sync());
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
   }
 
   fecthAllAcounts = async () => {
@@ -48,7 +48,8 @@ class ManageAccounts extends React.Component {
   }
 
   render() {
-    const { accounts, user } = this.state;
+    const { user } = this.context;
+    const { accounts } = this.state;
     console.log(this.props, "restashznvusdhf");
 
     return (
@@ -193,7 +194,7 @@ class ManageAccounts extends React.Component {
                                               }`,
                                               state: {
                                                 id: account.id,
-                                                user,
+                                                user: toJS(user),
                                                 name: account?.name,
                                               },
                                             }}
@@ -223,4 +224,4 @@ class ManageAccounts extends React.Component {
   }
 }
 
-export default ManageAccounts;
+export default observer(ManageAccounts);

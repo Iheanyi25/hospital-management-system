@@ -1,9 +1,13 @@
 import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getServiceRequestResultUrl, getServiceRequestResultForPatientUrl } from "../../api/URLs";
+import {
+  getServiceRequestResultUrl,
+  getServiceRequestResultForPatientUrl,
+} from "../../api/URLs";
 // import { PageLoader } from "../../../Components";
 import resultImage from "../../assets/img/resultImage.svg";
+import NoDataState from "../EmptyState/NoDataState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -20,9 +24,14 @@ class LabResults extends React.Component {
     console.log(this.props.patientId);
     const { serviceRequestId, patientId } = this.props;
     try {
-      const getServiceRequestResult = patientId ? getServiceRequestResultForPatientUrl(patientId)  : getServiceRequestResultUrl(serviceRequestId)
-      const getServiceRequestResultConfig = fetchConfig({ url: getServiceRequestResult, method : 'GET'})
-      const {data} = await fetchWrapper(getServiceRequestResultConfig)
+      const getServiceRequestResult = patientId
+        ? getServiceRequestResultForPatientUrl(patientId)
+        : getServiceRequestResultUrl(serviceRequestId);
+      const getServiceRequestResultConfig = fetchConfig({
+        url: getServiceRequestResult,
+        method: "GET",
+      });
+      const { data } = await fetchWrapper(getServiceRequestResultConfig);
       this.setState({
         serviceRequestResults: data.serviceRequestResults,
       });
@@ -38,12 +47,7 @@ class LabResults extends React.Component {
           <h4 className="text-center mb-4">Result of Lab services</h4>
           <div id="accordion" className="mb-3">
             {this.state.serviceRequestResults.length === 0 ? (
-              <div className="d-flex justify-content-center my-4">
-               <img
-                 src={require("../../assets/img/emptyData.svg")}
-                 alt="empty states"
-               />
-             </div>
+              <NoDataState />
             ) : (
               this.state.serviceRequestResults.map(
                 (serviceRequestResult, index) => (
@@ -64,7 +68,9 @@ class LabResults extends React.Component {
                     <div
                       id={`collapse${index + 1}`}
                       className="collapse"
-                      className={`collapse ${ serviceRequestResult.id === this.props.showId && "show"}`}
+                      className={`collapse ${
+                        serviceRequestResult.id === this.props.showId && "show"
+                      }`}
                       aria-labelledby="headingOne"
                       data-parent="#accordion"
                     >
