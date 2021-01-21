@@ -10,7 +10,6 @@ import {
 } from "../Header";
 import {
   AddFamily,
-  RegisterPatientModal,
   RegisterUserModal,
   SearchDoctorsModal,
   SearchPatientModal,
@@ -34,7 +33,6 @@ export const AdminLayout = ({ children }) => {
         <AdminSidebar setUserType={setUserType} />
         {children}
         <Footer />
-        <RegisterPatientModal />
         <RegisterUserModal userType={userType} />
         <AddFamily />
         <TemplateSettings />

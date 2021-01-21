@@ -24,9 +24,6 @@ class AllPharmacists extends React.Component {
 
   async componentDidMount() {
     this.fetchPharmacists().then(() => this.sync());
-    // this.setState({
-    //   user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    // });
   }
 
   async fetchPharmacists() {
