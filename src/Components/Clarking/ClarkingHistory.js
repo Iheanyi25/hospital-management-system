@@ -5,6 +5,7 @@ import formatDate from "../../utils/formatDate";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getPatientClarkingHistoryUrl } from "../../api/URLs";
+import NoDataState from "../../Components/EmptyState/NoDataState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -63,12 +64,7 @@ class ClarkingHistory extends React.Component {
           {loading ? (
             <PageLoader />
           ) : clerkingHistories.length === 0 ? (
-            <div className="d-flex justify-content-center my-4">
-              <img
-                src={require("../../assets/img/emptyData.svg")}
-                alt="empty states"
-              />
-            </div>
+            <NoDataState />
           ) : (
             clerkingHistories.map((clerkingHistory, index) => (
               <div className="card mb-0">

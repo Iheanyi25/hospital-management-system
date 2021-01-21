@@ -9,6 +9,7 @@ import { fetchWrapper } from "../../../../../api/fetcher";
 import { fetchConfig } from "../../../../../api/fetchConfig";
 import { deleteDrugUrl } from "../../../../../api/URLs";
 import { UserContext } from "../../../../../mobx/UserState";
+import NoDataState from "../../../../../Components/EmptyState/NoDataState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -58,12 +59,7 @@ class AllDrugs extends React.Component {
     } = this.context;
     const { allDrugs, singleDrug } = this.state;
     return allDrugs.length === 0 ? (
-      <div className="d-flex justify-content-center my-4">
-        <img
-          src={require("../../../../../assets/img/emptyData.svg")}
-          alt="empty states"
-        />
-      </div>
+      <NoDataState />
     ) : (
       <div className="table-responsive">
         <table
