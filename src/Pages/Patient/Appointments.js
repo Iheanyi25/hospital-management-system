@@ -9,16 +9,18 @@ import {
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
+import { UserContext } from "../../mobx/UserState";
+import { observer } from "mobx-react";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Appointments extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       patientAppointments: null,
       canceledAppointments: [],
       canceledAppointmentsCount: 0,
@@ -30,13 +32,14 @@ class Appointments extends React.Component {
   }
 
   async getPatientAppointments() {
+    const {
+      user: { id },
+    } = this.context;
     var canceledAppointments = [];
     var completedAppointments = [];
     var pendingAppointments = [];
 
-    const getPatientAllAppointments = getPatientAllAppointmentsUrl(
-      this.state.patientId
-    );
+    const getPatientAllAppointments = getPatientAllAppointmentsUrl(id);
     const getPatientAllAppointmentsConfig = fetchConfig({
       url: getPatientAllAppointments,
       method: "get",
@@ -453,4 +456,4 @@ class Appointments extends React.Component {
   }
 }
 
-export default Appointments;
+export default observer(Appointments);

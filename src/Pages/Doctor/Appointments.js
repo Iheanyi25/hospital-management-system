@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
@@ -9,6 +10,7 @@ import {
   postDoctorRejectAppointmentUrl,
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
 
@@ -16,11 +18,11 @@ const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Appointments extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
-      doctorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
       appointmentId: null,
       acceptedAppointments: [],
       acceptedAppointmentsCount: 0,
@@ -33,15 +35,15 @@ class Appointments extends React.Component {
   }
 
   async getDoctorAppointments() {
+    const {
+      user: { id },
+    } = this.context;
     var acceptedAppointments = [];
     var activeAppointments = [];
     var pendingAppointments = [];
     var completedAppointments = [];
     var rejectedAppointments = [];
-
-    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(
-      this.state.doctorId
-    );
+    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(id);
     const getDoctorAllAppointmentsConfig = fetchConfig({
       url: getDoctorAllAppointments,
       method: "get",
@@ -649,4 +651,4 @@ class Appointments extends React.Component {
   }
 }
 
-export default Appointments;
+export default observer(Appointments);

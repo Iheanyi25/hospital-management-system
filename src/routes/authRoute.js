@@ -5,6 +5,7 @@ import ViewResetPassword from "../Pages/Components/ViewResetPassword";
 import ViewResetPasswordFromMail from "../Pages/Components/ViewResetPasswordFromMail";
 import Login from "../Pages/Login/Login";
 import { Page404 } from "../Components/Page404/Page404"
+import ThirdPartyFundAccount from "../Pages/Components/ThirdPartyFundAccount";
 
 
 const AuthRoute = () => {
@@ -29,6 +30,11 @@ const AuthRoute = () => {
                         exact
                         path="/ResetPassword"
                         component={ViewResetPasswordFromMail}
+                    />
+                    <Route
+                        exact
+                        path="/ThirdPartyFundAccount"
+                        component={ThirdPartyFundAccount}
                     />
 
                     <Route

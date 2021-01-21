@@ -9,31 +9,34 @@ import incomplete from "../../../assets/img/incomplete.svg";
 import { getAllServiceRequestInvoiceUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
+import { UserContext } from "../../../mobx/UserState";
+import { observer } from "mobx-react";
+import { toJS } from "mobx";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
 class ManageServiceRequest extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
     this.state = {
       categories: [],
-      user: {},
     };
   }
 
   async componentDidMount() {
     this.fetchCategory().then(() => this.sync());
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
   }
 
   async fetchCategory() {
-    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl()
-    const getAllServiceRequestInvoiceConfig = fetchConfig({ url: getAllServiceRequestInvoice, method: 'get' })
-    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig)
+    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl();
+    const getAllServiceRequestInvoiceConfig = fetchConfig({
+      url: getAllServiceRequestInvoice,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig);
 
     this.setState({ categories: data.serviceInvoices });
   }
@@ -45,8 +48,9 @@ class ManageServiceRequest extends React.Component {
   }
 
   render() {
-    const { user } = this.state;
-    console.log(this.state.categories);
+    const { user } = this.context;
+    const { categories } = this.state;
+    console.log(user);
     return (
       <>
         <PageLoader />
@@ -75,7 +79,7 @@ class ManageServiceRequest extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">No. of Services request</h6>
                         <div className="count text-primary fs-20">
-                          {this.state.categories.length}
+                          {categories.length}
                         </div>
                       </div>
                     </div>
@@ -108,7 +112,7 @@ class ManageServiceRequest extends React.Component {
                           </tr>
                         </thead>
                         <tbody>
-                          {this.state.categories.map((category, index) => {
+                          {categories.map((category, index) => {
                             return (
                               <tr>
                                 <td>
@@ -153,11 +157,11 @@ class ManageServiceRequest extends React.Component {
                                         <img src={paid} alt="paid" /> Paid
                                       </>
                                     ) : (
-                                          <>
-                                            <img src={incomplete} alt="paid" />{" "}
+                                      <>
+                                        <img src={incomplete} alt="paid" />{" "}
                                         Incomplete
                                       </>
-                                        )}
+                                    )}
                                   </div>
                                 </td>
                                 <td>
@@ -173,30 +177,30 @@ class ManageServiceRequest extends React.Component {
                                     </button>
                                     <div className="dropdown-menu">
                                       {user.userType ===
-                                        "Lab" ? null : category?.paymentStatus ===
+                                      "Lab" ? null : category?.paymentStatus ===
                                           "NOT PAID" ||
-                                          category?.paymentStatus ===
+                                        category?.paymentStatus ===
                                           "INCOMPLETE" ? (
-                                            <NavLink
-                                              to={{
-                                                pathname:
-                                                  user.userType === "Admin"
-                                                    ? `/AdminPaymentForService/${category.id}`
-                                                    : `/AccountPaymentForService/${category.id}`,
-                                                state: {
-                                                  invoiceId: category.id,
-                                                  patientId: category.patientId,
-                                                  invoiceNumber:
-                                                    category.invoiceNumber,
-                                                  user: user,
-                                                },
-                                              }}
-                                              className="btn btn-sm btn-block"
-                                            >
-                                              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+                                        <NavLink
+                                          to={{
+                                            pathname:
+                                              user.userType === "Admin"
+                                                ? `/AdminPaymentForService/${category.id}`
+                                                : `/AccountPaymentForService/${category.id}`,
+                                            state: {
+                                              invoiceId: category.id,
+                                              patientId: category.patientId,
+                                              invoiceNumber:
+                                                category.invoiceNumber,
+                                              user: toJS(user),
+                                            },
+                                          }}
+                                          className="btn btn-sm btn-block"
+                                        >
+                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
                                           Pay for Services
-                                            </NavLink>
-                                          ) : null}
+                                        </NavLink>
+                                      ) : null}
 
                                       <NavLink
                                         to={{
@@ -204,8 +208,8 @@ class ManageServiceRequest extends React.Component {
                                             user.userType === "Admin"
                                               ? `/AdminViewServiceRequestContents/${category.id}`
                                               : user.userType === "Lab"
-                                                ? `/LabServiceRequestContents/${category.id}`
-                                                : `/AccountServiceRequestContents/${category.id}`,
+                                              ? `/LabServiceRequestContents/${category.id}`
+                                              : `/AccountServiceRequestContents/${category.id}`,
                                           state: {
                                             invoiceId: category.id,
                                             patientId: category.patientId,
@@ -213,7 +217,7 @@ class ManageServiceRequest extends React.Component {
                                               category.invoiceNumber,
                                             paymentStatus:
                                               category.paymentStatus,
-                                            user: user,
+                                            user: toJS(user),
                                           },
                                         }}
                                         className="btn btn-sm btn-block"
@@ -241,4 +245,4 @@ class ManageServiceRequest extends React.Component {
   }
 }
 
-export default ManageServiceRequest;
+export default observer(ManageServiceRequest);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 
 import { AuthRoute } from "./routes";
 import PatientRoutes from "./routes/PatientRoutes";
@@ -15,12 +15,11 @@ const AppRouter = observer(() => {
   useEffect(() => {
     loadUser()
   }, []);
-  // console.log(user)
   const userType = user?.userType?.toLowerCase();
   const isAuthenticated = Boolean(user);
    
   const getRouteToRender = () => {
-    if (!user && isLoadingUser) return "loadding"
+    if (!user && isLoadingUser) return "loading"
     if (isAuthenticated) {
       const rootPath = window.location.pathname.split("/")[1].toLowerCase();
       let tempUserRoute =

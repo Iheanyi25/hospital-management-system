@@ -40,7 +40,6 @@ class CreateService extends Component {
       this.setState({
         isFromClarking: true,
         patient: this.props.location.state.patient.id,
-        user: JSON.parse(localStorage.getItem("authenticatedUser"))
       });
     }
 
@@ -92,7 +91,7 @@ class CreateService extends Component {
     const getAllServicesInACategoryConfig = fetchConfig({ url: getAllServicesInACategory, method: 'get' })
     const { data } = await fetchWrapper(getAllServicesInACategoryConfig)
 
-    console.log(data, 99999999)
+    console.log(data)
     this.setState({ services: data, showServices: true, isFetchingServicesInCategory: false }, () => {
       this.renderPicker(".custom-picker-services");
     });
@@ -173,8 +172,9 @@ class CreateService extends Component {
   };
 
   handleSubmit = async () => {
+    const {user} = this.context;
     let serviceId = [];
-    let generatedBy = JSON.parse(localStorage.getItem("authenticatedUser"));
+    let generatedBy = user;
     generatedBy = generatedBy.id;
 
     let payload = {

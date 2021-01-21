@@ -1,17 +1,19 @@
+import { observer } from "mobx-react";
 import React, { Component } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { updateServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
+import { UserContext } from "../../../mobx/UserState";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
-export default class EditServiceCategory extends Component {
+class EditServiceCategory extends Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     name: "",
     description: "",
-    formDone: true
+    formDone: true,
   };
 
   async componentDidMount() {
@@ -26,16 +28,11 @@ export default class EditServiceCategory extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState !== this.state;
-  }
-
   componentDidUpdate() {
     const { formDone } = this.state;
-    if ( this.checkValidity() && !formDone) {
+    if (this.checkValidity() && !formDone) {
       this.setState((state) => ({ ...state, formDone: true }));
-    }
-    else if(!this.checkValidity() && formDone){
+    } else if (!this.checkValidity() && formDone) {
       this.setState((state) => ({ ...state, formDone: false }));
     }
   }
@@ -43,7 +40,7 @@ export default class EditServiceCategory extends Component {
   checkValidity = () => {
     const { name, description } = this.state;
     return isNotEmptyString(name) && isNotEmptyString(description);
-  }
+  };
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,9 +53,13 @@ export default class EditServiceCategory extends Component {
     console.log({ data });
     if (this.state.name !== "" && this.state.description !== "") {
       try {
-        const updateServiceCategory = updateServiceCategoryUrl()
-        const updateServiceCategoryConfig = fetchConfig({url : updateServiceCategory, data, method : 'post'})
-        const res = await fetchWrapper(updateServiceCategoryConfig)
+        const updateServiceCategory = updateServiceCategoryUrl();
+        const updateServiceCategoryConfig = fetchConfig({
+          url: updateServiceCategory,
+          data,
+          method: "post",
+        });
+        const res = await fetchWrapper(updateServiceCategoryConfig);
 
         if (res.status === 200) {
           this.setState({ success: true });
@@ -71,7 +72,10 @@ export default class EditServiceCategory extends Component {
   };
 
   render() {
-    const { success, name, description, user, formDone } = this.state;
+    const {
+      user: { userType },
+    } = this.context;
+    const { success, name, description, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -85,7 +89,7 @@ export default class EditServiceCategory extends Component {
               history={this.props.history}
               message="Well done, you successfully updated a category"
               nextRoute={
-                user.userType === "Admin"
+                userType === "Admin"
                   ? "/AdminManageServiceCategory"
                   : "/LabManageServiceCategory"
               }
@@ -141,7 +145,11 @@ export default class EditServiceCategory extends Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button type="submit" className="btn btn-primary" disabled={!formDone}>
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              disabled={!formDone}
+                            >
                               Submit
                             </button>
                           </div>
@@ -158,3 +166,5 @@ export default class EditServiceCategory extends Component {
     );
   }
 }
+
+export default observer(EditServiceCategory);
