@@ -61,7 +61,7 @@ class PatientAccount extends React.Component {
         data: { account },
       } = await fetchWrapper(getPatientAccountConfig);
       this.setState({
-        thirdPartyFundingLink: `${local}/common/ThirdPartyFundAccount/${account.id}`,
+        thirdPartyFundingLink: `${local}/common/ThirdPartyFundAccount/${account.accountNumber}`,
       });
       console.log(account);
 
