@@ -41,9 +41,6 @@ class Dashboard extends React.Component {
     this.fetchInvoices();
     this.fecthAllAcounts();
     this.fetchServiceRequestInvoices();
-    this.setState({
-      user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    });
     this.fetchPrescriptionInvoices();
   }
   async fetchPrescriptionInvoices() {

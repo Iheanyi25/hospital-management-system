@@ -25,9 +25,6 @@ class AllAccountants extends React.Component {
 
   async componentDidMount() {
     this.fetchAccountants().then(() => this.sync());
-    // this.setState({
-    //   user: JSON.parse(localStorage.getItem("authenticatedUser")),
-    // });
   }
 
   async fetchAccountants() {

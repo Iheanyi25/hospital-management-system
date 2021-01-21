@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Success } from "../../../Components/Alerts/Success";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postPasswordUrl } from "../../../api/URLs";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
-function ChangePassword() {
+const ChangePassword = observer(()=> {
+  const { user: { id: userId } } = useContext(UserContext)
   const [allPasswordDetails, setAllPasswordDetails] = useState({
     currentPassword: "",
     newPassword: "",
@@ -33,8 +36,8 @@ function ChangePassword() {
   const handleSubmit = async (e) => {
     setAllPasswordDetails({ ...allPasswordDetails, submitting: true });
     e.preventDefault();
-    const userId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
-
+    // const userId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
+    
     if (newPassword !== "" && currentPassword !== "") {
       const payload = {
         userId,
@@ -149,7 +152,7 @@ function ChangePassword() {
                     >
                       Submit
                     </button>
-                    <p className="mt-3 text-danger password-notice">Password must contain uppercase, numberic and special characters</p>
+                    <p className="mt-3 text-danger text-center password-notice">Passwords must contain uppercase, numeric and special characters</p>
                     {passwordStatus === true ? (
                       <Success message={response} />
                     ) : null}
@@ -162,5 +165,5 @@ function ChangePassword() {
       </div>
     </main>
   );
-}
+})
 export { ChangePassword };

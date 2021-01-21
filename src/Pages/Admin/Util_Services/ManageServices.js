@@ -6,42 +6,57 @@ import { deleteServiceUrl, getAllServicesUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { UserContext } from "../../../mobx/UserState";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageServices extends Component {
+  static contextType = UserContext;
   state = {
-    user: JSON.parse(localStorage.getItem("authenticatedUser")),
     services: [],
     success: { show: false, message: "", delError: false },
   };
 
   async componentDidMount() {
-    await this.fetchAllServices()
+    await this.fetchAllServices();
   }
 
   async fetchAllServices() {
     const getAllServices = getAllServicesUrl();
-    const getAllServicesConfig = fetchConfig({ url: getAllServices, method: "get" });
-    const {data} = await fetchWrapper(getAllServicesConfig)
-    
+    const getAllServicesConfig = fetchConfig({
+      url: getAllServices,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getAllServicesConfig);
+
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
-    this.setState((state) => ({ ...state, services: data }), () => this.sync());
+    this.setState(
+      (state) => ({ ...state, services: data }),
+      () => this.sync()
+    );
     console.log({ data });
-  };
+  }
 
   deleteMe = async (id) => {
     try {
       const deleteService = deleteServiceUrl();
-      const deleteServiceConfig = fetchConfig({ url: deleteService, data: {id}, method: "post" });
-      const res = await fetchWrapper(deleteServiceConfig)
+      const deleteServiceConfig = fetchConfig({
+        url: deleteService,
+        data: { id },
+        method: "post",
+      });
+      const res = await fetchWrapper(deleteServiceConfig);
 
       if (res.status === 200) {
         this.fetchAllServices();
         this.setState((state) => ({
           ...state,
-          success: { show: true, message: "service successfully deleted", delError: false },
+          success: {
+            show: true,
+            message: "service successfully deleted",
+            delError: false,
+          },
         }));
       } else {
         throw "error occured";
@@ -50,7 +65,11 @@ export default class ManageServices extends Component {
       console.log(error);
       this.setState((state) => ({
         ...state,
-        success: { show: true, message: "can't delete this service, service is tied to a request", delError: true },
+        success: {
+          show: true,
+          message: "can't delete this service, service is tied to a request",
+          delError: true,
+        },
       }));
     }
   };
@@ -61,15 +80,16 @@ export default class ManageServices extends Component {
   }
 
   resetShowState = () =>
-  this.setState((state) => ({
-    ...state,
-    success: { show: false, message: " ", delError: false },
-  }));
-
+    this.setState((state) => ({
+      ...state,
+      success: { show: false, message: " ", delError: false },
+    }));
 
   render() {
-    const { user } = this.state;
-    console.log(this.state)
+    const {
+      user: { userType },
+    } = this.context;
+    console.log(this.state);
     return (
       <>
         <PageLoader />
@@ -91,7 +111,7 @@ export default class ManageServices extends Component {
               <NavLink
                 className="btn btn-primary"
                 to={
-                  user.userType === "Admin"
+                  userType === "Admin"
                     ? "/AdminCreateService"
                     : "/LabCreateService"
                 }
@@ -99,8 +119,8 @@ export default class ManageServices extends Component {
                 Create Service
               </NavLink>
             </header>
-            <div className="page-content mt-5"> 
-              <TableSize size={this.state.services.length} heading="Services"  />
+            <div className="page-content mt-5">
+              <TableSize size={this.state.services.length} heading="Services" />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
@@ -123,67 +143,65 @@ export default class ManageServices extends Component {
                           </thead>
 
                           <tbody>
-                            {
-                              this.state.services.map((item, index) => (
-                                <tr key={index}>
-                                  <td>
-                                    <strong>{index + 1}</strong>
-                                  </td>
-                                  <td>
-                                    <strong>
-                                      {" "}
-                                      <div className="d-flex align-items-center nowrap">
-                                        {item.name}
-                                      </div>
-                                    </strong>
-                                  </td>
-                                  <td>
+                            {this.state.services.map((item, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <strong>{index + 1}</strong>
+                                </td>
+                                <td>
+                                  <strong>
+                                    {" "}
                                     <div className="d-flex align-items-center nowrap">
-                                      {item.cost}
+                                      {item.name}
                                     </div>
-                                  </td>
+                                  </strong>
+                                </td>
+                                <td>
+                                  <div className="d-flex align-items-center nowrap">
+                                    {item.cost}
+                                  </div>
+                                </td>
 
-                                  <td>
-                                    <div className="btn-group">
-                                      <button
-                                        type="button"
-                                        className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
+                                <td>
+                                  <div className="btn-group">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                    >
+                                      Action
+                                    </button>
+                                    <div className="dropdown-menu">
+                                      <Link
+                                        title="Pre-consultation"
+                                        to={{
+                                          pathname:
+                                            userType === "Admin"
+                                              ? "/AdminEditService/" + item.id
+                                              : "/LabEditService/" + item.id,
+                                          state: item,
+                                        }}
+                                        className="btn btn-sm btn-block text-primary"
                                       >
-                                        Action
-                                      </button>
-                                      <div className="dropdown-menu">
-                                        <Link
-                                          title="Pre-consultation"
-                                          to={{
-                                            pathname:
-                                              user.userType === "Admin"
-                                                ? "/AdminEditService/" + item.id
-                                                : "/LabEditService/" + item.id,
-                                            state: item,
-                                          }}
-                                          className="btn btn-sm btn-block text-primary"
-                                        >
-                                          <span className="btn-icon icofont-edit-alt mr-2" />
-                                          Edit
-                                        </Link>
-                                        <Link
-                                          title="Pre-consultation"
-                                          to="#"
-                                          onClick={() => this.deleteMe(item.id)}
-                                          className="btn btn-sm btn-block text-danger"
-                                        >
-                                          <span className="btn-icon icofont-delete-alt mr-2" />
-                                          Delete
-                                        </Link>
-                                      </div>
+                                        <span className="btn-icon icofont-edit-alt mr-2" />
+                                        Edit
+                                      </Link>
+                                      <Link
+                                        title="Pre-consultation"
+                                        to="#"
+                                        onClick={() => this.deleteMe(item.id)}
+                                        className="btn btn-sm btn-block text-danger"
+                                      >
+                                        <span className="btn-icon icofont-delete-alt mr-2" />
+                                        Delete
+                                      </Link>
                                     </div>
-                                  </td>
-                                </tr>
-                              ))
-                            }
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
