@@ -63,7 +63,6 @@ class PatientAccount extends React.Component {
       this.setState({
         thirdPartyFundingLink: `${local}/common/ThirdPartyFundAccount/${account.accountNumber}`,
       });
-      console.log(account);
 
       console.log(data1.accountTransactions);
 
