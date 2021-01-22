@@ -5,6 +5,14 @@ import { registerUserUrl } from "../../api/URLs";
 import { isValidEmail } from "../../utils/validationUtils";
 import { Success } from "../Alerts";
 
+
+const user = {
+  lab: "Lab Scientist",
+  doctor: "Doctor",
+  pharmacy: "Pharmacist",
+  accountant: "Accountant"
+}
+
 const $ = window.$;
 const RegisterUserModal = ({ userType }) => {
   const [state, setState] = useState({
@@ -98,11 +106,7 @@ const RegisterUserModal = ({ userType }) => {
               <h5 className="text-center">
                 Onboard a New{" "}
                 <span style={{ textTransform: "capitalize" }}>
-                  {userType === "pharmacy"
-                    ? "Pharmacist"
-                    : userType === "lab"
-                    ? "lab Technician"
-                    : userType}
+                  {user[userType]}
                 </span>
               </h5>
               <form className="p-5">
