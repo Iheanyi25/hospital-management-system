@@ -308,7 +308,7 @@ class Appointments extends React.Component {
                             <thead>
                               <tr>
                                 <th>Title</th>
-                                <th>Reason for appointment</th>
+                                <th>Reason for Appointment</th>
                                 <th className="text-nowrap">Patient</th>
                                 <th className="text-nowrap">Patient Contact</th>
                                 <th>Date</th>
@@ -416,7 +416,7 @@ class Appointments extends React.Component {
                             <thead>
                               <tr>
                                 <th>Title</th>
-                                <th>Reason for appointment</th>
+                                <th>Reason for Appointment</th>
                                 <th className="text-nowrap">Patient</th>
                                 <th className="text-nowrap">Patient Contact</th>
                                 <th>Date</th>
@@ -553,7 +553,7 @@ class Appointments extends React.Component {
                             <thead>
                               <tr>
                                 <th>Title</th>
-                                <th>Reason for appointment</th>
+                                <th>Reason for Appointment</th>
                                 <th className="text-nowrap">Patient</th>
                                 <th className="text-nowrap">Patient Contact</th>
                                 <th>Date</th>

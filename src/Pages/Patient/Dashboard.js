@@ -1,13 +1,15 @@
 import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientAllAppointmentsUrl, patientCancelAppointments } from "../../api/URLs";
+import {
+  getPatientAllAppointmentsUrl,
+  patientCancelAppointments,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
-
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -39,10 +41,13 @@ class Dashboard extends React.Component {
       user: { id },
     } = this.context;
     const getPatientAllAppointments = getPatientAllAppointmentsUrl(id);
-    const getPatientAllAppointmentsConfig = fetchConfig({ url: getPatientAllAppointments, method: "get" });
+    const getPatientAllAppointmentsConfig = fetchConfig({
+      url: getPatientAllAppointments,
+      method: "get",
+    });
     const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
 
-    console.log(data,77777)
+    console.log(data, 77777);
     this.setState({ patientAppointments: data.appointments });
 
     data.appointments.forEach((appointment) => {
@@ -69,16 +74,16 @@ class Dashboard extends React.Component {
     });
     const res = await fetchWrapper(cancelPatientAppointmentConfig);
     if (res) {
-      this.setState({showSuccessMessage: true, successMessage: res.data.message});
+      this.setState({
+        showSuccessMessage: true,
+        successMessage: res.data.message,
+      });
       this.getPatientAppointments().then(() => this.sync());
     }
   };
 
   render() {
-    const {
-      pendingAppointments,
-      pendingAppointmentsCount,
-    } = this.state;
+    const { pendingAppointments, pendingAppointmentsCount } = this.state;
     const {
       user: { firstName, lastName },
     } = this.context;
@@ -86,14 +91,11 @@ class Dashboard extends React.Component {
     return (
       <>
         <PageLoader />
-        {
-          this.state?.showSuccessMessage ?
-          <Success
-            message={this.state?.successMessage}
-          />
-          :
+        {this.state?.showSuccessMessage ? (
+          <Success message={this.state?.successMessage} />
+        ) : (
           <></>
-        }
+        )}
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -152,7 +154,9 @@ class Dashboard extends React.Component {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="card bg-light">
-                    <div className="card-header">Hello {`${firstName} ${lastName}`}</div>
+                    <div className="card-header">
+                      Hello {`${firstName} ${lastName}`}
+                    </div>
                     <div className="card-body">
                       You have no new notifications
                     </div>
@@ -162,9 +166,8 @@ class Dashboard extends React.Component {
                   <div className="card text-white bg-info">
                     <div className="card-header">Important Updates</div>
                     <div className="card-body">
-                    Yellow fever vaccinations are currently on going from 8am
+                      Yellow fever vaccinations are currently on going from 8am
                       - 2pm everyday at our hospital, Get vaccinated today!
-                      
                     </div>
                   </div>
                 </div>
@@ -184,7 +187,7 @@ class Dashboard extends React.Component {
                         <tr>
                           <th></th>
                           <th>Title</th>
-                          <th>Reason for appointment</th>
+                          <th>Reason for Appointment</th>
                           <th>Doctor's Name</th>
                           <th>Doctor's Phone Number</th>
                           <th>Actions</th>
@@ -217,29 +220,29 @@ class Dashboard extends React.Component {
                               </td>
 
                               <td>
-                                      <div className="btn-group">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                          data-toggle="dropdown"
-                                          aria-haspopup="true"
-                                          aria-expanded="false"
-                                        >
-                                          Action
-                                        </button>
-                                        <div className="dropdown-menu text-left">
-                                          <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={(e) =>
-                                              this.cancelAppointments(appointment.id)
-                                            }
-                                          >
-                                            Cancel Appointment
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </td>
+                                <div className="btn-group">
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                  >
+                                    Action
+                                  </button>
+                                  <div className="dropdown-menu text-left">
+                                    <button
+                                      type="button"
+                                      className="btn btn-danger"
+                                      onClick={(e) =>
+                                        this.cancelAppointments(appointment.id)
+                                      }
+                                    >
+                                      Cancel Appointment
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
                             </tr>
                           ))}
                       </tbody>
