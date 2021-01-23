@@ -88,3 +88,5 @@ export const getPatientRegistrationInvoiceUrl = (patientId) =>
   `/Admin/GetPatientRegistrationInvoice?patientId=${patientId}`;
 export const postPayPatientRegistrationFeeUrl = () =>
   `/Admin/PayPatientRegistrationFee`;
+export const postPayPatientRegistrationFeeWithAccountUrl = () =>
+  `/Admin/PayPatientRegistrationFeeWithAccount`;
