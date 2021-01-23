@@ -14,6 +14,7 @@ class MyPatients extends React.Component {
         super(props);
 
         this.state = {
+            patientId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
             patients: [],
         };
     }
@@ -25,7 +26,7 @@ class MyPatients extends React.Component {
         const { data } = await fetchWrapper(getPatientAllAppointmentsConfig);
 
         this.setState({ patients: data.patients });
-    } 
+    }
 
     componentDidMount() {
         this.getMyPatients().then(() => this.sync());
