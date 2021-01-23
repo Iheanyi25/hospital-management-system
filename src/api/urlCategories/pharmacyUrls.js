@@ -10,6 +10,7 @@ export const generateDrugDispenseInvoiceUrl = () =>
 export const getDAllrugDispencingInvoicesUrl = () =>
   `/Pharmacy/GetDrugDispencingInvoices`;
 export const payForDrugsUrl = () => `/Pharmacy/PayForDrugs`;
+export const payForDrugsWithAccountUrl = () => `/Pharmacy/PayForDrugsWithAccount`;
 export const getDrugsInAnInvoice = (invoiceNumber) =>
   `/Pharmacy/GetDrugsInAnInvoice/${invoiceNumber}`;
 export const markInvoiceAsDispensedUrl = (drugInvoiceId) =>
