@@ -6,12 +6,14 @@ import {
   PayOnline,
   PayCash,
   Others,
+  PayFromAccount,
 } from "../../Components/Payment/PaymentModes";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
   getServicesInAnInvoiceUrl,
   postPayForServicesUrl,
+  postPayForServicesWithAccountUrl
 } from "../../api/URLs";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
@@ -152,10 +154,45 @@ class PaymentForService extends React.Component {
     }
     console.log(payload);
   };
+  payWithAccount = async (
+    reference,
+    modeOfPayment,
+    description,
+    accountId,
+    initiatorId
+  ) => {
+    const { amount, serviceRequestId, patientId } = this.state;
+    let payload = {
+      patientId: patientId,
+      serviceRequestId: serviceRequestId,
+      totalAmount: amount,
+      description: description,
+      modeOfPayment: modeOfPayment,
+      referenceNumber: reference,
+      initiatorId: initiatorId,
+      accountId: accountId,
+    };
+
+    // try {
+    //   const postPayForServices = postPayForServicesWithAccountUrl();
+    //   const postPayForServicesConfig = fetchConfig({
+    //     url: postPayForServices,
+    //     data: payload,
+    //     method: "post",
+    //   });
+    //   const { status } = await fetchWrapper(postPayForServicesConfig);
+    //   if (status === 200) {
+    //     this.setState({ success: true });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    console.log(payload);
+  };
 
   render() {
     const { amount, email } = this.state;
-    const { user } = this.props.history.location.state;
+    const { user, patientId } = this.props.history.location.state;
     return (
       <>
         <PageLoader />
@@ -278,6 +315,19 @@ class PaymentForService extends React.Component {
                           <li className="nav-item">
                             <a
                               className="nav-link"
+                              id="pills-account-tab"
+                              data-toggle="pill"
+                              href="#pills-account"
+                              role="tab"
+                              aria-controls="pills-account"
+                              aria-selected="false"
+                            >
+                              Pay from account
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a
+                              className="nav-link"
                               id="pills-completed-tab"
                               data-toggle="pill"
                               href="#pills-completed"
@@ -310,6 +360,18 @@ class PaymentForService extends React.Component {
                             <PayCash
                               details={{ amount, email }}
                               paidSuccessfully={this.payForServices}
+                            />
+                          </div>{" "}
+                          <div
+                            className="tab-pane fade"
+                            id="pills-account"
+                            role="tabpanel"
+                            aria-labelledby="pills-account-tab"
+                          >
+                            <PayFromAccount
+                              patientId={patientId}
+                              details={{ amount, email }}
+                              paidSuccessfully={this.payWithAccount}
                             />
                           </div>
                           <div

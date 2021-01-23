@@ -65,6 +65,7 @@ export const getServiceRequestResultUrl = (serviceRequestId) =>
 export const getServicesInAnInvoiceUrl = (invoiceId) =>
   `/Admin/GetServicesInAnInvoice/${invoiceId}`;
 export const postPayForServicesUrl = () => `/Admin/PayForServices`;
+export const postPayForServicesWithAccountUrl = () => `/Admin/PayForServicesWithAccount`;
 
 // Admin - Manage Services
 export const getAllServicesUrl = () => `/Admin/GetAllServices`;
@@ -88,3 +89,5 @@ export const getPatientRegistrationInvoiceUrl = (patientId) =>
   `/Admin/GetPatientRegistrationInvoice?patientId=${patientId}`;
 export const postPayPatientRegistrationFeeUrl = () =>
   `/Admin/PayPatientRegistrationFee`;
+export const postPayPatientRegistrationFeeWithAccountUrl = () =>
+  `/Admin/PayPatientRegistrationFeeWithAccount`;

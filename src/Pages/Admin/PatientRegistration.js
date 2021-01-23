@@ -4,6 +4,7 @@ import {
   PayOnline,
   PayCash,
   Others,
+  PayFromAccount,
 } from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
 import { Success } from "../../Components/Alerts";
@@ -11,7 +12,12 @@ import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientRegistrationInvoiceUrl, getPatientsUrl, postPayPatientRegistrationFeeUrl } from "../../api/URLs";
+import {
+  getPatientRegistrationInvoiceUrl,
+  getPatientsUrl,
+  postPayPatientRegistrationFeeUrl,
+  postPayPatientRegistrationFeeWithAccountUrl,
+} from "../../api/URLs";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -37,11 +43,16 @@ class PatientRegistration extends React.Component {
   }
   fetPatientRegistrationIvoice = async (id) => {
     try {
-      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(id)
-      const getPatientRegistrationInvoiceConfig = fetchConfig({url : getPatientRegistrationInvoice, method : 'get'})
-      const {data} = await fetchWrapper(getPatientRegistrationInvoiceConfig)
+      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(
+        id
+      );
+      const getPatientRegistrationInvoiceConfig = fetchConfig({
+        url: getPatientRegistrationInvoice,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getPatientRegistrationInvoiceConfig);
 
-      console.log(data.patientRegistrationInvoice,111111);
+      console.log(data.patientRegistrationInvoice, 111111);
       this.setState({
         invoiceNumber: data.patientRegistrationInvoice?.invoiceNumber,
       });
@@ -51,10 +62,10 @@ class PatientRegistration extends React.Component {
   };
 
   async getAllPatients() {
-    const getPatients = getPatientsUrl()
-    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
-    const {data} = await fetchWrapper(getPatientsConfig)
-    console.log(data,22222)
+    const getPatients = getPatientsUrl();
+    const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
+    const { data } = await fetchWrapper(getPatientsConfig);
+    console.log(data, 22222);
     this.setState({ patients: data.patients });
   }
 
@@ -76,12 +87,53 @@ class PatientRegistration extends React.Component {
 
     console.log(payload);
     try {
-      const postPayPatientRegistrationFee = postPayPatientRegistrationFeeUrl()
-      const getPatientRegistrationInvoiceConfig = fetchConfig({url : postPayPatientRegistrationFee, data: payload, method : 'post'})
-      const res = await fetchWrapper(getPatientRegistrationInvoiceConfig)
-      console.log(res,4444)
+      const postPayPatientRegistrationFee = postPayPatientRegistrationFeeUrl();
+      const getPatientRegistrationInvoiceConfig = fetchConfig({
+        url: postPayPatientRegistrationFee,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(getPatientRegistrationInvoiceConfig);
+      console.log(res, 4444);
       if (res.status === 200) {
         console.log(res);
+        this.setState({ success: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  payWithAccount = async (
+    reference,
+    modeOfPayment,
+    description,
+    accountId,
+    initiatorId
+  ) => {
+    const { amount, patientId, invoiceNumber } = this.state;
+    let payload = {
+      patientId: patientId,
+      amount: amount,
+      invoiceNumber: invoiceNumber,
+      description: description,
+      modeOfPayment: modeOfPayment,
+      referenceNumber: reference,
+      initiatorId: initiatorId,
+      accountId: accountId,
+    };
+    console.log(payload);
+    try {
+      const postPayPatientRegistrationFee = postPayPatientRegistrationFeeWithAccountUrl();
+      const getPatientRegistrationInvoiceConfig = fetchConfig({
+        url: postPayPatientRegistrationFee,
+        data: payload,
+        method: "post",
+      });
+      const { status } = await fetchWrapper(
+        getPatientRegistrationInvoiceConfig
+      );
+      console.log(status, 4444);
+      if (status === 200) {
         this.setState({ success: true });
       }
     } catch (error) {
@@ -92,8 +144,12 @@ class PatientRegistration extends React.Component {
     const content = this.context;
     const { user } = content;
     const { amount, email } = this.state;
-    const { history: {location} } = this.props;
-    const { state: {name} } = location;
+    const {
+      history: { location },
+    } = this.props;
+    const {
+      state: { name, patientId },
+    } = location;
     return (
       <>
         <PageLoader />
@@ -163,6 +219,19 @@ class PatientRegistration extends React.Component {
                       <li className="nav-item">
                         <a
                           className="nav-link"
+                          id="pills-account-tab"
+                          data-toggle="pill"
+                          href="#pills-account"
+                          role="tab"
+                          aria-controls="pills-account"
+                          aria-selected="false"
+                        >
+                          Pay from account
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
                           id="pills-completed-tab"
                           data-toggle="pill"
                           href="#pills-completed"
@@ -184,6 +253,18 @@ class PatientRegistration extends React.Component {
                         <PayOnline
                           details={{ amount, email }}
                           paidSuccessfully={this.register}
+                        />
+                      </div>
+                      <div
+                        className="tab-pane fade w-50 m-auto"
+                        id="pills-account"
+                        role="tabpanel"
+                        aria-labelledby="pills-account-tab"
+                      >
+                        <PayFromAccount
+                          patientId={patientId}
+                          details={{ amount, email }}
+                          paidSuccessfully={this.payWithAccount}
                         />
                       </div>
                       <div
