@@ -5,32 +5,39 @@ import {
   PayOnline,
   PayCash,
   Others,
+  PayFromAccount,
 } from "../../../Components/Payment/PaymentModes";
 import formatAmount from "../../../utils/formatAmount";
 import { UserContext } from "../../../mobx/UserState";
-import { payForDrugsUrl } from "../../../api/URLs";
+import { payForDrugsUrl, payForDrugsWithAccountUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { Success } from "../../../Components/Alerts";
 
 const PaymentForPrescription = observer(({ history }) => {
   const [success, setSuccess] = useState({
-    success: false,
+    status: false,
     message: "",
   });
-  const { user } = useContext(UserContext);
+  const {
+    user: { id: userId, userType },
+  } = useContext(UserContext);
   console.log(history.location.state);
-  const { amountTotal, patient, invoiceNumber } = history.location.state;
+  const {
+    amountTotal: amount,
+    patient: { id: patientId, email },
+    invoiceNumber,
+  } = history.location.state;
 
   const paidSuccessfully = async (reference, modeOfPayment, description) => {
     const payload = {
-      patientId: patient.id,
+      patientId: patientId,
       invoiceNumber: invoiceNumber,
-      totalAmount: amountTotal,
+      totalAmount: amount,
       description: description,
       modeOfPayment: modeOfPayment,
-      referenceNumbe: reference,
-      paidBy: user.id,
+      referenceNumber: reference,
+      paidBy: userId,
     };
     console.log(payload);
     const paymentUrl = payForDrugsUrl();
@@ -40,16 +47,47 @@ const PaymentForPrescription = observer(({ history }) => {
       data: payload,
     });
     try {
-      const response = await fetchWrapper(payForDrugsConfig);
-      if (response.status === 200) {
-        console.log(response);
-        setSuccess({ success: true, message: response.message });
+      const { status, message } = await fetchWrapper(payForDrugsConfig);
+      if (status === 200) {
+        setSuccess({ status: true, message: message });
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const { success: completed, message } = success;
+  const payWithAccount = async (
+    reference,
+    modeOfPayment,
+    description,
+    accountId,
+    initiatorId
+  ) => {
+    const payload = {
+      patientId: patientId,
+      invoiceNumber: invoiceNumber,
+      totalAmount: amount,
+      description: description,
+      modeOfPayment: modeOfPayment,
+      referenceNumber: reference,
+      paidBy: initiatorId,
+    };
+    console.log(payload);
+    // const paymentUrl = payForDrugsWithAccountUrl();
+    // const payForDrugsConfig = fetchConfig({
+    //   url: paymentUrl,
+    //   method: "post",
+    //   data: payload,
+    // });
+    // try {
+    //   const { status, message } = await fetchWrapper(payForDrugsConfig);
+    //   if (status === 200) {
+    //     setSuccess({ status: true, message: message });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+  const { status, message } = success;
   return (
     <>
       <PageLoader />
@@ -58,10 +96,10 @@ const PaymentForPrescription = observer(({ history }) => {
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
-        {completed ? (
+        {status ? (
           <Success
             nextRoute={
-              user.userType === "Admin"
+              userType === "Admin"
                 ? "/AdminManagePrescriptionInvoice"
                 : "/AccountManagePrescriptionInvoice"
             }
@@ -74,7 +112,7 @@ const PaymentForPrescription = observer(({ history }) => {
           </header>
           <div className=" d-flex">
             <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-            <h4 className="text-info"> &#x20A6;{formatAmount(amountTotal)}</h4>
+            <h4 className="text-info"> &#x20A6;{formatAmount(amount)}</h4>
           </div>
           <div className="page-content">
             <div className="card mb-0">
@@ -115,6 +153,19 @@ const PaymentForPrescription = observer(({ history }) => {
                       <li className="nav-item">
                         <a
                           className="nav-link"
+                          id="pills-account-tab"
+                          data-toggle="pill"
+                          href="#pills-account"
+                          role="tab"
+                          aria-controls="pills-account"
+                          aria-selected="false"
+                        >
+                          Pay from account
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
                           id="pills-completed-tab"
                           data-toggle="pill"
                           href="#pills-completed"
@@ -134,10 +185,7 @@ const PaymentForPrescription = observer(({ history }) => {
                         aria-labelledby="pills-active-tab"
                       >
                         <PayOnline
-                          details={{
-                            amount: amountTotal,
-                            email: patient.email,
-                          }}
+                          details={{ amount, email }}
                           paidSuccessfully={paidSuccessfully}
                         />
                       </div>
@@ -148,11 +196,20 @@ const PaymentForPrescription = observer(({ history }) => {
                         aria-labelledby="pills-accepted-tab"
                       >
                         <PayCash
-                          details={{
-                            amount: amountTotal,
-                            email: patient.email,
-                          }}
+                          details={{ amount, email }}
                           paidSuccessfully={paidSuccessfully}
+                        />
+                      </div>
+                      <div
+                        className="tab-pane fade"
+                        id="pills-account"
+                        role="tabpanel"
+                        aria-labelledby="pills-account-tab"
+                      >
+                        <PayFromAccount
+                          patientId={patientId}
+                          details={{ amount, email }}
+                          paidSuccessfully={payWithAccount}
                         />
                       </div>
                       <div
@@ -162,10 +219,7 @@ const PaymentForPrescription = observer(({ history }) => {
                         aria-labelledby="pills-completed-tab"
                       >
                         <Others
-                          details={{
-                            amount: amountTotal,
-                            email: patient.email,
-                          }}
+                          details={{ amount, email }}
                           paidSuccessfully={paidSuccessfully}
                         />
                       </div>

@@ -34,7 +34,7 @@ function ResetPassword() {
           method: "post",
         });
         const res = await fetchWrapper(postResetPasswordConfig);
-        console.log(res, 3333)
+        console.log(res, 3333);
         if (res.status === 200) {
           console.log("Res is ", res);
           const data = res;
@@ -47,9 +47,11 @@ function ResetPassword() {
           console.log(email, " from handleSubmit");
         }
       }
-
     } catch (error) {
-      setAllPasswordDetails({ ...allPasswordDetails, emailError: error.response.data.message })
+      setAllPasswordDetails({
+        ...allPasswordDetails,
+        emailError: error.response.data.message,
+      });
       // console.log(error.response.data.message)
     }
   };
@@ -64,15 +66,19 @@ function ResetPassword() {
   const setErrorStatus = () => {
     setAllPasswordDetails({
       emailError: "",
-      emailStatus: false
-    })
+      emailStatus: false,
+    });
   };
 
   return (
     <>
       <div>
-        {emailError !== "" ? <InvalidDetails setErrorStatus={setErrorStatus} message={emailError} /> : null}
-
+        {emailError !== "" ? (
+          <InvalidDetails
+            setErrorStatus={setErrorStatus}
+            message={emailError}
+          />
+        ) : null}
       </div>
       <div className="auth-background d-flex justify-content-center align-items-center">
         <div className="card border-light">
@@ -100,23 +106,28 @@ function ResetPassword() {
                     disabled={submitting}
                   >
                     Reset Password
-                </button>
-                  <Link to="/Login" className="text-center mt-3">
-                    <p className="text-center mt-3" style={{ color: "#007BFF" }}>
+                  </button>
+                  <Link to="/" className="text-center mt-3">
+                    <p
+                      className="text-center mt-3"
+                      style={{ color: "#007BFF" }}
+                    >
                       Back to Log in
-                  </p>
+                    </p>
                   </Link>
                 </>
               ) : (
-                  <>
-                    <p className="text-center text-dark" > {response} </p>
-                    <p className="text-center text-dark" style={{ color: "#00000" }}>
-                      {" "}
-                      {`Hello, click the link that was sent to ${email} to reset your password`}{" "}
-                    </p>
-                  </>
-                )}
-
+                <>
+                  <p className="text-center text-dark"> {response} </p>
+                  <p
+                    className="text-center text-dark"
+                    style={{ color: "#00000" }}
+                  >
+                    {" "}
+                    {`Hello, click the link that was sent to ${email} to reset your password`}{" "}
+                  </p>
+                </>
+              )}
             </form>
           </div>
         </div>
