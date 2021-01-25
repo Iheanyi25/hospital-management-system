@@ -67,7 +67,7 @@ export default class ManageServices extends Component {
         ...state,
         success: {
           show: true,
-          message: "can't delete this service, service is tied to a request",
+          message: error,
           delError: true,
         },
       }));

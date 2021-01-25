@@ -31,18 +31,18 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    const getDoctorAllConsultations = getDoctorAllConsultationsUrl(
-      this.state.doctorId
-    );
+    const {
+      user: { id },
+    } = this.context;
+    console.log({ id });
+    const getDoctorAllConsultations = getDoctorAllConsultationsUrl(id);
     const getDoctorAllConsultationsConfig = fetchConfig({
       url: getDoctorAllConsultations,
       method: "get",
     });
     const { data } = await fetchWrapper(getDoctorAllConsultationsConfig);
-
-    this.setState({ doctorConsultations: data.doctorConsultations });
-
     console.log({ data });
+    this.setState({ doctorConsultations: data.doctorConsultations });
 
     let pendingAppointments = [];
     let acceptedAppointments = [];
@@ -63,20 +63,17 @@ class Dashboard extends React.Component {
       }
     });
 
-    console.log("www", pendingAppointments);
     this.setState({
       pendingAppointments: pendingAppointments,
     });
-    const {
-      user: { id },
-    } = this.context;
+
     const getDoctorDashboard = getDoctorDashboardUrl(id);
     const getDoctorDashboardConfig = fetchConfig({
       url: getDoctorDashboard,
       method: "get",
     });
     const { data: data2 } = await fetchWrapper(getDoctorDashboardConfig);
-
+    console.log(data2);
     this.setState(
       {
         pendingAppointment: data2.pendingAppoinmentsCount,
