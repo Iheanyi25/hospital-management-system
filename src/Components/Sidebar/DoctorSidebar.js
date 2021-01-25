@@ -78,7 +78,7 @@ class DoctorSidebar extends React.Component {
 
   render() {
     const { doctorAvailability } = this.state;
-    console.log(doctorAvailability, 55555);
+
     return (
       <>
         {/* Vertical navbar */}
