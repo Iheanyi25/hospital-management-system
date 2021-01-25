@@ -249,7 +249,7 @@ class Appointments extends React.Component {
                               <tr>
                                 <th></th>
                                 <th>Title</th>
-                                <th>Reason for appointment</th>
+                                <th>Reason for Appointment</th>
                                 <th>Doctor's Name</th>
                                 <th>Doctor's Phone Number</th>
                                 <th>Actions</th>
@@ -330,7 +330,7 @@ class Appointments extends React.Component {
                               <tr>
                                 <th></th>
                                 <th>Title</th>
-                                <th>Reason for appointment</th>
+                                <th>Reason for Appointment</th>
                                 <th>Doctor's Name</th>
                                 <th>Doctor's Phone Number</th>
                                 <th>Actions</th>
@@ -408,7 +408,7 @@ class Appointments extends React.Component {
                               <tr>
                                 <th></th>
                                 <th>Title</th>
-                                <th>Reason for appointment</th>
+                                <th>Reason for Appointment</th>
                                 <th>Doctor's Name</th>
                                 <th>Doctor's Phone Number</th>
                               </tr>
