@@ -21,21 +21,25 @@ class FundAccount extends React.Component {
     this.setState({ success: true });
   };
 
-  fundAccount = async (reference) => {
+  fundAccount = async (transactionReference) => {
     const content = this.context;
     const { user } = content;
     const { amount } = this.state;
     let payload = {
       patientId: user.id,
-      amount: amount,
+      amount,
       modeOfPayment: "Paid online",
-      transactionReference: reference,
+      transactionReference,
     };
     try {
-      const postPatientFundAccount = postPatientFundAccountUrl()
-      const postPatientFundAccountConfig = fetchConfig({url : postPatientFundAccount, data: payload, method : 'post'})
-      const res = await fetchWrapper(postPatientFundAccountConfig)
-     
+      const postPatientFundAccount = postPatientFundAccountUrl();
+      const postPatientFundAccountConfig = fetchConfig({
+        url: postPatientFundAccount,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(postPatientFundAccountConfig);
+
       if (res.status === 200) {
         this.handleSuccess(true);
       }
