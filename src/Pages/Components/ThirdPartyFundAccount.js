@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import logoMakeshift from "../../assets/img/logo-makeshift.svg";
 import {
@@ -8,39 +8,50 @@ import {
 import { getAccountUrl, thirdPartyFundAccountUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../api/fetcher";
+import { PageLoader } from "../../Components";
 
 const ThirdPartyFundAccount = ({ match }) => {
+  const [details, setDetails] = useState({});
   const {
-    params: { id },
+    params: { id: accountNumber },
   } = match;
-  console.log(id);
 
-  const getAccount = getAccountUrl(id);
+  const getAccount = getAccountUrl(accountNumber);
   const getAccountConfig = fetchConfig({
     url: getAccount,
     method: "get",
   });
-  const { data, error } = useRequest(getAccountConfig, {
+  const { data } = useRequest(getAccountConfig, {
     revalidateOnFocus: false,
   });
-
-  const paidSuccessfully = () => {
+  const account = data?.account;
+  console.log(account);
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const paidSuccessfully = (referencce, modeOfPayment) => {
     const payload = {
-      accountNumber: "HMSORTYDUS",
-      amount: 200,
-      modeOfPayment: "online",
-      transactionReference: "string",
-      paymentDescription: "string",
-      initiator: "string"
-    }
+      ...details,
+      accountNumber: accountNumber,
+      modeOfPayment: modeOfPayment,
+      transactionReference: referencce,
+    };
     const thirdPartyFundAccount = thirdPartyFundAccountUrl();
     const thirdPartyFundAccountConfig = fetchConfig({
       url: thirdPartyFundAccount,
-      method: "post"
-    })
-    const res = fetchWrapper(thirdPartyFundAccountConfig)
-  }
-  return (
+      method: "post",
+      data: payload
+    });
+    const res = fetchWrapper(thirdPartyFundAccountConfig);
+    console.log(res);
+    console.log(payload);
+  };
+  return !data ? (
+    <PageLoader />
+  ) : (
     <>
       <div className="row h-100">
         <div className="col-12 col-md-4 d-flex align-items-center justify-content-center">
@@ -64,8 +75,7 @@ const ThirdPartyFundAccount = ({ match }) => {
                   <input
                     className="form-control"
                     type="text"
-                    name="passwword"
-                    value="Thor Odinson"
+                    value={account?.name}
                     disabled
                     required
                   />
@@ -76,7 +86,7 @@ const ThirdPartyFundAccount = ({ match }) => {
                     className="form-control"
                     type="text"
                     name="passwword"
-                    value="08033456123"
+                    value={account?.accountNumber}
                     disabled
                     required
                   />
@@ -85,11 +95,9 @@ const ThirdPartyFundAccount = ({ match }) => {
                   <label>Depositor's name</label>
                   <input
                     className="form-control"
+                    name="initiator"
                     type="text"
-                    name="passwword"
-                    value="08033456123"
-                    disabled
-                    required
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="form-group">
@@ -97,32 +105,39 @@ const ThirdPartyFundAccount = ({ match }) => {
                   <input
                     className="form-control"
                     type="number"
-                    name="passwword"
+                    name="amount"
+                    onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
                   <label>Comment</label>
-                  <textarea className="form-control" type="text" required />
+                  <textarea
+                    className="form-control"
+                    name="paymentDescription"
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </div>
                 <p className="text-center">
                   Select your prefered payment method
                 </p>
                 <div className="row">
                   <PayWithPaystack
-                    paymentDetails={{ email: "a@email.com", amount: "300" }}
+                    paymentDetails={{
+                      email: "a@email.com",
+                      amount: details.amount,
+                    }}
+                    paidSuccessfully={paidSuccessfully}
                   />
                   <PayWithFlutter
-                    paymentDetails={{ email: "a@email.com", amount: "300" }}
+                    paymentDetails={{
+                      email: "a@email.com",
+                      amount: details.amount,
+                    }}
+                    paidSuccessfully={paidSuccessfully}
                   />
                 </div>
-                {/* <button
-                  type="submit"
-                  className="btn btn-block btn-primary"
-                  type="submit"
-                >
-                  Fund account
-                </button> */}
               </form>
             </div>
           </div>
