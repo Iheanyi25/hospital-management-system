@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { observer } from "mobx-react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../../mobx/UserState";
 
-const PayCash = ({ details, paidSuccessfully }) => {
+const PayCash = observer(({ details, paidSuccessfully }) => {
+  const {
+    user: { id },
+  } = useContext(UserContext);
   const [description, setDescription] = useState("");
-
+  const { amount } = details;
   const handleSubmit = (e) => {
     console.log(e);
     e.preventDefault();
-    paidSuccessfully("", "cash", description.description);
+    paidSuccessfully("", "cash", description.description, id);
   };
-
-  useEffect(() => {}, [details]);
 
   return (
     <div className="table-responsive">
@@ -31,7 +34,7 @@ const PayCash = ({ details, paidSuccessfully }) => {
                         type="number"
                         tabIndex={-98}
                         name="name"
-                        value={details.amount}
+                        value={amount}
                         disabled
                         required
                       />
@@ -76,6 +79,6 @@ const PayCash = ({ details, paidSuccessfully }) => {
       </div>
     </div>
   );
-};
+});
 
 export { PayCash };
