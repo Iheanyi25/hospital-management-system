@@ -13,7 +13,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import {
   getServicesInAnInvoiceUrl,
   postPayForServicesUrl,
-  postPayForServicesWithAccountUrl
+  postPayForServicesWithAccountUrl,
 } from "../../api/URLs";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
@@ -123,19 +123,21 @@ class PaymentForService extends React.Component {
     }
   };
 
-  payForServices = async (reference, modeOfPayment, description) => {
-    const { amount, serviceRequestId, patientId } = this.state;
-    const {
-      user: { id },
-    } = this.context;
+  payForServices = async (
+    referenceNumber,
+    modeOfPayment,
+    description,
+    initiatorId
+  ) => {
+    const { amount: totalAmount, serviceRequestId, patientId } = this.state;
     let payload = {
-      patientId: patientId,
-      serviceRequestId: serviceRequestId,
-      totalAmount: amount,
-      description: description,
-      modeOfPayment: modeOfPayment,
-      referenceNumber: reference,
-      initiatorId: id,
+      patientId,
+      serviceRequestId,
+      totalAmount,
+      description,
+      modeOfPayment,
+      referenceNumber,
+      initiatorId,
     };
 
     try {
@@ -155,38 +157,35 @@ class PaymentForService extends React.Component {
     console.log(payload);
   };
   payWithAccount = async (
-    reference,
+    referenceNumber,
     modeOfPayment,
     description,
-    accountId,
     initiatorId
   ) => {
-    const { amount, serviceRequestId, patientId } = this.state;
+    const { amount: totalAmount, serviceRequestId, patientId } = this.state;
     let payload = {
-      patientId: patientId,
-      serviceRequestId: serviceRequestId,
-      totalAmount: amount,
-      description: description,
-      modeOfPayment: modeOfPayment,
-      referenceNumber: reference,
-      initiatorId: initiatorId,
-      accountId: accountId,
+      patientId,
+      serviceRequestId,
+      totalAmount,
+      description,
+      modeOfPayment,
+      referenceNumber,
+      initiatorId,
     };
-
-    // try {
-    //   const postPayForServices = postPayForServicesWithAccountUrl();
-    //   const postPayForServicesConfig = fetchConfig({
-    //     url: postPayForServices,
-    //     data: payload,
-    //     method: "post",
-    //   });
-    //   const { status } = await fetchWrapper(postPayForServicesConfig);
-    //   if (status === 200) {
-    //     this.setState({ success: true });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const postPayForServices = postPayForServicesWithAccountUrl();
+      const postPayForServicesConfig = fetchConfig({
+        url: postPayForServices,
+        data: payload,
+        method: "post",
+      });
+      const { status } = await fetchWrapper(postPayForServicesConfig);
+      if (status === 200) {
+        this.setState({ success: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
     console.log(payload);
   };
 

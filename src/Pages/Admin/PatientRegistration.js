@@ -74,15 +74,16 @@ class PatientRegistration extends React.Component {
     this.$el.DataTable();
   }
 
-  register = async (reference, modeOfPayment, description) => {
+  register = async (referenceNumber, modeOfPayment, description, initiatorId) => {
     const { amount, patientId, invoiceNumber } = this.state;
     let payload = {
-      patientId: patientId,
-      amount: amount,
-      invoiceNumber: invoiceNumber,
-      description: description,
-      modeOfPayment: modeOfPayment,
-      referenceNumber: reference,
+      patientId,
+      amount,
+      invoiceNumber,
+      description,
+      modeOfPayment,
+      referenceNumber,
+      initiatorId
     };
 
     console.log(payload);
@@ -104,22 +105,20 @@ class PatientRegistration extends React.Component {
     }
   };
   payWithAccount = async (
-    reference,
+    referenceNumber,
     modeOfPayment,
     description,
-    accountId,
     initiatorId
   ) => {
     const { amount, patientId, invoiceNumber } = this.state;
     let payload = {
-      patientId: patientId,
-      amount: amount,
-      invoiceNumber: invoiceNumber,
-      description: description,
-      modeOfPayment: modeOfPayment,
-      referenceNumber: reference,
-      initiatorId: initiatorId,
-      accountId: accountId,
+      patientId,
+      amount,
+      invoiceNumber,
+      description,
+      modeOfPayment,
+      referenceNumber,
+      initiatorId,
     };
     console.log(payload);
     try {
