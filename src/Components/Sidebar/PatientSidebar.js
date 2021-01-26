@@ -76,6 +76,12 @@ class PatientSidebar extends React.Component {
 											<span className="link-text">My Account</span>
 										</Link>
 									</li>
+									<li className="menu-item">
+										<Link className="item-link" to="/ThirdPartyFunding">
+											<span className="link-icon icofont-wallet" />
+											<span className="link-text">Fund Via Link</span>
+										</Link>
+									</li>
 
 									<li className="menu-item">
 										<span className="group-title">Profile Mgt</span>

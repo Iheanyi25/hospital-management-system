@@ -16,6 +16,7 @@ import ViewClarkingHistory from '../Pages/Patient/ViewClarkingHistory';
 import MyDoctors from '../Pages/Patient/MyDoctors';
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import { PatientProfile } from '../Components/Profiles/PatientProfile';
+import ThirdPartyFunding from '../Pages/Patient/thirdPartyFunding';
 
 export default function PatientRoutes() {
     return (
@@ -35,7 +36,7 @@ export default function PatientRoutes() {
 
                     <Route exact path="/MyDoctors" component={MyDoctors} />
                     <Route exact path="/ChangePassword" component={ViewChangePassword} />
-
+                    <Route exact path="/ThirdPartyFunding" component={ThirdPartyFunding} />
                     <Route exact path="/PatientProfile" component={ViewPatientProfile} />
                     <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
                     <Route exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />

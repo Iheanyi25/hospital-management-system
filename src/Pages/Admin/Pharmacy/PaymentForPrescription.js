@@ -20,7 +20,7 @@ const PaymentForPrescription = observer(({ history }) => {
     message: "",
   });
   const {
-    user: { id: userId, userType },
+    user: { userType },
   } = useContext(UserContext);
   console.log(history.location.state);
   const {
@@ -29,15 +29,20 @@ const PaymentForPrescription = observer(({ history }) => {
     invoiceNumber,
   } = history.location.state;
 
-  const paidSuccessfully = async (reference, modeOfPayment, description) => {
+  const paidSuccessfully = async (
+    referenceNumber,
+    modeOfPayment,
+    description,
+    paidBy
+  ) => {
     const payload = {
-      patientId: patientId,
-      invoiceNumber: invoiceNumber,
+      patientId,
+      invoiceNumber,
       totalAmount: amount,
-      description: description,
-      modeOfPayment: modeOfPayment,
-      referenceNumber: reference,
-      paidBy: userId,
+      description,
+      modeOfPayment,
+      referenceNumber,
+      paidBy,
     };
     console.log(payload);
     const paymentUrl = payForDrugsUrl();
@@ -56,42 +61,39 @@ const PaymentForPrescription = observer(({ history }) => {
     }
   };
   const payWithAccount = async (
-    reference,
+    referenceNumber,
     modeOfPayment,
     description,
-    accountId,
-    initiatorId
+    paidBy
   ) => {
     const payload = {
-      patientId: patientId,
-      invoiceNumber: invoiceNumber,
+      patientId,
+      invoiceNumber,
       totalAmount: amount,
-      description: description,
-      modeOfPayment: modeOfPayment,
-      referenceNumber: reference,
-      paidBy: initiatorId,
+      description,
+      modeOfPayment,
+      referenceNumber,
+      paidBy,
     };
     console.log(payload);
-    // const paymentUrl = payForDrugsWithAccountUrl();
-    // const payForDrugsConfig = fetchConfig({
-    //   url: paymentUrl,
-    //   method: "post",
-    //   data: payload,
-    // });
-    // try {
-    //   const { status, message } = await fetchWrapper(payForDrugsConfig);
-    //   if (status === 200) {
-    //     setSuccess({ status: true, message: message });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const paymentUrl = payForDrugsWithAccountUrl();
+    const payForDrugsConfig = fetchConfig({
+      url: paymentUrl,
+      method: "post",
+      data: payload,
+    });
+    try {
+      const { status, message } = await fetchWrapper(payForDrugsConfig);
+      if (status === 200) {
+        setSuccess({ status: true, message: message });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   const { status, message } = success;
   return (
     <>
-      <PageLoader />
-
       <main className="main-content">
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
