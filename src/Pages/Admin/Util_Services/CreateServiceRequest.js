@@ -101,50 +101,28 @@ class CreateService extends Component {
     e.preventDefault();
     if (this.state.patient) {
       if (e.target.value) {
-        let valueContainer = document.getElementsByClassName(
-          "filter-option-inner-inner"
-        )[1];
 
-        let values = valueContainer?.innerText.split(",") ?? [];
-        let valueToPush = [];
+        // variable holders
         let stateValue = this.state.values;
+        let existingKey = stateValue.findIndex(element => element.serviceId === e.target.value);
+        let existingElement = this.state.services.find(element => element.id === e.target.value);
 
-        return values.map((item, index) => {
-          if (stateValue.length > 0) {
-            return stateValue.forEach((element) => {
-              if (
-                element.serviceId === e.target.value ||
-                element.service === item
-              )
-                return;
-              else {
-                let newSelect = {
-                  serviceId: e.target.value,
-                  service: item,
-                  category: this.state.category,
-                  index,
-                };
-                valueToPush.push(newSelect);
-                console.log("the values to  be pushed: 1", valueToPush);
-                this.setState({
-                  values: [...this.state.values, ...valueToPush],
-                });
-                return;
-              }
-            });
-          } else {
-            let newSelect = {
-              serviceId: e.target.value,
-              service: item,
-              category: this.state.category,
-              index,
-            };
-            valueToPush.push(newSelect);
+        // console.log("check 1", stateValue, e.target.value, existingKey, existingElement);
+        if (existingKey < 0) {
+          // console.log("check 2: initial load ffor empty stateValue: ");
 
-            this.setState({ values: valueToPush });
-            return;
-          }
-        });
+          let newSelect = {
+            serviceId: e.target.value,
+            service: existingElement.name,
+            category: this.state.category,
+            // index,
+          };
+          stateValue.push(newSelect);
+
+          // console.log("check 3: first load ----- final: ", stateValue)
+          this.setState({ values: stateValue });
+          return;
+        } else return;
       }
       return;
     } else {
@@ -172,7 +150,7 @@ class CreateService extends Component {
   };
 
   handleSubmit = async () => {
-    const {user} = this.context;
+    const { user } = this.context;
     let serviceId = [];
     let generatedBy = user;
     generatedBy = generatedBy.id;
@@ -210,7 +188,7 @@ class CreateService extends Component {
   };
   render() {
     const { isFromClarking } = this.state;
-    const {user} = this.context;
+    const { user } = this.context;
     return (
       <>
         <PageLoader />
@@ -283,9 +261,19 @@ class CreateService extends Component {
                           isFetchingCategories={this.state.isFetchingCategories}
                         />
 
+                        {this.state.showServices ?
+                          <SelectableDropDown
+                            itemKey={["id"]}
+                            onChange={this.handleSelect}
+                            stateValue={this.state.patient}
+                            stateKey={null}
+                            label={"Services"}
+                            data={this.state.services}
+                            valueKeys={["name"]}
+                          />
+                          : null}
 
-
-                        <MultipleSelect
+                        {/* <MultipleSelect
                           data={this.state.services}
                           showServices={this.state.showServices}
                           itemKey={"id"}
@@ -296,7 +284,7 @@ class CreateService extends Component {
                             "Please select a category to continue"
                           }
                           isFetchingServicesInCategory={this.state.isFetchingServicesInCategory}
-                        />
+                        /> */}
                       </form>
                     </div>
                   </div>
