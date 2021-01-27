@@ -125,7 +125,7 @@ export default class ManageServiceCategory extends Component {
             <div className="page-content mt-5">
               <TableSize
                 size={this.state.categories.length}
-                heading="Service Categories"
+                heading="No Of Service Categories"
               />
               <div className="row justify-content-center">
                 <div className="col col-md-12">

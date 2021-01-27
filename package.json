@@ -19,6 +19,7 @@
     "react-data-table-component": "^6.11.5",
     "react-dom": "^16.13.1",
     "react-flutterwave-rave": "^1.0.4",
+    "react-notifications-component": "^3.0.3",
     "react-paystack": "^3.0.2",
     "react-ravepayment": "^3.0.1",
     "react-router-dom": "^5.2.0",

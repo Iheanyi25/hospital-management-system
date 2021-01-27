@@ -40,6 +40,7 @@ export default class ManageServices extends Component {
 
   deleteMe = async (id) => {
     try {
+      console.log("ddd");
       const deleteService = deleteServiceUrl();
       const deleteServiceConfig = fetchConfig({
         url: deleteService,
@@ -47,7 +48,8 @@ export default class ManageServices extends Component {
         method: "post",
       });
       const res = await fetchWrapper(deleteServiceConfig);
-
+      console.log("ddd");
+      console.log(res.message);
       if (res.status === 200) {
         this.fetchAllServices();
         this.setState((state) => ({
@@ -58,16 +60,24 @@ export default class ManageServices extends Component {
             delError: false,
           },
         }));
-      } else {
-        throw "error occured";
+      } else if (res.status === 400) {
+        this.fetchAllServices();
+        this.setState((state) => ({
+          ...state,
+          success: {
+            show: true,
+            message: res.message,
+            delError: false,
+          },
+        }));
       }
+      console.log("i ran oooh");
     } catch (error) {
-      console.log(error);
       this.setState((state) => ({
         ...state,
         success: {
           show: true,
-          message: "can't delete this service, service is tied to a request",
+          message: error.response.data.message,
           delError: true,
         },
       }));
@@ -120,7 +130,7 @@ export default class ManageServices extends Component {
               </NavLink>
             </header>
             <div className="page-content mt-5">
-              <TableSize size={this.state.services.length} heading="Services" />
+              <TableSize size={this.state.services.length} heading="No Of Services" />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">

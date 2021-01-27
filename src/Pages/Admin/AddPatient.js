@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { PageLoader } from "../../Components";
 import SelectFamily from "./SelectFamily";
-import { Success } from "../../Components/Alerts";
 import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
 import { getAllHealthPlansUrl, registerPatientUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
+import { notification } from "../../utils/notification";
 
 export default class AddPatient extends Component {
   state = {
@@ -20,7 +20,6 @@ export default class AddPatient extends Component {
     accountId: "",
     message: "",
     isDisabled: true,
-    success: false,
     isSubmitting: false
   };
 
@@ -112,13 +111,14 @@ export default class AddPatient extends Component {
       const registerPatientConfig = fetchConfig({ url: registerPatient, data: data, method: 'post' })
       const res = await fetchWrapper(registerPatientConfig)
 
-      if (res.status === 200) {
-        this.setState({ success: true, patientId: res.data.patient.id, message: res.data.message });
-      }
       this.setState({ isSubmitting: false })
+      notification.success({ message: res.data.message });
+      this.props.history.push( "/AdminUpdatePatientProfile/" + res.data.patient.id)
     } catch (error) {
       this.setState({ isSubmitting: false })
       console.log(error);
+      const errMessage = error?.response?.data?.message || "An error occurred";
+      notification.error({ message: errMessage });
     }
   };
 
@@ -137,13 +137,6 @@ export default class AddPatient extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message={this.state.message}
-              nextRoute={"/AdminUpdatePatientProfile/" + this.state.patientId}
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">

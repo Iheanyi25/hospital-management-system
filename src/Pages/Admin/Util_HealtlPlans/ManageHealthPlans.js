@@ -97,7 +97,7 @@ export default class ManageHealthPlans extends Component {
             <div className="page-content mt-5">
               <TableSize
                 size={this.state.healthPlans.length}
-                heading="Health Plans"
+                heading="No Of Health Plans"
               />
               <div className="row justify-content-center">
                 <div className="col col-md-12">

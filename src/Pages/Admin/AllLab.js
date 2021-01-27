@@ -1,167 +1,99 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { PageLoader } from "../../Components";
-import formatAmount from "../../utils/formatAmount";
-import formatDate from "../../utils/formatDate";
-import paid from "../../assets/img/paid.svg";
-import notpaid from "../../assets/img/notpaid.svg";
-import incomplete from "../../assets/img/incomplete.svg";
+import { PageLoader, Table } from "../../Components";
+import LabTechnicianImage from "../../assets/img/DoctorIcon.svg";
 import { getAllLabTechniciansUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
+import { useRequest } from "../../api/fetcher";
+import ActionButton from "../../Components/DataTable/ActionButton";
+import TableSize from "../../Components/DataTable/TableSize";
 
-let $ = window.$;
-$.DataTables = require("datatables.net");
-class AllLabTechnicians extends React.Component {
-  constructor(props) {
-    super(props);
+function AllLabTechnicians() {
+  const fetchLabTechniciansUrl = getAllLabTechniciansUrl();
+  const fetchLabTechniciansConfig = fetchConfig({
+    url: fetchLabTechniciansUrl,
+    method: "get",
+  });
+  const { data, error } = useRequest(fetchLabTechniciansConfig, {
+    revalidateOnFocus: false,
+  });
 
-    this.state = {
-        labTechnicians: [],
-    };
-  }
-  // console.log(categories);
-
-  async componentDidMount() {
-    this.fetchLabTechnicians().then(() => this.sync());
-  }
-
-  async fetchLabTechnicians() {
-    const fetchLabTechniciansUrl = getAllLabTechniciansUrl();
-    const fetchLabTechniciansConfig = fetchConfig({
-      url: fetchLabTechniciansUrl,
-      method: "get",
+  let tableData = [];
+  if (data) {
+    tableData = data.labTechnicians.map(({ lab }, index) => {
+      return {
+        "#": ++index,
+        Photo: (
+          <img
+            src={LabTechnicianImage}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-500"
+          />
+        ),
+        Name: `${lab.firstName} ${lab.lastName}`,
+        Email: <a href={"mailto:" + lab.email}>{lab.email}</a>,
+        Phone: lab.phoneNumber || "Not available",
+        Actions: <LabTableAction lab={lab} />,
+      };
     });
-    try {
-      const response = await fetchWrapper(fetchLabTechniciansConfig);
-      console.log("name", response);
-      this.setState({ labTechnicians: response.data.labTechnicians });
-    } catch (error) {
-      console.log(error);
-    }
-  }
- 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    console.log($(this.el));
   }
 
-  render() {
-    const { labTechnicians } = this.state;
-    console.log("findam", labTechnicians);
-    return (
-      <>
-        <PageLoader />
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header">
+            <h4 className="page-title">Our Lab Technicians</h4>
+          </header>
+
+          <div className="page-content">
+            <TableSize
+              size={data ? data.labTechnicians.length : 0}
+              heading="No Of Lab Technicians"
+            />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Our Lab Technicians</h4>
-            </header>
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">No of Lab Technicians</h6>
-                        <div className="count text-primary fs-20">
-                          {labTechnicians?.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <div className="table-responsive">
-                      <table
-                        ref={(el) => (this.el = el)}
-                        className="table table-striped"
-                        data-paging="true"
-                        data-info="true"
-                      >
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Lab Technicians Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {labTechnicians.map((labTechnicians, index) => {
-                            return (
-                              <tr key={index}>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {index + 1}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {labTechnicians?.fullName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap" style={{textTransform: "lowercase"}}>
-                                    {labTechnicians?.lab?.email}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {labTechnicians?.lab?.phoneNumber ?? "N/A"}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                    <NavLink
-                                    to={`/AdminViewLabProfile/${labTechnicians?.lab?.id}`}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                    View Profile
-                                  </NavLink>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            {data && <Table content={tableData} />}
           </div>
-        </main>
-        //{" "}
-      </>
-    );
-  }
+        </div>
+      </main>
+    </Fragment>
+  );
 }
+
+const LabTableAction = ({ lab }) => {
+  const tableFunctions = [
+    {
+      text: "View Profile",
+      path: `/AdminViewLabProfile/${lab.id}`,
+      iconClass: "btn-icon icofont-ui-edit  mr-2",
+    },
+  ];
+  return (
+    <ActionButton>
+      {tableFunctions.map(({ path, text, iconClass }) => (
+        <NavLink
+          to={{
+            pathname: path,
+            state: lab,
+          }}
+          key={path}
+          className="btn btn-sm btn-block"
+        >
+          <span className={iconClass} />
+          {text}
+        </NavLink>
+      ))}
+    </ActionButton>
+  );
+};
 
 export default AllLabTechnicians;

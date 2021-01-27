@@ -1,160 +1,106 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
+import { useRequest } from "../../api/fetcher";
 import { getDoctorsUrl } from "../../api/URLs";
-import { PageLoader } from "../../Components";
+import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
+import ActionButton from "../../Components/DataTable/ActionButton";
 
-const $ = window.$;
-$.Datatable = require("datatables.net");
+function AllDoctors() {
+  const getDoctors = getDoctorsUrl()
+  const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
+  const { data, error } = useRequest(getDoctorsConfig, {
+    revalidateOnFocus: false,
+  });
 
-class AllDoctors extends React.Component {
-  constructor(props) {
-    super(props);
+  let tableData = [];
+    if (data) { 
+      tableData =  data.doctors.map(({ doctor }, index) => {
+        return {
+          "#": ++index,
+          Photo: (
+            <img
+              src={DoctorImage}
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-500"
+            />
+          ),
+          Name: `${doctor.firstName} ${doctor.lastName}`,
+          Email: <a href={"mailto:" + doctor.email}>{doctor.email}</a>,
+          Phone: doctor.phoneNumber || "Not available",
+          Actions: <DoctorTableAction doctor={doctor} />,
+        };
+      });
+    }
 
-    this.state = {
-      doctors: [],
-    };
-  }
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
 
-  async getAllDoctors() {
-    const getDoctors = getDoctorsUrl()
-    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
-    const {data} = await fetchWrapper(getDoctorsConfig)
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header">
+            <h4 className="page-title">Our Doctors</h4>
+          </header>
 
-    this.setState({ doctors: data.doctors });
-  }
-
-  componentDidMount() {
-    this.getAllDoctors().then(() => this.sync());
-  }
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-  }
-
-  render() {
-    const { doctors } = this.state;
-    console.log(doctors);
-    console.log();
-    return (
-      <>
-        <PageLoader />
-
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+          <div className="page-content">
+            <TableSize
+              size={data ? data.doctors.length : 0}
+              heading="No Of Doctors"
+            />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header">
-              <h4 className="page-title">Our Doctors</h4>
-            </header>
-            <div className="page-content">
-              <TableSize size={doctors.length} heading="Doctors" />
-            </div>
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <table
-                      ref={(el) => (this.el = el)}
-                      className="table table-striped"
-                      data-paging="true"
-                      data-info="true"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Photo</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Phone</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {doctors.map((doctor) => (
-                          <tr>
-                            <td>
-                              <img
-                                src={DoctorImage}
-                                alt=""
-                                width={40}
-                                height={40}
-                                className="rounded-500"
-                              />
-                            </td>
-                            <td>
-                              {doctor.doctor.firstName} {doctor.doctor.lastName}
-                            </td>
-                            <td>
-                              <strong>
-                                {" "}
-                                <div className="d-flex align-items-center nowrap">
-                                  {doctor.doctor.email}
-                                </div>
-                              </strong>
-                            </td>
-                            <td>
-                              <div className="d-flex align-items-center nowrap">
-                                {doctor.doctor.phoneNumber}
-                              </div>
-                            </td>
-
-                            <td>
-                              <div className="btn-group">
-                                <button
-                                  type="button"
-                                  className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                >
-                                  Action
-                                </button>
-                                <div className="dropdown-menu">
-                                  <NavLink
-                                    to={`/AdminDoctorConsultations/${doctor.doctorId}`}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                    View Consultation List
-                                  </NavLink>
-
-                                  <NavLink
-                                    to={`/AdminDoctorAppointments/${doctor.doctorId}`}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                    View Appointment List
-                                  </NavLink>
-
-                                  <NavLink
-                                    to={`/DoctorProfile/${doctor.doctorId}`}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                    View Profile
-                                  </NavLink>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            {data && <Table content={tableData} />}
           </div>
-        </main>
-      </>
-    );
-  }
+        </div>
+      </main>
+    </Fragment>
+  );
 }
 
 export default AllDoctors;
+
+const DoctorTableAction = ({ doctor }) => {
+  const tableFunctions = [
+    {
+      text: "View Consultation List",
+      path: `/AdminDoctorConsultations/${doctor.id}`,
+      iconClass: "btn-icon icofont-stethoscope-alt mr-2",
+    },
+    {
+      text: "View Appointment List",
+      path:`/AdminDoctorAppointments/${doctor.id}`,
+      iconClass: "btn-icon icofont-stethoscope-alt mr-2",
+    },
+    {
+      text: "View Profile",
+      path: `/DoctorProfile/${doctor.id}`,
+      iconClass: "btn-icon icofont-ui-edit  mr-2",
+    }
+  ];
+  return (
+    <ActionButton>
+      {tableFunctions.map(({ path, text, iconClass }) => (
+        <NavLink
+          to={{
+            pathname: path,
+            state: doctor,
+          }}
+          key={path}
+          className="btn btn-sm btn-block"
+        >
+          <span className={iconClass} />
+          {text}
+        </NavLink>
+      ))}
+    </ActionButton>
+  );
+};

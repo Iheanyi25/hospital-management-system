@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { registerUserUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 import { isValidEmail } from "../../utils/validationUtils";
-import { Success } from "../Alerts";
-
 
 const user = {
   lab: "Lab Scientist",
   doctor: "Doctor",
   pharmacy: "Pharmacist",
-  accountant: "Accountant"
-}
+  accountant: "Accountant",
+};
 
 const $ = window.$;
 const RegisterUserModal = ({ userType }) => {
@@ -20,11 +20,10 @@ const RegisterUserModal = ({ userType }) => {
     firstName: "",
     lastName: "",
     password: "Password101@",
-    success: false,
     message: "",
-    route: "",
+    isRegistering: false
   });
-
+  const history = useHistory();
   const routes = {
     doctor: "/AdminAllDoctors",
     accountant: "/AdminAllAccountants",
@@ -36,53 +35,49 @@ const RegisterUserModal = ({ userType }) => {
     const value = e.target.value;
     setState((state) => ({ ...state, [name]: value }));
   };
-  const resetShowState = () =>
-    setState((state) => ({
-      ...state,
-      success: false,
-      email: "",
-      firstName: "",
-      lastName: "",
-    }));
 
   const registerUser = async (e) => {
     e.preventDefault();
-    const { email, firstName, lastName, password } = state;
-    const data = {
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      password: password,
-      roleName: userType,
-    };
-    console.log(data);
-    const registerUrl = registerUserUrl();
-    const registerUserConfig = fetchConfig({
-      url: registerUrl,
-      method: "post",
-      data: data,
-    });
-    console.log(routes[userType]);
+
     try {
-      const { status, message } = await fetchWrapper(registerUserConfig);
-      if (status === 200) {
-        setState({
-          ...state,
-          success: true,
-          message: message,
-          route: routes[userType],
-        });
-        setTimeout(() => {
-          $("#add-user").modal("hide");
-        }, 2000);
-      }
-    } catch (err) {
-      console.log(err);
+      setState((state) => ({ ...state, isRegistering: true}));
+      const { email, firstName, lastName, password } = state;
+      const data = {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+        roleName: userType,
+      };
+      console.log(data);
+      const registerUrl = registerUserUrl();
+      const registerUserConfig = fetchConfig({
+        url: registerUrl,
+        method: "post",
+        data: data,
+      });
+
+      const { data: dataRes } = await fetchWrapper(registerUserConfig);
+      setState((state) => ({
+        ...state,
+        email: "",
+        firstName: "",
+        lastName: "",
+        isRegistering: false
+      }));
+      $("#add-user").modal("hide");
+      notification.success({ message: dataRes.message });
+      history.push(routes[userType]);
+    } catch (error) {
+      console.log(error);
+      const errMessage = error?.response?.data?.message || "An error occurred";
+      notification.error({ message: errMessage });
+      setState((state) => ({ ...state, isRegistering: false}));
     }
   };
 
   console.log(userType, "eklelkkled");
-  const { email, firstName, lastName, success, message, route } = state;
+  const { email, firstName, lastName,isRegistering } = state;
 
   return (
     <>
@@ -93,13 +88,6 @@ const RegisterUserModal = ({ userType }) => {
         role="dialog"
         aria-hidden="true"
       >
-        {success ? (
-          <Success
-            message={message}
-            nextRoute={route}
-            callback={resetShowState}
-          />
-        ) : null}
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-body">
@@ -158,12 +146,11 @@ const RegisterUserModal = ({ userType }) => {
                       disabled={
                         !isValidEmail(email) ||
                         firstName === "" ||
-                        lastName === ""
-                          ? true
-                          : false
+                        lastName === "" ||
+                        isRegistering
                       }
                     >
-                      Register User
+                      {isRegistering ? "Registering..." : "Register User"}
                     </button>
                   </div>
                 </div>

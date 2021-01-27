@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import { observer } from "mobx-react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../../mobx/UserState";
 
-const Others = ({ details, paidSuccessfully }) => {
+const Others = observer(({ details, paidSuccessfully }) => {
+  const {
+    user: { id },
+  } = useContext(UserContext);
   const [paymentDetails, setPaymentDetails] = useState({
     description: "",
     modeOfPayment: "",
     reference: "",
   });
-
+  const { amount } = details;
   const handleSubmit = (e) => {
-    e.preventDefault();
     const { description, modeOfPayment, reference } = paymentDetails;
-    paidSuccessfully(reference, modeOfPayment, description);
+    e.preventDefault();
+    paidSuccessfully(reference, modeOfPayment, description, id);
   };
 
   return (
@@ -32,7 +37,7 @@ const Others = ({ details, paidSuccessfully }) => {
                         className="form-control"
                         type="number"
                         tabIndex={-98}
-                        value={details.amount}
+                        value={amount}
                         disabled
                         required
                       />
@@ -119,6 +124,6 @@ const Others = ({ details, paidSuccessfully }) => {
       </div>
     </div>
   );
-};
+});
 
 export { Others };

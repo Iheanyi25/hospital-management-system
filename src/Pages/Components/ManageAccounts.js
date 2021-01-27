@@ -1,227 +1,114 @@
-import React from "react";
+import React, { useContext, Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
 import { getAllAccountsUrl } from "../../api/URLs";
-import { PageLoader } from "../../Components";
+import { PageLoader, Table } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
+import TableSize from "../../Components/DataTable/TableSize";
+import ActionButton from "../../Components/DataTable/ActionButton";
+import { useRequest } from "../../api/fetcher";
 
-const $ = window.$;
-$.Datatable = require("datatables.net");
+const ManageAccounts = () => {
+  const getAllAccounts = getAllAccountsUrl();
+  const getAllAccountsConfig = fetchConfig({
+    url: getAllAccounts,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllAccountsConfig, {
+    revalidateOnFocus: false,
+  });
 
-class ManageAccounts extends React.Component {
-  static contextType = UserContext;
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      accounts: [],
-    };
+  let dataTable = [];
+  if (data) {
+    console.log(data,88888)
+    dataTable = data.accounts.map((account , index) => {
+      return {
+        "#": ++index,
+        Photo: (
+          <img
+            src={PatientAndAdminImage}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-500"
+          />
+        ),
+        Account: <strong>{account?.name}</strong>,
+        Phone: account?.phoneNumber || "Not available",
+        "Health Plan": account?.healthPlan?.name,
+        Balance: formatAmount( account?.accountBalance) || 0,
+        Actions: <AccountTableAction account={account} />,
+      };
+    });
   }
 
-  async componentDidMount() {
-    this.fecthAllAcounts().then(() => this.sync());
-  }
-
-  fecthAllAcounts = async () => {
-    try {
-      const getAllAccounts = getAllAccountsUrl();
-      const getAllAccountsConfig = fetchConfig({
-        url: getAllAccounts,
-        method: "get",
-      });
-      const { data } = await fetchWrapper(getAllAccountsConfig);
-
-      this.setState({ accounts: data.accounts });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-  }
-
-  render() {
-    const { user } = this.context;
-    const { accounts } = this.state;
-    console.log(this.props, "restashznvusdhf");
-
-    return (
-      <>
-        <PageLoader />
-
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
-          </div>
-          <div className="main-content-wrap">
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+        <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title"> Manage Accounts</h4>
             </header>
 
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Account Total</h6>
-                        <div className="count text-primary fs-20">
-                          {accounts.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-03s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Amount spent (NGN)</h6>
-                        <div className="count text-primary fs-20">
-                          {accounts.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-              {/* <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-03s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-patient-file" />
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Account (NGN)</h6>
-                        <div className="count text-primary fs-20">
-                          {accounts.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-            </div>
-
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <div className="tab-content" id="pills-tabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="pills-active"
-                        role="tabpanel"
-                        aria-labelledby="pills-active-tab"
-                      >
-                        <div className="table-responsive">
-                          <table ref={(el) => (this.el = el)} className="table">
-                            <thead>
-                              <tr>
-                                <th>Photo</th>
-                                <th>Account</th>
-                                <th>Phone Number</th>
-                                <th>Health Plan</th>
-                                <th>Balance</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {accounts.length > 0 &&
-                                accounts.map((account, index) => (
-                                  <tr key={index}>
-                                    <td>
-                                      <img
-                                        src={PatientAndAdminImage}
-                                        alt=""
-                                        width={40}
-                                        height={40}
-                                        className="rounded-500"
-                                      />
-                                    </td>
-                                    <td>
-                                      <strong>{account?.name}</strong>
-                                    </td>
-                                    <td>
-                                      {account?.phoneNumber ?? "none yet"}
-                                    </td>
-                                    <td>
-                                      <div className="d-flex align-items-center nowrap">
-                                        {account?.healthPlan?.name}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-muted text-nowrap">
-                                        {formatAmount(
-                                          account?.accountBalance
-                                        ) ?? ""}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="btn-group">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                          data-toggle="dropdown"
-                                          aria-haspopup="true"
-                                          aria-expanded="false"
-                                        >
-                                          Action
-                                        </button>
-                                        <div className="dropdown-menu text-left">
-                                          <NavLink
-                                            to={{
-                                              pathname: `${
-                                                user.userType === "Admin"
-                                                  ? `/AdminFundAccount/${account.id}`
-                                                  : `/AccountFundAccount/${account.id}`
-                                              }`,
-                                              state: {
-                                                id: account.id,
-                                                user: toJS(user),
-                                                name: account?.name,
-                                              },
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icon sli-link mr-2" />{" "}
-                                            Fund Account
-                                          </NavLink>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            <TableSize
+              size={data ? data.accounts.length : 0}
+              heading="No Of Account"
+            />
           </div>
-        </main>
-      </>
-    );
-  }
-}
+          <div className="page-content">
+            {data && <Table content={dataTable} />}
+          </div>
+        </div>
+      </main>
+    </Fragment>
+  );
+};
+export default ManageAccounts;
 
-export default observer(ManageAccounts);
+const AccountTableAction = observer(({ account }) => {
+  const { user } = useContext(UserContext);
+  // console.log(user,account,7777)
+  const tableFunctions = [
+    {
+      text: "Fund Account",
+      path:`${
+        user.userType === "Admin"
+          ? `/AdminFundAccount/${account.id}`
+          : `/AccountFundAccount/${account.id}`
+      }`,
+      iconClass: "btn-icon icon sli-link mr-2",
+      routeState: {
+        id: account.id,
+        user: toJS(user),
+        name: account?.name,
+      }
+    }
+  ];
+  return (
+    <ActionButton>
+      {tableFunctions.map(({ path, text, iconClass, routeState },index) => (
+        <NavLink
+          to={{
+            pathname: path,
+            state: routeState
+          }}
+          className="btn btn-sm btn-block"
+          key={path+index}
+        >
+          <span className={iconClass} />
+          {text}
+        </NavLink>
+      ))}
+    </ActionButton>
+  );
+});
