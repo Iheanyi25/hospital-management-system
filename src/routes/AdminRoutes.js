@@ -62,7 +62,9 @@ import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans
 import SelectFamily from "../Pages/Admin/SelectFamily";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
-import RegistrationReport from "../Pages/Admin/Util_Services/RegistrationReport";
+
+//reports
+import RegistrationReport from "../Pages/Admin/Reports/RegistrationReport";
 
 export default function AdminRoutes() {
   return (

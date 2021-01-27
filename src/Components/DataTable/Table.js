@@ -14,7 +14,7 @@ const readyStyle = {
   transition: "visibility 0s linear 0s, opacity 300ms",
 };
 
-const Table = ({ content, tableID }) => {
+const Table = ({ content, tableID, exportAction }) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -24,8 +24,22 @@ const Table = ({ content, tableID }) => {
   }, [tableID]);
 
   const sync = () => {
-    if(content.length > 0) {
-      $(`#custom_table_${tableID}`).DataTable();
+    if (content.length > 0) {
+      if (exportAction) {
+        console.log(999999999999);
+        $(`#custom_table_${tableID}`).DataTable({
+          dom: "Bfrtip",
+          buttons: ["copy", "csv", "excel", "pdf", "print"],
+        });
+      } else {
+        $(`#custom_table_${tableID}`).DataTable();
+      }
+      // if (exportAction) {
+      //   $(`#custom_table_${tableID}`).DataTable({
+      //     dom: "Bfrtip",
+      //     buttons: ["copy", "csv", "excel", "pdf", "print"],
+      //   });
+
       setIsReady(true);
     }
   };
@@ -43,7 +57,7 @@ const Table = ({ content, tableID }) => {
           data-searching="true"
           id={`custom_table_${tableID}`}
         >
-         {content.length > 0 && <TableContent tableContent={content} />} 
+          {content.length > 0 && <TableContent tableContent={content} />}
         </table>
       </div>
       <div>{content.length === 0 && <NoDataState />}</div>

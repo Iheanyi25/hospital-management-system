@@ -1,5 +1,8 @@
 // Accountant - Dashboard
 
+// Accountant - Manage Reports
+export const getTransactionsForRegistrationUrl = () => `/Accountant/GetTransactionsForRegistration`;
+
 // Accountant- Manage Profile
 export const getAllAccountantsUrl = () => `/Accountant/GetAccountants?`;
 export const getAccountantProfileUrl = (accountantId) =>
