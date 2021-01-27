@@ -49,6 +49,7 @@ export const UserProvider = ({ children }) => {
       userStore.isLoadingUser = false;
       axiosInstance.interceptors.request.use(
         async config => {
+          console.log(config,2222)
           if( userStore.user) toggleGlobalLoaderClass('add')
           config.headers = { 
             'Authorization': `Bearer ${userStore.token}`,

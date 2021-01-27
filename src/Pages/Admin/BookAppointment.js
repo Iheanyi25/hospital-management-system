@@ -5,6 +5,7 @@ import { getDoctorsUrl, getPatientsUrl, postAppointmentUrl } from "../../api/URL
 import { PageLoader } from "../../Components";
 import { Success } from "../../Components/Alerts/Success";
 import { formatInputDate } from "../../utils/formatInputDate";
+import { notification } from "../../utils/notification";
 const $ = window.$;
 
 class BookAppointment extends React.Component {
@@ -21,7 +22,6 @@ class BookAppointment extends React.Component {
       appointmentTime: "",
       appointmentTitle: "",
       reasonForAppointment: "",
-      success: false,
     };
   }
 
@@ -118,31 +118,21 @@ class BookAppointment extends React.Component {
 
       const { data, error } = res;
 
-      if (res.status !== 200) {
-        throw Error(error.message);
-      }
-
       this.setState({
-        showSuccessMessage: true,
         successMessage: data.message,
         appointmentDate: "",
         appointmentTime: "",
         appointmentTitle: "",
         reasonForAppointment: "",
       });
-      this.displaySuccess(this.state.successMessage);
-    } catch (err) {
-      this.setState({ showErrorMessage: true, errorMessage: err.message });
+      notification.success({ message: res.data.message });
+      this.props.history.push("/AdminAppointments")
+    } catch (error) {
+      const errMessage = error?.response?.data?.message || "An error occurred";
+      notification.error({ message: errMessage });
     }
   }
 
-  displaySuccess = (message) => {
-    this.setState({ success: true, message: message });
-  };
-
-  changeSuccess = () => {
-    this.setState({ success: false });
-  };
 
   render() {
     let {
@@ -154,19 +144,6 @@ class BookAppointment extends React.Component {
       reasonForAppointment,
     } = this.state;
 
-    let displayErrorMessage;
-    let displaySuccessMessage;
-
-    if (this.state.showErrorMessage) {
-      displayErrorMessage = (
-        <div className="alert alert-danger with-after-icon" role="alert">
-          <div className="alert-content">{this.state.errorMessage}</div>
-          <div className="alert-icon">
-            <i className="icofont-alarm" />
-          </div>
-        </div>
-      );
-    }
 
     return (
       <>
@@ -176,14 +153,6 @@ class BookAppointment extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message={this.state.message}
-              callback={this.changeSuccess}
-              nextRoute={"/AdminAppointments"}
-            />
-          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3 className="page-title">Book Appointment</h3>
@@ -303,8 +272,6 @@ class BookAppointment extends React.Component {
                             value={reasonForAppointment}
                           />
                         </div>
-                        {displayErrorMessage}
-                        {displaySuccessMessage}
                         <div className="row justify-content-between mt-5">
                           <div className="col">
                             <button

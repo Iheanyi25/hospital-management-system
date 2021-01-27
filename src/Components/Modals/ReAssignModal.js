@@ -2,7 +2,7 @@ import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, postReAssignmentUrl } from "../../api/URLs";
-import { Success } from "../Alerts";
+import { notification } from "../../utils/notification";
 import { SelectableDropDown } from "../Select/SelectableDropDown";
 const $ = window.$;
 let selectId = Math.random();
@@ -36,8 +36,7 @@ class ReAssign extends React.Component {
             doctorArray.push(element.doctor);
         });
 
-        this.setState({ doctors: doctorArray }, () => {
-        });
+        this.setState({ doctors: doctorArray });
     };
 
     handleChange(name, e) {
@@ -49,48 +48,38 @@ class ReAssign extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-
-        let key = Object.keys(this.props);
-
-        const data = {
-            [key[0]]: this.props[key[0]],
-            doctorId: this.state.doctorId
-        };
-
-        const postReAssignment = postReAssignmentUrl(this.props[key[1]])
-        const postReAssignmentConfig = fetchConfig({ url: postReAssignment, data, method: 'post' })
-        const res = await fetchWrapper(postReAssignmentConfig)
-
-        this.setState({ success: true, message: res.message }, () => {
+        try {
+            const data = {
+                [this.props.idType]: this.props.id,
+                doctorId: this.state.doctorId
+            };
+            const reAssignEndpoint = {
+                consultationId: "ReassignPatientToAnotherDoctor",
+                appointmentId:"ReassignAppointment"
+            }
+            const postReAssignment = postReAssignmentUrl(reAssignEndpoint[this.props.idType])
+            const postReAssignmentConfig = fetchConfig({ url: postReAssignment, data, method: 'post' })
+            const res = await fetchWrapper(postReAssignmentConfig)
+            await this.props["reRun"]();
             this.closeModal();
-            this.props["reRun"]();
-        })
+            notification.success({ message: res.data.message });
+          } catch (error) {
+            const errMessage = error?.response?.data?.message || "An error occurred";
+            notification.error({ message: errMessage });
+          }
     }
 
     closeModal = () => {
-        let $ = window.$;
-        $("#reassign-patient").modal('hide');
+        $(`#reassign-patient-${this.props.id}`).modal('hide');
     }
 
     render() {
-
+        // console.log(this.props.id,99999)
         return (
             <>
-
-                {
-                    this.state.success ?
-                        <Success
-                            message={this.state.message}
-                            history={this.props.history}
-                        />
-                        :
-                        null
-                }
-                {/* Search Doctors modals */}
-
                 <div
                     className="modal fade"
-                    id="reassign-patient"
+                    id={`reassign-patient-${this.props.id}`}
                     tabIndex={-1}
                     role="dialog"
                     aria-hidden="true"

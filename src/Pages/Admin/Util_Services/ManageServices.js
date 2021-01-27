@@ -120,7 +120,7 @@ export default class ManageServices extends Component {
               </NavLink>
             </header>
             <div className="page-content mt-5">
-              <TableSize size={this.state.services.length} heading="Services" />
+              <TableSize size={this.state.services.length} heading="No Of Services" />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">

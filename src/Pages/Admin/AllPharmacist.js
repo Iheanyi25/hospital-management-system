@@ -1,175 +1,99 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { PageLoader } from "../../Components";
-import formatAmount from "../../utils/formatAmount";
-import formatDate from "../../utils/formatDate";
-import paid from "../../assets/img/paid.svg";
-import notpaid from "../../assets/img/notpaid.svg";
-import incomplete from "../../assets/img/incomplete.svg";
+import { PageLoader, Table } from "../../Components";
+import PharmacistImage from "../../assets/img/DoctorIcon.svg";
 import { getAllPharmacistUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
+import { useRequest } from "../../api/fetcher";
+import ActionButton from "../../Components/DataTable/ActionButton";
+import TableSize from "../../Components/DataTable/TableSize";
 
-let $ = window.$;
-$.DataTables = require("datatables.net");
-class AllPharmacists extends React.Component {
-  constructor(props) {
-    super(props);
+function AllPharmacists() {
+  const fetchPharmacistsUrl = getAllPharmacistUrl();
+  const fetchPharmacistConfig = fetchConfig({
+    url: fetchPharmacistsUrl,
+    method: "get",
+  });
+  const { data, error } = useRequest(fetchPharmacistConfig, {
+    revalidateOnFocus: false,
+  });
 
-    this.state = {
-      pharmacists: [],
-    };
-  }
-  // console.log(categories);
-
-  async componentDidMount() {
-    this.fetchPharmacists().then(() => this.sync());
-  }
-
-  async fetchPharmacists() {
-    
-    try {
-      const fetchPharmacistsUrl = getAllPharmacistUrl();
-      const fetchPharmacistConfig = fetchConfig({ url: fetchPharmacistsUrl, method: "get" });
-      const response = await fetchWrapper(fetchPharmacistConfig);
-      console.log("name", response);
-      this.setState({ pharmacists: response.data.pharmacists });
-    } catch (error) {
-      console.log(error);
+  let tableData = [];
+    if (data) {
+      tableData = data.pharmacists.map(({ pharmacy }, index) => {
+        return {
+          "#": ++index,
+          Photo: (
+            <img
+              src={PharmacistImage}
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-500"
+            />
+          ),
+          Name: `${pharmacy.firstName} ${pharmacy.lastName}`,
+          Email: <a href={"mailto:" + pharmacy.email}>{pharmacy.email}</a>,
+          Phone: pharmacy.phoneNumber || "Not available",
+          Actions: <PharmacistTableAction pharmacist={pharmacy} />,
+        };
+      });
     }
 
-  }
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    console.log($(this.el));
-  }
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header">
+            <h4 className="page-title">Our Pharmacists</h4>
+          </header>
 
-  render() {
-    const { pharmacists } = this.state;
-    console.log("findam", pharmacists);
-    return (
-      <>
-        <PageLoader />
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+          <div className="page-content">
+            <TableSize
+              size={data ? data.pharmacists.length : 0}
+              heading="No Of Pharmacists"
+            />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Our Pharmacists</h4>
-              {/* {user.userType === "Admin" ? (
-                <NavLink className="btn btn-primary" to="/AdminServiceRequests">
-                  Request Service
-                </NavLink>
-              ) : null} */}
-            </header>
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">No of Pharmacists</h6>
-                        <div className="count text-primary fs-20">
-                          {pharmacists?.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <div className="table-responsive">
-                      <table
-                        ref={(el) => (this.el = el)}
-                        className="table table-striped"
-                        data-paging="true"
-                        data-info="true"
-                      >
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Pharmacists Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {pharmacists.map((pharmacist, index) => {
-                            return (
-                              <tr>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {index + 1}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {pharmacist?.fullName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap" style={{textTransform: "lowercase"}}>
-                                    {pharmacist?.pharmacy?.email}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {pharmacist?.pharmacy?.phoneNumber ?? "N/A"}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                    <NavLink
-                                    to={`/AdminViewPharmacistProfile/${pharmacist?.pharmacy?.id}`}
-                                    className="btn btn-sm btn-block"
-                                  >
-                                    <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                    View Profile
-                                  </NavLink>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            {data && <Table content={tableData} />}
           </div>
-        </main>
-        //{" "}
-      </>
-      // <div>
-      //     hello world
-      // </div>
-    );
-  }
+        </div>
+      </main>
+    </Fragment>
+  );
 }
+
+const PharmacistTableAction = ({ pharmacist }) => {
+  const tableFunctions = [
+    {
+      text: "View Profile",
+      path: `/AdminViewPharmacistProfile/${pharmacist.id}`,
+      iconClass: "btn-icon icofont-ui-edit  mr-2",
+    },
+  ];
+  return (
+    <ActionButton>
+      {tableFunctions.map(({ path, text, iconClass }) => (
+        <NavLink
+          to={{
+            pathname: path,
+            state: pharmacist,
+          }}
+          key={path}
+          className="btn btn-sm btn-block"
+        >
+          <span className={iconClass} />
+          {text}
+        </NavLink>
+      ))}
+    </ActionButton>
+  );
+};
 
 export default AllPharmacists;
