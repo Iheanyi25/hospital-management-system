@@ -218,7 +218,7 @@ class PaymentForService extends React.Component {
               {amount === 0 ? (
                 <h4 className="text-info">Nothing selected yet</h4>
               ) : (
-                <h4 className="text-info">{`NGN ${formatAmount(amount)}`}</h4>
+                <h4 className="text-info"> &#x20A6;{formatAmount(amount)}</h4>
               )}
             </div>
             <div className="page-content">

@@ -173,7 +173,7 @@ class PatientRegistration extends React.Component {
             </header>
             <div className=" d-flex">
               <h4>Amount:&nbsp;</h4>
-              <h4 className="text-info">{formatAmount(amount)}</h4>
+              <h4 className="text-info"> &#x20A6;{formatAmount(amount)}</h4>
             </div>
 
             <div className="page-content">
