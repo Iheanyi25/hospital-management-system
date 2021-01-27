@@ -125,7 +125,7 @@ class PaymentForService extends React.Component {
 
   payForServices = async (
     referenceNumber,
-    modeOfPayment,
+    paymentMethod,
     description,
     initiatorId
   ) => {
@@ -134,8 +134,7 @@ class PaymentForService extends React.Component {
       patientId,
       serviceRequestId,
       totalAmount,
-      description,
-      modeOfPayment,
+      paymentMethod,
       referenceNumber,
       initiatorId,
     };
@@ -158,7 +157,7 @@ class PaymentForService extends React.Component {
   };
   payWithAccount = async (
     referenceNumber,
-    modeOfPayment,
+    paymentMethod,
     description,
     initiatorId
   ) => {
@@ -167,8 +166,7 @@ class PaymentForService extends React.Component {
       patientId,
       serviceRequestId,
       totalAmount,
-      description,
-      modeOfPayment,
+      paymentMethod,
       referenceNumber,
       initiatorId,
     };
