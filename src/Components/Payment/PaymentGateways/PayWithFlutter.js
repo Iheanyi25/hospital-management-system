@@ -46,8 +46,6 @@ const PayWithFlutter = observer(({ paymentDetails, paidSuccessfully }) => {
     <div className="col-md-6">
       <button
         className="btn btn-light btn-lg btn-block"
-        name="modeOfPayment"
-        value="paystack"
         onClick={handlePayment}
       >
         <img src={flutterwave1} className="mr-1" alt="" />
