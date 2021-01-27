@@ -127,9 +127,9 @@ const Login = observer(() => {
                     onChange={(e) => handleChange("password", e.target.value)}
                     required
                   />
-                  <div class="input-group-append eye-icon pull-right">
+                  <div class="input-group-append eye-icon pull-right text-muted">
                       <i
-                      class={inputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                      class={inputType !== "password" ? "icofont-eye" : "icofont-eye-blocked"}
                       onClick={(e) => togglePasswordView()}
                       ></i>
                   </div>

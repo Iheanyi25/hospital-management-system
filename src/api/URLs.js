@@ -7,5 +7,4 @@ export * from './urlCategories/labUrls.js';
 export * from './urlCategories/pharmacyUrls.js';
 export * from './urlCategories/patientUrls.js';
 export * from './urlCategories/commonUrls';
-
-
+export const baseUrl =  () => process.env.REACT_APP_API_URL;

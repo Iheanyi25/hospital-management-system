@@ -95,7 +95,7 @@ export default class ManageWards extends Component {
             </header>
 
             <div className="page-content mt-5">
-              <TableSize size={this.state.wards.length} heading="Wards" />
+              <TableSize size={this.state.wards.length} heading="No Of Wards" />
               <div className="row justify-content-center">
                 <div className="col col-md-12">
                   <div className="card border-light">
