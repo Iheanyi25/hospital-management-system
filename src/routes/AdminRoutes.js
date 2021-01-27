@@ -62,6 +62,7 @@ import ManageHealthPlans from "../Pages/Admin/Util_HealtlPlans/ManageHealthPlans
 import SelectFamily from "../Pages/Admin/SelectFamily";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
+import RegistrationReport from "../Pages/Admin/Util_Services/RegistrationReport";
 
 export default function AdminRoutes() {
   return (
@@ -221,7 +222,11 @@ export default function AdminRoutes() {
             exact
             path="/ChangePassword"
             component={ViewChangePassword}
-          />
+          /><Route
+          exact
+          path="/AdminRegistrationReport"
+          component={RegistrationReport}
+        />
           <Route
             exact
             path="/AdminViewClarkingHistory/:id"
