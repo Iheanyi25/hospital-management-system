@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext} from "react";
 import { observer } from "mobx-react";
 import formatDate from "../../utils/formatDate";
 import formatAmount from "../../utils/formatAmount";
@@ -6,7 +6,7 @@ import { UserContext } from "../../mobx/UserState";
 import { generateDrugDispenseInvoiceUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-
+// import {  } from "module";
 const $ = window.$;
 
 const PrescriptionInvoice = observer(
@@ -173,3 +173,4 @@ const PrescriptionInvoice = observer(
 );
 
 export { PrescriptionInvoice };
+

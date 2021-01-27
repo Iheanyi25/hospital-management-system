@@ -1,17 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import formatDate from "../../utils/formatDate";
 import formatAmount from "../../utils/formatAmount";
-import {useReactToPrint} from 'react-to-print'
+import { getServicesInAnInvoiceUrl } from "../../api/URLs";
+import { useRequest } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
 
 const $ = window.$;
-
-const PrescriptionReciept = ({ costingDetails }) => {
-  const componentRef = useRef();
-
-  //Function to print
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+const PaymentReciept = ({ costingDetails }) => {
+    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(id);
+  const getServicesInAnInvoiceConfig = fetchConfig({
+    url: getServicesInAnInvoice,
+    method: "get",
   });
+  
+  const { data } = useRequest(getServicesInAnInvoiceConfig, {
+    revalidateOnFocus: false, 
+  });
+
   console.log(costingDetails, "costingDetails");
 
   const totalPrice = costingDetails.reduce(
@@ -35,30 +40,7 @@ const PrescriptionReciept = ({ costingDetails }) => {
           <div className="modal-header">
             <h5 className="modal-title"></h5>
           </div>
-          <ComponentToPrint patient={patient} doctor={doctor} costingDetails={costingDetails} totalPrice={totalPrice} ref={componentRef}/>
-          <div className="modal-footer bg-white">
-            <div className="actions ">
-              <button type="button" className="btn text-light btn-primary" onClick={handlePrint}>
-                Print
-              </button>
-            </div>
-            {/* </div> */}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-
-class ComponentToPrint extends React.PureComponent{
-  constructor(props){
-    super(props);
-  }
-  render(){
-      let {patient, doctor, costingDetails, totalPrice} = this.props
-    return(
-<div className="modal-body">
+          <div className="modal-body">
             <div className="container">
               <div className="row">
                 <div className="col-3">
@@ -142,8 +124,18 @@ class ComponentToPrint extends React.PureComponent{
               </div>
             </div>
           </div>
-    )
-  }
-}
+          <div className="modal-footer bg-white">
+            <div className="actions ">
+              <button type="button" className="btn text-light btn-primary">
+                Print
+              </button>
+            </div>
+            {/* </div> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export { PrescriptionReciept };
+export { PaymentReciept };

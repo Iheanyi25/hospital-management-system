@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { PatientSidebar } from "../../Components";
 import PatientImage from "../../assets/img/PatientAndAdminIcon.svg";
 import copyLinkIcon from "../../assets/img/copy-link.svg";
@@ -10,12 +10,13 @@ import { observer } from "mobx-react";
 
 const local = "http://localhost:3000";
 function ThirdPartyFunding() {
-   const { user }= UserContext;
+   const { user}= useContext(UserContext);
+   const {firstName, lastName} = user 
 
   const [state, setState] = useState({
     thirdPartyFundingLink: "",
   })
-
+   
   const copyToClipboard = () => {
     console.log(navigator.clipboard);
     const { thirdPartyFundingLink } = state;
@@ -60,7 +61,7 @@ function ThirdPartyFunding() {
               />
             </div>
             <div className="w-75 m-auto">
-              <h4>Dr Vitalis Emene</h4>
+              <h4> {firstName} {lastName}</h4>
               <p className="">
                 Share this link to have your account funded by a 3rd party
               </p>
