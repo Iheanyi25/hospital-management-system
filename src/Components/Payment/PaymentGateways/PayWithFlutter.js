@@ -5,6 +5,7 @@ import flutterwave1 from "../../../assets/img/flutterwave1.svg";
 import flutterwave2 from "../../../assets/img/flutterwave2.svg";
 import { UserContext } from "../../../mobx/UserState";
 
+const publicKey = process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY;
 const PayWithFlutter = observer(({ paymentDetails, paidSuccessfully }) => {
   const {
     user: { id },
@@ -19,7 +20,7 @@ const PayWithFlutter = observer(({ paymentDetails, paidSuccessfully }) => {
     customer_email,
     customer_phone,
     amount,
-    PBFPubKey: "FLWPUBK_TEST-7753e6df013e9285a4d93a10b751b747-X",
+    PBFPubKey: publicKey,
     production: true,
   };
 
@@ -31,7 +32,7 @@ const PayWithFlutter = observer(({ paymentDetails, paidSuccessfully }) => {
   const onSuccess = (reference) => {
     paidSuccessfully(
       reference.data?.data?.orderRef,
-      "online-flutterwave",
+      "flutterwave",
       "Paid online",
       id
     );
