@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, getPatientsUrl, postBookConsultationUrl } from "../../api/URLs";
 import { PageLoader, SelectableDropDown } from "../../Components";
 import { Success } from '../../Components/Alerts'
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 let selectId = Math.random();
@@ -21,7 +22,6 @@ class BookConsultation extends React.Component {
       patientEmail: "",
       consultationTitle: "",
       reasonForConsultation: "",
-      success: false
     };
   }
 
@@ -141,22 +141,11 @@ class BookConsultation extends React.Component {
       const postBookConsultationConfig = fetchConfig({url : postBookConsultation, data, method : 'post'})
       const res = await fetchWrapper(postBookConsultationConfig)
 
-      const { error } = res;
-      if (res.status !== 200) {
-        throw Error(error.message);
-      }
-
-      // const response = await request.json();
-      // console.log(response);
-      this.setState({ success: true })
-      // this.setState({
-      //   showSuccessMessage: true,
-      //   successMessage: data.message,
-      //   consultationTitle: "",
-      //   reasonForConsultation: "",
-      // });
-    } catch (err) {
-      this.setState({ showErrorMessage: true, errorMessage: err.message });
+      notification.success({ message: res.data.message });
+      this.props.history.push("/AdminConsultations")
+    } catch (error) {
+      const errMessage = error?.response?.data?.message || "An error occurred";
+      notification.error({ message: errMessage });
     }
   }
 
@@ -176,13 +165,6 @@ class BookConsultation extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully booked a consultation"
-              nextRoute="/AdminConsultations"
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">

@@ -97,12 +97,18 @@ body {
 }
 
   .bar-container{
+    display: block;
     width: 100vw;
     z-index: 300000;
-    height: 5px;
+    /* height: 5px; */
     position: relative;
     overflow: hidden;
     background: linear-gradient(to right, #007db6, #0546ea, #009c9e, #0546ea, #0546ea, #0546ea, #0546ea)
+  }
+  /* prevents little page jump  */
+  .bar-container-hide{
+    display: hide;
+    height: 5px;
   }
   
   .bar {
@@ -114,11 +120,11 @@ body {
     background-color: white;
   }
   .blur-content{
-    filter:blur(3px)
+    filter:blur(3px);
   }
   @keyframes move
   {
       0%   {transform: translate(-100%, 0)}
       100% {transform: translate(calc(7/2*100%), 0)}
   }
-  
+  .modal-backdrop {display: none;}

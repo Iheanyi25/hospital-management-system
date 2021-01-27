@@ -1,190 +1,129 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
+import { useRequest } from "../../api/fetcher";
 import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
+import ActionButton from "../../Components/DataTable/ActionButton";
+import ReceiptModal from "../../Components/Modals/ReceiptModal";
 
-const $ = window.$;
-$.Datatable = require("datatables.net");
-const imageDefaulturl = "https://webmeup.com/upload/blog/lead-image-105.png";
-class AllPatients extends React.Component {
-  constructor(props) {
-    super(props);
+function AllPatients() {
+  const getPatients = getPatientsUrl();
+  const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
+  const { data, error } = useRequest(getPatientsConfig, {
+    revalidateOnFocus: false,
+  });
 
-    this.state = {
-      patients: [],
-    };
-  }
-
-  async getAllPatients() {
-    try {
-      const getPatients = getPatientsUrl();
-      const getPatientsConfig = fetchConfig({
-        url: getPatients,
-        method: "get",
+  let dataTable = []
+    if (data) {
+      dataTable = data.patients.map(({ patient }, index) => {
+        return {
+          "#": ++index,
+          Photo: (
+            <img
+              src={PatientAndAdminImage}
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-500"
+            />
+          ),
+          Name: `${patient.firstName} ${patient.lastName}`,
+          Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
+          Phone: patient.phoneNumber || "Not available",
+          Actions: <PatientTableAction patient={patient} />,
+        };
       });
-      const { data } = await fetchWrapper(getPatientsConfig);
-
-      this.setState({ patients: data.patients.map((x) => x.patient) });
-    } catch (error) {
-      console.log(error);
     }
-  }
+  
 
-  componentDidMount() {
-    this.getAllPatients().then(() => this.sync());
-  }
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header">
+            <h4 className="page-title">Our Patients</h4>
+          </header>
 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-  }
+          <div className="page-content">
+            <TableSize
+              size={data ? data.patients.length : 0}
+              heading="No Of Patients"
+            />
+          </div>
+          <div className="page-content">
+            {data && <Table content={dataTable} />}
+          </div>
+        </div>
+      </main>
+      <ReceiptModal modalId="view-reciept">
 
-  formatDataForTable = () => {
-    return this.state.patients.map((x, index) => {
-      return {
-        "#": ++index,
-        Photo: (
-          <img
-            src={PatientAndAdminImage}
-            alt=""
-            width={40}
-            height={40}
-            className="rounded-500"
-          />
-        ),
-        Name: `${x.firstName} ${x.lastName}`,
-        Email: <a href={"mailto:" + x.email}>{x.email}</a>,
-        Phone: x.phoneNumber || "Not available",
-        // "Date Of Birth": "10 Feb 2018",
-        // "Address": "9:15 - 9:45",
-        Actions: this.generateTableFunctions(x),
-      };
-    });
-  };
+      </ReceiptModal>
+    </Fragment>
+  );
+}
 
-  generateTableFunctions = (x) => {
-    return (
-      <div className="btn-group">
-        <button
-          type="button"
-          className="btn btn-primary btn-sm btn-block dropdown-toggle"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Action
-        </button>
-        <div className="dropdown-menu text-left">
-          <NavLink
-            to={{
-              pathname: `/AdminUpdatePatientProfile/${x.id}`,
-              state: x,
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icofont-ui-edit  mr-2" /> Update Profile
-          </NavLink>
-          <NavLink
-            to={{
-              pathname: `/AdminPatientProfile/${x.id}`,
-              state: x,
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icon sli-user mr-2" /> View Profile
-          </NavLink>
-          <NavLink
-            to={{
-              pathname: `/AdminPreConsultation/${x.id}`,
-              state: x,
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Go for Pre-Consultation
-          </NavLink>
-          <NavLink
-            to={{
-              pathname: `/AdminViewPreConsultationHistory/${x.id}`,
-              state: x,
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Pre-Consultation History
-          </NavLink>
-          <NavLink
-            to={{
-              pathname: `/AdminViewClarkingHistory/${x.id}`,
-              state: x,
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Clarking History
-          </NavLink>
-          {/* <NavLink
+const PatientTableAction = ({ patient }) => {
+  const tableFunctions = [
+    {
+      text: "Update Profile",
+      path: `/AdminUpdatePatientProfile/${patient.id}`,
+      iconClass: "btn-icon icofont-ui-edit  mr-2",
+    },
+    {
+      text: "View Profile",
+      path: `/AdminPatientProfile/${patient.id}`,
+      iconClass: "btn-icon icon sli-user mr-2",
+    },
+    {
+      text: " Go for Pre-Consultation",
+      path: `/AdminPreConsultation/${patient.id}`,
+      iconClass: "btn-icon icofont-ui-edit  mr-2",
+    },
+    {
+      text: "Pre-Consultation History",
+      path: `/AdminUpdatePatientProfile/${patient.id}`,
+      iconClass: "btn-icon icofont-stethoscope-alt mr-2",
+    },
+    {
+      text: "Clarking History",
+      path: `/AdminViewClarkingHistory/${patient.id}`,
+      iconClass: "btn-icon icofont-stethoscope-alt mr-2",
+    },
+  ];
+  return (
+    <ActionButton>
+      {tableFunctions.map(({ path, text, iconClass },index) => (
+        <NavLink
           to={{
-            pathname: `/AdminPreConsultation/${x.id}`,
-            state: x
+            pathname: path,
+            state: patient,
           }}
           className="btn btn-sm btn-block"
+          key={path+index}
         >
-          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-        Pre-Consultation History
-      </NavLink> */}
-        </div>
-      </div>
-    );
-  };
-
-  render() {
-    return (
-      <>
-        <PageLoader />
-
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
-          </div>
-          <div className="main-content-wrap">
-            <header className="page-header">
-              <h4 className="page-title">Our Patients</h4>
-            </header>
-
-            <div className="page-content">
-              <TableSize size={this.state.patients.length} heading="Patients" />
-              {/* <div className="card-body"></div> */}
-            </div>
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <div className="tab-content" id="pills-tabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="pills-active"
-                        role="tabpanel"
-                        aria-labelledby="pills-active-tab"
-                      >
-                        {this.state.patients.length > 0 && (
-                          <Table content={this.formatDataForTable()} />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </>
-    );
-  }
-}
+          <span className={iconClass} />
+          {text}
+        </NavLink>
+      ))}
+      <NavLink
+        to="#"
+        className="btn btn-sm btn-block"
+        data-toggle="modal"
+        data-target="#view-reciept"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        View Reciept
+      </NavLink>
+    </ActionButton>
+  );
+};
 
 export default AllPatients;

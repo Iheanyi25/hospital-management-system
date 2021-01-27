@@ -51,7 +51,7 @@ const SelectableDropDown = ({ isFetchingCategories, data, label, itemKey, stateK
 
         return returnString;
     }
-
+    console.log(data,5555)
     return (
         <>
             <div className="form-group">
