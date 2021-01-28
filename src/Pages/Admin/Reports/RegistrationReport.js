@@ -54,7 +54,9 @@ const RegistrationReport = () => {
     dataTable = reports?.map((report, index) => {
       return {
         "#": ++index,
-        Initiator: `${report?.initiator?.firstName ?? "N/A"} ${report?.initiator?.lastName ?? "N/A"}`,
+        Initiator: `${report?.initiator?.firstName ?? "N/A"} ${
+          report?.initiator?.lastName ?? "N/A"
+        }`,
         "Initiator Email": (
           <a href={"mailto:" + report?.initiator?.email ?? "N/A"}>
             {report?.initiator?.email ?? "N/A"}
@@ -62,7 +64,7 @@ const RegistrationReport = () => {
         ),
         "Initiator Phone Number":
           report?.initiator?.phoneNumber || "Not available",
-        "Amount": report?.amount,
+        Amount: report?.amount,
         "Transaction Type": report?.transactionType,
         "Payment Method": report?.paymentMethod,
       };
@@ -70,7 +72,7 @@ const RegistrationReport = () => {
   }
 
   return (
-    <div>
+    <>
       <main className="main-content">
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
@@ -165,14 +167,16 @@ const RegistrationReport = () => {
                     <NoDataState />
                   </div>
                 ) : (
-                  <Table content={dataTable} exportAction />
+                  <div className="page-content">
+                    <Table content={dataTable} exportAction />
+                  </div>
                 )}
               </div>
             </div>
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 };
 
