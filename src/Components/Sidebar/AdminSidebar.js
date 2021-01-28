@@ -380,9 +380,27 @@ class AdminSidebar extends React.Component {
                     <span className="group-title">Reports</span>
                   </li>
                   <li className="menu-item">
+                    <Link className="item-link" to="/AdminAllTransactions">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">All Transactions</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminDrugReport">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">Drug Report</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminServiceRequestReport">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">Service Request Report</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
                     <Link className="item-link" to="/AdminRegistrationReport">
                       <span className="link-icon icofont-paper" />{" "}
-                      <span className="link-text">Registration report</span>
+                      <span className="link-text">Registration Report</span>
                     </Link>
                   </li>
                   <li className="menu-item">
