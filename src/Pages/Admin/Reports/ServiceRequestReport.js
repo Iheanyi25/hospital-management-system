@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../../api/fetcher";
 import { getTransactionsForServiceRequestsUrl } from "../../../api/URLs";
 import { Table } from "../../../Components";
 import NoDataState from "../../../Components/EmptyState/NoDataState";
+import formatAmount from "../../../utils/formatAmount";
 import { formatInputDate } from "../../../utils/formatInputDate";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
@@ -54,19 +55,22 @@ const ServiceRequestReport = () => {
     dataTable = reports?.map((report, index) => {
       return {
         "#": ++index,
-        Initiator: `${report?.initiator?.firstName ?? "N/A"} ${
-          report?.initiator?.lastName ?? "N/A"
-        }`,
+        Initiator: `${report?.initiator?.firstName} ${report?.initiator?.lastName}`,
         "Initiator Email": (
-          <a href={"mailto:" + report?.initiator?.email ?? "N/A"}>
-            {report?.initiator?.email ?? "N/A"}
+          <a href={"mailto:" + report?.initiator?.email}>
+            {report?.initiator?.email}
           </a>
         ),
-        "Initiator Phone Number":
-          report?.initiator?.phoneNumber || "Not available",
-        Amount: report?.amount,
+        Benefactor: `${report?.benefactor?.firstName ?? "Not"} ${
+          report?.benefactor?.lastName ?? "Available"
+        }`,
+        "Amount (NGN)": formatAmount(report?.amount),
         "Transaction Type": report?.transactionType,
-        "Payment Method": report?.paymentMethod,
+        "Payment Method": (
+          <span style={{ textTransform: "capitalize" }}>
+            {report?.paymentMethod}
+          </span>
+        ),
       };
     });
   }
@@ -128,7 +132,7 @@ const ServiceRequestReport = () => {
 
                     <div className="col-12 col-sm-3">
                       <div className="form-group">
-                        <label>Payment category</label>
+                        <label>Payment method (optional)</label>
                         <select
                           className="form-control"
                           tabIndex={-98}
@@ -136,8 +140,9 @@ const ServiceRequestReport = () => {
                           onChange={handleChange}
                         >
                           <option selected value="" disabled>
-                            Select a category
+                            Select a payment method
                           </option>
+                          <option value="">All</option>
                           <option value="cash">Cash</option>
                           <option value="pos">POS</option>
                           <option value="transfer">Transfer</option>

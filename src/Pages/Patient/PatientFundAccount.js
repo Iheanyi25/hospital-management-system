@@ -21,14 +21,16 @@ class FundAccount extends React.Component {
     this.setState({ success: true });
   };
 
-  fundAccount = async (transactionReference) => {
+  fundAccount = async (transactionReference, paymentMethod) => {
     const content = this.context;
-    const { user } = content;
+    const {
+      user: { id: initiatorId },
+    } = content;
     const { amount } = this.state;
     let payload = {
-      patientId: user.id,
+      initiatorId,
       amount,
-      modeOfPayment: "Paid online",
+      paymentMethod,
       transactionReference,
     };
     try {

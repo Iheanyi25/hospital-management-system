@@ -1,57 +1,57 @@
 body {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden !important;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden !important;
 }
 
 #root {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 .activeNavItem {
-    background: transparent;
-    color: #336cfb;
+  background: transparent;
+  color: #336cfb;
 }
 
-.alert>* {
-    margin: 0 !important;
+.alert > * {
+  margin: 0 !important;
 }
 
 .alert {
-    position: fixed;
-    top: 60px;
+  position: fixed;
+  top: 60px;
 }
 
 .alert-align {
-    right: 10px;
-    z-index: 999 !important;
+  right: 10px;
+  z-index: 999 !important;
 }
 
 .main-content-wrap {
-    margin-top: 50px !important;
+  margin-top: 50px !important;
 }
 
 .cursor {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .img-box {
-    width: 70%;
-    margin: 2em auto;
+  width: 70%;
+  margin: 2em auto;
 }
 
 .button-box {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .nameLink {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* select.selectpicker {
@@ -59,72 +59,98 @@ body {
 } */
 
 .mode-animation {
-    animation: fadeInAnimation ease 1s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
-.dropdown-menu>.btn {
-    justify-content: flex-start;
+.dropdown-menu > .btn {
+  justify-content: flex-start;
 }
 
 @keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .searchStringValue {
-    width: 100%;
-    padding: 1rem;
-    transition: background-color 0.35s ease-in-out;
-    cursor: pointer;
-    background-color: #a9a9a924;
-    margin-bottom: 0.4rem;
-    border-radius: 5px;
+  width: 100%;
+  padding: 1rem;
+  transition: background-color 0.35s ease-in-out;
+  cursor: pointer;
+  background-color: #a9a9a924;
+  margin-bottom: 0.4rem;
+  border-radius: 5px;
 }
 
 .searchStringValue:hover {
-    background-color: #c4c4c4;
+  background-color: #c4c4c4;
 }
 
 .searchStringValue.active {
-    background-color: #336cfb;
-    color: white;
+  background-color: #336cfb;
+  color: white;
 }
 
-  .bar-container{
-    display: block;
-    width: 100vw;
-    z-index: 300000;
-    /* height: 5px; */
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(to right, #007db6, #0546ea, #009c9e, #0546ea, #0546ea, #0546ea, #0546ea)
+.bar-container {
+  display: block;
+  width: 100vw;
+  z-index: 300000;
+  /* height: 5px; */
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    to right,
+    #007db6,
+    #0546ea,
+    #009c9e,
+    #0546ea,
+    #0546ea,
+    #0546ea,
+    #0546ea
+  );
+}
+/* prevents little page jump  */
+.bar-container-hide {
+  display: hide;
+  height: 5px;
+}
+
+.bar {
+  position: absolute;
+  width: calc(100% * 2 / 7);
+  height: 100%;
+  display: flex;
+  animation: move 2s linear infinite;
+  background-color: white;
+}
+.blur-content {
+  filter: blur(3px);
+}
+@keyframes move {
+  0% {
+    transform: translate(-100%, 0);
   }
-  /* prevents little page jump  */
-  .bar-container-hide{
-    display: hide;
-    height: 5px;
+  100% {
+    transform: translate(calc(7 / 2 * 100%), 0);
   }
-  
-  .bar {
-    position:absolute;
-    width: calc(100% * 2/7);
-    height: 100%;
-    display: flex;
-    animation: move 2s linear infinite;
-    background-color: white;
-  }
-  .blur-content{
-    filter:blur(3px);
-  }
-  @keyframes move
-  {
-      0%   {transform: translate(-100%, 0)}
-      100% {transform: translate(calc(7/2*100%), 0)}
-  }
-  .modal-backdrop {display: none;}
+}
+.modal-backdrop {
+  display: none;
+}
+
+.dt-buttons button {
+  background: #336cfb;
+  border-color: #336cfb;
+  color: #fff;
+}
+
+.dt-buttons button:hover {
+  background: #336cfb !important;
+  border-color: #336cfb !important;
+  color: #fff !important;
+}
