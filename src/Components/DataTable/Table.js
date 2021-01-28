@@ -26,11 +26,16 @@ const Table = ({ content, tableID, exportAction }) => {
   const sync = () => {
     if (content.length > 0) {
       if (exportAction) {
-        console.log(999999999999);
-        $(`#custom_table_${tableID}`).DataTable({
-          dom: "Bfrtip",
-          buttons: ["copy", "csv", "excel", "pdf", "print"],
-        });
+       
+        $(`#custom_table_${tableID}`).DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+              'copyHtml5',
+              'excelHtml5',
+              'csvHtml5',
+              'pdfHtml5'
+          ]
+      });
       } else {
         $(`#custom_table_${tableID}`).DataTable();
       }
