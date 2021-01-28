@@ -125,7 +125,7 @@ class PaymentForService extends React.Component {
 
   payForServices = async (
     referenceNumber,
-    modeOfPayment,
+    paymentMethod,
     description,
     initiatorId
   ) => {
@@ -134,8 +134,7 @@ class PaymentForService extends React.Component {
       patientId,
       serviceRequestId,
       totalAmount,
-      description,
-      modeOfPayment,
+      paymentMethod,
       referenceNumber,
       initiatorId,
     };
@@ -158,7 +157,7 @@ class PaymentForService extends React.Component {
   };
   payWithAccount = async (
     referenceNumber,
-    modeOfPayment,
+    paymentMethod,
     description,
     initiatorId
   ) => {
@@ -167,8 +166,7 @@ class PaymentForService extends React.Component {
       patientId,
       serviceRequestId,
       totalAmount,
-      description,
-      modeOfPayment,
+      paymentMethod,
       referenceNumber,
       initiatorId,
     };
@@ -220,7 +218,7 @@ class PaymentForService extends React.Component {
               {amount === 0 ? (
                 <h4 className="text-info">Nothing selected yet</h4>
               ) : (
-                <h4 className="text-info">{`NGN ${formatAmount(amount)}`}</h4>
+                <h4 className="text-info"> &#x20A6;{formatAmount(amount)}</h4>
               )}
             </div>
             <div className="page-content">
