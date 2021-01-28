@@ -26,15 +26,14 @@ class FundAccount extends React.Component {
     });
   };
 
-  fundAccount = async (transactionReference, modeOfPayment) => {
+  fundAccount = async (transactionReference, paymentMethod) => {
     const { accountId, user, amount, paymentDescription } = this.state;
     let payload = {
       accountId,
       amount,
-      modeOfPayment,
+      paymentMethod,
       transactionReference,
-      paymentDescription,
-      userId: user.id,
+      initiatorId: user.id,
     };
     try {
       const fundAccounts = postAdminFundAccountsUrl();
