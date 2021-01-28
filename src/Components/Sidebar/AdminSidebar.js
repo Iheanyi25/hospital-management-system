@@ -125,7 +125,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
-                          onClick={()=>setUserType("doctor")}
+                          onClick={() => setUserType("doctor")}
                         >
                           <span className="link-text">Register Doctors</span>
                         </Link>
@@ -151,7 +151,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
-                          onClick={()=>setUserType("pharmacy")}
+                          onClick={() => setUserType("pharmacy")}
                         >
                           <span className="link-text">
                             Register Pharmacists
@@ -159,10 +159,10 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                       <li className="menu-item">
-												<Link className="item-link" to="/AdminAllPharmacists">
-													<span className="link-text">Manage Pharmacists</span>
-												</Link>
-											</li>
+                        <Link className="item-link" to="/AdminAllPharmacists">
+                          <span className="link-text">Manage Pharmacists</span>
+                        </Link>
+                      </li>
                     </ul>
                   </li>
 
@@ -179,7 +179,7 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
-                          onClick={()=>setUserType("accountant")}
+                          onClick={() => setUserType("accountant")}
                         >
                           <span className="link-text">
                             Register Accountants
@@ -187,10 +187,10 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                       <li className="menu-item">
-												<Link to="/AdminAllAccountants" className="item-link">
-													<span className="link-text">Manage Accountants</span>
-												</Link>
-											</li>
+                        <Link to="/AdminAllAccountants" className="item-link">
+                          <span className="link-text">Manage Accountants</span>
+                        </Link>
+                      </li>
                     </ul>
                   </li>
                   <li className="menu-item has-sub">
@@ -206,18 +206,21 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           data-toggle="modal"
                           data-target="#add-user"
-                          onClick={()=>setUserType("lab")}
+                          onClick={() => setUserType("lab")}
                         >
-                          <span className="link-text">
-                            Register Lab 
-                          </span>
+                          <span className="link-text">Register Lab</span>
                         </Link>
                       </li>
                       <li className="menu-item">
-												<Link to="/AdminAllLabTechnicians" className="item-link">
-													<span className="link-text">Manage Lab Technicians</span>
-												</Link>
-											</li>
+                        <Link
+                          to="/AdminAllLabTechnicians"
+                          className="item-link"
+                        >
+                          <span className="link-text">
+                            Manage Lab Technicians
+                          </span>
+                        </Link>
+                      </li>
                     </ul>
                   </li>
 
@@ -325,7 +328,9 @@ class AdminSidebar extends React.Component {
                               to="/AdminManageServiceCategory"
                               className="item-link"
                             >
-                              <span className="link-text">Manage Categories</span>
+                              <span className="link-text">
+                                Manage Categories
+                              </span>
                             </Link>
                           </li>
                         </ul>
@@ -379,7 +384,44 @@ class AdminSidebar extends React.Component {
                   <li className="menu-item">
                     <span className="group-title">Reports</span>
                   </li>
-                  <li className="menu-item">
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-hospital" />{" "}
+                      <span className="link-text">Service reports</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link className="item-link" to="/AdminAllTransactions">
+                          <span className="link-text">All Transactions</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link className="item-link" to="/AdminDrugReport">
+                          <span className="link-text">Drug Report</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link
+                          className="item-link"
+                          to="/AdminServiceRequestReport"
+                        >
+                          <span className="link-text">
+                            Service Request Report
+                          </span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link
+                          className="item-link"
+                          to="/AdminRegistrationReport"
+                        >
+                          <span className="link-text">Registration Report</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                  {/* <li className="menu-item">
                     <Link className="item-link" to="/AdminAllTransactions">
                       <span className="link-icon icofont-paper" />{" "}
                       <span className="link-text">All Transactions</span>
@@ -402,7 +444,7 @@ class AdminSidebar extends React.Component {
                       <span className="link-icon icofont-paper" />{" "}
                       <span className="link-text">Registration Report</span>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="menu-item">
                     <span className="group-title">PHARMACY</span>
                   </li>
