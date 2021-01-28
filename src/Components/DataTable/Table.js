@@ -39,12 +39,7 @@ const Table = ({ content, tableID, exportAction }) => {
       } else {
         $(`#custom_table_${tableID}`).DataTable();
       }
-      // if (exportAction) {
-      //   $(`#custom_table_${tableID}`).DataTable({
-      //     dom: "Bfrtip",
-      //     buttons: ["copy", "csv", "excel", "pdf", "print"],
-      //   });
-
+     
       setIsReady(true);
     }
   };
