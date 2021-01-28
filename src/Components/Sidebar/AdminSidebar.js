@@ -9,17 +9,6 @@ class AdminSidebar extends React.Component {
       endpoint: process.env.REACT_APP_API_URL,
     };
   }
-  componentWillMount() {
-    // $('.navbar-toggle').click(function () {
-    //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').toggleClass('opened');
-    //   $('.content-overlay').toggleClass('show');
-    // });
-    // $('.content-overlay').click(function () {
-    //   $('.app-navbar.vertical, .app-navbar.horizontal-vertical').removeClass('opened');
-    //   $(this).removeClass('show');
-    // });
-    // console.log($);
-  }
 
   render() {
     const { setUserType } = this.props;
@@ -385,6 +374,34 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                     </ul>
+                  </li>
+
+                  <li className="menu-item">
+                    <span className="group-title">Reports</span>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminAllTransactions">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">All Transactions</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminDrugReport">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">Drug Report</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminServiceRequestReport">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">Service Request Report</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminRegistrationReport">
+                      <span className="link-icon icofont-paper" />{" "}
+                      <span className="link-text">Registration Report</span>
+                    </Link>
                   </li>
                   <li className="menu-item">
                     <span className="group-title">PHARMACY</span>

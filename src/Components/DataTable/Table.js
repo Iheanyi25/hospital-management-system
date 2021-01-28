@@ -1,61 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import NoDataState from "../EmptyState/NoDataState";
+const $ = window.$;
 
-let $ = undefined || window.$;
-let interval = undefined;
-let tableID = Math.random();
-tableID = tableID.toString().replace(".", "_");
+const notReadyStyle = {
+  visibility: "hidden",
+  opacity: 0,
+  transition: "visibility 0s linear 300ms, opacity 300ms",
+};
 
-const Table = ({ content }) => {
-    console.log("table updated")
-    useEffect(() => {
-        setJquery();
-        if ($) {
-            sync()
-        }
-    }, []);
+const readyStyle = {
+  visibility: "visible",
+  opacity: 1,
+  transition: "visibility 0s linear 0s, opacity 300ms",
+};
+
+const Table = ({ content, tableID, exportAction }) => {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if ($) {
+      sync();
+    }
+  }, [tableID]);
 
   const sync = () => {
-    let element = $(`#custom_table_${tableID}`);
-    element.DataTable();
-  };
-
-  const setJquery = () => {
-    interval = setInterval(() => {
-      if (window.$) {
-        clearInterval(interval);
-        $ = window.$;
-        sync();
+    if (content.length > 0) {
+      if (exportAction) {
+        console.log(999999999999);
+        $(`#custom_table_${tableID}`).DataTable({
+          dom: "Bfrtip",
+          buttons: ["copy", "csv", "excel", "pdf", "print"],
+        });
+      } else {
+        $(`#custom_table_${tableID}`).DataTable();
       }
-    }, 1000);
-  };
+      // if (exportAction) {
+      //   $(`#custom_table_${tableID}`).DataTable({
+      //     dom: "Bfrtip",
+      //     buttons: ["copy", "csv", "excel", "pdf", "print"],
+      //   });
 
-  const formatContent = () => {
-    let headers = Object.keys(content[0]).map((item, index) => (
-      <th key={index}>{item}</th>
-    ));
-    let body = content.map((item, i) => {
-      return (
-        <tr key={i}>
-          {Object.values(item).map((currentValue, index) => (
-            <td key={index}>{currentValue}</td>
-          ))}
-        </tr>
-      );
-    });
-
-    return (
-      <>
-        <thead>
-          <tr>{headers}</tr>
-        </thead>
-        <tbody>{body}</tbody>
-      </>
-    );
+      setIsReady(true);
+    }
   };
 
   return (
     <>
-      <div className="table-responsive">
+      <div
+        className="table-responsive"
+        style={isReady ? readyStyle : notReadyStyle}
+      >
         <table
           className="table table-striped"
           data-paging="true"
@@ -63,11 +57,36 @@ const Table = ({ content }) => {
           data-searching="true"
           id={`custom_table_${tableID}`}
         >
-          {formatContent()}
+          {content.length > 0 && <TableContent tableContent={content} />}
         </table>
       </div>
+      <div>{content.length === 0 && <NoDataState />}</div>
     </>
   );
 };
 
 export { Table };
+
+const TableContent = ({ tableContent }) => {
+  const headers = Object.keys(tableContent[0]).map((item, index) => (
+    <th key={index}>{item}</th>
+  ));
+  const body = tableContent.map((item, i) => {
+    return (
+      <tr key={i}>
+        {Object.values(item).map((currentValue, index) => (
+          <td key={index}>{currentValue}</td>
+        ))}
+      </tr>
+    );
+  });
+
+  return (
+    <>
+      <thead>
+        <tr>{headers}</tr>
+      </thead>
+      <tbody>{body}</tbody>
+    </>
+  );
+};

@@ -4,7 +4,7 @@ import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
-import AdminAllPharmacists from "../Pages/Admin/AllPharmacist"
+import AdminAllPharmacists from "../Pages/Admin/AllPharmacist";
 import AdminAllAccountants from "../Pages/Admin/AllAccountants";
 import AdminAllLabTechnicians from "../Pages/Admin/AllLab";
 import AdminAppointments from "../Pages/Admin/Appointments";
@@ -27,7 +27,7 @@ import DoctorClarking from "../Pages/Doctor/Clarking";
 import RegisterDrug from "../Pages/Admin/Pharmacy/RegisterDrug";
 import ViewDrugs from "../Pages/Admin/Pharmacy/ViewDrugs";
 import ViewDrug from "../Pages/Admin/Pharmacy/ViewDrug";
-import DrugPrescription from '../Pages/Admin/Pharmacy/DrugPrescription'
+import DrugPrescription from "../Pages/Admin/Pharmacy/DrugPrescription";
 import ManagePrescriptionInvoice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
 import PaymentForPrescription from "../Pages/Admin/Pharmacy/PaymentForPrescription";
 import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
@@ -63,6 +63,12 @@ import SelectFamily from "../Pages/Admin/SelectFamily";
 import DoctorsProfile from "../Pages/Admin/DoctorsProfile";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
 
+//reports
+import AllTransactions from "../Pages/Admin/Reports/AllTransactions";
+import RegistrationReport from "../Pages/Admin/Reports/RegistrationReport";
+import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
+import DrugReport from "../Pages/Admin/Reports/DrugReport";
+
 export default function AdminRoutes() {
   return (
     <BrowserRouter basename="admin">
@@ -81,9 +87,21 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminAllPatients" component={AllPatients} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
-          <Route exact path="/AdminAllPharmacists" component={AdminAllPharmacists}/>
-          <Route exact path="/AdminAllAccountants" component={AdminAllAccountants}/>
-          <Route exact path="/AdminAllLabTechnicians" component={AdminAllLabTechnicians}/>
+          <Route
+            exact
+            path="/AdminAllPharmacists"
+            component={AdminAllPharmacists}
+          />
+          <Route
+            exact
+            path="/AdminAllAccountants"
+            component={AdminAllAccountants}
+          />
+          <Route
+            exact
+            path="/AdminAllLabTechnicians"
+            component={AdminAllLabTechnicians}
+          />
           <Route
             exact
             path="/AdminBookAppointment"
@@ -94,11 +112,7 @@ export default function AdminRoutes() {
             path="/AdminAppointments"
             component={AdminAppointments}
           />
-           <Route
-            exact
-            path="/AdminProfile"
-            component={ViewAdminProfile}
-          />
+          <Route exact path="/AdminProfile" component={ViewAdminProfile} />
           <Route
             exact
             path="/AdminDoctorAppointments/:doctorId"
@@ -171,11 +185,7 @@ export default function AdminRoutes() {
             component={ManageHealthPlans}
           />
           <Route exact path="/AdminAddPatients" component={AddPatient} />
-          <Route
-            exact
-            path="/AdminSelectFamily"
-            component={SelectFamily}
-          />
+          <Route exact path="/AdminSelectFamily" component={SelectFamily} />
           <Route
             exact
             path="/AdminManageServiceRequests"
@@ -217,10 +227,26 @@ export default function AdminRoutes() {
             path="/AdminViewPreConsultationHistory/:id"
             component={ViewPreConsultationHistory}
           />
+          <Route exact path="/ChangePassword" component={ViewChangePassword} />
           <Route
             exact
-            path="/ChangePassword"
-            component={ViewChangePassword}
+            path="/AdminAllTransactions"
+            component={AllTransactions}
+          />
+            <Route
+              exact
+              path="/AdminDrugReport"
+              component={DrugReport}
+            />
+            <Route
+              exact
+              path="/AdminServiceRequestReport"
+              component={ServiceRequestReport}
+            />
+          <Route
+            exact
+            path="/AdminRegistrationReport"
+            component={RegistrationReport}
           />
           <Route
             exact
@@ -230,15 +256,41 @@ export default function AdminRoutes() {
           <Route exact path="/AdminRegisterDrug" component={RegisterDrug} />
           <Route exact path="/AdminViewDrugs" component={ViewDrugs} />
           <Route exact path="/AdminViewDrug/:id" component={ViewDrug} />
-          <Route exact path="/AdminManagePrescriptions" component={ManagePrescriptions} />
-          <Route exact path="/AdminDrugPrescription/:id" component={DrugPrescription} />
-          <Route exact path="/AdminManagePrescriptionInvoice" component={ManagePrescriptionInvoice} />
-          <Route exact path="/AdminPaymentForPrescription/:id" component={PaymentForPrescription} />
-          <Route exact path="/AdminViewAccountantProfile/:id" component={ViewAccountantProfile} />
-          <Route exact path="/AdminViewPharmacistProfile/:id" component={ViewPharmacyProfile} />
-          <Route exact path="/AdminViewLabProfile/:id" component={ViewLabProfile} />
-
-
+          <Route
+            exact
+            path="/AdminManagePrescriptions"
+            component={ManagePrescriptions}
+          />
+          <Route
+            exact
+            path="/AdminDrugPrescription/:id"
+            component={DrugPrescription}
+          />
+          <Route
+            exact
+            path="/AdminManagePrescriptionInvoice"
+            component={ManagePrescriptionInvoice}
+          />
+          <Route
+            exact
+            path="/AdminPaymentForPrescription/:id"
+            component={PaymentForPrescription}
+          />
+          <Route
+            exact
+            path="/AdminViewAccountantProfile/:id"
+            component={ViewAccountantProfile}
+          />
+          <Route
+            exact
+            path="/AdminViewPharmacistProfile/:id"
+            component={ViewPharmacyProfile}
+          />
+          <Route
+            exact
+            path="/AdminViewLabProfile/:id"
+            component={ViewLabProfile}
+          />
 
           <Route
             exact

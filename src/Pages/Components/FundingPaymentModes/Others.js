@@ -63,9 +63,9 @@ const Others = ({
                         <option value="" selected disabled>
                           Select a payment option
                         </option>
-                        <option value="offline-POS">POS</option>
-                        <option value="offline-cheque">Cheque</option>
-                        <option value="offline-transfer">Bank transfer</option>
+                        <option value="pos">POS</option>
+                        <option value="cheque">Cheque</option>
+                        <option value="transfer">Bank transfer</option>
                       </select>
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">
