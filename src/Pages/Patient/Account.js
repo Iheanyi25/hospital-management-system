@@ -14,6 +14,7 @@ import TableSize from "../../Components/DataTable/TableSize";
 import ReceiptModal from "../../Components/Modals/ReceiptModal";
 import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
+import formatAmount from "../../utils/formatAmount";
 
 const local = "http://localhost:3000";
 function PatientAccount() {
@@ -35,19 +36,18 @@ function PatientAccount() {
     const thirdPartyFundingLink = `${local}/common/ThirdPartyFundAccount/${accountDet.account.accountNumber}`;
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
   };
-
   let dataTable = [];
   if (accountTransactionDet) {
     dataTable = accountTransactionDet.accountTransactions.map(
       (transaction, index) => {
         return {
           "#": ++index,
-          Amount: transaction.amount,
+          Amount: formatAmount(transaction.amount),
           "Transaction Type": transaction.transactionType,
-          "Paid By": transaction.paidBy,
+          "Paid By": transaction.initiator,
           "Medium Of Payment": transaction.description,
           Date: formatDate(transaction.trasactionDate),
-          "Account Balance": transaction.amount,
+          "Account Balance": formatAmount(transaction.amount),
           Action: <PatientAccountTableAction />,
         };
       }
