@@ -8,6 +8,7 @@ import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import ActionButton from "../../Components/DataTable/ActionButton";
 import ReceiptModal from "../../Components/Modals/ReceiptModal";
+import PatientInvoiceReceipt from "./PatientInvoiceReceipt";
 
 function AllPatients() {
   const getPatients = getPatientsUrl();
@@ -19,6 +20,7 @@ function AllPatients() {
   let dataTable = []
     if (data) {
       dataTable = data.patients.map(({ patient }, index) => {
+        console.log(patient,111)
         return {
           "#": ++index,
           Photo: (
@@ -64,7 +66,7 @@ function AllPatients() {
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-
+        <PatientInvoiceReceipt />
       </ReceiptModal>
     </Fragment>
   );
