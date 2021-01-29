@@ -526,7 +526,7 @@ class UpdatePatientProfile extends React.Component {
                               <textarea
                                 required
                                 className="form-control"
-                                placeholder="Address"
+                                placeholder="Allergies"
                                 rows={3}
                                 value={allergies ? allergies : ""}
                                 onChange={(e) =>
@@ -541,7 +541,7 @@ class UpdatePatientProfile extends React.Component {
                               <textarea
                                 required
                                 className="form-control"
-                                placeholder="Address"
+                                placeholder="Disabilities"
                                 rows={3}
                                 value={disabilities ? disabilities : ""}
                                 onChange={(e) =>

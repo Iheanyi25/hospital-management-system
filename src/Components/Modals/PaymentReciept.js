@@ -1,18 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import formatDate from "../../utils/formatDate";
 import formatAmount from "../../utils/formatAmount";
-import {useReactToPrint} from 'react-to-print'
-import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
+import { getServicesInAnInvoiceUrl } from "../../api/URLs";
+import { useRequest } from "../../api/fetcher";
+import { fetchConfig } from "../../api/fetchConfig";
 
 const $ = window.$;
-
-const PrescriptionReciept = ({ costingDetails }) => {
-  const componentRef = useRef();
-
-  //Function to print
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+const PaymentReciept = ({ costingDetails }) => {
+    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(id);
+  const getServicesInAnInvoiceConfig = fetchConfig({
+    url: getServicesInAnInvoice,
+    method: "get",
   });
+  
+  const { data } = useRequest(getServicesInAnInvoiceConfig, {
+    revalidateOnFocus: false, 
+  });
+
   console.log(costingDetails, "costingDetails");
 
   const totalPrice = costingDetails.reduce(
@@ -36,31 +40,32 @@ const PrescriptionReciept = ({ costingDetails }) => {
           <div className="modal-header">
             <h5 className="modal-title"></h5>
           </div>
-          <ComponentToPrint patient={patient} doctor={doctor} costingDetails={costingDetails} totalPrice={totalPrice} ref={componentRef}/>
-          <div className="modal-footer bg-white">
-            <div className="actions ">
-              <button type="button" className="btn text-light btn-primary" onClick={handlePrint}>
-                Print
-              </button>
+          <div className="modal-body">
+            <div className="container">
+              <div className="row">
+                <div className="col-3">
+                  <h6 className="m-0">Patient Name</h6>
+                  <p className="m-0">{`${patient?.firstName} ${patient?.lastName}`}</p>
+                </div>
+                <div className="col-3">
+                  <p className="m-0">{patient?.email}</p>
+                  <p className="m-0">{patient?.phoneNumber ?? "N/A"}</p>
+                </div>
+                <div className="col-3">
+                  <p className="m-0">123 Designer Ave</p>
+                  <p className="m-0">Toronto, ON POSTAL Cananda</p>
+                </div>
+                <div className="logo-wrap">
+                  <img
+                    src="../../assets/img/logo.svg"
+                    width={147}
+                    height={33}
+                    className="logo-img"
+                    alt="Hello"
+                  />
+                </div>
+              </div>
             </div>
-            {/* </div> */}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-
-class ComponentToPrint extends React.PureComponent{
-  constructor(props){
-    super(props);
-  }
-  render(){
-      let {patient, doctor, costingDetails, totalPrice} = this.props
-    return(
-<div className="modal-body">
-            <ReceiptHeader/>
             <div className="container">
               <h4>Reciept</h4>
             </div>
@@ -119,8 +124,18 @@ class ComponentToPrint extends React.PureComponent{
               </div>
             </div>
           </div>
-    )
-  }
-}
+          <div className="modal-footer bg-white">
+            <div className="actions ">
+              <button type="button" className="btn text-light btn-primary">
+                Print
+              </button>
+            </div>
+            {/* </div> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export { PrescriptionReciept };
+export { PaymentReciept };

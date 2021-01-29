@@ -1,6 +1,32 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { useReactToPrint } from 'react-to-print';
 
+const pageStyle = `
+  @page {
+    // size: 80mm 50mm;
+    margin-top: 10rem;
+    margin-left: 3rem;
+  }
+
+  // @media all {
+  //   .pagebreak {
+  //     display: none;
+  //   }
+  // }
+
+  @media print {
+    .pagebreak {
+      // page-break-before: always;
+
+    }
+  }
+`;
 export default function ReceiptModal ({children, modalId }) {
+  const componentRef = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle
+  })
   return (
     <div
       className="modal fade"
@@ -15,11 +41,13 @@ export default function ReceiptModal ({children, modalId }) {
             <h5 className="modal-title"></h5>
           </div>
           <div className="modal-body">
-            {children}
+            <div ref={componentRef}>
+              {children}
+            </div>
           </div>
           <div className="modal-footer bg-white">
             <div className="actions ">
-              <button type="button" className="btn text-light btn-primary">
+              <button type="button" className="btn text-light btn-primary" onClick={handlePrint}>
                 Print
               </button>
             </div>
