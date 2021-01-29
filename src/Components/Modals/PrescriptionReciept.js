@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import formatDate from "../../utils/formatDate";
 import formatAmount from "../../utils/formatAmount";
 import {useReactToPrint} from 'react-to-print'
+import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
 
 const $ = window.$;
 
@@ -59,31 +60,7 @@ class ComponentToPrint extends React.PureComponent{
       let {patient, doctor, costingDetails, totalPrice} = this.props
     return(
 <div className="modal-body">
-            <div className="container">
-              <div className="row">
-                <div className="col-3">
-                  <h6 className="m-0">Patient Name</h6>
-                  <p className="m-0">{`${patient?.firstName} ${patient?.lastName}`}</p>
-                </div>
-                <div className="col-3">
-                  <p className="m-0">{patient?.email}</p>
-                  <p className="m-0">{patient?.phoneNumber ?? "N/A"}</p>
-                </div>
-                <div className="col-3">
-                  <p className="m-0">123 Designer Ave</p>
-                  <p className="m-0">Toronto, ON POSTAL Cananda</p>
-                </div>
-                <div className="logo-wrap">
-                  <img
-                    src="../../assets/img/logo.svg"
-                    width={147}
-                    height={33}
-                    className="logo-img"
-                    alt="Hello"
-                  />
-                </div>
-              </div>
-            </div>
+            <ReceiptHeader/>
             <div className="container">
               <h4>Reciept</h4>
             </div>

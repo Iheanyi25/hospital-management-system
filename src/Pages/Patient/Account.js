@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { useContext, Fragment } from "react";
+import React, { useContext, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
@@ -14,6 +14,8 @@ import TableSize from "../../Components/DataTable/TableSize";
 import ReceiptModal from "../../Components/Modals/ReceiptModal";
 import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
+import PatientInvoiceReceipt from "../Admin/PatientInvoiceReceipt";
+
 
 const local = "http://localhost:3000";
 function PatientAccount() {
@@ -36,6 +38,8 @@ function PatientAccount() {
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
   };
 
+  const [activeTransaction, setActiveTransaction] = useState({})
+
   let dataTable = [];
   if (accountTransactionDet) {
     dataTable = accountTransactionDet.accountTransactions.map(
@@ -44,11 +48,10 @@ function PatientAccount() {
           "#": ++index,
           Amount: transaction.amount,
           "Transaction Type": transaction.transactionType,
-          "Paid By": transaction.paidBy,
+          "Paid By": transaction.initiator,
           "Medium Of Payment": transaction.description,
           Date: formatDate(transaction.trasactionDate),
-          "Account Balance": transaction.amount,
-          Action: <PatientAccountTableAction />,
+          Action: <PatientAccountTableAction setActiveTransaction={setActiveTransaction} transaction={transaction}/>,
         };
       }
     );
@@ -106,12 +109,13 @@ function PatientAccount() {
       </main>
       <ReceiptModal modalId="view-reciept">
         {/* put your modal content component here */}
+        <PatientInvoiceReceipt activeTransaction={activeTransaction}/>
       </ReceiptModal>
     </Fragment>
   );
 }
 
-const PatientAccountTableAction = ({}) => {
+const PatientAccountTableAction = ({ setActiveTransaction, transaction }) => {
 
   return (
     <ActionButton>
@@ -120,6 +124,7 @@ const PatientAccountTableAction = ({}) => {
         className="btn btn-sm btn-block"
         data-toggle="modal"
         data-target="#view-reciept"
+        onClick={() => setActiveTransaction(transaction)}
       >
         <span className="btn-icon icofont-server mr-2" />
         View Reciept

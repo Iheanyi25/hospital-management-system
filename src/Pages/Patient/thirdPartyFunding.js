@@ -10,22 +10,34 @@ import { observer } from "mobx-react";
 
 const local = "http://localhost:3000";
 function ThirdPartyFunding() {
-   const { user}= useContext(UserContext);
-   const {firstName, lastName} = user 
+  const { user } = useContext(UserContext);
+  const { firstName, lastName } = user;
+
+  const alert = (
+    <div className="position-absolute bg-success p-2 rounded text-white" style={{right:"0", left:"0"}}>
+      <b>Link Copied</b>
+    </div>
+  );
 
   const [state, setState] = useState({
     thirdPartyFundingLink: "",
-  })
-   
+  });
+  const [showAlert, setShowAlert] = useState(false);
+
   const copyToClipboard = () => {
-    console.log(navigator.clipboard);
+    console.log(navigator.clipboard, "lalalalalalal");
     const { thirdPartyFundingLink } = state;
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 2000);
   };
 
   useEffect(async () => {
     // const content = this.context;
     // const { user } = content;
+    // alert('waw we rfae sidv')
     try {
       const getPatientAccount = getPatientAccountUrl(user.id);
       const getPatientAccountConfig = fetchConfig({
@@ -61,7 +73,10 @@ function ThirdPartyFunding() {
               />
             </div>
             <div className="w-75 m-auto">
-              <h4> {firstName} {lastName}</h4>
+              <h4>
+                {" "}
+                {firstName} {lastName}
+              </h4>
               <p className="">
                 Share this link to have your account funded by a 3rd party
               </p>
@@ -76,6 +91,7 @@ function ThirdPartyFunding() {
               />
               <p> https://vitalisemene.com/account/blablabla</p>
             </span>
+            {showAlert && alert}
           </div>
         </div>
       </div>
