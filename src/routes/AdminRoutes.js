@@ -68,6 +68,8 @@ import AllTransactions from "../Pages/Admin/Reports/AllTransactions";
 import RegistrationReport from "../Pages/Admin/Reports/RegistrationReport";
 import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
 import DrugReport from "../Pages/Admin/Reports/DrugReport";
+import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
+import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
 
 export default function AdminRoutes() {
   return (
@@ -233,20 +235,26 @@ export default function AdminRoutes() {
             path="/AdminAllTransactions"
             component={AllTransactions}
           />
-            <Route
-              exact
-              path="/AdminDrugReport"
-              component={DrugReport}
-            />
-            <Route
-              exact
-              path="/AdminServiceRequestReport"
-              component={ServiceRequestReport}
-            />
+          <Route exact path="/AdminDrugReport" component={DrugReport} />
+          <Route
+            exact
+            path="/AdminServiceRequestReport"
+            component={ServiceRequestReport}
+          />
           <Route
             exact
             path="/AdminRegistrationReport"
             component={RegistrationReport}
+          />
+          <Route
+            exact
+            path="/AdminExpiredDrugsReport"
+            component={ExpiredDrugsReport}
+          />
+          <Route
+            exact
+            path="/AdminAllAccountTransactions"
+            component={AllAccountTransactions}
           />
           <Route
             exact
