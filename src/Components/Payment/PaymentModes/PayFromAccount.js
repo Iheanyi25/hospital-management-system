@@ -25,7 +25,7 @@ const PayFromAccount = observer(({ details, paidSuccessfully, patientId }) => {
   const handleSubmit = (e) => {
     console.log(e);
     e.preventDefault();
-    paidSuccessfully("", "Account", "Paid with account", id);
+    paidSuccessfully("", "account", "Paid with account", id);
   };
 
   return (

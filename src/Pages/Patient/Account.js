@@ -15,7 +15,7 @@ import ReceiptModal from "../../Components/Modals/ReceiptModal";
 import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
 import PatientInvoiceReceipt from "../Admin/PatientInvoiceReceipt";
-
+import formatAmount from "../../utils/formatAmount";
 
 const local = "http://localhost:3000";
 function PatientAccount() {
@@ -46,7 +46,7 @@ function PatientAccount() {
       (transaction, index) => {
         return {
           "#": ++index,
-          Amount: transaction.amount,
+          Amount: formatAmount(transaction.amount),
           "Transaction Type": transaction.transactionType,
           "Paid By": transaction.initiator,
           "Medium Of Payment": transaction.description,

@@ -31,18 +31,17 @@ const PaymentForPrescription = observer(({ history }) => {
 
   const paidSuccessfully = async (
     referenceNumber,
-    modeOfPayment,
+    paymentMethod,
     description,
-    paidBy
+    initiatorId
   ) => {
     const payload = {
       patientId,
       invoiceNumber,
       totalAmount: amount,
-      description,
-      modeOfPayment,
+      paymentMethod,
       referenceNumber,
-      paidBy,
+      initiatorId,
     };
     console.log(payload);
     const paymentUrl = payForDrugsUrl();
@@ -62,18 +61,17 @@ const PaymentForPrescription = observer(({ history }) => {
   };
   const payWithAccount = async (
     referenceNumber,
-    modeOfPayment,
+    paymentMethod,
     description,
-    paidBy
+    initiatorId
   ) => {
     const payload = {
       patientId,
       invoiceNumber,
       totalAmount: amount,
-      description,
-      modeOfPayment,
+      paymentMethod,
       referenceNumber,
-      paidBy,
+      initiatorId,
     };
     console.log(payload);
     const paymentUrl = payForDrugsWithAccountUrl();
