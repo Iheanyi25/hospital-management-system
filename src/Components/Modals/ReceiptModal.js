@@ -1,11 +1,31 @@
 import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
 
+const pageStyle = `
+  @page {
+    // size: 80mm 50mm;
+    margin-top: 10rem;
+    margin-left: 3rem;
+  }
 
+  // @media all {
+  //   .pagebreak {
+  //     display: none;
+  //   }
+  // }
+
+  @media print {
+    .pagebreak {
+      // page-break-before: always;
+
+    }
+  }
+`;
 export default function ReceiptModal ({children, modalId }) {
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current
+    content: () => componentRef.current,
+    pageStyle
   })
   return (
     <div
