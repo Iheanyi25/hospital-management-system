@@ -16,7 +16,7 @@ import ViewClarkingHistory from '../Pages/Patient/ViewClarkingHistory';
 import MyDoctors from '../Pages/Patient/MyDoctors';
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import { PatientProfile } from '../Components/Profiles/PatientProfile';
-import ThirdPartyFunding from '../Pages/Patient/thirdPartyFunding';
+import ThirdPartyFunding from '../Pages/Patient/ThirdPartyFunding';
 
 export default function PatientRoutes() {
     return (
