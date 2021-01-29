@@ -66,7 +66,7 @@ function AllPatients() {
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-        <PatientInvoiceReceipt />
+        {/* <PatientInvoiceReceipt /> */}
       </ReceiptModal>
     </Fragment>
   );
