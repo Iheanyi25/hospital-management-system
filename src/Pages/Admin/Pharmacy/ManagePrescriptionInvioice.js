@@ -14,7 +14,7 @@ import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
-import { PrescriptionReciept } from "../../../Components/Modals";
+import { PrescriptionReciept } from "../../../Components/Modals/PrescriptionReciept";
 import { Success } from "../../../Components/Alerts";
 
 let $ = window.$;
