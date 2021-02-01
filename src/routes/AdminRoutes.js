@@ -68,6 +68,7 @@ import AllTransactions from "../Pages/Admin/Reports/AllTransactions";
 import RegistrationReport from "../Pages/Admin/Reports/RegistrationReport";
 import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
 import DrugReport from "../Pages/Admin/Reports/DrugReport";
+import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
 export default function AdminRoutes() {
   return (
@@ -292,6 +293,11 @@ export default function AdminRoutes() {
             component={ViewLabProfile}
           />
 
+          <Route
+            exact
+            path="/AdminViewPatientHealthHistory/:id"
+            component={ViewPatientHealthHistory}
+          />
           <Route
             exact
             path="*"

@@ -17,6 +17,7 @@ import MyDoctors from '../Pages/Patient/MyDoctors';
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import { PatientProfile } from '../Components/Profiles/PatientProfile';
 import ThirdPartyFunding from '../Pages/Patient/ThirdPartyFunding';
+import ViewHealthHistory from '../Pages/Patient/ViewHealthHistory';
 
 export default function PatientRoutes() {
     return (
@@ -40,6 +41,8 @@ export default function PatientRoutes() {
                     <Route exact path="/PatientProfile" component={ViewPatientProfile} />
                     <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
                     <Route exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />
+
+                    <Route exact path="/PatientHealthHistory" component={ViewHealthHistory} />
 
                     <Route exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
 
