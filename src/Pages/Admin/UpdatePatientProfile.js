@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Success } from "../../Components/Alerts";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientRegistrationInvoiceUrl, getPatientUrl, updatePatientBasicInfoUrl, updatePatientContactDetailsUrl, UpdatePatientHealthDetailsUrl } from "../../api/URLs";
+import { getPatientRegistrationInvoiceUrl, getPatientUrl, updatePatientBasicInfoUrl, updatePatientContactDetailsUrl, updatePatientHealthDetailsUrl } from "../../api/URLs";
 import CountryRegionDropdown from "../../Components/Select/CountryRegionSelectableDropdown";
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
 
@@ -181,7 +181,7 @@ class UpdatePatientProfile extends React.Component {
       };
 
       // );
-      const UpdatePatientHealthDetails = UpdatePatientHealthDetailsUrl()
+      const UpdatePatientHealthDetails = updatePatientHealthDetailsUrl()
       const UpdatePatientHealthDetailsConfig = fetchConfig({ url: UpdatePatientHealthDetails, data: payload, method: 'post' })
       const res = await fetchWrapper(UpdatePatientHealthDetailsConfig)
       console.log(res, 55555)

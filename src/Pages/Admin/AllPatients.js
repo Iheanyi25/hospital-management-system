@@ -100,6 +100,11 @@ const PatientTableAction = ({ patient, setActivePatientId }) => {
       path: `/AdminViewClarkingHistory/${patient.id}`,
       iconClass: "btn-icon icofont-stethoscope-alt mr-2",
     },
+    {
+      text: "View Health History",
+      path: `/AdminViewPatientHealthHistory/${patient.id}`,
+      iconClass: "btn-icon icofont-stethoscope-alt mr-2",
+    },
   ];
   return (
     <ActionButton>
