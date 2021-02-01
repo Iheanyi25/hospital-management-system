@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDoctorSpecializationUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
@@ -29,12 +30,14 @@ const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
       const postDoctorSpecializationConfig = fetchConfig({url : postDoctorSpecialization, data:JSON.stringify([details]), method : 'post'})
       const res = await fetchWrapper(postDoctorSpecializationConfig)
 
-      if (res.status === 200) {
-        updatePatientDetails()
-        $('#add-specialization').modal('hide')
+       if (res.status === 200) {
+        notification.success({ message: res.message});
+        updatePatientDetails();
+        $("#add-specialization").modal("hide");
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message:  error?.response?.data?.message});
     }
   };
 

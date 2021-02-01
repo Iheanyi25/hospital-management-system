@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDoctorOfficeTimeUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
-const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
+const AddOfficeTime = ({ doctorId, updatePatientDetails }) => {
   const [details, setDetails] = useState({
     workDays: "",
     startTime: "",
@@ -32,12 +33,13 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails, displaySuccess }) => {
       const res = await fetchWrapper(postDoctorOfficeTimeConfig)
 
       if (res.status === 200) {
-        displaySuccess(res.message)
+        notification.success({ message: res.message });
         updatePatientDetails();
         $("#add-office-time").modal("hide");
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 

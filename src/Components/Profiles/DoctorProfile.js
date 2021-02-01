@@ -10,7 +10,6 @@ import {
   AddWebsites,
   AddSpecialization,
 } from "../../Components/Modals";
-import { Success } from "../Alerts";
 import formatTime from "../../utils/formatTime";
 import reset from "../../assets/img/reset.svg";
 import emailImage from "../../assets/img/email.svg";
@@ -32,6 +31,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
+import { notification } from "../../utils/notification";
 
 class DocProfile extends React.Component {
   static contextType = UserContext;
@@ -52,9 +52,6 @@ class DocProfile extends React.Component {
     displayDeleteOfficeTime: false,
     displayDeleteWebsite: false,
     displayDeleteSpecialization: false,
-
-    success: false,
-    message: "",
   };
 
   componentDidMount() {
@@ -97,20 +94,13 @@ class DocProfile extends React.Component {
       const res = await fetchWrapper(deleteDoctorProfileInfoConfig);
 
       if (res.status === 200) {
-        this.displaySuccess(res.message);
+        notification.success({ message: res.message });
         this.fetchPatientDetails();
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data?.message });
     }
-  };
-
-  displaySuccess = (message) => {
-    this.setState({ success: true, message: message });
-  };
-
-  changeSuccess = () => {
-    this.setState({ success: false });
   };
 
   render() {
@@ -142,13 +132,6 @@ class DocProfile extends React.Component {
             <div className="app-loader">
               <i className="icofont-spinner-alt-4 rotate" />
             </div>
-            {this.state.success ? (
-              <Success
-                history={this.props.history}
-                message={this.state.message}
-                callback={this.changeSuccess}
-              />
-            ) : null}
             <div className="main-content-wrap">
               <div className="page-content">
                 {userType === "Patient" ? (
@@ -860,38 +843,32 @@ class DocProfile extends React.Component {
             </div>
             <AddEducation
               doctorId={doctorId}
-              displaySuccess={this.displaySuccess}
               doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddExperience
               doctorId={doctorId}
-              displaySuccess={this.displaySuccess}
               doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddOfficeTime
               doctorId={doctorId}
-              displaySuccess={this.displaySuccess}
               doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <EditContactInfo
               doctorId={this.props.doctorId}
-              displaySuccess={this.displaySuccess}
               doctorEmail={email}
               doctor={doctorDetails}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddWebsites
               doctorId={doctorId}
-              displaySuccess={this.displaySuccess}
               doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />
             <AddSpecialization
               doctorId={doctorId}
-              displaySuccess={this.displaySuccess}
               doctorEmail={email}
               updatePatientDetails={this.fetchPatientDetails}
             />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { updateDoctorContactDetailsUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
@@ -42,12 +43,13 @@ const EditContactInfo = ({
       const res = await fetchWrapper(updateDoctorContactDetailsConfig)
 
       if (res.status === 200) {
-        displaySuccess(res.message);
+        notification.success({ message: res.message });
         updatePatientDetails();
         $("#add-contact-info").modal("hide");
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data?.message  });
     }
   };
 

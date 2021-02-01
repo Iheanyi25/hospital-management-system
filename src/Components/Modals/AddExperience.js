@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDoctorExperienceUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
@@ -9,7 +10,6 @@ const AddExperience = ({
   doctorId,
   doctorEmail,
   updatePatientDetails,
-  displaySuccess,
 }) => {
   const [details, setDetails] = useState({
     role: "",
@@ -45,12 +45,13 @@ const AddExperience = ({
       const res = await fetchWrapper(postDoctorExperienceConfig)
       
       if (res.status === 200) {
-        displaySuccess();
+        notification.success({ message: res.message });
         updatePatientDetails();
         $("#add-experience").modal("hide");
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 

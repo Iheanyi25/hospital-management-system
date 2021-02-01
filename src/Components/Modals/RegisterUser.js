@@ -70,8 +70,7 @@ const RegisterUserModal = ({ userType }) => {
       history.push(routes[userType]);
     } catch (error) {
       console.log(error);
-      const errMessage = error?.response?.data?.message || "An error occurred";
-      notification.error({ message: errMessage });
+      notification.error({ message: error?.response?.data?.message });
       setState((state) => ({ ...state, isRegistering: false}));
     }
   };
