@@ -70,6 +70,7 @@ import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
 import DrugReport from "../Pages/Admin/Reports/DrugReport";
 import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
+import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
 export default function AdminRoutes() {
   return (
@@ -300,6 +301,11 @@ export default function AdminRoutes() {
             component={ViewLabProfile}
           />
 
+          <Route
+            exact
+            path="/AdminViewPatientHealthHistory/:id"
+            component={ViewPatientHealthHistory}
+          />
           <Route
             exact
             path="*"
