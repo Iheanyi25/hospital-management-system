@@ -11,7 +11,9 @@ export const getPatientUrl = (patientId) =>
 export const getPatientsUrl = () => `/Patient/GetPatients`;
 export const updatePatientBasicInfoUrl = () => `/Patient/UpdatePatientBasicInfo`;
 export const updatePatientContactDetailsUrl = () => `/Patient/UpdatePatientContactDetails`;
-export const UpdatePatientHealthDetailsUrl = () => `/Patient/UpdatePatientHealthDetails`;
+export const updatePatientHealthDetailsUrl = () => `/Patient/UpdatePatientHealthDetails`;
+export const getPatientHealthHistoryUrl = (patientId) => `/Patient/GetPatientHealthHistory?PatientId=${patientId}`;
+
 // Patient - Preconsultation Management
 export const getPatientPreConsultationUrl = (id) =>
   `/PatientPreConsultation/GetPatientPreConsultation?PatientId=${id}`;
