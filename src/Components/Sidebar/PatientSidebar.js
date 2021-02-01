@@ -123,6 +123,11 @@ class PatientSidebar extends React.Component {
 													<span className="link-text">View Clerking History</span>
 												</Link>
 											</li>
+											<li className="menu-item">
+												<Link className="item-link" to="/PatientHealthHistory">
+													<span className="link-text">View Health History</span>
+												</Link>
+											</li>
 										</ul>
 									</li>
 									<li className="menu-item">
