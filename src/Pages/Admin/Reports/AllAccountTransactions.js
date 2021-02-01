@@ -12,7 +12,7 @@ const AllAccountTransactions = () => {
   const [details, setDetails] = useState({
     startDate: "",
     endDate: "",
-    paymentMethod: "",
+    transactionType: "",
   });
   const [reports, setReports] = useState([]);
   const [emptyField, setEmptyField] = useState(true);
@@ -30,12 +30,12 @@ const AllAccountTransactions = () => {
   };
 
   const fetchReport = async (e) => {
-    const { startDate, endDate, paymentMethod } = details;
+    const { startDate, endDate, transactionType } = details;
     e.preventDefault();
     const payload = {
       startDate: startDate + "T00:00:00.000Z",
       endDate: endDate + "T23:59:59.000Z",
-      paymentMethod,
+      transactionType,
     };
     const getTransactionsUrl = getTransactionsForAccountsUrl();
     const getTransactionsForRegistrationConfig = fetchConfig({
@@ -134,19 +134,16 @@ const AllAccountTransactions = () => {
                         <select
                           className="form-control"
                           tabIndex={-98}
-                          name="paymentMethod"
+                          name="transactionType"
                           onChange={handleChange}
                         >
                           <option selected value="" disabled>
-                            Select a payment method
+                            Select a transaction type
                           </option>
                           <option value="">All</option>
-                          <option value="cash">Cash</option>
-                          <option value="pos">POS</option>
-                          <option value="transfer">Transfer</option>
-                          <option className="paystack">Paystack</option>
-                          <option className="flutterwave">Flutterwave</option>
-                          <option value="cheque">Cheque</option>
+                          <option value="credit">Credit</option>
+                          <option value="debit">Debit</option>
+                   
                         </select>
                       </div>
                     </div>
