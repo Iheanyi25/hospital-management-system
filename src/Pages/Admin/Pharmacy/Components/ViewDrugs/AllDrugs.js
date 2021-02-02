@@ -10,6 +10,7 @@ import { fetchConfig } from "../../../../../api/fetchConfig";
 import { deleteDrugUrl } from "../../../../../api/URLs";
 import { UserContext } from "../../../../../mobx/UserState";
 import NoDataState from "../../../../../Components/EmptyState/NoDataState";
+import { notification } from "../../../../../utils/notification";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -35,7 +36,7 @@ class AllDrugs extends React.Component {
   }
 
   deleteDrug = async (id) => {
-    const { setSuccess } = this.props;
+    const { fetchAllDrugs } = this.props;
     try {
       const deleteDrugs = deleteDrugUrl();
       const deleteDrugsConfig = fetchConfig({
@@ -44,13 +45,12 @@ class AllDrugs extends React.Component {
         method: "delete",
       });
       const res = await fetchWrapper(deleteDrugsConfig);
-
-      if (res.status === 200) {
-        setSuccess(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      notification.success({ message: res.data.message})
+      fetchAllDrugs()
+  } catch (error) {
+    console.log(error);
+    notification.error({ message: error?.response?.data.message })
+  }
   };
 
   render() {
@@ -166,7 +166,7 @@ class AllDrugs extends React.Component {
             )) ?? "N/A"}
           </tbody>
         </table>
-        <UpdateInventory drug={singleDrug} setSuccess={this.props.setSuccess} />
+        <UpdateInventory drug={singleDrug} fetchAllDrugs={this.props.fetchAllDrugs} />
       </div>
     );
   }

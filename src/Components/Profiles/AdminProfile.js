@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { fetchConfig } from '../../api/fetchConfig';
 import { useRequest } from '../../api/fetcher';
 import { getAdminProfileUrl } from '../../api/URLs';
-import { PageLoader } from '../Loader';
 import Bio from './profile-components/common/Bio';
 import ContactDetail from './profile-components/common/ContactDetail';
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+import SpinnerLoader from '../Loader/SpinnerLoader';
 
 function AdminProfile({ adminId }) {
     const adminProfileUrl = getAdminProfileUrl(adminId);
@@ -16,7 +16,7 @@ function AdminProfile({ adminId }) {
 	return (
 		<Fragment>
 			{!data ? (
-				<PageLoader />
+				<SpinnerLoader />
 			) : (
 				<main className="main-content">
 					<div className="app-loader">

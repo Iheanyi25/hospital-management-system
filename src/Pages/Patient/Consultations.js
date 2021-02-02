@@ -8,9 +8,9 @@ import {
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import DoctorImage from "../../assets/img/DoctorIcon.svg";
-import { Success } from "../../Components/Alerts";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -80,16 +80,18 @@ class Consultations extends React.Component {
   }
 
   cancelConsultation = async (id) => {
-    const cancelPatientConsulations = cancelPatientConsulationsUrl(id);
-    const cancelPatientConsulationsConfig = fetchConfig({
-      url: cancelPatientConsulations,
-      method: "patch",
-    });
-    const res = await fetchWrapper(cancelPatientConsulationsConfig);
-    if (res) {
-      console.log(res);
-      this.setState({ success: true, successMessage: res.data.message });
+    try {
+      const cancelPatientConsulations = cancelPatientConsulationsUrl(id);
+      const cancelPatientConsulationsConfig = fetchConfig({
+        url: cancelPatientConsulations,
+        method: "patch",
+      });
+      const res = await fetchWrapper(cancelPatientConsulationsConfig);
+      notification.success({ message: res.data.message})
       this.getpatientConsultations();
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data?.message})
     }
   };
 
@@ -102,11 +104,6 @@ class Consultations extends React.Component {
     return (
       <>
         <PageLoader />
-        {this.state?.success ? (
-          <Success message={this.state.successMessage} />
-        ) : (
-          <></>
-        )}
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />

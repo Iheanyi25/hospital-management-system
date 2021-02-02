@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Success } from "../../../Components/Alerts/Success";
+import { useHistory } from "react-router-dom";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postPasswordUrl } from "../../../api/URLs";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 
 const ChangePassword = observer(()=> {
   const { user: { id: userId } } = useContext(UserContext)
@@ -13,7 +13,6 @@ const ChangePassword = observer(()=> {
     currentPassword: "",
     newPassword: "",
     submitting: false,
-    error: false,
     passwordStatus: false,
     response: "",
     currentPasswordInputType: "password",
@@ -24,7 +23,6 @@ const ChangePassword = observer(()=> {
     currentPassword,
     newPassword,
     submitting,
-    error,
     passwordStatus,
     response,
     currentPasswordInputType,
@@ -51,28 +49,19 @@ const ChangePassword = observer(()=> {
           data: payload,
           method: "post",
         });
-        console.log(postPasswordConfig);
+  
         const res = await fetchWrapper(postPasswordConfig);
-        console.log(res, 11111);
         if (res.status === 200) {
-          console.log("Res is ", res);
-          const { data } = res;
           setAllPasswordDetails({
             ...allPasswordDetails,
             passwordStatus: true,
-            response: data.message,
           });
-          console.log("Data is ", data);
-          setTimeout(() => {
-            window.history.back();
-          }, 1500);
+          notification.success({ message: res.data.message})
+          history.goBack()
         }
-      } catch (err) {
-        setAllPasswordDetails({
-          ...allPasswordDetails,
-          error: true,
-          response: err.response.data.message[0].description
-        })
+      } catch (error) {
+        console.log(error.response.data)
+        notification.error({ message: error?.response?.data.message[0].description})
       }
     }
   };
@@ -99,9 +88,6 @@ const ChangePassword = observer(()=> {
         <div className="page-content">
           <div className="row justify-content-center">
             <div className="col col-md-6">
-              {error ? (
-                <Success message={response} isError={true} timeOut={3000} />
-              ) : null}
               <div className="card border-light">
                 <div className="card-body">
                   <form className="mb-4 p-5" onSubmit={(e) => handleSubmit(e)}>
@@ -153,9 +139,6 @@ const ChangePassword = observer(()=> {
                       Submit
                     </button>
                     <p className="mt-3 text-danger text-center password-notice">Passwords must contain uppercase, numeric and special characters</p>
-                    {passwordStatus === true ? (
-                      <Success message={response} />
-                    ) : null}
                   </form>
                 </div>
               </div>

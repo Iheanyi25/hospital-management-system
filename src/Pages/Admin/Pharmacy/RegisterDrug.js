@@ -1,12 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { DrugDescription, DrugType } from "./Components/RegisterDrug";
-import { Success } from "../../../Components/Alerts";
 import { postDrugUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 
 class RegisterDrug extends React.Component {
   static contextType = UserContext;
@@ -25,8 +25,6 @@ class RegisterDrug extends React.Component {
     costPricePerContainer: "",
     measurment:"",
     expiryDate: "",
-
-    success: false,
     message: "",
     isSubmitting: false
   };
@@ -65,6 +63,7 @@ class RegisterDrug extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     this.setState((state) => ({ ...state, isSubmitting: true }));
+    const { user: { userType }} = this.context
     const {
       sku,
       name,
@@ -97,11 +96,13 @@ class RegisterDrug extends React.Component {
     });
     try {
       let res = await fetchWrapper(postdrugConfig);
-      if (res.status === 200) {
-        this.setState({ success: true, message: res.message });
-      }
+        const nextRoute= userType === "Admin" ? "/AdminViewDrugs" : "/PharmacyViewDrugs";
+        notification.success({ message: res.data.message})
+        this.props.history.push(nextRoute);
+      
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data.message })
     }
     this.setState((state) => ({ ...state, isSubmitting: false }));
     console.log(payload);
@@ -118,7 +119,6 @@ class RegisterDrug extends React.Component {
       genericName,
       manufacturer,
       expiryDate,
-      success,
       ...otherDrugDetails
     } = this.state;
     return (
@@ -126,18 +126,6 @@ class RegisterDrug extends React.Component {
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
-        {success ? (
-          <Success
-            history={this.props.history}
-            message="Well done, you successfully created a category"
-            timeOut={400}
-            nextRoute={
-              user.userType === "Admin"
-                ? "/AdminViewDrugs"
-                : "/PharmacyViewDrugs"
-            }
-          />
-        ) : null}
         <div className="main-content-wrap w-50">
           <div className="page-content">
             <div className="row justify-content-center">

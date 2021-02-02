@@ -4,9 +4,10 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { deleteServiceUrl, getAllServicesUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
+
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
@@ -14,7 +15,6 @@ export default class ManageServices extends Component {
   static contextType = UserContext;
   state = {
     services: [],
-    success: { show: false, message: "", delError: false },
   };
 
   async componentDidMount() {
@@ -49,38 +49,15 @@ export default class ManageServices extends Component {
       });
       const res = await fetchWrapper(deleteServiceConfig);
       console.log("ddd");
-      console.log(res.message);
+      console.log(res.data.message);
       if (res.status === 200) {
-        this.fetchAllServices();
-        this.setState((state) => ({
-          ...state,
-          success: {
-            show: true,
-            message: "service successfully deleted",
-            delError: false,
-          },
-        }));
+        notification.success({ message: res.data.message})
       } else if (res.status === 400) {
-        this.fetchAllServices();
-        this.setState((state) => ({
-          ...state,
-          success: {
-            show: true,
-            message: res.message,
-            delError: false,
-          },
-        }));
+        notification.warning({ message: res.data.message})
       }
-      console.log("i ran oooh");
     } catch (error) {
-      this.setState((state) => ({
-        ...state,
-        success: {
-          show: true,
-          message: error.response.data.message,
-          delError: true,
-        },
-      }));
+      console.log(error)
+      notification.error({ message: error?.response?.data.message })
     }
   };
 
@@ -88,13 +65,7 @@ export default class ManageServices extends Component {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
-
-  resetShowState = () =>
-    this.setState((state) => ({
-      ...state,
-      success: { show: false, message: " ", delError: false },
-    }));
-
+  
   render() {
     const {
       user: { userType },
@@ -108,13 +79,6 @@ export default class ManageServices extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success.show && (
-            <Success
-              message={this.state.success.message}
-              callback={this.resetShowState}
-              isError={this.state.success.delError}
-            />
-          )}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Services</h4>

@@ -35,7 +35,7 @@ const AddWebsites = ({
       const res = await fetchWrapper(postDoctorSocialConfig)
 
       if (res.status === 200) {
-        notification.success({ message: res.message});
+        notification.success({ message: res.data.message});
         updatePatientDetails();
         $("#add-websites").modal("hide");
       }

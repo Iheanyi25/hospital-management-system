@@ -1,7 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { PageLoader } from "../../Components";
 import {
   AddEducation,
   AddExperience,
@@ -32,6 +31,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
 import DoctorImage from "../../assets/img/DoctorIcon.svg"
 import { notification } from "../../utils/notification";
+import SpinnerLoader from "../Loader/SpinnerLoader";
 
 class DocProfile extends React.Component {
   static contextType = UserContext;
@@ -94,7 +94,7 @@ class DocProfile extends React.Component {
       const res = await fetchWrapper(deleteDoctorProfileInfoConfig);
 
       if (res.status === 200) {
-        notification.success({ message: res.message });
+        notification.success({ message: res.data.message });
         this.fetchPatientDetails();
       }
     } catch (error) {
@@ -126,7 +126,7 @@ class DocProfile extends React.Component {
     return (
       <>
         {loading ? (
-          <PageLoader />
+          <SpinnerLoader />
         ) : (
           <main className="main-content">
             <div className="app-loader">

@@ -7,7 +7,7 @@ import {
   updatePatientPreConsultationBMIUrl,
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import { Success } from "../../Components/Alerts";
+import { notification } from "../../utils/notification";
 
 class PreConsultation extends React.Component {
   constructor(props) {
@@ -25,13 +25,7 @@ class PreConsultation extends React.Component {
 
       weight: "",
       height: "",
-      calculatedBMI: "",
-
-      displayVitalsSuccessNotification: null,
-      displayVitalsFailureNotification: null,
-
-      displayBMISuccessNotification: null,
-      displayBMIFailureNotification: null,
+      calculatedBMI: ""
     };
   }
 
@@ -82,35 +76,10 @@ class PreConsultation extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(getPatientConfig);
-      const { data, error } = res;
-      console.log(data, 7777);
-      if (res.status !== 200) {
-        throw Error(error.message);
-      }
-
-      //patient vitals successfully updated
-      this.setState({
-        displayVitalsSuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayVitalsSuccessNotification: false,
-          }),
-        1500
-      );
+      notification.success({ message: res.data.message})
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayVitalsFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayVitalsFailureNotification: false,
-          }),
-        1500
-      );
+      notification.error({ message: error?.response?.data.message })
     }
   };
 
@@ -131,37 +100,10 @@ class PreConsultation extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(updatePatientPreConsultationBMIConfig);
-      const { data, error } = res;
-      console.log(data, 8888);
-
-      if (res.status !== 200) {
-        throw Error(error.message);
-      }
-
-      //patient BMI successfully updated
-
-      this.setState({
-        displayBMISuccessNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayBMISuccessNotification: false,
-          }),
-        1500
-      );
+      notification.success({ message: res.data.message})
     } catch (error) {
       console.log(error);
-      this.setState({
-        displayBMIFailureNotification: true,
-      });
-      setTimeout(
-        () =>
-          this.setState({
-            displayBMIFailureNotification: false,
-          }),
-        1500
-      );
+      notification.error({ message: error?.response?.data.message })
     }
   };
 
@@ -175,11 +117,7 @@ class PreConsultation extends React.Component {
       temperature,
       weight,
       height,
-      calculatedBMI,
-      displayBMISuccessNotification,
-      displayBMIFailureNotification,
-      displayVitalsSuccessNotification,
-      displayVitalsFailureNotification,
+      calculatedBMI
     } = this.state;
     return (
       <>
@@ -191,28 +129,7 @@ class PreConsultation extends React.Component {
               <i className="icofont-spinner-alt-4 rotate" />
             </div>
             <div className="main-content-wrap">
-              {displayBMISuccessNotification === true ? (
-                <Success
-                  message={"BMI successfully Updated"}
-                />
-              ) : null}
 
-              {displayBMIFailureNotification === true ? (
-                <Success
-                  message={" There was an error"}
-                />
-              ) : null}
-
-              {displayVitalsSuccessNotification === true ? (
-                <Success
-                  message={"Patient Vitals successfully Updated"}
-                />
-              ) : null}
-              {displayVitalsFailureNotification === true ? (
-                <Success
-                  message={"There was an error"}
-                />
-              ) : null}
               <header className="page-header">
                 <h3 className="page-title">
                   Patient Preconsultation( {patient.patientProfile?.fullName} )

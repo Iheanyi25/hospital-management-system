@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { fetchConfig } from '../../api/fetchConfig';
 import { useRequest } from '../../api/fetcher';
 import { getLabProfileUrl } from '../../api/URLs';
-import { PageLoader } from '../Loader';
 import Bio from './profile-components/common/Bio';
 import ContactDetail from './profile-components/common/ContactDetail';
 import LabImage from "../../assets/img/PharmacistIcon.svg";
+import SpinnerLoader from '../Loader/SpinnerLoader';
 
 
 function LabProfile({ labId }) {
@@ -17,7 +17,7 @@ function LabProfile({ labId }) {
 	return (
 		<Fragment>
 			{!data ? (
-				<PageLoader />
+				<SpinnerLoader />
 			) : (
 				<main className="main-content">
 					<div className="app-loader">

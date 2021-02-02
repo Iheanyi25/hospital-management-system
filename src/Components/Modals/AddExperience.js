@@ -45,7 +45,7 @@ const AddExperience = ({
       const res = await fetchWrapper(postDoctorExperienceConfig)
       
       if (res.status === 200) {
-        notification.success({ message: res.message });
+        notification.success({ message: res.data.message });
         updatePatientDetails();
         $("#add-experience").modal("hide");
       }

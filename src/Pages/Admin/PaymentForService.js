@@ -1,7 +1,6 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import formatAmount from "../../utils/formatAmount";
-import { Success } from "../../Components/Alerts";
 import {
   PayOnline,
   PayCash,
@@ -17,6 +16,7 @@ import {
 } from "../../api/URLs";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -36,7 +36,6 @@ class PaymentForService extends React.Component {
       email: "",
       userId: "",
       serviceRequestId: [],
-      success: false,
     };
   }
 
@@ -130,6 +129,9 @@ class PaymentForService extends React.Component {
     initiatorId
   ) => {
     const { amount: totalAmount, serviceRequestId, patientId } = this.state;
+    const { user } = this.props.history.location.state;
+    const nextRoute = user.userType === "Admin"? "/AdminManageServiceRequests" : "/AccountManageServiceRequest"
+
     let payload = {
       patientId,
       serviceRequestId,
@@ -146,14 +148,12 @@ class PaymentForService extends React.Component {
         data: payload,
         method: "post",
       });
-      const { status } = await fetchWrapper(postPayForServicesConfig);
-      if (status === 200) {
-        this.setState({ success: true });
-      }
+      const res = await fetchWrapper(postPayForServicesConfig);
+      notification.success({ message: res.data.message})
+      this.history.push(nextRoute)
     } catch (error) {
-      console.log(error);
+      notification.error({ message: error?.response?.data?.message})
     }
-    console.log(payload);
   };
   payWithAccount = async (
     referenceNumber,
@@ -162,6 +162,8 @@ class PaymentForService extends React.Component {
     initiatorId
   ) => {
     const { amount: totalAmount, serviceRequestId, patientId } = this.state;
+    const { user } = this.props.history.location.state;
+    const nextRoute = user.userType === "Admin"? "/AdminManageServiceRequests" : "/AccountManageServiceRequest"
     let payload = {
       patientId,
       serviceRequestId,
@@ -177,19 +179,18 @@ class PaymentForService extends React.Component {
         data: payload,
         method: "post",
       });
-      const { status } = await fetchWrapper(postPayForServicesConfig);
-      if (status === 200) {
-        this.setState({ success: true });
-      }
+      const res = await fetchWrapper(postPayForServicesConfig);
+      notification.success({ message: res.data.message})
+      this.history.push(nextRoute)
     } catch (error) {
-      console.log(error);
+      notification.error({ message: error?.response?.data?.message})
     }
     console.log(payload);
   };
 
   render() {
     const { amount, email } = this.state;
-    const { user, patientId } = this.props.history.location.state;
+    const { patientId } = this.props.history.location.state;
     return (
       <>
         <PageLoader />
@@ -198,17 +199,6 @@ class PaymentForService extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully paid for this service"
-              nextRoute={
-                user.userType === "Admin"
-                  ? "/AdminManageServiceRequests"
-                  : "/AccountManageServiceRequest"
-              }
-            />
-          ) : null}
           <div className="main-content-wrap">
             <header className="page-header">
               <h3>{`Payment for service invoice #${this.props.history.location.state.invoiceNumber}`}</h3>

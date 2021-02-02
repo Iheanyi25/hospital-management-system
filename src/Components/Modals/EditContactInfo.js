@@ -43,7 +43,7 @@ const EditContactInfo = ({
       const res = await fetchWrapper(updateDoctorContactDetailsConfig)
 
       if (res.status === 200) {
-        notification.success({ message: res.message });
+        notification.success({ message: res.data.message });
         updatePatientDetails();
         $("#add-contact-info").modal("hide");
       }

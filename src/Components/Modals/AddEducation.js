@@ -38,7 +38,7 @@ const AddEducation = ({
       const res = await fetchWrapper(postDoctorEducationConfig)
 
       if (res.status === 200) {
-        notification.success({ message: res.message });
+        notification.success({ message: res.data.message });
         updatePatientDetails();
         $("#add-education").modal("hide");
       }

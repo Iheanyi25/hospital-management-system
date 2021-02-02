@@ -7,9 +7,9 @@ import {
   getAllServicesCategoryUrl,
 } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
@@ -17,7 +17,6 @@ export default class ManageServiceCategory extends Component {
   static contextType = UserContext;
   state = {
     categories: [],
-    success: { show: false, message: "", delError: false },
   };
 
   async componentDidMount() {
@@ -52,28 +51,11 @@ export default class ManageServiceCategory extends Component {
 
       if (res.status === 200) {
         this.fetchAllServiceCategories();
-        this.setState(
-          (state) => ({
-            ...state,
-            success: {
-              show: true,
-              message: "service category was successfully deleted",
-              delError: false,
-            },
-          }),
-          () => this.sync()
-        );
+        notification.success({ message: res.data.message})
       }
     } catch (error) {
       console.log(error);
-      this.setState((state) => ({
-        ...state,
-        success: {
-          show: true,
-          message: error.response.data.message,
-          delError: true,
-        },
-      }));
+      notification.error({ message: error?.response?.data.message })
     }
   };
 
@@ -81,12 +63,6 @@ export default class ManageServiceCategory extends Component {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
-
-  resetShowState = () =>
-    this.setState((state) => ({
-      ...state,
-      success: { show: false, message: " ", delError: false },
-    }));
 
   render() {
     const {
@@ -101,13 +77,6 @@ export default class ManageServiceCategory extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success.show && (
-            <Success
-              message={this.state.success.message}
-              callback={this.resetShowState}
-              isError={this.state.success.delError}
-            />
-          )}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Service Categories</h4>

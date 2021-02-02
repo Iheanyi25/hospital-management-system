@@ -33,7 +33,7 @@ const AddOfficeTime = ({ doctorId, updatePatientDetails }) => {
       const res = await fetchWrapper(postDoctorOfficeTimeConfig)
 
       if (res.status === 200) {
-        notification.success({ message: res.message });
+        notification.success({ message: res.data.message });
         updatePatientDetails();
         $("#add-office-time").modal("hide");
       }

@@ -31,7 +31,7 @@ const AddSpecialization = ({ doctorId, updatePatientDetails }) => {
       const res = await fetchWrapper(postDoctorSpecializationConfig)
 
        if (res.status === 200) {
-        notification.success({ message: res.message});
+        notification.success({ message: res.data.message});
         updatePatientDetails();
         $("#add-specialization").modal("hide");
       }

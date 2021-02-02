@@ -129,7 +129,7 @@ class UpdatePatientProfile extends React.Component {
 
       if (res.status === 200) {
         this.setState({ success: true });
-        notification.success({message: res.message})
+        notification.success({message: res.data.message})
       }
     } catch (error) {
       console.log(error);
@@ -154,7 +154,7 @@ class UpdatePatientProfile extends React.Component {
       const updatePatientContactDetailsConfig = fetchConfig({ url: updatePatientContactDetails, data: payload, method: 'post' })
       const res = await fetchWrapper(updatePatientContactDetailsConfig)
       if (res.status === 200) {
-        notification.success({message: res.message})
+        notification.success({message: res.data.message})
       }
     } catch (error) {
       console.log(error);
@@ -180,7 +180,7 @@ class UpdatePatientProfile extends React.Component {
       const UpdatePatientHealthDetailsConfig = fetchConfig({ url: UpdatePatientHealthDetails, data: payload, method: 'post' })
       const res = await fetchWrapper(UpdatePatientHealthDetailsConfig)
       if (res.status === 200) {
-        notification.success({message: res.message})
+        notification.success({message: res.data.message})
       }
     } catch (error) {
       console.log(error);

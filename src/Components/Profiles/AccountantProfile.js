@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { fetchConfig } from '../../api/fetchConfig';
 import { useRequest } from '../../api/fetcher';
 import { getAccountantProfileUrl } from '../../api/URLs';
-import { PageLoader } from '../Loader';
 import Bio from './profile-components/common/Bio';
 import ContactDetail from './profile-components/common/ContactDetail';
 import AccountantImage from '../../assets/img/AccountantIcon.svg';
+import SpinnerLoader from '../Loader/SpinnerLoader';
 
 function AccountantProfile({ AccountantId }) {
 	const accountantProfileUrl = getAccountantProfileUrl(AccountantId);
@@ -16,7 +16,7 @@ function AccountantProfile({ AccountantId }) {
 	return (
 		<Fragment>
 			{!data ? (
-				<PageLoader />
+				<SpinnerLoader />
 			) : (
 				<main className="main-content">
 					<div className="app-loader">
