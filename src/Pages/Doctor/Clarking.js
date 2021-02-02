@@ -16,6 +16,7 @@ import {
   LabResults,
 } from "../../Components/Clarking";
 import { UserContext } from "../../mobx/UserState";
+import { notification } from "../../utils/notification";
 
 class Clerking extends React.Component {
   static contextType = UserContext;
@@ -82,11 +83,10 @@ class Clerking extends React.Component {
       });
       console.log(updatePatientClerkingConfig, 11111);
       const res = await fetchWrapper(updatePatientClerkingConfig);
-      console.log(res, 11113);
-
-      this.setState({ success: true, message: res.message });
+      notification.success({ message : res.data.message})
     } catch (error) {
       console.log(error);
+      notification.error({ message : error?.response?.data?.message})
     }
   };
 
@@ -106,9 +106,6 @@ class Clerking extends React.Component {
     this.setState({ [type]: { [key]: "" } });
   };
 
-  changeSuccess = () => {
-    this.setState({ success: false });
-  };
 
   finishClarking = async (e, key) => {
     e.preventDefault();
@@ -128,11 +125,11 @@ class Clerking extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
-
-      console.log(res, 22223);
-      this.setState({ success: true, message: res.message, nextRoute: "/" });
+      notification.success({ message : res.data.message})
+      this.props.history.push("/")
     } catch (error) {
       console.log(error);
+      notification.error({ message : error?.response?.data?.message})
     }
   };
 
@@ -146,14 +143,6 @@ class Clerking extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message={this.state.message}
-              callback={this.changeSuccess}
-              nextRoute={this.state.nextRoute}
-            />
-          ) : null}
           <div className="main-content-wrap">
             <header className="page-header d-flex justify-content-between">
               <h3 className="page-title">

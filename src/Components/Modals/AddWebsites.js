@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDoctorSocialUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 const $ = window.$;
 
 const AddWebsites = ({
   doctorId,
   doctorEmail,
   updatePatientDetails,
-  displaySuccess,
 }) => {
   const [details, setDetails] = useState({
     website: "",
@@ -35,12 +35,13 @@ const AddWebsites = ({
       const res = await fetchWrapper(postDoctorSocialConfig)
 
       if (res.status === 200) {
-        displaySuccess(res.message);
+        notification.success({ message: res.data.message});
         updatePatientDetails();
         $("#add-websites").modal("hide");
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message:  error?.response?.data?.message});
     }
   };
 

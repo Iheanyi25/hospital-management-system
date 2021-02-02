@@ -11,10 +11,11 @@ import {
 	updateAdminBasicInfoUrl,
 	updateAdminContactDetailsUrl
 } from '../../../../api/URLs';
+import { notification } from '../../../../utils/notification';
 import ProfileInfoForm from '../common/ProfileInfoForm';
 const $ = window.$;
 
-export default function EditInfo({ otherDetails, userId : userProfileId, primaryDetails, mutate, setSucces }) {
+export default function EditInfo({ otherDetails, userId : userProfileId, primaryDetails, mutate }) {
 	const [ details, setDetails ] = useState({
 		userId: userProfileId,
 		phoneNumber: primaryDetails.phoneNumber || '',
@@ -59,10 +60,11 @@ export default function EditInfo({ otherDetails, userId : userProfileId, primary
 			if (resBasicInfoUpdate.status === 200 && resContactDetailsUpdate.status === 200) {
 				mutate();
 				$('#edit-info').modal('hide');
-				setSucces({ show: true, message: 'updated info' });
+				 notification.success({ message: "Updated Profile Info" });
 			}
 		} catch (error) {
 			console.log(error);
+			notification.error({ message: error?.response?.data?.message });
 		}
 	};
 	return (

@@ -4,16 +4,15 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { getAllHealthPlansUrl, disableHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import formatDate from "../../../utils/formatDate";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { notification } from "../../../utils/notification";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageHealthPlans extends Component {
   state = {
-    healthPlans: [],
-    success: { show: false, message: "", delError: false },
+    healthPlans: []
   };
 
   async componentDidMount() {
@@ -38,11 +37,6 @@ export default class ManageHealthPlans extends Component {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
-  resetShowState = () =>
-    this.setState((state) => ({
-      ...state,
-      success: { show: false, message: " ", delError: false },
-    }));
 
   disableHealthPlan = async (id) => {
     try {
@@ -55,19 +49,12 @@ export default class ManageHealthPlans extends Component {
       const res = await fetchWrapper(disableHealthPlansConfig);
       if (res.status === 200) {
         this.getAllHealthPlans();
-        this.setState((state) => ({
-          ...state,
-          success: { show: true, message: res.data.message, delError: false },
-        }));
-      } else {
-        throw "error occured";
-      }
+        notification.success({ message: res.data.message})
+      } 
     } catch (error) {
       console.log(error);
-      this.setState((state) => ({
-        ...state,
-        success: { show: true, message: "can't delete this health plan, delete the category first", delError: true },
-      }));
+      notification.error({ message: error?.response?.data.message })
+  
     }
   };
 
@@ -80,13 +67,6 @@ export default class ManageHealthPlans extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success.show && (
-            <Success
-              message={this.state.success.message}
-              callback={this.resetShowState}
-              isError={this.state.success.delError}
-            />
-          )}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Health Plans</h4>

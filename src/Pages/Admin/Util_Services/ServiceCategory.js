@@ -4,8 +4,8 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { postServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader, TemplateSettings } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 class ServiceCategory extends React.Component {
@@ -13,8 +13,6 @@ class ServiceCategory extends React.Component {
   state = {
     name: "",
     description: "",
-
-    success: false,
     formDone: false
   };
 
@@ -30,6 +28,7 @@ class ServiceCategory extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    const { user: { userType }} = this.context
     const data = {
       name: this.state.name,
       description: this.state.description,
@@ -39,11 +38,12 @@ class ServiceCategory extends React.Component {
         const postServiceCategory = postServiceCategoryUrl();
         const postServiceCategoryConfig = fetchConfig({ url: postServiceCategory, data, method: "post" });
         const res = await fetchWrapper(postServiceCategoryConfig);
-        if (res.status === 200) {
-          this.setState({ success: true });
-        }
+        const nextRoute= userType === "Admin" ? "/AdminManageServiceCategory" : "/LabManageServiceCategory";
+        notification.success({ message: res.data.message})
+        this.props.history.push(nextRoute);
       } catch (error) {
         console.log(error);
+        notification.error({ message: error?.response?.data.message })
       }
     }
   };
@@ -54,7 +54,6 @@ class ServiceCategory extends React.Component {
   }
 
   render() {
-    const { user: { userType }} = this.context;
     const { formDone } = this.state;
     return (
       <>
@@ -64,17 +63,6 @@ class ServiceCategory extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully created a category"
-              nextRoute={
-                userType === "Admin"
-                  ? "/AdminManageServiceCategory"
-                  : "/LabManageServiceCategory"
-              }
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">

@@ -7,7 +7,6 @@ import {
   PayFromAccount,
 } from "../../Components/Payment/PaymentModes";
 import formatAmount from "../../utils/formatAmount";
-import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
@@ -18,6 +17,7 @@ import {
   postPayPatientRegistrationFeeUrl,
   postPayPatientRegistrationFeeWithAccountUrl,
 } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -30,7 +30,6 @@ class PatientRegistration extends React.Component {
     email: "",
     amount: "",
     invoiceNumber: "",
-    success: false,
   };
 
   componentDidMount() {
@@ -75,6 +74,8 @@ class PatientRegistration extends React.Component {
   }
 
   register = async (transactionReference, paymentMethod, description, initiatorId) => {
+    const content = this.context;
+    const { user } = content;
     const { amount, patientId, invoiceNumber } = this.state;
     let payload = {
       patientId,
@@ -84,8 +85,6 @@ class PatientRegistration extends React.Component {
       transactionReference,
       initiatorId
     };
-
-    console.log(payload);
     try {
       const postPayPatientRegistrationFee = postPayPatientRegistrationFeeUrl();
       const getPatientRegistrationInvoiceConfig = fetchConfig({
@@ -94,13 +93,13 @@ class PatientRegistration extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(getPatientRegistrationInvoiceConfig);
-      console.log(res, 4444);
       if (res.status === 200) {
-        console.log(res);
-        this.setState({ success: true });
+        notification.success({ message: res.data.message });
+        const route = (user.userType === "Admin" )? "/AdminAllPatients" : "/AccountRegistrationInvoice";
+        this.props.history.push(route)
       }
     } catch (error) {
-      console.log(error);
+      notification.error({ message:  error?.response?.data?.message });
     }
   };
   payWithAccount = async (
@@ -110,6 +109,8 @@ class PatientRegistration extends React.Component {
     initiatorId
   ) => {
     const { amount, patientId, invoiceNumber } = this.state;
+    const content = this.context;
+    const { user } = content;
     let payload = {
       patientId,
       amount,
@@ -119,7 +120,7 @@ class PatientRegistration extends React.Component {
       transactionReference,
       initiatorId,
     };
-    console.log(payload);
+
     try {
       const postPayPatientRegistrationFee = postPayPatientRegistrationFeeWithAccountUrl();
       const getPatientRegistrationInvoiceConfig = fetchConfig({
@@ -127,20 +128,20 @@ class PatientRegistration extends React.Component {
         data: payload,
         method: "post",
       });
-      const { status } = await fetchWrapper(
+      const { status, data } = await fetchWrapper(
         getPatientRegistrationInvoiceConfig
       );
-      console.log(status, 4444);
       if (status === 200) {
-        this.setState({ success: true });
+        notification.success({ message: data.message });
+        const route = (user.userType === "Admin" )? "/AdminAllPatients" : "/AccountRegistrationInvoice";
+        this.props.history.push(route)
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message:  error?.response?.data?.message });
     }
   };
   render() {
-    const content = this.context;
-    const { user } = content;
     const { amount, email } = this.state;
     const {
       history: { location },
@@ -156,17 +157,6 @@ class PatientRegistration extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully registered this patient"
-              nextRoute={
-                user.userType === "Admin"
-                  ? "/AdminAllPatients"
-                  : "/AccountRegistrationInvoice"
-              }
-            />
-          ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>{`Register ${name}`}</h3>

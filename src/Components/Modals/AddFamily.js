@@ -42,7 +42,7 @@ class AddFamily extends React.Component {
                 const postAdminAccountConfig = fetchConfig({url : postAdminAccount, data:JSON.stringify(data), method : 'post'})
                 const res = await fetchWrapper(postAdminAccountConfig)
                
-                alert(res.message)
+                alert(res.data.message)
                 await this.props.callbackFromProps();
                 this.closeModal();
             } catch (error) {

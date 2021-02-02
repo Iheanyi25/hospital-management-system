@@ -3,7 +3,7 @@ import { fetchConfig } from '../../../api/fetchConfig';
 import { fetchWrapper } from '../../../api/fetcher';
 import { updateWardUrl } from '../../../api/URLs';
 import { PageLoader, TemplateSettings } from '../../../Components';
-import { Success } from '../../../Components/Alerts';
+import { notification } from '../../../utils/notification';
 import { isNotEmptyString, isValidPositiveInteger } from '../../../utils/validationUtils';
 
 export default class EditWard extends Component {
@@ -55,7 +55,6 @@ export default class EditWard extends Component {
 			name,
 			description,
 			capacity: Number(capacity),
-
 			id: this.props.location.state?.id
 		};
 
@@ -69,14 +68,11 @@ export default class EditWard extends Component {
 				const updateWard = updateWardUrl();
 				const updateWardConfig = fetchConfig({ url: updateWard, data, method: "post" });
 				const res = await fetchWrapper(updateWardConfig)
-
-				console.log(res,99999)
-
-				if (res.status === 200) {
-					this.setState({ success: true });
-				}
+				notification.success({ message: res.data.message})
+				this.props.history.push("/AdminManageWards")
 			} catch (error) {
 				console.log(error);
+				notification.error({ message: error?.response?.data.message })
 			}
 		}
 	};
@@ -89,13 +85,6 @@ export default class EditWard extends Component {
 					<div className="app-loader">
 						<i className="icofont-spinner-alt-4 rotate" />
 					</div>
-					{this.state.success ? (
-						<Success
-							history={this.props.history}
-							message="Well done, you successfully updated a category"
-							nextRoute="/AdminManageWards"
-						/>
-					) : null}
 					<div className="main-content-wrap w-75">
 						<div className="page-content">
 							<div className="row justify-content-center">

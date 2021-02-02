@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PageLoader } from "../../Components";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import reset from "../../assets/img/reset.svg";
 import email from "../../assets/img/email.svg";
@@ -11,6 +10,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getPatientUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
+import SpinnerLoader from "../Loader/SpinnerLoader";
 
 class PatientProfile extends React.Component {
   static contextType = UserContext;
@@ -49,7 +49,7 @@ class PatientProfile extends React.Component {
     return (
       <>
         {loading ? (
-          <PageLoader />
+          <SpinnerLoader />
         ) : (
           <main className="main-content">
             <div className="app-loader">
