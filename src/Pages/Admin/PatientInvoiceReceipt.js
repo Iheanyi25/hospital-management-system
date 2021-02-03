@@ -2,12 +2,11 @@ import React from "react";
 import RecieptCost from "../../Components/Modals/RecieptCost";
 import RecieptHeader from "./RecieptHeader";
 
-const PatientInvoiceReceipt = ({ activeTransaction }) => {
-  console.log(333, activeTransaction);
+const PatientInvoiceReceipt = ({ activeTransaction, patient }) => {
 
   return (
     <div>
-      <RecieptHeader />
+      <RecieptHeader patient={patient} />
       <div className="container">
         <h4>Payment Reciept</h4>
       </div>
