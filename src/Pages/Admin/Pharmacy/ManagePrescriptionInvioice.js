@@ -16,6 +16,7 @@ import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionReciept } from "../../../Components/Modals";
 import { notification } from "../../../utils/notification";
+import ReceiptModal from "../../../Components/Modals/ReceiptModal";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -23,7 +24,8 @@ class ManagePrescriptionInvoice extends React.Component {
   static contextType = UserContext;
   state = {
     prescriptionInvoices: [],
-    drugs: []
+    drugs: [],
+    isFetchingDrugs: true
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
@@ -53,7 +55,7 @@ class ManagePrescriptionInvoice extends React.Component {
     });
     const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
     console.log(response);
-    this.setState({ drugs: response?.data?.drugsInInvoice || [] });
+    this.setState({ drugs: response?.data?.drugsInInvoice || [], isFetchingDrugs: false });
   }
 
   async markInvoiceAsDispensed(id) {
@@ -378,7 +380,9 @@ class ManagePrescriptionInvoice extends React.Component {
             </div>
           </div>
         </main>
-        <PrescriptionReciept costingDetails={drugs} />
+        <ReceiptModal modalId="view-reciept">
+        <PrescriptionReciept costingDetails={drugs} isFetchingDrugs={this.state.isFetchingDrugs} />
+      </ReceiptModal>
       </>
     );
   }

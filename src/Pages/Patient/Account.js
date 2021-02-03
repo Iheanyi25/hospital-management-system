@@ -16,6 +16,7 @@ import { UserContext } from "../../mobx/UserState";
 import formatDate from "../../utils/formatDate";
 import PatientInvoiceReceipt from "../Admin/PatientInvoiceReceipt";
 import formatAmount from "../../utils/formatAmount";
+import { toJS } from "mobx";
 
 const local = "http://localhost:3000";
 function PatientAccount() {
@@ -56,7 +57,7 @@ function PatientAccount() {
       }
     );
   }
-
+  console.log(user,8888)
   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
@@ -108,8 +109,7 @@ function PatientAccount() {
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-        {/* put your modal content component here */}
-        <PatientInvoiceReceipt activeTransaction={activeTransaction}/>
+        <PatientInvoiceReceipt activeTransaction={activeTransaction} patient={toJS(user)}/>
       </ReceiptModal>
     </Fragment>
   );
