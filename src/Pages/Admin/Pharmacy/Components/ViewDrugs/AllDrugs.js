@@ -166,7 +166,7 @@ class AllDrugs extends React.Component {
             )) ?? "N/A"}
           </tbody>
         </table>
-        <UpdateInventory drug={singleDrug} fetchAllDrugs={this.props.fetchAllDrugs} />
+        <UpdateInventory drug={singleDrug} setSuccess={this.props.fetchAllDrugs} />
       </div>
     );
   }

@@ -6,7 +6,7 @@ import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
-const UpdateInventory = ({ drug, fetchAllDrugs }) => {
+const UpdateInventory = ({ drug, setSuccess }) => {
   const [drugQuantity, setDrugQuantity] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ const UpdateInventory = ({ drug, fetchAllDrugs }) => {
       if (res.status === 200) {
         $("#update-inventory").modal("hide");
         notification.success({ message: res.data.message})
-        fetchAllDrugs()
+        setSuccess()
       }
     } catch (error) {
       console.log(error);
