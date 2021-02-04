@@ -16,7 +16,7 @@ const AppRouter = observer(() => {
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
   const userType = user?.userType?.toLowerCase();
   const isAuthenticated = Boolean(user);
 

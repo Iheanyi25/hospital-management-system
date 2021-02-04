@@ -12,7 +12,6 @@ import {
   AddFamily,
   RegisterUserModal,
   SearchDoctorsModal,
-  SearchPatientModal,
 } from "../Modals";
 import {
   AccountantSidebar,
@@ -64,7 +63,6 @@ export const DoctorLayout = ({ children }) => {
         {children}
         <TemplateSettings />
         <SearchDoctorsModal />
-        <SearchPatientModal />
         <Footer />
       </div>
     </div>
@@ -78,7 +76,6 @@ export const LabLayout = ({ children }) => {
         <LabHeader />
         <LabSidebar />
         {children}
-        <SearchPatientModal />
         <TemplateSettings />
         <Footer />
       </div>

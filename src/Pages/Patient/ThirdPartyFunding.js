@@ -8,19 +8,19 @@ import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 
 const link = process.env.REACT_APP_PAYMENT_LINK;
-const ThirdPartyFunding = observer(()=> {
+const ThirdPartyFunding = observer(() => {
   const { user } = useContext(UserContext);
   const { firstName, lastName } = user;
-  
+
   const alert = (
     <div
-    className="position-absolute bg-success p-2 rounded text-white"
-    style={{ right: "0", left: "0" }}
+      className="position-absolute bg-success p-2 rounded text-white"
+      style={{ right: "0", left: "0" }}
     >
       <b>Link Copied</b>
     </div>
   );
-  
+
   const [state, setState] = useState({
     thirdPartyFundingLink: "",
   });
@@ -37,27 +37,26 @@ const ThirdPartyFunding = observer(()=> {
   };
 
   useEffect(() => {
+    const getAccount = async () => {
+      try {
+        const getPatientAccount = getPatientAccountUrl(user.id);
+        const getPatientAccountConfig = fetchConfig({
+          url: getPatientAccount,
+          method: "get",
+        });
+        const {
+          data: { account },
+        } = await fetchWrapper(getPatientAccountConfig);
+        console.log(account, user.id, 3223);
+        setState({
+          thirdPartyFundingLink: `${link}ThirdPartyFundAccount/${account.accountNumber}`,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getAccount();
-  }, []);
-
-  const getAccount = async () => {
-    try {
-      const getPatientAccount = getPatientAccountUrl(user.id);
-      const getPatientAccountConfig = fetchConfig({
-        url: getPatientAccount,
-        method: "get",
-      });
-      const {
-        data: { account },
-      } = await fetchWrapper(getPatientAccountConfig);
-      console.log(account, user.id, 3223);
-      setState({
-        thirdPartyFundingLink: `${link}ThirdPartyFundAccount/${account.accountNumber}`,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [user]);
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
@@ -90,7 +89,9 @@ const ThirdPartyFunding = observer(()=> {
                 className=""
                 onClick={copyToClipboard}
               />
-              <p><u>{thirdPartyFundingLink}</u></p>
+              <p>
+                <u>{thirdPartyFundingLink}</u>
+              </p>
             </span>
             {showAlert && alert}
           </div>
@@ -98,5 +99,5 @@ const ThirdPartyFunding = observer(()=> {
       </div>
     </div>
   );
-})
+});
 export default ThirdPartyFunding;
