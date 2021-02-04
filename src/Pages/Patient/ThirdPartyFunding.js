@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { PatientSidebar } from "../../Components";
 import PatientImage from "../../assets/img/PatientAndAdminIcon.svg";
 import copyLinkIcon from "../../assets/img/copy-link.svg";
 import { getPatientAccountUrl } from "../../api/URLs";
@@ -62,7 +61,7 @@ const ThirdPartyFunding = observer(()=> {
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
-      <PatientSidebar />
+      {/* <PatientSidebar /> */}
       <div className="d-flex justify-content-center align-items-center ">
         <div className="card m-0 border-light px-5">
           <div className="card-body text-center">

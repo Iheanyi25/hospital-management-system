@@ -6,7 +6,7 @@ import { postServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader, TemplateSettings } from "../../../Components";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
-import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
 class ServiceCategory extends React.Component {
   static contextType = UserContext;

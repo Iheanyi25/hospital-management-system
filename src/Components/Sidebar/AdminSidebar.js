@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const $ = window.$;
 class AdminSidebar extends React.Component {
   constructor(props) {
     super(props);

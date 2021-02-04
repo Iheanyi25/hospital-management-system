@@ -15,7 +15,7 @@ const ViewDrug = ({ match, history }) => {
     method: "get",
   });
 
-  const { data, error, mutate } = useRequest(getDrugConfig, {
+  const { data, mutate } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
   const drug = data?.drug;

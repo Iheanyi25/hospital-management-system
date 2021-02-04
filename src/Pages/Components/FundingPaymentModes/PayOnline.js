@@ -19,7 +19,7 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
       amount: details.amount,
       email: details.email,
     });
-  }, [details]);
+  }, [details, userDetails]);
 
   const handleChange = (e) => {
     setPaymentParams(e.target.name, e.target.value);

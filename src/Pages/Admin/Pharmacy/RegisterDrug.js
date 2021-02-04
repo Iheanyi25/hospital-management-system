@@ -109,8 +109,6 @@ class RegisterDrug extends React.Component {
   };
 
   render() {
-    const content = this.context;
-    const { user } = content;
     const {
       sku,
       step,

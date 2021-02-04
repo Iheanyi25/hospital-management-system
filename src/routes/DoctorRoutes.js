@@ -5,7 +5,6 @@ import DoctorDashboard from "../Pages/Doctor/Dashboard";
 import DoctorPatientsList from "../Pages/Doctor/Patients";
 import DoctorConsultations from "../Pages/Doctor/Consultations";
 import DoctorAppointments from "../Pages/Doctor/Appointments";
-import DoctorPatientProfile from "../Pages/Doctor/PatientProfile";
 import DoctorPatientMedicalHistory from "../Pages/Doctor/PatientMedicalHistory";
 import DoctorClarking from "../Pages/Doctor/Clarking";
 import ViewDoctorProfile from "../Pages/Doctor/ViewDoctorProfile";
