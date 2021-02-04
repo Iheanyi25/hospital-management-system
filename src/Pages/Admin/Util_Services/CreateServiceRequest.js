@@ -17,8 +17,8 @@ import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
 
 const $ = window.$;
-let selectBasic = Math.random();
-selectBasic = selectBasic.toString().replace(".", "_");
+// let selectBasic = Math.random();
+// selectBasic = selectBasic.toString().replace(".", "_");
 
 class CreateService extends Component {
   static contextType = UserContext;

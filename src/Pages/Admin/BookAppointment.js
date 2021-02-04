@@ -115,7 +115,7 @@ class BookAppointment extends React.Component {
       const postAppointmentConfig = fetchConfig({ url: postAppointment, data: bookAppointmentDet, method: 'post' })
       const res = await fetchWrapper(postAppointmentConfig);
 
-      const { data, error } = res;
+      const { data } = res;
 
       this.setState({
         successMessage: data.message,

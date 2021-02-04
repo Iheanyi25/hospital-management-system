@@ -82,7 +82,7 @@ const AllAccountTransactions = () => {
         <div className="main-content-wrap">
           <div className="page-content">
             <header className="page-header ml-3">
-              <h3 className="page-title">All transactions report</h3>
+              <h3 className="page-title">Account transactions report</h3>
             </header>
             <p className="ml-3">
               Select the date range to see the data from that timeline

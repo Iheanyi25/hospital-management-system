@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from "react-country-region-selector";
+import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 
 class CountryRegionDropdown extends Component {
   constructor(props) {
@@ -15,10 +11,6 @@ class CountryRegionDropdown extends Component {
     this.setState({ country: this.props.country, region: this.props.state });
     console.log(99999, this.props);
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if()
-  // }
 
   selectCountry(val) {
     this.setState({ country: val });

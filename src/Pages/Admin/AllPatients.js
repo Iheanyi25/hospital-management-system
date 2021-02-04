@@ -8,7 +8,6 @@ import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import ActionButton from "../../Components/DataTable/ActionButton";
 import ReceiptModal from "../../Components/Modals/ReceiptModal";
-import PatientInvoiceReceipt from "./PatientInvoiceReceipt";
 
 function AllPatients() {
   const getPatients = getPatientsUrl();

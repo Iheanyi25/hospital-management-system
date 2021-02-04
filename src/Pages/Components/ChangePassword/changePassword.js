@@ -23,8 +23,6 @@ const ChangePassword = observer(()=> {
     currentPassword,
     newPassword,
     submitting,
-    passwordStatus,
-    response,
     currentPasswordInputType,
     newPasswordInputType
   } = allPasswordDetails;
@@ -131,7 +129,6 @@ const ChangePassword = observer(()=> {
                       </div>
                     </div>
                     <button
-                      type="submit"
                       className="btn btn-block btn-primary"
                       type="submit"
                       disabled={submitting}

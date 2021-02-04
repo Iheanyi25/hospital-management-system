@@ -5,8 +5,8 @@ import { getDoctorsUrl, postReAssignmentUrl } from "../../api/URLs";
 import { notification } from "../../utils/notification";
 import { SelectableDropDown } from "../Select/SelectableDropDown";
 const $ = window.$;
-let selectId = Math.random();
-selectId = selectId.toString().replace(".", "_");
+// let selectId = Math.random();
+// selectId = selectId.toString().replace(".", "_");
 
 class ReAssign extends React.Component {
     constructor(props) {
@@ -117,8 +117,6 @@ class ReAssign extends React.Component {
                                         Cancel
                                     </button>
                                     <button
-                                        // data-dismiss="modal"
-                                        onClick={this.routeToDoctor}
                                         disabled={!this.state.doctorId}
                                         style={{ fontSize: "0.9em" }}
                                         className="btn btn-primary mb-3"

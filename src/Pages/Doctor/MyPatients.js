@@ -8,7 +8,6 @@ import { fetchWrapper } from "../../api/fetcher";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
-const apiUrl = process.env.REACT_APP_API_URL;
 class MyPatients extends React.Component {
     constructor(props) {
         super(props);
@@ -93,7 +92,7 @@ class MyPatients extends React.Component {
                                                     <td>
                                                         <img
                                                             src={PatientAndAdminImage}
-                                                            alt="Patient Image"
+                                                            alt="patient"
                                                             width={40}
                                                             height={40}
                                                             className="rounded-500"

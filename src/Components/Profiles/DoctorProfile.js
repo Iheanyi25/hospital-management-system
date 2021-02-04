@@ -195,7 +195,7 @@ class DocProfile extends React.Component {
                           src={DoctorImage}
                           style={{ height: "100px", width: "100px" }}
                           className="mr-3"
-                          alt="Doctor Image"
+                          alt="doctor"
                         />
                         <div>
                           <h5 className="mb-2 mt-2 font-weight-bold">

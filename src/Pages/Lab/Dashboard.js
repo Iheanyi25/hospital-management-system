@@ -3,7 +3,6 @@ import { PageLoader } from "../../Components";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { labDashboardUrl } from "../../api/URLs";
-import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import { getAllServiceRequestInvoiceUrl } from "../../api/URLs";
 import formatAmount from "../../utils/formatAmount";
 import formatDate from "../../utils/formatDate";
@@ -74,9 +73,6 @@ class Dashboard extends React.Component {
       service,
       completedServiceRequest,
       uncompletedServiceRequest,
-      // user,
-      userName,
-      serviceRequestInvoices,
     } = this.state;
     const { user } = this.context;
     const { firstName, lastName, userType } = user;
