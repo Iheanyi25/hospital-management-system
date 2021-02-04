@@ -8,25 +8,28 @@ import { fetchWrapper } from "../../api/fetcher";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 
-const local = "http://localhost:3000";
-function ThirdPartyFunding() {
+const link = process.env.REACT_APP_PAYMENT_LINK;
+const ThirdPartyFunding = observer(()=> {
   const { user } = useContext(UserContext);
   const { firstName, lastName } = user;
-
+  
   const alert = (
-    <div className="position-absolute bg-success p-2 rounded text-white" style={{right:"0", left:"0"}}>
+    <div
+    className="position-absolute bg-success p-2 rounded text-white"
+    style={{ right: "0", left: "0" }}
+    >
       <b>Link Copied</b>
     </div>
   );
-
+  
   const [state, setState] = useState({
     thirdPartyFundingLink: "",
   });
+  const { thirdPartyFundingLink } = state;
   const [showAlert, setShowAlert] = useState(false);
 
   const copyToClipboard = () => {
     console.log(navigator.clipboard, "lalalalalalal");
-    const { thirdPartyFundingLink } = state;
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
     setShowAlert(true);
     setTimeout(() => {
@@ -34,10 +37,11 @@ function ThirdPartyFunding() {
     }, 2000);
   };
 
-  useEffect(async () => {
-    // const content = this.context;
-    // const { user } = content;
-    // alert('waw we rfae sidv')
+  useEffect(() => {
+    getAccount();
+  }, []);
+
+  const getAccount = async () => {
     try {
       const getPatientAccount = getPatientAccountUrl(user.id);
       const getPatientAccountConfig = fetchConfig({
@@ -49,14 +53,12 @@ function ThirdPartyFunding() {
       } = await fetchWrapper(getPatientAccountConfig);
       console.log(account, user.id, 3223);
       setState({
-        thirdPartyFundingLink: `${local}/common/ThirdPartyFundAccount/${account.accountNumber}`,
+        thirdPartyFundingLink: `${link}ThirdPartyFundAccount/${account.accountNumber}`,
       });
     } catch (error) {
       console.log(error);
     }
-  }, []);
-
-  //   render() {
+  };
 
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
@@ -89,7 +91,7 @@ function ThirdPartyFunding() {
                 className=""
                 onClick={copyToClipboard}
               />
-              <p> https://vitalisemene.com/account/blablabla</p>
+              <p><u>{thirdPartyFundingLink}</u></p>
             </span>
             {showAlert && alert}
           </div>
@@ -97,6 +99,5 @@ function ThirdPartyFunding() {
       </div>
     </div>
   );
-}
-// }
-export default observer(ThirdPartyFunding);
+})
+export default ThirdPartyFunding;
