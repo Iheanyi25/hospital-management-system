@@ -12,17 +12,14 @@ import { UserContext } from "../../../mobx/UserState";
 import { payForDrugsUrl, payForDrugsWithAccountUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
-import { Success } from "../../../Components/Alerts";
+import { notification } from "../../../utils/notification";
 
 const PaymentForPrescription = observer(({ history }) => {
-  const [success, setSuccess] = useState({
-    status: false,
-    message: "",
-  });
+
   const {
     user: { userType },
   } = useContext(UserContext);
-  console.log(history.location.state);
+  const nextRoute= userType === "Admin" ? "/AdminManagePrescriptionInvoice" : "/AccountManagePrescriptionInvoice";
   const {
     amountTotal: amount,
     patient: { id: patientId, email },
@@ -43,7 +40,7 @@ const PaymentForPrescription = observer(({ history }) => {
       referenceNumber,
       initiatorId,
     };
-    console.log(payload);
+
     const paymentUrl = payForDrugsUrl();
     const payForDrugsConfig = fetchConfig({
       url: paymentUrl,
@@ -51,12 +48,12 @@ const PaymentForPrescription = observer(({ history }) => {
       data: payload,
     });
     try {
-      const { status, message } = await fetchWrapper(payForDrugsConfig);
-      if (status === 200) {
-        setSuccess({ status: true, message: message });
-      }
+      const res= await fetchWrapper(payForDrugsConfig);
+      notification.success({ message: res.data.message})
+      history.push(nextRoute);
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data.message }) 
     }
   };
   const payWithAccount = async (
@@ -81,31 +78,21 @@ const PaymentForPrescription = observer(({ history }) => {
       data: payload,
     });
     try {
-      const { status, message } = await fetchWrapper(payForDrugsConfig);
-      if (status === 200) {
-        setSuccess({ status: true, message: message });
-      }
+      const res = await fetchWrapper(payForDrugsConfig);
+      notification.success({ message: res.data.message})
+      history.push(nextRoute);
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data.message })
     }
   };
-  const { status, message } = success;
+
   return (
     <>
       <main className="main-content">
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
-        {status ? (
-          <Success
-            nextRoute={
-              userType === "Admin"
-                ? "/AdminManagePrescriptionInvoice"
-                : "/AccountManagePrescriptionInvoice"
-            }
-            message={message}
-          />
-        ) : null}
         <div className="main-content-wrap">
           <header className="page-header">
             <h3>{`Payment for prescription invoice ${invoiceNumber}`}</h3>

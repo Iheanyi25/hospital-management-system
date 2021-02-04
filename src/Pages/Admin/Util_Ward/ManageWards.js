@@ -4,15 +4,14 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { deleteWardUrl, getAllWardsUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { notification } from "../../../utils/notification";
 
 let $ = window.$;
 $.DataTable = require("datatables.net");
 export default class ManageWards extends Component {
   state = {
-    wards: [],
-    success: { show: false, message: "", delError: false },
+    wards: []
   };
 
   async componentDidMount() {
@@ -50,27 +49,16 @@ export default class ManageWards extends Component {
           method: "post",
         });
         const res = await fetchWrapper(deleteWardConfig);
-    
-        if (res.status === 200) {
-          await this.fetchAllWards();
-          this.setState((state) => ({
-            ...state,
-            success: { show: true, message: res.message, delError: false },
-          }));
-        }  
+        notification.success({ message: res.data.message})
+        await this.fetchAllWards();
     } catch (error) {
         console.log(error)
+        notification.error({ message: error?.response?.data.message })
     }
 
   };
 
-  resetShowState = () =>
-    this.setState((state) => ({
-      ...state,
-      success: { show: false, message: " ", delError: false },
-    }));
   render() {
-    console.log(this.state.success.show, 77777);
     return (
       <>
         <PageLoader />
@@ -79,13 +67,6 @@ export default class ManageWards extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success.show && (
-            <Success
-              message={this.state.success.message}
-              callback={this.resetShowState}
-              isError={this.state.success.delError}
-            />
-          )}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title mb-0"> Manage Wards</h4>

@@ -3,7 +3,7 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { createWardUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
+import { notification } from "../../../utils/notification";
 import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 export default class CreateWard extends Component {
@@ -11,7 +11,6 @@ export default class CreateWard extends Component {
     name: "",
     capacity: "",
     description: "",
-	success: false,
 	formDone: false
   };
 
@@ -53,12 +52,11 @@ export default class CreateWard extends Component {
         const createWard = createWardUrl();
 				const createWardConfig = fetchConfig({ url: createWard, data, method: "post" });
 				const res = await fetchWrapper(createWardConfig)
-
-        if (res.status === 200) {
-          this.setState({ success: true });
-        }
+        notification.success({ message: res.data.message})
+				this.props.history.push("/AdminManageWards")
       } catch (error) {
         console.log(error);
+        notification.error({ message: error?.response?.data.message })
       }
     }
   };
@@ -71,13 +69,6 @@ export default class CreateWard extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully created a ward"
-              nextRoute="/AdminManageWards"
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">

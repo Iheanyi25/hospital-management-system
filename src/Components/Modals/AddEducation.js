@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDoctorEducationUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
@@ -9,7 +10,6 @@ const AddEducation = ({
   doctorId,
   doctorEmail,
   updatePatientDetails,
-  displaySuccess,
 }) => {
   const [details, setDetails] = useState({
     degree: "",
@@ -38,12 +38,14 @@ const AddEducation = ({
       const res = await fetchWrapper(postDoctorEducationConfig)
 
       if (res.status === 200) {
-        displaySuccess(res.message);
+        notification.success({ message: res.data.message });
         updatePatientDetails();
         $("#add-education").modal("hide");
       }
     } catch (error) {
       console.log(error);
+      const errMessage = error?.response?.data?.message || "An error occurred";
+      notification.error({ message: errMessage });
     }
   };
 

@@ -15,7 +15,8 @@ import notpaid from "../../../assets/img/notpaid.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionReciept } from "../../../Components/Modals";
-import { Success } from "../../../Components/Alerts";
+import { notification } from "../../../utils/notification";
+import ReceiptModal from "../../../Components/Modals/ReceiptModal";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -24,7 +25,7 @@ class ManagePrescriptionInvoice extends React.Component {
   state = {
     prescriptionInvoices: [],
     drugs: [],
-    success: false,
+    isFetchingDrugs: true
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
@@ -54,21 +55,25 @@ class ManagePrescriptionInvoice extends React.Component {
     });
     const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
     console.log(response);
-    this.setState({ drugs: response?.data?.drugsInInvoice || [] });
+    this.setState({ drugs: response?.data?.drugsInInvoice || [], isFetchingDrugs: false });
   }
 
   async markInvoiceAsDispensed(id) {
-    const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
+    try {
+      const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
     const markInvoiceAsDispensedConfig = fetchConfig({
       url: markInvoiceUrl,
       method: "post",
     });
-    const response = await fetchWrapper(markInvoiceAsDispensedConfig);
-    console.log(response);
-    if (response.status === 200) {
-      this.setState({ ...this.state, success: true });
+    const res = await fetchWrapper(markInvoiceAsDispensedConfig);
+   
+      notification.success({ message: res.data.message})
       this.fetchPrescriptionInvoices();
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data.message })
     }
+    
   }
 
   sync() {
@@ -80,8 +85,7 @@ class ManagePrescriptionInvoice extends React.Component {
     const {
       user: { userType },
     } = this.context;
-    const { prescriptionInvoices, drugs, success } = this.state;
-    console.log(prescriptionInvoices);
+    const { prescriptionInvoices, drugs } = this.state;;
     return (
       <>
         <PageLoader />
@@ -90,9 +94,6 @@ class ManagePrescriptionInvoice extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {success ? (
-            <Success message="You have successfully dispensed this drug" />
-          ) : null}
           <div className="main-content-wrap">
             <header className="page-header justify-content-between d-flex align-items-center mb-2">
               <h4 className="page-title">Prescription Invoices</h4>
@@ -379,7 +380,9 @@ class ManagePrescriptionInvoice extends React.Component {
             </div>
           </div>
         </main>
-        <PrescriptionReciept costingDetails={drugs} />
+        <ReceiptModal modalId="view-reciept">
+        <PrescriptionReciept costingDetails={drugs} isFetchingDrugs={this.state.isFetchingDrugs} />
+      </ReceiptModal>
       </>
     );
   }

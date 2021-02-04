@@ -16,7 +16,7 @@ import formatDate from "../../utils/formatDate";
 import paid from "../../assets/img/paid.svg";
 import notpaid from "../../assets/img/notpaid.svg";
 import { PrescriptionReciept } from "../../Components/Modals";
-import { Success } from "../../Components/Alerts";
+import { notification } from "../../utils/notification";
 
 // const $ = window.$;
 let $ = window.$;
@@ -32,7 +32,6 @@ class Dashboard extends React.Component {
       registrationInvoices: [],
       prescriptionInvoices: [],
       drugs: [],
-      success: false
     };
   }
 
@@ -71,16 +70,20 @@ class Dashboard extends React.Component {
   }
 
   async markInvoiceAsDispensed(id) {
-    const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
-    const markInvoiceAsDispensedConfig = fetchConfig({
-      url: markInvoiceUrl,
-      method: "post",
-    });
-    const response = await fetchWrapper(markInvoiceAsDispensedConfig);
-    console.log(response);
-    if (response.status === 200) {
-      this.setState({ ...this.state, success: true });
-      this.fetchPrescriptionInvoices();
+    try {
+      const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
+      const markInvoiceAsDispensedConfig = fetchConfig({
+        url: markInvoiceUrl,
+        method: "post",
+      });
+      const res = await fetchWrapper(markInvoiceAsDispensedConfig);
+      if (res.status === 200) {
+        this.setState({ ...this.state, success: true });
+        notification.success({ message: res.data.message });
+        this.fetchPrescriptionInvoices();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
     }
   }
 
@@ -269,12 +272,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const {
-      prescriptionInvoices,
-      serviceRequestInvoices,
-      drugs,
-      success,
-    } = this.state;
+    const { prescriptionInvoices, serviceRequestInvoices, drugs } = this.state;
     console.log(prescriptionInvoices);
     const { accounts } = this.state;
     return (
@@ -285,9 +283,6 @@ class Dashboard extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {success ? (
-            <Success message="You have successfully dispensed this drug" />
-          ) : null}
           <div className="main-content-wrap">
             <div className="page-content">
               <div className="row">

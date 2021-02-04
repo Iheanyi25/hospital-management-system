@@ -4,9 +4,10 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorUrl, postPatientAppointmentUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
 import { formatInputDate } from "../../utils/formatInputDate";
+import { notification } from "../../utils/notification";
+
 class BookAppointment extends React.Component {
   static contextType = UserContext;
   constructor(props) {
@@ -19,7 +20,6 @@ class BookAppointment extends React.Component {
       appointmentTime: "",
       appointmentTitle: "",
       reasonForAppointment: "",
-      success: false,
     };
   }
 
@@ -64,29 +64,20 @@ class BookAppointment extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postPatientAppointmentConfig);
-      const { data, error } = res;
-
-      if (res.status !== 200) {
-        throw Error(error.message);
-      }
-
+      notification.success({ message : res.data.message})
       this.setState({
-        showSuccessMessage: true,
-        successMessage: data.message,
         appointmentDate: "",
         appointmentTime: "",
         appointmentTitle: "",
         reasonForAppointment: "",
       });
-      this.displaySuccess(this.state.successMessage);
-    } catch (err) {
-      this.setState({ showErrorMessage: true, errorMessage: err.message });
+      this.props.history.push("/AdminAppointments")
+    } catch (error) {
+      console.log(error)
+      notification.error({ message : error?.response?.data?.message})
     }
   }
 
-  displaySuccess = (message) => {
-    this.setState({ success: true, message: message });
-  };
 
   render() {
     const { firstName, lastName } = this.props.location.state;
@@ -97,28 +88,7 @@ class BookAppointment extends React.Component {
       reasonForAppointment,
     } = this.state;
 
-    let displayErrorMessage;
-    let displaySuccessMessage;
 
-    if (this.state.showErrorMessage) {
-      displayErrorMessage = (
-        <div className="alert alert-danger with-after-icon" role="alert">
-          <div className="alert-content">{this.state.errorMessage}</div>
-          <div className="alert-icon">
-            <i className="icofont-alarm" />
-          </div>
-        </div>
-      );
-    }
-
-    if (this.state.showSuccessMessage) {
-      displaySuccessMessage = (
-        <Success
-          message={this.state.successMessage}
-          nextRoute={"/PatientAppointments"}
-        />
-      );
-    }
 
     return (
       <>
@@ -128,14 +98,6 @@ class BookAppointment extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message={this.state.message}
-              callback={this.changeSuccess}
-              nextRoute={"/AdminAppointments"}
-            />
-          ) : null}
           <div className="main-content-wrap">
             <div className="page-content">
               <div className="row justify-content-center">
@@ -206,8 +168,6 @@ class BookAppointment extends React.Component {
                             value={reasonForAppointment}
                           />
                         </div>
-                        {displayErrorMessage}
-                        {displaySuccessMessage}
                         <div className="row mt-5">
                           <div className="col"></div>
                           <div className="col text-right">
