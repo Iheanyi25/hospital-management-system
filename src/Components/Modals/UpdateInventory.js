@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { updateDrugInventoryUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
@@ -19,12 +20,12 @@ const UpdateInventory = ({ drug, setSuccess }) => {
       console.log(res);
       if (res.status === 200) {
         $("#update-inventory").modal("hide");
-        if (setSuccess) {
-          setSuccess(res.message);
-        }
+        notification.success({ message: res.data.message})
+        setSuccess()
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data.message })
     }
   };
   return (

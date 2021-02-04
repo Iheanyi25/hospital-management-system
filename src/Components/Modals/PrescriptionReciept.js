@@ -1,58 +1,102 @@
 import React from "react";
-import RecieptCost from "../../Components/Modals/RecieptCost";
-import RecieptHeader from "../../Pages/Admin/RecieptHeader";
-// import RecieptHeader from "./RecieptHeader";
+import formatDate from "../../utils/formatDate";
+import formatAmount from "../../utils/formatAmount";
+import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
+import SpinnerLoader from "../../Components/Loader/SpinnerLoader";
 
 
-const PrescriptionReciept = ({ costingDetails }) => {
-  console.log(333, costingDetails);
+const PrescriptionReciept = ({ costingDetails, isFetchingDrugs }) => {
+  const totalPrice = costingDetails.reduce(
+    (amount, newAmount) => amount + newAmount.priceTotal,
+    0
+  );
+  const doctor = costingDetails[0]?.clerking?.doctor;
+  const patient = costingDetails[0]?.clerking?.patient;
 
   return (
     <div>
-      <RecieptHeader />
-      <div className="container">
-        <h4>Payment Reciept</h4>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-3">
-            <p className="m-0">Date issued</p>
-            <p className="m-0">
-              {/* {new Date(activeTransaction?.trasactionDate).toLocaleDateString()} */}
-            </p>
-          </div>
-          <div className="col-3">
-            <p className="m-0">Payment made by:</p>
-            {/* <p className="m-0">{activeTransaction.initiator}</p> */}
-          </div>
-          <div className="col-3">
-            <p className="m-0">123 Fake St</p>
-            <p className="m-0">kilometer 7, Enugu</p>
+      {isFetchingDrugs ? <Loader /> : (
+        <>
+          <ReceiptHeader patient={patient} />
+          <PrescriptionReceiptBody doctor={doctor} totalPrice={totalPrice} costingDetails={costingDetails} />
+        </>
+      )}
+    </div>
+  );
+};
+
+export { PrescriptionReciept };
+
+const Loader = () => {
+  return(
+<div className="d-flex justify-content-center align-items-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
         </div>
-        <hr />
+  )
+}
+
+const PrescriptionReceiptBody = ({doctor, totalPrice, costingDetails}) => {
+  return(
+    <div>
+    <div className="container">
+    <h4>Reciept</h4>
+  </div>
+
+  <div className="container">
+    <div className="row">
+      <div className="col-3">
+        <p className="m-0">Date issued</p>
+        <p className="m-0">{formatDate(Date.now())}</p>
       </div>
-      <div className="container">
-        {/* {details?.map((detail, index) => ( */}
-        {/* <div key={index}> */}
-        <div className="row text-center">
-          {/* <p className="col-8 m-0">{activeTransaction.transactionType}</p> */}
-          {/* <p className="col-4 m-0">
-                        {" "}
-                        {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
-                        {`${
-                          Number(detail?.numberOfContainers) ?? 0
-                        }  tablets, `}
-                        {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
-                      </p> */}
-          {/* <p className="col-3 m-0">&#8358; {activeTransaction.amount}</p> */}
+      <div className="col-3">
+        <p className="m-0">Doctor in-charge</p>
+        <p className="m-0">{`Dr ${doctor?.firstName} ${doctor?.lastName}`}</p>
+      </div>
+      <div className="col-3">
+        <p className="m-0">123 Fake St</p>
+        <p className="m-0">kilometer 7, Enugu</p>
+      </div>
+    </div>
+  </div>
+  <hr />
+  {/* <div> */}
+  <div className="container">
+    {costingDetails?.map((detail, index) => (
+      <div key={index}>
+        <div className="row">
+          <p className="col-5 m-0">{detail?.drug?.name}</p>
+          <p className="col-4 m-0">
+            {" "}
+            {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
+            {`${Number(detail?.numberOfContainers) ?? 0}  tablets, `}
+            {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
+          </p>
+          <p className="col-2 m-0">&#8358; {detail?.priceTotal}</p>
           {/* </div> */}
         </div>
         <hr />
       </div>
-      {/* ))} */}
-      {/* <RecieptCost cost={activeTransaction?.amount} /> */}
+    ))}
+    <div className="row">
+      <small className=" col-5 m-0"> </small>
+      <small className=" col-4 m-0">Subtotal </small>
+      <small className="col-3 m-0">
+        &#8358;{formatAmount(totalPrice)}
+      </small>
     </div>
-  );
-};
-export  {PrescriptionReciept};
+    <div className="row">
+      <small className="col-5 m-0"></small>
+      <small className="col-4 m-0">Tax</small>
+      <small className="col-3 m-0">&#8358; 0.00</small>
+    </div>
+    <div className="row">
+      <small className="col-5 m-0"> </small>
+      <p className="col-4 m-0">Total</p>
+      <p className="col-3 m-0"> &#8358; {formatAmount(totalPrice)}</p>
+    </div>
+  </div>
+  </div>
+  )
+}

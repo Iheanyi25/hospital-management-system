@@ -3,8 +3,8 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { createServiceUrl, getAllServicesCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 import {
   isNotEmptyString,
   isValidPositiveInteger,
@@ -19,7 +19,6 @@ class CreateService extends React.Component {
     serviceCategoryId: "",
     cost: "",
 
-    success: false,
     formDone: false,
   };
 
@@ -55,6 +54,7 @@ class CreateService extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    const { user: { userType }} = this.context
     const data = {
       name: this.state.name,
       serviceCategoryId: this.state.serviceCategoryId,
@@ -69,11 +69,12 @@ class CreateService extends React.Component {
         const createService = createServiceUrl()
         const createServiceConfig = fetchConfig({url : createService, data, method : 'post'})
         const res = await fetchWrapper(createServiceConfig)
-        if (res.status === 200) {
-          this.setState({ success: true });
-        }
+        const nextRoute= userType === "Admin" ? "/AdminManageServices" : "/LabManageServices";
+        notification.success({ message: res.data.message})
+        this.props.history.push(nextRoute);
       } catch (error) {
         console.log(error);
+        notification.error({ message: error?.response?.data.message })
       }
     }
   };
@@ -89,8 +90,7 @@ class CreateService extends React.Component {
 
   render() {
     const content = this.context;
-    const { user } = content;
-    const { success, categories, formDone } = this.state;
+    const { categories, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -99,17 +99,6 @@ class CreateService extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully created a service"
-              nextRoute={
-                user.userType === "Admin"
-                  ? "/AdminManageServices"
-                  : "/LabManageServices"
-              }
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">

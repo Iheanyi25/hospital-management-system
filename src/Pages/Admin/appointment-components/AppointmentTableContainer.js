@@ -71,8 +71,7 @@ const AppointmentTableActionsContainer = ({
       await mutate();
       notification.success({ message: res.data.message });
     } catch (error) {
-      const errMessage = error?.response?.data?.message || "An error occurred";
-      notification.error({ message: errMessage });
+      notification.error({ message:  error?.response?.data?.message });
     }
   };
 

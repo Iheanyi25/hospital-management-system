@@ -6,13 +6,16 @@ import { UserContext } from "../../mobx/UserState";
 import { generateDrugDispenseInvoiceUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
+import { notification } from "../../utils/notification";
+import { useHistory } from "react-router-dom";
 // import {  } from "module";
 const $ = window.$;
 
 const PrescriptionInvoice = observer(
-  ({ costingDetails, doctor, patient, invoiceDetails, id, setSuccess }) => {
+  ({ costingDetails, doctor, patient, invoiceDetails, id, nextRoute }) => {
     const { user } = useContext(UserContext);
     const [details, setDetails] = useState([]);
+    const history = useHistory();
     useEffect(() => {
       setDetails(costingDetails);
     }, [costingDetails]);
@@ -38,16 +41,15 @@ const PrescriptionInvoice = observer(
         data: payload,
       });
       try {
-        const response = await fetchWrapper(generateDrugDispenseInvoiceConfig);
-        console.log(response);
-        if (response.status === 200) {
-          setSuccess({
-            success: true,
-            message: response.message,
-          });
+        const res = await fetchWrapper(generateDrugDispenseInvoiceConfig);
+        if (res.status === 200) {
+         notification.success({ message : res.data.message})
+         history.push(nextRoute)
           $("#showInvoice").modal("hide");
         }
-      } catch (error) {}
+      } catch (error) {
+        notification.error({ message: error?.response?.data?.message})
+      }
     };
 
     return (

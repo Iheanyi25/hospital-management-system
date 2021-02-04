@@ -3,7 +3,6 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, getPatientsUrl, postBookConsultationUrl } from "../../api/URLs";
 import { PageLoader, SelectableDropDown } from "../../Components";
-import { Success } from '../../Components/Alerts'
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
@@ -144,8 +143,7 @@ class BookConsultation extends React.Component {
       notification.success({ message: res.data.message });
       this.props.history.push("/AdminConsultations")
     } catch (error) {
-      const errMessage = error?.response?.data?.message || "An error occurred";
-      notification.error({ message: errMessage });
+      notification.error({ message:  error?.response?.data?.message });
     }
   }
 
@@ -203,12 +201,6 @@ class BookConsultation extends React.Component {
                             Select A Doctor ( If you want this consultation to be
                             assigned to a doctor )
                           </label>
-                          {/* <SelectableDropDown
-                            data={this.state.doctors}
-                            itemKey={["id"]}
-                          /> */}
-
-
                           <select
                             className="form-control"
                             value={doctorId}

@@ -6,7 +6,6 @@ export default function EditHealthPlanForm({
   healthPlanData,
   handleSubmit,
   isDisabled,
-  successShow,
 }) {
   return (
     <form
@@ -111,7 +110,7 @@ export default function EditHealthPlanForm({
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={loading || isDisabled || successShow}
+            disabled={loading || isDisabled}
           >
             {loading ? "Submitting..." : "submit"}
           </button>

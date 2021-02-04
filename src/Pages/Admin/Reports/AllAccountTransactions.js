@@ -140,7 +140,7 @@ const AllAccountTransactions = () => {
                           <option selected value="" disabled>
                             Select a transaction type
                           </option>
-                          <option value="">All</option>
+                          <option value="all">All</option>
                           <option value="credit">Credit</option>
                           <option value="debit">Debit</option>
                    

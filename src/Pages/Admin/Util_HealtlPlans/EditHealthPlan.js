@@ -1,9 +1,10 @@
-import React, { useEffect, useState, Fragment, useRef, Suspense } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { updateHealthPlanUrl } from "../../../api/URLs";
 import { TemplateSettings } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
+import { notification } from "../../../utils/notification";
+
 import {
   isBoolean,
   isNotEmptyString,
@@ -24,7 +25,6 @@ export default function EditHealthPlan(props) {
     instantBilling: location.state.instantBilling || false,
   });
 
-  const [success, setSucces] = useState({ show: false, message: "" });
   const [loading, setLoading] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
   if (!location.state) {
@@ -65,11 +65,14 @@ export default function EditHealthPlan(props) {
         });
         const res = await fetchWrapper(updateHealthPlanConfig);
 		if(res.status === 200) {
-			setSucces({ show: true, message: "updated Health Plan" });
+      
+      notification.success({ message: res.data.message})
+      history.push("/AdminManageHealthPlans");
 			setLoading(false);
 		}
       } catch (error) {
         console.log(error);
+        notification.error({ message: error?.response?.data.message })
         setLoading(false);
       }
     }
@@ -93,9 +96,7 @@ export default function EditHealthPlan(props) {
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
-        {success.show && (
-          <Success message={success.message} nextRoute="/AdminManageHealthPlans" timeOut={500}/>
-        )}
+    
         <div className="main-content-wrap w-75">
           <div className="page-content">
             <div className="row justify-content-center">
@@ -107,8 +108,7 @@ export default function EditHealthPlan(props) {
                       handleChange={handleChange}
                       handleSubmit={handleSubmit}
                       healthPlanData={state}
-					  isDisabled={isDisabled}
-					  successShow={success.show}
+					            isDisabled={isDisabled}
                     />
                   </div>
                 </div>

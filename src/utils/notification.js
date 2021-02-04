@@ -3,7 +3,7 @@ import { store } from 'react-notifications-component';
 const configNotificationUtil = ({title, type, message, duration}) => {
     return store.addNotification({
         title,
-        message,
+        message: message || customMessages[type],
         type,
         insert: "top",
         container: "top-right",
@@ -16,6 +16,14 @@ const configNotificationUtil = ({title, type, message, duration}) => {
           pauseOnHover: true
         }
       });
+}
+
+const customMessages = {
+  warining : "",
+  success: "operation was successful",
+  danger: "An error occured",
+  info: "",
+  default: "",
 }
 
 //pass in message,  maybe duration

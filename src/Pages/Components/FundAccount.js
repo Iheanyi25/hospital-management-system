@@ -1,14 +1,13 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { PayOnline, PayCash, Others } from "./FundingPaymentModes";
-import { Success } from "../../Components/Alerts";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { postAdminFundAccountsUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
-
 class FundAccount extends React.Component {
   state = {
     email: this.props.history.location.state.user.email,
@@ -16,7 +15,6 @@ class FundAccount extends React.Component {
     user: this.props.history.location.state.user,
     amount: "",
     paymentDescription: "",
-    success: false,
   };
 
   setPaymentParams = (key, value) => {
@@ -35,6 +33,8 @@ class FundAccount extends React.Component {
       transactionReference,
       initiatorId: user.id,
     };
+   const nextRoute= user.userType === "Admin" ? "/AdminManageAccounts" : "/AccountantManageAccounts";
+
     try {
       const fundAccounts = postAdminFundAccountsUrl();
       const fundAccountsConfig = fetchConfig({
@@ -42,23 +42,18 @@ class FundAccount extends React.Component {
         data: payload,
         method: "post",
       });
-      const { status } = await fetchWrapper(fundAccountsConfig);
-
-      if (status === 200) {
-        this.handleSuccess(true);
-      }
+      const res = await fetchWrapper(fundAccountsConfig);
+      notification.success({ message: res.data.message})
+      this.props.history.push(nextRoute)
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data.message })
     }
-    console.log(payload);
   };
 
-  handleSuccess = () => {
-    this.setState({ success: true });
-  };
 
   render() {
-    const { amount, email, user } = this.state;
+    const { amount, email } = this.state;
     const {
       history: { location },
     } = this.props;
@@ -73,17 +68,6 @@ class FundAccount extends React.Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="You have successfully funded this account"
-              nextRoute={
-                user.userType === "Admin"
-                  ? "/AdminManageAccounts"
-                  : "/AccountantManageAccounts"
-              }
-            />
-          ) : null}
           <div className="main-content-wrap">
             <header className="page-heade">
               <h3>{`Fund ${name}'s account`}</h3>
