@@ -7,6 +7,7 @@ import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
 import { logOut } from "../utils/logout";
 import { toggleGlobalLoaderClass } from "../utils/toggleGlobalLoaderClass";
+import { notification } from "../utils/notification";
 
 export const UserContext = createContext();
 
@@ -74,6 +75,9 @@ export const UserProvider = ({ children }) => {
         async function (error) {
           if (error?.status === 403) {
             logOut();
+          }
+          if (error.message === "Network Error") {
+            notification.warining({ message: "Network Error, try again", duration: 5000 })
           }
           if (userStore.user) toggleGlobalLoaderClass("remove");
           return Promise.reject(error);
