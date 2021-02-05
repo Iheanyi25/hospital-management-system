@@ -1,25 +1,27 @@
-import React from 'react'
-import { fetchConfig } from '../../api/fetchConfig'
-import { useRequest } from '../../api/fetcher'
-import { getPatientRegistrationInvoiceUrl } from '../../api/URLs'
-import RecieptCost from '../../Components/Modals/RecieptCost'
-import RecieptHeader from './RecieptHeader'
+import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { useRequest } from "../../api/fetcher";
+import { getPatientRegistrationInvoiceUrl } from "../../api/URLs";
+import RecieptCost from "../../Components/Modals/RecieptCost";
+import RecieptHeader from "./RecieptHeader";
 
-export default function PatientRegistrationReciept({activePatientId}) {
-    console.log(activePatientId,4444)
-    const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(
-        activePatientId
-      );
-      const getPatientRegistrationInvoiceConfig = fetchConfig({
-        url: getPatientRegistrationInvoice,
-        method: "get",
-      });
-      const { data } =  useRequest(getPatientRegistrationInvoiceConfig);
-      console.log(data,55555)
-    return (
-        <div>
-            <RecieptHeader/>
-            <div className="container">
+export default function PatientRegistrationReciept({ activePatientId }) {
+  console.log(activePatientId, 4444);
+  const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(
+    activePatientId
+  );
+  const getPatientRegistrationInvoiceConfig = fetchConfig({
+    url: getPatientRegistrationInvoice,
+    method: "get",
+  });
+  const { data } = useRequest(getPatientRegistrationInvoiceConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(data, 55555);
+  return (
+    <div>
+      <RecieptHeader />
+      <div className="container">
         <h4>Payment Reciept</h4>
       </div>
       <div className="container">
@@ -27,7 +29,9 @@ export default function PatientRegistrationReciept({activePatientId}) {
           <div className="col-3">
             <p className="m-0">Date issued</p>
             <p className="m-0">
-              {new Date(data?.patientRegistrationInvoice.dateGenerated).toLocaleDateString()}
+              {new Date(
+                data?.patientRegistrationInvoice.dateGenerated
+              ).toLocaleDateString()}
             </p>
           </div>
           <div className="col-3">
@@ -36,7 +40,9 @@ export default function PatientRegistrationReciept({activePatientId}) {
           </div>
           <div className="col-3">
             <p className="m-0">Health Plan</p>
-            <p className="m-0">{data?.patientRegistrationInvoice.healthPlan.name}</p>
+            <p className="m-0">
+              {data?.patientRegistrationInvoice.healthPlan.name}
+            </p>
           </div>
         </div>
         <hr />
@@ -54,13 +60,15 @@ export default function PatientRegistrationReciept({activePatientId}) {
                         }  tablets, `}
                         {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
                       </p> */}
-          <p className="col-3 m-0">&#8358; {data?.patientRegistrationInvoice.amount}</p>
+          <p className="col-3 m-0">
+            &#8358; {data?.patientRegistrationInvoice.amount}
+          </p>
           {/* </div> */}
         </div>
         <hr />
       </div>
       {/* ))} */}
-            <RecieptCost cost={data?.patientRegistrationInvoice.amount}/>
-        </div>
-    )
+      <RecieptCost cost={data?.patientRegistrationInvoice.amount} />
+    </div>
+  );
 }
