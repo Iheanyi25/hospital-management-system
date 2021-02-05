@@ -75,7 +75,7 @@ class PaymentForService extends React.Component {
     this.calculateAmount();
     let ids = [];
     services.map((service) => {
-      ids = [...ids, ...this.formatServiceId(service.id)];
+       return ids = [...ids, ...this.formatServiceId(service.id)];
     });
     this.setState({ ...this.state, init: true, serviceRequestId: ids });
   };

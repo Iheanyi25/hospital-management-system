@@ -6,7 +6,6 @@ import { getDoctorAllConsultationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { getPatientsUrl } from "../../api/URLs";
 import DoctorImage from "../../assets/img/PatientAndAdminIcon.svg";
-import { NavLink } from "react-router-dom";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 
@@ -115,7 +114,6 @@ class Consultations extends React.Component {
 
   render() {
     const {
-      acceptedAppointments,
       acceptedAppointmentsCount,
       pendingAppointments,
       pendingAppointmentsCount,

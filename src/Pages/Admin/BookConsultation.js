@@ -2,7 +2,7 @@ import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, getPatientsUrl, postBookConsultationUrl } from "../../api/URLs";
-import { PageLoader, SelectableDropDown } from "../../Components";
+import { PageLoader } from "../../Components";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;

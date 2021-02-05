@@ -25,7 +25,6 @@ class ViewDrugs extends React.Component {
     powderDrugs: [],
 
     loading: true,
-    message: "",
   };
   componentDidMount() {
     this.fetchAllDrugs().then(() => this.sync());
@@ -73,7 +72,6 @@ class ViewDrugs extends React.Component {
       inhalerDrugs,
       powderDrugs,
       loading,
-      message,
     } = this.state;
     console.log(tabDrugs);
     return (

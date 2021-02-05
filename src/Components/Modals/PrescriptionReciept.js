@@ -2,8 +2,6 @@ import React from "react";
 import formatDate from "../../utils/formatDate";
 import formatAmount from "../../utils/formatAmount";
 import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
-import SpinnerLoader from "../../Components/Loader/SpinnerLoader";
-
 
 const PrescriptionReciept = ({ costingDetails, isFetchingDrugs }) => {
   const totalPrice = costingDetails.reduce(

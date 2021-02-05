@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import { PageLoader } from "../../../Components";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
 import {
   PayOnline,

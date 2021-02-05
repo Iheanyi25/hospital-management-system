@@ -128,7 +128,6 @@ const Login = observer(() => {
                   </div>
                 </div>
                 <button
-                  type="submit"
                   className="btn btn-block btn-primary"
                   type="submit"
                   disabled={loading}

@@ -198,8 +198,6 @@ class UpdatePatientProfile extends React.Component {
       phoneNumber,
       firstName,
       address,
-      state,
-      country,
       bloodGroup,
       genoType,
       diabetic,

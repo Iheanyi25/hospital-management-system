@@ -5,7 +5,6 @@ import {
   getServiceRequestResultUrl,
   getServiceRequestResultForPatientUrl,
 } from "../../api/URLs";
-// import { PageLoader } from "../../../Components";
 import resultImage from "../../assets/img/resultImage.svg";
 import NoDataState from "../EmptyState/NoDataState";
 
@@ -67,7 +66,6 @@ class LabResults extends React.Component {
                     </div>
                     <div
                       id={`collapse${index + 1}`}
-                      className="collapse"
                       className={`collapse ${
                         serviceRequestResult.id === this.props.showId && "show"
                       }`}
