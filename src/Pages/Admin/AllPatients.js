@@ -8,6 +8,7 @@ import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import ActionButton from "../../Components/DataTable/ActionButton";
 import ReceiptModal from "../../Components/Modals/ReceiptModal";
+import PatientRegistrationReciept from "./PatientRegistrationReciept";
 
 function AllPatients() {
   const getPatients = getPatientsUrl();
@@ -65,7 +66,7 @@ const [activePatientId, setActivePatientId] = useState("")
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-        <PatientRegistrationReceipt activePatientId={activePatientId} />
+        <PatientRegistrationReciept activePatientId={activePatientId} />
       </ReceiptModal>
     </Fragment>
   );
