@@ -22,13 +22,14 @@ let $ = window.$;
 $.DataTables = require("datatables.net");
 class ManagePrescriptionInvoice extends React.Component {
   static contextType = UserContext;
-  state = {
+ state = {
     prescriptionInvoices: [],
     drugs: [],
     isFetchingDrugs: true
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
+    alert("hello world")
   }
 
   async fetchPrescriptionInvoices() {
@@ -40,13 +41,12 @@ class ManagePrescriptionInvoice extends React.Component {
     const response = await fetchWrapper(getDAllrugDispencingInvoicesConfig);
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
-    console.log(response);
+    console.log(response, 88888);
     this.setState(
       { prescriptionInvoices: response?.data?.drugInvoices || [] },
       () => this.sync()
     );
   }
-
   async fetchDrugsInAnInvoice(invoiceNumber) {
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
     const getDrugsInAnInvoiceConfig = fetchConfig({
@@ -80,7 +80,6 @@ class ManagePrescriptionInvoice extends React.Component {
     this.$el = $(this.el);
     this.$el.DataTable();
   }
-
   render() {
     const {
       user: { userType },
@@ -387,5 +386,20 @@ class ManagePrescriptionInvoice extends React.Component {
     );
   }
 }
-
+//   const DrugPresciptionAction = ({ setDrugPrescriptionTransaction, drugPrescriptionTransaction }) => { 
+//   return (
+//     <ActionButton>
+//       <Link
+//         to="#"
+//         className="btn btn-sm btn-block"
+//         data-toggle="modal"
+//         data-target="#view-reciept"
+//         onClick={() => setDrugPrescriptionTransaction(DrugPrescriptionTransaction)}
+//       >
+//         <span className="btn-icon icofont-server mr-2" />
+//         View Reciept
+//       </Link>
+//     </ActionButton>
+//   );
+// };
 export default observer(ManagePrescriptionInvoice);
