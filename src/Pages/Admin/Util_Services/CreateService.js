@@ -26,7 +26,7 @@ class CreateService extends React.Component {
     this.fetchServiceCategories();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(_, nextState) {
     return nextState !== this.state;
   }
 
@@ -89,7 +89,6 @@ class CreateService extends React.Component {
   };
 
   render() {
-    const content = this.context;
     const { categories, formDone } = this.state;
     return (
       <>

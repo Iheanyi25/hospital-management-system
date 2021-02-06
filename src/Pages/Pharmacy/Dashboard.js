@@ -2,7 +2,6 @@ import React from "react";
 import {
   Footer,
   PageLoader,
-  PharmacyHeader,
   PharmacySidebar,
   TemplateSettings,
 } from "../../Components";
@@ -11,7 +10,6 @@ import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import formatDate from "../../utils/formatDate";
 import { Link } from "react-router-dom";
-import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -59,13 +57,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const {
-      numberOfDrugs,
-      numberOfDrugCategories,
-      numberOfDrugSubCategories,
-      drugCount,
-      prescriptions,
-    } = this.state;
+    const { drugCount, prescriptions } = this.state;
     return (
       <>
         <PageLoader />
@@ -101,22 +93,22 @@ class Dashboard extends React.Component {
                     </div>
                   </div>
                   <div className="col col-12 col-md-6 col-xl-3">
-                      <div className="card animated fadeInUp delay-02s bg-light">
-                        <div className="card-body">
-                          <div className="row align-items-center">
-                            <div className="col col-5">
-                              <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                            </div>
-                            <div className="col col-7">
-                              <h6 className="mt-0 mb-1">Recent Prescriptions</h6>
-                              <div className="count text-primary fs-20">
-                                {prescriptions.length}
-                              </div>
+                    <div className="card animated fadeInUp delay-02s bg-light">
+                      <div className="card-body">
+                        <div className="row align-items-center">
+                          <div className="col col-5">
+                            <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
+                          </div>
+                          <div className="col col-7">
+                            <h6 className="mt-0 mb-1">Recent Prescriptions</h6>
+                            <div className="count text-primary fs-20">
+                              {prescriptions.length}
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
                   {/* <div className="col col-12 col-md-6 col-xl-3">
                       <div className="card animated fadeInUp delay-04s bg-light">
                         <div className="card-body">
@@ -138,105 +130,105 @@ class Dashboard extends React.Component {
                     </div> */}
                 </div>
 
-                  <div className="row">
-                    <div className="col-12 col-md-6">
-                      <div className="card bg-light">
-                        <div className="card-header">Welcome Pharm. Michael</div>
-                        <div className="card-body">
-                          You have 3 patients awaiting drug Prescription.
-                        </div>
+                <div className="row">
+                  <div className="col-12 col-md-6">
+                    <div className="card bg-light">
+                      <div className="card-header">Welcome Pharm. Michael</div>
+                      <div className="card-body">
+                        You have 3 patients awaiting drug Prescription.
                       </div>
                     </div>
-                    <div className="col-12 col-md-6">
-                      <div className="card text-white bg-dark">
-                        <div className="card-header">Important Notes</div>
-                        <div className="card-body">
-                          CMD is to meet with all pharmacist heads of department for drug disbursement.
-                        </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="card text-white bg-dark">
+                      <div className="card-header">Important Notes</div>
+                      <div className="card-body">
+                        CMD is to meet with all pharmacist heads of department
+                        for drug disbursement.
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <div className="card mb-0">
-                  <div className="card-header">Recent Prescriptions</div>
-                  <div className="card-body">
-                    <div>
-                      <div className="table-responsive">
-                        <table
-                          ref={(el) => (this.el = el)}
-                          className="table table-striped"
-                          data-paging="true"
-                          data-info="true"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Patient Name</th>
-                              <th>Doctor Name</th>
-                              <th>Date of Prescription</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {prescriptions?.map((prescription, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {index + 1}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">{`${
-                                    prescription?.patient?.firstName ?? ""
-                                  } ${
-                                    prescription?.patient?.lastName ?? ""
-                                  }`}</div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">{`${
-                                    prescription?.doctor?.firstName ?? ""
-                                  } ${
-                                    prescription?.doctor?.lastName ?? ""
-                                  }`}</div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatDate(prescription?.datePrescribed)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <Link
-                                        to={`/PharmacyDrugPrescription/${prescription?.id}`}
-                                        className="btn btn-sm btn-block"
-                                      >
-                                        <span className="btn-icon icofont-server mr-2" />
-                                        Dispense
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-             
               </div>
+
+              <div className="card mb-0">
+                <div className="card-header">Recent Prescriptions</div>
+                <div className="card-body">
+                  <div>
+                    <div className="table-responsive">
+                      <table
+                        ref={(el) => (this.el = el)}
+                        className="table table-striped"
+                        data-paging="true"
+                        data-info="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Patient Name</th>
+                            <th>Doctor Name</th>
+                            <th>Date of Prescription</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {prescriptions?.map((prescription, index) => (
+                            <tr key={index}>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  {index + 1}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">{`${
+                                  prescription?.patient?.firstName ?? ""
+                                } ${
+                                  prescription?.patient?.lastName ?? ""
+                                }`}</div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">{`${
+                                  prescription?.doctor?.firstName ?? ""
+                                } ${
+                                  prescription?.doctor?.lastName ?? ""
+                                }`}</div>
+                              </td>
+                              <td>
+                                <div className="text-muted text-nowrap">
+                                  {formatDate(prescription?.datePrescribed)}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="btn-group">
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                  >
+                                    Action
+                                  </button>
+                                  <div className="dropdown-menu">
+                                    <Link
+                                      to={`/PharmacyDrugPrescription/${prescription?.id}`}
+                                      className="btn btn-sm btn-block"
+                                    >
+                                      <span className="btn-icon icofont-server mr-2" />
+                                      Dispense
+                                    </Link>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             {/* </div> */}
           </main>
 
@@ -247,7 +239,7 @@ class Dashboard extends React.Component {
         <TemplateSettings />
       </>
     );
-  };
-};
+  }
+}
 
 export default Dashboard;

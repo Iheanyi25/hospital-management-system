@@ -142,7 +142,7 @@ const ServiceRequestReport = () => {
                           <option selected value="" disabled>
                             Select a payment method
                           </option>
-                          <option value="">All</option>
+                          <option value="all">All</option>
                           <option value="cash">Cash</option>
                           <option value="pos">POS</option>
                           <option value="transfer">Transfer</option>

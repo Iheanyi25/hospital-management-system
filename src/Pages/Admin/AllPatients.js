@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
@@ -8,7 +8,7 @@ import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import ActionButton from "../../Components/DataTable/ActionButton";
 import ReceiptModal from "../../Components/Modals/ReceiptModal";
-import PatientInvoiceReceipt from "./PatientInvoiceReceipt";
+import PatientRegistrationReciept from "./PatientRegistrationReciept";
 
 function AllPatients() {
   const getPatients = getPatientsUrl();
@@ -16,7 +16,7 @@ function AllPatients() {
   const { data, error } = useRequest(getPatientsConfig, {
     revalidateOnFocus: false,
   });
-
+const [activePatientId, setActivePatientId] = useState("")
   let dataTable = []
     if (data) {
       dataTable = data.patients.map(({ patient }, index) => {
@@ -35,7 +35,7 @@ function AllPatients() {
           Name: `${patient.firstName} ${patient.lastName}`,
           Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
           Phone: patient.phoneNumber || "Not available",
-          Actions: <PatientTableAction patient={patient} />,
+          Actions: <PatientTableAction patient={patient} setActivePatientId={setActivePatientId} />,
         };
       });
     }
@@ -66,13 +66,13 @@ function AllPatients() {
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-        {/* <PatientInvoiceReceipt /> */}
+        <PatientRegistrationReciept activePatientId={activePatientId} />
       </ReceiptModal>
     </Fragment>
   );
 }
 
-const PatientTableAction = ({ patient }) => {
+const PatientTableAction = ({ patient, setActivePatientId }) => {
   const tableFunctions = [
     {
       text: "Update Profile",
@@ -125,6 +125,7 @@ const PatientTableAction = ({ patient }) => {
         className="btn btn-sm btn-block"
         data-toggle="modal"
         data-target="#view-reciept"
+        onClick={() => setActivePatientId(patient.id)}
       >
         <span className="btn-icon icofont-server mr-2" />
         View Reciept

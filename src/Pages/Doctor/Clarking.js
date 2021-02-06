@@ -8,7 +8,6 @@ import {
   updatePatientClerkingUrl,
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import { Success } from "../../Components/Alerts";
 import {
   PreConsultationHistory,
   ClarkingHistory,

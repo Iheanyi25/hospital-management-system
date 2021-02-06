@@ -54,9 +54,9 @@ const Login = observer(() => {
           notification.success({ message : res.data.message})
           window.location.reload();
         }
-      } catch (err) {
+      } catch (error) {
         console.log(error)
-        notification.error({ message : error?.response?.data?.message})
+        // notification.error({ message : error?.response?.data?.message})
       }
     }
   };
@@ -128,7 +128,6 @@ const Login = observer(() => {
                   </div>
                 </div>
                 <button
-                  type="submit"
                   className="btn btn-block btn-primary"
                   type="submit"
                   disabled={loading}

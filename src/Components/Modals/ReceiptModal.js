@@ -38,7 +38,6 @@ export default function ReceiptModal ({children, modalId }) {
       <div className="modal-dialog modal-lg modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title"></h5>
           </div>
           <div className="modal-body">
             <div ref={componentRef}>

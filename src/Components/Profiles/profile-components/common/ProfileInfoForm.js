@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function ProfileInfoForm({details, handleChange, handleSubmit }) {
-    const { email, phoneNumber, zipCode, city, state, dateOfBirth, gender, country, address } = details;
+    const { email, phoneNumber, zipCode, city, state, dateOfBirth, country, address } = details;
 	return (
 		<form className="p-5" onSubmit={handleSubmit}>
 			<div className="form-group">

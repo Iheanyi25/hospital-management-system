@@ -129,7 +129,6 @@ const UpdateDrug = ({ drug, id, update }) => {
                       <label>Number of cannisters</label>
                     )}
                     <input
-                      name="url"
                       className="form-control"
                       type="number"
                       name="quantityPerContainer"
@@ -148,7 +147,6 @@ const UpdateDrug = ({ drug, id, update }) => {
                       <label>Number of cans in a carton</label>
                     )}
                     <input
-                      name="url"
                       className="form-control"
                       type="number"
                       name="containersPerCarton"

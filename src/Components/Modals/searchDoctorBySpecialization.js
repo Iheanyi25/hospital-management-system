@@ -5,8 +5,8 @@ import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsBySpecializationUrl } from "../../api/URLs";
 
 const $ = window.$;
-let selectId = Math.random();
-selectId = selectId.toString().replace(".", "_");
+// let selectId = Math.random();
+// selectId = selectId.toString().replace(".", "_");
 class SearchDoctorsBySpecializationModal extends React.Component {
   constructor(props) {
     super(props);

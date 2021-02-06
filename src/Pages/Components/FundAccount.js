@@ -25,7 +25,7 @@ class FundAccount extends React.Component {
   };
 
   fundAccount = async (transactionReference, paymentMethod) => {
-    const { accountId, user, amount, paymentDescription } = this.state;
+    const { accountId, user, amount } = this.state;
     let payload = {
       accountId,
       amount,

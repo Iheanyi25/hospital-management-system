@@ -23,7 +23,7 @@ const Success = ({ message, nextRoute, state, isError, callback, timeOut }) => {
     return () => {
 			mounted = false;
 		};
-  }, [nextRoute, history, view]);
+  }, [nextRoute, history, view, callback, state, timeOut]);
 
   return view ? (
     <div className={`alert alert-align ${ !isError ?  "alert-success" : "alert-danger"}`} role="alert">
