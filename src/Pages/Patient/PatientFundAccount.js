@@ -3,22 +3,17 @@ import {
   PayWithPaystack,
   PayWithFlutter,
 } from "../../Components/Payment/PaymentGateways";
-import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postPatientFundAccountUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
 class FundAccount extends React.Component {
   static contextType = UserContext;
   state = {
     amount: "",
-    success: false,
-  };
-
-  handleSuccess = () => {
-    this.setState({ success: true });
   };
 
   fundAccount = async (transactionReference, paymentMethod) => {
@@ -41,32 +36,24 @@ class FundAccount extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postPatientFundAccountConfig);
-
-      if (res.status === 200) {
-        this.handleSuccess(true);
-      }
+      notification.success({ message: res.data.message})
+      this.props.history.push("/PatientAccount")
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data?.message})
     }
-    console.log(payload);
   };
 
   render() {
     const content = this.context;
     const { user } = content;
     const { email, phoneNumber } = user;
-    const { amount, success } = this.state;
+    const { amount } = this.state;
     return (
       <main className="main-content">
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
-        {success ? (
-          <Success
-            message="Thank you. You have successfully funded your account"
-            nextRoute="/PatientAccount"
-          />
-        ) : null}
         <div className="main-content-wrap w-50">
           <div className="page-content">
             <div className="row justify-content-center">

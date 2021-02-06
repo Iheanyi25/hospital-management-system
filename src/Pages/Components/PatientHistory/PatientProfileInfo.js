@@ -4,7 +4,7 @@ import { FlexBetweenContainer } from "../../../Components/reusable-css-in-js-com
 
 export const PatientBioDetails = ({ profile }) => {
     return (
-      <FlexBetweenContainer width="18rem">
+      <FlexBetweenContainer width="22rem">
         <div>
           <img src={PatientImg} alt="patient profile" />
         </div>

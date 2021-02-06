@@ -3,7 +3,7 @@ import { store } from 'react-notifications-component';
 const configNotificationUtil = ({title, type, message, duration}) => {
     return store.addNotification({
         title,
-        message,
+        message: message || customMessages[type],
         type,
         insert: "top",
         container: "top-right",
@@ -18,6 +18,14 @@ const configNotificationUtil = ({title, type, message, duration}) => {
       });
 }
 
+const customMessages = {
+  warining : "",
+  success: "operation was successful",
+  danger: "An error occured",
+  info: "",
+  default: "",
+}
+
 //pass in message,  maybe duration
 export const notification = {
     warining : (config) => configNotificationUtil({...config, type: "warning", title: "Warning"}),
@@ -26,3 +34,5 @@ export const notification = {
     info: (config) => configNotificationUtil({...config, type: "info", title: "Info"}),
     default: (config) => configNotificationUtil({...config, type: "default"}),
 }
+
+export const removeNotification = (id) => store.removeNotification(id)

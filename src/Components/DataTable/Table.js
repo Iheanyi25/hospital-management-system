@@ -19,23 +19,22 @@ const Table = ({ content, tableID, exportAction }) => {
 
   useEffect(() => {
     if ($) {
+      const sync = () => {
+        if (content.length > 0) {
+          if (exportAction) {
+            $(`#custom_table_${tableID}`).DataTable({
+              dom: "Bfrtip",
+              buttons: ["copyHtml5", "excelHtml5", "pdfHtml5", "csvHtml5"],
+            });
+          } else {
+            $(`#custom_table_${tableID}`).DataTable();
+          }
+          setIsReady(true);
+        }
+      };
       sync();
     }
-  }, [tableID]);
-
-  const sync = () => {
-    if (content.length > 0) {
-      if (exportAction) {
-        $(`#custom_table_${tableID}`).DataTable({
-          dom: "Bfrtip",
-          buttons: ["copyHtml5", "excelHtml5", "pdfHtml5", "csvHtml5"],
-        });
-      } else {
-        $(`#custom_table_${tableID}`).DataTable();
-      }
-      setIsReady(true);
-    }
-  };
+  }, [tableID, content, exportAction]);
 
   return (
     <>

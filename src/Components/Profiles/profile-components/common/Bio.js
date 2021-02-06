@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import user from '../../../../assets/img/user.png';
 import reset from '../../../../assets/img/reset.svg';
 import phone from '../../../../assets/img/phone.svg';
 import resetText from '../../../../assets/img/resetText.svg';

@@ -4,8 +4,8 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl, postPatientConsultationUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import { Success } from "../../Components/Alerts";
 import { UserContext } from "../../mobx/UserState";
+import { notification } from "../../utils/notification";
 
 class BookConsultation extends React.Component {
   static contextType = UserContext;
@@ -62,19 +62,15 @@ class BookConsultation extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postPatientConsultationConfig);
-      const { data, error } = res;
-
-      if (res.status !== 200) {
-        throw Error(error.message);
-      }
+      notification.success({ message : res.data.message})
       this.setState({
-        showSuccessMessage: true,
-        successMessage: data.message,
         consultationTitle: "",
         reasonForConsultation: "",
       });
-    } catch (err) {
-      this.setState({ showErrorMessage: true, errorMessage: err.message });
+      this.props.history.push("/PatientConsultations")
+    } catch (error) {
+      console.log(error)
+      notification.error({ message : error?.response?.data?.message})
     }
   }
 
@@ -82,30 +78,10 @@ class BookConsultation extends React.Component {
     let { consultationTitle, reasonForConsultation } = this.state;
     const { firstName, lastName } = this.props.location.state;
 
-    let displayErrorMessage;
-    let displaySuccessMessage;
-
-    if (this.state.showErrorMessage) {
-      displayErrorMessage = (
-        <div className="alert alert-danger with-after-icon" role="alert">
-          <div className="alert-content">{this.state.errorMessage}</div>
-          <div className="alert-icon">
-            <i className="icofont-alarm" />
-          </div>
-        </div>
-      );
-    }
 
     return (
       <>
         <PageLoader />
-        {this.state.showSuccessMessage ? (
-          <Success
-            history={this.props.history}
-            message={this.state.successMessage}
-            nextRoute={"/PatientConsultations"}
-          />
-        ) : null}
         <main className="main-content">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
@@ -145,8 +121,6 @@ class BookConsultation extends React.Component {
                             value={reasonForConsultation}
                           />
                         </div>
-                        {displayErrorMessage}
-                        {displaySuccessMessage}
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">

@@ -4,8 +4,8 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { updateServiceCategoryUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
 class EditServiceCategory extends Component {
@@ -53,6 +53,8 @@ class EditServiceCategory extends Component {
     console.log({ data });
     if (this.state.name !== "" && this.state.description !== "") {
       try {
+        const { user: { userType }} = this.context
+         const nextRoute= userType === "Admin" ? "/AdminManageServiceCategory" : "/LabManageServiceCategory";
         const updateServiceCategory = updateServiceCategoryUrl();
         const updateServiceCategoryConfig = fetchConfig({
           url: updateServiceCategory,
@@ -62,20 +64,20 @@ class EditServiceCategory extends Component {
         const res = await fetchWrapper(updateServiceCategoryConfig);
 
         if (res.status === 200) {
-          this.setState({ success: true });
+          notification.success({ message: res.data.message})
+          this.props.history.push(nextRoute);
         } else {
+          notification.warning({ message: res.data.message})
         }
       } catch (error) {
         console.log(error);
+        notification.error({ message: error?.response?.data.message })
       }
     }
   };
 
   render() {
-    const {
-      user: { userType },
-    } = this.context;
-    const { success, name, description, formDone } = this.state;
+    const {name, description, formDone } = this.state;
     return (
       <>
         <PageLoader />
@@ -84,17 +86,6 @@ class EditServiceCategory extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully updated a category"
-              nextRoute={
-                userType === "Admin"
-                  ? "/AdminManageServiceCategory"
-                  : "/LabManageServiceCategory"
-              }
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">

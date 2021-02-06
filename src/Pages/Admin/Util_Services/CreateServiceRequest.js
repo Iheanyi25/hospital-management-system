@@ -1,21 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Success } from "../../../Components/Alerts";
 import { observer } from "mobx-react";
 import {
-  MultipleSelect,
   PageLoader,
   SelectableDropDown,
 } from "../../../Components";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { getAllServicesCategoryUrl, getAllServicesInACategoryUrl, getPatientsUrl, postRequestServicesUrl } from "../../../api/URLs";
+import {
+  getAllServicesCategoryUrl,
+  getAllServicesInACategoryUrl,
+  getPatientsUrl,
+  postRequestServicesUrl,
+} from "../../../api/URLs";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 
 const $ = window.$;
-
-let selectBasic = Math.random();
-selectBasic = selectBasic.toString().replace(".", "_");
+// let selectBasic = Math.random();
+// selectBasic = selectBasic.toString().replace(".", "_");
 
 class CreateService extends Component {
   static contextType = UserContext;
@@ -30,7 +33,6 @@ class CreateService extends Component {
     patient: "",
     description: "",
     showServices: false,
-    success: false,
     isFetchingCategories: null,
     isFetchingServicesInCategory: null,
   };
@@ -48,10 +50,13 @@ class CreateService extends Component {
   }
 
   fetchServiceCategories = async () => {
-    const getAllServicesCategory = getAllServicesCategoryUrl()
-    const getAllServicesCategoryConfig = fetchConfig({ url: getAllServicesCategory, method: 'get' })
-    const { data } = await fetchWrapper(getAllServicesCategoryConfig)
-    console.log(data, 11111)
+    const getAllServicesCategory = getAllServicesCategoryUrl();
+    const getAllServicesCategoryConfig = fetchConfig({
+      url: getAllServicesCategory,
+      method: "get",
+    });
+    const { data } = await fetchWrapper(getAllServicesCategoryConfig);
+    console.log(data, 11111);
     this.setState({ categories: data, isFetchingCategories: false });
   };
 
@@ -70,10 +75,10 @@ class CreateService extends Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl()
-    const getPatientsConfig = fetchConfig({ url: getPatients, method: 'get' })
-    const { data } = await fetchWrapper(getPatientsConfig)
-    console.log(data, 2222)
+    const getPatients = getPatientsUrl();
+    const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
+    const { data } = await fetchWrapper(getPatientsConfig);
+    console.log(data, 2222);
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -87,25 +92,38 @@ class CreateService extends Component {
 
   fetchServicesInACategory = async (id) => {
     this.setState({ isFetchingServicesInCategory: true });
-    const getAllServicesInACategory = getAllServicesInACategoryUrl(id)
-    const getAllServicesInACategoryConfig = fetchConfig({ url: getAllServicesInACategory, method: 'get' })
-    const { data } = await fetchWrapper(getAllServicesInACategoryConfig)
-
-    console.log(data)
-    this.setState({ services: data, showServices: true, isFetchingServicesInCategory: false }, () => {
-      this.renderPicker(".custom-picker-services");
+    const getAllServicesInACategory = getAllServicesInACategoryUrl(id);
+    const getAllServicesInACategoryConfig = fetchConfig({
+      url: getAllServicesInACategory,
+      method: "get",
     });
+    const { data } = await fetchWrapper(getAllServicesInACategoryConfig);
+
+    console.log(data);
+    this.setState(
+      {
+        services: data,
+        showServices: true,
+        isFetchingServicesInCategory: false,
+      },
+      () => {
+        this.renderPicker(".custom-picker-services");
+      }
+    );
   };
 
   handleSelect = (elem, e) => {
     e.preventDefault();
     if (this.state.patient) {
       if (e.target.value) {
-
         // variable holders
         let stateValue = this.state.values;
-        let existingKey = stateValue.findIndex(element => element.serviceId === e.target.value);
-        let existingElement = this.state.services.find(element => element.id === e.target.value);
+        let existingKey = stateValue.findIndex(
+          (element) => element.serviceId === e.target.value
+        );
+        let existingElement = this.state.services.find(
+          (element) => element.id === e.target.value
+        );
 
         // console.log("check 1", stateValue, e.target.value, existingKey, existingElement);
         if (existingKey < 0) {
@@ -151,44 +169,62 @@ class CreateService extends Component {
 
   handleSubmit = async () => {
     const { user } = this.context;
-    let serviceId = [];
-    let generatedBy = user;
-    generatedBy = generatedBy.id;
+    const { isFromClarking } = this.state;
+    try {
+      let serviceId = [];
+      let generatedBy = user;
+      generatedBy = generatedBy.id;
 
-    let payload = {
-      generatedBy,
-      patientId: this.state.patient,
-      description: this.state.description,
-      id: "",
-      idType: "",
-    };
-
-    this.state.values.forEach((element) => {
-      serviceId.push(element.serviceId);
-    });
-
-    if (this.state.isFromClarking) {
-      payload = {
-        ...payload,
-        idType: this.props.location.state.type,
-        id: this.props.location.state.id,
+      let payload = {
+        generatedBy,
+        patientId: this.state.patient,
+        description: this.state.description,
+        id: "",
+        idType: "",
       };
-    }
 
-    console.log(payload);
+      this.state.values.forEach((element) => {
+        serviceId.push(element.serviceId);
+      });
 
-    payload.serviceId = serviceId;
-    const postRequestServices = postRequestServicesUrl()
-    const postRequestServicesConfig = fetchConfig({ url: postRequestServices, data: payload, method: 'post' })
-    const res = await fetchWrapper(postRequestServicesConfig)
+      if (this.state.isFromClarking) {
+        payload = {
+          ...payload,
+          idType: this.props.location.state.type,
+          id: this.props.location.state.id,
+        };
+      }
 
-    if (String(res.status).startsWith("2")) {
-      this.setState({ success: true });
+      console.log(payload);
+
+      payload.serviceId = serviceId;
+      const postRequestServices = postRequestServicesUrl();
+      const postRequestServicesConfig = fetchConfig({
+        url: postRequestServices,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(postRequestServicesConfig);
+
+      if (String(res.status).startsWith("2")) {
+        const nextRoute = isFromClarking
+          ? "/DoctorClarking"
+          : user.userType === "Admin"
+          ? "/AdminManageServiceRequests"
+          : "/LabManageServiceRequests";
+          notification.success({ message: res.data.message });
+          this.props.history.push({
+            pathname: nextRoute,
+            state: isFromClarking && this.props.location.state,
+          });
+      }
+
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data.message });
     }
   };
   render() {
-    const { isFromClarking } = this.state;
-    const { user } = this.context;
     return (
       <>
         <PageLoader />
@@ -197,20 +233,6 @@ class CreateService extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully requested this service"
-              nextRoute={
-                isFromClarking
-                  ? "/DoctorClarking"
-                  : user.userType === "Admin"
-                    ? "/AdminManageServiceRequests"
-                    : "/LabManageServiceRequests"
-              }
-              state={isFromClarking ? this.props.location.state : null}
-            />
-          ) : null}
 
           <div className="main-content-wrap">
             <div className="page-content">
@@ -261,7 +283,7 @@ class CreateService extends Component {
                           isFetchingCategories={this.state.isFetchingCategories}
                         />
 
-                        {this.state.showServices ?
+                        {this.state.showServices ? (
                           <SelectableDropDown
                             itemKey={["id"]}
                             onChange={this.handleSelect}
@@ -271,7 +293,7 @@ class CreateService extends Component {
                             data={this.state.services}
                             valueKeys={["name"]}
                           />
-                          : null}
+                        ) : null}
 
                         {/* <MultipleSelect
                           data={this.state.services}
@@ -340,16 +362,16 @@ class CreateService extends Component {
                                 </tr>
                               ))
                             ) : (
-                                <tr>
-                                  <td colSpan="4">
-                                    <p className="w-50 text-secondary">
-                                      You can always change the service category,
-                                      if you want to add different services from
-                                      different categories
+                              <tr>
+                                <td colSpan="4">
+                                  <p className="w-50 text-secondary">
+                                    You can always change the service category,
+                                    if you want to add different services from
+                                    different categories
                                   </p>
-                                  </td>
-                                </tr>
-                              )}
+                                </td>
+                              </tr>
+                            )}
                           </tbody>
                         </table>
                       </div>

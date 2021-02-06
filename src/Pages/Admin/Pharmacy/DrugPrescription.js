@@ -6,7 +6,6 @@ import {
   getPrescriptionUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
-import userImage from "../../../assets/img/user.png";
 import remove from "../../../assets/img/remove.svg";
 import {
   AddPrescriptionQuantity,
@@ -14,7 +13,6 @@ import {
 } from "../../../Components";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { PrescriptionInvoice } from "../../../Components/Modals";
-import { Success } from "../../../Components/Alerts";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import PatientAndAdminImage from '../../../assets/img/PatientAndAdminIcon.svg';
@@ -23,10 +21,6 @@ const DrugPrescription = observer(({ match }) => {
   const { user } = useContext(UserContext);
   const [costingDetails, setcostingDetails] = useState([]);
   const [invoiceDetails, setInvoiceDetails] = useState({});
-  const [success, setSuccess] = useState({
-    success: false,
-    message: "",
-  });
 
   const { id } = match.params;
 
@@ -118,16 +112,6 @@ const DrugPrescription = observer(({ match }) => {
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
-        {success.success ? (
-          <Success
-            message={success.message}
-            nextRoute={
-              user.userType === "Admin"
-                ? "/AdminManagePrescriptionInvoice"
-                : "/PharmacyManagePrescriptions"
-            }
-          />
-        ) : null}
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Prescription</h4>
@@ -272,7 +256,11 @@ const DrugPrescription = observer(({ match }) => {
         patient={prescription?.patient}
         invoiceDetails={invoiceDetails}
         id={id}
-        setSuccess={setSuccess}
+        nextRoute={
+          user.userType === "Admin"
+            ? "/AdminManagePrescriptionInvoice"
+            : "/PharmacyManagePrescriptions"
+        }
       />
     </>
   );

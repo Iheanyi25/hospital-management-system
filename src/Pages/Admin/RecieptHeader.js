@@ -1,10 +1,6 @@
-import { observer } from "mobx-react";
-import React, {useContext} from "react";
-import { UserContext } from "../../mobx/UserState";
+import React  from "react";
 
-function ReceiptHeader(){
-    const {user : patient}= useContext(UserContext);
-    
+function ReceiptHeader({patient}){    
   return (
     <div>
       <div className="container pt-5">
@@ -35,4 +31,4 @@ function ReceiptHeader(){
     </div>
   );
 }
-export default observer(ReceiptHeader)
+export default ReceiptHeader

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { isNotEmptyString, isValidPositiveInteger } from "../../../../../utils/validationUtils";
 import Inhalers from "./registerdrug-components/Inhalers";
 import Liquid from "./registerdrug-components/Liquid";

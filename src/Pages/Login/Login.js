@@ -1,22 +1,21 @@
 import React, { useEffect, useContext, useState } from "react";
 import { observer } from "mobx-react";
 import "./css/Login.css";
-import { InvalidDetails, Success } from "../../Components/Alerts";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../mobx/UserState";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { logInUrl } from "../../api/URLs";
 import logoMakeshift from "../../assets/img/logo-makeshift.svg";
+import { notification } from "../../utils/notification";
 
 const Login = observer(() => {
-  const { loading, error, logIn } = useContext(UserContext);
+  const { loading, logIn } = useContext(UserContext);
   const [state, setState] = useState({
     email: "",
     password: "",
     submitting: false,
     response: "",
-    success: false,
     inputType: "password"
   });
 
@@ -26,10 +25,6 @@ const Login = observer(() => {
     const data = { email, password };
     logIn(data);
   };
-
-  // const setErrorStatus = () => {
-  //   setState({ ...state, error: false });
-  // };
 
   useEffect(() => {
     loadPage();
@@ -52,17 +47,15 @@ const Login = observer(() => {
           data: payload,
           method: "post",
         });
-        const { message, data, status } = await fetchWrapper(logInConfig);
+        const res = await fetchWrapper(logInConfig);
 
-        if (status === 200) {
-          console.log(data);
-          setState({ ...state, success: true, response: message });
+        if (res.status === 200) {
+          notification.success({ message : res.data.message})
           window.location.reload();
-        } else {
-          console.log(message);
         }
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error)
+        // notification.error({ message : error?.response?.data?.message})
       }
     }
   };
@@ -75,20 +68,9 @@ const Login = observer(() => {
     inputType === "password" ?  setState({ ...state, inputType: "text" }) : setState({ ...state, inputType: "password" })
   }
 
-  const { email, password, success, response, inputType } = state;
+  const { email, password, inputType } = state;
   return (
     <div className="auth-background">
-      {success ? <Success message={response} /> : null}
-      {error ? (
-        <InvalidDetails
-          // setErrorStatus={setErrorStatus}
-          message={
-            error?.message === "Network Error"
-              ? error?.message
-              : "Invalid log in details"
-          }
-        />
-      ) : null}
       <div className="row mx-0 d-flex justify-content-center align-items-center">
         <div className="">
           <img src={logoMakeshift} alt="logo" />
@@ -135,7 +117,6 @@ const Login = observer(() => {
                   </div>
                 </div>
                 <button
-                  type="submit"
                   className="btn btn-block btn-primary"
                   type="submit"
                   disabled={loading}

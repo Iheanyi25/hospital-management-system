@@ -51,7 +51,7 @@ class DoctorList extends React.Component {
                           src={DoctorImage}
                           width={200}
                           height={200}
-                          alt="Doctor image"
+                          alt="doctor"
                         />
                       </div>
                       <div className="info-box">

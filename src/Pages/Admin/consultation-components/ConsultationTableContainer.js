@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { Table } from "../../../Components";
 import { ReAssign } from "../../../Components/Modals/ReAssignModal";
 import { fetchWrapper } from "../../../api/fetcher";
@@ -73,8 +73,7 @@ const ConsultationTableActionsContainer = ({
         await mutate();
         notification.success({ message: res.data.message });
       } catch (error) {
-        const errMessage = error?.response?.data?.message || "An error occurred";
-        notification.error({ message: errMessage });
+        notification.error({ message:  error?.response?.data?.message });
       }
   };
 

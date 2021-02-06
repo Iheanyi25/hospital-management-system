@@ -15,7 +15,6 @@ import ViewPreConsultationHistory from '../Pages/Patient/ViewPreConsultationHist
 import ViewClarkingHistory from '../Pages/Patient/ViewClarkingHistory';
 import MyDoctors from '../Pages/Patient/MyDoctors';
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
-import { PatientProfile } from '../Components/Profiles/PatientProfile';
 import ThirdPartyFunding from '../Pages/Patient/ThirdPartyFunding';
 import ViewHealthHistory from '../Pages/Patient/ViewHealthHistory';
 

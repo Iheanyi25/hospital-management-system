@@ -1,12 +1,12 @@
 import React from "react";
 import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
-import { Success } from "../../Components/Alerts";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getPatientRegistrationInvoiceUrl, getPatientUrl, updatePatientBasicInfoUrl, updatePatientContactDetailsUrl, updatePatientHealthDetailsUrl } from "../../api/URLs";
 import CountryRegionDropdown from "../../Components/Select/CountryRegionSelectableDropdown";
 import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+import { notification } from "../../utils/notification";
 
 
 class UpdatePatientProfile extends React.Component {
@@ -33,8 +33,6 @@ class UpdatePatientProfile extends React.Component {
       diabetic: false,
       allergies: "",
       disabilities: "",
-
-      success: false,
     };
     this.saveLocation = this.saveLocation.bind(this);
   }
@@ -115,8 +113,6 @@ class UpdatePatientProfile extends React.Component {
 
   updateCoreDetails = async (e) => {
     e.preventDefault();
-    this.setState({ success: false });
-
     try {
       const payload = {
         firstName: this.state.firstName,
@@ -131,12 +127,13 @@ class UpdatePatientProfile extends React.Component {
       const updatePatientBasicInfoConfig = fetchConfig({ url: updatePatientBasicInfo, data: payload, method: 'post' })
       const res = await fetchWrapper(updatePatientBasicInfoConfig)
 
-      console.log(res, 33333);
       if (res.status === 200) {
         this.setState({ success: true });
+        notification.success({message: res.data.message})
       }
     } catch (error) {
       console.log(error);
+      notification.error({message: error?.response?.data?.message})
     }
   };
 
@@ -156,14 +153,12 @@ class UpdatePatientProfile extends React.Component {
       const updatePatientContactDetails = updatePatientContactDetailsUrl()
       const updatePatientContactDetailsConfig = fetchConfig({ url: updatePatientContactDetails, data: payload, method: 'post' })
       const res = await fetchWrapper(updatePatientContactDetailsConfig)
-
-      console.log(res, 4444)
-
       if (res.status === 200) {
-        this.setState({ success: true });
+        notification.success({message: res.data.message})
       }
     } catch (error) {
       console.log(error);
+      notification.error({message: error?.response?.data?.message})
     }
   };
 
@@ -184,12 +179,12 @@ class UpdatePatientProfile extends React.Component {
       const UpdatePatientHealthDetails = updatePatientHealthDetailsUrl()
       const UpdatePatientHealthDetailsConfig = fetchConfig({ url: UpdatePatientHealthDetails, data: payload, method: 'post' })
       const res = await fetchWrapper(UpdatePatientHealthDetailsConfig)
-      console.log(res, 55555)
       if (res.status === 200) {
-        this.setState({ success: true });
+        notification.success({message: res.data.message})
       }
     } catch (error) {
       console.log(error);
+      notification.error({message: error?.response?.data?.message})
     }
   };
 
@@ -203,8 +198,6 @@ class UpdatePatientProfile extends React.Component {
       phoneNumber,
       firstName,
       address,
-      state,
-      country,
       bloodGroup,
       genoType,
       diabetic,
@@ -223,12 +216,7 @@ class UpdatePatientProfile extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            {this.state.success ? (
-              <Success
-                message="Well done, you successfully added this update"
-                dontRoute={true}
-              />
-            ) : null}
+
             {paymentStatus === "Paid" ? null : paymentStatus === "Not Paid" ? (
               <div className="card">
                 <div className="card-body bg-warning p-4">

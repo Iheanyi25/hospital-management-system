@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
 import { AllDrugs } from "./Components/ViewDrugs";
-import { Success } from "../../../Components/Alerts";
 import tablet from "../../../assets/img/tablet.svg";
 import liquid from "../../../assets/img/liquid.svg";
 import inhalers from "../../../assets/img/inhalers.svg";
@@ -26,7 +25,6 @@ class ViewDrugs extends React.Component {
     powderDrugs: [],
 
     loading: true,
-    message: "",
   };
   componentDidMount() {
     this.fetchAllDrugs().then(() => this.sync());
@@ -58,11 +56,6 @@ class ViewDrugs extends React.Component {
     }),
   ];
 
-  setSuccess = (message) => {
-    this.setState({ success: true, message: message });
-    this.fetchAllDrugs();
-  };
-
   sync() {
     this.$el = $(this.el);
     this.$el.DataTable();
@@ -79,8 +72,6 @@ class ViewDrugs extends React.Component {
       inhalerDrugs,
       powderDrugs,
       loading,
-      success,
-      message,
     } = this.state;
     console.log(tabDrugs);
     return (
@@ -92,7 +83,6 @@ class ViewDrugs extends React.Component {
             <div className="app-loader">
               <i className="icofont-spinner-alt-4 rotate" />
             </div>
-            {success ? <Success message={message} /> : null}
             <div className="main-content-wrap">
               <header className="d-flex justify-content-between align-items-center mb-2">
                 <h4 className="page-title">Drug catalog</h4>
@@ -271,7 +261,7 @@ class ViewDrugs extends React.Component {
                         >
                           <AllDrugs
                             allDrugs={allDrugs}
-                            setSuccess={this.setSuccess}
+                            fetchAllDrugs={this.fetchAllDrugs}
                           />
                         </div>
                         <div
@@ -282,7 +272,7 @@ class ViewDrugs extends React.Component {
                         >
                           <AllDrugs
                             allDrugs={tabDrugs}
-                            setSuccess={this.setSuccess}
+                            fetchAllDrugs={this.fetchAllDrugs}
                           />
                         </div>
                         <div
@@ -293,7 +283,7 @@ class ViewDrugs extends React.Component {
                         >
                           <AllDrugs
                             allDrugs={liquidDrugs}
-                            setSuccess={this.setSuccess}
+                            fetchAllDrugs={this.fetchAllDrugs}
                           />
                         </div>
                         <div
@@ -304,7 +294,6 @@ class ViewDrugs extends React.Component {
                         >
                           <AllDrugs
                             allDrugs={inhalerDrugs}
-                            setSuccess={this.setSuccess}
                           />
                         </div>
                         <div
@@ -315,7 +304,7 @@ class ViewDrugs extends React.Component {
                         >
                           <AllDrugs
                             allDrugs={powderDrugs}
-                            setSuccess={this.setSuccess}
+                            fetchAllDrugs={this.fetchAllDrugs}
                           />
                         </div>
                       </div>

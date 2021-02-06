@@ -1,12 +1,26 @@
 import React from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { useRequest } from "../../api/fetcher";
+import { getPatientRegistrationInvoiceUrl } from "../../api/URLs";
 import RecieptCost from "../../Components/Modals/RecieptCost";
 import RecieptHeader from "./RecieptHeader";
 
-const PatientInvoiceReceipt = ({ activeTransaction, patient }) => {
-
+export default function PatientRegistrationReciept({ activePatientId }) {
+  console.log(activePatientId, 4444);
+  const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(
+    activePatientId
+  );
+  const getPatientRegistrationInvoiceConfig = fetchConfig({
+    url: getPatientRegistrationInvoice,
+    method: "get",
+  });
+  const { data } = useRequest(getPatientRegistrationInvoiceConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(data, 55555);
   return (
     <div>
-      <RecieptHeader patient={patient} />
+      <RecieptHeader />
       <div className="container">
         <h4>Payment Reciept</h4>
       </div>
@@ -15,16 +29,20 @@ const PatientInvoiceReceipt = ({ activeTransaction, patient }) => {
           <div className="col-3">
             <p className="m-0">Date issued</p>
             <p className="m-0">
-              {new Date(activeTransaction?.trasactionDate).toLocaleDateString()}
+              {new Date(
+                data?.patientRegistrationInvoice.dateGenerated
+              ).toLocaleDateString()}
             </p>
           </div>
           <div className="col-3">
             <p className="m-0">Payment made by:</p>
-            <p className="m-0">{activeTransaction.initiator}</p>
+            {/* <p className="m-0">{activeTransaction.initiator}</p> */}
           </div>
           <div className="col-3">
-            <p className="m-0">123 Fake St</p>
-            <p className="m-0">kilometer 7, Enugu</p>
+            <p className="m-0">Health Plan</p>
+            <p className="m-0">
+              {data?.patientRegistrationInvoice.healthPlan.name}
+            </p>
           </div>
         </div>
         <hr />
@@ -33,7 +51,7 @@ const PatientInvoiceReceipt = ({ activeTransaction, patient }) => {
         {/* {details?.map((detail, index) => ( */}
         {/* <div key={index}> */}
         <div className="row text-center">
-          <p className="col-8 m-0">{activeTransaction.transactionType}</p>
+          <p className="col-8 m-0">Registration</p>
           {/* <p className="col-4 m-0">
                         {" "}
                         {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
@@ -42,14 +60,15 @@ const PatientInvoiceReceipt = ({ activeTransaction, patient }) => {
                         }  tablets, `}
                         {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
                       </p> */}
-          <p className="col-3 m-0">&#8358; {activeTransaction.amount}</p>
+          <p className="col-3 m-0">
+            &#8358; {data?.patientRegistrationInvoice.amount}
+          </p>
           {/* </div> */}
         </div>
         <hr />
       </div>
       {/* ))} */}
-      <RecieptCost cost={activeTransaction?.amount} />
+      <RecieptCost cost={data?.patientRegistrationInvoice.amount} />
     </div>
   );
-};
-export default PatientInvoiceReceipt;
+}

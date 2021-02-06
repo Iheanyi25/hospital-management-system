@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import styles from "../../Login/css/Login.module.css";
+import React, { useState } from "react";
 import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
@@ -29,7 +28,6 @@ function ResetPasswordFromMail(props) {
     confirmPassword,
     userEmail,
     userToken,
-    serverRes,
     submitting,
     error,
     errorMessage,
@@ -146,7 +144,6 @@ function ResetPasswordFromMail(props) {
               <button
                 type="submit"
                 className="btn btn-block btn-primary"
-                type="submit"
                 disabled={submitting}
               >
                 Create new password

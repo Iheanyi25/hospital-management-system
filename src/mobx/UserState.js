@@ -7,19 +7,18 @@ import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
 import { logOut } from "../utils/logout";
 import { toggleGlobalLoaderClass } from "../utils/toggleGlobalLoaderClass";
+import { notification, removeNotification } from "../utils/notification";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const userStore = useLocalObservable(() => ({
     user: null,
-    // userToken: null,
     loading: null,
     isLoadingUser: true,
     error: null,
     userToken: null,
     logIn: flow(function* logIn(data) {
-      console.log(data, "log in data");
       userStore.loading = true;
       const url = logInUrl();
       const logInConfig = fetchConfig({
@@ -30,49 +29,60 @@ export const UserProvider = ({ children }) => {
       try {
         const res = yield fetchWrapper(logInConfig);
         if (res.status) {
-          console.log(res.data.token,66666)
-          localStorage.setItem("authenticatedUser",JSON.stringify(res.data.authenticatedUser));
-          localStorage.setItem( "userToken", JSON.stringify(res.data.token));
+          console.log(res.data.token, 66666);
+          localStorage.setItem(
+            "authenticatedUser",
+            JSON.stringify(res.data.authenticatedUser)
+          );
+          localStorage.setItem("userToken", JSON.stringify(res.data.token));
         }
         userStore.user = res.data.authenticatedUser;
         userStore.userToken = res.data.token;
         userStore.loading = false;
-        window.location.href  = "/";
+        window.location.href = "/";
       } catch (error) {
         userStore.error = error;
         userStore.loading = false;
       }
     }),
-    loadUser: flow(function* loadUser(){
+    loadUser: flow(function* loadUser() {
       userStore.user = JSON.parse(localStorage.getItem("authenticatedUser"));
       userStore.token = JSON.parse(localStorage.getItem("userToken"));
       userStore.isLoadingUser = false;
       axiosInstance.interceptors.request.use(
-        async config => {
-          if( userStore.user) toggleGlobalLoaderClass('add')
-          config.headers = { 
-            'Authorization': `Bearer ${userStore.token}`,
-            'Accept': 'application/json',
-            "Content-Type": "application/json-patch+json"
-          }
+        async (config) => {
+          if (userStore.user) toggleGlobalLoaderClass("add");
+          config.headers = {
+            Authorization: `Bearer ${userStore.token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json-patch+json",
+          };
           return config;
         },
-        error => {
-          if( userStore.user) toggleGlobalLoaderClass('remove')
-          Promise.reject(error)
-      });
-      
-      axiosInstance.interceptors.response.use((response) => {
-        if( userStore.user) toggleGlobalLoaderClass('remove')
-
-        return response
-      }, async function (error) {
-        if (error?.status === 403) {
-          logOut()
+        (error) => {
+          if (userStore.user) toggleGlobalLoaderClass("remove");
+          Promise.reject(error);
         }
-        if( userStore.user) toggleGlobalLoaderClass('remove')
-        return Promise.reject(error);
-      });
+      );
+      let prevNotificationId;
+      axiosInstance.interceptors.response.use(
+        (response) => {
+          if (userStore.user) toggleGlobalLoaderClass("remove");
+
+          return response;
+        },
+        async function (error) {
+          if (error?.status === 403) {
+            logOut();
+          }
+          if (error.message === "Network Error") {
+            if(prevNotificationId) removeNotification(prevNotificationId)
+            prevNotificationId = notification.warining({ message: "Network Error, try again", duration: 5000 })
+          }
+          if (userStore.user) toggleGlobalLoaderClass("remove");
+          return Promise.reject(error);
+        }
+      );
     }),
   }));
   return (

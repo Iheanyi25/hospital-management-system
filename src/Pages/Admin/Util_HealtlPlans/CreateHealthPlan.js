@@ -3,7 +3,7 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { createHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, TemplateSettings } from "../../../Components";
-import { Success } from "../../../Components/Alerts";
+import { notification } from "../../../utils/notification";
 import { isBoolean, isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 
 export default class CreateHealthPlan extends Component {
@@ -15,7 +15,6 @@ export default class CreateHealthPlan extends Component {
     noOfAccounts: "",
     instantBilling: false,
 
-    success: false,
     formDone: false
   };
 
@@ -67,12 +66,12 @@ export default class CreateHealthPlan extends Component {
         const createHealthPlan = createHealthPlanUrl()
         const createHealthPlanConfig = fetchConfig({url : createHealthPlan, data, method : 'post'})
         const res = await fetchWrapper(createHealthPlanConfig)
-
-        if (res.status === 200 || res.status === 201) {
-          this.setState({ success: true });
-        }
+      
+        notification.success({ message: res.data.message})
+        this.props.history.push("/AdminManageHealthPlans");
       } catch (error) {
         console.log(error);
+        notification.error({ message: error?.response?.data.message })
       }
     }
   };
@@ -85,13 +84,6 @@ export default class CreateHealthPlan extends Component {
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
-          {this.state.success ? (
-            <Success
-              history={this.props.history}
-              message="Well done, you successfully created a health plan"
-              nextRoute="/AdminManageHealthPlans"
-            />
-          ) : null}
           <div className="main-content-wrap w-75">
             <div className="page-content">
               <div className="row justify-content-center">
