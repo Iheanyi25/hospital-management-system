@@ -17,6 +17,7 @@ import formatDate from "../../utils/formatDate";
 import PatientInvoiceReceipt from "../Admin/PatientInvoiceReceipt";
 import formatAmount from "../../utils/formatAmount";
 import { toJS } from "mobx";
+import ThirdPartyFunding from "./ThirdPartyFunding";
 
 const local = "http://localhost:3000";
 function PatientAccount() {
@@ -76,10 +77,10 @@ function PatientAccount() {
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Tooltip on top"
-                to="#"
-                onClick={copyToClipboard}
+                to="/ThirdPartyFunding"
+                // onClick={copyToClipboard}
               >
-                Generate Link
+                Third Party Funding
               </Link>
               <Link
                 className="btn btn-primary mr-2 mb-2"

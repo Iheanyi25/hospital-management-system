@@ -24,6 +24,10 @@ export default function PatientRegistrationReciept({activePatientId}) {
       </div>
       <div className="container">
         <div className="row">
+        <div className="col-3">
+            <p className="m-0">Invoice no:</p>
+            <p className="m-0">{data?.patientRegistrationInvoice.invoiceNumber}</p>
+          </div>
           <div className="col-3">
             <p className="m-0">Date issued</p>
             <p className="m-0">
@@ -44,8 +48,8 @@ export default function PatientRegistrationReciept({activePatientId}) {
       <div className="container">
         {/* {details?.map((detail, index) => ( */}
         {/* <div key={index}> */}
-        <div className="row text-center">
-          <p className="col-8 m-0">Registration</p>
+        <div className="row">
+          <p className="col-5 m-0">Registration</p>
           {/* <p className="col-4 m-0">
                         {" "}
                         {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
@@ -54,7 +58,7 @@ export default function PatientRegistrationReciept({activePatientId}) {
                         }  tablets, `}
                         {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
                       </p> */}
-          <p className="col-3 m-0">&#8358; {data?.patientRegistrationInvoice.amount}</p>
+          <p className="col-4 m-0">&#8358; {data?.patientRegistrationInvoice.amount}</p>
           {/* </div> */}
         </div>
         <hr />
