@@ -45,6 +45,10 @@ const PrescriptionReceiptBody = ({doctor, totalPrice, costingDetails}) => {
   <div className="container">
     <div className="row">
       <div className="col-3">
+        <p className="m-0">Invoice no:</p>
+        {/* <p className="m-0">{`Dr ${doctor?.firstName} ${doctor?.lastName}`}</p> */}
+      </div>
+      <div className="col-3">
         <p className="m-0">Date issued</p>
         <p className="m-0">{formatDate(Date.now())}</p>
       </div>
