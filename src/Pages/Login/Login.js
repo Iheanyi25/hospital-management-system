@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { observer } from "mobx-react";
 import "./css/Login.css";
-import { InvalidDetails } from "../../Components/Alerts";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../mobx/UserState";
 import { fetchConfig } from "../../api/fetchConfig";
@@ -11,7 +10,7 @@ import logoMakeshift from "../../assets/img/logo-makeshift.svg";
 import { notification } from "../../utils/notification";
 
 const Login = observer(() => {
-  const { loading, error, logIn } = useContext(UserContext);
+  const { loading, logIn } = useContext(UserContext);
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -72,16 +71,6 @@ const Login = observer(() => {
   const { email, password, inputType } = state;
   return (
     <div className="auth-background">
-      {error ? (
-        <InvalidDetails
-          // setErrorStatus={setErrorStatus}
-          message={
-            error?.message === "Network Error"
-              ? error?.message
-              : "Invalid log in details"
-          }
-        />
-      ) : null}
       <div className="row mx-0 d-flex justify-content-center align-items-center">
         <div className="">
           <img src={logoMakeshift} alt="logo" />

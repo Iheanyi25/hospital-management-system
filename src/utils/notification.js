@@ -34,3 +34,5 @@ export const notification = {
     info: (config) => configNotificationUtil({...config, type: "info", title: "Info"}),
     default: (config) => configNotificationUtil({...config, type: "default"}),
 }
+
+export const removeNotification = (id) => store.removeNotification(id)
