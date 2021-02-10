@@ -34,7 +34,6 @@ class ServiceRequestContents extends React.Component {
     const getServicesInAnInvoice = getServicesInAnInvoiceUrl(invoiceId);
       const getServicesInAnInvoiceConfig = fetchConfig({ url: getServicesInAnInvoice, method: "get" });
       const {data} = await fetchWrapper(getServicesInAnInvoiceConfig)
-
     this.setState({ serviceRequests: data.serviceRequest });
   }
 
@@ -92,7 +91,7 @@ class ServiceRequestContents extends React.Component {
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">No of Services In Invoice</h6>
                         <div className="count text-primary fs-20">
-                          {serviceRequests.length}
+                          {serviceRequests?.length ?? 0}
                         </div>
                       </div>
                     </div>
@@ -130,7 +129,7 @@ class ServiceRequestContents extends React.Component {
                           </tr>
                         </thead>
                         <tbody>
-                          {serviceRequests.map((serviceRequest, index) => (
+                          {serviceRequests?.map((serviceRequest, index) => (
                             <tr key={index}>
                               <td>
                                 <div className="text-muted text-nowrap">1</div>
