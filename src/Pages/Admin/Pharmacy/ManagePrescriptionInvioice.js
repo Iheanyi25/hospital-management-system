@@ -29,7 +29,6 @@ class ManagePrescriptionInvoice extends React.Component {
   };
   async componentDidMount() {
     await this.fetchPrescriptionInvoices();
-    alert("hello world")
   }
 
   async fetchPrescriptionInvoices() {
@@ -45,7 +44,7 @@ class ManagePrescriptionInvoice extends React.Component {
     this.setState(
       { prescriptionInvoices: response?.data?.drugInvoices || [] },
       () => this.sync()
-    );
+      );
   }
   async fetchDrugsInAnInvoice(invoiceNumber) {
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
@@ -331,7 +330,7 @@ class ManagePrescriptionInvoice extends React.Component {
 
                                         <div className="dropdown-menu">
                                           {prescriptionInvoice?.paymentStatus ===
-                                          "NOT PAID" ? null : (
+                                          "NOT PAID " ? null : (
                                             <Link
                                               to="#"
                                               className="btn btn-sm btn-block"
