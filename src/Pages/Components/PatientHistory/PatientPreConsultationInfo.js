@@ -27,31 +27,31 @@ const PatientVitals = ({ preConsultationDet }) => {
         <div className="mb-2">
           <span className="font-weight-bold">Blood Pressure</span>
           <span className="mx-1"> = </span>
-          <span>{preConsultationDet?.bloodPressure}mmHg</span>{" "}
+          <span>{preConsultationDet?.bloodPressurev ?? "N/A"}mmHg</span>{" "}
         </div>
 
         <div className="mb-2">
           <span className="font-weight-bold">Respiration</span>
           <span className="mx-1"> = </span>
-          <span>{preConsultationDet?.respiration}BPM</span>{" "}
+          <span>{preConsultationDet?.respiration ?? "N/A"}BPM</span>{" "}
         </div>
 
         <div className="mb-2">
           <span className="font-weight-bold">Pulse</span>
           <span className="mx-1"> = </span>
-          <span>{preConsultationDet?.pulse}BPM</span>{" "}
+          <span>{preConsultationDet?.pulse ?? "N/A"}BPM</span>{" "}
         </div>
 
         <div className="mb-2">
           <span className="font-weight-bold">SPO2</span>
           <span className="mx-1"> = </span>
-          <span>{preConsultationDet?.SPO2}%</span>{" "}
+          <span>{preConsultationDet?.SPO2  ?? "N/A"}%</span>{" "}
         </div>
 
         <div className="mb-2">
           <span className="font-weight-bold">Temperature</span>
           <span className="mx-1"> = </span>
-          <span>{preConsultationDet?.temperature}°C</span>{" "}
+          <span>{preConsultationDet?.temperature  ?? "N/A"}°C</span>{" "}
         </div>
       </div>
     </div>
