@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext, useState, Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { PageLoader } from "../../../Components";
+import { PageLoader, Table } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
 import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
@@ -8,241 +8,147 @@ import notpaid from "../../../assets/img/notpaid.svg";
 import incomplete from "../../../assets/img/incomplete.svg";
 import { getAllServiceRequestInvoiceUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper } from "../../../api/fetcher";
+import { useRequest } from "../../../api/fetcher";
 import { UserContext } from "../../../mobx/UserState";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
+import TableSize from "../../../Components/DataTable/TableSize";
+import ActionButton from "../../../Components/DataTable/ActionButton";
 
-let $ = window.$;
-$.DataTables = require("datatables.net");
-
-class ManageServiceRequest extends React.Component {
-  static contextType = UserContext;
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      categories: [],
-    };
-  }
-
-  async componentDidMount() {
-    this.fetchCategory().then(() => this.sync());
-  }
-
-  async fetchCategory() {
-    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl();
-    const getAllServiceRequestInvoiceConfig = fetchConfig({
-      url: getAllServiceRequestInvoice,
-      method: "get",
+const ManageServiceRequest = observer(() => {
+  const [pageNumber, setPageNumber] = useState(1)
+  const {
+    user: { userType },
+  } = useContext(UserContext);
+  const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(pageNumber);
+  const getAllServiceRequestInvoiceConfig = fetchConfig({
+    url: getAllServiceRequestInvoice,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllServiceRequestInvoiceConfig, {
+    revalidateOnFocus: false,
+  });
+  
+  let dataTable = [];
+  if (data) {
+    dataTable = data.serviceInvoices.map((serviceInvoice, index) => {
+      return {
+        "#": ++index,
+        "Patient's Name": serviceInvoice?.fullname,
+        "No. of Services": serviceInvoice?.noofServices,
+        "Invoice No": serviceInvoice?.invoiceNumber,
+        "Date Generated": formatDate(serviceInvoice?.dateGenerated),
+        "Total Cost": formatAmount(serviceInvoice?.cost),
+        Status: (
+          <>
+            {serviceInvoice?.paymentStatus === "NOT PAID" ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not paid
+              </>
+            ) : serviceInvoice?.paymentStatus === "PAID" ? (
+              <>
+                <img src={paid} alt="paid" /> Paid
+              </>
+            ) : (
+              <>
+                <img src={incomplete} alt="paid" /> Incomplete
+              </>
+            )}
+          </>
+        ),
+        Actions: (
+          <ServiceInvoiceTableAction
+            serviceInvoice={serviceInvoice}
+          />
+        ),
+      };
     });
-    const { data } = await fetchWrapper(getAllServiceRequestInvoiceConfig);
-
-    this.setState({ categories: data.serviceInvoices });
   }
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title">Service Request Invoices</h4>
+            {userType === "Admin" ? (
+              <NavLink className="btn btn-primary" to="/AdminServiceRequests">
+                Request Service
+              </NavLink>
+            ) : null}
+          </header>
 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    console.log($(this.el));
-  }
-
-  render() {
-    const { user } = this.context;
-    const { categories } = this.state;
-    console.log(user);
-    return (
-      <>
-        <PageLoader />
-
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+          <div className="page-content">
+            <TableSize
+              size={data ? data.serviceInvoices.length : 0}
+              heading="No. of Services request"
+            />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Service Request Invoices</h4>
-              {user.userType === "Admin" ? (
-                <NavLink className="btn btn-primary" to="/AdminServiceRequests">
-                  Request Service
-                </NavLink>
-              ) : null}
-            </header>
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">No. of Services request</h6>
-                        <div className="count text-primary fs-20">
-                          {categories.length}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <div className="table-responsive">
-                      <table
-                        ref={(el) => (this.el = el)}
-                        className="table table-striped"
-                        data-paging="true"
-                        data-info="true"
-                      >
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Patient's Name</th>
-                            <th>No. of Services</th>
-                            <th>Invoice No</th>
-                            <th>Date Generated</th>
-                            <th>Total Cost</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {categories.map((category, index) => {
-                            return (
-                              <tr>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {index + 1}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {category?.fullname}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {category?.noofServices}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {category?.invoiceNumber}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatDate(category?.dateGenerated) ?? ""}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {formatAmount(category?.cost) ?? ""}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-muted text-nowrap">
-                                    {category?.paymentStatus === "NOT PAID" ? (
-                                      <>
-                                        <img src={notpaid} alt="not paid" /> Not
-                                        paid
-                                      </>
-                                    ) : category?.paymentStatus === "PAID" ? (
-                                      <>
-                                        <img src={paid} alt="paid" /> Paid
-                                      </>
-                                    ) : (
-                                      <>
-                                        <img src={incomplete} alt="paid" />{" "}
-                                        Incomplete
-                                      </>
-                                    )}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      {user.userType ===
-                                      "Lab" ? null : category?.paymentStatus ===
-                                          "NOT PAID" ||
-                                        category?.paymentStatus ===
-                                          "INCOMPLETE" ? (
-                                        <NavLink
-                                          to={{
-                                            pathname:
-                                              user.userType === "Admin"
-                                                ? `/AdminPaymentForService/${category.id}`
-                                                : `/AccountPaymentForService/${category.id}`,
-                                            state: {
-                                              invoiceId: category.id,
-                                              patientId: category.patientId,
-                                              invoiceNumber:
-                                                category.invoiceNumber,
-                                              user: toJS(user),
-                                            },
-                                          }}
-                                          className="btn btn-sm btn-block"
-                                        >
-                                          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                          Pay for Services
-                                        </NavLink>
-                                      ) : null}
-
-                                      <NavLink
-                                        to={{
-                                          pathname:
-                                            user.userType === "Admin"
-                                              ? `/AdminViewServiceRequestContents/${category.id}`
-                                              : user.userType === "Lab"
-                                              ? `/LabServiceRequestContents/${category.id}`
-                                              : `/AccountServiceRequestContents/${category.id}`,
-                                          state: {
-                                            invoiceId: category.id,
-                                            patientId: category.patientId,
-                                            invoiceNumber:
-                                              category.invoiceNumber,
-                                            paymentStatus:
-                                              category.paymentStatus,
-                                            user: toJS(user),
-                                          },
-                                        }}
-                                        className="btn btn-sm btn-block"
-                                      >
-                                        <span className="btn-icon icofont-server mr-2" />
-                                        View Content
-                                      </NavLink>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            {data && <Table content={dataTable} paginationDetails={data.paginationDetails} setPageNumber={setPageNumber} pageNumber={pageNumber} />}
           </div>
-        </main>
-      </>
-    );
-  }
-}
+        </div>
+      </main>
+    </Fragment>
+  );
+});
 
-export default observer(ManageServiceRequest);
+const ServiceInvoiceTableAction = observer(({ serviceInvoice }) => {
+  const {
+    user,
+    user: { userType },
+  } = useContext(UserContext);
+  return (
+    <ActionButton>
+      {userType === "Lab" ? null : serviceInvoice?.paymentStatus ===
+          "NOT PAID" || serviceInvoice?.paymentStatus === "INCOMPLETE" ? (
+        <NavLink
+          to={{
+            pathname:
+              userType === "Admin"
+                ? `/AdminPaymentForService/${serviceInvoice.id}`
+                : `/AccountPaymentForService/${serviceInvoice.id}`,
+            state: {
+              invoiceId: serviceInvoice.id,
+              patientId: serviceInvoice.patientId,
+              invoiceNumber: serviceInvoice.invoiceNumber,
+              user: toJS(user),
+            },
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+          Pay for Services
+        </NavLink>
+      ) : null}
+
+      <NavLink
+        to={{
+          pathname:
+            userType === "Admin"
+              ? `/AdminViewServiceRequestContents/${serviceInvoice.id}`
+              : userType === "Lab"
+              ? `/LabServiceRequestContents/${serviceInvoice.id}`
+              : `/AccountServiceRequestContents/${serviceInvoice.id}`,
+          state: {
+            invoiceId: serviceInvoice.id,
+            patientId: serviceInvoice.patientId,
+            invoiceNumber: serviceInvoice.invoiceNumber,
+            paymentStatus: serviceInvoice.paymentStatus,
+            user: toJS(user),
+          },
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        View Content
+      </NavLink>
+    </ActionButton>
+  );
+});
+
+export default ManageServiceRequest;
