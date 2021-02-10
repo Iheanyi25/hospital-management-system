@@ -55,8 +55,8 @@ export const deleteServiceCategoryUrl = () => `/Admin/DeleteServiceCategory`;
 // Admin - Manage Service Requests
 export const getServiceRequestUrl = (serviceRequestId) =>
   `/Admin/GetServiceRequest/${serviceRequestId}`;
-export const getAllServiceRequestInvoiceUrl = () =>
-  `/Admin/GetAllServiceRequestInvoice`;
+export const getAllServiceRequestInvoiceUrl = (PageNumber) =>
+  `/Admin/GetAllServiceRequestInvoice?PageNumber=${PageNumber}&PageSize=200`;
 export const postServiceRequestUrl = () => `/Admin/UploadServiceRequestResult`;
 export const getServiceRequestResultForPatientUrl = (patientId) =>
   `/Admin/GetServiceRequestResultsForPatient/${patientId}`;
