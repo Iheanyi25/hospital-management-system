@@ -295,7 +295,7 @@ class Dashboard extends React.Component {
                             </tr>
                           </thead>
                           <tbody>
-                            {this.state.doctorAppointments.map(
+                            {this.state.doctorAppointments?.map(
                               (appointment, key) => (
                                 <tr key={key}>
                                   <td className="wrap">
