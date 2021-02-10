@@ -1,8 +1,11 @@
+const pageSize = 1;
+
 // Admin - Dashboard
 export const getAdminDashboardUrl = () => `/Admin/Dashboard`;
 // Admin - Manage Accounts
 export const postAdminAccountUrl = () => `/Admin/Account/CreateAccount`;
-export const getAllAccountsUrl = () => `/Admin/Account/GetAllAccounts`;
+export const getAllAccountsUrl = (pageNumber) =>
+  `/Admin/Account/GetAllAccounts?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
 
 // Admin - Manage Appointment
@@ -56,7 +59,7 @@ export const deleteServiceCategoryUrl = () => `/Admin/DeleteServiceCategory`;
 export const getServiceRequestUrl = (serviceRequestId) =>
   `/Admin/GetServiceRequest/${serviceRequestId}`;
 export const getAllServiceRequestInvoiceUrl = (PageNumber) =>
-  `/Admin/GetAllServiceRequestInvoice?PageNumber=${PageNumber}&PageSize=200`;
+  `/Admin/GetAllServiceRequestInvoice?PageNumber=${PageNumber}&PageSize=${pageSize}`;
 export const postServiceRequestUrl = () => `/Admin/UploadServiceRequestResult`;
 export const getServiceRequestResultForPatientUrl = (patientId) =>
   `/Admin/GetServiceRequestResultsForPatient/${patientId}`;
@@ -65,10 +68,11 @@ export const getServiceRequestResultUrl = (serviceRequestId) =>
 export const getServicesInAnInvoiceUrl = (invoiceId) =>
   `/Admin/GetServicesInAnInvoice/${invoiceId}`;
 export const postPayForServicesUrl = () => `/Admin/PayForServices`;
-export const postPayForServicesWithAccountUrl = () => `/Admin/PayForServicesWithAccount`;
+export const postPayForServicesWithAccountUrl = () =>
+  `/Admin/PayForServicesWithAccount`;
 
 // Admin - Manage Services
-export const getAllServicesUrl = () => `/Admin/GetAllServices`;
+export const getAllServicesUrl = (PageNumber) => `/Admin/GetAllServices?PageNumber=${PageNumber}&PageSize=${pageSize}`;
 export const createServiceUrl = () => `/Admin/CreateService`;
 export const updateServiceUrl = () => `/Admin/UpdateService`;
 export const postRequestServicesUrl = () => `/Admin/RequestServices`;

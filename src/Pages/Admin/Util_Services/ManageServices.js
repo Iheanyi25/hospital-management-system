@@ -1,44 +1,30 @@
-import React, { Component } from "react";
+import { observer } from "mobx-react";
+import React, { useState, useContext, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper } from "../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { deleteServiceUrl, getAllServicesUrl } from "../../../api/URLs";
-import { PageLoader } from "../../../Components";
+import { PageLoader, Table } from "../../../Components";
+import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
 
+const ManageServices = observer(() => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const {
+    user: { userType },
+  } = useContext(UserContext);
+  const getAllServices = getAllServicesUrl(pageNumber);
+  const getAllServicesConfig = fetchConfig({
+    url: getAllServices,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllServicesConfig, {
+    revalidateOnFocus: false,
+  });
 
-let $ = window.$;
-$.DataTable = require("datatables.net");
-export default class ManageServices extends Component {
-  static contextType = UserContext;
-  state = {
-    services: [],
-  };
-
-  async componentDidMount() {
-    await this.fetchAllServices();
-  }
-
-  async fetchAllServices() {
-    const getAllServices = getAllServicesUrl();
-    const getAllServicesConfig = fetchConfig({
-      url: getAllServices,
-      method: "get",
-    });
-    const { data } = await fetchWrapper(getAllServicesConfig);
-
-    this.$el = $(this.el);
-    this.$el.DataTable().destroy();
-    this.setState(
-      (state) => ({ ...state, services: data }),
-      () => this.sync()
-    );
-    console.log({ data });
-  }
-
-  deleteMe = async (id) => {
+  const deleteMe = async (id) => {
     try {
       console.log("ddd");
       const deleteService = deleteServiceUrl();
@@ -51,142 +37,103 @@ export default class ManageServices extends Component {
       console.log("ddd");
       console.log(res.data.message);
       if (res.status === 200) {
-        notification.success({ message: res.data.message})
+        notification.success({ message: res.data.message });
       } else if (res.status === 400) {
-        notification.warning({ message: res.data.message})
+        notification.warning({ message: res.data.message });
       }
     } catch (error) {
-      console.log(error)
-      notification.error({ message: error?.response?.data.message })
+      console.log(error);
+      notification.error({ message: error?.response?.data.message });
     }
   };
 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
+  let dataTable = [];
+  if (data) {
+    dataTable = data.services.map((service, index) => {
+      return {
+        "#": ++index,
+        Services: service?.name,
+        Cost: service?.cost,
+        Actions: <ServicesTableAction service={service} deleteMe={deleteMe} />,
+      };
+    });
   }
-  
-  render() {
-    const {
-      user: { userType },
-    } = this.context;
-    console.log(this.state);
-    return (
-      <>
-        <PageLoader />
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title mb-0">Manage Services</h4>
+            <NavLink
+              className="btn btn-primary"
+              to={
+                userType === "Admin"
+                  ? "/AdminCreateService"
+                  : "/LabCreateService"
+              }
+            >
+              Create Service
+            </NavLink>
+          </header>
 
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+          <div className="page-content">
+            <TableSize
+              size={data ? data.services.length : 0}
+              heading="No Of Services"
+            />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title mb-0"> Manage Services</h4>
-              <NavLink
-                className="btn btn-primary"
-                to={
-                  userType === "Admin"
-                    ? "/AdminCreateService"
-                    : "/LabCreateService"
-                }
-              >
-                Create Service
-              </NavLink>
-            </header>
-            <div className="page-content mt-5">
-              <TableSize size={this.state.services.length} heading="No Of Services" />
-              <div className="row justify-content-center">
-                <div className="col col-md-12">
-                  <div className="card border-light">
-                    <div className="card-body">
-                      <div className="table-responsive">
-                        <table
-                          ref={(el) => (this.el = el)}
-                          className="table table-striped"
-                          data-paging="true"
-                          data-info="true"
-                          data-searching="true"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Services</th>
-                              <th>Cost</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {this.state.services.map((item, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <strong>{index + 1}</strong>
-                                </td>
-                                <td>
-                                  <strong>
-                                    {" "}
-                                    <div className="d-flex align-items-center nowrap">
-                                      {item.name}
-                                    </div>
-                                  </strong>
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center nowrap">
-                                    {item.cost}
-                                  </div>
-                                </td>
-
-                                <td>
-                                  <div className="btn-group">
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      Action
-                                    </button>
-                                    <div className="dropdown-menu">
-                                      <Link
-                                        title="Pre-consultation"
-                                        to={{
-                                          pathname:
-                                            userType === "Admin"
-                                              ? "/AdminEditService/" + item.id
-                                              : "/LabEditService/" + item.id,
-                                          state: item,
-                                        }}
-                                        className="btn btn-sm btn-block text-primary"
-                                      >
-                                        <span className="btn-icon icofont-edit-alt mr-2" />
-                                        Edit
-                                      </Link>
-                                      <Link
-                                        title="Pre-consultation"
-                                        to="#"
-                                        onClick={() => this.deleteMe(item.id)}
-                                        className="btn btn-sm btn-block text-danger"
-                                      >
-                                        <span className="btn-icon icofont-delete-alt mr-2" />
-                                        Delete
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            {data && (
+              <Table
+                content={dataTable}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+              />
+            )}
           </div>
-        </main>
-      </>
-    );
-  }
-}
+        </div>
+      </main>
+    </Fragment>
+  );
+});
+
+const ServicesTableAction = observer(({ service, deleteMe }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
+  return (
+    <ActionButton>
+      <Link
+        title="Pre-consultation"
+        to={{
+          pathname:
+            userType === "Admin"
+              ? "/AdminEditService/" + service.id
+              : "/LabEditService/" + service.id,
+          state: service,
+        }}
+        className="btn btn-sm btn-block text-primary"
+      >
+        <span className="btn-icon icofont-edit-alt mr-2" />
+        Edit
+      </Link>
+      <Link
+        title="Pre-consultation"
+        to="#"
+        onClick={() => deleteMe(service.id)}
+        className="btn btn-sm btn-block text-danger"
+      >
+        <span className="btn-icon icofont-delete-alt mr-2" />
+        Delete
+      </Link>
+    </ActionButton>
+  );
+});
+
+export default ManageServices;
