@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from "react";
+import React, { useState, useContext, Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getAllAccountsUrl } from "../../api/URLs";
@@ -13,7 +13,8 @@ import ActionButton from "../../Components/DataTable/ActionButton";
 import { useRequest } from "../../api/fetcher";
 
 const ManageAccounts = () => {
-  const getAllAccounts = getAllAccountsUrl();
+  const [pageNumber, setPageNumber] = useState(1);
+  const getAllAccounts = getAllAccountsUrl(pageNumber);
   const getAllAccountsConfig = fetchConfig({
     url: getAllAccounts,
     method: "get",
@@ -24,8 +25,8 @@ const ManageAccounts = () => {
 
   let dataTable = [];
   if (data) {
-    console.log(data,88888)
-    dataTable = data.accounts.map((account , index) => {
+    console.log(data, 88888);
+    dataTable = data.accounts.map((account, index) => {
       return {
         "#": ++index,
         Photo: (
@@ -40,7 +41,7 @@ const ManageAccounts = () => {
         Account: <strong>{account?.name}</strong>,
         Phone: account?.phoneNumber || "Not available",
         "Health Plan": account?.healthPlan?.name,
-        Balance: formatAmount( account?.accountBalance) || 0,
+        Balance: formatAmount(account?.accountBalance) || 0,
         Actions: <AccountTableAction account={account} />,
       };
     });
@@ -55,9 +56,9 @@ const ManageAccounts = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-        <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title"> Manage Accounts</h4>
-            </header>
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title"> Manage Accounts</h4>
+          </header>
 
           <div className="page-content">
             <TableSize
@@ -66,7 +67,7 @@ const ManageAccounts = () => {
             />
           </div>
           <div className="page-content">
-            {data && <Table content={dataTable} />}
+            {data && <Table content={dataTable} paginationDetails={data.paginationDetails} setPageNumber={setPageNumber} pageNumber={pageNumber}/>}
           </div>
         </div>
       </main>
@@ -81,7 +82,7 @@ const AccountTableAction = observer(({ account }) => {
   const tableFunctions = [
     {
       text: "Fund Account",
-      path:`${
+      path: `${
         user.userType === "Admin"
           ? `/AdminFundAccount/${account.id}`
           : `/AccountFundAccount/${account.id}`
@@ -91,19 +92,19 @@ const AccountTableAction = observer(({ account }) => {
         id: account.id,
         user: toJS(user),
         name: account?.name,
-      }
-    }
+      },
+    },
   ];
   return (
     <ActionButton>
-      {tableFunctions.map(({ path, text, iconClass, routeState },index) => (
+      {tableFunctions.map(({ path, text, iconClass, routeState }, index) => (
         <NavLink
           to={{
             pathname: path,
-            state: routeState
+            state: routeState,
           }}
           className="btn btn-sm btn-block"
-          key={path+index}
+          key={path + index}
         >
           <span className={iconClass} />
           {text}
