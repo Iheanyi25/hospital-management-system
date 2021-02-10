@@ -28,7 +28,7 @@ export default class ManageHealthPlans extends Component {
     const response = await fetchWrapper(getAllHealthPlansConfig);
     this.$el = $(this.el);
     this.$el.DataTable().destroy();
-    this.setState({ healthPlans: response?.data?.plans || [] }, () =>
+    this.setState({ healthPlans: response?.data?.healthPlans || [] }, () =>
       this.sync()
     );
   }
