@@ -30,7 +30,7 @@ export const deleteConsultationUrl = () => `/Admin/DeleteConsultation`;
 //ReAssignment of doctors shares url with reAssignment of appointment
 
 // Admin - Manage Health Plans
-export const getAllHealthPlansUrl = () => `/Admin/GetAllHealthPlans`;
+export const getAllHealthPlansUrl = (pageNumber) => `/Admin/GetAllHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createHealthPlanUrl = () => `/Admin/CreateHealthPlan`;
 export const updateHealthPlanUrl = () => `/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `/Admin/DisableHealthPlan`;
