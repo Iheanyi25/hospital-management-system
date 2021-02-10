@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import NoDataState from "../EmptyState/NoDataState";
 const $ = window.$;
 
@@ -14,7 +15,14 @@ const readyStyle = {
   transition: "visibility 0s linear 0s, opacity 300ms",
 };
 
-const Table = ({ content, tableID, exportAction }) => {
+const Table = ({
+  content,
+  tableID,
+  exportAction,
+  paginationDetails,
+  pageNumber,
+  setPageNumber,
+}) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -52,6 +60,15 @@ const Table = ({ content, tableID, exportAction }) => {
           {content.length > 0 && <TableContent tableContent={content} />}
         </table>
       </div>
+      <div className="d-flex justify-content-center">
+        {content.length > 0 && paginationDetails ? (
+          <PaginationElement
+            paginationDetails={paginationDetails}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+          />
+        ) : null}
+      </div>
       <div>{content.length === 0 && <NoDataState />}</div>
     </>
   );
@@ -80,5 +97,55 @@ const TableContent = ({ tableContent }) => {
       </thead>
       <tbody>{body}</tbody>
     </>
+  );
+};
+
+const PaginationElement = ({
+  paginationDetails,
+  setPageNumber,
+  pageNumber,
+}) => {
+  const { hasNext, hasPrevious, totalPages } = paginationDetails;
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(i);
+  }
+  console.log(pages);
+  console.log(paginationDetails);
+  return (
+    <nav aria-label="...">
+      <ul className="pagination">
+        <li className={`page-item ${hasPrevious ? null : "disabled"}`}>
+          <Link
+            className="page-link"
+            tabindex="-1"
+            to="#"
+            onClick={() => setPageNumber(pageNumber - 1)}
+          >
+            Previous
+          </Link>
+        </li>
+        {pages.map((page) => (
+          <li className={`page-item ${page === pageNumber ? "active" : null}`}>
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setPageNumber(page)}
+            >
+              {page}
+            </Link>
+          </li>
+        ))}
+        <li className={`page-item ${hasNext ? null : "disabled"}`}>
+          <Link
+            className="page-link"
+            to="#"
+            onClick={() => setPageNumber(pageNumber + 1)}
+          >
+            Next
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 };
