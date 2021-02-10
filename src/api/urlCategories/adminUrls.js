@@ -48,7 +48,7 @@ export const postDoctorSocialUrl = () => `/Doctor/AddDoctorSocial`;
 // Admin - Manage Roles
 
 // Admin - Manage Services Catgories
-export const getAllServicesCategoryUrl = () => `/Admin/GetAllServiceCategories`;
+export const getAllServicesCategoryUrl = (pageNumber) => `/Admin/GetAllServiceCategories?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAllServicesInACategoryUrl = (serviceCatId) =>
   `/Admin/GetAllServicesInAServiceCategory?serviceCategoryId=${serviceCatId}`;
 export const postServiceCategoryUrl = () => `/Admin/CreateServiceCategory`;
