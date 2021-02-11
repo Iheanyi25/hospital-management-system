@@ -34,15 +34,12 @@ const ManageServices = observer(() => {
         method: "post",
       });
       const res = await fetchWrapper(deleteServiceConfig);
-      console.log("ddd");
-      console.log(res.data.message);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
       } else if (res.status === 400) {
         notification.warning({ message: res.data.message });
       }
     } catch (error) {
-      console.log(error);
       notification.error({ message: error?.response?.data.message });
     }
   };
@@ -54,7 +51,7 @@ const ManageServices = observer(() => {
         "#": ++index,
         Services: service?.name,
         Cost: service?.cost,
-        Actions: <ServicesTableAction service={service} deleteMe={deleteMe} />,
+        Actions: <ServicesTableAction service={service} deleteMe={deleteMe} userType={userType} />,
       };
     });
   }
@@ -103,10 +100,7 @@ const ManageServices = observer(() => {
   );
 });
 
-const ServicesTableAction = observer(({ service, deleteMe }) => {
-  const {
-    user: { userType },
-  } = useContext(UserContext);
+const ServicesTableAction = ({ service, deleteMe, userType }) => {
   return (
     <ActionButton>
       <Link
@@ -134,6 +128,6 @@ const ServicesTableAction = observer(({ service, deleteMe }) => {
       </Link>
     </ActionButton>
   );
-});
+};
 
 export default ManageServices;
