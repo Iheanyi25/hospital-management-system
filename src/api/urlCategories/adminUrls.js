@@ -72,17 +72,17 @@ export const postPayForServicesWithAccountUrl = () =>
   `/Admin/PayForServicesWithAccount`;
 
 // Admin - Manage Services
-export const getAllServicesUrl = (PageNumber) => `/Admin/GetAllServices?PageNumber=${PageNumber}&PageSize=${pageSize}`;
+export const getAllServicesUrl = (pageNumber) => `/Admin/GetAllServices?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createServiceUrl = () => `/Admin/CreateService`;
 export const updateServiceUrl = () => `/Admin/UpdateService`;
 export const postRequestServicesUrl = () => `/Admin/RequestServices`;
 export const deleteServiceUrl = () => `/Admin/DeleteService`;
 
 // Admin - Manage Wards
+export const getAllWardsUrl = (pageNumber) => `/Admin/Ward/GetAllWards?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createWardUrl = () => `/Admin/Ward/CreateWard`;
 export const updateWardUrl = () => `/Admin/Ward/UpdateWard`;
 export const deleteWardUrl = () => `/Admin/Ward/DeleteWard`;
-export const getAllWardsUrl = () => `/Admin/Ward/GetAllWards`;
 
 // Admin - Onboarding
 export const registerUserUrl = () => `/Admin/Register`;
