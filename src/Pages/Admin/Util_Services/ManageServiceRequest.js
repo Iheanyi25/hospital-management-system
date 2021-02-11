@@ -16,11 +16,14 @@ import TableSize from "../../../Components/DataTable/TableSize";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 
 const ManageServiceRequest = observer(() => {
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1);
   const {
+    user,
     user: { userType },
   } = useContext(UserContext);
-  const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(pageNumber);
+  const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(
+    pageNumber
+  );
   const getAllServiceRequestInvoiceConfig = fetchConfig({
     url: getAllServiceRequestInvoice,
     method: "get",
@@ -28,7 +31,7 @@ const ManageServiceRequest = observer(() => {
   const { data, error } = useRequest(getAllServiceRequestInvoiceConfig, {
     revalidateOnFocus: false,
   });
-  
+
   let dataTable = [];
   if (data) {
     dataTable = data.serviceInvoices.map((serviceInvoice, index) => {
@@ -59,6 +62,7 @@ const ManageServiceRequest = observer(() => {
         Actions: (
           <ServiceInvoiceTableAction
             serviceInvoice={serviceInvoice}
+            user={user}
           />
         ),
       };
@@ -89,7 +93,14 @@ const ManageServiceRequest = observer(() => {
             />
           </div>
           <div className="page-content">
-            {data && <Table content={dataTable} paginationDetails={data.paginationDetails} setPageNumber={setPageNumber} pageNumber={pageNumber} />}
+            {data && (
+              <Table
+                content={dataTable}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+              />
+            )}
           </div>
         </div>
       </main>
@@ -97,11 +108,8 @@ const ManageServiceRequest = observer(() => {
   );
 });
 
-const ServiceInvoiceTableAction = observer(({ serviceInvoice }) => {
-  const {
-    user,
-    user: { userType },
-  } = useContext(UserContext);
+const ServiceInvoiceTableAction = ({ serviceInvoice, user }) => {
+  const { userType } = user;
   return (
     <ActionButton>
       {userType === "Lab" ? null : serviceInvoice?.paymentStatus ===
@@ -149,6 +157,6 @@ const ServiceInvoiceTableAction = observer(({ serviceInvoice }) => {
       </NavLink>
     </ActionButton>
   );
-});
+};
 
 export default ManageServiceRequest;
