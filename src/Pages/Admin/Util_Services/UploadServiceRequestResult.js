@@ -35,9 +35,6 @@ export default function UploadServiceRequestResult(props) {
          
           <div className="main-content-wrap">
           {notification.show && <Notification message={notification.message} callback={resetShowState} />}
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Upload Results for (Lab) Services</h4>
-            </header>
             <div className="page-content">
               <div className="card-body"></div>
             </div>
