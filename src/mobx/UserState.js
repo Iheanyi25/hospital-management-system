@@ -50,7 +50,7 @@ export const UserProvider = ({ children }) => {
       userStore.token = JSON.parse(localStorage.getItem("userToken"));
       userStore.isLoadingUser = false;
       axiosInstance.interceptors.request.use(
-        async (config) => {
+        yield (config) => {
           if (userStore.user) toggleGlobalLoaderClass("add");
           config.headers = {
             Authorization: `Bearer ${userStore.token}`,
@@ -61,7 +61,7 @@ export const UserProvider = ({ children }) => {
         },
         (error) => {
           if (userStore.user) toggleGlobalLoaderClass("remove");
-          Promise.reject(error);
+          console.log(error);
         }
       );
       let prevNotificationId;
@@ -71,16 +71,17 @@ export const UserProvider = ({ children }) => {
 
           return response;
         },
-        async function (error) {
+        yield function (error) {
           if (error?.status === 403) {
             logOut();
           }
+          console.log(error.message,666666666)
           if (error.message === "Network Error") {
             if(prevNotificationId) removeNotification(prevNotificationId)
             prevNotificationId = notification.warining({ message: "Network Error, try again", duration: 5000 })
           }
           if (userStore.user) toggleGlobalLoaderClass("remove");
-          return Promise.reject(error);
+          console.log(error);
         }
       );
     }),

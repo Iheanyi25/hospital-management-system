@@ -17,7 +17,6 @@ import formatDate from "../../utils/formatDate";
 import PatientInvoiceReceipt from "../Admin/PatientInvoiceReceipt";
 import formatAmount from "../../utils/formatAmount";
 import { toJS } from "mobx";
-import ThirdPartyFunding from "./ThirdPartyFunding";
 
 const local = "http://localhost:3000";
 function PatientAccount() {
@@ -36,7 +35,7 @@ function PatientAccount() {
   const { data: accountDet } = useRequest(getPatientAccountConfig, { revalidateOnFocus: false });
 
   const copyToClipboard = () => {
-    const thirdPartyFundingLink = `${local}/common/ThirdPartyFundAccount/${accountDet.account.accountNumber}`;
+    const thirdPartyFundingLink = `${local}/common/ThirdPartyFundAccount/${accountDet?.account?.accountNumber}`;
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
   };
 
@@ -58,7 +57,7 @@ function PatientAccount() {
       }
     );
   }
-  console.log(user,8888)
+
   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
@@ -78,7 +77,7 @@ function PatientAccount() {
                 data-placement="top"
                 title="Tooltip on top"
                 to="/ThirdPartyFunding"
-                // onClick={copyToClipboard}
+                onClick={copyToClipboard}
               >
                 Third Party Funding
               </Link>
