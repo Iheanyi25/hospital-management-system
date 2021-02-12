@@ -24,7 +24,7 @@ const Appointments = () => {
   const rejectedAppointments = [];
 
   if (data) {
-    data.doctorsAppointments.forEach((appointment) => {
+    data.appointments.forEach((appointment) => {
       if (appointment.isActive) {
         activeAppointments.push(appointment);
       } else if (appointment.isAccepted) {

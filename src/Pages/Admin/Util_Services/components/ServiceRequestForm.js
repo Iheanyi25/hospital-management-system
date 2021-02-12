@@ -82,6 +82,7 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
 
   return (
     <form className="mb-4" onSubmit={uploadServiceRequestResult} ref={formRef}>
+      <h4 className="text-center">Upload Results for (Lab) Services</h4>
       <div className="form-group">
         <label>Service Category</label>{" "}
         <input
