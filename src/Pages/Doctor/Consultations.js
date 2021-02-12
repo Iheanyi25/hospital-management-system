@@ -8,6 +8,7 @@ import { getPatientsUrl } from "../../api/URLs";
 import DoctorImage from "../../assets/img/PatientAndAdminIcon.svg";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
+import ConsultationSummary from "./consultation-components/ConsultationSummary";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -47,6 +48,7 @@ class Consultations extends React.Component {
         method: "get",
       });
       const { data } = await fetchWrapper(getDoctorAllConsultationsConfig);
+      console.log(data);
 
       let patients = await this.getAllPatients();
 
@@ -87,6 +89,17 @@ class Consultations extends React.Component {
       console.log(error);
     }
   }
+
+  // filterConsultations = (consultations) => [
+  //   this.setState({
+  //     activeAppointments: consultations.filter((consultation) =>consultation.patientQueue.isActive === true),
+  //     acceptedAppointments: consultations.filter((consultation) => consultation.patientQueue.isCompleted === true),
+  //     completedConsultations: consultations.filter((consultation) => consultation.patientQueue.isCompleted === true),
+  //     pendingAppointments: consultations.filter((consultation) => consultation.consultationType === "inhalers"),
+  //     powderDrugs: consultations.filter((consultation) => consultation.consultationType === "powder"),
+  //     loading: false,
+  //   }),
+  // ];
 
   sync() {
     this.$el = $(this.el);
@@ -131,63 +144,11 @@ class Consultations extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">
-                          Total Patient On Open List
-                        </h6>
-                        <div className="count text-primary fs-20">
-                          {pendingAppointmentsCount}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-03s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
-                        <div className="count text-primary fs-20">
-                          {acceptedAppointmentsCount}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-04s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-list"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1 text-nowrap">
-                          Total Patients Attended
-                        </h6>
-                        <div className="count text-primary fs-20">
-                          {rejectedAppointmentsCount}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ConsultationSummary
+              pendingAppointmentsCount={pendingAppointmentsCount}
+              acceptedAppointmentsCount={acceptedAppointmentsCount}
+              rejectedAppointmentsCount={rejectedAppointmentsCount}
+            />
 
             <header className="page-header">
               <h4 className="page-title">My Consultation List</h4>
