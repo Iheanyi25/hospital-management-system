@@ -1,168 +1,93 @@
-import React from "react";
+import React, { useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper } from "../../../api/fetcher";
+import { useRequest } from "../../../api/fetcher";
 import { getAllPrescriptionsUrl } from "../../../api/URLs";
-import { PageLoader } from "../../../Components";
+import { PageLoader, Table } from "../../../Components";
 import formatDate from "../../../utils/formatDate";
 import formatAmount from "../../../utils/formatAmount";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
+import ActionButton from "../../../Components/DataTable/ActionButton";
+import TableSize from "../../../Components/DataTable/TableSize";
 
-let $ = window.$;
-$.DataTables = require("datatables.net");
-class ManagePrescriptions extends React.Component {
-  static contextType = UserContext;
-  state = {
-    prescriptions: [],
-  };
-  async componentDidMount() {
-    await this.fetchPrescriptions();
-  }
+const ManagePrescriptions = observer(() => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
+  const getPrescriptionsUrl = getAllPrescriptionsUrl();
+  const getAllPrescriptionsConfig = fetchConfig({
+    url: getPrescriptionsUrl,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllPrescriptionsConfig, {
+    revalidateOnFocus: false,
+  });
 
-  async fetchPrescriptions() {
-    const getPrescriptionsUrl = getAllPrescriptionsUrl();
-    const getAllPrescriptionsConfig = fetchConfig({
-      url: getPrescriptionsUrl,
-      method: "get",
+  let dataTable = [];
+  if (data) {
+    dataTable = data.prescriptions.map((prescription, index) => {
+      return {
+        "#": ++index,
+        "Patient Name": `${prescription?.patient?.firstName ?? ""} ${
+          prescription?.patient?.lastName ?? ""
+        }`,
+        "Doctor Name": `${prescription?.doctor?.firstName ?? ""} ${
+          prescription?.doctor?.lastName ?? ""
+        }`,
+        "Date of Prescription": formatDate(prescription?.datePrescribed),
+        Actions: (
+          <PrescriptionActionTable
+            prescription={prescription}
+            userType={userType}
+          />
+        ),
+      };
     });
-    const response = await fetchWrapper(getAllPrescriptionsConfig);
-    this.$el = $(this.el);
-    this.$el.DataTable().destroy();
-    console.log(response.data.prescriptions);
-    this.setState({ prescriptions: response?.data?.prescriptions || [] }, () =>
-      this.sync()
-    );
   }
-
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-  }
-
-  render() {
-    const content = this.context;
-    const { user } = content;
-    const { prescriptions } = this.state;
-    return (
-      <>
-        <PageLoader />
-
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title">Prescriptions</h4>
+          </header>
+          <div className="page-content">
+            <TableSize
+              size={data ? formatAmount(data.prescriptions.length) : 0}
+              heading="No of Prescriptions"
+            />
           </div>
-          <div className="main-content-wrap">
-            <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Prescriptions</h4>
-            </header>
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">No of Prescriptions</h6>
-                        <div className="count text-primary fs-20">
-                          {formatAmount(prescriptions.length)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <div className="table-responsive">
-                      <table
-                        ref={(el) => (this.el = el)}
-                        className="table table-striped"
-                        data-paging="true"
-                        data-info="true"
-                      >
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Patient Name</th>
-                            <th>Doctor Name</th>
-                            <th>Date of Prescription</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {prescriptions?.map((prescription, index) => (
-                            <tr key={index}>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  {index + 1}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">{`${
-                                  prescription?.patient?.firstName ?? ""
-                                } ${
-                                  prescription?.patient?.lastName ?? ""
-                                }`}</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">{`${
-                                  prescription?.doctor?.firstName ?? ""
-                                } ${
-                                  prescription?.doctor?.lastName ?? ""
-                                }`}</div>
-                              </td>
-                              <td>
-                                <div className="text-muted text-nowrap">
-                                  {formatDate(prescription?.datePrescribed)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="btn-group">
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                  >
-                                    Action
-                                  </button>
-                                  <div className="dropdown-menu">
-                                    <Link
-                                      to={
-                                        user.userType === "Admin"
-                                          ? `/AdminDrugPrescription/${prescription?.id}`
-                                          : `/PharmacyDrugPrescription/${prescription?.id}`
-                                      }
-                                      className="btn btn-sm btn-block"
-                                    >
-                                      <span className="btn-icon icofont-server mr-2" />
-                                      Dispense
-                                    </Link>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="page-content">
+            {data && <Table content={dataTable} />}
           </div>
-        </main>
-      </>
-    );
-  }
-}
+        </div>
+      </main>
+    </Fragment>
+  );
+});
 
-export default observer(ManagePrescriptions);
+const PrescriptionActionTable = ({ prescription, userType }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={
+          userType === "Admin"
+            ? `/AdminDrugPrescription/${prescription?.id}`
+            : `/PharmacyDrugPrescription/${prescription?.id}`
+        }
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Dispense
+      </Link>
+    </ActionButton>
+  );
+};
+
+export default ManagePrescriptions;

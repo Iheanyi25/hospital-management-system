@@ -38,7 +38,11 @@ const ManageAccounts = () => {
             className="rounded-500"
           />
         ),
-        Account: <strong>{account?.name}</strong>,
+        Account: (
+          <strong style={{ textTransform: "capitalize" }}>
+            {account?.name}
+          </strong>
+        ),
         Phone: account?.phoneNumber || "Not available",
         "Health Plan": account?.healthPlan?.name,
         Balance: formatAmount(account?.accountBalance) || 0,
@@ -67,7 +71,14 @@ const ManageAccounts = () => {
             />
           </div>
           <div className="page-content">
-            {data && <Table content={dataTable} paginationDetails={data.paginationDetails} setPageNumber={setPageNumber} pageNumber={pageNumber}/>}
+            {data && (
+              <Table
+                content={dataTable}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+              />
+            )}
           </div>
         </div>
       </main>

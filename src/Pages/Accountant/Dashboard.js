@@ -17,6 +17,7 @@ import paid from "../../assets/img/paid.svg";
 import notpaid from "../../assets/img/notpaid.svg";
 import { PrescriptionReciept } from "../../Components/Modals";
 import { notification } from "../../utils/notification";
+import ReceiptModal from "../../Components/Modals/ReceiptModal";
 
 // const $ = window.$;
 let $ = window.$;
@@ -32,6 +33,7 @@ class Dashboard extends React.Component {
       registrationInvoices: [],
       prescriptionInvoices: [],
       drugs: [],
+      isFetchingDrugs: true,
     };
   }
 
@@ -66,7 +68,10 @@ class Dashboard extends React.Component {
     });
     const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
     console.log(response);
-    this.setState({ drugs: response?.data?.drugsInInvoice || [] });
+    this.setState({
+      drugs: response?.data?.drugsInInvoice || [],
+      isFetchingDrugs: false,
+    });
   }
 
   async markInvoiceAsDispensed(id) {
@@ -495,8 +500,12 @@ class Dashboard extends React.Component {
             </div>
           </div>
         </main>
-
-        <PrescriptionReciept costingDetails={drugs} />
+        <ReceiptModal modalId="view-reciept">
+          <PrescriptionReciept
+            costingDetails={drugs}
+            isFetchingDrugs={this.state.isFetchingDrugs}
+          />
+        </ReceiptModal>
       </>
     );
   }
