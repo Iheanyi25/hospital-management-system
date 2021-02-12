@@ -67,14 +67,14 @@ import ActionButton from "../../../Components/DataTable/ActionButton";
 //       method: "post",
 //     });
 //     const res = await fetchWrapper(markInvoiceAsDispensedConfig);
-   
+
 //       notification.success({ message: res.data.message})
 //       this.fetchPrescriptionInvoices();
 //     } catch (error) {
 //       console.log(error);
 //       notification.error({ message: error?.response?.data.message })
 //     }
-    
+
 //   }
 
 //   sync() {
@@ -403,7 +403,7 @@ const ManagePrescriptionInvoice = observer(() => {
   const { data, error } = useRequest(getDAllrugDispencingInvoicesConfig, {
     revalidateOnFocus: false,
   });
-  const fetchDrugsInAnInvoice = async(invoiceNumber)=> {
+  const fetchDrugsInAnInvoice = async (invoiceNumber) => {
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
     const getDrugsInAnInvoiceConfig = fetchConfig({
       url: invoicesUrl,
@@ -411,28 +411,27 @@ const ManagePrescriptionInvoice = observer(() => {
     });
     const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
     console.log(response);
-    setDrugs(response?.data?.drugsInInvoice)
-    setIsFetchingDrugs(false)
+    setDrugs(response?.data?.drugsInInvoice);
+    setIsFetchingDrugs(false);
     // this.setState({ drugs: response?.data?.drugsInInvoice || [], isFetchingDrugs: false });
-  }
+  };
 
-  const markInvoiceAsDispensed = async(id)=> {
+  const markInvoiceAsDispensed = async (id) => {
     try {
       const markInvoiceUrl = markInvoiceAsDispensedUrl(id);
-    const markInvoiceAsDispensedConfig = fetchConfig({
-      url: markInvoiceUrl,
-      method: "post",
-    });
-    const res = await fetchWrapper(markInvoiceAsDispensedConfig);
-   
-      notification.success({ message: res.data.message})
+      const markInvoiceAsDispensedConfig = fetchConfig({
+        url: markInvoiceUrl,
+        method: "post",
+      });
+      const res = await fetchWrapper(markInvoiceAsDispensedConfig);
+
+      notification.success({ message: res.data.message });
       this.fetchPrescriptionInvoices();
     } catch (error) {
       console.log(error);
-      notification.error({ message: error?.response?.data.message })
+      notification.error({ message: error?.response?.data.message });
     }
-    
-  }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.drugInvoices.map((drugInvoice, index) => {
@@ -441,75 +440,63 @@ const ManagePrescriptionInvoice = observer(() => {
           "#": ++index,
           "Patient Name": `${drugInvoice?.patient?.firstName} ${drugInvoice?.patient?.lastName}`,
           "Invoice No": drugInvoice?.invoiceNumber,
-          "Date Generated": formatDate(
-            drugInvoice?.dateGenerated
-          ),
-          "Total Cost": formatAmount(
-            drugInvoice?.amountTotal
-          ),
-          Status: drugInvoice?.paymentStatus ===
-                                                "NOT PAID" ? (
-                                                  <>
-                                                    <img src={notpaid} alt="not paid" /> Not
-                                                    paid
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    <img src={paid} alt="paid" /> Paid
-                                                  </>
-                                                ),
-          Dispensed: drugInvoice?.isDispensed ===
-                                              false ? (
-                                                <>
-                                                  <img src={notpaid} alt="not paid" /> Not
-                                                  dispensed
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <img src={paid} alt="paid" /> Dispensed
-                                                </>
-                                              ),
+          "Date Generated": formatDate(drugInvoice?.dateGenerated),
+          "Total Cost": formatAmount(drugInvoice?.amountTotal),
+          Status:
+            drugInvoice?.paymentStatus === "NOT PAID" ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not paid
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Paid
+              </>
+            ),
+          Dispensed:
+            drugInvoice?.isDispensed === false ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not dispensed
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Dispensed
+              </>
+            ),
           Actions: (
             <AdminActionTable
-            drugInvoice={drugInvoice}
+              drugInvoice={drugInvoice}
               fetchDrugsInAnInvoice={fetchDrugsInAnInvoice}
               markInvoiceAsDispensed={markInvoiceAsDispensed}
             />
           ),
-        };        
+        };
       } else if (userType === "Pharmacy") {
         return {
           "#": ++index,
           "Patient Name": `${drugInvoice?.patient?.firstName} ${drugInvoice?.patient?.lastName}`,
           "Invoice No": drugInvoice?.invoiceNumber,
-          "Date Generated": formatDate(
-            drugInvoice?.dateGenerated
-          ),
-          "Total Cost": formatAmount(
-            drugInvoice?.amountTotal
-          ),
-          Status: drugInvoice?.paymentStatus ===
-          "NOT PAID" ? (
-            <>
-              <img src={notpaid} alt="not paid" /> Not
-              paid
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Paid
-            </>
-          ),
-          Dispensed: drugInvoice?.isDispensed ===
-                                              false ? (
-                                                <>
-                                                  <img src={notpaid} alt="not paid" /> Not
-                                                  dispensed
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <img src={paid} alt="paid" /> Dispensed
-                                                </>
-                                              ),
+          "Date Generated": formatDate(drugInvoice?.dateGenerated),
+          "Total Cost": formatAmount(drugInvoice?.amountTotal),
+          Status:
+            drugInvoice?.paymentStatus === "NOT PAID" ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not paid
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Paid
+              </>
+            ),
+          Dispensed:
+            drugInvoice?.isDispensed === false ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not dispensed
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Dispensed
+              </>
+            ),
           Actions: (
             <PharmacistActionTable
               drugInvoice={drugInvoice}
@@ -517,46 +504,36 @@ const ManagePrescriptionInvoice = observer(() => {
               markInvoiceAsDispensed={markInvoiceAsDispensed}
             />
           ),
-        };     
+        };
       } else {
         return {
           "#": ++index,
           "Patient Name": `${drugInvoice?.patient?.firstName} ${drugInvoice?.patient?.lastName}`,
           "Invoice No": drugInvoice?.invoiceNumber,
-          "Date Generated": formatDate(
-            drugInvoice?.dateGenerated
-          ),
-          "Total Cost": formatAmount(
-            drugInvoice?.amountTotal
-          ),
-          Status: drugInvoice?.paymentStatus ===
-          "NOT PAID" ? (
-            <>
-              <img src={notpaid} alt="not paid" /> Not
-              paid
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Paid
-            </>
-          ),
-          Dispensed: drugInvoice?.isDispensed ===
-                                              false ? (
-                                                <>
-                                                  <img src={notpaid} alt="not paid" /> Not
-                                                  dispensed
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <img src={paid} alt="paid" /> Dispensed
-                                                </>
-                                              ),
-          Actions: (
-            <AccountantActionTable
-            drugInvoice={drugInvoice}
-            />
-          ),
-        };     
+          "Date Generated": formatDate(drugInvoice?.dateGenerated),
+          "Total Cost": formatAmount(drugInvoice?.amountTotal),
+          Status:
+            drugInvoice?.paymentStatus === "NOT PAID" ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not paid
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Paid
+              </>
+            ),
+          Dispensed:
+            drugInvoice?.isDispensed === false ? (
+              <>
+                <img src={notpaid} alt="not paid" /> Not dispensed
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Dispensed
+              </>
+            ),
+          Actions: <AccountantActionTable drugInvoice={drugInvoice} />,
+        };
       }
     });
   }
@@ -569,9 +546,9 @@ const ManagePrescriptionInvoice = observer(() => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-        <header className="page-header justify-content-between d-flex align-items-center mb-2">
-              <h4 className="page-title">Prescription Invoices</h4>
-            </header>
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4 className="page-title">Prescription Invoices</h4>
+          </header>
           <div className="page-content">
             <TableSize
               size={data ? formatAmount(data.drugInvoices.length) : 0}
@@ -584,132 +561,117 @@ const ManagePrescriptionInvoice = observer(() => {
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-        <PrescriptionReciept costingDetails={drugs} isFetchingDrugs={isFetchingDrugs} />
+        <PrescriptionReciept
+          costingDetails={drugs}
+          isFetchingDrugs={isFetchingDrugs}
+        />
       </ReceiptModal>
     </Fragment>
   );
 });
 
-const AdminActionTable = ({ drugInvoice, fetchDrugsInAnInvoice, markInvoiceAsDispensed }) => {
+const AdminActionTable = ({
+  drugInvoice,
+  fetchDrugsInAnInvoice,
+  markInvoiceAsDispensed,
+}) => {
   return (
     <ActionButton>
-      {drugInvoice?.paymentStatus ===
-                                        "NOT PAID" ? (
-                                          <Link
-                                            to={{
-                                              pathname:`/AdminPaymentForPrescription/${drugInvoice.id}`,
-                                              state: drugInvoice,
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-server mr-2" />
-                                            Pay now
-                                          </Link>
-                                        ) : (
-                                          <Link
-                                            to="#"
-                                            className="btn btn-sm btn-block"
-                                            data-toggle="modal"
-                                            data-target="#view-reciept"
-                                            onClick={() =>
-                                              fetchDrugsInAnInvoice(
-                                                drugInvoice.invoiceNumber
-                                              )
-                                            }
-                                          >
-                                            <span className="btn-icon icofont-server mr-2" />
-                                            View Reciept
-                                          </Link>
-                                        )}
-                                        {drugInvoice?.isDispensed ===
-                                          false &&
-                                        drugInvoice?.paymentStatus !==
-                                          "NOT PAID" ? (
-                                          <Link
-                                            to="#"
-                                            className="btn btn-sm btn-block"
-                                            onClick={() =>
-                                              markInvoiceAsDispensed(
-                                                drugInvoice.id
-                                              )
-                                            }
-                                          >
-                                            <span className="btn-icon icofont-server mr-2" />
-                                            Dispense
-                                          </Link>
-                                        ) : null}
+      {drugInvoice?.paymentStatus === "NOT PAID" ? (
+        <Link
+          to={{
+            pathname: `/AdminPaymentForPrescription/${drugInvoice.id}`,
+            state: drugInvoice,
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Pay now
+        </Link>
+      ) : (
+        <Link
+          to="#"
+          className="btn btn-sm btn-block"
+          data-toggle="modal"
+          data-target="#view-reciept"
+          onClick={() => fetchDrugsInAnInvoice(drugInvoice.invoiceNumber)}
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          View Reciept
+        </Link>
+      )}
+      {drugInvoice?.isDispensed === false &&
+      drugInvoice?.paymentStatus !== "NOT PAID" ? (
+        <Link
+          to="#"
+          className="btn btn-sm btn-block"
+          onClick={() => markInvoiceAsDispensed(drugInvoice.id)}
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Dispense
+        </Link>
+      ) : null}
     </ActionButton>
   );
 };
-const PharmacistActionTable = ({ drugInvoice, fetchDrugsInAnInvoice, markInvoiceAsDispensed }) => {
+const PharmacistActionTable = ({
+  drugInvoice,
+  fetchDrugsInAnInvoice,
+  markInvoiceAsDispensed,
+}) => {
   return (
     <ActionButton>
-      {drugInvoice?.paymentStatus ===
-                                          "NOT PAID " ? null : (
-                                            <Link
-                                              to="#"
-                                              className="btn btn-sm btn-block"
-                                              data-toggle="modal"
-                                              data-target="#view-reciept"
-                                              onClick={() =>
-                                                fetchDrugsInAnInvoice(
-                                                  drugInvoice.invoiceNumber
-                                                )
-                                              }
-                                            >
-                                              <span className="btn-icon icofont-server mr-2" />
-                                              View Reciept
-                                            </Link>
-                                          )}
-                                          {drugInvoice?.isDispensed ===
-                                          false ? (
-                                            <Link
-                                              to="#"
-                                              className="btn btn-sm btn-block"
-                                              onClick={() =>
-                                                markInvoiceAsDispensed(
-                                                  drugInvoice.id
-                                                )
-                                              }
-                                            >
-                                              <span className="btn-icon icofont-server mr-2" />
-                                              Dispense
-                                            </Link>
-                                          ) : null}
+      {drugInvoice?.paymentStatus === "NOT PAID " ? null : (
+        <Link
+          to="#"
+          className="btn btn-sm btn-block"
+          data-toggle="modal"
+          data-target="#view-reciept"
+          onClick={() => fetchDrugsInAnInvoice(drugInvoice.invoiceNumber)}
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          View Reciept
+        </Link>
+      )}
+      {drugInvoice?.isDispensed === false ? (
+        <Link
+          to="#"
+          className="btn btn-sm btn-block"
+          onClick={() => markInvoiceAsDispensed(drugInvoice.id)}
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Dispense
+        </Link>
+      ) : null}
     </ActionButton>
   );
 };
 const AccountantActionTable = ({ drugInvoice, fetchDrugsInAnInvoice }) => {
   return (
     <ActionButton>
-      {drugInvoice?.paymentStatus ===
-                                        "NOT PAID" ? (
-                                          <Link
-                                            to={{
-                                              pathname:`/AccountPaymentForPrescription/${drugInvoice.id}`,
-                                              state: drugInvoice,
-                                            }}
-                                            className="btn btn-sm btn-block"
-                                          >
-                                            <span className="btn-icon icofont-server mr-2" />
-                                            Pay now
-                                          </Link>
-                                        ) : (
-                                          <Link
-                                            to="#"
-                                            className="btn btn-sm btn-block"
-                                            data-toggle="modal"
-                                            data-target="#view-reciept"
-                                            onClick={() =>
-                                              fetchDrugsInAnInvoice(
-                                                drugInvoice.invoiceNumber
-                                              )
-                                            }
-                                          >
-                                            <span className="btn-icon icofont-server mr-2" />
-                                            View Reciept
-                                          </Link>
-                                        )}
+      {drugInvoice?.paymentStatus === "NOT PAID" ? (
+        <Link
+          to={{
+            pathname: `/AccountPaymentForPrescription/${drugInvoice.id}`,
+            state: drugInvoice,
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Pay now
+        </Link>
+      ) : (
+        <Link
+          to="#"
+          className="btn btn-sm btn-block"
+          data-toggle="modal"
+          data-target="#view-reciept"
+          onClick={() => fetchDrugsInAnInvoice(drugInvoice.invoiceNumber)}
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          View Reciept
+        </Link>
+      )}
     </ActionButton>
   );
 };
