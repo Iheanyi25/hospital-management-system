@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 
-function PatientsWaitingTableContainer({ pendingAppointments }) {
+function PatientsWaitingTableContainer({ pendingAppointments, category }) {
   let tableData = [];
   if (pendingAppointments) {
     tableData = pendingAppointments.map((pendingAppointment, index) => {
@@ -11,23 +11,29 @@ function PatientsWaitingTableContainer({ pendingAppointments }) {
         "#": ++index,
         Title: pendingAppointment.patientQueue.consultationTitle,
         "Reason for consultation":
-        pendingAppointment.patientQueue.reasonForConsultation,
+          pendingAppointment.patientQueue.reasonForConsultation,
         Patient: `${pendingAppointment.patient?.lastName} ${pendingAppointment.patient?.firstName}`,
         "Patient Contact": pendingAppointment?.patient?.phoneNumber ?? "N/A",
         "Consultation Date": new Date(
-            pendingAppointment.patientQueue.dateOfConsultation
+          pendingAppointment.patientQueue.dateOfConsultation
         ).toLocaleDateString(),
         "Consultation Time": new Date(
-            pendingAppointment.patientQueue.dateOfConsultation
+          pendingAppointment.patientQueue.dateOfConsultation
         ).toLocaleTimeString(),
-        Actions: <PatientsWaitingActionTable pendingAppointment={pendingAppointment} />,
+        Actions: (
+          <PatientsWaitingActionTable pendingAppointment={pendingAppointment} />
+        ),
       };
     });
   }
 
   return (
     <div>
-      <Table content={tableData} />
+      <Table
+        content={tableData}
+        tableID={category + pendingAppointments.length}
+        key={category + pendingAppointments.length}
+      />
     </div>
   );
 }
