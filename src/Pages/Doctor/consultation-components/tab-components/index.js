@@ -1,1 +1,2 @@
-export * from "./PatientsWaiting"
+export * from "./PatientsWaiting";
+export * from "./PatientsAttended";

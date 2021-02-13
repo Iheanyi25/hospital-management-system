@@ -1,7 +1,10 @@
 import React from "react";
 import DoctorImage from "../../../assets/img/PatientAndAdminIcon.svg";
 import { Link } from "react-router-dom";
-import { PatientsWaitingTableContainer } from "./tab-components";
+import {
+  PatientsAttendedTableContainer,
+  PatientsWaitingTableContainer,
+} from "./tab-components";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -22,6 +25,7 @@ function ConsultationTabContent({
         >
           <PatientsWaitingTableContainer
             pendingAppointments={pendingAppointments}
+            category="waitingList"
           />
         </div>
         <div
@@ -30,88 +34,10 @@ function ConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-accepted-tab"
         >
-          <div className="table-responsive">
-            <table
-              //   ref={(em) => (this.em = em)}
-              className="table table-striped"
-              data-paging="true"
-              data-info="true"
-            >
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Reason for appointment</th>
-                  <th className="text-nowrap">Patient</th>
-                  <th className="text-nowrap">Patient Contact</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {completedConsultations
-                  ? completedConsultations.map((consultation) => (
-                      <tr>
-                        <td>{consultation.patientQueue.consultationTitle}</td>
-                        <td>
-                          {consultation.patientQueue.reasonForConsultation}
-                        </td>
-                        <td>
-                          {consultation.patient.firstName}{" "}
-                          {consultation.patient.lastName}
-                        </td>
-                        <td>
-                          <div className="d-flex align-items-center nowrap">
-                            {consultation.patient.phoneNumber}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-muted text-nowrap">
-                            {new Date(
-                              consultation.patientQueue.dateOfConsultation
-                            ).toLocaleDateString()}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-muted text-nowrap">
-                            {new Date(
-                              consultation.patientQueue.dateOfConsultation
-                            ).toLocaleTimeString()}
-                          </div>
-                        </td>
-
-                        <td>
-                          <div className="btn-group">
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              Action
-                            </button>
-                            <div className="dropdown-menu">
-                              <Link
-                                title="Patient Profile"
-                                to={{
-                                  pathname: `/DoctorPatientProfile/${consultation.patient.id}`,
-                                  state: consultation.patient,
-                                }}
-                                className="btn btn-sm btn-block"
-                              >
-                                <span className="btn-icon icofont-ui-edit  mr-2" />{" "}
-                                View Profile
-                              </Link>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  : null}
-              </tbody>
-            </table>
-          </div>
+          <PatientsAttendedTableContainer
+            completedConsultations={completedConsultations}
+            category="attendedList"
+          />
         </div>
         <div
           className="tab-pane fade"
