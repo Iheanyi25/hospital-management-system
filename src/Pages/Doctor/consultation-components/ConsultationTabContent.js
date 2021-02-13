@@ -6,9 +6,6 @@ import {
   PatientsWaitingTableContainer,
 } from "./tab-components";
 
-const $ = window.$;
-$.Datatable = require("datatables.net");
-
 function ConsultationTabContent({
   pendingAppointments,
   completedConsultations,
@@ -47,7 +44,6 @@ function ConsultationTabContent({
         >
           <div className="table-responsive">
             <table
-              //   ref={(en) => (this.en = en)}
               className="table table-striped"
               data-paging="true"
               data-info="true"
