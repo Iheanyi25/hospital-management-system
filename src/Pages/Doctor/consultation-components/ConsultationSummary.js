@@ -1,7 +1,7 @@
 import React from "react";
 import { Fragment } from "react";
 
-export default function ConsultationSummary({
+function ConsultationSummary({
   pendingAppointmentsCount,
   acceptedAppointmentsCount,
   rejectedAppointmentsCount,
@@ -66,3 +66,5 @@ export default function ConsultationSummary({
     </Fragment>
   );
 }
+
+export { ConsultationSummary }
