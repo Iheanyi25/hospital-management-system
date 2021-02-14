@@ -1,6 +1,5 @@
 import React from "react";
-import DoctorImage from "../../../assets/img/PatientAndAdminIcon.svg";
-import { Link } from "react-router-dom";
+
 import {
   PatientsAttendedTableContainer,
   PatientsWaitingTableContainer,
@@ -9,7 +8,6 @@ import {
 function ConsultationTabContent({
   pendingAppointments,
   completedConsultations,
-  patients,
 }) {
   return (
     <div>
