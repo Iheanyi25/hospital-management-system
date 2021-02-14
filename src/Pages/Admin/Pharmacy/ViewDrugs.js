@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
-import { AllDrugs, DrugsByDrugType } from "./Components/viewdrugs-components";
+import { AllDrugs, DrugsByDrugType } from "./Components/viewdrugs-components/drug-categories";
 import tablet from "../../../assets/img/tablet.svg";
 import liquid from "../../../assets/img/liquid.svg";
 import inhalers from "../../../assets/img/inhalers.svg";

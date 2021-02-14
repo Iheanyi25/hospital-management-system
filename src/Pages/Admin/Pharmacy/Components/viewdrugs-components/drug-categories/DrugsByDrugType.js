@@ -1,21 +1,22 @@
 import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { UpdateInventory } from "../../../../../Components/Modals";
-import formatAmount from "../../../../../utils/formatAmount";
-import remove from "../../../../../assets/img/remove.svg";
-import view from "../../../../../assets/img/view.svg";
-import inventory from "../../../../../assets/img/inventory.svg";
-import { fetchWrapper, useRequest } from "../../../../../api/fetcher";
-import { fetchConfig } from "../../../../../api/fetchConfig";
-import { getAllDrugsUrl, deleteDrugUrl } from "../../../../../api/URLs";
-import { notification } from "../../../../../utils/notification";
-import { PageLoader, Table } from "../../../../../Components";
-import ActionButton from "../../../../../Components/DataTable/ActionButton";
+import { UpdateInventory } from "../../../../../../Components/Modals";
+import formatAmount from "../../../../../../utils/formatAmount";
+import remove from "../../../../../../assets/img/remove.svg";
+import view from "../../../../../../assets/img/view.svg";
+import inventory from "../../../../../../assets/img/inventory.svg";
+import { fetchWrapper, useRequest } from "../../../../../../api/fetcher";
+import { fetchConfig } from "../../../../../../api/fetchConfig";
+import { getAllDrugsByDrugTypeUrl, deleteDrugUrl } from "../../../../../../api/URLs";
+import { notification } from "../../../../../../utils/notification";
+import { PageLoader, Table } from "../../../../../../Components";
+import ActionButton from "../../../../../../Components/DataTable/ActionButton";
 
-const AllDrugs = ({ userType, category }) => {
+
+const DrugsByDrugType = ({ drugType, userType, category }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [singleDrug, setSingleDrug] = useState({});
-  const getAllDrugs = getAllDrugsUrl(pageNumber);
+  const getAllDrugs = getAllDrugsByDrugTypeUrl(drugType, pageNumber);
   const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
   const { data, error, mutate } = useRequest(getAllDrugsConfig, {
     revalidateOnFocus: false,
@@ -121,4 +122,4 @@ const AllDrugsTableAction = ({ drug, userType, setSingleDrug, deleteDrug }) => {
   );
 };
 
-export { AllDrugs };
+export { DrugsByDrugType };
