@@ -1,1 +1,2 @@
-export * from "./DrugSummary"
+export * from "./DrugSummary";
+export * from "./DrugTabHeader";
