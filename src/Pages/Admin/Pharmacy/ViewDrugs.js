@@ -2,18 +2,15 @@ import React from "react";
 import { observer } from "mobx-react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
-import { AllDrugs, DrugsByDrugType } from "./Components/viewdrugs-components/drug-categories";
-import tablet from "../../../assets/img/tablet.svg";
-import liquid from "../../../assets/img/liquid.svg";
-import inhalers from "../../../assets/img/inhalers.svg";
-import powder from "../../../assets/img/powder.svg";
+import {
+  AllDrugs,
+  DrugsByDrugType,
+} from "./Components/viewdrugs-components/drug-categories";
 import { UserContext } from "../../../mobx/UserState";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { getAllDrugsUrl } from "../../../api/URLs";
-
-let $ = window.$;
-$.DataTables = require("datatables.net");
+import { DrugSummary } from "./Components/viewdrugs-components/page-components";
 class ViewDrugs extends React.Component {
   static contextType = UserContext;
   state = {
@@ -70,7 +67,6 @@ class ViewDrugs extends React.Component {
       powderDrugs,
       loading,
     } = this.state;
-    console.log(tabDrugs);
     return (
       <>
         {loading ? (
@@ -94,86 +90,12 @@ class ViewDrugs extends React.Component {
                   Register Drug
                 </Link>
               </header>
-              <div className="row">
-                <div className="col col-12 col-md-6 col-xl-4">
-                  <div className="card animated fadeInUp delay-02s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-4">
-                          <img src={tablet} alt="tablet" />
-                        </div>
-                        <div className="col col-8">
-                          <h6 className="mt-0 mb-1">Tablets (In packets)</h6>
-                          <div className="count text-primary fs-20">
-                            {tabDrugs.length === 0 ? "N/A" : tabDrugs.length}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-12 col-md-6 col-xl-4">
-                  <div className="card animated fadeInUp delay-03s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-4">
-                          <img src={liquid} alt="tablet" />
-                        </div>
-                        <div className="col col-8">
-                          <h6 className="mt-0 mb-1">Liqud (In bottles)</h6>
-                          <div className="count text-primary fs-20">
-                            {liquidDrugs.length === 0
-                              ? "N/A"
-                              : liquidDrugs.length}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-12 col-md-12 col-xl-4">
-                  <div className="card animated fadeInUp delay-04s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-4">
-                          <img src={inhalers} alt="tablet" />
-                        </div>
-                        <div className="col col-8">
-                          <h6 className="mt-0 mb-1 text-nowrap">
-                            Inhalers (In canisters)
-                          </h6>
-                          <div className="count text-primary fs-20">
-                            {inhalerDrugs.length === 0
-                              ? "N/A"
-                              : inhalerDrugs.length}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-12 col-md-12 col-xl-4">
-                  <div className="card animated fadeInUp delay-04s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-4">
-                          <img src={powder} alt="tablet" />
-                        </div>
-                        <div className="col col-8">
-                          <h6 className="mt-0 mb-1 text-nowrap">
-                            Powder (In cans)
-                          </h6>
-                          <div className="count text-primary fs-20">
-                            {powderDrugs.length === 0
-                              ? "N/A"
-                              : powderDrugs.length}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <DrugSummary
+                tabCount={tabDrugs.length}
+                powderCount={powderDrugs.length}
+                liquidCount={liquidDrugs.length}
+                inhalerCount={inhalerDrugs.length}
+              />
               <div className="page-content">
                 <div className="card mb-0">
                   <div className="card-body">
