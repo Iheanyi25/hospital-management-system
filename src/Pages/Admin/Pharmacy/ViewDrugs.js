@@ -2,16 +2,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
-import {
-  AllDrugs,
-  DrugsByDrugType,
-} from "./Components/viewdrugs-components/drug-categories";
 import { UserContext } from "../../../mobx/UserState";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { getAllDrugsUrl } from "../../../api/URLs";
 import {
   DrugSummary,
+  DrugTabContent,
   DrugTabHeader,
 } from "./Components/viewdrugs-components/page-components";
 class ViewDrugs extends React.Component {
@@ -104,64 +101,7 @@ class ViewDrugs extends React.Component {
                   <div className="card-body">
                     <div>
                       <DrugTabHeader />
-                      <div className="tab-content" id="pills-tabContent">
-                        <div
-                          className="tab-pane show fade active"
-                          id="pills-all"
-                          role="tabpanel"
-                          aria-labelledby="pills-all-tab"
-                        >
-                          <AllDrugs userType={userType} category="allDrugs" />
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-tabs"
-                          role="tabpanel"
-                          aria-labelledby="pills-tabs-tab"
-                        >
-                          <DrugsByDrugType
-                            drugType="tabs"
-                            userType={userType}
-                            category="tabDrugs"
-                          />
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-liquid"
-                          role="tabpanel"
-                          aria-labelledby="pills-liquid-tab"
-                        >
-                          <DrugsByDrugType
-                            drugType="liquid"
-                            userType={userType}
-                            category="liquidDrugs"
-                          />
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-inhaler"
-                          role="tabpanel"
-                          aria-labelledby="pills-inhaler-tab"
-                        >
-                          <DrugsByDrugType
-                            drugType="inhalers"
-                            userType={userType}
-                            category="inhalersDrugs"
-                          />
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="pills-powder"
-                          role="tabpanel"
-                          aria-labelledby="pills-powder-tab"
-                        >
-                          <DrugsByDrugType
-                            drugType="powder"
-                            userType={userType}
-                            category="powderDrugs"
-                          />
-                        </div>
-                      </div>
+                      <DrugTabContent userType={userType} />
                     </div>
                   </div>
                 </div>
