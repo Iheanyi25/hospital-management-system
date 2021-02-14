@@ -29,19 +29,6 @@ function ConsultationTabHeader() {
           Patients Attended
         </a>
       </li>
-      <li className="nav-item">
-        <a
-          className="nav-link"
-          id="pills-completed-tab"
-          data-toggle="pill"
-          href="#pills-completed"
-          role="tab"
-          aria-controls="pills-completed"
-          aria-selected="false"
-        >
-          All Patients
-        </a>
-      </li>
     </ul>
   );
 }
