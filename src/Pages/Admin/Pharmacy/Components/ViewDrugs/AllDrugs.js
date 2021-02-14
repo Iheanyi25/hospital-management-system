@@ -1,25 +1,25 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { UpdateInventory } from "../../../../../Components/Modals";
 import formatAmount from "../../../../../utils/formatAmount";
 import remove from "../../../../../assets/img/remove.svg";
 import view from "../../../../../assets/img/view.svg";
 import inventory from "../../../../../assets/img/inventory.svg";
-import { fetchWrapper } from "../../../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../../../api/fetcher";
 import { fetchConfig } from "../../../../../api/fetchConfig";
-import { deleteDrugUrl } from "../../../../../api/URLs";
-import { UserContext } from "../../../../../mobx/UserState";
+import { getAllDrugsUrl, deleteDrugUrl } from "../../../../../api/URLs";
 import { notification } from "../../../../../utils/notification";
-import { observer } from "mobx-react";
 import { PageLoader, Table } from "../../../../../Components";
 import ActionButton from "../../../../../Components/DataTable/ActionButton";
 
-const AllDrugs = observer(({ allDrugs, fetchAllDrugs }) => {
-  const {
-    user: { userType },
-  } = useContext(UserContext);
+const AllDrugs = ({ userType, category }) => {
+  const [pageNumber, setPageNumber] = useState(1);
   const [singleDrug, setSingleDrug] = useState({});
-  let data = allDrugs;
+  const getAllDrugs = getAllDrugsUrl(pageNumber);
+  const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
+  const { data, error, mutate } = useRequest(getAllDrugsConfig, {
+    revalidateOnFocus: false,
+  });
   const deleteDrug = async (id) => {
     try {
       const deleteDrugs = deleteDrugUrl();
@@ -30,7 +30,7 @@ const AllDrugs = observer(({ allDrugs, fetchAllDrugs }) => {
       });
       const res = await fetchWrapper(deleteDrugsConfig);
       notification.success({ message: res.data.message });
-      fetchAllDrugs();
+      mutate();
     } catch (error) {
       console.log(error);
       notification.error({ message: error?.response?.data.message });
@@ -38,7 +38,7 @@ const AllDrugs = observer(({ allDrugs, fetchAllDrugs }) => {
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.map((drug, index) => {
+    dataTable = data.drugs.map((drug, index) => {
       return {
         "#": ++index,
         "Drug Name": drug?.name ?? "N/A",
@@ -64,19 +64,24 @@ const AllDrugs = observer(({ allDrugs, fetchAllDrugs }) => {
       };
     });
   }
-  // if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
-      <div className="main-content-wrap">
-        <div className="page-content">
-          {data && <Table content={dataTable} />}
-        </div>
-      </div>
-      <UpdateInventory drug={singleDrug} setSuccess={fetchAllDrugs} />
+      {data && (
+        <Table
+          content={dataTable}
+          tableID={category + data.drugs.length}
+          key={category + data.drugs.length}
+          paginationDetails={data.paginationDetails}
+          setPageNumber={setPageNumber}
+          pageNumber={pageNumber}
+        />
+      )}
+      <UpdateInventory drug={singleDrug} setSuccess={mutate} />
     </Fragment>
   );
-});
+};
 
 const AllDrugsTableAction = ({ drug, userType, setSingleDrug, deleteDrug }) => {
   return (
