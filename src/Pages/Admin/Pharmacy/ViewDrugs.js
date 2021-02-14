@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { PageLoader } from "../../../Components";
 import { Link } from "react-router-dom";
-import { AllDrugs } from "./Components/ViewDrugs";
+import { AllDrugs, DrugsByDrugType } from "./Components/ViewDrugs";
 import tablet from "../../../assets/img/tablet.svg";
 import liquid from "../../../assets/img/liquid.svg";
 import inhalers from "../../../assets/img/inhalers.svg";
@@ -14,7 +14,6 @@ import { getAllDrugsUrl } from "../../../api/URLs";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
-
 class ViewDrugs extends React.Component {
   static contextType = UserContext;
   state = {
@@ -27,7 +26,7 @@ class ViewDrugs extends React.Component {
     loading: true,
   };
   componentDidMount() {
-    this.fetchAllDrugs().then(() => this.sync());
+    this.fetchAllDrugs();
   }
   9;
   fetchAllDrugs = async () => {
@@ -35,10 +34,13 @@ class ViewDrugs extends React.Component {
       ...state,
       loading: true,
     }));
-    try { 
-      const getAllDrugs = getAllDrugsUrl();
-      const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
-      const { data } = await fetchWrapper(getAllDrugsConfig)
+    try {
+      const getAllDrugs = getAllDrugsUrl(1);
+      const getAllDrugsConfig = fetchConfig({
+        url: getAllDrugs,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getAllDrugsConfig);
       //   this.setState({ drugs: JSON.parse(data).drugs });
       this.filterDrug(data.drugs);
     } catch (error) {
@@ -56,17 +58,12 @@ class ViewDrugs extends React.Component {
     }),
   ];
 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    console.log($(this.el));
-  }
-
   render() {
     const content = this.context;
-    const { user } = content;
     const {
-      allDrugs,
+      user: { userType },
+    } = content;
+    const {
       tabDrugs,
       liquidDrugs,
       inhalerDrugs,
@@ -88,7 +85,7 @@ class ViewDrugs extends React.Component {
                 <h4 className="page-title">Drug catalog</h4>
                 <Link
                   to={
-                    user.userType === "Admin"
+                    userType === "Admin"
                       ? "/AdminRegisterDrug"
                       : "/PharmacyRegisterDrug"
                   }
@@ -259,10 +256,7 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-all-tab"
                         >
-                          <AllDrugs
-                            allDrugs={allDrugs}
-                            fetchAllDrugs={this.fetchAllDrugs}
-                          />
+                          <AllDrugs userType={userType} category="allDrugs" />
                         </div>
                         <div
                           className="tab-pane fade"
@@ -270,9 +264,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-tabs-tab"
                         >
-                          <AllDrugs
-                            allDrugs={tabDrugs}
-                            fetchAllDrugs={this.fetchAllDrugs}
+                          <DrugsByDrugType
+                            drugType="tabs"
+                            userType={userType}
+                            category="tabDrugs"
                           />
                         </div>
                         <div
@@ -281,9 +276,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-liquid-tab"
                         >
-                          <AllDrugs
-                            allDrugs={liquidDrugs}
-                            fetchAllDrugs={this.fetchAllDrugs}
+                          <DrugsByDrugType
+                            drugType="liquid"
+                            userType={userType}
+                            category="liquidDrugs"
                           />
                         </div>
                         <div
@@ -292,8 +288,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-inhaler-tab"
                         >
-                          <AllDrugs
-                            allDrugs={inhalerDrugs}
+                          <DrugsByDrugType
+                            drugType="inhalers"
+                            userType={userType}
+                            category="inhalersDrugs"
                           />
                         </div>
                         <div
@@ -302,9 +300,10 @@ class ViewDrugs extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-powder-tab"
                         >
-                          <AllDrugs
-                            allDrugs={powderDrugs}
-                            fetchAllDrugs={this.fetchAllDrugs}
+                          <DrugsByDrugType
+                            drugType="powder"
+                            userType={userType}
+                            category="powderDrugs"
                           />
                         </div>
                       </div>
