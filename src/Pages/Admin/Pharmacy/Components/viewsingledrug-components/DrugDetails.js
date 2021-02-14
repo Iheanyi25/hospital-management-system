@@ -1,5 +1,5 @@
 import React from "react";
-import { UpdateDrug } from "../../../../.././Components/Modals";
+import { UpdateDrug } from "../../../../../Components/Modals";
 import formatAmount from "../../../../../utils/formatAmount";
 import formatDate from "../../../../../utils/formatDate";
 import edit from "../../../../../assets/img/edit.svg";

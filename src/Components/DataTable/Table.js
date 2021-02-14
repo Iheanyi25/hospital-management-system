@@ -110,8 +110,6 @@ const PaginationElement = ({
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);
   }
-  console.log(pages);
-  console.log(paginationDetails);
   return (
     <nav aria-label="...">
       <ul className="pagination">
