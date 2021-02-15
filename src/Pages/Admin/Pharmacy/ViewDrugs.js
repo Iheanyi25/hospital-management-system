@@ -32,7 +32,7 @@ class ViewDrugs extends React.Component {
       loading: true,
     }));
     try {
-      const getAllDrugs = getAllDrugsUrl(1);
+      const getAllDrugs = getAllDrugsUrl(1, 50);
       const getAllDrugsConfig = fetchConfig({
         url: getAllDrugs,
         method: "get",

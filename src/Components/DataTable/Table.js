@@ -111,7 +111,7 @@ const PaginationElement = ({
   pageSize,
   setPageSize,
 }) => {
-  console.log(setPageNumber);
+  console.log(paginationDetails);
   const { hasNext, hasPrevious, totalPages } = paginationDetails;
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
