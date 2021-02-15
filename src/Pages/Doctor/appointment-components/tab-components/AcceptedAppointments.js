@@ -52,7 +52,7 @@ const AcceptedAppointmentsTableAction = ({ acceptedAppointment }) => {
         }}
         className="btn btn-sm btn-block"
       >
-        <span className="btn-icon icofont-user" />
+        <span className="mr-3 btn-icon icofont-user" />
         Go for Clarking
       </Link>
       <Link
