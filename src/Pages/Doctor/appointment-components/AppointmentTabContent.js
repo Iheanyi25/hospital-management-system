@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper } from "../../../api/fetcher";
-import { postDoctorAcceptAppointmentUrl, postDoctorRejectAppointmentUrl } from "../../../api/URLs";
 import formatDate from "../../../utils/formatDate";
 import formatTime from "../../../utils/formatTime";
+import { PendingAppointmentsTableContainer } from "./tab-components";
 
 const AppointmentTabContent = ({
   acceptedAppointments,
@@ -12,56 +10,22 @@ const AppointmentTabContent = ({
   completedAppointments,
   getDoctorAppointments,
 }) => {
-  const acceptAppointment = async (e, id) => {
-    e.preventDefault();
+  //   const cancelAppointment = async (e, id) => {
+  //     e.preventDefault();
 
-    try {
-      const postDoctorAcceptAppointment = postDoctorAcceptAppointmentUrl(id);
-      const postDoctorAcceptAppointmentConfig = fetchConfig({
-        url: postDoctorAcceptAppointment,
-        method: "post",
-      });
-      const res = await fetchWrapper(postDoctorAcceptAppointmentConfig);
-      console.log(res);
-      getDoctorAppointments();
-    } catch (err) {
-        console.log(err);
-    }
-  };
-
-  const rejectAppointment = async (e, id) => {
-    e.preventDefault();
-
-    try {
-      const postDoctorRejectAppointment = postDoctorRejectAppointmentUrl(id);
-      const postDoctorRejectAppointmentConfig = fetchConfig({
-        url: postDoctorRejectAppointment,
-        method: "post",
-      });
-      const res = await fetchWrapper(postDoctorRejectAppointmentConfig);
-      console.log(res, 33333);
-      getDoctorAppointments();
-    } catch (err) {
-        console.log(err);
-    }
-  };
-
-//   const cancelAppointment = async (e, id) => {
-//     e.preventDefault();
-
-//     try {
-//       const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id);
-//       const postDoctorCancelAppointmentConfig = fetchConfig({
-//         url: postDoctorCancelAppointment,
-//         method: "post",
-//       });
-//       const res = await fetchWrapper(postDoctorCancelAppointmentConfig);
-//       console.log(res);
-//       getDoctorAppointments();
-//     } catch (err) {
-//         console.log(err);
-//     }
-//   };
+  //     try {
+  //       const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id);
+  //       const postDoctorCancelAppointmentConfig = fetchConfig({
+  //         url: postDoctorCancelAppointment,
+  //         method: "post",
+  //       });
+  //       const res = await fetchWrapper(postDoctorCancelAppointmentConfig);
+  //       console.log(res);
+  //       getDoctorAppointments();
+  //     } catch (err) {
+  //         console.log(err);
+  //     }
+  //   };
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -71,94 +35,11 @@ const AppointmentTabContent = ({
           role="tabpanel"
           aria-labelledby="pills-pending-tab"
         >
-          <div className="table-responsive">
-            <table
-              className="table table-striped"
-              data-paging="true"
-              data-info="true"
-            >
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Reason for Appointment</th>
-                  <th className="text-nowrap">Patient</th>
-                  <th className="text-nowrap">Patient Contact</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pendingAppointments
-                  ? pendingAppointments.map((appointment) => (
-                      <tr>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            {appointment.appointmentTitle}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            {appointment.reasonForAppointment}
-                          </div>
-                        </td>
-                        <td>
-                          {appointment.patient?.firstName}{" "}
-                          {appointment.patient?.lastName}
-                        </td>
-                        <td>{appointment.patient?.phoneNumber} </td>
-                        <td>
-                          <div className="text-muted text-nowrap">
-                            {formatDate(appointment.appointmentDate) ?? ""}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-muted text-nowrap">
-                            {formatTime(appointment.appointmentTime) ?? ""}
-                          </div>
-                        </td>
-
-                        <td>
-                          <div className="btn-group">
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              Action
-                            </button>
-                            <div className="dropdown-menu text-left">
-                              <button
-                                title="Accept Appointment"
-                                onClick={(e) =>
-                                  acceptAppointment(e, appointment.id)
-                                }
-                                className="btn btn-sm btn-block"
-                              >
-                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                Accept Appointment
-                              </button>
-                              <button
-                                title="Reject Appointment"
-                                onClick={(e) =>
-                                  rejectAppointment(e, appointment.id)
-                                }
-                                className="btn btn-sm btn-block"
-                              >
-                                <span className="btn-icon icofont-stethoscope-alt mr-2" />
-                                Reject Appointment
-                              </button>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  : null}
-              </tbody>
-            </table>
-          </div>
+          <PendingAppointmentsTableContainer
+            pendingAppointments={pendingAppointments}
+            getDoctorAppointments={getDoctorAppointments}
+            category="pendingList"
+          />
         </div>
         <div
           className="tab-pane fade"
