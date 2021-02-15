@@ -88,6 +88,7 @@ export const deleteWardUrl = () => `/Admin/Ward/DeleteWard`;
 export const registerUserUrl = () => `/Admin/Register`;
 export const getRegistrationFeeInvoiceUrl = () =>
   `/Admin/GetRegistrationFeeInvoices`;
+export const getTheRegistrationFeeInvoiceUrl = (patientId) => `/api/Admin/GetRegistrationFeeInvoice=${patientId}`
 export const registerPatientUrl = () => `/Admin/RegisterPatient`;
 export const getPatientRegistrationInvoiceUrl = (patientId) =>
   `/Admin/GetPatientRegistrationInvoice?patientId=${patientId}`;
