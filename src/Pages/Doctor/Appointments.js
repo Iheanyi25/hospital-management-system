@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorAllAppointmentsUrl } from "../../api/URLs";
@@ -11,121 +11,91 @@ import {
   AppointmentTabHeader,
 } from "./appointment-components";
 
-class Appointments extends React.Component {
-  static contextType = UserContext;
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      appointmentId: null,
-      acceptedAppointments: [],
-      acceptedAppointmentsCount: 0,
-      activeAppointments: [],
-      pendingAppointments: [],
-      pendingAppointmentsCount: 0,
-      completedAppointments: [],
-      rejectedAppointmentsCount: 0,
-    };
-  }
-
-  async getDoctorAppointments() {
-    const {
-      user: { id },
-    } = this.context;
-    var acceptedAppointments = [];
-    var activeAppointments = [];
-    var pendingAppointments = [];
-    var completedAppointments = [];
-    var rejectedAppointments = [];
+const Appointments = observer(() => {
+  const [appointments, setAppointments] = useState({
+    acceptedAppointments: [],
+    pendingAppointments: [],
+    completedAppointments: [],
+  });
+  const {
+    user: { id },
+  } = useContext(UserContext);
+  const fetchAppointments = useCallback(async () => {
     const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(id);
     const getDoctorAllAppointmentsConfig = fetchConfig({
       url: getDoctorAllAppointments,
       method: "get",
     });
-    const { data } = await fetchWrapper(getDoctorAllAppointmentsConfig);
+    const { data, status } = await fetchWrapper(getDoctorAllAppointmentsConfig);
+    if (status === 200) {
+      filterAppointments(data?.appointments);
+    }
+    console.log(data);
+  }, [id]);
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
 
-    this.setState({ appointments: data.appointments });
-    console.log(data.appointments, 11111);
-    data.appointments.forEach((appointment) => {
-      if (appointment.isAccepted === true) {
-        acceptedAppointments.push(appointment);
-      } else if (appointment.isCompleted === true) {
-        completedAppointments.push(appointment);
-      } else if (appointment.isRejected === true) {
-        rejectedAppointments.push(appointment);
-      } else {
-        pendingAppointments.push(appointment);
-      }
+  const filterAppointments = (appointments) => {
+    setAppointments({
+      acceptedAppointments: appointments.filter(
+        (appointment) => appointment.isAccepted === true
+      ),
+      pendingAppointments: appointments.filter(
+        (appointment) => appointment.isPending === true
+      ),
+      completedAppointments: appointments.filter(
+        (appointment) => appointment.isCompleted === true
+      ),
     });
+  };
 
-    this.setState({
-      activeAppointments: activeAppointments,
-      activeAppointmentsCount: activeAppointments.length,
-      acceptedAppointments: acceptedAppointments,
-      acceptedAppointmentsCount: acceptedAppointments.length,
-      completedAppointments: completedAppointments,
-      completedAppointmentsCount: completedAppointments.length,
-      pendingAppointments: pendingAppointments,
-      pendingAppointmentsCount: pendingAppointments.length,
-      rejectedAppointmentsCount: rejectedAppointments.length,
-    });
-  }
+  const {
+    acceptedAppointments,
+    pendingAppointments,
+    completedAppointments,
+  } = appointments;
 
-  async componentDidMount() {
-    await this.getDoctorAppointments();
-  }
+  return (
+    <>
+      <PageLoader />
 
-  render() {
-    const {
-      acceptedAppointments,
-      acceptedAppointmentsCount,
-      pendingAppointments,
-      pendingAppointmentsCount,
-      completedAppointments,
-      rejectedAppointmentsCount,
-    } = this.state;
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <AppointmentSummary
+            pendingAppointmentsCount={pendingAppointments.length}
+            acceptedAppointmentsCount={acceptedAppointments.length}
+            completedAppointmentsCount={completedAppointments.length}
+          />
 
-    return (
-      <>
-        <PageLoader />
-
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
+          <header className="page-header">
+            <h4 className="page-title"> Appointments List</h4>
+          </header>
+          <div className="page-content">
+            <div className="card-body"></div>
           </div>
-          <div className="main-content-wrap">
-            <AppointmentSummary
-              pendingAppointmentsCount={pendingAppointmentsCount}
-              acceptedAppointmentsCount={acceptedAppointmentsCount}
-              rejectedAppointmentsCount={rejectedAppointmentsCount}
-            />
-
-            <header className="page-header">
-              <h4 className="page-title"> Appointments List</h4>
-            </header>
-            <div className="page-content">
-              <div className="card-body"></div>
-            </div>
-            <div className="page-content">
-              <div className="card mb-0">
-                <div className="card-body">
-                  <div>
-                    <AppointmentTabHeader />
-                    <AppointmentTabContent
-                      acceptedAppointments={acceptedAppointments}
-                      pendingAppointments={pendingAppointments}
-                      completedAppointments={completedAppointments}
-                      getDoctorAppointments={this.getDoctorAppointments}
-                    />
-                  </div>
+          <div className="page-content">
+            <div className="card mb-0">
+              <div className="card-body">
+                <div>
+                  <AppointmentTabHeader />
+                  <AppointmentTabContent
+                    acceptedAppointments={acceptedAppointments}
+                    pendingAppointments={pendingAppointments}
+                    completedAppointments={completedAppointments}
+                    getDoctorAppointments={fetchAppointments}
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </main>
-      </>
-    );
-  }
-}
+        </div>
+      </main>
+    </>
+  );
+});
 
-export default observer(Appointments);
+export default Appointments;

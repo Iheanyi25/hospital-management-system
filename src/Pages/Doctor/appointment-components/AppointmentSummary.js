@@ -4,7 +4,7 @@ import { Fragment } from "react";
 function AppointmentSummary({
   pendingAppointmentsCount,
   acceptedAppointmentsCount,
-  rejectedAppointmentsCount,
+  completedAppointmentsCount,
 }) {
   return (
     <Fragment>
@@ -52,10 +52,10 @@ function AppointmentSummary({
                 </div>
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1 text-nowrap">
-                    Rejected Appointments
+                    Completed Appointments
                   </h6>
                   <div className="count text-primary fs-20">
-                    {rejectedAppointmentsCount}
+                    {completedAppointmentsCount}
                   </div>
                 </div>
               </div>
