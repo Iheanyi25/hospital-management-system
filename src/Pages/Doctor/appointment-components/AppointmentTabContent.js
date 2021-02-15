@@ -2,7 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import formatDate from "../../../utils/formatDate";
 import formatTime from "../../../utils/formatTime";
-import { PendingAppointmentsTableContainer } from "./tab-components";
+import {
+  AcceptedAppointmentsTableContainer,
+  PendingAppointmentsTableContainer,
+} from "./tab-components";
 
 const AppointmentTabContent = ({
   acceptedAppointments,
@@ -47,119 +50,10 @@ const AppointmentTabContent = ({
           role="tabpanel"
           aria-labelledby="pills-accepted-tab"
         >
-          <div className="table-responsive">
-            <table
-              className="table table-striped"
-              data-paging="true"
-              data-info="true"
-            >
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Reason for Appointment</th>
-                  <th className="text-nowrap">Patient</th>
-                  <th className="text-nowrap">Patient Contact</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {acceptedAppointments
-                  ? acceptedAppointments.map((appointment) => (
-                      <tr>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            {appointment.appointmentTitle}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            {appointment.reasonForAppointment}
-                          </div>
-                        </td>
-                        <td>
-                          {appointment.patient?.firstName}{" "}
-                          {appointment.patient?.lastName}
-                        </td>
-                        <td>{appointment.patient?.phoneNumber} </td>
-                        <td>
-                          <div className="text-muted text-nowrap">
-                            {formatDate(appointment.appointmentDate) ?? ""}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-muted text-nowrap">
-                            {formatTime(appointment.appointmentTime) ?? ""}
-                          </div>
-                        </td>
-
-                        <td>
-                          <div className="btn-group">
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-sm btn-block dropdown-toggle"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              Action
-                            </button>
-                            <div className="dropdown-menu text-left">
-                              <Link
-                                title="Go for clarking"
-                                to={{
-                                  pathname: "/DoctorClarking",
-                                  state: {
-                                    id: appointment.id,
-                                    type: "appointment",
-                                    patient: appointment.patient,
-                                  },
-                                }}
-                                className="btn btn-sm btn-block"
-                              >
-                                <span className="btn-icon icofont-user" />
-                                Go for Clarking
-                              </Link>
-                              <Link
-                                title="Clarking History"
-                                to={{
-                                  pathname: "/ViewClarkingHistory",
-                                  state: {
-                                    id: appointment.patient.id,
-                                    firstName: appointment.patient.firstName,
-                                    lastName: appointment.patient.lastName,
-                                  },
-                                }}
-                                className="btn btn-sm btn-block"
-                              >
-                                <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-                                Clarking History
-                              </Link>
-                              <Link
-                                title="Pre-Consultation History"
-                                to={{
-                                  pathname: "/ViewPreConsultationHistory",
-                                  state: {
-                                    id: appointment.patient.id,
-                                    firstName: appointment.patient.firstName,
-                                    lastName: appointment.patient.lastName,
-                                  },
-                                }}
-                                className="btn btn-sm btn-block"
-                              >
-                                <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-                                Pre-Consultation History
-                              </Link>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  : null}
-              </tbody>
-            </table>
-          </div>
+          <AcceptedAppointmentsTableContainer
+            acceptedAppointments={acceptedAppointments}
+            category="acceptedList"
+          />
         </div>
         <div
           className="tab-pane fade"
