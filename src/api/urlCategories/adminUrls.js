@@ -1,10 +1,8 @@
-const pageSize = 1;
-
 // Admin - Dashboard
 export const getAdminDashboardUrl = () => `/Admin/Dashboard`;
 // Admin - Manage Accounts
 export const postAdminAccountUrl = () => `/Admin/Account/CreateAccount`;
-export const getAllAccountsUrl = (pageNumber) =>
+export const getAllAccountsUrl = (pageNumber, pageSize) =>
   `/Admin/Account/GetAllAccounts?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
 
@@ -30,7 +28,7 @@ export const deleteConsultationUrl = () => `/Admin/DeleteConsultation`;
 //ReAssignment of doctors shares url with reAssignment of appointment
 
 // Admin - Manage Health Plans
-export const getAllHealthPlansUrl = (pageNumber) => `/Admin/GetAllHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllHealthPlansUrl = (pageNumber) => `/Admin/GetAllHealthPlans?PageNumber=${pageNumber}&PageSize=${50}`;
 export const createHealthPlanUrl = () => `/Admin/CreateHealthPlan`;
 export const updateHealthPlanUrl = () => `/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `/Admin/DisableHealthPlan`;
@@ -48,7 +46,7 @@ export const postDoctorSocialUrl = () => `/Doctor/AddDoctorSocial`;
 // Admin - Manage Roles
 
 // Admin - Manage Services Catgories
-export const getAllServicesCategoryUrl = (pageNumber) => `/Admin/GetAllServiceCategories?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllServicesCategoryUrl = (pageNumber) => `/Admin/GetAllServiceCategories?PageNumber=${pageNumber}&PageSize=${50}`;
 export const getAllServicesInACategoryUrl = (serviceCatId) =>
   `/Admin/GetAllServicesInAServiceCategory?serviceCategoryId=${serviceCatId}`;
 export const postServiceCategoryUrl = () => `/Admin/CreateServiceCategory`;
@@ -59,27 +57,27 @@ export const deleteServiceCategoryUrl = () => `/Admin/DeleteServiceCategory`;
 export const getServiceRequestUrl = (serviceRequestId) =>
   `/Admin/GetServiceRequest/${serviceRequestId}`;
 export const getAllServiceRequestInvoiceUrl = (PageNumber) =>
-  `/Admin/GetAllServiceRequestInvoice?PageNumber=${PageNumber}&PageSize=${pageSize}`;
+  `/Admin/GetAllServiceRequestInvoice?PageNumber=${PageNumber}&PageSize=${50}`;
 export const postServiceRequestUrl = () => `/Admin/UploadServiceRequestResult`;
 export const getServiceRequestResultForPatientUrl = (patientId) =>
   `/Admin/GetServiceRequestResultsForPatient/${patientId}`;
 export const getServiceRequestResultUrl = (serviceRequestId) =>
   `/Admin/GetServiceRequestResults/${serviceRequestId}`;
 export const getServicesInAnInvoiceUrl = (invoiceId, pageNumber) =>
-  `/Admin/GetServicesInAnInvoice/${invoiceId}?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  `/Admin/GetServicesInAnInvoice/${invoiceId}?PageNumber=${pageNumber}&PageSize=${50}`;
 export const postPayForServicesUrl = () => `/Admin/PayForServices`;
 export const postPayForServicesWithAccountUrl = () =>
   `/Admin/PayForServicesWithAccount`;
 
 // Admin - Manage Services
-export const getAllServicesUrl = (pageNumber) => `/Admin/GetAllServices?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllServicesUrl = (pageNumber) => `/Admin/GetAllServices?PageNumber=${pageNumber}&PageSize=${50}`;
 export const createServiceUrl = () => `/Admin/CreateService`;
 export const updateServiceUrl = () => `/Admin/UpdateService`;
 export const postRequestServicesUrl = () => `/Admin/RequestServices`;
 export const deleteServiceUrl = () => `/Admin/DeleteService`;
 
 // Admin - Manage Wards
-export const getAllWardsUrl = (pageNumber) => `/Admin/Ward/GetAllWards?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllWardsUrl = (pageNumber) => `/Admin/Ward/GetAllWards?PageNumber=${pageNumber}&PageSize=${50}`;
 export const createWardUrl = () => `/Admin/Ward/CreateWard`;
 export const updateWardUrl = () => `/Admin/Ward/UpdateWard`;
 export const deleteWardUrl = () => `/Admin/Ward/DeleteWard`;
