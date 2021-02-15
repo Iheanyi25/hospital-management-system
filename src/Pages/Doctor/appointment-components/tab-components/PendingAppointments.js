@@ -2,11 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../api/fetcher";
-import { postDoctorAcceptAppointmentUrl, postDoctorRejectAppointmentUrl } from "../../../../api/URLs";
+import {
+  postDoctorAcceptAppointmentUrl,
+  postDoctorRejectAppointmentUrl,
+} from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
+import { notification } from "../../../../utils/notification";
 
 function PendingAppointmentsTableContainer({
   pendingAppointments,
@@ -22,11 +26,13 @@ function PendingAppointmentsTableContainer({
         url: postDoctorAcceptAppointment,
         method: "post",
       });
-      const res = await fetchWrapper(postDoctorAcceptAppointmentConfig);
-      console.log(res);
-      getDoctorAppointments();
+      const { status } = await fetchWrapper(postDoctorAcceptAppointmentConfig);
+      if (status === 200) {
+        notification.success({ message: "Appointment accepted successfully" });
+        getDoctorAppointments();
+      }
     } catch (err) {
-      console.log(err);
+      notification.error({ message: "Operation failed" });
     }
   };
 
@@ -39,11 +45,13 @@ function PendingAppointmentsTableContainer({
         url: postDoctorRejectAppointment,
         method: "post",
       });
-      const res = await fetchWrapper(postDoctorRejectAppointmentConfig);
-      console.log(res, 33333);
-      getDoctorAppointments();
+      const { status } = await fetchWrapper(postDoctorRejectAppointmentConfig);
+      if (status === 200) {
+        notification.success({ message: "Appointment rejected successfully" });
+        getDoctorAppointments();
+      }
     } catch (err) {
-      console.log(err);
+        notification.error({ message: "Operation failed" });
     }
   };
 
