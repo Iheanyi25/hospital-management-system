@@ -12,7 +12,8 @@ import { notification } from "../../../utils/notification";
 
 const ManageWards = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
-  const getAllWards = getAllWardsUrl(pageNumber);
+  const [pageSize, setPageSize] = useState(50);
+  const getAllWards = getAllWardsUrl(pageNumber, pageSize);
   const getAllWardsConfig = fetchConfig({ url: getAllWards, method: "get" });
   const { data, error, mutate } = useRequest(getAllWardsConfig, {
     revalidateOnFocus: false,
@@ -75,6 +76,8 @@ const ManageWards = observer(() => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

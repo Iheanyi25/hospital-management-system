@@ -14,8 +14,9 @@ import ActionButton from "../../../../../../Components/DataTable/ActionButton";
 
 const AllDrugs = ({ userType, category }) => {
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
   const [singleDrug, setSingleDrug] = useState({});
-  const getAllDrugs = getAllDrugsUrl(pageNumber);
+  const getAllDrugs = getAllDrugsUrl(pageNumber, pageSize);
   const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
   const { data, error, mutate } = useRequest(getAllDrugsConfig, {
     revalidateOnFocus: false,
@@ -76,6 +77,8 @@ const AllDrugs = ({ userType, category }) => {
           paginationDetails={data.paginationDetails}
           setPageNumber={setPageNumber}
           pageNumber={pageNumber}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
         />
       )}
       <UpdateInventory drug={singleDrug} setSuccess={mutate} />

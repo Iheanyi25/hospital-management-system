@@ -12,10 +12,11 @@ import { notification } from "../../../utils/notification";
 
 const ManageServices = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
   const {
     user: { userType },
   } = useContext(UserContext);
-  const getAllServices = getAllServicesUrl(pageNumber);
+  const getAllServices = getAllServicesUrl(pageNumber, pageSize);
   const getAllServicesConfig = fetchConfig({
     url: getAllServices,
     method: "get",
@@ -51,7 +52,13 @@ const ManageServices = observer(() => {
         "#": ++index,
         Services: service?.name,
         Cost: service?.cost,
-        Actions: <ServicesTableAction service={service} deleteMe={deleteMe} userType={userType} />,
+        Actions: (
+          <ServicesTableAction
+            service={service}
+            deleteMe={deleteMe}
+            userType={userType}
+          />
+        ),
       };
     });
   }
@@ -91,6 +98,8 @@ const ManageServices = observer(() => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
