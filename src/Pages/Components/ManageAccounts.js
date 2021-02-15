@@ -14,7 +14,8 @@ import { useRequest } from "../../api/fetcher";
 
 const ManageAccounts = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const getAllAccounts = getAllAccountsUrl(pageNumber);
+  const [pageSize, setPageSize] = useState(50)
+  const getAllAccounts = getAllAccountsUrl(pageNumber, pageSize);
   const getAllAccountsConfig = fetchConfig({
     url: getAllAccounts,
     method: "get",
@@ -77,6 +78,8 @@ const ManageAccounts = () => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
