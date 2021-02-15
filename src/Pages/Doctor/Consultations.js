@@ -3,7 +3,6 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorAllConsultationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
-import { getPatientsUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 import {
@@ -11,8 +10,6 @@ import {
   ConsultationTabContent,
   ConsultationTabHeader,
 } from "./consultation-components";
-// import { ConsultationTabHeader } from "./consultation-components";
-// import ConsultationSummary from "./consultation-components/ConsultationSummary";
 
 const $ = window.$;
 $.Datatable = require("datatables.net");
@@ -31,7 +28,6 @@ class Consultations extends React.Component {
       pendingAppointmentsCount: 0,
       completedConsultations: [],
       rejectedAppointmentsCount: 0,
-      patients: [],
     };
   }
 
@@ -54,8 +50,6 @@ class Consultations extends React.Component {
       const { data } = await fetchWrapper(getDoctorAllConsultationsConfig);
       console.log(data);
 
-      let patients = await this.getAllPatients();
-
       this.setState({ doctorConsultations: data.doctorConsultations });
 
       console.log(data.doctorConsultations[0].patientQueue);
@@ -74,21 +68,17 @@ class Consultations extends React.Component {
       });
       console.log("com", completedConsultations);
       console.log("pen", pendingAppointments);
-      this.setState(
-        {
-          activeAppointments: activeAppointments,
-          activeAppointmentsCount: activeAppointments.length,
-          acceptedAppointments: acceptedAppointments,
-          acceptedAppointmentsCount: acceptedAppointments.length,
-          completedConsultations: completedConsultations,
-          completedAppointmentsCount: completedConsultations.length,
-          pendingAppointments: pendingAppointments,
-          pendingAppointmentsCount: pendingAppointments.length,
-          rejectedAppointmentsCount: rejectedAppointments.length,
-          patients: patients.patients,
-        },
-        () => this.sync()
-      );
+      this.setState({
+        activeAppointments: activeAppointments,
+        activeAppointmentsCount: activeAppointments.length,
+        acceptedAppointments: acceptedAppointments,
+        acceptedAppointmentsCount: acceptedAppointments.length,
+        completedConsultations: completedConsultations,
+        completedAppointmentsCount: completedConsultations.length,
+        pendingAppointments: pendingAppointments,
+        pendingAppointmentsCount: pendingAppointments.length,
+        rejectedAppointmentsCount: rejectedAppointments.length,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -105,30 +95,6 @@ class Consultations extends React.Component {
   //   }),
   // ];
 
-  sync() {
-    this.$el = $(this.el);
-    this.$el.DataTable();
-    this.$em = $(this.em);
-    this.$em.DataTable();
-    this.$en = $(this.en);
-    this.$en.DataTable();
-  }
-
-  async getAllPatients() {
-    try {
-      const getPatients = getPatientsUrl();
-      const getPatientsConfig = fetchConfig({
-        url: getPatients,
-        method: "get",
-      });
-      const { data } = await fetchWrapper(getPatientsConfig);
-      return data;
-      //this.setState({ patients: data.patients.map((x) => x.patient) });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   render() {
     const {
       acceptedAppointmentsCount,
@@ -136,7 +102,6 @@ class Consultations extends React.Component {
       pendingAppointmentsCount,
       completedConsultations,
       rejectedAppointmentsCount,
-      patients,
     } = this.state;
 
     return (
@@ -168,7 +133,6 @@ class Consultations extends React.Component {
                     <ConsultationTabContent
                       pendingAppointments={pendingAppointments}
                       completedConsultations={completedConsultations}
-                      patients={patients}
                     />
                   </div>
                 </div>
