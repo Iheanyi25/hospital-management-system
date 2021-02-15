@@ -11,9 +11,6 @@ import {
   ConsultationTabHeader,
 } from "./consultation-components";
 
-const $ = window.$;
-$.Datatable = require("datatables.net");
-
 class Consultations extends React.Component {
   static contextType = UserContext;
   constructor(props) {
