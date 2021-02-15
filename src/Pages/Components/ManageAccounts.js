@@ -14,7 +14,7 @@ import { useRequest } from "../../api/fetcher";
 
 const ManageAccounts = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(50)
+  const [pageSize, setPageSize] = useState(50);
   const getAllAccounts = getAllAccountsUrl(pageNumber, pageSize);
   const getAllAccountsConfig = fetchConfig({
     url: getAllAccounts,
