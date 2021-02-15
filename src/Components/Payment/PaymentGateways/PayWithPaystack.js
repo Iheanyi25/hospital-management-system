@@ -6,7 +6,6 @@ import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 
 const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
-console.log(publicKey);
 const PayWithPaystack = observer(({ paymentDetails, paidSuccessfully }) => {
   const {
     user: { id },
@@ -17,7 +16,6 @@ const PayWithPaystack = observer(({ paymentDetails, paidSuccessfully }) => {
     amount: amount + "00",
     reference: new Date().getTime(),
     publicKey,
-    // publicKey: "pk_test_497061cac95adf87f3030c4b986972429b3d153e",
   };
 
   const initializePayment = usePaystackPayment(details);

@@ -65,8 +65,8 @@ export const getServiceRequestResultForPatientUrl = (patientId) =>
   `/Admin/GetServiceRequestResultsForPatient/${patientId}`;
 export const getServiceRequestResultUrl = (serviceRequestId) =>
   `/Admin/GetServiceRequestResults/${serviceRequestId}`;
-export const getServicesInAnInvoiceUrl = (invoiceId) =>
-  `/Admin/GetServicesInAnInvoice/${invoiceId}`;
+export const getServicesInAnInvoiceUrl = (invoiceId, pageNumber) =>
+  `/Admin/GetServicesInAnInvoice/${invoiceId}?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postPayForServicesUrl = () => `/Admin/PayForServices`;
 export const postPayForServicesWithAccountUrl = () =>
   `/Admin/PayForServicesWithAccount`;

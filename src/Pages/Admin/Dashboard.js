@@ -28,9 +28,9 @@ class Dashboard extends React.Component {
 
     const getDoctorAppointments = getDoctorAppointmentsUrl();
     const getDoctorAppointmentsConfig = fetchConfig({ url: getDoctorAppointments, method: "get" });
-    const { data: { doctorsAppointments } } = await fetchWrapper(getDoctorAppointmentsConfig);
+    const { data: { appointments } } = await fetchWrapper(getDoctorAppointmentsConfig);
 
-    this.setState({ doctorAppointments: doctorsAppointments });
+    this.setState({ doctorAppointments: appointments });
 
     const getAdminDashboard = getAdminDashboardUrl();
     const getAdminDashboardConfig = fetchConfig({ url: getAdminDashboard, method: "get" });
@@ -50,6 +50,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { systemCount } = this.state;
+    console.log(this.state.doctorAppointments);
     return (
       <>
         <PageLoader />
