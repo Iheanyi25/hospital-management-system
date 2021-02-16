@@ -72,6 +72,9 @@ import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
 import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
+// admissions
+import ReferredPatients from "../Components/Admissions/ReferredPatients";
+
 export default function AdminRoutes() {
   return (
     <BrowserRouter basename="admin">
@@ -305,6 +308,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminViewPatientHealthHistory/:id"
             component={ViewPatientHealthHistory}
+          />
+          <Route
+            exact
+            path="/AdminViewReferredPatients"
+            component={ReferredPatients}
           />
           <Route
             exact
