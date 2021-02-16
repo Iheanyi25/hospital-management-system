@@ -14,6 +14,7 @@ import {
   PatientProfile,
   LabResults,
 } from "../../Components/Clarking";
+import AdmissionReferral from "../../Components/Modals/AdmissionReferral";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
@@ -160,7 +161,10 @@ class Clerking extends React.Component {
                     Send Home
                   </Link>
                   <Link
-                    onClick={(e) => this.finishClarking(e, "isAdmitted")}
+                    // onClick={(e) => this.finishClarking(e, "isAdmitted")}
+                    to="#"
+                    data-toggle="modal"
+                    data-target="#admission-referral"
                     className="btn btn-outline-primary mr-2 mb-2"
                   >
                     Admit
@@ -1336,6 +1340,7 @@ class Clerking extends React.Component {
             </div>
           </div>
         </main>
+        <AdmissionReferral/>
       </>
     );
   }
