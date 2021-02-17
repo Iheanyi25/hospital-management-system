@@ -12,6 +12,7 @@ import TableSize from "../../../Components/DataTable/TableSize";
 
 const ServiceRequestContents = ({ match, location }) => {
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
   const {
     state: {
       invoiceNumber,
@@ -26,7 +27,8 @@ const ServiceRequestContents = ({ match, location }) => {
   } = match;
   const getServicesInAnInvoice = getServicesInAnInvoiceUrl(
     invoiceId,
-    pageNumber
+    pageNumber,
+    pageSize
   );
   const getServicesInAnInvoiceConfig = fetchConfig({
     url: getServicesInAnInvoice,
@@ -138,6 +140,8 @@ const ServiceRequestContents = ({ match, location }) => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

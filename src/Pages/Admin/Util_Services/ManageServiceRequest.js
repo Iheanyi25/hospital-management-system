@@ -17,12 +17,14 @@ import ActionButton from "../../../Components/DataTable/ActionButton";
 
 const ManageServiceRequest = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
   const {
     user,
     user: { userType },
   } = useContext(UserContext);
   const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(
-    pageNumber
+    pageNumber,
+    pageSize
   );
   const getAllServiceRequestInvoiceConfig = fetchConfig({
     url: getAllServiceRequestInvoice,
@@ -99,6 +101,8 @@ const ManageServiceRequest = observer(() => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

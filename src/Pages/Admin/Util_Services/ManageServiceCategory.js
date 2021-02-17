@@ -15,10 +15,11 @@ import { notification } from "../../../utils/notification";
 
 const ManageServiceCategory = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
   const {
     user: { userType },
   } = useContext(UserContext);
-  const getAllServicesCategory = getAllServicesCategoryUrl(pageNumber);
+  const getAllServicesCategory = getAllServicesCategoryUrl(pageNumber, pageSize);
   const getAllServicesCategoryConfig = fetchConfig({
     url: getAllServicesCategory,
     method: "get",
@@ -100,6 +101,8 @@ const ManageServiceCategory = observer(() => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

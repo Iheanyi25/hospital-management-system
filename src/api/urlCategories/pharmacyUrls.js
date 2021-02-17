@@ -1,5 +1,3 @@
-const pageSize = 1;
-
 // Pharmacy - Drug Costing
 export const costDrugUrl = () => `/Pharmacy/CostDrugs`;
 
@@ -27,9 +25,9 @@ export const updateDrugPricesUrl = () => `/Pharmacy/UpdateDrugPrice`;
 export const deleteDrugPricesUrl = () => `/Pharmacy/DeleteDrugPrice`;
 
 // Pharmacy - Manage Drugs
-export const getAllDrugsUrl = (pageNumber) =>
+export const getAllDrugsUrl = (pageNumber, pageSize) =>
   `/Pharmacy/GetAllDrugs?PageNumber=${pageNumber}&PageSize=${pageSize}`;
-export const getAllDrugsByDrugTypeUrl = (drugType, pageNumber) =>
+export const getAllDrugsByDrugTypeUrl = (drugType, pageNumber, pageSize) =>
   `/Pharmacy/GetDrugsByDrugType?drugType=${drugType}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDrugUrl = (drugId) => `/Pharmacy/GetDrug/${drugId}`;
 export const postDrugUrl = () => `/Pharmacy/RegisterDrug`;

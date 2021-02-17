@@ -12,7 +12,7 @@ function PatientsAttendedTableContainer({ completedConsultations, category }) {
         Title: consultation.patientQueue.consultationTitle,
         "Reason for consultation":
           consultation.patientQueue.reasonForConsultation,
-        Patient: `${consultation.patient?.lastName} ${consultation.patient?.firstName}`,
+        Patient: `${consultation.patient?.firstName} ${consultation.patient?.lastName}`,
         "Patient Contact": consultation?.patient?.phoneNumber ?? "N/A",
         "Consultation Date": new Date(
           consultation.patientQueue.dateOfConsultation
