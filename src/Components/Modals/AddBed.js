@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
-import { postDoctorEducationUrl } from "../../api/URLs";
-import { notification } from "../../utils/notification";
 
-const $ = window.$;
+// const $ = window.$;
 
-const AddBed = ({ doctorId, doctorEmail, updatePatientDetails }) => {
+const AddBed = ({ doctorId, doctorEmail }) => {
   const [details, setDetails] = useState({
     degree: "",
     institution: "",
