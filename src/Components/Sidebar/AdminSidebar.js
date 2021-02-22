@@ -528,6 +528,12 @@ class AdminSidebar extends React.Component {
                       <span className="link-text">Referred Patients</span>
                     </Link>
                   </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminManageAdmissions">
+                      <span className="link-icon icofont-users" />{" "}
+                      <span className="link-text">Manage Admissions</span>
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </div>
