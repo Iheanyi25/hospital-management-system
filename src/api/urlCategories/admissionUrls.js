@@ -6,3 +6,7 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
 
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
+export const getAllWardsUrl = (pageNumber, pageSize) =>
+  `/Admission/Ward/GetAllWards?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const updateWardUrl = () => `/Admission/Ward/UpdateWard`;
+export const deleteWardUrl = () => `/Admission/Ward/DeleteWard`;
