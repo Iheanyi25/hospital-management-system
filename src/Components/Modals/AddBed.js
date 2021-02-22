@@ -1,48 +1,44 @@
 import React, { useState } from "react";
+import { fetchConfig } from "../../api/fetchConfig";
+import { fetchWrapper } from "../../api/fetcher";
+import { createBedUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
 
-// const $ = window.$;
+const $ = window.$;
 
-const AddBed = ({ doctorId, doctorEmail }) => {
-  const [details, setDetails] = useState({
-    degree: "",
-    institution: "",
-    startYear: "",
-    endYear: "",
-    doctorProfileId: doctorId,
-    createdBy: doctorEmail,
-  });
-
-  const handleChange = (e) => {
-    setDetails({
-      ...details,
-      [e.target.name]: e.target.value,
-    });
-  };
+const AddBed = ({ wardId, mutate }) => {
+  console.log(wardId);
+  const [name, setName] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (Object.values(details).includes("")) {
-    //   return;
-    // }
-    // try {
-    //   const postDoctorEducation = postDoctorEducationUrl();
-    //   const postDoctorEducationConfig = fetchConfig({
-    //     url: postDoctorEducation,
-    //     data: JSON.stringify([details]),
-    //     method: "post",
-    //   });
-    //   const res = await fetchWrapper(postDoctorEducationConfig);
+    const payload = {
+      name,
+      wardId,
+    };
+    console.log(payload);
+    if (Object.values(payload).includes("")) {
+      return;
+    }
+    try {
+      const createBed = createBedUrl();
+      const createBedConfig = fetchConfig({
+        url: createBed,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(createBedConfig);
 
-    //   if (res.status === 200) {
-    //     notification.success({ message: res.data.message });
-    //     updatePatientDetails();
-    //     $("#add-education").modal("hide");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    //   const errMessage = error?.response?.data?.message || "An error occurred";
-    //   notification.error({ message: errMessage });
-    // }
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+        $("#add-bed").modal("hide");
+      }
+    } catch (error) {
+      console.log(error);
+      const errMessage = error?.response?.data?.message || "An error occurred";
+      notification.error({ message: errMessage });
+    }
   };
 
   return (
@@ -61,11 +57,9 @@ const AddBed = ({ doctorId, doctorEmail }) => {
               <div className="form-group">
                 <label>Name</label>
                 <input
-                  id="name"
-                  name="institution"
                   className="form-control"
                   type="text"
-                  onChange={handleChange}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Name of bed"
                 />
               </div>
