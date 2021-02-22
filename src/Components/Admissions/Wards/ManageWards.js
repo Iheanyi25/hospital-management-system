@@ -9,6 +9,7 @@ import { PageLoader, Table } from "../..";
 import ActionButton from "../../DataTable/ActionButton";
 import TableSize from "../../DataTable/TableSize";
 import { notification } from "../../../utils/notification";
+import { AddBed } from "../../Modals";
 
 const ManageWards = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -83,6 +84,7 @@ const ManageWards = observer(() => {
           </div>
         </div>
       </main>
+      <AddBed />
     </Fragment>
   );
 });
@@ -90,6 +92,19 @@ const ManageWards = observer(() => {
 const WardsTableAction = ({ ward, deleteMe }) => {
   return (
     <ActionButton>
+      <Link
+        title="Pre-consultation"
+        to={{
+          pathname: "/AdminEditWard/" + ward.id,
+          state: ward,
+        }}
+        className="btn btn-sm btn-block"
+        data-toggle="modal"
+        data-target="#add-bed"
+      >
+        <span className="btn-icon icofont-edit-alt mr-2" />
+        Add bed
+      </Link>
       <Link
         title="Pre-consultation"
         to={{
