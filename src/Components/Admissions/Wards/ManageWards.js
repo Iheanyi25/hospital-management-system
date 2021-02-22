@@ -74,7 +74,7 @@ const ManageWards = observer(() => {
           <div className="page-content">
             <TableSize
               size={data ? data.wards.length : 0}
-              heading="No Of Services"
+              heading="No of Beds"
             />
           </div>
           <div className="page-content">
@@ -111,7 +111,7 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
       </Link>
       <Link
         to={{
-          pathname: "/AdminEditWard/" + ward.id,
+          pathname: "/AdminManageBeds/" + ward.id,
           state: ward,
         }}
         className="btn btn-sm btn-block"
@@ -120,7 +120,6 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
         View beds
       </Link>
       <Link
-        title="Pre-consultation"
         to={{
           pathname: "/AdminEditWard/" + ward.id,
           state: ward,
