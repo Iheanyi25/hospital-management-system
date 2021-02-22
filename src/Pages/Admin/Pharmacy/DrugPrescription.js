@@ -34,7 +34,7 @@ const DrugPrescription = observer(({ match }) => {
     revalidateOnFocus: false,
   });
   console.log(prescription);
-  const getDrugsUrl = getAllDrugsUrl();
+  const getDrugsUrl = getAllDrugsUrl(1, 200);
   const getDrugConfig = fetchConfig({
     url: getDrugsUrl,
     method: "get",
