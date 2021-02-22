@@ -59,7 +59,7 @@ const ManageWards = observer(() => {
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">Manage Wards</h4>
             <Link className="btn btn-primary" to="/AdminCreateWard">
-              Create Wards
+              Create Ward
             </Link>
           </header>
 
