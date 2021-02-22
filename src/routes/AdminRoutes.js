@@ -50,11 +50,6 @@ import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestC
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
 
-// ward utils
-import CreateWard from "../Pages/Admin/Util_Ward/CreateWard";
-import EditWard from "../Pages/Admin/Util_Ward/EditWard";
-import ManageWards from "../Pages/Admin/Util_Ward/ManageWards";
-
 // health-plan utils
 import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
 import EditHealthPlan from "../Pages/Admin/Util_HealtlPlans/EditHealthPlan";
@@ -73,6 +68,9 @@ import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransaction
 import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
 // admissions
+import CreateWard from "../Components/Admissions/Wards/CreateWard";
+import EditWard from "../Components/Admissions/Wards/EditWard";
+import ManageWards from "../Components/Admissions/Wards/ManageWards";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 
 export default function AdminRoutes() {

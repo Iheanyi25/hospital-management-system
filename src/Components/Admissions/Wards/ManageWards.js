@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { deleteWardUrl, getAllWardsUrl } from "../../../api/URLs";
-import { PageLoader, Table } from "../../../Components";
-import ActionButton from "../../../Components/DataTable/ActionButton";
-import TableSize from "../../../Components/DataTable/TableSize";
+import { PageLoader, Table } from "../..";
+import ActionButton from "../../DataTable/ActionButton";
+import TableSize from "../../DataTable/TableSize";
 import { notification } from "../../../utils/notification";
 
 const ManageWards = observer(() => {
