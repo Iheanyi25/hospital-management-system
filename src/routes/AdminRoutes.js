@@ -71,6 +71,7 @@ import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
 import EditWard from "../Components/Admissions/Wards/EditWard";
 import ManageWards from "../Components/Admissions/Wards/ManageWards";
+import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 
 export default function AdminRoutes() {
@@ -311,6 +312,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminViewReferredPatients"
             component={ReferredPatients}
+          />
+          <Route
+            exact
+            path="/AdminManageAdmissions"
+            component={ManageAdmissions}
           />
           <Route
             exact
