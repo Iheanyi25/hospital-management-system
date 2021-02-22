@@ -14,6 +14,7 @@ import { AddBed } from "../../Modals";
 const ManageWards = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
+  const [wardId, setWardId] = useState("");
   const getAllWards = getAllWardsUrl(pageNumber, pageSize);
   const getAllWardsConfig = fetchConfig({ url: getAllWards, method: "get" });
   const { data, error, mutate } = useRequest(getAllWardsConfig, {
@@ -44,7 +45,13 @@ const ManageWards = observer(() => {
         Name: ward?.name,
         Capacity: ward?.capacity,
         Description: ward?.description,
-        Actions: <WardsTableAction ward={ward} deleteMe={deleteMe} />,
+        Actions: (
+          <WardsTableAction
+            ward={ward}
+            deleteMe={deleteMe}
+            setWardId={setWardId}
+          />
+        ),
       };
     });
   }
@@ -67,7 +74,7 @@ const ManageWards = observer(() => {
           <div className="page-content">
             <TableSize
               size={data ? data.wards.length : 0}
-              heading="No Of Services"
+              heading="No of Beds"
             />
           </div>
           <div className="page-content">
@@ -84,29 +91,35 @@ const ManageWards = observer(() => {
           </div>
         </div>
       </main>
-      <AddBed />
+      <AddBed wardId={wardId} mutate={mutate} />
     </Fragment>
   );
 });
 
-const WardsTableAction = ({ ward, deleteMe }) => {
+const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
   return (
     <ActionButton>
       <Link
-        title="Pre-consultation"
-        to={{
-          pathname: "/AdminEditWard/" + ward.id,
-          state: ward,
-        }}
+        to="#"
         className="btn btn-sm btn-block"
         data-toggle="modal"
         data-target="#add-bed"
+        onClick={() => setWardId(ward.id)}
       >
         <span className="btn-icon icofont-edit-alt mr-2" />
         Add bed
       </Link>
       <Link
-        title="Pre-consultation"
+        to={{
+          pathname: "/AdminManageBeds/" + ward.id,
+          state: ward,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-edit-alt mr-2" />
+        View beds
+      </Link>
+      <Link
         to={{
           pathname: "/AdminEditWard/" + ward.id,
           state: ward,
