@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
-import {
-  PageLoader,
-  SelectableDropDown,
-} from "../../../Components";
+import { PageLoader, SelectableDropDown } from "../../../Components";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import {
@@ -50,14 +47,14 @@ class CreateService extends Component {
   }
 
   fetchServiceCategories = async () => {
-    const getAllServicesCategory = getAllServicesCategoryUrl();
+    const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
     const getAllServicesCategoryConfig = fetchConfig({
       url: getAllServicesCategory,
       method: "get",
     });
     const { data } = await fetchWrapper(getAllServicesCategoryConfig);
     console.log(data, 11111);
-    this.setState({ categories: data, isFetchingCategories: false });
+    this.setState({ categories: data.serviceCategories, isFetchingCategories: false });
   };
 
   renderPicker(customClass) {
@@ -212,13 +209,12 @@ class CreateService extends Component {
           : user.userType === "Admin"
           ? "/AdminManageServiceRequests"
           : "/LabManageServiceRequests";
-          notification.success({ message: res.data.message });
-          this.props.history.push({
-            pathname: nextRoute,
-            state: isFromClarking && this.props.location.state,
-          });
+        notification.success({ message: res.data.message });
+        this.props.history.push({
+          pathname: nextRoute,
+          state: isFromClarking && this.props.location.state,
+        });
       }
-
     } catch (error) {
       console.log(error);
       notification.error({ message: error?.response?.data.message });
