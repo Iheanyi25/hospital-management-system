@@ -10,6 +10,8 @@ import TableSize from "../../DataTable/TableSize";
 import { AddBed } from "../../Modals";
 import formatDate from "../../../utils/formatDate";
 import { useRequest } from "../../../api/fetcher";
+import paid from '../../../assets/img/paid.svg'
+import notpaid from '../../../assets/img/notpaid.svg'
 
 const ManageBeds = observer(() => {
   const id = useParams().id;
@@ -31,6 +33,16 @@ const ManageBeds = observer(() => {
         "#": ++index,
         Name: bed?.name,
         "Date Created": formatDate(bed?.dateCreated),
+        Status:
+          bed?.isAvailable ? (
+            <>
+              <img src={paid} alt="not paid" /> Available
+            </>
+          ) : (
+            <>
+              <img src={notpaid} alt="paid" /> Assigned
+            </>
+          ),
         Actions: <BedsTableAction />,
       };
     });
