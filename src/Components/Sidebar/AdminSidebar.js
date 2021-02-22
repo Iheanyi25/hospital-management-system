@@ -359,26 +359,6 @@ class AdminSidebar extends React.Component {
                       </li>
                     </ul>
                   </li>
-                  <li className="menu-item has-sub">
-                    <div className="cursor item-link">
-                      <span className="link-icon icofont-hospital" />{" "}
-                      <span className="link-text">Wards</span>{" "}
-                      <span className="link-caret icofont-thin-right" />
-                    </div>
-                    <ul className="sub">
-                      <li className="menu-item">
-                        <Link to="/AdminCreateWard" className="item-link">
-                          <span className="link-text">Create a ward</span>
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link to="/AdminManageWards" className="item-link">
-                          <span className="link-text">Manage wards</span>
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-
                   <li className="menu-item">
                     <span className="group-title">Reports</span>
                   </li>
@@ -422,7 +402,9 @@ class AdminSidebar extends React.Component {
                           className="item-link"
                           to="/AdminExpiredDrugsReport"
                         >
-                          <span className="link-text">Expired drugs report</span>
+                          <span className="link-text">
+                            Expired drugs report
+                          </span>
                         </Link>
                       </li>
                     </ul>
@@ -435,7 +417,10 @@ class AdminSidebar extends React.Component {
                     </div>
                     <ul className="sub">
                       <li className="menu-item">
-                        <Link className="item-link" to="/AdminAllAccountTransactions">
+                        <Link
+                          className="item-link"
+                          to="/AdminAllAccountTransactions"
+                        >
                           <span className="link-text">All Transactions</span>
                         </Link>
                       </li>
@@ -513,6 +498,41 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                     </ul>
+                  </li>
+                  <li className="menu-item">
+                    <span className="group-title">ADDMISSION</span>
+                  </li>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-hospital" />{" "}
+                      <span className="link-text">Wards</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link to="/AdminCreateWard" className="item-link">
+                          <span className="link-text">Create a ward</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link to="/AdminManageWards" className="item-link">
+                          <span className="link-text">Manage wards</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminViewReferredPatients">
+                      <span className="link-icon icofont-users" />{" "}
+                      <span className="link-text">Referred Patients</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AdminManageAdmissions">
+                      <span className="link-icon icofont-users" />{" "}
+                      <span className="link-text">Manage Admissions</span>
+                    </Link>
                   </li>
                 </ul>
               </nav>

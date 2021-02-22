@@ -38,10 +38,10 @@ class Dashboard extends React.Component {
       method: "get",
     });
     const {
-      data: { doctorsAppointments },
+      data: { appointments },
     } = await fetchWrapper(getDoctorAppointmentsConfig);
 
-    this.setState({ doctorAppointments: doctorsAppointments });
+    this.setState({ doctorAppointments: appointments });
 
     const getAdminDashboard = getAdminDashboardUrl();
     const getAdminDashboardConfig = fetchConfig({
@@ -64,6 +64,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { systemCount } = this.state;
+    console.log(this.state.doctorAppointments);
     return (
       <>
         <PageLoader />
@@ -312,7 +313,7 @@ class Dashboard extends React.Component {
                             </tr>
                           </thead>
                           <tbody>
-                            {this.state.doctorAppointments.map(
+                            {this.state.doctorAppointments?.map(
                               (appointment, key) => (
                                 <tr key={key}>
                                   <td className="wrap">

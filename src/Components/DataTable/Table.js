@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NoDataState from "../EmptyState/NoDataState";
+import { PaginationElement } from "./PaginationElement";
 const $ = window.$;
 
 const notReadyStyle = {
@@ -14,7 +15,16 @@ const readyStyle = {
   transition: "visibility 0s linear 0s, opacity 300ms",
 };
 
-const Table = ({ content, tableID, exportAction }) => {
+const Table = ({
+  content,
+  tableID,
+  exportAction,
+  paginationDetails,
+  pageNumber,
+  setPageNumber,
+  pageSize,
+  setPageSize,
+}) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -52,6 +62,17 @@ const Table = ({ content, tableID, exportAction }) => {
           {content.length > 0 && <TableContent tableContent={content} />}
         </table>
       </div>
+      <div className="d-flex mt-6">
+        {content.length > 0 && paginationDetails ? (
+          <PaginationElement
+            paginationDetails={paginationDetails}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+          />
+        ) : null}
+      </div>
       <div>{content.length === 0 && <NoDataState />}</div>
     </>
   );
@@ -82,3 +103,4 @@ const TableContent = ({ tableContent }) => {
     </>
   );
 };
+

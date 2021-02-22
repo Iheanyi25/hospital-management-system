@@ -10,7 +10,8 @@ export const generateDrugDispenseInvoiceUrl = () =>
 export const getDAllrugDispencingInvoicesUrl = () =>
   `/Pharmacy/GetDrugDispencingInvoices`;
 export const payForDrugsUrl = () => `/Pharmacy/PayForDrugs`;
-export const payForDrugsWithAccountUrl = () => `/Pharmacy/PayForDrugsWithAccount`;
+export const payForDrugsWithAccountUrl = () =>
+  `/Pharmacy/PayForDrugsWithAccount`;
 export const getDrugsInAnInvoice = (invoiceNumber) =>
   `/Pharmacy/GetDrugsInAnInvoice/${invoiceNumber}`;
 export const markInvoiceAsDispensedUrl = (drugInvoiceId) =>
@@ -24,8 +25,11 @@ export const updateDrugPricesUrl = () => `/Pharmacy/UpdateDrugPrice`;
 export const deleteDrugPricesUrl = () => `/Pharmacy/DeleteDrugPrice`;
 
 // Pharmacy - Manage Drugs
+export const getAllDrugsUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetAllDrugs?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllDrugsByDrugTypeUrl = (drugType, pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsByDrugType?drugType=${drugType}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDrugUrl = (drugId) => `/Pharmacy/GetDrug/${drugId}`;
-export const getAllDrugsUrl = () => `/Pharmacy/GetAllDrugs`;
 export const postDrugUrl = () => `/Pharmacy/RegisterDrug`;
 export const updateDrugInventoryUrl = (drugId, drugQuantity) =>
   `/Pharmacy/UpdateDrugQuantity?DrugId=${drugId}&DrugQuantity=${drugQuantity}`;

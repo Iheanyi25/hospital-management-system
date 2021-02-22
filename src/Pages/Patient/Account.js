@@ -35,7 +35,7 @@ function PatientAccount() {
   const { data: accountDet } = useRequest(getPatientAccountConfig, { revalidateOnFocus: false });
 
   const copyToClipboard = () => {
-    const thirdPartyFundingLink = `${local}/common/ThirdPartyFundAccount/${accountDet.account.accountNumber}`;
+    const thirdPartyFundingLink = `${local}/common/ThirdPartyFundAccount/${accountDet?.account?.accountNumber}`;
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
   };
 
@@ -57,7 +57,7 @@ function PatientAccount() {
       }
     );
   }
-  console.log(user,8888)
+
   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
@@ -76,10 +76,10 @@ function PatientAccount() {
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Tooltip on top"
-                to="#"
+                to="/ThirdPartyFunding"
                 onClick={copyToClipboard}
               >
-                Generate Link
+                Third Party Funding
               </Link>
               <Link
                 className="btn btn-primary mr-2 mb-2"

@@ -15,7 +15,7 @@ const MultipleSelect = ({
   valueKey,
   notAvailableText,
 }) => {
-  const setJquery = async () => {
+  const setJquery = React.useCallback(async () => {
     interval = setInterval(() => {
       if (window.$ && data.length > 0) {
         clearInterval(interval);
@@ -23,11 +23,13 @@ const MultipleSelect = ({
         sync();
       }
     }, 1000);
-  };
+  }, [data.length])
+
+
   useEffect(() => {
     console.log("the data from the useEffect", data);
     setJquery();
-  }, [showServices, label, data]);
+  }, [showServices, label, setJquery, data]);
 
   const sync = () => {
     var select = $(`#select_${selectBasic}`);
