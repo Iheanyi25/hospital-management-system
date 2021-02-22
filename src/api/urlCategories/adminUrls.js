@@ -79,13 +79,6 @@ export const updateServiceUrl = () => `/Admin/UpdateService`;
 export const postRequestServicesUrl = () => `/Admin/RequestServices`;
 export const deleteServiceUrl = () => `/Admin/DeleteService`;
 
-// Admin - Manage Wards
-export const getAllWardsUrl = (pageNumber, pageSize) =>
-  `/Admission/Ward/GetAllWards?PageNumber=${pageNumber}&PageSize=${pageSize}`;
-export const createWardUrl = () => `/Admin/Ward/CreateWard`;
-export const updateWardUrl = () => `/Admin/Ward/UpdateWard`;
-export const deleteWardUrl = () => `/Admin/Ward/DeleteWard`;
-
 // Admin - Onboarding
 export const registerUserUrl = () => `/Admin/Register`;
 export const getRegistrationFeeInvoiceUrl = () =>
@@ -97,7 +90,3 @@ export const postPayPatientRegistrationFeeUrl = () =>
   `/Admin/PayPatientRegistrationFee`;
 export const postPayPatientRegistrationFeeWithAccountUrl = () =>
   `/Admin/PayPatientRegistrationFeeWithAccount`;
-
-// Admin - Manage Admission
-export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
-  `/Admission/GetAdmissionsWithoutBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
