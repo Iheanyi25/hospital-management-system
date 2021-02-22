@@ -2,26 +2,23 @@ import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
-import { getAdmissionsWithoutBedUrl } from "../../api/URLs";
-import formatDate from "../../utils/formatDate";
-import formatAmount from "../../utils/formatAmount";
+import { getAdmissionsUrl } from "../../api/URLs";
+import incomplete from "../../assets/img/incomplete.svg";
+import paid from "../../assets/img/paid.svg";
 import { Table } from "../DataTable";
 import ActionButton from "../DataTable/ActionButton";
-import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
+import AdmissionsSummary from "./manage-admissions-components/AdmissionsSummary";
 
 const ManageAdmissions = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getAdmissionsWithoutBed = getAdmissionsWithoutBedUrl(
-    pageNumber,
-    pageSize
-  );
-  const getAdmissionsWithoutBedConfig = fetchConfig({
-    url: getAdmissionsWithoutBed,
+  const getAdmissions = getAdmissionsUrl(pageNumber, pageSize);
+  const getAdmissionsConfig = fetchConfig({
+    url: getAdmissions,
     method: "get",
   });
-  const { data, error } = useRequest(getAdmissionsWithoutBedConfig, {
+  const { data, error } = useRequest(getAdmissionsConfig, {
     revalidateOnFocus: false,
   });
   let dataTable = [];
@@ -31,9 +28,18 @@ const ManageAdmissions = () => {
         "#": ++index,
         "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
         "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-        Room: `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-        Status: formatDate(admission.dateOfAdmission),
-        Actions: <ReferredPatientsActionTable />,
+        Room: "Not admitted yet",
+        Status:
+          admission?.bed === null ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Pending
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
+        Actions: <AdmissionsActionTable />,
       };
     });
   }
@@ -47,14 +53,10 @@ const ManageAdmissions = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title">Referred Patients</h4>
+            <h4 className="page-title">Admissions</h4>
           </header>
           <div className="page-content">
-            <TableSize
-              size={data ? formatAmount(data.admissions.length) : 0}
-              heading="No of Patients Referred"
-              icon=""
-            />
+            <AdmissionsSummary />
           </div>
           <div className="page-content">
             {data && (
@@ -74,7 +76,7 @@ const ManageAdmissions = () => {
   );
 };
 
-const ReferredPatientsActionTable = () => {
+const AdmissionsActionTable = () => {
   return (
     <ActionButton>
       <Link to="#" className="btn btn-sm btn-block">
