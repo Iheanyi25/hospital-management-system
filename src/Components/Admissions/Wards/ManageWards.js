@@ -115,8 +115,6 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
           state: ward,
         }}
         className="btn btn-sm btn-block"
-        data-toggle="modal"
-        data-target="#add-bed"
       >
         <span className="btn-icon icofont-edit-alt mr-2" />
         View beds
