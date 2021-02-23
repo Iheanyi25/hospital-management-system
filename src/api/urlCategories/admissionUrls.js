@@ -1,6 +1,6 @@
 // Admin - Manage Admission
 export const getAdmissionsUrl = (pageNumber, pageSize) =>
-  `/Admission/GetAdmissions?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  `/Admission/GetAdmissionsWithBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
   `/Admission/GetAdmissionsWithoutBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToBedSpaceUrl = () =>
