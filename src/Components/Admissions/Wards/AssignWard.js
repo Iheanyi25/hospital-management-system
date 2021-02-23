@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
-import ManageWards from "./ManageWards";
+import { ManageWards } from "./components";
 
 const AssignWard = () => {
   const { id } = useParams();

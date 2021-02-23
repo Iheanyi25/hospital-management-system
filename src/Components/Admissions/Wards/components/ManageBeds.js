@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
-import { Link, useParams } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { getBedsInAWardUrl } from "../../../api/URLs";
-import { PageLoader, Table } from "../..";
-import ActionButton from "../../DataTable/ActionButton";
-import TableSize from "../../DataTable/TableSize";
-import { AddBed } from "../../Modals";
-import formatDate from "../../../utils/formatDate";
-import { useRequest } from "../../../api/fetcher";
-import paid from "../../../assets/img/paid.svg";
-import notpaid from "../../../assets/img/notpaid.svg";
+import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { getBedsInAWardUrl } from "../../../../api/URLs";
+import { PageLoader, Table } from "../../..";
+import ActionButton from "../../../DataTable/ActionButton";
+import TableSize from "../../../DataTable/TableSize";
+import { AddBed } from "../../../Modals";
+import formatDate from "../../../../utils/formatDate";
+import { useRequest } from "../../../../api/fetcher";
+import paid from "../../../../assets/img/paid.svg";
+import notpaid from "../../../../assets/img/notpaid.svg";
 
 const ManageBeds = ({ admissionId, wardId }) => {
-  const [id, setId] = useState(useParams().id);
-  useEffect(() => {
-    if (wardId) {
-      setId(wardId);
-    }
-  }, [wardId]);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getBedsInAWard = getBedsInAWardUrl(id, pageNumber, pageSize);
+  const getBedsInAWard = getBedsInAWardUrl(wardId, pageNumber, pageSize);
   const getBedsInAWardConfig = fetchConfig({
     url: getBedsInAWard,
     method: "get",
@@ -29,6 +23,14 @@ const ManageBeds = ({ admissionId, wardId }) => {
   const { data, error, mutate } = useRequest(getBedsInAWardConfig, {
     revalidateOnFocus: false,
   });
+
+  const assignBed = (bedId) => {
+    const payload = {
+      admissionId,
+      bedId,
+    };
+    console.log(payload);
+  };
 
   let dataTable = [];
   if (data) {
@@ -47,7 +49,9 @@ const ManageBeds = ({ admissionId, wardId }) => {
               <img src={notpaid} alt="paid" /> Assigned
             </>
           ),
-          Actions: <AdmissionsTableAction admissionId={admissionId} />,
+          Actions: (
+            <AdmissionsTableAction bedId={bed.id} assignBed={assignBed} />
+          ),
         };
       } else {
         return {
@@ -108,7 +112,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
           </div>
         </div>
       </main>
-      <AddBed wardId={id} mutate={mutate} />
+      <AddBed wardId={wardId} mutate={mutate} />
     </Fragment>
   );
 };
@@ -123,10 +127,14 @@ const BedsTableAction = () => {
     </ActionButton>
   );
 };
-const AdmissionsTableAction = () => {
+const AdmissionsTableAction = ({ bedId, assignBed }) => {
   return (
     <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
+      <Link
+        to="#"
+        className="btn btn-sm btn-block"
+        onClick={() => assignBed(bedId)}
+      >
         <span className="btn-icon icofont-server mr-2" />
         Assign to bed
       </Link>
@@ -134,4 +142,4 @@ const AdmissionsTableAction = () => {
   );
 };
 
-export default ManageBeds;
+export { ManageBeds };

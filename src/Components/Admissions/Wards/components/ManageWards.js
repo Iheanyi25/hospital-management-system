@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { deleteWardUrl, getAllWardsUrl } from "../../../api/URLs";
-import { PageLoader, Table } from "../..";
-import ActionButton from "../../DataTable/ActionButton";
-import TableSize from "../../DataTable/TableSize";
-import { notification } from "../../../utils/notification";
-import { AddBed } from "../../Modals";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../../api/fetcher";
+import { deleteWardUrl, getAllWardsUrl } from "../../../../api/URLs";
+import { PageLoader, Table } from "../../..";
+import ActionButton from "../../../DataTable/ActionButton";
+import TableSize from "../../../DataTable/TableSize";
+import { notification } from "../../../../utils/notification";
+import { AddBed } from "../../../Modals";
 
 const ManageWards = ({ admissionId }) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -45,7 +45,9 @@ const ManageWards = ({ admissionId }) => {
           Name: ward?.name,
           Capacity: ward?.capacity,
           Description: ward?.description,
-          Actions: <AdmissionsActionTable admissionId={admissionId} ward={ward} />,
+          Actions: (
+            <AdmissionsActionTable admissionId={admissionId} ward={ward} />
+          ),
         };
       } else {
         return {
@@ -121,7 +123,7 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
       <Link
         to={{
           pathname: "/AdminManageBeds/" + ward.id,
-          state: ward,
+          state: ward.id,
         }}
         className="btn btn-sm btn-block"
       >
@@ -164,4 +166,4 @@ const AdmissionsActionTable = ({ admissionId, ward }) => {
   );
 };
 
-export default ManageWards;
+export { ManageWards };

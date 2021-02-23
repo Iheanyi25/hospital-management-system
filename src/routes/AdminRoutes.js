@@ -70,8 +70,8 @@ import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
 import EditWard from "../Components/Admissions/Wards/EditWard";
-import ManageWards from "../Components/Admissions/Wards/ManageWards";
-import ManageBeds from "../Components/Admissions/Wards/ManageBeds";
+import ManageWards from "../Components/Admissions/Wards/ViewWards";
+import ManageBeds from "../Components/Admissions/Wards/ViewBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 import AssignWard from "../Components/Admissions/Wards/AssignWard";

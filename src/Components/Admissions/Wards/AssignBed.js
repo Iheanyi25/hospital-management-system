@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
-import ManageBeds from "./ManageBeds";
+import { ManageBeds } from "./components";
 
 const AssignBed = ({ history }) => {
   const { state: wardId } = history.location;
