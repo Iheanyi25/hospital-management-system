@@ -1,5 +1,4 @@
-import { observer } from "mobx-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
@@ -10,11 +9,16 @@ import TableSize from "../../DataTable/TableSize";
 import { AddBed } from "../../Modals";
 import formatDate from "../../../utils/formatDate";
 import { useRequest } from "../../../api/fetcher";
-import paid from '../../../assets/img/paid.svg'
-import notpaid from '../../../assets/img/notpaid.svg'
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 
-const ManageBeds = observer(() => {
-  const id = useParams().id;
+const ManageBeds = ({ admissionId, wardId }) => {
+  const [id, setId] = useState(useParams().id);
+  useEffect(() => {
+    if (wardId) {
+      setId(wardId);
+    }
+  }, [wardId]);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getBedsInAWard = getBedsInAWardUrl(id, pageNumber, pageSize);
@@ -29,12 +33,12 @@ const ManageBeds = observer(() => {
   let dataTable = [];
   if (data) {
     dataTable = data.beds.map((bed, index) => {
-      return {
-        "#": ++index,
-        Name: bed?.name,
-        "Date Created": formatDate(bed?.dateCreated),
-        Status:
-          bed?.isAvailable ? (
+      if (admissionId) {
+        return {
+          "#": ++index,
+          Name: bed?.name,
+          "Date Created": formatDate(bed?.dateCreated),
+          Status: bed?.isAvailable ? (
             <>
               <img src={paid} alt="not paid" /> Available
             </>
@@ -43,8 +47,25 @@ const ManageBeds = observer(() => {
               <img src={notpaid} alt="paid" /> Assigned
             </>
           ),
-        Actions: <BedsTableAction />,
-      };
+          Actions: <AdmissionsTableAction admissionId={admissionId} />,
+        };
+      } else {
+        return {
+          "#": ++index,
+          Name: bed?.name,
+          "Date Created": formatDate(bed?.dateCreated),
+          Status: bed?.isAvailable ? (
+            <>
+              <img src={paid} alt="not paid" /> Available
+            </>
+          ) : (
+            <>
+              <img src={notpaid} alt="paid" /> Assigned
+            </>
+          ),
+          Actions: <BedsTableAction />,
+        };
+      }
     });
   }
   if (error) return <div>failed to load</div>;
@@ -90,7 +111,7 @@ const ManageBeds = observer(() => {
       <AddBed wardId={id} mutate={mutate} />
     </Fragment>
   );
-});
+};
 
 const BedsTableAction = () => {
   return (
@@ -98,6 +119,16 @@ const BedsTableAction = () => {
       <Link to="#" className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Hello, Nothing
+      </Link>
+    </ActionButton>
+  );
+};
+const AdmissionsTableAction = () => {
+  return (
+    <ActionButton>
+      <Link to="#" className="btn btn-sm btn-block">
+        <span className="btn-icon icofont-server mr-2" />
+        Assign to bed
       </Link>
     </ActionButton>
   );
