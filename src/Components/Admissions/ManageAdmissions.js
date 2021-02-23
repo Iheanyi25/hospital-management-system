@@ -21,6 +21,7 @@ const ManageAdmissions = () => {
   const { data, error } = useRequest(getAdmissionsConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data);
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
@@ -28,7 +29,8 @@ const ManageAdmissions = () => {
         "#": ++index,
         "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
         "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-        Room: "Not admitted yet",
+        Ward: admission?.bed?.ward?.name,
+        Room: admission?.bed?.name,
         Status:
           admission?.bed === null ? (
             <>
