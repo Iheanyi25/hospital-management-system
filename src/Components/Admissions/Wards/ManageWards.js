@@ -45,7 +45,7 @@ const ManageWards = ({ admissionId }) => {
           Name: ward?.name,
           Capacity: ward?.capacity,
           Description: ward?.description,
-          Actions: <AdmissionsActionTable admissionId={admissionId} />,
+          Actions: <AdmissionsActionTable admissionId={admissionId} ward={ward} />,
         };
       } else {
         return {
@@ -150,11 +150,11 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
     </ActionButton>
   );
 };
-const AdmissionsActionTable = ({ admissionId }) => {
+const AdmissionsActionTable = ({ admissionId, ward }) => {
   return (
     <ActionButton>
       <Link
-        to={`/AdminAssignBed/${admissionId}`}
+        to={{ pathname: `/AdminAssignBed/${admissionId}`, state: ward.id }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-edit-alt mr-2" />
