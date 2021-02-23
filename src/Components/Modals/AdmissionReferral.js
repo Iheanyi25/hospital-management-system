@@ -1,6 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function AdmissionReferral() {
+  const handleSubmit = (e)=> {
+    e.preventDefault()
+    alert("just clicked")
+  }
   return (
     <>
       <div
@@ -12,19 +17,20 @@ function AdmissionReferral() {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <div className="modal-body p-5 shadow-lg">
+            <div className="modal-body p-5 shadow-lg d-flex justify-content-center align-item-center">
+              <div className="w-75 text-center">
               <h5 className="text-center">Please enter admission note</h5>
-              <form className="">
+              {/* <Link to="/AdminDoctorsNotes" className="col-3">Wardround</Link> */}
+              <form className="" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <textarea
                     name="admission notes"
                     placeholder="Enter admission notes"
                     classname="form-control text-muted"
                     id=""
-                    cols="50"
-                    rows="6"
+                    style={{width:"100%", height:"96px"}}
                   ></textarea>
-                  <div className="row mx-auto my-4">
+                  <div className="row m-0 p-0">
                     {/* <div className="col"> */}
                     <button
                       className="btn col-3 mr-2 btn-outline-danger"
@@ -32,14 +38,14 @@ function AdmissionReferral() {
                     >
                       Cancel
                     </button>
-                    <div className="col-3"></div>
-                    <button type="submit" className="btn btn-primary col-5 px-5 ml-3">
+                    <Link to="/AdminWardRoundNotes" className="col-3">Wardround</Link>
+                    <button type="submit" onSubmit={handleSubmit} className="btn btn-primary col-5 px-5 ml-3">
                       Send to admission
                     </button>
                   </div>
                 </div>
               </form>
-              {/* </div> */}
+              </div> 
             </div>
           </div>
         </div>

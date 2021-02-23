@@ -74,6 +74,8 @@ import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
 // admissions
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
+import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
+import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
 
 export default function AdminRoutes() {
   return (
@@ -107,6 +109,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminAllLabTechnicians"
             component={AdminAllLabTechnicians}
+          />
+          <Route
+            exact
+            path="/AdminWardRoundNotes"
+            component={AdminWardRoundNotes}
           />
           <Route
             exact
@@ -300,10 +307,14 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/AdminDoctorsNotes"
+            component={DoctorsNotes}
+          />
+          <Route
+            exact
             path="/AdminViewLabProfile/:id"
             component={ViewLabProfile}
           />
-
           <Route
             exact
             path="/AdminViewPatientHealthHistory/:id"
