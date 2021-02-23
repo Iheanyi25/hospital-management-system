@@ -1,4 +1,3 @@
-import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
@@ -11,7 +10,7 @@ import TableSize from "../../DataTable/TableSize";
 import { notification } from "../../../utils/notification";
 import { AddBed } from "../../Modals";
 
-const ManageWards = observer(() => {
+const ManageWards = ({ admissionId }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [wardId, setWardId] = useState("");
@@ -40,19 +39,29 @@ const ManageWards = observer(() => {
   let dataTable = [];
   if (data) {
     dataTable = data.wards.map((ward, index) => {
-      return {
-        "#": ++index,
-        Name: ward?.name,
-        Capacity: ward?.capacity,
-        Description: ward?.description,
-        Actions: (
-          <WardsTableAction
-            ward={ward}
-            deleteMe={deleteMe}
-            setWardId={setWardId}
-          />
-        ),
-      };
+      if (admissionId) {
+        return {
+          "#": ++index,
+          Name: ward?.name,
+          Capacity: ward?.capacity,
+          Description: ward?.description,
+          Actions: <AdmissionsActionTable admissionId={admissionId} />,
+        };
+      } else {
+        return {
+          "#": ++index,
+          Name: ward?.name,
+          Capacity: ward?.capacity,
+          Description: ward?.description,
+          Actions: (
+            <WardsTableAction
+              ward={ward}
+              deleteMe={deleteMe}
+              setWardId={setWardId}
+            />
+          ),
+        };
+      }
     });
   }
   if (error) return <div>failed to load</div>;
@@ -94,7 +103,7 @@ const ManageWards = observer(() => {
       <AddBed wardId={wardId} mutate={mutate} />
     </Fragment>
   );
-});
+};
 
 const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
   return (
@@ -137,6 +146,19 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
       >
         <span className="btn-icon icofont-delete-alt mr-2" />
         Delete
+      </Link>
+    </ActionButton>
+  );
+};
+const AdmissionsActionTable = ({ admissionId }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={`/AdminAssignBed/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-edit-alt mr-2" />
+        Assign a bed
       </Link>
     </ActionButton>
   );
