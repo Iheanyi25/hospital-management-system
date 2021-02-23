@@ -74,6 +74,7 @@ import ManageWards from "../Components/Admissions/Wards/ManageWards";
 import ManageBeds from "../Components/Admissions/Wards/ManageBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
+import AssignWard from "../Components/Admissions/Wards/AssignWard";
 
 export default function AdminRoutes() {
   return (
@@ -173,9 +174,10 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminCreateWard" component={CreateWard} />
           <Route exact path="/AdminEditWard/:id" component={EditWard} />
+          <Route exact path="/AdminManageWards" component={ManageWards} />
+          <Route exact path="/AdminAssignWard/:id" component={AssignWard} />
           <Route exact path="/AdminManageBeds/:id" component={ManageBeds} />
           <Route exact path="/DoctorProfile/:id" component={DoctorsProfile} />
-          <Route exact path="/AdminManageWards" component={ManageWards} />
           <Route
             exact
             path="/AdminCreateHealthPlan"
