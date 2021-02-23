@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
-import { getBedsInAWardUrl } from "../../../../api/URLs";
+import {
+  getBedsInAWardUrl,
+  assignPatientToBedSpaceUrl,
+} from "../../../../api/URLs";
 import { PageLoader, Table } from "../../..";
 import ActionButton from "../../../DataTable/ActionButton";
 import TableSize from "../../../DataTable/TableSize";
 import { AddBed } from "../../../Modals";
 import formatDate from "../../../../utils/formatDate";
-import { useRequest } from "../../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../../api/fetcher";
 import paid from "../../../../assets/img/paid.svg";
 import notpaid from "../../../../assets/img/notpaid.svg";
+import { notification } from "../../../../utils/notification";
 
 const ManageBeds = ({ admissionId, wardId }) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -29,7 +33,19 @@ const ManageBeds = ({ admissionId, wardId }) => {
       admissionId,
       bedId,
     };
-    console.log(payload);
+    try {
+      const assignPatientToBedSpace = assignPatientToBedSpaceUrl();
+      const assignPatientToBedSpaceConfig = fetchConfig({
+        url: assignPatientToBedSpace,
+        method: "post",
+        data: payload,
+      });
+      const { res } = fetchWrapper(assignPatientToBedSpaceConfig);
+      notification.success({ message: res.data.message });
+      mutate();
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
   };
 
   let dataTable = [];
@@ -130,14 +146,14 @@ const BedsTableAction = () => {
 const AdmissionsTableAction = ({ bedId, assignBed }) => {
   return (
     <ActionButton>
-      <Link
-        to="#"
+      <button
+        type="button"
         className="btn btn-sm btn-block"
         onClick={() => assignBed(bedId)}
       >
         <span className="btn-icon icofont-server mr-2" />
         Assign to bed
-      </Link>
+      </button>
     </ActionButton>
   );
 };
