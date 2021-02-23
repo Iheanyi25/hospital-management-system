@@ -24,6 +24,7 @@ const ReferredPatients = () => {
   const { data, error } = useRequest(getAdmissionsWithoutBedConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data);
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
@@ -32,7 +33,7 @@ const ReferredPatients = () => {
         "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
         "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
         "Date of Admission": formatDate(admission.dateOfAdmission),
-        Actions: <ReferredPatientsActionTable />,
+        Actions: <ReferredPatientsActionTable admissionId={admission.id} />,
       };
     });
   }
@@ -73,12 +74,15 @@ const ReferredPatients = () => {
   );
 };
 
-const ReferredPatientsActionTable = () => {
+const ReferredPatientsActionTable = ({ admissionId }) => {
   return (
     <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
+      <Link
+        to={`/AdminAssignWard/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Nothing
+        Assign to ward
       </Link>
     </ActionButton>
   );
