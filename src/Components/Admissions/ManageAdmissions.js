@@ -13,7 +13,7 @@ import { PageLoader } from "../Loader";
 const ManageAdmissions = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const [wardId, setWardId] = useState("");
+  const [wardId, setWardId] = useState("all");
 
   //Fetching admissions
   const getAdmissions = getAdmissionsUrl(wardId, pageNumber, pageSize);

@@ -85,7 +85,7 @@ const ManageWards = ({ admissionId }) => {
           <div className="page-content">
             <TableSize
               size={data ? data.wards.length : 0}
-              heading="No of Beds"
+              heading="No of Wards"
             />
           </div>
           <div className="page-content">

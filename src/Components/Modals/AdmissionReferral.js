@@ -1,11 +1,9 @@
 import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
-import { postDoctorAdmitOrSendPatientHomeUrl } from "../../api/urlCategories/doctorUrls";
 import {
   postAdmitOrSendPatientHomeUrl,
-  updatePatientClerkingUrl,
 } from "../../api/URLs";
 import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";

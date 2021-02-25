@@ -13,7 +13,7 @@ const CreateHealthPlanPrice = ({ drugId, mutate }) => {
     pricePerContainer: "",
     pricePerCarton: "",
   });
-  const getHealthPlansUrl = getAllHealthPlansUrl();
+  const getHealthPlansUrl = getAllHealthPlansUrl(1, 200);
   const getHealthPlanConfig = fetchConfig({
     url: getHealthPlansUrl,
     method: "get",
@@ -22,7 +22,7 @@ const CreateHealthPlanPrice = ({ drugId, mutate }) => {
     revalidateOnFocus: false,
   });
 console.log(data,"data");
-  const healthplans = data?.plans;
+  const healthplans = data?.healthPlans;
   console.log(healthplans, "dewjke");
 
   const handleChange = (e) => {
