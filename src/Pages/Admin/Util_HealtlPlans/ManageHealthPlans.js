@@ -11,7 +11,8 @@ import ActionButton from "../../../Components/DataTable/ActionButton";
 
 const ManageHealthPlans = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const getAllHealthPlans = getAllHealthPlansUrl(pageNumber);
+  const [pageSize, setPageSize] = useState(50);
+  const getAllHealthPlans = getAllHealthPlansUrl(pageNumber, pageSize);
   const getAllHealthPlansConfig = fetchConfig({
     url: getAllHealthPlans,
     method: "get",
@@ -97,6 +98,8 @@ const ManageHealthPlans = () => {
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

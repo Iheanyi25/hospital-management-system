@@ -5,7 +5,7 @@ import { getDrugUrl } from "../../../api/URLs";
 import { UpdateInventory } from "../../.././Components/Modals";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { BasePrice, DrugDetails, HealthPlanPrice } from "./Components/ViewDrug";
+import { BasePrice, DrugDetails, HealthPlanPrice } from "./Components/viewsingledrug-components";
 
 const ViewDrug = ({ match, history }) => {
   const { id } = match.params;
