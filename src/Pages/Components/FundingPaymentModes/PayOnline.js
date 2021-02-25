@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { PageLoader } from "../../../Components";
 import {
   PayWithPaystack,
@@ -6,20 +6,6 @@ import {
 } from "../../../Components/Payment/PaymentGateways";
 
 const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
-  const [userDetails, setUserDetails] = useState({
-    patientId: "",
-    amount: "",
-    email: "",
-    paymentDescription: "",
-  });
-
-  useEffect(() => {
-    setUserDetails({
-      ...userDetails,
-      amount: details.amount,
-      email: details.email,
-    });
-  }, [details, userDetails]);
 
   const handleChange = (e) => {
     setPaymentParams(e.target.name, e.target.value);
@@ -76,11 +62,11 @@ const PayOnline = ({ details, paidSuccessfully, setPaymentParams }) => {
                         <label>Pay with</label>
                         <div className="row">
                           <PayWithPaystack
-                            paymentDetails={userDetails}
+                            paymentDetails={details}
                             paidSuccessfully={paidSuccessfully}
                           />
                           <PayWithFlutter
-                            paymentDetails={userDetails}
+                            paymentDetails={details}
                             paidSuccessfully={paidSuccessfully}
                           />
                         </div>
