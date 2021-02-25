@@ -55,10 +55,6 @@ class WardRoundNotes extends React.Component {
     this.setState({ reMount: !this.state.reMount });
   };
 
-//   componentDidMount() {
-//     console.log(this.props.location.state);
-//     this.props.location.state?.id ?? this.props.history.push("/");
-//   }
 
   submitRequest = async (payload) => {
     const {
@@ -66,10 +62,8 @@ class WardRoundNotes extends React.Component {
     } = this.context;
     const { id, type, patient } = this.props.location.state;
 
-    console.log(patient);
 
     try {
-      console.log(userId);
       const updatePatientClerking = updatePatientClerkingUrl(
         id,
         type,
@@ -81,11 +75,9 @@ class WardRoundNotes extends React.Component {
         data: JSON.stringify(payload),
         method: "patch",
       });
-      console.log(updatePatientClerkingConfig, 11111);
       const res = await fetchWrapper(updatePatientClerkingConfig);
       notification.success({ message : res.data.message})
     } catch (error) {
-      console.log(error);
       notification.error({ message : error?.response?.data?.message})
     }
   };
@@ -128,7 +120,6 @@ class WardRoundNotes extends React.Component {
       notification.success({ message : res.data.message})
       this.props.history.push("/")
     } catch (error) {
-      console.log(error);
       notification.error({ message : error?.response?.data?.message})
     }
   };

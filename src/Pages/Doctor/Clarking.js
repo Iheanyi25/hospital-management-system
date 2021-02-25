@@ -58,7 +58,6 @@ class Clerking extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.location.state);
     this.props.location.state?.id ?? this.props.history.push("/");
   }
 
@@ -80,11 +79,9 @@ class Clerking extends React.Component {
         data: JSON.stringify(payload),
         method: "patch",
       });
-      console.log(updatePatientClerkingConfig, 11111);
       const res = await fetchWrapper(updatePatientClerkingConfig);
       notification.success({ message: res.data.message });
     } catch (error) {
-      console.log(error);
       notification.error({ message: error?.response?.data?.message });
     }
   };
@@ -116,7 +113,6 @@ class Clerking extends React.Component {
       isSentHome: true,
       initiatorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
     };
-    console.log(payload)
 
     try {
       const postAdmitOrSendPatientHome = postAdmitOrSendPatientHomeUrl();
@@ -126,13 +122,11 @@ class Clerking extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
-      console.log(res);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
         //this.props.history.push("/AdminViewReferredPatients");
       }
     } catch (error) {
-      console.log(error);
       notification.error({ message: error?.response?.data.message });
     }
   };

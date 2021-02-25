@@ -70,12 +70,14 @@ import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
 import EditWard from "../Components/Admissions/Wards/EditWard";
-import ManageWards from "../Components/Admissions/Wards/ManageWards";
-import ManageBeds from "../Components/Admissions/Wards/ManageBeds";
+import ManageWards from "../Components/Admissions/Wards/ViewWards";
+import ManageBeds from "../Components/Admissions/Wards/ViewBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
+import AssignWard from "../Components/Admissions/Wards/AssignWard";
+import AssignBed from "../Components/Admissions/Wards/AssignBed";
 
 export default function AdminRoutes() {
   return (
@@ -180,9 +182,11 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminCreateWard" component={CreateWard} />
           <Route exact path="/AdminEditWard/:id" component={EditWard} />
-          <Route exact path="/AdminManageBeds/:id" component={ManageBeds} />
-          <Route exact path="/DoctorProfile/:id" component={DoctorsProfile} />
           <Route exact path="/AdminManageWards" component={ManageWards} />
+          <Route exact path="/AdminManageBeds/:id" component={ManageBeds} />
+          <Route exact path="/AdminAssignWard/:id" component={AssignWard} />
+          <Route exact path="/AdminAssignBed/:id" component={AssignBed} />
+          <Route exact path="/DoctorProfile/:id" component={DoctorsProfile} />
           <Route
             exact
             path="/AdminCreateHealthPlan"

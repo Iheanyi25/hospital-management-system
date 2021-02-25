@@ -1,17 +1,16 @@
-import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { deleteWardUrl, getAllWardsUrl } from "../../../api/URLs";
-import { PageLoader, Table } from "../..";
-import ActionButton from "../../DataTable/ActionButton";
-import TableSize from "../../DataTable/TableSize";
-import { notification } from "../../../utils/notification";
-import { AddBed } from "../../Modals";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../../api/fetcher";
+import { deleteWardUrl, getAllWardsUrl } from "../../../../api/URLs";
+import { PageLoader, Table } from "../../..";
+import ActionButton from "../../../DataTable/ActionButton";
+import TableSize from "../../../DataTable/TableSize";
+import { notification } from "../../../../utils/notification";
+import { AddBed } from "../../../Modals";
 
-const ManageWards = observer(() => {
+const ManageWards = ({ admissionId }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [wardId, setWardId] = useState("");
@@ -40,19 +39,31 @@ const ManageWards = observer(() => {
   let dataTable = [];
   if (data) {
     dataTable = data.wards.map((ward, index) => {
-      return {
-        "#": ++index,
-        Name: ward?.name,
-        Capacity: ward?.capacity,
-        Description: ward?.description,
-        Actions: (
-          <WardsTableAction
-            ward={ward}
-            deleteMe={deleteMe}
-            setWardId={setWardId}
-          />
-        ),
-      };
+      if (admissionId) {
+        return {
+          "#": ++index,
+          Name: ward?.name,
+          Capacity: ward?.capacity,
+          Description: ward?.description,
+          Actions: (
+            <AdmissionsActionTable admissionId={admissionId} ward={ward} />
+          ),
+        };
+      } else {
+        return {
+          "#": ++index,
+          Name: ward?.name,
+          Capacity: ward?.capacity,
+          Description: ward?.description,
+          Actions: (
+            <WardsTableAction
+              ward={ward}
+              deleteMe={deleteMe}
+              setWardId={setWardId}
+            />
+          ),
+        };
+      }
     });
   }
   if (error) return <div>failed to load</div>;
@@ -94,7 +105,7 @@ const ManageWards = observer(() => {
       <AddBed wardId={wardId} mutate={mutate} />
     </Fragment>
   );
-});
+};
 
 const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
   return (
@@ -112,7 +123,7 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
       <Link
         to={{
           pathname: "/AdminManageBeds/" + ward.id,
-          state: ward,
+          state: ward.id,
         }}
         className="btn btn-sm btn-block"
       >
@@ -141,5 +152,18 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
     </ActionButton>
   );
 };
+const AdmissionsActionTable = ({ admissionId, ward }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{ pathname: `/AdminAssignBed/${admissionId}`, state: ward.id }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-edit-alt mr-2" />
+        Assign a bed
+      </Link>
+    </ActionButton>
+  );
+};
 
-export default ManageWards;
+export { ManageWards };
