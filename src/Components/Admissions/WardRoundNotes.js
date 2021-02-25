@@ -1,8 +1,6 @@
-import Axios from "axios";
 import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { axiosInstance } from "../../api/axiosInstance";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
@@ -16,11 +14,11 @@ import {
   PatientProfile,
   LabResults,
 } from "../../Components/Clarking";
-import AdmissionReferral from "../../Components/Modals/AdmissionReferral";
+// import AdmissionReferral from "../../Components/Admissions/ReferredPatients";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
-class Clerking extends React.Component {
+class WardRoundNotes extends React.Component {
   static contextType = UserContext;
   constructor(props) {
     super(props);
@@ -57,15 +55,13 @@ class Clerking extends React.Component {
     this.setState({ reMount: !this.state.reMount });
   };
 
-  componentDidMount() {
-    this.props.location.state?.id ?? this.props.history.push("/");
-  }
 
   submitRequest = async (payload) => {
     const {
       user: { id: userId },
     } = this.context;
     const { id, type, patient } = this.props.location.state;
+
 
     try {
       const updatePatientClerking = updatePatientClerkingUrl(
@@ -80,9 +76,9 @@ class Clerking extends React.Component {
         method: "patch",
       });
       const res = await fetchWrapper(updatePatientClerkingConfig);
-      notification.success({ message: res.data.message });
+      notification.success({ message : res.data.message})
     } catch (error) {
-      notification.error({ message: error?.response?.data?.message });
+      notification.error({ message : error?.response?.data?.message})
     }
   };
 
@@ -102,18 +98,17 @@ class Clerking extends React.Component {
     this.setState({ [type]: { [key]: "" } });
   };
 
-  finishClarking = async (e) => {
+
+  finishClarking = async (e, key) => {
     e.preventDefault();
-  
-    const { id } = this.props.location.state;
 
     let payload = {
-      id: id,
+      id: this.props.location.state.id,
       isAdmitted: false,
-      isSentHome: true,
-      initiatorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
+      isSentHome: false,
     };
 
+    payload[key] = true; //change here
     try {
       const postAdmitOrSendPatientHome = postAdmitOrSendPatientHomeUrl();
       const postAdmitOrSendPatientHomeConfig = fetchConfig({
@@ -122,27 +117,48 @@ class Clerking extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
-      if (res.status === 200) {
-        notification.success({ message: res.data.message });
-        //this.props.history.push("/AdminViewReferredPatients");
-      }
+      notification.success({ message : res.data.message})
+      this.props.history.push("/")
     } catch (error) {
-      notification.error({ message: error?.response?.data.message });
+      notification.error({ message : error?.response?.data?.message})
     }
   };
 
   render() {
-    const { firstName, lastName, id } = this.props.location.state.patient;
+    const { firstName, lastName, id } = { firstName: "udo", lastName: "kadss", id:"528ddf11-d80e-45a1-a62c-efcbf07ce538"};
     return (
       <>
         <PageLoader />
+
+        {/* <main className="main-content">
+          <div className="app-loader">
+            <i className="icofont-spinner-alt-4 rotate" />
+          </div>
+          <div className="main-content-wrap">
+            <div className="page-content">
+              <header>
+                <h4 className="text-center">Patient’s clarking history</h4>
+              </header>
+              <div className="card border-light w-75 m-auto">
+                <ClarkingHistory patientDetails={{ id, firstName, lastName }} />
+              </div>
+            </div>
+          </div>
+        </main> */}
 
         <main className="main-content mt-5">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-            <header className="page-header d-flex justify-content-between">
+          <div className="card border-light w-75 m-auto">
+                                      <ClarkingHistory
+                                        patientDetails={{ firstName, lastName, id }}
+                                        setCount={this.setCount}
+                                        user
+                                      />
+                                    </div>
+            {/* <header className="page-header d-flex justify-content-between">
               <h3 className="page-title">
                 Doctor Clerking:{" "}
                 <font>
@@ -153,13 +169,13 @@ class Clerking extends React.Component {
                 <div className="col"></div>
                 <div className="col text-right">
                   <Link
-                    onClick={(e) => this.finishClarking(e)}
+                    onClick={(e) => this.finishClarking(e, "isSentHome")}
                     className="btn btn-primary mr-2 mb-2"
                   >
                     Send Home
                   </Link>
                   <Link
-                    //onClick={(e) => this.PostClerkingAdmitPatient(e)}
+                    // onClick={(e) => this.finishClarking(e, "isAdmitted")}
                     to="#"
                     data-toggle="modal"
                     data-target="#admission-referral"
@@ -169,10 +185,10 @@ class Clerking extends React.Component {
                   </Link>
                 </div>
               </div>
-            </header>
-            <div className="page-content">
+            </header> */}
+             <div className="page-content">
               <div className="row">
-                <div
+                {/*<div
                   className="nav flex-column nav-tabs col-md-3"
                   id="v-pills-tab"
                   role="tablist"
@@ -232,7 +248,7 @@ class Clerking extends React.Component {
                   >
                     Request new service
                   </NavLink>
-                </div>
+                </div> */}
                 <div className="tab-content col-md-9" id="v-pills-tabContent">
                   <div
                     className="tab-pane fade show active"
@@ -256,7 +272,7 @@ class Clerking extends React.Component {
                             aria-controls="pills-home"
                             aria-selected="true"
                           >
-                            Social History
+                            Doctors Notes
                           </a>
                         </li>
                         <li className="nav-item">
@@ -269,7 +285,7 @@ class Clerking extends React.Component {
                             aria-controls="pills-profile"
                             aria-selected="false"
                           >
-                            Family History
+                            Medications
                           </a>
                         </li>
                         <li className="nav-item">
@@ -282,10 +298,10 @@ class Clerking extends React.Component {
                             aria-controls="pills-contact"
                             aria-selected="false"
                           >
-                            Medical History
+                            Observation Chart
                           </a>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           <a
                             className="nav-link"
                             id="pills-travel-tab"
@@ -297,7 +313,7 @@ class Clerking extends React.Component {
                           >
                             Travel History
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
@@ -310,10 +326,16 @@ class Clerking extends React.Component {
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4>Social History</h4>
-
-                                    <div className="form-group">
+                                  {/* <form className="mb-4"> */}
+                                    <div className="card border-light w-75 m-auto">
+                                    <h4>Doctors Notes</h4>
+                                      <ClarkingHistory
+                                        patientDetails={{ firstName, lastName, id }}
+                                        setCount={this.setCount}
+                                        user
+                                      />
+                                    </div>
+                                    {/* <div className="form-group">
                                       <label>
                                         Additions like Smoking, Drinking etc
                                       </label>
@@ -333,9 +355,9 @@ class Clerking extends React.Component {
                                         placeholder="Enter Social History Here"
                                         rows={3}
                                       />
-                                    </div>
+                                    </div> */}
 
-                                    <div className="row">
+                                    {/* <div className="row">
                                       <div className="col"></div>
                                       <div className="col text-right">
                                         <button
@@ -352,8 +374,8 @@ class Clerking extends React.Component {
                                           Record Social History
                                         </button>
                                       </div>
-                                    </div>
-                                  </form>
+                                    </div> */}
+                                  {/* </form> */}
                                 </div>
                               </div>
                             </div>
@@ -1336,12 +1358,13 @@ class Clerking extends React.Component {
                 </div>
               </div>
             </div>
+            
           </div>
         </main>
-        <AdmissionReferral id={this.props.location.state.id} />
+        {/* <AdmissionReferral/> */}
       </>
     );
   }
 }
 
-export default observer(Clerking);
+export default observer(WardRoundNotes);

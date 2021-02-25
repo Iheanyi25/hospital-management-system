@@ -83,6 +83,7 @@ export const deleteServiceUrl = () => `/Admin/DeleteService`;
 export const registerUserUrl = () => `/Admin/Register`;
 export const getRegistrationFeeInvoiceUrl = () =>
   `/Admin/GetRegistrationFeeInvoices`;
+export const getTheRegistrationFeeInvoiceUrl = (patientId) => `/api/Admin/GetRegistrationFeeInvoice=${patientId}`
 export const registerPatientUrl = () => `/Admin/RegisterPatient`;
 export const getPatientRegistrationInvoiceUrl = (patientId) =>
   `/Admin/GetPatientRegistrationInvoice?patientId=${patientId}`;
@@ -90,3 +91,9 @@ export const postPayPatientRegistrationFeeUrl = () =>
   `/Admin/PayPatientRegistrationFee`;
 export const postPayPatientRegistrationFeeWithAccountUrl = () =>
   `/Admin/PayPatientRegistrationFeeWithAccount`;
+
+// Admin - Manage Admission
+export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
+  `/Admission/GetAdmissionsWithoutBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAdmissionsDoctorsNotesUrl = (AdmissionId) =>
+  `Admission/GetPrescriptions?AdmissionId=${AdmissionId}`;

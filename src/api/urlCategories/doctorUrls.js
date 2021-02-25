@@ -49,3 +49,6 @@ export const UpdateDoctorProfessionalDetailsUrl = () =>
 /*handles all the delete endpoints under doctor profile*/
 export const deleteDoctorProfileInfoUrl = (deleteInfoUrl, id) =>
   `/Doctor/${deleteInfoUrl}/${id}`;
+
+  // admit or send patient 
+  export const postDoctorAdmitOrSendPatientHomeUrl = ()=> `Doctor/AdmitOrSendPatientHome`;
