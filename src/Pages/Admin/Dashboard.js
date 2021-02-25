@@ -1,7 +1,11 @@
 import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getAdminDashboardUrl, getDoctorAppointmentsUrl, getPatientConsultationsUrl } from "../../api/URLs";
+import {
+  getAdminDashboardUrl,
+  getDoctorAppointmentsUrl,
+  getPatientConsultationsUrl,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import formatDate from "../../utils/formatDate";
 
@@ -9,7 +13,6 @@ const $ = window.$;
 $.Datatable = require("datatables.net");
 
 class Dashboard extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -22,18 +25,29 @@ class Dashboard extends React.Component {
 
   async componentDidMount() {
     const getPatientConsultations = getPatientConsultationsUrl();
-    const getPatientConsultationsConfig = fetchConfig({ url: getPatientConsultations, method: "get" });
+    const getPatientConsultationsConfig = fetchConfig({
+      url: getPatientConsultations,
+      method: "get",
+    });
     const { data } = await fetchWrapper(getPatientConsultationsConfig);
     this.setState({ doctorConsultations: data.consultations });
 
     const getDoctorAppointments = getDoctorAppointmentsUrl();
-    const getDoctorAppointmentsConfig = fetchConfig({ url: getDoctorAppointments, method: "get" });
-    const { data: { appointments } } = await fetchWrapper(getDoctorAppointmentsConfig);
+    const getDoctorAppointmentsConfig = fetchConfig({
+      url: getDoctorAppointments,
+      method: "get",
+    });
+    const {
+      data: { appointments },
+    } = await fetchWrapper(getDoctorAppointmentsConfig);
 
     this.setState({ doctorAppointments: appointments });
 
     const getAdminDashboard = getAdminDashboardUrl();
-    const getAdminDashboardConfig = fetchConfig({ url: getAdminDashboard, method: "get" });
+    const getAdminDashboardConfig = fetchConfig({
+      url: getAdminDashboard,
+      method: "get",
+    });
 
     const { data: systemCount } = await fetchWrapper(getAdminDashboardConfig);
     this.setState({ systemCount }, () => {
@@ -173,8 +187,10 @@ class Dashboard extends React.Component {
                     <div className="card-header">Doctor Consultation Queue</div>
                     <div className="card-body">
                       <div className="table-responsive">
-                        <table className="table table-striped"
-                          ref={(el2) => (this.el2 = el2)}                        >
+                        <table
+                          className="table table-striped"
+                          ref={(el2) => (this.el2 = el2)}
+                        >
                           <thead>
                             <tr>
                               <th className="text-nowrap" scope="col">
@@ -240,15 +256,15 @@ class Dashboard extends React.Component {
                                       ) ?? ""}
                                     </div>
                                   </td>
-                                  <td>{
-                                    consultation.isCompleted ?
-                                      "COMPLETED" :
-                                      consultation.isCancelled ?
-                                        "CANCELLED" :
-                                        consultation.isExpired ?
-                                          "EXPIRED" :
-                                          "PENDING"
-                                  }</td>
+                                  <td>
+                                    {consultation.isCompleted
+                                      ? "COMPLETED"
+                                      : consultation.isCancelled
+                                      ? "CANCELLED"
+                                      : consultation.isExpired
+                                      ? "EXPIRED"
+                                      : "PENDING"}
+                                  </td>
                                 </tr>
                               )
                             )}
@@ -266,7 +282,8 @@ class Dashboard extends React.Component {
                       <div className="table-responsive">
                         <table
                           ref={(el) => (this.el = el)}
-                          className="table table-hover">
+                          className="table table-hover"
+                        >
                           <thead>
                             <tr>
                               <th className="text-nowrap" scope="col">
@@ -327,7 +344,9 @@ class Dashboard extends React.Component {
                                   </td> */}
                                   <td>
                                     <div className="d-flex align-items-center nowrap">
-                                      {formatDate(appointment.appointmentDate) ?? ""}
+                                      {formatDate(
+                                        appointment.appointmentDate
+                                      ) ?? ""}
                                     </div>
                                   </td>
 
@@ -337,21 +356,21 @@ class Dashboard extends React.Component {
                                     </div>
                                   </td> */}
                                   <td>
-                                    <div>{
-                                      appointment.isCompleted ?
-                                        "COMPLETED" :
-                                        appointment.isRejected ?
-                                          "REJECTED" :
-                                          appointment.isAccepted ?
-                                            "ACCEPTED" :
-                                            appointment.isCancelled ?
-                                              "CANCELLED" :
-                                              appointment.isPending ?
-                                                "PENDING" :
-                                                appointment.isExpired ?
-                                                  "EXPIRED" :
-                                                  ""
-                                    }</div>
+                                    <div>
+                                      {appointment.isCompleted
+                                        ? "COMPLETED"
+                                        : appointment.isRejected
+                                        ? "REJECTED"
+                                        : appointment.isAccepted
+                                        ? "ACCEPTED"
+                                        : appointment.isCancelled
+                                        ? "CANCELLED"
+                                        : appointment.isPending
+                                        ? "PENDING"
+                                        : appointment.isExpired
+                                        ? "EXPIRED"
+                                        : ""}
+                                    </div>
                                   </td>
                                 </tr>
                               )
