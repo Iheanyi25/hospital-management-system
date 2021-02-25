@@ -326,6 +326,11 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/test"
+            component={SelectFamily}
+          />
+          <Route
+            exact
             path="*"
             render={() => <Redirect to="/AdminDashboard" />}
           />
