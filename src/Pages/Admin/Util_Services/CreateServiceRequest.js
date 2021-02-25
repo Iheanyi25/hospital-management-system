@@ -99,7 +99,7 @@ class CreateService extends Component {
     console.log(data);
     this.setState(
       {
-        services: data,
+        services: data.services,
         showServices: true,
         isFetchingServicesInCategory: false,
       },
