@@ -124,7 +124,7 @@ class Clerking extends React.Component {
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        //this.props.history.push("/AdminViewReferredPatients");
+        this.props.history.push("/AdminDashboard");
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });

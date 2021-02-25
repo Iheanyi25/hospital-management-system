@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { postDoctorAdmitOrSendPatientHomeUrl } from "../../api/urlCategories/doctorUrls";
@@ -11,6 +11,8 @@ import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 const AdmissionReferral = observer(({ id }) => {
+
+  let history = useHistory();
   const {
     user: { id: initiatorId },
   } = useContext(UserContext);
@@ -44,6 +46,8 @@ const AdmissionReferral = observer(({ id }) => {
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
       if (res.status === 200) {
             notification.success({ message: res.data.message });
+           history.push("/AdminManageAdmissions");
+
             //this.props.history.push("/AdminViewReferredPatients");
           }
     } catch (error) {
@@ -96,9 +100,7 @@ const AdmissionReferral = observer(({ id }) => {
                       >
                         Cancel
                       </button>
-                      <Link to="/AdminWardRoundNotes" className="col-3">
-                        Wardround
-                      </Link>
+                      <div className="col-3"></div>
                       <button
                         type="submit"
                         onSubmit={finishClarking}
