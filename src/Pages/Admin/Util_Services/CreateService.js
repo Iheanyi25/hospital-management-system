@@ -46,7 +46,7 @@ class CreateService extends React.Component {
       const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
       const {data} = await fetchWrapper(getAllServicesCategoryConfig)
 
-      this.setState({ categories: data });
+      this.setState({ categories: data.serviceCategories });
     } catch (error) {
       console.log(error);
     }
