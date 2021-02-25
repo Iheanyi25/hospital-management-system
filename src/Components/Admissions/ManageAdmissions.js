@@ -2,18 +2,21 @@ import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
-import { getAdmissionsUrl } from "../../api/URLs";
+import { getAdmissionsUrl, getAllWardsUrl } from "../../api/URLs";
 import incomplete from "../../assets/img/incomplete.svg";
 import paid from "../../assets/img/paid.svg";
 import { Table } from "../DataTable";
 import ActionButton from "../DataTable/ActionButton";
+import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
-import AdmissionsSummary from "./manage-admissions-components/AdmissionsSummary";
 
 const ManageAdmissions = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getAdmissions = getAdmissionsUrl(pageNumber, pageSize);
+  const [wardId, setWardId] = useState("");
+
+  //Fetching admissions
+  const getAdmissions = getAdmissionsUrl(wardId, pageNumber, pageSize);
   const getAdmissionsConfig = fetchConfig({
     url: getAdmissions,
     method: "get",
@@ -21,7 +24,14 @@ const ManageAdmissions = () => {
   const { data, error } = useRequest(getAdmissionsConfig, {
     revalidateOnFocus: false,
   });
-  console.log(data);
+
+  // Fetching all wards
+  const getAllWards = getAllWardsUrl(pageNumber, pageSize);
+  const getAllWardsConfig = fetchConfig({ url: getAllWards, method: "get" });
+  const { data: wards } = useRequest(getAllWardsConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(wards, 89999);
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
@@ -58,9 +68,31 @@ const ManageAdmissions = () => {
             <h4 className="page-title">Admissions</h4>
           </header>
           <div className="page-content">
-            <AdmissionsSummary />
+            <TableSize
+              size={data?.admissions.length}
+              heading="No of Patients admitted"
+              icon=""
+            />
           </div>
           <div className="page-content">
+            <div className="row mx-0 mb-3">
+              <div className="col-12 col-md-4 col-lg-3 px-0">
+                <select
+                  className="form-control"
+                  name="degree"
+                  onChange={(e) => {
+                    setWardId(e.target.value);
+                  }}
+                >
+                  <option value="all">All</option>
+                  {wards?.wards?.map((ward, index) => (
+                    <option value={ward.id} key={index}>
+                      {ward.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             {data && (
               <Table
                 content={dataTable}
