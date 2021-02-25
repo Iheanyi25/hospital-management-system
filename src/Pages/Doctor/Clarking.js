@@ -1,8 +1,6 @@
-import Axios from "axios";
 import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { axiosInstance } from "../../api/axiosInstance";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {

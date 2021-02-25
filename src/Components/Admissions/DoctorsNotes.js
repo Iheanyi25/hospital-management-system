@@ -1,12 +1,12 @@
 import React from "react";
-import { PageLoader } from "../../Components";
-import user from "../../assets/img/user.png";
-import formatDate from "../../utils/formatDate";
+// import { PageLoader } from "../../Components";
+// import user from "../../assets/img/user.png";
+// import formatDate from "../../utils/formatDate";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { getAdmissionsDoctorsNotesUrl } from "../../api/URLs";
-import NoDataState from "../../Components/EmptyState/NoDataState";
-import { data } from "jquery";
+// import NoDataState from "../../Components/EmptyState/NoDataState";
+// import { data } from "jquery";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
@@ -52,12 +52,12 @@ class DoctorsNotes extends React.Component {
   };
 
   render() {
-    const { prescriptions, loading } = this.state;
+    // const { prescriptions, loading } = this.state;
     // console.log(prescriptions, "histories");
     // console.log(data);
 
 
-    const { firstName, lastName } = this.props.patientDetails;
+    // const { firstName, lastName } = this.props.patientDetails;
     return (
       <div className="card-body">
         {this.props.user ? null : (
