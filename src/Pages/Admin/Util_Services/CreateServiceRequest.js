@@ -54,7 +54,10 @@ class CreateService extends Component {
     });
     const { data } = await fetchWrapper(getAllServicesCategoryConfig);
     console.log(data, 11111);
-    this.setState({ categories: data.serviceCategories, isFetchingCategories: false });
+    this.setState({
+      categories: data.serviceCategories,
+      isFetchingCategories: false,
+    });
   };
 
   renderPicker(customClass) {
