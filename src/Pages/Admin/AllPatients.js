@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../api/fetcher";
+import { useRequest } from "../../api/fetcher";
 import { getPatientsUrl } from "../../api/URLs";
-import { getTheRegistrationFeeInvoiceUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
