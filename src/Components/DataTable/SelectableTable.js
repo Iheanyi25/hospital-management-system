@@ -15,7 +15,7 @@ const readyStyle = {
   transition: "visibility 0s linear 0s, opacity 300ms",
 };
 
-const Table = ({
+const SelectableTable = ({
   content,
   tableID,
   exportAction,
@@ -24,6 +24,7 @@ const Table = ({
   setPageNumber,
   pageSize,
   setPageSize,
+  totalIds
 }) => {
   const [isReady, setIsReady] = useState(false);
 
@@ -31,14 +32,7 @@ const Table = ({
     if ($) {
       const sync = () => {
         if (content.length > 0) {
-          if (exportAction) {
-            $(`#custom_table_${tableID}`).DataTable({
-              dom: "Bfrtip",
-              buttons: ["copyHtml5", "excelHtml5", "pdfHtml5", "csvHtml5"],
-            });
-          } else {
-            $(`#custom_table_${tableID}`).DataTable();
-          }
+          $(`#custom_table_${tableID}`).DataTable();
           setIsReady(true);
         }
       };
@@ -59,7 +53,7 @@ const Table = ({
           data-searching="true"
           id={`custom_table_${tableID}`}
         >
-          {content.length > 0 && <TableContent tableContent={content} />}
+          {content.length > 0 && <TableContent tableContent={content} totalIds={totalIds} />}
         </table>
       </div>
       <div className="d-flex mt-6">
@@ -78,15 +72,15 @@ const Table = ({
   );
 };
 
-export { Table };
+export { SelectableTable };
 
-const TableContent = ({ tableContent }) => {
+const TableContent = ({ tableContent, totalIds }) => {
   const headers = Object.keys(tableContent[0]).map((item, index) => (
     <th key={index}>{item}</th>
   ));
   const body = tableContent.map((item, i) => {
     return (
-      <tr key={i}>
+      <tr key={i} id={totalIds[i]}>
         {Object.values(item).map((currentValue, index) => (
           <td key={index}>{currentValue}</td>
         ))}
@@ -103,4 +97,3 @@ const TableContent = ({ tableContent }) => {
     </>
   );
 };
-

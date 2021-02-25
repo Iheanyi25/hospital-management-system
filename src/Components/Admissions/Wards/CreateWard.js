@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { createWardUrl } from "../../../api/URLs";
-import { PageLoader } from "../../../Components";
+import { PageLoader } from "../..";
 import { notification } from "../../../utils/notification";
 import { isNotEmptyString, isValidPositiveInteger } from "../../../utils/validationUtils";
 

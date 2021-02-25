@@ -43,11 +43,11 @@ export default class AddPatient extends Component {
   }
   fetchHealthPlans = async () => {
     try {
-      const getAllHealthPlans = getAllHealthPlansUrl();
+      const getAllHealthPlans = getAllHealthPlansUrl(1, 200);
       const getAllHealthPlansConfig = fetchConfig({ url: getAllHealthPlans, method: "get", });
       const { data } = await fetchWrapper(getAllHealthPlansConfig);
 
-      this.setState({ healthPlans: data.plans });
+      this.setState({ healthPlans: data.healthPlans });
     } catch (error) { }
   };
 

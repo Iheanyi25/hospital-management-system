@@ -1,6 +1,8 @@
+import Axios from "axios";
 import { observer } from "mobx-react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { axiosInstance } from "../../api/axiosInstance";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
@@ -66,10 +68,7 @@ class Clerking extends React.Component {
     } = this.context;
     const { id, type, patient } = this.props.location.state;
 
-    console.log(patient);
-
     try {
-      console.log(userId);
       const updatePatientClerking = updatePatientClerkingUrl(
         id,
         type,
@@ -83,10 +82,10 @@ class Clerking extends React.Component {
       });
       console.log(updatePatientClerkingConfig, 11111);
       const res = await fetchWrapper(updatePatientClerkingConfig);
-      notification.success({ message : res.data.message})
+      notification.success({ message: res.data.message });
     } catch (error) {
       console.log(error);
-      notification.error({ message : error?.response?.data?.message})
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 
@@ -106,17 +105,19 @@ class Clerking extends React.Component {
     this.setState({ [type]: { [key]: "" } });
   };
 
-
-  finishClarking = async (e, key) => {
+  finishClarking = async (e) => {
     e.preventDefault();
+  
+    const { id } = this.props.location.state;
 
     let payload = {
-      id: this.props.location.state.id,
+      id: id,
       isAdmitted: false,
-      isSentHome: false,
+      isSentHome: true,
+      initiatorId: JSON.parse(localStorage.getItem("authenticatedUser")).id,
     };
+    console.log(payload)
 
-    payload[key] = true; //change here
     try {
       const postAdmitOrSendPatientHome = postAdmitOrSendPatientHomeUrl();
       const postAdmitOrSendPatientHomeConfig = fetchConfig({
@@ -125,11 +126,14 @@ class Clerking extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
-      notification.success({ message : res.data.message})
-      this.props.history.push("/")
+      console.log(res);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        //this.props.history.push("/AdminViewReferredPatients");
+      }
     } catch (error) {
       console.log(error);
-      notification.error({ message : error?.response?.data?.message})
+      notification.error({ message: error?.response?.data.message });
     }
   };
 
@@ -155,13 +159,13 @@ class Clerking extends React.Component {
                 <div className="col"></div>
                 <div className="col text-right">
                   <Link
-                    onClick={(e) => this.finishClarking(e, "isSentHome")}
+                    onClick={(e) => this.finishClarking(e)}
                     className="btn btn-primary mr-2 mb-2"
                   >
                     Send Home
                   </Link>
                   <Link
-                    // onClick={(e) => this.finishClarking(e, "isAdmitted")}
+                    //onClick={(e) => this.PostClerkingAdmitPatient(e)}
                     to="#"
                     data-toggle="modal"
                     data-target="#admission-referral"
@@ -1340,7 +1344,7 @@ class Clerking extends React.Component {
             </div>
           </div>
         </main>
-        <AdmissionReferral/>
+        <AdmissionReferral id={this.props.location.state.id} />
       </>
     );
   }
