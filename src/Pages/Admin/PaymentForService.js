@@ -55,7 +55,7 @@ class PaymentForService extends React.Component {
       history: { location },
     } = this.props;
     const getServicesInAnInvoice = getServicesInAnInvoiceUrl(
-      location.state.invoiceId
+      location.state.invoiceId, 1, 200
     );
     const getServicesInAnInvoiceConfig = fetchConfig({
       url: getServicesInAnInvoice,
@@ -63,7 +63,7 @@ class PaymentForService extends React.Component {
     });
     const { data } = await fetchWrapper(getServicesInAnInvoiceConfig);
     console.log(data, 44444);
-    this.initializeComponent(data.serviceRequest);
+    this.initializeComponent(data.serviceRequests);
   }
 
   initializeComponent = (services) => {
@@ -75,7 +75,7 @@ class PaymentForService extends React.Component {
     this.calculateAmount();
     let ids = [];
     services.map((service) => {
-       return ids = [...ids, ...this.formatServiceId(service.id)];
+      return (ids = [...ids, ...this.formatServiceId(service.id)]);
     });
     this.setState({ ...this.state, init: true, serviceRequestId: ids });
   };
@@ -107,7 +107,7 @@ class PaymentForService extends React.Component {
   calculateAmount = () => {
     this.setState((state) => ({
       amount: state.selectedServices.reduce((amount, service) => {
-        return amount + service.amount;
+        return amount + service.cost;
       }, 0),
     }));
   };
@@ -130,7 +130,10 @@ class PaymentForService extends React.Component {
   ) => {
     const { amount: totalAmount, serviceRequestId, patientId } = this.state;
     const { user } = this.props.history.location.state;
-    const nextRoute = user.userType === "Admin"? "/AdminManageServiceRequests" : "/AccountManageServiceRequest"
+    const nextRoute =
+      user.userType === "Admin"
+        ? "/AdminManageServiceRequests"
+        : "/AccountManageServiceRequest";
 
     let payload = {
       patientId,
@@ -149,10 +152,10 @@ class PaymentForService extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postPayForServicesConfig);
-      notification.success({ message: res.data.message})
-      this.history.push(nextRoute)
+      notification.success({ message: res.data.message });
+      this.props.history.push(nextRoute);
     } catch (error) {
-      notification.error({ message: error?.response?.data?.message})
+      notification.error({ message: error?.response?.data?.message });
     }
   };
   payWithAccount = async (
@@ -163,7 +166,10 @@ class PaymentForService extends React.Component {
   ) => {
     const { amount: totalAmount, serviceRequestId, patientId } = this.state;
     const { user } = this.props.history.location.state;
-    const nextRoute = user.userType === "Admin"? "/AdminManageServiceRequests" : "/AccountManageServiceRequest"
+    const nextRoute =
+      user.userType === "Admin"
+        ? "/AdminManageServiceRequests"
+        : "/AccountManageServiceRequest";
     let payload = {
       patientId,
       serviceRequestId,
@@ -180,10 +186,10 @@ class PaymentForService extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(postPayForServicesConfig);
-      notification.success({ message: res.data.message})
-      this.history.push(nextRoute)
+      notification.success({ message: res.data.message });
+      this.props.history.push(nextRoute);
     } catch (error) {
-      notification.error({ message: error?.response?.data?.message})
+      notification.error({ message: error?.response?.data?.message });
     }
     console.log(payload);
   };
@@ -228,7 +234,7 @@ class PaymentForService extends React.Component {
                                       {service?.serviceName}
                                     </p>
                                     <small className="mt-0 text-info">
-                                      {formatAmount(service?.amount) + " - " ??
+                                      {formatAmount(service?.cost) + " - " ??
                                         ""}
                                       {service.paymentStatus === "PAID" ? (
                                         <span className="text-success">

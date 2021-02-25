@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
-import { useRequest } from "../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { getPatientsUrl } from "../../api/URLs";
+import { getTheRegistrationFeeInvoiceUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
@@ -16,30 +17,36 @@ function AllPatients() {
   const { data, error } = useRequest(getPatientsConfig, {
     revalidateOnFocus: false,
   });
-const [activePatientId, setActivePatientId] = useState("")
-  let dataTable = []
-    if (data) {
-      dataTable = data.patients.map(({ patient }, index) => {
-        console.log(patient,111)
-        return {
-          "#": ++index,
-          Photo: (
-            <img
-              src={PatientAndAdminImage}
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-500"
-            />
-          ),
-          Name: `${patient.firstName} ${patient.lastName}`,
-          Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
-          Phone: patient.phoneNumber || "Not available",
-          Actions: <PatientTableAction patient={patient} setActivePatientId={setActivePatientId} />,
-        };
-      });
-    }
-  
+
+
+  const [activePatientId, setActivePatientId] = useState("");
+  let dataTable = [];
+  if (data) {
+    dataTable = data.patients.map(({ patient }, index) => {
+      console.log(patient, 111);
+      return {
+        "#": ++index,
+        Photo: (
+          <img
+            src={PatientAndAdminImage}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-500"
+          />
+        ),
+        Name: `${patient.firstName} ${patient.lastName}`,
+        Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
+        Phone: patient.phoneNumber || "Not available",
+        Actions: (
+          <PatientTableAction
+            patient={patient}
+            setActivePatientId={setActivePatientId}
+          />
+        ),
+      };
+    });
+  }
 
   if (error) return <div>failed to load</div>;
   return (
@@ -73,6 +80,7 @@ const [activePatientId, setActivePatientId] = useState("")
 }
 
 const PatientTableAction = ({ patient, setActivePatientId }) => {
+  console.log(patient)
   const tableFunctions = [
     {
       text: "Update Profile",
@@ -107,19 +115,22 @@ const PatientTableAction = ({ patient, setActivePatientId }) => {
   ];
   return (
     <ActionButton>
-      {tableFunctions.map(({ path, text, iconClass },index) => (
+      {tableFunctions.map(({ path, text, iconClass }, index) => (
         <NavLink
           to={{
             pathname: path,
             state: patient,
           }}
           className="btn btn-sm btn-block"
-          key={path+index}
+          key={path + index}
         >
           <span className={iconClass} />
           {text}
         </NavLink>
       ))}
+      {/* {
+        patient.
+      } */}
       <NavLink
         to="#"
         className="btn btn-sm btn-block"

@@ -74,6 +74,8 @@ import ManageWards from "../Components/Admissions/Wards/ViewWards";
 import ManageBeds from "../Components/Admissions/Wards/ViewBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
+import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
+import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
 import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
 
@@ -109,6 +111,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminAllLabTechnicians"
             component={AdminAllLabTechnicians}
+          />
+          <Route
+            exact
+            path="/AdminWardRoundNotes"
+            component={AdminWardRoundNotes}
           />
           <Route
             exact
@@ -305,10 +312,14 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/AdminDoctorsNotes"
+            component={DoctorsNotes}
+          />
+          <Route
+            exact
             path="/AdminViewLabProfile/:id"
             component={ViewLabProfile}
           />
-
           <Route
             exact
             path="/AdminViewPatientHealthHistory/:id"
