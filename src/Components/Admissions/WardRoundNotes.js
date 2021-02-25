@@ -17,6 +17,7 @@ import {
 // import AdmissionReferral from "../../Components/Admissions/ReferredPatients";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
+import { DoctorsNotes } from "../../Components/Admissions/DoctorsNotes";
 
 class WardRoundNotes extends React.Component {
   static contextType = UserContext;
@@ -329,7 +330,7 @@ class WardRoundNotes extends React.Component {
                                   {/* <form className="mb-4"> */}
                                     <div className="card border-light w-75 m-auto">
                                     <h4>Doctors Notes</h4>
-                                      <ClarkingHistory
+                                      <DoctorsNotes
                                         patientDetails={{ firstName, lastName, id }}
                                         setCount={this.setCount}
                                         user

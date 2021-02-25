@@ -83,6 +83,13 @@ const ReferredPatientsActionTable = ({ admissionId }) => {
         <span className="btn-icon icofont-server mr-2" />
         Assign to ward
       </Link>
+      <Link
+        to={"/AdminWardRoundNotes"}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
+      </Link>
     </ActionButton>
   );
 };
