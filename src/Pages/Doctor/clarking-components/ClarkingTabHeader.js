@@ -29,7 +29,7 @@ const ClarkingTabHeader = ({ state }) => {
         aria-controls="v-pills-profile"
         aria-selected="false"
       >
-        Clerking
+        Clarking
       </a>
       <a
         className="nav-link"
