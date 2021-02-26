@@ -14,6 +14,7 @@ class DoctorsNotes extends React.Component {
   state = {
     prescriptions: [],
     loading: true,
+    dateGenerated: ""
   };
 
   componentDidMount() {
@@ -28,6 +29,7 @@ class DoctorsNotes extends React.Component {
 
   fetchDoctorsNotes = async () => {
     const { id } = this.props.patientDetails;
+    console.log(this.props.patientDetails);
     try {
       const getAdmissionsDoctorsNote = getAdmissionsDoctorsNotesUrl(id);
       const getAdmissionsDoctorsNoteConfig = fetchConfig({
@@ -46,18 +48,17 @@ class DoctorsNotes extends React.Component {
       if (this.props.setCount)
         this.props.setCount(this.state.prescriptions.length);
     } catch (error) {
-      // console.log(error);
       this.setState({ loading: false });
     }
   };
 
   render() {
-    // const { prescriptions, loading } = this.state;
-    // console.log(prescriptions, "histories");
-    // console.log(data);
+    const { prescriptions, loading } = this.state;
+    console.log(prescriptions, "histories");
+    console.log(data);
 
 
-    // const { firstName, lastName } = this.props.patientDetails;
+    const { firstName, lastName } = this.props.patientDetails;
     return (
       <div className="card-body">
         {this.props.user ? null : (

@@ -117,6 +117,13 @@ const AdmissionsActionTable = () => {
         <span className="btn-icon icofont-server mr-2" />
         Hello, Nothing
       </Link>
+      <Link
+        to={"/AdminWardRoundNotes"}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
+      </Link>
     </ActionButton>
   );
 };
