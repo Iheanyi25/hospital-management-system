@@ -840,58 +840,6 @@ const ClarkingTabContent = ({
                 </div>
               </div>
             </div>
-
-            {/* <div
-                          className="tab-pane fade"
-                          id="pills-prescription"
-                          role="tabpanel"
-                          aria-labelledby="pills-prescription-tab"
-                        >
-                          <div className="row justify-content-center mt-5">
-                            <div className="col-md-12">
-                              <div className="card border-light">
-                                <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4>Prescription</h4>
-
-                                    <div className="form-group">
-                                      <label>Prescription</label>
-                                      <textarea
-                                        className="form-control"
-                                        placeholder="Enter your prescriptions her e"
-                                        rows={3}
-                                      />
-                                    </div>
-
-                                    <div className="row">
-                                      <div className="col">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary"
-                                        >
-                                          Save Prescriptions
-                                        </button>
-                                      </div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          className="btn btn-outline-danger"
-                                        >
-                                          <span className="d-none d-sm-block">
-                                            Cancel
-                                          </span>{" "}
-                                          <span className="d-sm-none">
-                                            Cancel
-                                          </span>
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div> */}
           </div>
         </div>
       </div>
