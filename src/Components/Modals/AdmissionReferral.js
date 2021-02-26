@@ -59,49 +59,34 @@ const AdmissionReferral = observer(({ id }) => {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <div className="modal-body p-5 shadow-lg d-flex justify-content-center align-item-center">
-              <div className="w-75 text-center">
-                <h5 className="text-center m-4">Please enter admission note</h5>
-                <form className="" onSubmit={finishClarking}>
-                  <div className="form-group">
-                    <textarea
-                      className="form-control"
-                      type="text"
-                      tabIndex={-98}
-                      placeholder="Enter admission notes"
-                      name="admissionNote"
-                      multiple="true"
-                      onChange={handleChange}
-                      required
-                    />
-                    {/* <
-                      name="admissionNote"
-                      placeholder="Enter admission notes"
-                      classname="form-control text-muted"
-                      onChange={handleChange}
-                      id=""
-                      style={{ width: "100%", height: "96px" }}
-                    /> */}
-                    <div className="row mt-4 mx-0 p-0">
-                      {/* <div className="col"> */}
-                      <button
-                        className="btn col-3 mr-2 btn-outline-danger"
-                        data-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <div className="col-3"></div>
+            <div className="modal-body">
+              <h5>Please enter admission note</h5>
+              <form className="" onSubmit={finishClarking}>
+                <div className="form-group">
+                  <textarea
+                    className="form-control"
+                    type="text"
+                    tabIndex={-98}
+                    placeholder="Enter admission notes"
+                    name="admissionNote"
+                    multiple="true"
+                    onChange={handleChange}
+                    required
+                  />
+                  <div className="row mt-4 mx-0 p-0">
+                    <div className="col"></div>
+                    <div className="col text-right">
                       <button
                         type="submit"
                         onSubmit={finishClarking}
-                        className="btn btn-primary col-5 px-5 ml-3"
+                        className="btn btn-primary"
                       >
                         Send to admission
                       </button>
                     </div>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
