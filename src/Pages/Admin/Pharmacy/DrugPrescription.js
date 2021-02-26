@@ -15,7 +15,7 @@ import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
-import PatientAndAdminImage from '../../../assets/img/PatientAndAdminIcon.svg';
+import { PrescriptionList } from "../../Components/DrugPrescription";
 
 const DrugPrescription = observer(({ match }) => {
   const { user } = useContext(UserContext);
@@ -131,24 +131,7 @@ const DrugPrescription = observer(({ match }) => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-12 col-md-4">
-                    <div className="card bg-light">
-                      <div className="card-body p-5 m-auto">
-                        <div className="d-flex">
-                          <img
-                            src={PatientAndAdminImage}
-                            style={{
-                              height: "32px",
-                              width: "32px",
-                              borderRadius: "50%",
-                            }}
-                            alt="user"
-                          />
-                          <h6 className="mt-2 ml-2">{`${prescription?.patient?.firstName ?? ""
-                            } ${prescription?.patient?.lastName ?? ""}`}</h6>
-                        </div>
-                        <p className="mb-0">{prescription?.prescription}</p>
-                      </div>
-                    </div>
+                    <PrescriptionList prescription={prescription} />
                   </div>
                   <div className="col-12 col-md-3">
                     <label className={"mb-3"}>Search & select drugs</label>
