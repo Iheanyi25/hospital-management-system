@@ -1,7 +1,7 @@
 import React from "react";
 import PatientAndAdminImage from "../../../assets/img/PatientAndAdminIcon.svg";
 
-const PrescriptionList = ({ prescription }) => {
+const PrescriptionList = ({ fullName, prescription }) => {
   return (
     <div className="card bg-light">
       <div className="card-body p-5 m-auto">
@@ -15,11 +15,9 @@ const PrescriptionList = ({ prescription }) => {
             }}
             alt="user"
           />
-          <h6 className="mt-2 ml-2">{`${
-            prescription?.patient?.firstName ?? ""
-          } ${prescription?.patient?.lastName ?? ""}`}</h6>
+          <h6 className="mt-2 ml-2">{fullName}</h6>
         </div>
-        <p className="mb-0">{prescription?.prescription}</p>
+        <p className="mb-0">{prescription}</p>
       </div>
     </div>
   );
