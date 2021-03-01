@@ -238,8 +238,8 @@ const DrugPrescription = observer(({ match }) => {
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
       <PrescriptionInvoice
         costingDetails={costingDetails}
-        doctor={prescription?.doctor}
-        patient={prescription?.patient}
+        doctor={prescription?.prescription?.doctor}
+        patient={prescription?.prescription?.admission?.patient}
         invoiceDetails={invoiceDetails}
         id={id}
         nextRoute={
