@@ -6,6 +6,9 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
 export const assignPatientToBedSpaceUrl = () =>
   `/Admission/AssignPatientToBedspace`;
 
+// Admission - Manage Admission Requests
+export const postAdmissionsRequestServiceUrl = () => `/Admission/RequestService`;
+
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
 export const createBedUrl = () => `/Admission/Ward/CreateBed`;
