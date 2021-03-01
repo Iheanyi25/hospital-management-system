@@ -168,10 +168,17 @@ const AdminActionTable = ({ admissionId }) => {
       {/* <Link
         to={`/AdminManageAdmissionPrescriptionInvoice/${admissionId}`}
         className="btn btn-sm btn-block"
-      >
+        >
         <span className="btn-icon icofont-server mr-2" />
         Prescription Invoice
       </Link> */}
+      <Link
+        to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Request a service
+      </Link>
     </ActionButton>
   );
 };
