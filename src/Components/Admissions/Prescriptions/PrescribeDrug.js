@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   costDrugUrl,
   getAllDrugsUrl,
   getPrescriptionForAdmssionUrl,
+  postAdmissionsRequestServiceUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import remove from "../../../assets/img/remove.svg";
@@ -16,9 +17,15 @@ import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionList } from "../../../Pages/Components/DrugPrescription";
+import { notification } from "../../../utils/notification";
+
+const $ = window.$;
 
 const DrugPrescription = observer(({ match }) => {
-  const { user } = useContext(UserContext);
+  const history = useHistory()
+  const {
+    user: { id: generatedBy, userType },
+  } = useContext(UserContext);
   const [costingDetails, setcostingDetails] = useState([]);
   const [invoiceDetails, setInvoiceDetails] = useState({});
 
@@ -104,6 +111,38 @@ const DrugPrescription = observer(({ match }) => {
     let response = await fetchWrapper(costDrugConfig);
     setcostingDetails(response?.data?.costings);
     console.log(response);
+  };
+
+  const generateInvoice = async () => {
+    const admissionId = prescription?.prescription?.admissionId;
+    const nextRoute =
+      userType === "Admin"
+        ? `/AdminManageAdmissionPrescriptionInvoice${admissionId}`
+        : "/PharmacyManagePrescriptions";
+
+    const { patientId, ...otherInvoiceDet } = invoiceDetails;
+    const payload = {
+      generatedBy,
+      admissionId,
+      ...otherInvoiceDet,
+    };
+    console.log(payload, "7777");
+    const invoiceUrl = postAdmissionsRequestServiceUrl();
+    const generateDrugDispenseInvoiceConfig = fetchConfig({
+      url: invoiceUrl,
+      method: "post",
+      data: payload,
+    });
+    try {
+      const res = await fetchWrapper(generateDrugDispenseInvoiceConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        history.push(nextRoute);
+        $("#showInvoice").modal("hide");
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
+    }
   };
 
   return (
@@ -240,13 +279,7 @@ const DrugPrescription = observer(({ match }) => {
         costingDetails={costingDetails}
         doctor={prescription?.prescription?.doctor}
         patient={prescription?.prescription?.admission?.patient}
-        invoiceDetails={invoiceDetails}
-        id={id}
-        nextRoute={
-          user.userType === "Admin"
-            ? "/AdminManagePrescriptionInvoice"
-            : "/PharmacyManagePrescriptions"
-        }
+        generateInvoice={generateInvoice}
       />
     </>
   );
