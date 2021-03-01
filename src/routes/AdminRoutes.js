@@ -74,8 +74,14 @@ import ManageWards from "../Components/Admissions/Wards/ViewWards";
 import ManageBeds from "../Components/Admissions/Wards/ViewBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
+import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
+import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
 import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
+import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
+import AdmissionPrescribeDrug from "../Components/Admissions/Prescriptions/PrescribeDrug";
+import AdmissionManagePrescriptionInvoice from "../Components/Admissions/Prescriptions/ManagePrescriptionInvoice";
+import AdmissionCreateServiceRequest from "../Components/Admissions/CreateServiceRequest";
 
 export default function AdminRoutes() {
   return (
@@ -109,6 +115,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminAllLabTechnicians"
             component={AdminAllLabTechnicians}
+          />
+          <Route
+            exact
+            path="/AdminWardRoundNotes"
+            component={AdminWardRoundNotes}
           />
           <Route
             exact
@@ -305,10 +316,14 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/AdminDoctorsNotes"
+            component={DoctorsNotes}
+          />
+          <Route
+            exact
             path="/AdminViewLabProfile/:id"
             component={ViewLabProfile}
           />
-
           <Route
             exact
             path="/AdminViewPatientHealthHistory/:id"
@@ -323,6 +338,26 @@ export default function AdminRoutes() {
             exact
             path="/AdminManageAdmissions"
             component={ManageAdmissions}
+          />
+          <Route
+            exact
+            path="/AdminManageAdmissionPrescriptions/:id"
+            component={ManageAdmissionPrescriptions}
+          />
+          <Route
+            exact
+            path="/AdmissionPrescribeDrug/:id"
+            component={AdmissionPrescribeDrug}
+          />
+          <Route
+            exact
+            path="/AdminManageAdmissionPrescriptionInvoice/:id"
+            component={AdmissionManagePrescriptionInvoice}
+          />
+          <Route
+            exact
+            path="/AdminCreateAdmissionServiceRequest/:id"
+            component={AdmissionCreateServiceRequest}
           />
           <Route
             exact

@@ -3,8 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import {
   costDrugUrl,
   getAllDrugsUrl,
-  getPrescriptionUrl,
-  generateDrugDispenseInvoiceUrl,
+  getPrescriptionForAdmssionUrl,
+  postAdmissionsRequestServiceUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import remove from "../../../assets/img/remove.svg";
@@ -16,22 +16,22 @@ import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
-import { PrescriptionList } from "../../Components/DrugPrescription";
+import { PrescriptionList } from "../../../Pages/Components/DrugPrescription";
 import { notification } from "../../../utils/notification";
 
 const $ = window.$;
 
 const DrugPrescription = observer(({ match }) => {
+  const history = useHistory()
   const {
     user: { id: generatedBy, userType },
   } = useContext(UserContext);
-  const history = useHistory();
   const [costingDetails, setcostingDetails] = useState([]);
   const [invoiceDetails, setInvoiceDetails] = useState({});
 
-  const { id: clarkingId } = match.params;
+  const { id } = match.params;
 
-  const prescriptionUrl = getPrescriptionUrl(clarkingId);
+  const prescriptionUrl = getPrescriptionForAdmssionUrl(id);
   const getPrescriptionConfig = fetchConfig({
     url: prescriptionUrl,
     method: "get",
@@ -97,7 +97,7 @@ const DrugPrescription = observer(({ match }) => {
       selectedDrugs[i] = selectedDrugDet;
     });
     const payload = {
-      patientId: prescription?.patient?.id,
+      patientId: prescription?.prescription?.admission?.patient?.id,
       drugs: selectedDrugs,
     };
     console.log(payload, "payload");
@@ -112,20 +112,22 @@ const DrugPrescription = observer(({ match }) => {
     setcostingDetails(response?.data?.costings);
     console.log(response);
   };
-  
+
   const generateInvoice = async () => {
+    const admissionId = prescription?.prescription?.admissionId;
     const nextRoute =
       userType === "Admin"
-        ? "/AdminManagePrescriptionInvoice"
+        ? `/AdminManageAdmissionPrescriptionInvoice${admissionId}`
         : "/PharmacyManagePrescriptions";
 
+    const { patientId, ...otherInvoiceDet } = invoiceDetails;
     const payload = {
       generatedBy,
-      clarkingId,
-      ...invoiceDetails,
+      admissionId,
+      ...otherInvoiceDet,
     };
-    console.log(payload, nextRoute, "7777");
-    const invoiceUrl = generateDrugDispenseInvoiceUrl();
+    console.log(payload, "7777");
+    const invoiceUrl = postAdmissionsRequestServiceUrl();
     const generateDrugDispenseInvoiceConfig = fetchConfig({
       url: invoiceUrl,
       method: "post",
@@ -169,10 +171,8 @@ const DrugPrescription = observer(({ match }) => {
                 <div className="row">
                   <div className="col-12 col-md-4">
                     <PrescriptionList
-                      fullName={`${prescription?.patient?.firstName ?? ""} ${
-                        prescription?.patient?.lastName ?? ""
-                      }`}
-                      prescription={prescription?.prescription}
+                      fullName={`${prescription?.prescription?.admission?.patient?.firstName} ${prescription?.prescription?.admission?.patient?.lastName}`}
+                      prescription={prescription?.prescription?.prescription}
                     />
                   </div>
                   <div className="col-12 col-md-3">
@@ -277,8 +277,8 @@ const DrugPrescription = observer(({ match }) => {
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
       <PrescriptionInvoice
         costingDetails={costingDetails}
-        doctor={prescription?.doctor}
-        patient={prescription?.patient}
+        doctor={prescription?.prescription?.doctor}
+        patient={prescription?.prescription?.admission?.patient}
         generateInvoice={generateInvoice}
       />
     </>
