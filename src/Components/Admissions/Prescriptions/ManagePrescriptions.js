@@ -36,9 +36,6 @@ const ManagePrescriptions = observer(() => {
     dataTable = data.prescriptions.map((prescription, index) => {
       return {
         "#": ++index,
-        "Patient Name": `${prescription?.patient?.firstName ?? ""} ${
-          prescription?.patient?.lastName ?? ""
-        }`,
         "Doctor Name": `${prescription?.doctor?.firstName ?? ""} ${
           prescription?.doctor?.lastName ?? ""
         }`,
@@ -62,7 +59,12 @@ const ManagePrescriptions = observer(() => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title">Admission Prescriptions</h4>
+            <h4
+              className="page-title"
+              style={{ textTransform: "capitalize" }}
+            >{`${data?.prescriptions[0]?.admission?.patient?.firstName ?? ""} ${
+              data?.prescriptions[0]?.admission?.patient?.lastName ?? ""
+            }'s Prescriptions`}</h4>
           </header>
           <div className="page-content">
             <TableSize
