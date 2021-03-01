@@ -158,9 +158,19 @@ const ManageAdmissions = observer(() => {
 const AdminActionTable = ({ admissionId }) => {
   return (
     <ActionButton>
-      <Link to={`/AdminManageAdmissionPrescriptions/${admissionId}`} className="btn btn-sm btn-block">
+      <Link
+        to={`/AdminManageAdmissionPrescriptions/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Prescriptions
+      </Link>
+      <Link
+        to={`/AdminManageAdmissionPrescriptionInvoice/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Prescription Invoice
       </Link>
     </ActionButton>
   );
