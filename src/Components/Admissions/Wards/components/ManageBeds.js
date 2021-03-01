@@ -86,7 +86,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
               <img src={notpaid} alt="paid" /> Assigned
             </>
           ),
-          Actions: <BedsTableAction />,
+          // Actions: <BedsTableAction />,
         };
       }
     });
@@ -136,16 +136,16 @@ const ManageBeds = ({ admissionId, wardId }) => {
   );
 };
 
-const BedsTableAction = () => {
-  return (
-    <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Hello, Nothing
-      </Link>
-    </ActionButton>
-  );
-};
+// const BedsTableAction = () => {
+//   return (
+//     <ActionButton>
+//       <Link to="#" className="btn btn-sm btn-block">
+//         <span className="btn-icon icofont-server mr-2" />
+//         Hello, Nothing
+//       </Link>
+//     </ActionButton>
+//   );
+// };
 const AdmissionsTableAction = ({ bedId, assignBed }) => {
   return (
     <ActionButton>
