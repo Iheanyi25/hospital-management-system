@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import {
   getBedsInAWardUrl,
@@ -17,6 +17,7 @@ import notpaid from "../../../../assets/img/notpaid.svg";
 import { notification } from "../../../../utils/notification";
 
 const ManageBeds = ({ admissionId, wardId }) => {
+  const history = useHistory();
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getBedsInAWard = getBedsInAWardUrl(wardId, pageNumber, pageSize);
@@ -28,7 +29,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
     revalidateOnFocus: false,
   });
 
-  const assignBed = (bedId) => {
+  const assignBed = async (bedId) => {
     const payload = {
       admissionId,
       bedId,
@@ -40,9 +41,9 @@ const ManageBeds = ({ admissionId, wardId }) => {
         method: "post",
         data: payload,
       });
-      const { res } = fetchWrapper(assignPatientToBedSpaceConfig);
+      const res = await fetchWrapper(assignPatientToBedSpaceConfig);
       notification.success({ message: res.data.message });
-      mutate();
+      history.push("/AdminManageAdmissions");
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
     }
@@ -65,8 +66,10 @@ const ManageBeds = ({ admissionId, wardId }) => {
               <img src={notpaid} alt="paid" /> Assigned
             </>
           ),
-          Actions: (
+          Actions: bed?.isAvailable ? (
             <AdmissionsTableAction bedId={bed.id} assignBed={assignBed} />
+          ) : (
+            <>Unavailable</>
           ),
         };
       } else {
