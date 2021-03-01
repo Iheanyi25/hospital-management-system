@@ -80,6 +80,8 @@ import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
 import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
 import AdmissionPrescribeDrug from "../Components/Admissions/Prescriptions/PrescribeDrug";
+import AdmissionManagePrescriptionInvoice from "../Components/Admissions/Prescriptions/ManagePrescriptionInvoice";
+import AdmissionCreateServiceRequest from "../Components/Admissions/CreateServiceRequest";
 
 export default function AdminRoutes() {
   return (
@@ -346,6 +348,16 @@ export default function AdminRoutes() {
             exact
             path="/AdmissionPrescribeDrug/:id"
             component={AdmissionPrescribeDrug}
+          />
+          <Route
+            exact
+            path="/AdminManageAdmissionPrescriptionInvoice/:id"
+            component={AdmissionManagePrescriptionInvoice}
+          />
+          <Route
+            exact
+            path="/AdminCreateAdmissionServiceRequest/:id"
+            component={AdmissionCreateServiceRequest}
           />
           <Route
             exact
