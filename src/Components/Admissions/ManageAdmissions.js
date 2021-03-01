@@ -165,13 +165,13 @@ const AdminActionTable = ({ admissionId }) => {
         <span className="btn-icon icofont-server mr-2" />
         Prescriptions
       </Link>
-      <Link
+      {/* <Link
         to={`/AdminManageAdmissionPrescriptionInvoice/${admissionId}`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Prescription Invoice
-      </Link>
+      </Link> */}
     </ActionButton>
   );
 };
