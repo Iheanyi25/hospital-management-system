@@ -17,5 +17,7 @@ export const getBedsInAWardUrl = (wardId, pageNumber, pageSize) =>
   `/Admission/Ward/GetBedsInAWard?WardId=${wardId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
 // Admission - Manage Prescriptions
-export const getAllAdmissionPrescriptionsUrl = (pageNumber, pageSize) =>
-  `/Admission/GetPrescriptions?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPrescriptionForAdmssionUrl = (id) =>
+  `/Admission/GetPrescription?PrescriptionId=${id}`;
+export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
+  `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
