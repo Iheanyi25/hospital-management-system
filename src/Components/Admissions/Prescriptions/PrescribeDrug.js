@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   costDrugUrl,
   getAllDrugsUrl,
-  getPrescriptionUrl,
+  getPrescriptionForAdmssionUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import remove from "../../../assets/img/remove.svg";
@@ -15,7 +15,7 @@ import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
-import { PrescriptionList } from "../../Components/DrugPrescription";
+import { PrescriptionList } from "../../../Pages/Components/DrugPrescription";
 
 const DrugPrescription = observer(({ match }) => {
   const { user } = useContext(UserContext);
@@ -24,7 +24,7 @@ const DrugPrescription = observer(({ match }) => {
 
   const { id } = match.params;
 
-  const prescriptionUrl = getPrescriptionUrl(id);
+  const prescriptionUrl = getPrescriptionForAdmssionUrl(id);
   const getPrescriptionConfig = fetchConfig({
     url: prescriptionUrl,
     method: "get",
@@ -90,7 +90,7 @@ const DrugPrescription = observer(({ match }) => {
       selectedDrugs[i] = selectedDrugDet;
     });
     const payload = {
-      patientId: prescription?.patient?.id,
+      patientId: prescription?.prescription?.admission?.patient?.id,
       drugs: selectedDrugs,
     };
     console.log(payload, "payload");
@@ -132,10 +132,8 @@ const DrugPrescription = observer(({ match }) => {
                 <div className="row">
                   <div className="col-12 col-md-4">
                     <PrescriptionList
-                      fullName={`${prescription?.patient?.firstName ?? ""} ${
-                        prescription?.patient?.lastName ?? ""
-                      }`}
-                      prescription={prescription?.prescription}
+                      fullName={`${prescription?.prescription?.admission?.patient?.firstName} ${prescription?.prescription?.admission?.patient?.lastName}`}
+                      prescription={prescription?.prescription?.prescription}
                     />
                   </div>
                   <div className="col-12 col-md-3">

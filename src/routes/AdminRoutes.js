@@ -78,6 +78,8 @@ import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
 import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
+import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
+import AdmissionPrescribeDrug from "../Components/Admissions/Prescriptions/PrescribeDrug";
 
 export default function AdminRoutes() {
   return (
@@ -337,8 +339,13 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/test"
-            component={SelectFamily}
+            path="/AdminManageAdmissionPrescriptions/:id"
+            component={ManageAdmissionPrescriptions}
+          />
+          <Route
+            exact
+            path="/AdmissionPrescribeDrug/:id"
+            component={AdmissionPrescribeDrug}
           />
           <Route
             exact
