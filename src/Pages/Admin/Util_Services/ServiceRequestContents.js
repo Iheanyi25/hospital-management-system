@@ -130,7 +130,7 @@ const ServiceRequestContents = ({ match, location }) => {
           <div className="page-content">
             <TableSize
               size={data ? data.serviceRequests.length : 0}
-              heading="No of Services In Invoice"
+              heading="No. of Services in Invoice"
             />
           </div>
           <div className="page-content">
