@@ -91,7 +91,7 @@ const ManageServiceRequest = observer(() => {
           <div className="page-content">
             <TableSize
               size={data ? data.serviceInvoices.length : 0}
-              heading="No. of Services request"
+              heading="No. of Services Requests"
             />
           </div>
           <div className="page-content">

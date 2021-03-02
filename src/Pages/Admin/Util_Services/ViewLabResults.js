@@ -55,7 +55,7 @@ class ViewLabResults extends React.Component {
                       </div>
                       <div className="col col-7">
                         <h6 className="mt-0 mb-1">
-                          No of Results for Lab Service
+                          No. of Results for Lab Services
                         </h6>
                         <div className="count text-primary fs-20">
                           {this.state.serviceRequestResults.length}

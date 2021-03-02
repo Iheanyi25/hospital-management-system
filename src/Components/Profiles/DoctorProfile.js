@@ -329,9 +329,9 @@ class DocProfile extends React.Component {
                           <div style={{ marginTop: "50px" }}>
                             <EmptyState
                               message="Nothing uploaded yet"
-                              target="#add-education"
-                              targetDescription="Upload"
-                              noAction={userType === "Doctor" ? false : true}
+                              // target="#add-education"
+                              // targetDescription="Upload"
+                              // noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -423,9 +423,9 @@ class DocProfile extends React.Component {
                           <div style={{ marginTop: "50px" }}>
                             <EmptyState
                               message="Nothing uploaded yet"
-                              target="#add-experience"
-                              targetDescription="Upload"
-                              noAction={userType === "Doctor" ? false : true}
+                              // target="#add-experience"
+                              // targetDescription="Upload"
+                              // noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -529,9 +529,9 @@ class DocProfile extends React.Component {
                           <div style={{ marginTop: "50px" }}>
                             <EmptyState
                               message="Nothing uploaded yet"
-                              target="#add-office-time"
-                              targetDescription="Upload"
-                              noAction={userType === "Doctor" ? false : true}
+                              // target="#add-office-time"
+                              // targetDescription="Upload"
+                              // noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -670,9 +670,9 @@ class DocProfile extends React.Component {
                           <div style={{ marginTop: "50px" }}>
                             <EmptyState
                               message="Nothing uploaded yet"
-                              target="#add-specialization"
-                              targetDescription="Upload"
-                              noAction={userType === "Doctor" ? false : true}
+                              // target="#add-specialization"
+                              // targetDescription="Upload"
+                              // noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}
@@ -829,9 +829,9 @@ class DocProfile extends React.Component {
                           <div style={{ marginTop: "50px" }}>
                             <EmptyState
                               message="Nothing uploaded yet"
-                              target="#add-specialization"
-                              targetDescription="Upload"
-                              noAction={userType === "Doctor" ? false : true}
+                              // target="#add-specialization"
+                              // targetDescription="Upload"
+                              // noAction={userType === "Doctor" ? false : true}
                             />
                           </div>
                         ) : null}

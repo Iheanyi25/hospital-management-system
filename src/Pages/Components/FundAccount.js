@@ -33,7 +33,10 @@ class FundAccount extends React.Component {
       transactionReference,
       initiatorId: user.id,
     };
-   const nextRoute= user.userType === "Admin" ? "/AdminManageAccounts" : "/AccountantManageAccounts";
+    const nextRoute =
+      user.userType === "Admin"
+        ? "/AdminManageAccounts"
+        : "/AccountantManageAccounts";
 
     try {
       const fundAccounts = postAdminFundAccountsUrl();
@@ -43,14 +46,13 @@ class FundAccount extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(fundAccountsConfig);
-      notification.success({ message: res.data.message})
-      this.props.history.push(nextRoute)
+      notification.success({ message: res.data.message });
+      this.props.history.push(nextRoute);
     } catch (error) {
       console.log(error);
-      notification.error({ message: error?.response?.data.message })
+      notification.error({ message: error?.response?.data.message });
     }
   };
-
 
   render() {
     const { amount, email } = this.state;
@@ -147,6 +149,7 @@ class FundAccount extends React.Component {
                         <PayCash
                           paidSuccessfully={this.fundAccount}
                           setPaymentParams={this.setPaymentParams}
+                          amount={amount}
                         />
                       </div>
                       <div
@@ -158,6 +161,7 @@ class FundAccount extends React.Component {
                         <Others
                           paidSuccessfully={this.fundAccount}
                           setPaymentParams={this.setPaymentParams}
+                          amount={amount}
                         />
                       </div>
                     </div>

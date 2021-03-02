@@ -24,6 +24,7 @@ class Consultations extends React.Component {
       pendingAppointments: [],
       pendingAppointmentsCount: 0,
       completedConsultations: [],
+      completedConsultationsCount: [],
       rejectedAppointmentsCount: 0,
     };
   }
@@ -71,6 +72,7 @@ class Consultations extends React.Component {
         acceptedAppointments: acceptedAppointments,
         acceptedAppointmentsCount: acceptedAppointments.length,
         completedConsultations: completedConsultations,
+        completedConsultationsCount: completedConsultations.length,
         completedAppointmentsCount: completedConsultations.length,
         pendingAppointments: pendingAppointments,
         pendingAppointmentsCount: pendingAppointments.length,
@@ -94,11 +96,10 @@ class Consultations extends React.Component {
 
   render() {
     const {
-      acceptedAppointmentsCount,
       pendingAppointments,
       pendingAppointmentsCount,
       completedConsultations,
-      rejectedAppointmentsCount,
+      completedConsultationsCount
     } = this.state;
 
     return (
@@ -112,8 +113,7 @@ class Consultations extends React.Component {
           <div className="main-content-wrap">
             <ConsultationSummary
               pendingAppointmentsCount={pendingAppointmentsCount}
-              acceptedAppointmentsCount={acceptedAppointmentsCount}
-              rejectedAppointmentsCount={rejectedAppointmentsCount}
+              completedConsultationsCount={completedConsultationsCount}
             />
 
             <header className="page-header">
