@@ -19,7 +19,7 @@ class ViewClarkingHistory extends React.Component {
           <div className="main-content-wrap">
             <div className="page-content">
               <header>
-                <h4 className="text-center">Patient’s clarking history</h4>
+                <h4 className="text-center">Patient’s clerking history</h4>
               </header>
               <div className="card border-light w-75 m-auto">
                 <ClarkingHistory patientDetails={{ id, firstName, lastName }} />

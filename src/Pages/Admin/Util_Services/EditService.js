@@ -6,7 +6,6 @@ import { getAllServicesCategoryUrl, updateServiceUrl } from "../../../api/URLs";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
 
-
 class EditService extends Component {
   static contextType = UserContext;
   state = {
@@ -34,10 +33,13 @@ class EditService extends Component {
 
   fetchServiceCategories = async () => {
     try {
-      const getAllServicesCategory = getAllServicesCategoryUrl()
-      const getAllServicesCategoryConfig = fetchConfig({url : getAllServicesCategory, method : 'get'})
-      const {data} = await fetchWrapper(getAllServicesCategoryConfig)
-      this.setState({ categories: data });
+      const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
+      const getAllServicesCategoryConfig = fetchConfig({
+        url: getAllServicesCategory,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getAllServicesCategoryConfig);
+      this.setState({ categories: data.serviceCategories });
     } catch (error) {
       console.log(error);
     }
@@ -51,21 +53,28 @@ class EditService extends Component {
       cost: Number(this.state.cost),
       id: this.props.location.state?.id,
     };
-    const { user: { userType }} = this.context
-    const nextRoute= userType === "Admin" ? "/AdminManageServices" : "/LabManageServices";
-      try {
-        const updateService = updateServiceUrl()
-        const updateServiceConfig = fetchConfig({url : updateService, data, method : 'post'})
-        const res = await fetchWrapper(updateServiceConfig)
+    const {
+      user: { userType },
+    } = this.context;
+    const nextRoute =
+      userType === "Admin" ? "/AdminManageServices" : "/LabManageServices";
+    try {
+      const updateService = updateServiceUrl();
+      const updateServiceConfig = fetchConfig({
+        url: updateService,
+        data,
+        method: "post",
+      });
+      const res = await fetchWrapper(updateServiceConfig);
 
-        if (res.status === 200) {
-          notification.success({ message: res.data.message})
-          this.props.history.push(nextRoute);
-        }
-      } catch (error) {
-        console.log(error);
-        notification.error({ message: error?.response?.data.message })
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        this.props.history.push(nextRoute);
       }
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data.message });
+    }
   };
 
   render() {

@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
-const Others = ({
-  paidSuccessfully,
-  setPaymentParams,
-}) => {
+const Others = ({ paidSuccessfully, setPaymentParams, amount }) => {
   const [userDetails, setUserDetails] = useState({
     modeOfPayment: "",
     transactionRefrence: "",
   });
 
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const { modeOfPayment, transactionRefrence } = userDetails;
+    if (
+      isNotEmptyString(modeOfPayment) &&
+      isNotEmptyString(transactionRefrence) &&
+      isNotEmptyString(amount)
+    ) {
+      setEmptyField(false);
+    }
+  }, [userDetails, amount]);
   const handleChange = (e) => {
     setPaymentParams(e.target.name, e.target.value);
   };
@@ -103,7 +112,11 @@ const Others = ({
                     <div className="row">
                       <div className="col"></div>
                       <div className="col text-right">
-                        <button type="submit" className="btn btn-primary">
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={emptyField ? true : false}
+                        >
                           Pay now
                         </button>
                       </div>

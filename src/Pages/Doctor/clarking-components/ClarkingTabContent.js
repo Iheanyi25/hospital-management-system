@@ -126,7 +126,7 @@ const ClarkingTabContent = ({
                                 )
                               }
                             >
-                              Record Social History
+                              Add Social History
                             </button>
                           </div>
                         </div>
@@ -441,7 +441,7 @@ const ClarkingTabContent = ({
                 aria-controls="pills-prescription"
                 aria-selected="false"
               >
-                Prescriptions
+                Prescription
               </a>
             </li>
           </ul>
@@ -457,7 +457,7 @@ const ClarkingTabContent = ({
                   <div className="card border-light">
                     <div className="card-body">
                       <form className="mb-4">
-                        <h4>Presenting Complains</h4>
+                        <h4>Presenting Complaints</h4>
 
                         <div className="form-group">
                           <textarea
@@ -874,7 +874,7 @@ const ClarkingTabContent = ({
                 aria-controls="pills-clarking-history"
                 aria-selected="false"
               >
-                Clerking History
+                Clarking History
               </a>
             </li>
             <li className="nav-item">
