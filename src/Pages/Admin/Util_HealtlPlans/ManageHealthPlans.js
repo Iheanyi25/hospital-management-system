@@ -112,7 +112,7 @@ const HealthPlanTableAction = ({ healthPlan, disableHealthPlan }) => {
   return (
     <ActionButton>
       <Link
-        title="Pre-consultation"
+        title="Edit healthplan"
         to={{
           pathname: "/AdminEditHealthPlan/" + healthPlan.id,
           state: healthPlan,
@@ -123,7 +123,7 @@ const HealthPlanTableAction = ({ healthPlan, disableHealthPlan }) => {
         Edit
       </Link>
       <Link
-        title="Pre-consultation"
+        title="Disable healthplan"
         to="#"
         className="btn btn-sm btn-block text-danger"
         onClick={() => disableHealthPlan(healthPlan.id)}
