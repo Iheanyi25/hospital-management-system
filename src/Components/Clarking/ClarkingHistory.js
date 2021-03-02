@@ -109,7 +109,7 @@ class ClarkingHistory extends React.Component {
                           }`}</u>
                         </h5>
                         <p className="mb-2">
-                          {`Clerked patient on ${
+                          {`Clarked patient on ${
                             formatDate(clerkingHistory?.dateOfClerking) ?? ""
                           }`}
                         </p>
@@ -160,7 +160,7 @@ class ClarkingHistory extends React.Component {
                       data-toggle="collapse"
                       data-target="#collapseClarking"
                     >
-                      Clerking
+                      Clarking
                     </button>
                     <div id="collapseClarking" className="collapse">
                       <div className="row mx-0">
@@ -209,7 +209,7 @@ class ClarkingHistory extends React.Component {
                           </p>
                         </div>
                         <div className="col col-md-6">
-                          <h5>Priscriptions</h5>
+                          <h5>Prescription</h5>
                           <p>{clerkingHistory?.prescription ?? "N/A"}</p>
                         </div>
                       </div>

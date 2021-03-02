@@ -108,23 +108,6 @@ class Dashboard extends React.Component {
             <div className="page-content">
               <div className="row">
                 <div className="col col-12 col-md-6 col-xl-3">
-                  <div className="card animated fadeInUp delay-01s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-5">
-                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
-                        </div>
-                        <div className="col col-7">
-                          <h6 className="mt-0 mb-1">Completed Appointments</h6>
-                          <div className="count text-primary fs-20">
-                            {completedAppointment}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-12 col-md-6 col-xl-3">
                   <div className="card animated fadeInUp delay-02s bg-light">
                     <div className="card-body">
                       <div className="row align-items-center">
@@ -135,23 +118,6 @@ class Dashboard extends React.Component {
                           <h6 className="mt-0 mb-1">Pending Appointments</h6>
                           <div className="count text-primary fs-20">
                             {pendingAppointment}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-12 col-md-6 col-xl-3">
-                  <div className="card animated fadeInUp delay-03s bg-light">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col col-5">
-                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
-                        </div>
-                        <div className="col col-7">
-                          <h6 className="mt-0 mb-1">Completed Consultations</h6>
-                          <div className="count text-primary fs-20">
-                            {completedConsultation}
                           </div>
                         </div>
                       </div>
@@ -171,6 +137,40 @@ class Dashboard extends React.Component {
                           </h6>
                           <div className="count text-primary fs-20">
                             {pendingConsultation}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col-12 col-md-6 col-xl-3">
+                  <div className="card animated fadeInUp delay-01s bg-light">
+                    <div className="card-body">
+                      <div className="row align-items-center">
+                        <div className="col col-5">
+                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
+                        </div>
+                        <div className="col col-7">
+                          <h6 className="mt-0 mb-1">Completed Appointments</h6>
+                          <div className="count text-primary fs-20">
+                            {completedAppointment}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col-12 col-md-6 col-xl-3">
+                  <div className="card animated fadeInUp delay-03s bg-light">
+                    <div className="card-body">
+                      <div className="row align-items-center">
+                        <div className="col col-5">
+                          <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
+                        </div>
+                        <div className="col col-7">
+                          <h6 className="mt-0 mb-1">Completed Consultations</h6>
+                          <div className="count text-primary fs-20">
+                            {completedConsultation}
                           </div>
                         </div>
                       </div>
