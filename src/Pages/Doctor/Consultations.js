@@ -96,11 +96,9 @@ class Consultations extends React.Component {
 
   render() {
     const {
-      acceptedAppointmentsCount,
       pendingAppointments,
       pendingAppointmentsCount,
       completedConsultations,
-      rejectedAppointmentsCount,
       completedConsultationsCount
     } = this.state;
 
