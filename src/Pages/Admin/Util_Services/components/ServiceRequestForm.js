@@ -5,6 +5,7 @@ import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../api/fetcher";
 import { postServiceRequestUrl } from "../../../../api/URLs";
 import { UserContext } from "../../../../mobx/UserState";
+import { notification } from "../../../../utils/notification";
 import { isNotEmptyString } from "../../../../utils/validationUtils";
 
 const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
@@ -57,11 +58,7 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
       try {
         const resServiceRequestUpdate = await fetchWrapper(postServiceRequest);
         if (resServiceRequestUpdate.status === 200) {
-          setNotification({
-            show: true,
-            message: resServiceRequestUpdate.data.message,
-            isError: false,
-          });
+          notification.success({ message: resServiceRequestUpdate.data.message });
           history.push({
             pathname:
               userType === "Admin"
@@ -69,20 +66,33 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
                 : `/LabViewLabResults/${serviceRequest.id}`,
             state: resServiceRequestUpdate.data.serviceRequestResult.id,
           });
-        } else {
-          setNotification({
-            show: true,
-            message: resServiceRequestUpdate.data.message,
-            isError: true,
-          });
+        //   setNotification({
+        //     show: true,
+        //     message: resServiceRequestUpdate.data.message,
+        //     isError: false,
+        //   });
+        //   history.push({
+        //     pathname:
+        //       userType === "Admin"
+        //         ? `/AdminViewLabResults/${serviceRequest.id}`
+        //         : `/LabViewLabResults/${serviceRequest.id}`,
+        //     state: resServiceRequestUpdate.data.serviceRequestResult.id,
+        //   });
+        // } else {
+        //   setNotification({
+        //     show: true,
+        //     message: resServiceRequestUpdate.data.message,
+        //     isError: true,
+        //   });
         }
       } catch (error) {
         console.log(error);
-        setNotification({
-          show: true,
-          message: "a fatal error occured",
-          isError: true,
-        });
+        notification.error({ message: error?.response?.data?.message });
+        // setNotification({
+        //   show: true,
+        //   message: "a fatal error occured",
+        //   isError: true,
+        // });
       }
       setLoading(false);
     }
