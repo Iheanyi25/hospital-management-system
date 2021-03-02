@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
   }
 
   async fetchServiceRequestInvoices() {
-    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl();
+    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(1, 200);
     const getAllServiceRequestInvoiceConfig = fetchConfig({
       url: getAllServiceRequestInvoice,
       method: "get",
@@ -195,9 +195,9 @@ class Dashboard extends React.Component {
                             <thead>
                               <tr>
                                 <th>#</th>
-                                <th>Patient Name</th>
-                                <th>No of Services</th>
-                                <th>Invoice No</th>
+                                <th>Patient's Name</th>
+                                <th>No. of Services</th>
+                                <th>Invoice No.</th>
                                 <th>Date Generated</th>
                                 <th>Total Cost</th>
                                 <th>Status</th>

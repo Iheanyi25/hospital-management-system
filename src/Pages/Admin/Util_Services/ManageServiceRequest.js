@@ -41,7 +41,7 @@ const ManageServiceRequest = observer(() => {
         "#": ++index,
         "Patient's Name": serviceInvoice?.fullname,
         "No. of Services": serviceInvoice?.noofServices,
-        "Invoice No": serviceInvoice?.invoiceNumber,
+        "Invoice No.": serviceInvoice?.invoiceNumber,
         "Date Generated": formatDate(serviceInvoice?.dateGenerated),
         "Total Cost": formatAmount(serviceInvoice?.cost),
         Status: (
@@ -91,7 +91,7 @@ const ManageServiceRequest = observer(() => {
           <div className="page-content">
             <TableSize
               size={data ? data.serviceInvoices.length : 0}
-              heading="No. of Services Requests"
+              heading="No. of Service Requests"
             />
           </div>
           <div className="page-content">
