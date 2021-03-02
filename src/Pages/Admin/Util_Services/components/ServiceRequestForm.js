@@ -1,10 +1,11 @@
 import { observer } from "mobx-react";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../api/fetcher";
 import { postServiceRequestUrl } from "../../../../api/URLs";
 import { UserContext } from "../../../../mobx/UserState";
+import { isNotEmptyString } from "../../../../utils/validationUtils";
 
 const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
   const {
@@ -18,6 +19,13 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
     additionalComments: "",
   });
   const [loading, setLoading] = useState(false);
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const { result, additionalComments } = state;
+    if (isNotEmptyString(result) && isNotEmptyString(additionalComments)) {
+      setEmptyField(false);
+    }
+  }, [state]);
   const handleChange = (name, e) => {
     e.persist();
     setState((state) => ({ ...state, [name]: e.target.value }));
@@ -142,9 +150,9 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
           <button
             type="submit"
             className="btn btn-primary d-flex ml-auto"
-            disabled={loading}
+            disabled={emptyField || loading ? true : false}
           >
-            {loading ? "saving..." : "Save Result"}
+            {loading ? "Saving..." : "Save Result"}
           </button>
         </div>
       </div>
