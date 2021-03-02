@@ -65,7 +65,7 @@ export const AttendedPatientsTableActions = ({consultation}) => {
 export const SharedTableAction = ({ consultation }) => {
   const commonTableFunctionsObj = [
     {
-      text: "Go For Clarking",
+      text: "Go For Clerking",
       path: `/DoctorClarking`,
       iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
       state: {
