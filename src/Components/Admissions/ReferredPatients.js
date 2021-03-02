@@ -24,6 +24,7 @@ const ReferredPatients = () => {
   const { data, error } = useRequest(getAdmissionsWithoutBedConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data);
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
