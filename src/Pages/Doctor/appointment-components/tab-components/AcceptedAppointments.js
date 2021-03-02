@@ -41,7 +41,7 @@ const AcceptedAppointmentsTableAction = ({ acceptedAppointment }) => {
   return (
     <ActionButton>
       <Link
-        title="Go for clarking"
+        title="Go for clerking"
         to={{
           pathname: "/DoctorClarking",
           state: {
@@ -53,7 +53,7 @@ const AcceptedAppointmentsTableAction = ({ acceptedAppointment }) => {
         className="btn btn-sm btn-block"
       >
         <span className="mr-3 btn-icon icofont-user" />
-        Go for Clarking
+        Go for Clerking
       </Link>
       <Link
         title="Clarking History"

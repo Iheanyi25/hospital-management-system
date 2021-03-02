@@ -33,7 +33,7 @@ export const PendingAppointmentTableAction = ({
     <ActionButton>
       <SharedTableAction patient={appointment.patient} />
       <Link
-        title="Go for clarking"
+        title="Go for clerking"
         to={{
           pathname: "/DoctorClarking",
           state: {
@@ -45,7 +45,7 @@ export const PendingAppointmentTableAction = ({
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-user" />
-        Go for Clarking
+        Go for Clerking
       </Link>
       <SharedTableActionTwo
         appointment={appointment}
