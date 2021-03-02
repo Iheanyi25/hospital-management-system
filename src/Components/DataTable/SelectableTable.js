@@ -24,9 +24,7 @@ const SelectableTable = ({
   setPageNumber,
   pageSize,
   setPageSize,
-  totalIds,
-  selectedValue,
-  setSelectedValue,
+  totalIds
 }) => {
   const [isReady, setIsReady] = useState(false);
 
@@ -49,20 +47,13 @@ const SelectableTable = ({
         style={isReady ? readyStyle : notReadyStyle}
       >
         <table
-          className="table table-striped table-hover"
+          className="table table-striped"
           data-paging="true"
           data-info="true"
           data-searching="true"
           id={`custom_table_${tableID}`}
         >
-          {content.length > 0 && (
-            <TableContent
-              tableContent={content}
-              totalIds={totalIds}
-              selectedValue={selectedValue}
-              setSelectedValue={setSelectedValue}
-            />
-          )}
+          {content.length > 0 && <TableContent tableContent={content} totalIds={totalIds} />}
         </table>
       </div>
       <div className="d-flex mt-6">
@@ -83,24 +74,13 @@ const SelectableTable = ({
 
 export { SelectableTable };
 
-const TableContent = ({
-  tableContent,
-  totalIds,
-  selectedValue,
-  setSelectedValue,
-}) => {
+const TableContent = ({ tableContent, totalIds }) => {
   const headers = Object.keys(tableContent[0]).map((item, index) => (
     <th key={index}>{item}</th>
   ));
   const body = tableContent.map((item, i) => {
     return (
-      <tr
-        key={i}
-        id={totalIds[i]}
-        style={{cursor: 'pointer'}}
-        className={selectedValue === totalIds[i] ? "text-white bg-primary" : ""}
-        onClick={() => setSelectedValue(totalIds[i])}
-      >
+      <tr key={i} id={totalIds[i]}>
         {Object.values(item).map((currentValue, index) => (
           <td key={index}>{currentValue}</td>
         ))}

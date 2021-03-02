@@ -4,7 +4,6 @@ import { fetchWrapper } from "../../../api/fetcher";
 import { getTransactionsForAccountsUrl } from "../../../api/URLs";
 import { Table } from "../../../Components";
 import NoDataState from "../../../Components/EmptyState/NoDataState";
-import usePrevious from "../../../custom-hooks/usePrevious";
 import formatAmount from "../../../utils/formatAmount";
 import { formatInputDate } from "../../../utils/formatInputDate";
 import { isNotEmptyString } from "../../../utils/validationUtils";
@@ -17,41 +16,40 @@ const AllAccountTransactions = () => {
   });
   const [reports, setReports] = useState([]);
   const [emptyField, setEmptyField] = useState(true);
-  const prevDetails = usePrevious(details)
-
-  const { startDate,endDate } = details;
-
   useEffect(() => {
-    // const { startDate, endDate } = details;
+    const { startDate, endDate } = details;
     if (isNotEmptyString(startDate) && isNotEmptyString(endDate)) {
       setEmptyField(false);
     }
-  }, [startDate, endDate ]);
+  }, [details]);
   const handleChange = (e) => {
     setDetails({
       ...details,
       [e.target.name]: e.target.value,
     });
   };
+
   const fetchReport = async (e) => {
     const { startDate, endDate, transactionType } = details;
     e.preventDefault();
-    if(prevDetails !== details){
-      const payload = {
-        startDate: startDate + "T00:00:00.000Z",
-        endDate: endDate + "T23:59:59.000Z",
-        transactionType,
-      };
-      const getTransactionsUrl = getTransactionsForAccountsUrl();
-      const getTransactionsForRegistrationConfig = fetchConfig({
-        url: getTransactionsUrl,
-        method: "post",
-        data: payload,
-      });
-      const { data } = await fetchWrapper(getTransactionsForRegistrationConfig);
-      setReports(data?.transactions);
-    }
+    const payload = {
+      startDate: startDate + "T00:00:00.000Z",
+      endDate: endDate + "T23:59:59.000Z",
+      transactionType,
+    };
+    const getTransactionsUrl = getTransactionsForAccountsUrl();
+    const getTransactionsForRegistrationConfig = fetchConfig({
+      url: getTransactionsUrl,
+      method: "post",
+      data: payload,
+    });
+    const { data } = await fetchWrapper(getTransactionsForRegistrationConfig);
+    setReports(data?.transactions);
+    console.log(data);
+    console.log(details);
   };
+  const { startDate } = details;
+  console.log(reports);
   let dataTable = [];
   if (reports) {
     dataTable = reports?.map((report, index) => {
@@ -170,7 +168,7 @@ const AllAccountTransactions = () => {
                   </div>
                 ) : (
                   <div className="page-content">
-                    <Table content={dataTable}  exportAction />
+                    <Table content={dataTable} exportAction />
                   </div>
                 )}
               </div>

@@ -31,12 +31,9 @@ const ManagePrescriptionInvoice = observer(() => {
     url: invoicesUrl,
     method: "get",
   });
-  const { data, error, mutate } = useRequest(
-    getDAllrugDispencingInvoicesConfig,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  const { data, error } = useRequest(getDAllrugDispencingInvoicesConfig, {
+    revalidateOnFocus: false,
+  });
   const fetchDrugsInAnInvoice = async (invoiceNumber) => {
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
     const getDrugsInAnInvoiceConfig = fetchConfig({
@@ -60,7 +57,7 @@ const ManagePrescriptionInvoice = observer(() => {
       const res = await fetchWrapper(markInvoiceAsDispensedConfig);
 
       notification.success({ message: res.data.message });
-      mutate();
+      this.fetchPrescriptionInvoices();
     } catch (error) {
       console.log(error);
       notification.error({ message: error?.response?.data.message });

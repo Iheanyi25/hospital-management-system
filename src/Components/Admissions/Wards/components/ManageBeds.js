@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Fragment } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import {
   getBedsInAWardUrl,
@@ -17,7 +17,6 @@ import notpaid from "../../../../assets/img/notpaid.svg";
 import { notification } from "../../../../utils/notification";
 
 const ManageBeds = ({ admissionId, wardId }) => {
-  const history = useHistory();
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getBedsInAWard = getBedsInAWardUrl(wardId, pageNumber, pageSize);
@@ -29,7 +28,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
     revalidateOnFocus: false,
   });
 
-  const assignBed = async (bedId) => {
+  const assignBed = (bedId) => {
     const payload = {
       admissionId,
       bedId,
@@ -41,9 +40,9 @@ const ManageBeds = ({ admissionId, wardId }) => {
         method: "post",
         data: payload,
       });
-      const res = await fetchWrapper(assignPatientToBedSpaceConfig);
+      const { res } = fetchWrapper(assignPatientToBedSpaceConfig);
       notification.success({ message: res.data.message });
-      history.push("/AdminManageAdmissions");
+      mutate();
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
     }
@@ -66,10 +65,8 @@ const ManageBeds = ({ admissionId, wardId }) => {
               <img src={notpaid} alt="paid" /> Assigned
             </>
           ),
-          Actions: bed?.isAvailable ? (
+          Actions: (
             <AdmissionsTableAction bedId={bed.id} assignBed={assignBed} />
-          ) : (
-            <>Unavailable</>
           ),
         };
       } else {
@@ -86,7 +83,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
               <img src={notpaid} alt="paid" /> Assigned
             </>
           ),
-          // Actions: <BedsTableAction />,
+          Actions: <BedsTableAction />,
         };
       }
     });
@@ -136,16 +133,16 @@ const ManageBeds = ({ admissionId, wardId }) => {
   );
 };
 
-// const BedsTableAction = () => {
-//   return (
-//     <ActionButton>
-//       <Link to="#" className="btn btn-sm btn-block">
-//         <span className="btn-icon icofont-server mr-2" />
-//         Hello, Nothing
-//       </Link>
-//     </ActionButton>
-//   );
-// };
+const BedsTableAction = () => {
+  return (
+    <ActionButton>
+      <Link to="#" className="btn btn-sm btn-block">
+        <span className="btn-icon icofont-server mr-2" />
+        Hello, Nothing
+      </Link>
+    </ActionButton>
+  );
+};
 const AdmissionsTableAction = ({ bedId, assignBed }) => {
   return (
     <ActionButton>

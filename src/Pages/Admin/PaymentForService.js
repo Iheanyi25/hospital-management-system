@@ -153,7 +153,7 @@ class PaymentForService extends React.Component {
       });
       const res = await fetchWrapper(postPayForServicesConfig);
       notification.success({ message: res.data.message });
-      this.props.history.push(nextRoute);
+      this.history.push(nextRoute);
     } catch (error) {
       notification.error({ message: error?.response?.data?.message });
     }
@@ -187,7 +187,7 @@ class PaymentForService extends React.Component {
       });
       const res = await fetchWrapper(postPayForServicesConfig);
       notification.success({ message: res.data.message });
-      this.props.history.push(nextRoute);
+      this.history.push(nextRoute);
     } catch (error) {
       notification.error({ message: error?.response?.data?.message });
     }

@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   costDrugUrl,
   getAllDrugsUrl,
   getPrescriptionUrl,
-  generateDrugDispenseInvoiceUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import remove from "../../../assets/img/remove.svg";
@@ -16,22 +15,16 @@ import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
-import { PrescriptionList } from "../../Components/DrugPrescription";
-import { notification } from "../../../utils/notification";
-
-const $ = window.$;
+import PatientAndAdminImage from '../../../assets/img/PatientAndAdminIcon.svg';
 
 const DrugPrescription = observer(({ match }) => {
-  const {
-    user: { id: generatedBy, userType },
-  } = useContext(UserContext);
-  const history = useHistory();
+  const { user } = useContext(UserContext);
   const [costingDetails, setcostingDetails] = useState([]);
   const [invoiceDetails, setInvoiceDetails] = useState({});
 
-  const { id: clarkingId } = match.params;
+  const { id } = match.params;
 
-  const prescriptionUrl = getPrescriptionUrl(clarkingId);
+  const prescriptionUrl = getPrescriptionUrl(id);
   const getPrescriptionConfig = fetchConfig({
     url: prescriptionUrl,
     method: "get",
@@ -112,36 +105,6 @@ const DrugPrescription = observer(({ match }) => {
     setcostingDetails(response?.data?.costings);
     console.log(response);
   };
-  
-  const generateInvoice = async () => {
-    const nextRoute =
-      userType === "Admin"
-        ? "/AdminManagePrescriptionInvoice"
-        : "/PharmacyManagePrescriptions";
-
-    const payload = {
-      generatedBy,
-      clarkingId,
-      ...invoiceDetails,
-    };
-    console.log(payload, nextRoute, "7777");
-    const invoiceUrl = generateDrugDispenseInvoiceUrl();
-    const generateDrugDispenseInvoiceConfig = fetchConfig({
-      url: invoiceUrl,
-      method: "post",
-      data: payload,
-    });
-    try {
-      const res = await fetchWrapper(generateDrugDispenseInvoiceConfig);
-      if (res.status === 200) {
-        notification.success({ message: res.data.message });
-        history.push(nextRoute);
-        $("#showInvoice").modal("hide");
-      }
-    } catch (error) {
-      notification.error({ message: error?.response?.data?.message });
-    }
-  };
 
   return (
     <>
@@ -168,17 +131,29 @@ const DrugPrescription = observer(({ match }) => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-12 col-md-4">
-                    <PrescriptionList
-                      fullName={`${prescription?.patient?.firstName ?? ""} ${
-                        prescription?.patient?.lastName ?? ""
-                      }`}
-                      prescription={prescription?.prescription}
-                    />
+                    <div className="card bg-light">
+                      <div className="card-body p-5 m-auto">
+                        <div className="d-flex">
+                          <img
+                            src={PatientAndAdminImage}
+                            style={{
+                              height: "32px",
+                              width: "32px",
+                              borderRadius: "50%",
+                            }}
+                            alt="user"
+                          />
+                          <h6 className="mt-2 ml-2">{`${prescription?.patient?.firstName ?? ""
+                            } ${prescription?.patient?.lastName ?? ""}`}</h6>
+                        </div>
+                        <p className="mb-0">{prescription?.prescription}</p>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-12 col-md-3">
                     <label className={"mb-3"}>Search & select drugs</label>
                     <SelectableDropDown
-                      searchParams={["name", "sku"]}
+                      searchParams={['name', 'sku']}
                       data={data?.drugs ?? []}
                       valueKeys={["name"]}
                       label={"Drug"}
@@ -219,18 +194,18 @@ const DrugPrescription = observer(({ match }) => {
                                   {Number(item?.numberOfUnits) === 1
                                     ? `${item.numberOfUnits} tablet, `
                                     : Number(item?.numberOfUnits) > 1
-                                    ? `${item.numberOfUnits} tablets, `
-                                    : null}
+                                      ? `${item.numberOfUnits} tablets, `
+                                      : null}
                                   {Number(item?.numberOfContainers) === 1
                                     ? `${item.numberOfContainers} pack, `
                                     : Number(item?.numberOfContainers) > 1
-                                    ? `${item.numberOfContainers} packs,  `
-                                    : null}
+                                      ? `${item.numberOfContainers} packs,  `
+                                      : null}
                                   {Number(item?.numberOfCartons) === 1
                                     ? `${item.numberOfCartons} carton `
                                     : Number(item?.numberOfCartons) > 1
-                                    ? `${item.numberOfCartons} cartons `
-                                    : null}
+                                      ? `${item.numberOfCartons} cartons `
+                                      : null}
                                 </td>
                                 <td>
                                   <div className="d-flex align-items-center nowrap">
@@ -247,15 +222,15 @@ const DrugPrescription = observer(({ match }) => {
                               </tr>
                             ))
                           ) : (
-                            <tr>
-                              <td colSpan="4">
-                                <p className="w-50 text-secondary">
-                                  Search and select the drugs prescribed to the
-                                  patient
+                              <tr>
+                                <td colSpan="4">
+                                  <p className="w-50 text-secondary">
+                                    Search and select the drugs prescribed to the
+                                    patient
                                 </p>
-                              </td>
-                            </tr>
-                          )}
+                                </td>
+                              </tr>
+                            )}
                         </tbody>
                       </table>
                     </div>
@@ -279,7 +254,13 @@ const DrugPrescription = observer(({ match }) => {
         costingDetails={costingDetails}
         doctor={prescription?.doctor}
         patient={prescription?.patient}
-        generateInvoice={generateInvoice}
+        invoiceDetails={invoiceDetails}
+        id={id}
+        nextRoute={
+          user.userType === "Admin"
+            ? "/AdminManagePrescriptionInvoice"
+            : "/PharmacyManagePrescriptions"
+        }
       />
     </>
   );

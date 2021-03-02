@@ -46,9 +46,7 @@ const ManageAccounts = () => {
         ),
         Phone: account?.phoneNumber || "Not available",
         "Health Plan": account?.healthPlan?.name,
-        Balance: account?.accountBalance
-          ? formatAmount(account?.accountBalance)
-          : "N/A",
+        Balance: formatAmount(account?.accountBalance) || 0,
         Actions: <AccountTableAction account={account} />,
       };
     });
