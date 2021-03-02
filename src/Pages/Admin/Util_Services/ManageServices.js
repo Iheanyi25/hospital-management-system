@@ -22,7 +22,7 @@ const ManageServices = observer(() => {
     url: getAllServices,
     method: "get",
   });
-  const { data, error } = useRequest(getAllServicesConfig, {
+  const { data, error, mutate } = useRequest(getAllServicesConfig, {
     revalidateOnFocus: false,
   });
 
@@ -38,6 +38,7 @@ const ManageServices = observer(() => {
       const res = await fetchWrapper(deleteServiceConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
+        mutate();
       } else if (res.status === 400) {
         notification.warning({ message: res.data.message });
       }
