@@ -8,6 +8,7 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
+import formatAmount from "../../../utils/formatAmount";
 import { notification } from "../../../utils/notification";
 
 const ManageServices = observer(() => {
@@ -51,7 +52,7 @@ const ManageServices = observer(() => {
       return {
         "#": ++index,
         Services: service?.name,
-        Cost: service?.cost,
+        Cost: formatAmount(service?.cost),
         Actions: (
           <ServicesTableAction
             service={service}
