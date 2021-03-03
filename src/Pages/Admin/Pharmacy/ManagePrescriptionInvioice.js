@@ -255,7 +255,7 @@ const PharmacistActionTable = ({
 }) => {
   return (
     <ActionButton>
-      {drugInvoice?.paymentStatus === "NOT PAID " ? null : (
+      {drugInvoice?.paymentStatus !== "NOT PAID " ? null : (
         <Link
           to="#"
           className="btn btn-sm btn-block"
@@ -267,7 +267,8 @@ const PharmacistActionTable = ({
           View Reciept
         </Link>
       )}
-      {drugInvoice?.isDispensed === false ? (
+      {drugInvoice?.isDispensed === false &&
+      drugInvoice?.paymentStatus !== "NOT PAID" ? (
         <Link
           to="#"
           className="btn btn-sm btn-block"
