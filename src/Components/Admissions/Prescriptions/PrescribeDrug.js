@@ -4,7 +4,7 @@ import {
   costDrugUrl,
   getAllDrugsUrl,
   getPrescriptionForAdmssionUrl,
-  postAdmissionsRequestServiceUrl,
+  postAdmissionsRequestDrugUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import remove from "../../../assets/img/remove.svg";
@@ -22,7 +22,7 @@ import { notification } from "../../../utils/notification";
 const $ = window.$;
 
 const DrugPrescription = observer(({ match }) => {
-  const history = useHistory()
+  const history = useHistory();
   const {
     user: { id: generatedBy, userType },
   } = useContext(UserContext);
@@ -117,7 +117,7 @@ const DrugPrescription = observer(({ match }) => {
     const admissionId = prescription?.prescription?.admissionId;
     const nextRoute =
       userType === "Admin"
-        ? `/AdminManageAdmissionPrescriptionInvoice${admissionId}`
+        ? `/AdminManageAdmissionInvoices${admissionId}`
         : "/PharmacyManagePrescriptions";
 
     const { patientId, ...otherInvoiceDet } = invoiceDetails;
@@ -127,7 +127,7 @@ const DrugPrescription = observer(({ match }) => {
       ...otherInvoiceDet,
     };
     console.log(payload, "7777");
-    const invoiceUrl = postAdmissionsRequestServiceUrl();
+    const invoiceUrl = postAdmissionsRequestDrugUrl();
     const generateDrugDispenseInvoiceConfig = fetchConfig({
       url: invoiceUrl,
       method: "post",
