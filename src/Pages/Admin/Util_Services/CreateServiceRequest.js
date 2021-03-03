@@ -231,11 +231,13 @@ class CreateService extends Component {
     }
   };
   admissionsRequestService = async (serviceId, generatedBy) => {
+    const admissionId = this.props.admissionId;
+    const nextRoute = `/AdminManageAdmissionInvoices/${admissionId}`;
     console.log(serviceId);
     const payload = {
       serviceId,
       generatedBy,
-      admissionId: this.props.admissionId,
+      admissionId,
     };
     console.log(payload);
     const postRequestServices = postAdmissionsRequestServiceUrl();
@@ -244,8 +246,15 @@ class CreateService extends Component {
       data: payload,
       method: "post",
     });
-    const res = await fetchWrapper(postRequestServicesConfig);
-    console.log(res);
+    try {
+      const res = await fetchWrapper(postRequestServicesConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        this.props.history.push(nextRoute);
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
+    }
   };
   render() {
     return (
