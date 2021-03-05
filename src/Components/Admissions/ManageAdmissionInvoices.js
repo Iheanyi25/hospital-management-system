@@ -1,16 +1,18 @@
 import React, { Fragment } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PageLoader } from "..";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import { getAdmissionInvoiceUrl } from "../../api/URLs";
+import formatAmount from "../../utils/formatAmount";
 import TableSize from "../DataTable/TableSize";
 import {
   AdmissionTabContent,
   AdmissionTabHeader,
 } from "./admission-invoices-components";
 
-const ManageAdmissionInvoices = () => {
+const ManageAdmissionInvoices = ({ history }) => {
+  const { state: patientId } = history.location;
   const { id } = useParams();
   const invoicesUrl = getAdmissionInvoiceUrl(id);
   const getAdmissionInvoiceConfig = fetchConfig({
@@ -20,7 +22,6 @@ const ManageAdmissionInvoices = () => {
   const { data, error } = useRequest(getAdmissionInvoiceConfig, {
     revalidateOnFocus: false,
   });
-  console.log(data);
   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
@@ -32,8 +33,30 @@ const ManageAdmissionInvoices = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Admission Invoices</h4>
+            <Link
+              className="btn btn-primary"
+              to={{
+                pathname: `/AdminPaymentForAdmissionInvoices/${id}`,
+                state: {
+                  patientId,
+                  amount: data?.admissionInvoice.amount - data?.admissionInvoice.amountPaid,
+                },
+              }}
+            >
+              Pay now
+            </Link>
           </header>
           <div className="page-content">
+            <div className="row">
+              <TableSize
+                size={formatAmount(data?.admissionInvoice.amount ?? "0")}
+                heading="Total Amount"
+              />
+              <TableSize
+                size={formatAmount(data?.admissionInvoice.amountPaid ?? "0")}
+                heading="Amount Paid"
+              />
+            </div>
             <div className="row">
               <TableSize size="23" heading="No. of Prescription Invoices" />
               <TableSize size="20" heading="No. of Service Request Invoices" />
