@@ -56,7 +56,12 @@ const ManageAdmissions = observer(() => {
                 <img src={paid} alt="paid" /> Admitted
               </>
             ),
-          Actions: <AdminActionTable admissionId={admission.id} />,
+          Actions: (
+            <AdminActionTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
+          ),
         };
       } else if (userType === "Pharmacy") {
         return {
@@ -155,7 +160,7 @@ const ManageAdmissions = observer(() => {
 });
 
 // Everything goes in here at first
-const AdminActionTable = ({ admissionId }) => {
+const AdminActionTable = ({ admissionId, patientId }) => {
   return (
     <ActionButton>
       <Link
@@ -173,7 +178,10 @@ const AdminActionTable = ({ admissionId }) => {
         Request a service
       </Link>
       <Link
-        to={`/AdminManageAdmissionInvoices/${admissionId}`}
+        to={{
+          pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
+          state: patientId,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />

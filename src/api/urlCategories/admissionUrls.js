@@ -14,11 +14,14 @@ export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
 // Admission - Manage Admission Invoices
 export const getAdmissionInvoiceUrl = (admssionId) =>
   `/Admission/GetAdmissionInvoice?AdmissionId=${admssionId}`;
+export const postPayForAdmissionUrl = () => `/Admission/PayForAdmission`;
+export const postPayForAdmissionWithAccountUrl = () =>
+  `/Admission/PayForAdmissionWithAccount`;
 
 // Admission - Manage Admission Service Requests
 export const postAdmissionsRequestServiceUrl = () =>
   `/Admission/RequestServices`;
-  export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
+export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
   `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}`;
 
 // Admission - Manage Wards
