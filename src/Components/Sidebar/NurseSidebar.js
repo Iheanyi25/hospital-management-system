@@ -63,7 +63,7 @@ const NurseSidebar = () => {
                       </Link>
                     </li>
                     <li className="menu-item">
-                      <Link to="/AdminAppointments" className="item-link">
+                      <Link to="/NurseAppointments" className="item-link">
                         <span className="link-text">Manage Appointments</span>
                       </Link>
                     </li>

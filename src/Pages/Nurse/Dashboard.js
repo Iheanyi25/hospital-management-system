@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { observer } from "mobx-react";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
 
-const Dashboard = () => {
+const Dashboard = observer(() => {
+  const {
+    user: { firstName, lastName },
+  } = useContext(UserContext);
   return (
     <>
       <PageLoader />
@@ -62,7 +67,7 @@ const Dashboard = () => {
               <div className="col-12 col-md-6">
                 <div className="card bg-light">
                   <div className="card-header">
-                    Hello {`${"Lady"} ${"Nurse"}`}
+                    Hello {`${firstName} ${lastName}`}
                   </div>
                   <div className="card-body">You have no new notifications</div>
                 </div>
@@ -82,6 +87,6 @@ const Dashboard = () => {
       </main>
     </>
   );
-};
+});
 
 export default Dashboard;
