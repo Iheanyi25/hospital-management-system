@@ -6,6 +6,8 @@ import BookConsultation from "../Pages/Admin/BookConsultation";
 import Consultations from "../Pages/Admin/Consultations";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
 import PreConsultation from "../Pages/Admin/PreConsultation";
+import BookAppointment from "../Pages/Admin/BookAppointment";
+import Appointments from "../Pages/Admin/Appointments";
 
 export default function NurseRoutes() {
   return (
@@ -24,6 +26,16 @@ export default function NurseRoutes() {
             exact
             path="/NursePreConsultation/:id"
             component={PreConsultation}
+          />
+          <Route
+            exact
+            path="/NurseBookAppointment"
+            component={BookAppointment}
+          />
+          <Route
+            exact
+            path="/NurseAppointments"
+            component={Appointments}
           />
           <Route
             exact

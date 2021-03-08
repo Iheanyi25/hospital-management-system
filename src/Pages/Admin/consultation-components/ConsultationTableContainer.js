@@ -21,18 +21,18 @@ export default function ConsultationTableContainer({
     tableData = consultations.map((consultation, index) => {
       return {
         "#": ++index,
-        Title: consultation?.consultationTitle,
-        "Reason for consultation": consultation?.reasonForConsultation,
+        Patient: `${consultation.patient?.lastName} ${consultation.patient?.firstName}`,
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        Patient: `${consultation.patient?.lastName} ${consultation.patient?.firstName}`,
-        "Consultation Date": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleDateString(),
         "Consultation Time": new Date(
           consultation?.dateOfConsultation
         ).toLocaleTimeString(),
+        "Consultation Date": new Date(
+          consultation?.dateOfConsultation
+        ).toLocaleDateString(),
+        Title: consultation?.consultationTitle,
+        "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
           <ConsultationTableActionsContainer
             consultation={consultation}

@@ -92,7 +92,7 @@ export const SharedTableAction = observer(({ consultation }) => {
       iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
     },
     {
-      text: "Clarking History",
+      text: "Clerking History",
       path: `/ViewClarkingHistory`,
       iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
       state: consultation.patient,
