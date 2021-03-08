@@ -1,11 +1,10 @@
-import React from "react";
+import { observer } from "mobx-react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ActionButton from "../../../Components/DataTable/ActionButton";
+import { UserContext } from "../../../mobx/UserState";
 
-export  const OpenListTableActions = ({
-  consultation,
-  deleteConsultation,
-})=> {
+export const OpenListTableActions = ({ consultation, deleteConsultation }) => {
   return (
     <ActionButton>
       <SharedTableAction consultation={consultation} />
@@ -15,7 +14,7 @@ export  const OpenListTableActions = ({
       />
     </ActionButton>
   );
-}
+};
 
 export const AttachToDoctorsTableActions = ({
   consultation,
@@ -32,37 +31,47 @@ export const AttachToDoctorsTableActions = ({
   );
 };
 
+export const AttendedPatientsTableActions = observer(({ consultation }) => {
+  // const {
+  //   user: { userType },
+  // } = useContext(UserContext);
+  return (
+    <ActionButton>
+      {/* <Link
+        title="Pre-consultation"
+        to={
+          userType === "Nurse"
+            ? `/NursePreConsultation/${consultation.patient.id}`
+            : `/AdminPreConsultation/${consultation.patient.id}`
+        }
+        className="btn btn-sm btn-block"
+      >
+        <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+        Pre-consultation
+      </Link> */}
+      <Link
+        title="Clarking History"
+        to={{
+          pathname: "/ViewClarkingHistory",
+          state: {
+            id: consultation.patient.id,
+            firstName: consultation.patient.firstName,
+            lastName: consultation.patient.lastName,
+          },
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+        Clarking History
+      </Link>
+    </ActionButton>
+  );
+});
 
-export const AttendedPatientsTableActions = ({consultation}) => {
-    return (
-        <div className="actions">
-          <Link
-            title="Pre-consultation"
-            to={`/AdminPreConsultation/${consultation.id}`}
-            className="btn btn-primary btn-sm btn-square rounded-pill"
-          >
-            <span className="btn-icon icofont-stethoscope-alt" />
-          </Link>
-          <Link
-            title="Clarking History"
-            to={{
-              pathname: "/ViewClarkingHistory",
-              state: {
-                id: consultation.patient.id,
-                firstName: consultation.patient.firstName,
-                lastName: consultation.patient.lastName,
-              },
-            }}
-            className="btn btn-sm btn-block"
-          >
-            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-            Clarking History
-          </Link>
-        </div>
-      );
-};
-
-export const SharedTableAction = ({ consultation }) => {
+export const SharedTableAction = observer(({ consultation }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const commonTableFunctionsObj = [
     {
       text: "Go For Clerking",
@@ -75,36 +84,43 @@ export const SharedTableAction = ({ consultation }) => {
       },
     },
     {
+      text: "Go For Pre-consultation",
+      path:
+        userType === "Nurse"
+          ? `/NursePreConsultation/${consultation.patient.id}`
+          : `/AdminPreConsultation/${consultation.patient.id}`,
+      iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
+    },
+    {
       text: "Clarking History",
       path: `/ViewClarkingHistory`,
       iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
-      state: consultation.patient
+      state: consultation.patient,
     },
   ];
 
   return (
     <div>
-      {commonTableFunctionsObj.map(({ path, text, iconClass, state }) => (
-        <Link
-          to={{
-            pathname: path,
-            state
-          }}
-          key={path}
-          className="btn btn-sm btn-block"
-        >
-          <span className={iconClass} />
-          {text}
-        </Link>
-      ))}
+      {commonTableFunctionsObj.map(({ path, text, iconClass, state }) => {
+        return userType === "Nurse" && path === "/DoctorClarking" ? null : (
+          <Link
+            to={{
+              pathname: path,
+              state,
+            }}
+            key={path}
+            className="btn btn-sm btn-block"
+          >
+            <span className={iconClass} />
+            {text}
+          </Link>
+        );
+      })}
     </div>
   );
-};
+});
 
-const SharedTableActionTwo = ({
-  consultation,
-  deleteConsultation,
-}) => {
+const SharedTableActionTwo = ({ consultation, deleteConsultation }) => {
   return (
     <div>
       <button

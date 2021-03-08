@@ -31,6 +31,25 @@ const NurseSidebar = () => {
                     <span className="link-text">Dashboard</span>{" "}
                   </Link>
                 </li>
+                <li className="menu-item has-sub">
+                  <div className="item-link cursor">
+                    <span className="link-icon icofont-contact-add" />{" "}
+                    <span className="link-text">Consultations</span>{" "}
+                    <span className="link-caret icofont-thin-right" />
+                  </div>
+                  <ul className="sub">
+                    <li className="menu-item">
+                      <Link to="/NurseBookConsultation" className="item-link">
+                        <span className="link-text">Book Consultation</span>
+                      </Link>
+                    </li>
+                    <li className="menu-item">
+                      <Link to="/NurseConsultations" className="item-link">
+                        <span className="link-text">Manage Consultations</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
 
                 <li className="menu-item">
                   <span className="group-title">Profile Settings</span>

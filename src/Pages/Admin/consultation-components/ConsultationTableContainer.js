@@ -16,7 +16,6 @@ export default function ConsultationTableContainer({
   category,
   mutate,
 }) {
-
   let tableData = [];
   if (consultations) {
     tableData = consultations.map((consultation, index) => {
@@ -62,19 +61,19 @@ const ConsultationTableActionsContainer = ({
   mutate,
 }) => {
   const deleteConsultation = async (id) => {
-      try {
-        const deleteConsultation = deleteConsultationUrl();
-        const deleteConsultationConfig = fetchConfig({
-          url: deleteConsultation,
-          data: JSON.stringify({ consultationId: id }),
-          method: "post",
-        });
-        const res = await fetchWrapper(deleteConsultationConfig);
-        await mutate();
-        notification.success({ message: res.data.message });
-      } catch (error) {
-        notification.error({ message:  error?.response?.data?.message });
-      }
+    try {
+      const deleteConsultation = deleteConsultationUrl();
+      const deleteConsultationConfig = fetchConfig({
+        url: deleteConsultation,
+        data: JSON.stringify({ consultationId: id }),
+        method: "post",
+      });
+      const res = await fetchWrapper(deleteConsultationConfig);
+      await mutate();
+      notification.success({ message: res.data.message });
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
+    }
   };
 
   const categories = {
@@ -84,9 +83,11 @@ const ConsultationTableActionsContainer = ({
         deleteConsultation={deleteConsultation}
       />
     ),
-    attendedPatients: <AttendedPatientsTableActions consultation={consultation} />,
+    attendedPatients: (
+      <AttendedPatientsTableActions consultation={consultation} />
+    ),
     attachedToDoctors: (
-      <  AttachToDoctorsTableActions
+      <AttachToDoctorsTableActions
         consultation={consultation}
         deleteConsultation={deleteConsultation}
       />
@@ -98,7 +99,7 @@ const ConsultationTableActionsContainer = ({
       {categories[category] || "No action"}
       {categories[category] !== "completed" && (
         <ReAssign
-         idType="consultationId"
+          idType="consultationId"
           route={"ReassignAppointment"}
           reRun={mutate}
           id={consultation.id}
