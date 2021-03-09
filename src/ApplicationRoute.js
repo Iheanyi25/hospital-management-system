@@ -32,8 +32,6 @@ const AppRouter = observer(() => {
           : rootPath === "common"
           ? rootPath
           : userType.toLowerCase();
-      console.log(tempUserRoute, "check root path");
-
       switch (tempUserRoute) {
         case "common":
           return <CommonRoute who={userType} />;
