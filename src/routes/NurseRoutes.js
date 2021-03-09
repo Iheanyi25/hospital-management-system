@@ -8,6 +8,7 @@ import ClarkingHist from "../Pages/Components/ClarkingHistory";
 import PreConsultation from "../Pages/Admin/PreConsultation";
 import BookAppointment from "../Pages/Admin/BookAppointment";
 import Appointments from "../Pages/Admin/Appointments";
+import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 
 export default function NurseRoutes() {
   return (
@@ -36,6 +37,11 @@ export default function NurseRoutes() {
             exact
             path="/NurseAppointments"
             component={Appointments}
+          />
+          <Route
+            exact
+            path="/NurseManageAdmissions"
+            component={ManageAdmissions}
           />
           <Route
             exact

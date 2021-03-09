@@ -69,7 +69,15 @@ const NurseSidebar = () => {
                     </li>
                   </ul>
                 </li>
-
+                <li className="menu-item">
+                  <span className="group-title">ADDMISSION</span>
+                </li>
+                <li className="menu-item">
+                  <Link className="item-link" to="/NurseManageAdmissions">
+                    <span className="link-icon icofont-users" />{" "}
+                    <span className="link-text">Manage Admissions</span>
+                  </Link>
+                </li>
                 <li className="menu-item">
                   <span className="group-title">Profile Settings</span>
                 </li>
