@@ -15,6 +15,14 @@ import ManagePrescriptionInvoice from "../Pages/Admin/Pharmacy/ManagePrescriptio
 import PaymentForPrescription from "../Pages/Admin/Pharmacy/PaymentForPrescription";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
+//reports
+import AllTransactions from "../Pages/Admin/Reports/AllTransactions";
+import RegistrationReport from "../Pages/Admin/Reports/RegistrationReport";
+import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
+import DrugReport from "../Pages/Admin/Reports/DrugReport";
+import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
+import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
+
 export default function AccountantRoutes() {
   return (
     <BrowserRouter basename="accountant">
@@ -79,6 +87,32 @@ export default function AccountantRoutes() {
             exact
             path="/AccountPaymentForPrescription/:id"
             component={PaymentForPrescription}
+          />
+          <Route
+            exact
+            path="/AccountantAllTransactions"
+            component={AllTransactions}
+          />
+          <Route exact path="/AccountantDrugReport" component={DrugReport} />
+          <Route
+            exact
+            path="/AccountantServiceRequestReport"
+            component={ServiceRequestReport}
+          />
+          <Route
+            exact
+            path="/AccountantRegistrationReport"
+            component={RegistrationReport}
+          />
+          <Route
+            exact
+            path="/AccountantExpiredDrugsReport"
+            component={ExpiredDrugsReport}
+          />
+          <Route
+            exact
+            path="/AccountantAllAccountTransactions"
+            component={AllAccountTransactions}
           />
 
           <Route

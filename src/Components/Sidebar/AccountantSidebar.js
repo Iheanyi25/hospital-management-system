@@ -69,6 +69,73 @@ class AccountantSidebar extends React.Component {
                     </Link>
                   </li>
                   <li className="menu-item">
+                    <span className="group-title">REPORTS</span>
+                  </li>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-hospital" />{" "}
+                      <span className="link-text">Service reports</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link className="item-link" to="/AccountantAllTransactions">
+                          <span className="link-text">All Transactions</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link className="item-link" to="/AccountantDrugReport">
+                          <span className="link-text">Drug Report</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link
+                          className="item-link"
+                          to="/AccountantServiceRequestReport"
+                        >
+                          <span className="link-text">
+                            Service Request Report
+                          </span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link
+                          className="item-link"
+                          to="/AccountantRegistrationReport"
+                        >
+                          <span className="link-text">Registration Report</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link
+                          className="item-link"
+                          to="/AccountantExpiredDrugsReport"
+                        >
+                          <span className="link-text">
+                            Expired drugs report
+                          </span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-hospital" />{" "}
+                      <span className="link-text">Account reports</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link
+                          className="item-link"
+                          to="/AccountantAllAccountTransactions"
+                        >
+                          <span className="link-text">All Transactions</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li className="menu-item">
                     <span className="group-title">PROFILE</span>
                   </li>
                   <li className="menu-item">
