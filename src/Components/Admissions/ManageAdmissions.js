@@ -39,7 +39,7 @@ const ManageAdmissions = observer(() => {
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
-      if (userType === "Admin") {
+      if (userType === "Nurse") {
         return {
           "#": ++index,
           "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
@@ -57,7 +57,7 @@ const ManageAdmissions = observer(() => {
               </>
             ),
           Actions: (
-            <AdminActionTable
+            <NurseActionTable
               admissionId={admission.id}
               patientId={admission.patient.id}
             />
@@ -99,7 +99,12 @@ const ManageAdmissions = observer(() => {
                 <img src={paid} alt="paid" /> Admitted
               </>
             ),
-          Actions: <DoctorActionTable />,
+          Actions: (
+            <AdminActionTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
+          ),
         };
       }
     });
@@ -178,6 +183,13 @@ const AdminActionTable = ({ admissionId, patientId }) => {
         Request a service
       </Link>
       <Link
+        to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Lab Services
+      </Link>
+      <Link
         to={{
           pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
           state: patientId,
@@ -200,12 +212,12 @@ const PharmacyActionTable = () => {
     </ActionButton>
   );
 };
-const DoctorActionTable = () => {
+const NurseActionTable = () => {
   return (
     <ActionButton>
       <Link to="#" className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Doctor
+        Hello, Nurse
       </Link>
     </ActionButton>
   );
