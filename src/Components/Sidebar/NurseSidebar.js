@@ -79,10 +79,10 @@ const NurseSidebar = () => {
                   </Link>
                 </li>
                 <li className="menu-item">
-                  <span className="group-title">Profile Settings</span>
+                  <span className="group-title">Profile</span>
                 </li>
                 <li className="menu-item">
-                  <Link className="item-link" to="/PharmacyProfile">
+                  <Link className="item-link" to="/NurseProfile">
                     <span className="link-icon icofont-user-suited" />{" "}
                     <span className="link-text">My Profile</span>{" "}
                   </Link>

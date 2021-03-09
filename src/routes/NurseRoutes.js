@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { NurseLayout } from "../Components/Layout";
 import Dashboard from "../Pages/Nurse/Dashboard";
+import ViewNurseProfile from "../Pages/Nurse/ViewNurseProfile";
 import BookConsultation from "../Pages/Admin/BookConsultation";
 import Consultations from "../Pages/Admin/Consultations";
 import ClarkingHist from "../Pages/Components/ClarkingHistory";
@@ -16,6 +17,7 @@ export default function NurseRoutes() {
       <NurseLayout>
         <Switch>
           <Route exact path="/NurseDashboard" component={Dashboard} />
+          <Route exact path="/NurseProfile" component={ViewNurseProfile} />
           <Route
             exact
             path="/NurseBookConsultation"
