@@ -136,6 +136,15 @@ class AccountantSidebar extends React.Component {
                     </ul>
                   </li>
                   <li className="menu-item">
+                    <span className="group-title">ADDMISSION</span>
+                  </li>
+                  <li className="menu-item">
+                    <Link className="item-link" to="/AccountantManageAdmissions">
+                      <span className="link-icon icofont-users" />{" "}
+                      <span className="link-text">Manage Admissions</span>
+                    </Link>
+                  </li>
+                  <li className="menu-item">
                     <span className="group-title">PROFILE</span>
                   </li>
                   <li className="menu-item">

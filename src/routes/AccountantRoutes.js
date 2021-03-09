@@ -22,6 +22,9 @@ import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
 import DrugReport from "../Pages/Admin/Reports/DrugReport";
 import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
+import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
+import ManageAdmissionInvoices from "../Components/Admissions/ManageAdmissionInvoices";
+import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
 
 export default function AccountantRoutes() {
   return (
@@ -113,6 +116,21 @@ export default function AccountantRoutes() {
             exact
             path="/AccountantAllAccountTransactions"
             component={AllAccountTransactions}
+          />
+          <Route
+            exact
+            path="/AccountantManageAdmissions"
+            component={ManageAdmissions}
+          />
+          <Route
+            exact
+            path="/AccountantManageAdmissionInvoices/:id"
+            component={ManageAdmissionInvoices}
+          />
+          <Route
+            exact
+            path="/AccountantPaymentForAdmissionInvoices/:id"
+            component={PaymentForAdmissionInvoices}
           />
 
           <Route
