@@ -106,6 +106,30 @@ const ManageAdmissions = observer(() => {
             ),
           Actions: <LabActionTable admissionId={admission.id} />,
         };
+      } else if (userType === "Pharmacy") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <PharmacyActionTable
+              admissionId={admission.id}
+              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+            />
+          ),
+        };
       } else {
         return {
           "#": ++index,
@@ -248,6 +272,22 @@ const NurseActionTable = () => {
       <Link to="#" className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Hello, Nurse
+      </Link>
+    </ActionButton>
+  );
+};
+const PharmacyActionTable = ({ admissionId, patientName }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/PharmacyManageAdmissionPrescriptions/${admissionId}`,
+          state: patientName,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Prescriptions
       </Link>
     </ActionButton>
   );

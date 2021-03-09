@@ -534,21 +534,13 @@ class AdminSidebar extends React.Component {
                       <span className="link-text">Manage Admissions</span>
                     </Link>
                   </li>
-                  <li className="menu-item has-sub">
+                  {/* <li className="menu-item has-sub">
                     <div className="cursor item-link">
                       <span className="link-icon icofont-prescription" />{" "}
                       <span className="link-text">Prescription</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
                     <ul className="sub">
-                      {/* <li className="menu-item">
-                        <Link
-                          to="/AdminManageAdmissionPrescriptions"
-                          className="item-link"
-                        >
-                          <span className="link-text">Prescriptions</span>
-                        </Link>
-                      </li> */}
                       <li className="menu-item">
                         <Link
                           to="/AdminManagePrescriptionInvoice"
@@ -560,7 +552,7 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                 </ul>
               </nav>
             </div>

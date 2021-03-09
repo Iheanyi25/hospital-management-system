@@ -117,8 +117,8 @@ const DrugPrescription = observer(({ match }) => {
     const admissionId = prescription?.prescription?.admissionId;
     const nextRoute =
       userType === "Admin"
-        ? `/AdminManageAdmissionInvoices${admissionId}`
-        : "/PharmacyManagePrescriptions";
+        ? `/AdminManageAdmissionPrescriptions${admissionId}`
+        : `/PharmacyManageAdmissionPrescriptions${admissionId}`;
 
     const { patientId, ...otherInvoiceDet } = invoiceDetails;
     const payload = {
