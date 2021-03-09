@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
+import { observer } from "mobx-react";
 import { Link, useParams } from "react-router-dom";
 import { PageLoader } from "..";
 import { fetchConfig } from "../../api/fetchConfig";
@@ -10,8 +11,12 @@ import {
   AdmissionTabContent,
   AdmissionTabHeader,
 } from "./admission-invoices-components";
+import { UserContext } from "../../mobx/UserState";
 
-const ManageAdmissionInvoices = ({ history }) => {
+const ManageAdmissionInvoices = observer(({ history }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const { state: patientId } = history.location;
   const { id } = useParams();
   const invoicesUrl = getAdmissionInvoiceUrl(id);
@@ -33,18 +38,26 @@ const ManageAdmissionInvoices = ({ history }) => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Admission Invoices</h4>
-            <Link
-              className="btn btn-primary"
-              to={{
-                pathname: `/AdminPaymentForAdmissionInvoices/${id}`,
-                state: {
-                  patientId,
-                  amount: data?.admissionInvoice.amount - data?.admissionInvoice.amountPaid,
-                },
-              }}
-            >
-              Pay now
-            </Link>
+            {data?.admissionInvoice.amount <=
+            data?.admissionInvoice.amountPaid ? null : (
+              <Link
+                className="btn btn-primary"
+                to={{
+                  pathname:
+                    userType === "Admin"
+                      ? `/AdminPaymentForAdmissionInvoices/${id}`
+                      : `/AccountantPaymentForAdmissionInvoices/${id}`,
+                  state: {
+                    patientId,
+                    amount:
+                      data?.admissionInvoice.amount -
+                      data?.admissionInvoice.amountPaid,
+                  },
+                }}
+              >
+                Pay now
+              </Link>
+            )}
           </header>
           <div className="page-content">
             <div className="row">
@@ -80,6 +93,6 @@ const ManageAdmissionInvoices = ({ history }) => {
       </main>
     </Fragment>
   );
-};
+});
 
 export default ManageAdmissionInvoices;
