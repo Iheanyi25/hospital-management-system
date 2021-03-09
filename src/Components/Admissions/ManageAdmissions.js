@@ -87,6 +87,25 @@ const ManageAdmissions = observer(() => {
             />
           ),
         };
+      } else if (userType === "Lab") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: <LabActionTable admissionId={admission.id} />,
+        };
       } else {
         return {
           "#": ++index,
@@ -229,6 +248,19 @@ const NurseActionTable = () => {
       <Link to="#" className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Hello, Nurse
+      </Link>
+    </ActionButton>
+  );
+};
+const LabActionTable = ({ admissionId }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Lab Services
       </Link>
     </ActionButton>
   );
