@@ -63,7 +63,7 @@ const ManageAdmissions = observer(() => {
             />
           ),
         };
-      } else if (userType === "Pharmacy") {
+      } else if (userType === "Accountant") {
         return {
           "#": ++index,
           "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
@@ -80,7 +80,12 @@ const ManageAdmissions = observer(() => {
                 <img src={paid} alt="paid" /> Admitted
               </>
             ),
-          Actions: <PharmacyActionTable />,
+          Actions: (
+            <AccountantTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
+          ),
         };
       } else {
         return {
@@ -197,17 +202,23 @@ const AdminActionTable = ({ admissionId, patientId }) => {
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Invoices
+        Manage Invoices
       </Link>
     </ActionButton>
   );
 };
-const PharmacyActionTable = () => {
+const AccountantTable = ({ admissionId, patientId }) => {
   return (
     <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/AccountantManageAdmissionInvoices/${admissionId}`,
+          state: patientId,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Pharmcist
+        Manage Invoices
       </Link>
     </ActionButton>
   );
