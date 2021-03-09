@@ -4,6 +4,7 @@ import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
+import AdminAllNurses from "../Pages/Admin/AllNurses";
 import AdminAllPharmacists from "../Pages/Admin/AllPharmacist";
 import AdminAllAccountants from "../Pages/Admin/AllAccountants";
 import AdminAllLabTechnicians from "../Pages/Admin/AllLab";
@@ -82,6 +83,7 @@ import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions
 import AdmissionPrescribeDrug from "../Components/Admissions/Prescriptions/PrescribeDrug";
 import ManageAdmissionInvoices from "../Components/Admissions/ManageAdmissionInvoices";
 import AdmissionCreateServiceRequest from "../Components/Admissions/CreateServiceRequest";
+import ManageServiceRequests from "../Components/Admissions/MangeServiceRequests";
 import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
 
 export default function AdminRoutes() {
@@ -102,6 +104,7 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminAllPatients" component={AllPatients} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
+          <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
           <Route
             exact
             path="/AdminAllPharmacists"
@@ -359,6 +362,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminCreateAdmissionServiceRequest/:id"
             component={AdmissionCreateServiceRequest}
+          />
+          <Route
+            exact
+            path="/AdminManageAdmissionServiceRequest/:id"
+            component={ManageServiceRequests}
           />
           <Route
             exact

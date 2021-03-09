@@ -53,7 +53,7 @@ const PaymentForAdmissionInvoices = observer(({ history }) => {
     const nextRoute =
       userType === "Admin"
         ? `/AdminManageAdmissionInvoices/${admissionId}`
-        : "/AccountantManageAccounts";
+        : `/AccountantManageAdmissionInvoices/${admissionId}`;
 
     try {
       const payForAdmission = (paymentMethod = "account"

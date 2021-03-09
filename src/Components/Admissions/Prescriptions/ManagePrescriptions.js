@@ -11,7 +11,8 @@ import { UserContext } from "../../../mobx/UserState";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManagePrescriptions = observer(() => {
+const ManagePrescriptions = observer(({ history }) => {
+  const { state: patientName } = history.location;
   const { id } = useParams();
   const {
     user: { userType },
@@ -62,9 +63,7 @@ const ManagePrescriptions = observer(() => {
             <h4
               className="page-title"
               style={{ textTransform: "capitalize" }}
-            >{`${data?.prescriptions[0]?.admission?.patient?.firstName ?? ""} ${
-              data?.prescriptions[0]?.admission?.patient?.lastName ?? ""
-            }'s Prescriptions`}</h4>
+            >{`${patientName}'s Prescriptions`}</h4>
           </header>
           <div className="page-content">
             <TableSize

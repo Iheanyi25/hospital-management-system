@@ -27,7 +27,7 @@ class LabSidebar extends React.Component {
                     <span className="group-title">My Office</span>
                   </li>
                   <li className="menu-item">
-                    <Link className="item-link"to="/LabDashboard">
+                    <Link className="item-link" to="/LabDashboard">
                       <span className="link-icon icofont-dashboard-web" />{" "}
                       <span className="link-text">Dashboard</span>
                     </Link>
@@ -53,7 +53,9 @@ class LabSidebar extends React.Component {
                           to="/LabManageServiceRequests"
                           className="item-link"
                         >
-                          <span className="link-text">Manage Service Requests</span>
+                          <span className="link-text">
+                            Manage Service Requests
+                          </span>
                         </Link>
                       </li>
                     </ul>
@@ -104,9 +106,17 @@ class LabSidebar extends React.Component {
                       </li>
                     </ul>
                   </li>
-
                   <li className="menu-item">
-                    <span className="group-title">Profile Mgt</span>
+                    <span className="group-title">ADDMISSION</span>
+                  </li>
+                  <li className="menu-item">
+                    <Link
+                      className="item-link"
+                      to="/LabManageAdmissions"
+                    >
+                      <span className="link-icon icofont-users" />{" "}
+                      <span className="link-text">Manage Admissions</span>
+                    </Link>
                   </li>
 
                   <li className="menu-item">
@@ -122,10 +132,7 @@ class LabSidebar extends React.Component {
               </nav>
             </div>
             <div className="add-patient">
-              <Link
-                to="/LabManageServiceRequests"
-                className="btn btn-primary"
-              >
+              <Link to="/LabManageServiceRequests" className="btn btn-primary">
                 <span className="btn-icon icofont-plus mr-2" /> Manage Requests
               </Link>
             </div>

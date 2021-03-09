@@ -39,7 +39,98 @@ const ManageAdmissions = observer(() => {
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
-      if (userType === "Admin") {
+      if (userType === "Nurse") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <NurseActionTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
+          ),
+        };
+      } else if (userType === "Accountant") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <AccountantTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
+          ),
+        };
+      } else if (userType === "Lab") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: <LabActionTable admissionId={admission.id} />,
+        };
+      } else if (userType === "Pharmacy") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <PharmacyActionTable
+              admissionId={admission.id}
+              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+            />
+          ),
+        };
+      } else {
         return {
           "#": ++index,
           "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
@@ -60,46 +151,9 @@ const ManageAdmissions = observer(() => {
             <AdminActionTable
               admissionId={admission.id}
               patientId={admission.patient.id}
+              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
             />
           ),
-        };
-      } else if (userType === "Pharmacy") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
-          Actions: <PharmacyActionTable />,
-        };
-      } else {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
-          Actions: <DoctorActionTable />,
         };
       }
     });
@@ -160,11 +214,14 @@ const ManageAdmissions = observer(() => {
 });
 
 // Everything goes in here at first
-const AdminActionTable = ({ admissionId, patientId }) => {
+const AdminActionTable = ({ admissionId, patientId, patientName }) => {
   return (
     <ActionButton>
       <Link
-        to={`/AdminManageAdmissionPrescriptions/${admissionId}`}
+        to={{
+          pathname: `/AdminManageAdmissionPrescriptions/${admissionId}`,
+          state: patientName,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
@@ -178,6 +235,13 @@ const AdminActionTable = ({ admissionId, patientId }) => {
         Request a service
       </Link>
       <Link
+        to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Lab Services
+      </Link>
+      <Link
         to={{
           pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
           state: patientId,
@@ -185,27 +249,62 @@ const AdminActionTable = ({ admissionId, patientId }) => {
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Invoices
+        Manage Invoices
       </Link>
     </ActionButton>
   );
 };
-const PharmacyActionTable = () => {
+const AccountantTable = ({ admissionId, patientId }) => {
   return (
     <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/AccountantManageAdmissionInvoices/${admissionId}`,
+          state: patientId,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Pharmcist
+        Manage Invoices
       </Link>
     </ActionButton>
   );
 };
-const DoctorActionTable = () => {
+const NurseActionTable = () => {
   return (
     <ActionButton>
       <Link to="#" className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Doctor
+        Hello, Nurse
+      </Link>
+    </ActionButton>
+  );
+};
+const PharmacyActionTable = ({ admissionId, patientName }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/PharmacyManageAdmissionPrescriptions/${admissionId}`,
+          state: patientName,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Prescriptions
+      </Link>
+    </ActionButton>
+  );
+};
+const LabActionTable = ({ admissionId }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Lab Services
       </Link>
     </ActionButton>
   );
