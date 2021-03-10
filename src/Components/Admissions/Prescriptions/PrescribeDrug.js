@@ -17,8 +17,9 @@ import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionList } from "../../../Pages/Components/DrugPrescription";
-import { Table } from "../../DataTable";
+import { notification } from "../../../utils/notification";
 
+const $ = window.$;
 
 const DrugPrescription = observer(({ match }) => {
   const history = useHistory();
@@ -36,7 +37,7 @@ const DrugPrescription = observer(({ match }) => {
     method: "get",
   });
 
-  const { data: prescription, error: error1 } = useRequest(getPrescriptionConfig, {
+  const { data: prescription } = useRequest(getPrescriptionConfig, {
     revalidateOnFocus: false,
   });
   console.log(prescription);
@@ -48,7 +49,7 @@ const DrugPrescription = observer(({ match }) => {
   const [selectedDrugs, setSelectedDrugs] = useState([]);
   const [activeDrugs, setActiveDrugs] = useState(null);
 
-  const { data, error: error2 } = useRequest(getDrugConfig, {
+  const { data } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
 
@@ -112,48 +113,38 @@ const DrugPrescription = observer(({ match }) => {
     console.log(response);
   };
 
-  let dataTable = [];
-  if (selectedDrugs.length > 0) {
-    dataTable = selectedDrugs.map((item, index) => {
-      return {
-        "#": ++index,
-        "Drug name": (
-          <strong>
-            <div className="d-flex align-items-center nowrap">
-              {item?.name ?? "N/A"}
-            </div>
-          </strong>
-        ),
-        Qty: (
-          <div>
-            {Number(item?.numberOfUnits) === 1
-              ? `${item.numberOfUnits} tablet, `
-              : Number(item?.numberOfUnits) > 1
-              ? `${item.numberOfUnits} tablets, `
-              : null}
-            {Number(item?.numberOfContainers) === 1
-              ? `${item.numberOfContainers} pack, `
-              : Number(item?.numberOfContainers) > 1
-              ? `${item.numberOfContainers} packs,  `
-              : null}
-            {Number(item?.numberOfCartons) === 1
-              ? `${item.numberOfCartons} carton `
-              : Number(item?.numberOfCartons) > 1
-              ? `${item.numberOfCartons} cartons `
-              : null}
-          </div>
-        ),
-        // Actions: (
-        //   <PatientTableAction
-        //     patient={patient}
-        //     setActivePatientId={setActivePatientId}
-        //   />
-        // ),
-      };
-    });
-  }
+  const generateInvoice = async () => {
+    const admissionId = prescription?.prescription?.admissionId;
+    const nextRoute =
+      userType === "Admin"
+        ? `/AdminManageAdmissionPrescriptions${admissionId}`
+        : `/PharmacyManageAdmissionPrescriptions${admissionId}`;
 
-  if (error1 || error2) return <div>failed to load</div>;
+    const { patientId, ...otherInvoiceDet } = invoiceDetails;
+    const payload = {
+      generatedBy,
+      admissionId,
+      ...otherInvoiceDet,
+    };
+    console.log(payload, "7777");
+    const invoiceUrl = postAdmissionsRequestDrugUrl();
+    const generateDrugDispenseInvoiceConfig = fetchConfig({
+      url: invoiceUrl,
+      method: "post",
+      data: payload,
+    });
+    try {
+      const res = await fetchWrapper(generateDrugDispenseInvoiceConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        history.push(nextRoute);
+        $("#showInvoice").modal("hide");
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
+    }
+  };
+
   return (
     <>
       <main className="main-content">
@@ -200,7 +191,74 @@ const DrugPrescription = observer(({ match }) => {
                   </div>
 
                   <div className="col-12 col-md-5">
-                      {data && <Table content={dataTable} />}
+                    <div className="table-responsive">
+                      <table className="table table-striped">
+                        <thead>
+                          <tr className="">
+                            <th>#</th>
+                            <th>Drug name</th>
+                            <th>Qty</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedDrugs && selectedDrugs.length > 0 ? (
+                            selectedDrugs.map((item, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <strong>{index + 1}</strong>
+                                </td>
+                                <td>
+                                  <strong>
+                                    <div className="d-flex align-items-center nowrap">
+                                      {item?.name ?? "N/A"}
+                                    </div>
+                                  </strong>
+                                </td>
+                                <td>
+                                  {Number(item?.numberOfUnits) === 1
+                                    ? `${item.numberOfUnits} tablet, `
+                                    : Number(item?.numberOfUnits) > 1
+                                    ? `${item.numberOfUnits} tablets, `
+                                    : null}
+                                  {Number(item?.numberOfContainers) === 1
+                                    ? `${item.numberOfContainers} pack, `
+                                    : Number(item?.numberOfContainers) > 1
+                                    ? `${item.numberOfContainers} packs,  `
+                                    : null}
+                                  {Number(item?.numberOfCartons) === 1
+                                    ? `${item.numberOfCartons} carton `
+                                    : Number(item?.numberOfCartons) > 1
+                                    ? `${item.numberOfCartons} cartons `
+                                    : null}
+                                </td>
+                                <td>
+                                  <div className="d-flex align-items-center nowrap">
+                                    <Link
+                                      title="Delete"
+                                      to="#"
+                                      onClick={() => removeFromSelected(index)}
+                                      className="text-danger mr-4"
+                                    >
+                                      <img src={remove} alt="delete" />
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="4">
+                                <p className="w-50 text-secondary">
+                                  Search and select the drugs prescribed to the
+                                  patient
+                                </p>
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -228,23 +286,3 @@ const DrugPrescription = observer(({ match }) => {
 });
 
 export default DrugPrescription;
-
-{/* <tr>
-                              <td colSpan="4">
-                                <p className="w-50 text-secondary">
-                                  Search and select the drugs prescribed to the
-                                  patient
-                                </p>
-                              </td>
-                            </tr> */}
-
-// <div className="d-flex align-items-center nowrap">
-// <Link
-//   title="Delete"
-//   to="#"
-//   onClick={() => removeFromSelected(index)}
-//   className="text-danger mr-4"
-// >
-//   <img src={remove} alt="delete" />
-// </Link>
-// </div>
