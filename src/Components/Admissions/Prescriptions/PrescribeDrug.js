@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   costDrugUrl,
   getAllDrugsUrl,
   getPrescriptionForAdmssionUrl,
+  postAdmissionsRequestDrugUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import remove from "../../../assets/img/remove.svg";
@@ -20,7 +21,10 @@ import { Table } from "../../DataTable";
 
 
 const DrugPrescription = observer(({ match }) => {
-  const { user } = useContext(UserContext);
+  const history = useHistory();
+  const {
+    user: { id: generatedBy, userType },
+  } = useContext(UserContext);
   const [costingDetails, setcostingDetails] = useState([]);
   const [invoiceDetails, setInvoiceDetails] = useState({});
 
@@ -215,15 +219,9 @@ const DrugPrescription = observer(({ match }) => {
       <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
       <PrescriptionInvoice
         costingDetails={costingDetails}
-        doctor={prescription?.doctor}
-        patient={prescription?.patient}
-        invoiceDetails={invoiceDetails}
-        id={id}
-        nextRoute={
-          user.userType === "Admin"
-            ? "/AdminManagePrescriptionInvoice"
-            : "/PharmacyManagePrescriptions"
-        }
+        doctor={prescription?.prescription?.doctor}
+        patient={prescription?.prescription?.admission?.patient}
+        generateInvoice={generateInvoice}
       />
     </>
   );

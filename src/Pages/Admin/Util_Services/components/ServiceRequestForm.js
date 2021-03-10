@@ -1,10 +1,12 @@
 import { observer } from "mobx-react";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../api/fetcher";
 import { postServiceRequestUrl } from "../../../../api/URLs";
 import { UserContext } from "../../../../mobx/UserState";
+import { notification } from "../../../../utils/notification";
+import { isNotEmptyString } from "../../../../utils/validationUtils";
 
 const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
   const {
@@ -18,6 +20,13 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
     additionalComments: "",
   });
   const [loading, setLoading] = useState(false);
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const { result, additionalComments } = state;
+    if (isNotEmptyString(result) && isNotEmptyString(additionalComments)) {
+      setEmptyField(false);
+    }
+  }, [state]);
   const handleChange = (name, e) => {
     e.persist();
     setState((state) => ({ ...state, [name]: e.target.value }));
@@ -49,11 +58,7 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
       try {
         const resServiceRequestUpdate = await fetchWrapper(postServiceRequest);
         if (resServiceRequestUpdate.status === 200) {
-          setNotification({
-            show: true,
-            message: resServiceRequestUpdate.data.message,
-            isError: false,
-          });
+          notification.success({ message: resServiceRequestUpdate.data.message });
           history.push({
             pathname:
               userType === "Admin"
@@ -61,20 +66,33 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
                 : `/LabViewLabResults/${serviceRequest.id}`,
             state: resServiceRequestUpdate.data.serviceRequestResult.id,
           });
-        } else {
-          setNotification({
-            show: true,
-            message: resServiceRequestUpdate.data.message,
-            isError: true,
-          });
+        //   setNotification({
+        //     show: true,
+        //     message: resServiceRequestUpdate.data.message,
+        //     isError: false,
+        //   });
+        //   history.push({
+        //     pathname:
+        //       userType === "Admin"
+        //         ? `/AdminViewLabResults/${serviceRequest.id}`
+        //         : `/LabViewLabResults/${serviceRequest.id}`,
+        //     state: resServiceRequestUpdate.data.serviceRequestResult.id,
+        //   });
+        // } else {
+        //   setNotification({
+        //     show: true,
+        //     message: resServiceRequestUpdate.data.message,
+        //     isError: true,
+        //   });
         }
       } catch (error) {
         console.log(error);
-        setNotification({
-          show: true,
-          message: "a fatal error occured",
-          isError: true,
-        });
+        notification.error({ message: error?.response?.data?.message });
+        // setNotification({
+        //   show: true,
+        //   message: "a fatal error occured",
+        //   isError: true,
+        // });
       }
       setLoading(false);
     }
@@ -142,9 +160,9 @@ const UploadLabResultForm = observer(({ serviceRequest, setNotification }) => {
           <button
             type="submit"
             className="btn btn-primary d-flex ml-auto"
-            disabled={loading}
+            disabled={emptyField || loading ? true : false}
           >
-            {loading ? "saving..." : "Save Result"}
+            {loading ? "Saving..." : "Save Result"}
           </button>
         </div>
       </div>

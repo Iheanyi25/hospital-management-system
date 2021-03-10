@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
 export const AcceptedAppointmentTableAction = ({
   appointment,
@@ -25,45 +27,52 @@ export const CompletedAppointmentTableAction = ({ appointment }) => {
   );
 };
 
-export const PendingAppointmentTableAction = ({
-  appointment,
-  deleteAppointment,
-}) => {
-  return (
-    <ActionButton>
-      <SharedTableAction patient={appointment.patient} />
-      <Link
-        title="Go for clarking"
-        to={{
-          pathname: "/DoctorClarking",
-          state: {
-            id: appointment.id,
-            type: "appointment",
-            patient: appointment.patient,
-          },
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-user" />
-        Go for Clarking
-      </Link>
-      <SharedTableActionTwo
-        appointment={appointment}
-        deleteAppointment={deleteAppointment}
-      />
-    </ActionButton>
-  );
-};
+export const PendingAppointmentTableAction = observer(
+  ({ appointment, deleteAppointment }) => {
+    const {
+      user: { userType },
+    } = useContext(UserContext);
+    return (
+      <ActionButton>
+        <SharedTableAction patient={appointment.patient} userType={userType} />
+        {userType === "Nurse" ? null : (
+          <Link
+            title="Go for clerking"
+            to={{
+              pathname: "/DoctorClarking",
+              state: {
+                id: appointment.id,
+                type: "appointment",
+                patient: appointment.patient,
+              },
+            }}
+            className=" btn btn-sm btn-block"
+          >
+            <span className="mr-3 btn-icon icofont-user" />
+            Go for Clerking
+          </Link>
+        )}
+        <SharedTableActionTwo
+          appointment={appointment}
+          deleteAppointment={deleteAppointment}
+        />
+      </ActionButton>
+    );
+  }
+);
 
-export const SharedTableAction = ({ patient }) => {
+export const SharedTableAction = ({ patient, userType }) => {
   const commonTableFunctionsObj = [
     {
       text: "Pre Consultation",
-      path: `/AdminPreConsultation/${patient.id}`,
+      path:
+        userType === "Nurse"
+          ? `/NursePreConsultation/${patient.id}`
+          : `/AdminPreConsultation/${patient.id}`,
       iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
     },
     {
-      text: "Clarking History",
+      text: "Clerking History",
       path: `/ViewClarkingHistory`,
       iconClass: "mr-3 btn-icon icofont-stethoscope-alt",
     },
@@ -88,10 +97,7 @@ export const SharedTableAction = ({ patient }) => {
   );
 };
 
-const SharedTableActionTwo = ({
-  appointment,
-  deleteAppointment,
-}) => {
+const SharedTableActionTwo = ({ appointment, deleteAppointment }) => {
   return (
     <div>
       <button

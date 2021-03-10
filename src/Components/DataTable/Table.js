@@ -33,6 +33,7 @@ const Table = ({
         if (content.length > 0) {
           if (exportAction) {
             $(`#custom_table_${tableID}`).DataTable({
+              retrieve: true,
               dom: "Bfrtip",
               buttons: ["copyHtml5", "excelHtml5", "pdfHtml5", "csvHtml5"],
             });

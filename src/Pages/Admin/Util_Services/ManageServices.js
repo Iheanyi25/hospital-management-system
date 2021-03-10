@@ -8,6 +8,7 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
+import formatAmount from "../../../utils/formatAmount";
 import { notification } from "../../../utils/notification";
 
 const ManageServices = observer(() => {
@@ -21,7 +22,7 @@ const ManageServices = observer(() => {
     url: getAllServices,
     method: "get",
   });
-  const { data, error } = useRequest(getAllServicesConfig, {
+  const { data, error, mutate } = useRequest(getAllServicesConfig, {
     revalidateOnFocus: false,
   });
 
@@ -37,6 +38,7 @@ const ManageServices = observer(() => {
       const res = await fetchWrapper(deleteServiceConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
+        mutate();
       } else if (res.status === 400) {
         notification.warning({ message: res.data.message });
       }
@@ -51,7 +53,7 @@ const ManageServices = observer(() => {
       return {
         "#": ++index,
         Services: service?.name,
-        Cost: service?.cost,
+        Cost: formatAmount(service?.cost),
         Actions: (
           <ServicesTableAction
             service={service}
@@ -88,7 +90,7 @@ const ManageServices = observer(() => {
           <div className="page-content">
             <TableSize
               size={data ? data.services.length : 0}
-              heading="No Of Services"
+              heading="No. of Services"
             />
           </div>
           <div className="page-content">

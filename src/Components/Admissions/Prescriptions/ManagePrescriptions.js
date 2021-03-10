@@ -11,7 +11,8 @@ import { UserContext } from "../../../mobx/UserState";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManagePrescriptions = observer(() => {
+const ManagePrescriptions = observer(({ history }) => {
+  const { state: patientName } = history.location;
   const { id } = useParams();
   const {
     user: { userType },
@@ -36,9 +37,6 @@ const ManagePrescriptions = observer(() => {
     dataTable = data.prescriptions.map((prescription, index) => {
       return {
         "#": ++index,
-        "Patient Name": `${prescription?.patient?.firstName ?? ""} ${
-          prescription?.patient?.lastName ?? ""
-        }`,
         "Doctor Name": `${prescription?.doctor?.firstName ?? ""} ${
           prescription?.doctor?.lastName ?? ""
         }`,
@@ -62,7 +60,10 @@ const ManagePrescriptions = observer(() => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title">Admission Prescriptions</h4>
+            <h4
+              className="page-title"
+              style={{ textTransform: "capitalize" }}
+            >{`${patientName}'s Prescriptions`}</h4>
           </header>
           <div className="page-content">
             <TableSize

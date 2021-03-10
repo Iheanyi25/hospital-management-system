@@ -9,6 +9,7 @@ import { isValidEmail } from "../../utils/validationUtils";
 const user = {
   lab: "Lab Scientist",
   doctor: "Doctor",
+  nurse: "Nurse",
   pharmacy: "Pharmacist",
   accountant: "Accountant",
 };
@@ -26,6 +27,7 @@ const RegisterUserModal = ({ userType }) => {
   const history = useHistory();
   const routes = {
     doctor: "/AdminAllDoctors",
+    nurse: "/AdminAllNurses",
     accountant: "/AdminAllAccountants",
     pharmacy: "/AdminAllPharmacists",
     lab: "/AdminAllLabTechnicians",

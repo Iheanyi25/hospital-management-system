@@ -9,6 +9,7 @@ import {
   getAllServicesInACategoryUrl,
   getPatientsUrl,
   postRequestServicesUrl,
+  postAdmissionsRequestServiceUrl,
 } from "../../../api/URLs";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
@@ -35,11 +36,14 @@ class CreateService extends Component {
   };
 
   componentDidMount() {
-    if (this.props.location.state) {
+    if (this?.props?.location?.state) {
       this.setState({
         isFromClarking: true,
         patient: this.props.location.state.patient.id,
       });
+    }
+    if (this?.props?.admissionId) {
+      this.setState({ patient: this.props.admissionId });
     }
 
     this.fetchServiceCategories();
@@ -198,6 +202,9 @@ class CreateService extends Component {
       console.log(payload);
 
       payload.serviceId = serviceId;
+      if (this.props.admissionId) {
+        return this.admissionsRequestService(payload.serviceId, generatedBy);
+      }
       const postRequestServices = postRequestServicesUrl();
       const postRequestServicesConfig = fetchConfig({
         url: postRequestServices,
@@ -223,6 +230,32 @@ class CreateService extends Component {
       notification.error({ message: error?.response?.data.message });
     }
   };
+  admissionsRequestService = async (serviceId, generatedBy) => {
+    const admissionId = this.props.admissionId;
+    const nextRoute = `/AdminManageAdmissionInvoices/${admissionId}`;
+    console.log(serviceId);
+    const payload = {
+      serviceId,
+      generatedBy,
+      admissionId,
+    };
+    console.log(payload);
+    const postRequestServices = postAdmissionsRequestServiceUrl();
+    const postRequestServicesConfig = fetchConfig({
+      url: postRequestServices,
+      data: payload,
+      method: "post",
+    });
+    try {
+      const res = await fetchWrapper(postRequestServicesConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        this.props.history.push(nextRoute);
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
+    }
+  };
   render() {
     return (
       <>
@@ -244,7 +277,9 @@ class CreateService extends Component {
                           Service request form
                         </h4>
 
-                        {!this.state?.isFromClarking ? (
+                        {!(
+                          this.state?.isFromClarking || this.props.admissionId
+                        ) ? (
                           <SelectableDropDown
                             itemKey={["id"]}
                             onChange={this.handleChange}

@@ -1,13 +1,19 @@
 import React from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getDoctorsUrl, getPatientsUrl, postAppointmentUrl } from "../../api/URLs";
+import {
+  getDoctorsUrl,
+  getPatientsUrl,
+  postAppointmentUrl,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
 import { formatInputDate } from "../../utils/formatInputDate";
 import { notification } from "../../utils/notification";
 const $ = window.$;
 
 class BookAppointment extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
@@ -58,9 +64,9 @@ class BookAppointment extends React.Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl()
-    const getPatientsConfig = fetchConfig({ url: getPatients, method: 'get' })
-    const { data } = await fetchWrapper(getPatientsConfig)
+    const getPatients = getPatientsUrl();
+    const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
+    const { data } = await fetchWrapper(getPatientsConfig);
     const patientArray = [];
 
     data.patients.forEach((element) => {
@@ -73,9 +79,9 @@ class BookAppointment extends React.Component {
   };
 
   fetchDoctors = async () => {
-    const getDoctors = getDoctorsUrl()
-    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: 'get' })
-    const { data } = await fetchWrapper(getDoctorsConfig)
+    const getDoctors = getDoctorsUrl();
+    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: "get" });
+    const { data } = await fetchWrapper(getDoctorsConfig);
     const doctorArray = [];
 
     data.doctors.forEach((element) => {
@@ -97,7 +103,11 @@ class BookAppointment extends React.Component {
 
   async bookAppointment(e) {
     e.preventDefault();
-
+    const {
+      user: { userType },
+    } = this.context;
+    const nextRoute =
+      userType === "Nurse" ? "/NurseAppointments" : "/AdminAppointments";
     const bookAppointmentDet = {
       appointmentDate: this.state.appointmentDate,
       appointmentTime: this.state.appointmentTime,
@@ -105,14 +115,17 @@ class BookAppointment extends React.Component {
       reasonForAppointment: this.state.reasonForAppointment,
       patientId: this.state.patientId,
       doctorId: this.state.doctorId,
-    }
+    };
 
-    console.log(this.state.appointmentTime)
+    console.log(this.state.appointmentTime);
 
     try {
-
-      const postAppointment = postAppointmentUrl()
-      const postAppointmentConfig = fetchConfig({ url: postAppointment, data: bookAppointmentDet, method: 'post' })
+      const postAppointment = postAppointmentUrl();
+      const postAppointmentConfig = fetchConfig({
+        url: postAppointment,
+        data: bookAppointmentDet,
+        method: "post",
+      });
       const res = await fetchWrapper(postAppointmentConfig);
 
       const { data } = res;
@@ -125,12 +138,11 @@ class BookAppointment extends React.Component {
         reasonForAppointment: "",
       });
       notification.success({ message: res.data.message });
-      this.props.history.push("/AdminAppointments")
+      this.props.history.push(nextRoute);
     } catch (error) {
-      notification.error({ message:  error?.response?.data?.message });
+      notification.error({ message: error?.response?.data?.message });
     }
   }
-
 
   render() {
     let {
@@ -141,7 +153,6 @@ class BookAppointment extends React.Component {
       appointmentTitle,
       reasonForAppointment,
     } = this.state;
-
 
     return (
       <>
@@ -165,7 +176,10 @@ class BookAppointment extends React.Component {
                         <div className="row">
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Date<small className="text-danger">*</small></label>
+                              <label>
+                                Appointment Date
+                                <small className="text-danger">*</small>
+                              </label>
 
                               <input
                                 type="date"
@@ -183,7 +197,10 @@ class BookAppointment extends React.Component {
 
                           <div className="col-12 col-sm-6">
                             <div className="form-group">
-                              <label>Appointment Time<small className="text-danger">*</small></label>
+                              <label>
+                                Appointment Time
+                                <small className="text-danger">*</small>
+                              </label>
 
                               <input
                                 type="time"
@@ -199,7 +216,10 @@ class BookAppointment extends React.Component {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label>Select a Patient<small className="text-danger">*</small></label>
+                          <label>
+                            Select a Patient
+                            <small className="text-danger">*</small>
+                          </label>
                           <select
                             className=" custom-patient-picker rounded form-control"
                             data-live-search="true"
@@ -245,7 +265,10 @@ class BookAppointment extends React.Component {
                         </div>
 
                         <div className="form-group">
-                          <label>Title of Appointment<small className="text-danger">*</small></label>
+                          <label>
+                            Title of Appointment
+                            <small className="text-danger">*</small>
+                          </label>
 
                           <input
                             className="form-control"
@@ -259,7 +282,10 @@ class BookAppointment extends React.Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label>Reason for Appointment<small className="text-danger">*</small></label>{" "}
+                          <label>
+                            Reason for Appointment
+                            <small className="text-danger">*</small>
+                          </label>{" "}
                           <textarea
                             className="form-control"
                             placeholder="Reason For Appointment"
@@ -288,11 +314,11 @@ class BookAppointment extends React.Component {
                               onClick={(e) => this.bookAppointment(e)}
                               disabled={
                                 appointmentDate === "" ||
-                                  appointmentTime === "" ||
-                                  patientId === "" ||
-                                  doctorId === "" ||
-                                  reasonForAppointment === "" ||
-                                  appointmentTitle === ""
+                                appointmentTime === "" ||
+                                patientId === "" ||
+                                doctorId === "" ||
+                                reasonForAppointment === "" ||
+                                appointmentTitle === ""
                                   ? true
                                   : false
                               }

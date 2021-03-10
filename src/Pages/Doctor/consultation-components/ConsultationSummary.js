@@ -67,4 +67,4 @@ function ConsultationSummary({
   );
 }
 
-export { ConsultationSummary }
+export { ConsultationSummary };
