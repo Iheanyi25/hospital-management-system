@@ -209,7 +209,7 @@ class ClarkingHistory extends React.Component {
                           </p>
                         </div>
                         <div className="col col-md-6">
-                          <h5>Priscriptions</h5>
+                          <h5>Prescription</h5>
                           <p>{clerkingHistory?.prescription ?? "N/A"}</p>
                         </div>
                       </div>

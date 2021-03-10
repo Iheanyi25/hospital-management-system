@@ -42,7 +42,7 @@ const PatientsWaitingActionTable = ({ pendingAppointment }) => {
   return (
     <ActionButton>
       <Link
-        title="Clerking"
+        title="Clarking"
         to={{
           pathname: "/DoctorClarking",
           state: {
@@ -54,7 +54,7 @@ const PatientsWaitingActionTable = ({ pendingAppointment }) => {
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-stethoscope-alt mr-3" />
-        Go to Clerking
+        Go to Clarking
       </Link>
       <Link
         title="Clarking History"
@@ -69,7 +69,7 @@ const PatientsWaitingActionTable = ({ pendingAppointment }) => {
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-stethoscope-alt mr-3" />
-        View Clerking History
+        View Clarking History
       </Link>
     </ActionButton>
   );

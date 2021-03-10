@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../../mobx/UserState";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
 const Others = observer(({ details, paidSuccessfully }) => {
   const {
@@ -11,7 +12,14 @@ const Others = observer(({ details, paidSuccessfully }) => {
     modeOfPayment: "",
     reference: "",
   });
+  const [emptyField, setEmptyField] = useState(true);
   const { amount } = details;
+  useEffect(() => {
+    const { modeOfPayment, reference } = paymentDetails;
+    if (isNotEmptyString(modeOfPayment) && isNotEmptyString(reference) && isNotEmptyString(amount)) {
+      setEmptyField(false);
+    }
+  }, [paymentDetails, amount]);
   const handleSubmit = (e) => {
     const { description, modeOfPayment, reference } = paymentDetails;
     e.preventDefault();
@@ -110,7 +118,11 @@ const Others = observer(({ details, paidSuccessfully }) => {
                     <div className="row">
                       <div className="col"></div>
                       <div className="col text-right">
-                        <button type="submit" className="btn btn-primary">
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={emptyField ? true : false}
+                        >
                           Pay now
                         </button>
                       </div>

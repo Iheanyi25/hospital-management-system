@@ -1,16 +1,21 @@
-import React, { useState, Fragment } from "react";
+import { observer } from "mobx-react";
+import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import { getAdmissionsUrl, getAllWardsUrl } from "../../api/URLs";
 import incomplete from "../../assets/img/incomplete.svg";
 import paid from "../../assets/img/paid.svg";
+import { UserContext } from "../../mobx/UserState";
 import { Table } from "../DataTable";
 import ActionButton from "../DataTable/ActionButton";
 import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
 
-const ManageAdmissions = () => {
+const ManageAdmissions = observer(() => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [wardId, setWardId] = useState("all");
@@ -31,28 +36,126 @@ const ManageAdmissions = () => {
   const { data: wards } = useRequest(getAllWardsConfig, {
     revalidateOnFocus: false,
   });
-  console.log(wards, 89999);
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
-      return {
-        "#": ++index,
-        "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-        "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-        Ward: admission?.bed?.ward?.name,
-        Room: admission?.bed?.name,
-        Status:
-          admission?.bed === null ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Pending
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
+      if (userType === "Nurse") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <NurseActionTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
           ),
-        Actions: <AdmissionsActionTable id={admission.id} />,
-      };
+        };
+      } else if (userType === "Accountant") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <AccountantTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+            />
+          ),
+        };
+      } else if (userType === "Lab") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: <LabActionTable admissionId={admission.id} />,
+        };
+      } else if (userType === "Pharmacy") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <PharmacyActionTable
+              admissionId={admission.id}
+              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+            />
+          ),
+        };
+      } else {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <AdminActionTable
+              admissionId={admission.id}
+              patientId={admission.patient.id}
+              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+            />
+          ),
+        };
+      }
     });
   }
   if (error) return <div>failed to load</div>;
@@ -108,14 +211,100 @@ const ManageAdmissions = () => {
       </main>
     </Fragment>
   );
-};
+});
 
-const AdmissionsActionTable = ({ id }) => {
+// Everything goes in here at first
+const AdminActionTable = ({ admissionId, patientId, patientName }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/AdminManageAdmissionPrescriptions/${admissionId}`,
+          state: patientName,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Prescriptions
+      </Link>
+      <Link
+        to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Request a service
+      </Link>
+      <Link
+        to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Lab Services
+      </Link>
+      <Link
+        to={{
+          pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
+          state: patientId,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Invoices
+      </Link>
+    </ActionButton>
+  );
+};
+const AccountantTable = ({ admissionId, patientId }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/AccountantManageAdmissionInvoices/${admissionId}`,
+          state: patientId,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Invoices
+      </Link>
+    </ActionButton>
+  );
+};
+const NurseActionTable = () => {
   return (
     <ActionButton>
       <Link to="#" className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Nothing
+        Hello, Nurse
+      </Link>
+    </ActionButton>
+  );
+};
+const PharmacyActionTable = ({ admissionId, patientName}) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/PharmacyManageAdmissionPrescriptions/${admissionId}`,
+          state: patientName,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Prescriptions
+      </Link>
+    </ActionButton>
+  );
+};
+const LabActionTable = ({ admissionId, id }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Lab Services
       </Link>
       <Link
         to={`/AdminWardRoundNotes/${id}`}

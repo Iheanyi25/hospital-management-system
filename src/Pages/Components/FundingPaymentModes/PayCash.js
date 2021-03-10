@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
-const PayCash = ({ paidSuccessfully, setPaymentParams }) => {
+const PayCash = ({ paidSuccessfully, setPaymentParams, amount }) => {
+  console.log(amount);
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    if (isNotEmptyString(amount)) setEmptyField(false);
+  }, [amount]);
   const handleChange = (e) => {
     setPaymentParams(e.target.name, e.target.value);
   };
@@ -32,7 +38,6 @@ const PayCash = ({ paidSuccessfully, setPaymentParams }) => {
                         name="amount"
                         onChange={handleChange}
                         required
-                        // ref={amountReference}
                       />
                       <div className="valid-feedback">Looks good!</div>
                       <div className="invalid-feedback">
@@ -57,7 +62,11 @@ const PayCash = ({ paidSuccessfully, setPaymentParams }) => {
                     <div className="row">
                       <div className="col"></div>
                       <div className="col text-right">
-                        <button type="submit" className="btn btn-primary">
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={emptyField ? true : false}
+                        >
                           Pay now
                         </button>
                       </div>

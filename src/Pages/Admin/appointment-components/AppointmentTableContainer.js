@@ -21,16 +21,16 @@ export default function AppointmentTableContainer({
     tableData = appointments.map((appointment, index) => {
       return {
         "#": ++index,
-        Title: appointment?.appointmentTitle,
-        "Reason for appointment": appointment?.reasonForAppointment,
-        Doctor: `${appointment.doctor?.lastName} ${appointment.doctor?.firstName}`,
         Patient: `${appointment.patient?.lastName} ${appointment.patient?.firstName}`,
-        "Appointment Date": new Date(
-          appointment?.appointmentDate
-        ).toLocaleDateString(),
+        Doctor: `${appointment.doctor?.lastName} ${appointment.doctor?.firstName}`,
         "Appointment Time": new Date(
           appointment?.appointmentDate
         ).toLocaleTimeString(),
+        "Appointment Date": new Date(
+          appointment?.appointmentDate
+        ).toLocaleDateString(),
+        Title: appointment?.appointmentTitle,
+        "Reason for appointment": appointment?.reasonForAppointment,
         Actions: (
           <AppointmentTableActionsContainer
             appointment={appointment}
@@ -58,7 +58,6 @@ const AppointmentTableActionsContainer = ({
   category,
   mutate,
 }) => {
-
   const deleteAppointment = async (id) => {
     try {
       const deleteAppointment = deleteAppointmentUrl();
@@ -71,7 +70,7 @@ const AppointmentTableActionsContainer = ({
       await mutate();
       notification.success({ message: res.data.message });
     } catch (error) {
-      notification.error({ message:  error?.response?.data?.message });
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 
@@ -96,7 +95,7 @@ const AppointmentTableActionsContainer = ({
       {categories[category] || "No action"}
       {categories[category] !== "completed" && (
         <ReAssign
-        idType={"appointmentId"}
+          idType={"appointmentId"}
           route={"ReassignAppointment"}
           reRun={mutate}
           id={appointment.id}

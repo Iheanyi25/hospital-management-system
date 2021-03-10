@@ -6,6 +6,24 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
 export const assignPatientToBedSpaceUrl = () =>
   `/Admission/AssignPatientToBedspace`;
 
+// Admission - Manage Admission Drug Dispensing
+export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
+export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
+  `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}`;
+
+// Admission - Manage Admission Invoices
+export const getAdmissionInvoiceUrl = (admssionId) =>
+  `/Admission/GetAdmissionInvoice?AdmissionId=${admssionId}`;
+export const postPayForAdmissionUrl = () => `/Admission/PayForAdmission`;
+export const postPayForAdmissionWithAccountUrl = () =>
+  `/Admission/PayForAdmissionWithAccount`;
+
+// Admission - Manage Admission Service Requests
+export const postAdmissionsRequestServiceUrl = () =>
+  `/Admission/RequestServices`;
+export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
+  `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}`;
+
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
 export const createBedUrl = () => `/Admission/Ward/CreateBed`;
@@ -19,3 +37,8 @@ export const getBedsInAWardUrl = (wardId, pageNumber, pageSize) =>
   // Admission - Manage Wards
   export const getAdmissionsDoctorsNotesUrl = (AdmissionId) =>
   `Admission/GetPrescriptionsForAdmission?AdmissionId=${AdmissionId}`;
+// Admission - Manage Prescriptions
+export const getPrescriptionForAdmssionUrl = (id) =>
+  `/Admission/GetPrescription?PrescriptionId=${id}`;
+export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
+  `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;

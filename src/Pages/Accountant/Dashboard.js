@@ -249,7 +249,7 @@ class Dashboard extends React.Component {
   }
 
   async fetchServiceRequestInvoices() {
-    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(1);
+    const getAllServiceRequestInvoice = getAllServiceRequestInvoiceUrl(1, 200);
     const getAllServiceRequestInvoiceConfig = fetchConfig({
       url: getAllServiceRequestInvoice,
       method: "get",
@@ -260,7 +260,7 @@ class Dashboard extends React.Component {
   }
 
   fecthAllAcounts = async () => {
-    const getAllAccounts = getAllAccountsUrl(1);
+    const getAllAccounts = getAllAccountsUrl(1, 200);
     const getAllAccountsUrlConfig = fetchConfig({
       url: getAllAccounts,
       method: "get",
