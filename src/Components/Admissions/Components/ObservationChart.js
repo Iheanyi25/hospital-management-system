@@ -1,16 +1,17 @@
 import React from "react";
-import { fetchConfig } from "../../api/fetchConfig";
-import { useRequest } from "../../api/fetcher";
-import user from "../../assets/img/user.png";
-import { getAdmissionsDoctorsNotesUrl } from "../../api/URLs";
-import formatDate from "../../utils/formatDate";
-import { PageLoader } from "../Loader";
-import NoDataState from "../EmptyState/NoDataState";
+// import { fetchConfig } from "../../api/fetchConfig";
+// import { useRequest } from "../../api/fetcher";
+import user from "../../../assets/img/user.png";
+// import { getAdmissionsDoctorsNotesUrl } from "../../api/URLs";
+import formatDate from "../../../utils/formatDate"
+// ../utils/formatDate";
+// import { PageLoader } from "../Loader";
+// import NoDataState from "../EmptyState/NoDataState";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
-const DoctorsNotes = () => {
+const ObservationCharts = () => {
 //   const getAdmissionsDoctorsNotes = getAdmissionsDoctorsNotesUrl(id);
 //   const getAdmissionsDoctorsNotesConfig = fetchConfig({
 //     url: getAdmissionsDoctorsNotes,
@@ -18,7 +19,7 @@ const DoctorsNotes = () => {
 //   });
 //   const { data, error } = useRequest(getAdmissionsDoctorsNotesConfig);
 //   console.log(data);
-  const doctorsNotes = {
+  const Charts = {
     notes: [
       { date: 3029, note: "cefujkec", doctorsName: "Kaduna" },
       { date: 3029, note: "cefujkec", doctorsName: "Kaduna" },
@@ -41,7 +42,7 @@ const DoctorsNotes = () => {
               <NoDataState />
             ) : (
              patientPreConsultations.map((patientPreConsultation, index) => ( */}
-            { doctorsNotes.notes?.map((note) =>(
+            { Charts.notes?.map((Chart) =>(
                 
             // ))
 // }
@@ -55,9 +56,9 @@ const DoctorsNotes = () => {
                   aria-expanded="true"
                   aria-controls={`collapse${1}`}
                 >
-                  Doctors Notes
+                  Observation Chart
                   {`Captured on ${
-                          formatDate(note.date) ?? ""
+                          formatDate(Chart.date) ?? ""
                         }`}
                 </button>
               </h5>
@@ -80,7 +81,7 @@ const DoctorsNotes = () => {
                     <u>
                       {" "}
                       Dr Tahah Halli
-                      {`Dr. ${note.name
+                      {`Dr. ${Chart.name
                         //   clerkingHistory?.consultation?.doctor?.firstName ??
                         //   clerkingHistory?.doctor?.firstName ??
                         //   ""
@@ -94,7 +95,7 @@ const DoctorsNotes = () => {
                   <p className="mb-2">
                     {" "}
                     {`Clerked patient on ${
-                        formatDate(note?.date) ?? ""
+                        formatDate(Chart?.date) ?? ""
                       }`}
                   </p>
                 </div>
@@ -175,4 +176,4 @@ const DoctorsNotes = () => {
   );
 };
 
-export { DoctorsNotes };
+export { ObservationCharts };

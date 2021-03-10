@@ -51,7 +51,7 @@ const ManageAdmissions = () => {
               <img src={paid} alt="paid" /> Admitted
             </>
           ),
-        Actions: <AdmissionsActionTable />,
+        Actions: <AdmissionsActionTable id={admission.id} />,
       };
     });
   }
@@ -110,7 +110,7 @@ const ManageAdmissions = () => {
   );
 };
 
-const AdmissionsActionTable = () => {
+const AdmissionsActionTable = ({ id }) => {
   return (
     <ActionButton>
       <Link to="#" className="btn btn-sm btn-block">
@@ -118,7 +118,7 @@ const AdmissionsActionTable = () => {
         Hello, Nothing
       </Link>
       <Link
-        to={"/AdminWardRoundNotes"}
+        to={`/AdminWardRoundNotes/${id}`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />

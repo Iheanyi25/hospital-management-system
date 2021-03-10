@@ -114,7 +114,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminWardRoundNotes"
+            path="/AdminWardRoundNotes/:id"
             component={AdminWardRoundNotes}
           />
           <Route
@@ -312,7 +312,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminDoctorsNotes"
+            path="/AdminDoctorsNotes/:id"
             component={DoctorsNotes}
           />
           <Route
