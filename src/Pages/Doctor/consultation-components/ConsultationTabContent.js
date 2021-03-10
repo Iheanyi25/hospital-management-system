@@ -6,8 +6,8 @@ import {
 } from "./tab-components";
 
 function ConsultationTabContent({
-  pendingAppointments,
-  completedConsultations,
+  patientsWaiting,
+  patientsAttendedTo,
 }) {
   return (
     <div>
@@ -19,7 +19,7 @@ function ConsultationTabContent({
           aria-labelledby="pills-active-tab"
         >
           <PatientsWaitingTableContainer
-            pendingAppointments={pendingAppointments}
+            patientsWaiting={patientsWaiting}
             category="waitingList"
           />
         </div>
@@ -30,7 +30,7 @@ function ConsultationTabContent({
           aria-labelledby="pills-accepted-tab"
         >
           <PatientsAttendedTableContainer
-            completedConsultations={completedConsultations}
+            patientsAttendedTo={patientsAttendedTo}
             category="attendedList"
           />
         </div>
