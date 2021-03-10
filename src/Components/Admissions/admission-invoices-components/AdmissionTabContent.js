@@ -1,8 +1,9 @@
 import React from "react";
 import { DrugsInInvoice } from "./DrugsInInvoice";
 import { ServiceRequestsInInvoice } from "./ServiceRequestsInInvoice";
+import { TransactionHistory } from "./TransactionHistory";
 
-const AdmissionTabContent = ({ admissionInvoiceId }) => {
+const AdmissionTabContent = ({ admissionId, admissionInvoiceId }) => {
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -30,7 +31,7 @@ const AdmissionTabContent = ({ admissionInvoiceId }) => {
           role="tabpanel"
           aria-labelledby="pills-completed-tab"
         >
-          history
+          <TransactionHistory admissionId={admissionId} />
         </div>
       </div>
     </div>
