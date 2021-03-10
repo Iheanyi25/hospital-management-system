@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import React, { useContext } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
+import { useRequest } from "../../api/fetcher";
 import { getDoctorAllAppointmentsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
@@ -11,51 +11,38 @@ import {
   AppointmentTabHeader,
 } from "./appointment-components";
 
-const Appointments = observer(() => {
-  const [appointments, setAppointments] = useState({
-    acceptedAppointments: [],
-    pendingAppointments: [],
-    completedAppointments: [],
-  });
+const Appointments = observer(({doctorId}) => {
   const {
     user: { id },
   } = useContext(UserContext);
-  const fetchAppointments = useCallback(async () => {
-    const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(id);
-    const getDoctorAllAppointmentsConfig = fetchConfig({
-      url: getDoctorAllAppointments,
-      method: "get",
+
+  //if there is props called doctorId, it means its coming from admin
+  const getDoctorAllAppointments = getDoctorAllAppointmentsUrl(doctorId || id);
+  const getDoctorAllAppointmentsConfig = fetchConfig({
+    url: getDoctorAllAppointments,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(getDoctorAllAppointmentsConfig, {
+    revalidateOnFocus: false,
+  });
+
+  const acceptedAppointments = [];
+  const pendingAppointments = [];
+  const completedAppointments = [];
+
+  if (data) {
+    data.appointments.forEach((appointment) => {
+      if (appointment.isPending) {
+        pendingAppointments.push(appointment);
+      } else if (appointment.isAccepted) {
+        acceptedAppointments.push(appointment);
+      } else if (appointment.isCompleted) {
+        completedAppointments.push(appointment);
+      } 
     });
-    const { data, status } = await fetchWrapper(getDoctorAllAppointmentsConfig);
-    if (status === 200) {
-      filterAppointments(data?.appointments);
-    }
-    console.log(data);
-  }, [id]);
-  useEffect(() => {
-    fetchAppointments();
-  }, [fetchAppointments]);
+  }
 
-  const filterAppointments = (appointments) => {
-    setAppointments({
-      acceptedAppointments: appointments.filter(
-        (appointment) => appointment.isAccepted === true
-      ),
-      pendingAppointments: appointments.filter(
-        (appointment) => appointment.isPending === true
-      ),
-      completedAppointments: appointments.filter(
-        (appointment) => appointment.isCompleted === true
-      ),
-    });
-  };
-
-  const {
-    acceptedAppointments,
-    pendingAppointments,
-    completedAppointments,
-  } = appointments;
-
+  if (error) return <div>failed to load</div>;
   return (
     <>
       <PageLoader />
@@ -82,12 +69,12 @@ const Appointments = observer(() => {
               <div className="card-body">
                 <div>
                   <AppointmentTabHeader />
-                  <AppointmentTabContent
+                  {data && <AppointmentTabContent
                     acceptedAppointments={acceptedAppointments}
                     pendingAppointments={pendingAppointments}
                     completedAppointments={completedAppointments}
-                    getDoctorAppointments={fetchAppointments}
-                  />
+                    mutate={mutate}
+                  />}
                 </div>
               </div>
             </div>

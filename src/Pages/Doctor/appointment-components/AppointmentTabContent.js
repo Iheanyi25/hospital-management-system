@@ -9,24 +9,9 @@ const AppointmentTabContent = ({
   acceptedAppointments,
   pendingAppointments,
   completedAppointments,
-  getDoctorAppointments,
+  mutate,
 }) => {
-  //   const cancelAppointment = async (e, id) => {
-  //     e.preventDefault();
 
-  //     try {
-  //       const postDoctorCancelAppointment = postDoctorCancelAppointmentUrl(id);
-  //       const postDoctorCancelAppointmentConfig = fetchConfig({
-  //         url: postDoctorCancelAppointment,
-  //         method: "post",
-  //       });
-  //       const res = await fetchWrapper(postDoctorCancelAppointmentConfig);
-  //       console.log(res);
-  //       getDoctorAppointments();
-  //     } catch (err) {
-  //         console.log(err);
-  //     }
-  //   };
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -38,7 +23,7 @@ const AppointmentTabContent = ({
         >
           <PendingAppointmentsTableContainer
             pendingAppointments={pendingAppointments}
-            getDoctorAppointments={getDoctorAppointments}
+            mutate={mutate}
             category="pendingList"
           />
         </div>

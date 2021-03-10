@@ -3,25 +3,25 @@ import { Link } from "react-router-dom";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 
-function PatientsWaitingTableContainer({ pendingAppointments, category }) {
+function PatientsWaitingTableContainer({ patientsWaiting, category }) {
   let tableData = [];
-  if (pendingAppointments) {
-    tableData = pendingAppointments.map((pendingAppointment, index) => {
+  if (patientsWaiting) {
+    tableData = patientsWaiting.map((patientWaiting, index) => {
       return {
         "#": ++index,
-        Title: pendingAppointment.patientQueue.consultationTitle,
+        Title: patientWaiting.patientQueue.consultationTitle,
         "Reason for consultation":
-          pendingAppointment.patientQueue.reasonForConsultation,
-        Patient: `${pendingAppointment.patient?.lastName} ${pendingAppointment.patient?.firstName}`,
-        "Patient Contact": pendingAppointment?.patient?.phoneNumber ?? "N/A",
+          patientWaiting.patientQueue.reasonForConsultation,
+        Patient: `${patientWaiting.patient?.lastName} ${patientWaiting.patient?.firstName}`,
+        "Patient Contact": patientWaiting?.patient?.phoneNumber ?? "N/A",
         "Consultation Date": new Date(
-          pendingAppointment.patientQueue.dateOfConsultation
+          patientWaiting.patientQueue.dateOfConsultation
         ).toLocaleDateString(),
         "Consultation Time": new Date(
-          pendingAppointment.patientQueue.dateOfConsultation
+          patientWaiting.patientQueue.dateOfConsultation
         ).toLocaleTimeString(),
         Actions: (
-          <PatientsWaitingActionTable pendingAppointment={pendingAppointment} />
+          <PatientsWaitingActionTable patientWaiting={patientWaiting} />
         ),
       };
     });
@@ -31,14 +31,14 @@ function PatientsWaitingTableContainer({ pendingAppointments, category }) {
     <div>
       <Table
         content={tableData}
-        tableID={category + pendingAppointments.length}
-        key={category + pendingAppointments.length}
+        tableID={category + patientsWaiting.length}
+        key={category + patientsWaiting.length}
       />
     </div>
   );
 }
 
-const PatientsWaitingActionTable = ({ pendingAppointment }) => {
+const PatientsWaitingActionTable = ({ patientWaiting }) => {
   return (
     <ActionButton>
       <Link
@@ -47,8 +47,8 @@ const PatientsWaitingActionTable = ({ pendingAppointment }) => {
           pathname: "/DoctorClarking",
           state: {
             type: "consultation",
-            id: pendingAppointment.patientQueue.id,
-            patient: pendingAppointment.patient,
+            id: patientWaiting.patientQueue.id,
+            patient: patientWaiting.patient,
           },
         }}
         className="btn btn-sm btn-block"
@@ -61,9 +61,9 @@ const PatientsWaitingActionTable = ({ pendingAppointment }) => {
         to={{
           pathname: "/ViewClarkingHistory",
           state: {
-            id: pendingAppointment.patient.id,
-            firstName: pendingAppointment.patient.firstName,
-            lastName: pendingAppointment.patient.lastName,
+            id: patientWaiting.patient.id,
+            firstName: patientWaiting.patient.firstName,
+            lastName: patientWaiting.patient.lastName,
           },
         }}
         className="btn btn-sm btn-block"

@@ -16,6 +16,8 @@ import { PrescriptionInvoice } from "../../../Components/Modals";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionList } from "../../../Pages/Components/DrugPrescription";
+import { Table } from "../../DataTable";
+
 
 const DrugPrescription = observer(({ match }) => {
   const { user } = useContext(UserContext);
@@ -30,7 +32,7 @@ const DrugPrescription = observer(({ match }) => {
     method: "get",
   });
 
-  const { data: prescription } = useRequest(getPrescriptionConfig, {
+  const { data: prescription, error: error1 } = useRequest(getPrescriptionConfig, {
     revalidateOnFocus: false,
   });
   console.log(prescription);
@@ -42,7 +44,7 @@ const DrugPrescription = observer(({ match }) => {
   const [selectedDrugs, setSelectedDrugs] = useState([]);
   const [activeDrugs, setActiveDrugs] = useState(null);
 
-  const { data } = useRequest(getDrugConfig, {
+  const { data, error: error2 } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
 
@@ -106,6 +108,48 @@ const DrugPrescription = observer(({ match }) => {
     console.log(response);
   };
 
+  let dataTable = [];
+  if (selectedDrugs.length > 0) {
+    dataTable = selectedDrugs.map((item, index) => {
+      return {
+        "#": ++index,
+        "Drug name": (
+          <strong>
+            <div className="d-flex align-items-center nowrap">
+              {item?.name ?? "N/A"}
+            </div>
+          </strong>
+        ),
+        Qty: (
+          <div>
+            {Number(item?.numberOfUnits) === 1
+              ? `${item.numberOfUnits} tablet, `
+              : Number(item?.numberOfUnits) > 1
+              ? `${item.numberOfUnits} tablets, `
+              : null}
+            {Number(item?.numberOfContainers) === 1
+              ? `${item.numberOfContainers} pack, `
+              : Number(item?.numberOfContainers) > 1
+              ? `${item.numberOfContainers} packs,  `
+              : null}
+            {Number(item?.numberOfCartons) === 1
+              ? `${item.numberOfCartons} carton `
+              : Number(item?.numberOfCartons) > 1
+              ? `${item.numberOfCartons} cartons `
+              : null}
+          </div>
+        ),
+        // Actions: (
+        //   <PatientTableAction
+        //     patient={patient}
+        //     setActivePatientId={setActivePatientId}
+        //   />
+        // ),
+      };
+    });
+  }
+
+  if (error1 || error2) return <div>failed to load</div>;
   return (
     <>
       <main className="main-content">
@@ -152,74 +196,7 @@ const DrugPrescription = observer(({ match }) => {
                   </div>
 
                   <div className="col-12 col-md-5">
-                    <div className="table-responsive">
-                      <table className="table table-striped">
-                        <thead>
-                          <tr className="">
-                            <th>#</th>
-                            <th>Drug name</th>
-                            <th>Qty</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {selectedDrugs && selectedDrugs.length > 0 ? (
-                            selectedDrugs.map((item, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <strong>{index + 1}</strong>
-                                </td>
-                                <td>
-                                  <strong>
-                                    <div className="d-flex align-items-center nowrap">
-                                      {item?.name ?? "N/A"}
-                                    </div>
-                                  </strong>
-                                </td>
-                                <td>
-                                  {Number(item?.numberOfUnits) === 1
-                                    ? `${item.numberOfUnits} tablet, `
-                                    : Number(item?.numberOfUnits) > 1
-                                    ? `${item.numberOfUnits} tablets, `
-                                    : null}
-                                  {Number(item?.numberOfContainers) === 1
-                                    ? `${item.numberOfContainers} pack, `
-                                    : Number(item?.numberOfContainers) > 1
-                                    ? `${item.numberOfContainers} packs,  `
-                                    : null}
-                                  {Number(item?.numberOfCartons) === 1
-                                    ? `${item.numberOfCartons} carton `
-                                    : Number(item?.numberOfCartons) > 1
-                                    ? `${item.numberOfCartons} cartons `
-                                    : null}
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center nowrap">
-                                    <Link
-                                      title="Delete"
-                                      to="#"
-                                      onClick={() => removeFromSelected(index)}
-                                      className="text-danger mr-4"
-                                    >
-                                      <img src={remove} alt="delete" />
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="4">
-                                <p className="w-50 text-secondary">
-                                  Search and select the drugs prescribed to the
-                                  patient
-                                </p>
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                      {data && <Table content={dataTable} />}
                   </div>
                 </div>
               </div>
@@ -253,3 +230,23 @@ const DrugPrescription = observer(({ match }) => {
 });
 
 export default DrugPrescription;
+
+{/* <tr>
+                              <td colSpan="4">
+                                <p className="w-50 text-secondary">
+                                  Search and select the drugs prescribed to the
+                                  patient
+                                </p>
+                              </td>
+                            </tr> */}
+
+// <div className="d-flex align-items-center nowrap">
+// <Link
+//   title="Delete"
+//   to="#"
+//   onClick={() => removeFromSelected(index)}
+//   className="text-danger mr-4"
+// >
+//   <img src={remove} alt="delete" />
+// </Link>
+// </div>
