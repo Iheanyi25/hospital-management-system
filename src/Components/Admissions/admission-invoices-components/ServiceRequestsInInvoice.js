@@ -26,7 +26,9 @@ const ServiceRequestsInInvoice = ({ admissionInvoiceId }) => {
       ({ service: { name, dateCreated, cost }, status }, index) => {
         return {
           "#": ++index,
-          "Service Name": name,
+          "Service Name": (
+            <span style={{ textTransform: "capitalize" }}>{name}</span>
+          ),
           "Date Generated": formatDate(dateCreated),
           Cost: formatAmount(cost),
           Status: (
