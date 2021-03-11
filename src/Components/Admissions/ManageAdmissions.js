@@ -214,7 +214,7 @@ const ManageAdmissions = observer(() => {
 });
 
 // Everything goes in here at first
-const AdminActionTable = ({ admissionId, patientId, patientName }) => {
+const AdminActionTable = ({ admissionId, patientId, patientName, id }) => {
   return (
     <ActionButton>
       <Link
@@ -250,6 +250,13 @@ const AdminActionTable = ({ admissionId, patientId, patientName }) => {
       >
         <span className="btn-icon icofont-server mr-2" />
         Manage Invoices
+      </Link>
+      <Link
+        to={`/AdminWardRoundNotes/${id}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
       </Link>
     </ActionButton>
   );
