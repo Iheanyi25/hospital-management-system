@@ -1,5 +1,8 @@
 import React from "react";
+import { ReAssign } from "../../../Components/Modals/ReAssignModal";
+import ConsultationsCompleted from "./ConsultationsCompleted";
 import ConsultationsOnOpenList from "./ConsultationsOnOpenList";
+import ConsultationsWithDoctors from "./ConsultationsWithDoctors";
 import ConsultationTableContainer from "./ConsultationTableContainer";
 
 export default function ConsultationTabContent({
@@ -26,11 +29,7 @@ export default function ConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-accepted-tab"
         >
-          <ConsultationTableContainer
-            consultations={patientsAttachedToDoctors}
-            category="attachedToDoctors"
-            mutate={mutate}
-          />
+          <ConsultationsWithDoctors />
         </div>
 
         <div
@@ -39,13 +38,15 @@ export default function ConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-completed-tab"
         >
-          <ConsultationTableContainer
-            consultations={patientsAttendedTo}
-            category="attendedPatients"
-            mutate={mutate}
-          />
+          <ConsultationsCompleted />
         </div>
       </div>
+      <ReAssign
+        idType="consultationId"
+        route={"ReassignAppointment"}
+        // reRun={mutate}
+        // id={consultationId}
+      />
     </div>
   );
 }

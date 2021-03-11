@@ -25,6 +25,10 @@ export const getPatientsAttentedToCountUrl = () =>
   `/Admin/GetPatientsAttendedToCount`;
 export const getPatientConsultationsOnOpenListUrl = (pageNumber, pageSize) =>
   `/Admin/GetPatientConsultationsOnOpenList?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPatientConsultationsWithDoctorsUrl = (pageNumber, pageSize) =>
+  `/Admin/GetPatientConsultationsWithDoctors?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPatientConsultationsCompletedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetPatientConsultationsCompleted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postBookConsultationUrl = () => `/Admin/BookConsultation`;
 export const deleteConsultationUrl = () => `/Admin/DeleteConsultation`;
 //ReAssignment of doctors shares url with reAssignment of appointment
