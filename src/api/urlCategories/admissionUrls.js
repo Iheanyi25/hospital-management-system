@@ -12,8 +12,8 @@ export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
   `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}`;
 
 // Admission - Manage Admission Invoices
-export const getAdmissionTransactionsUrl = (admssionId) =>
-  `/Admission/GetAdmissionTransactions?AdmissionId=${admssionId}`;
+export const getAdmissionTransactionsUrl = (admssionId, pageNumber, pageSize) =>
+  `/Admission/GetAdmissionTransactions?AdmissionId=${admssionId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAdmissionInvoiceUrl = (admssionId) =>
   `/Admission/GetAdmissionInvoice?AdmissionId=${admssionId}`;
 export const postPayForAdmissionUrl = () => `/Admission/PayForAdmission`;
