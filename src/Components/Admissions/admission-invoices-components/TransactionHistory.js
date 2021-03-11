@@ -5,11 +5,16 @@ import formatDate from "../../../utils/formatDate";
 import formatAmount from "../../../utils/formatAmount";
 import { Table } from "../../DataTable";
 import { fetchConfig } from "../../../api/fetchConfig";
+import formatTme from "../../../utils/formatTime";
 
 const TransactionHistory = ({ admissionId }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const transactionsUrl = getAdmissionTransactionsUrl(admissionId);
+  const transactionsUrl = getAdmissionTransactionsUrl(
+    admissionId,
+    pageNumber,
+    pageSize,
+  );
   const getAdmissionInvoiceConfig = fetchConfig({
     url: transactionsUrl,
     method: "get",
@@ -22,6 +27,7 @@ const TransactionHistory = ({ admissionId }) => {
   if (data) {
     dataTable = data.admissionTransactions?.map(
       ({ initiator, trasactionDate, paymentMethod, amount }, index) => {
+        console.log("transc time", formatTme(trasactionDate), trasactionDate)
         return {
           "#": ++index,
           Initiator: `${initiator?.firstName} ${initiator?.lastName}`,
@@ -30,6 +36,7 @@ const TransactionHistory = ({ admissionId }) => {
             <span style={{ textTransform: "capitalize" }}>{paymentMethod}</span>
           ),
           "Date of Payment": formatDate(trasactionDate),
+          "Time of Payment": formatTme(trasactionDate),
         };
       }
     );
