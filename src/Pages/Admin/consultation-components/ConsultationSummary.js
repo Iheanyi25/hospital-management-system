@@ -1,7 +1,19 @@
-import React from 'react'
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
+import { fetchConfig } from '../../../api/fetchConfig';
+import { useRequest } from '../../../api/fetcher';
+import {
+  getPatientsAttentedToCountUrl
+} from "../../../api/URLs";
 
-export default function ConsultationSummary({patientsAttachedToDoctorsCount, patientsAttendedToCount, patientsOnOpenListCount}) {
+export default function ConsultationSummary({patientsAttachedToDoctorsCount, patientsOnOpenListCount}) {
+  const patientsAttentedToCount = getPatientsAttentedToCountUrl();
+  const getPatientsAttentedToCountConfig = fetchConfig({
+    url: patientsAttentedToCount,
+    method: "get",
+  });
+  const { data } = useRequest(getPatientsAttentedToCountConfig, {
+    revalidateOnFocus: false,
+  });
     return (
         <Fragment>
             <div className="row">
@@ -51,7 +63,7 @@ export default function ConsultationSummary({patientsAttachedToDoctorsCount, pat
                           Total Patients Attended
                         </h6>
                         <div className="count text-primary fs-20">
-                          {patientsAttendedToCount}
+                          {data?.consultationCount}
                         </div>
                       </div>
                     </div>
