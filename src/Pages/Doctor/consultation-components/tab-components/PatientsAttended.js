@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 
-function PatientsAttendedTableContainer({ completedConsultations, category }) {
+function PatientsAttendedTableContainer({ patientsAttendedTo, category }) {
   let tableData = [];
-  if (completedConsultations) {
-    tableData = completedConsultations.map((consultation, index) => {
+  if (patientsAttendedTo) {
+    tableData = patientsAttendedTo.map((consultation, index) => {
       return {
         "#": ++index,
         Title: consultation.patientQueue.consultationTitle,
@@ -29,8 +29,8 @@ function PatientsAttendedTableContainer({ completedConsultations, category }) {
     <div>
       <Table
         content={tableData}
-        tableID={category + completedConsultations.length}
-        key={category + completedConsultations.length}
+        tableID={category + patientsAttendedTo.length}
+        key={category + patientsAttendedTo.length}
       />
     </div>
   );
