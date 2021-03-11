@@ -3,14 +3,9 @@ import { ReAssign } from "../../../Components/Modals/ReAssignModal";
 import ConsultationsCompleted from "./ConsultationsCompleted";
 import ConsultationsOnOpenList from "./ConsultationsOnOpenList";
 import ConsultationsWithDoctors from "./ConsultationsWithDoctors";
-import ConsultationTableContainer from "./ConsultationTableContainer";
+// import ConsultationTableContainer from "./ConsultationTableContainer";
 
-export default function ConsultationTabContent({
-  patientsAttendedTo,
-  patientsOnOpenList,
-  patientsAttachedToDoctors,
-  mutate,
-}) {
+export default function ConsultationTabContent() {
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
