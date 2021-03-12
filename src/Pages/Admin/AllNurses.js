@@ -1,26 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader, Table } from "../../Components";
 import LabTechnicianImage from "../../assets/img/DoctorIcon.svg";
-import { getAllLabTechniciansUrl } from "../../api/URLs";
+import { getNursesUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import ActionButton from "../../Components/DataTable/ActionButton";
 import TableSize from "../../Components/DataTable/TableSize";
 
 function AllNurses() {
-  const fetchLabTechniciansUrl = getAllLabTechniciansUrl();
-  const fetchLabTechniciansConfig = fetchConfig({
-    url: fetchLabTechniciansUrl,
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const fetchNursesUrl = getNursesUrl(pageNumber, pageSize);
+  const fetchNursesConfig = fetchConfig({
+    url: fetchNursesUrl,
     method: "get",
   });
-  const { data, error } = useRequest(fetchLabTechniciansConfig, {
+  const { data, error } = useRequest(fetchNursesConfig, {
     revalidateOnFocus: false,
   });
 
   let tableData = [];
   if (data) {
-    tableData = data.labTechnicians.map(({ lab }, index) => {
+    tableData = data.nurses.map((nurse, index) => {
       return {
         "#": ++index,
         Photo: (
@@ -32,10 +34,10 @@ function AllNurses() {
             className="rounded-500"
           />
         ),
-        Name: `${lab.firstName} ${lab.lastName}`,
-        Email: <a href={"mailto:" + lab.email}>{lab.email}</a>,
-        Phone: lab.phoneNumber || "Not available",
-        Actions: <NurseTableAction lab={lab} />,
+        Name: `${nurse.firstName} ${nurse.lastName}`,
+        Email: <a href={"mailto:" + nurse.email}>{nurse.email}</a>,
+        Phone: nurse.phoneNumber || "Not avainursele",
+        Actions: <NurseTableAction nurse={nurse} />,
       };
     });
   }
@@ -56,12 +58,21 @@ function AllNurses() {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.labTechnicians.length : 0}
+              size={data ? data.nurses.length : 0}
               heading="No Of Nurses"
             />
           </div>
           <div className="page-content">
-            {data && <Table content={tableData} />}
+            {data && (
+              <Table
+                content={tableData}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+              />
+            )}
           </div>
         </div>
       </main>
@@ -69,11 +80,11 @@ function AllNurses() {
   );
 }
 
-const NurseTableAction = ({ lab }) => {
+const NurseTableAction = ({ nurse }) => {
   const tableFunctions = [
     {
       text: "View Profile",
-      path: `/AdminViewLabProfile/${lab.id}`,
+      path: `/AdminViewLabProfile/${nurse.id}`,
       iconClass: "btn-icon icofont-ui-edit  mr-2",
     },
   ];
@@ -83,7 +94,7 @@ const NurseTableAction = ({ lab }) => {
         <NavLink
           to={{
             pathname: path,
-            state: lab,
+            state: nurse,
           }}
           key={path}
           className="btn btn-sm btn-block"

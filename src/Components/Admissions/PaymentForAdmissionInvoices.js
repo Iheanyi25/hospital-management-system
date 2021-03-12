@@ -37,15 +37,11 @@ const PaymentForAdmissionInvoices = observer(({ history }) => {
     console.log(paymentDetails);
   };
 
-  const payForInvoice = async (
-    transactionReference,
-    paymentMethod,
-    description
-  ) => {
+  const payForInvoice = async (transactionReference, paymentMethod) => {
     const { amount } = paymentDetails;
     const payload = {
       admissionId,
-      totalAmount: amount,
+      amount,
       paymentMethod,
       transactionReference,
       initiatorId,
@@ -66,47 +62,13 @@ const PaymentForAdmissionInvoices = observer(({ history }) => {
       });
       const res = await fetchWrapper(payForAdmissionConfig);
       notification.success({ message: res.data.message });
-      history.push(nextRoute);
+      history.push({ pathname: nextRoute, state: patientId });
     } catch (error) {
       console.log(error);
       notification.error({ message: error?.response?.data.message });
     }
     console.log(payload);
   };
-
-  //   const payForInvoiceWithAccount = async (
-  //     transactionReference,
-  //     paymentMethod,
-  //     description
-  //   ) => {
-  //     const { amount } = paymentDetails;
-  //     const payload = {
-  //       admissionId,
-  //       totalAmount: amount,
-  //       paymentMethod,
-  //       transactionReference,
-  //       initiatorId,
-  //     };
-  //     const nextRoute =
-  //       userType === "Admin"
-  //         ? "/AdminManageAccounts"
-  //         : "/AccountantManageAccounts";
-  //     try {
-  //       const payForAdmission = postPayForAdmissionWithAccountUrl();
-  //       const payForAdmissionConfig = fetchConfig({
-  //         url: payForAdmission,
-  //         data: payload,
-  //         method: "post",
-  //       });
-  //       const res = await fetchWrapper(payForAdmissionConfig);
-  //       notification.success({ message: res.data.message });
-  //       history.push(nextRoute);
-  //     } catch (error) {
-  //       console.log(error);
-  //       notification.error({ message: error?.response?.data.message });
-  //     }
-  //     console.log(payload);
-  //   };
   return (
     <main className="main-content">
       <div className="app-loader">
