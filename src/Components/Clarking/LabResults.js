@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../api/fetcher";
 import {
   getServiceRequestResultUrl,
   getServiceRequestResultForPatientUrl,
+  getAdmissionsServiceRequestResultUrl
 } from "../../api/URLs";
 import resultImage from "../../assets/img/resultImage.svg";
 import NoDataState from "../EmptyState/NoDataState";
@@ -21,10 +22,16 @@ class LabResults extends React.Component {
 
   fetchServiceCategories = async () => {
     console.log(this.props.patientId);
-    const { serviceRequestId, patientId } = this.props;
+    const {
+      serviceRequestId,
+      patientId,
+      admissionServiceRequestId,
+    } = this.props;
     try {
       const getServiceRequestResult = patientId
         ? getServiceRequestResultForPatientUrl(patientId)
+        : admissionServiceRequestId
+        ? getAdmissionsServiceRequestResultUrl(admissionServiceRequestId)
         : getServiceRequestResultUrl(serviceRequestId);
       const getServiceRequestResultConfig = fetchConfig({
         url: getServiceRequestResult,
