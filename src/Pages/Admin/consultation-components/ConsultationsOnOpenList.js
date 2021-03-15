@@ -56,8 +56,7 @@ const ConsultationsOnOpenList = () => {
           consultation.doctor?.firstName || ""
         } `,
         "Consultation Time": formatDate(consultation?.dateOfConsultation),
-        "Consultation Date": formatTme(consultation?.dateOfConsultation)
-        ,
+        "Consultation Date": formatTme(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
@@ -95,22 +94,24 @@ export const ConsultationsOnOpenListActionTable = observer(
     return (
       <div>
         <ActionButton>
-          <Link
-            title="Go For Clerking"
-            to={{
-              pathname: `/DoctorClarking`,
-              state: {
-                id: consultation.id,
-                type: "consultation",
-                patient: consultation.patient,
-              },
-            }}
-            key={`/DoctorClarking`}
-            className="btn btn-sm btn-block"
-          >
-            <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Go For Clerking
-          </Link>
+          {userType === "Admin" ? (
+            <Link
+              title="Go For Clerking"
+              to={{
+                pathname: `/DoctorClarking`,
+                state: {
+                  id: consultation.id,
+                  type: "consultation",
+                  patient: consultation.patient,
+                },
+              }}
+              key={`/DoctorClarking`}
+              className="btn btn-sm btn-block"
+            >
+              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+              Go For Clerking
+            </Link>
+          ) : null}
           <Link
             title="Go For Pre-consultation"
             to={
