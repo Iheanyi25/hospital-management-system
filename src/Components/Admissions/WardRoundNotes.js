@@ -57,7 +57,9 @@ class WardRoundNotes extends React.Component {
     this.submitRequest(payload);
     this.setState({ reMount: !this.state.reMount });
   };
-
+  componentDidMount(){
+    console.log(this.props.match.params);
+  }
 
   submitRequest = async (payload) => {
     const {
@@ -338,7 +340,7 @@ class WardRoundNotes extends React.Component {
                                     Update doctors notes
                                   </button>
                                   </div>
-                                      <DoctorsNotes
+                                      <DoctorsNotes admissionId={this.props.match.params.id}
                                         // patientDetails={{ firstName, lastName, id }}
                                         // setCount={this.setCount}
                                         // user

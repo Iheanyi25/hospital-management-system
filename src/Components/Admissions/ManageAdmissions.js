@@ -252,7 +252,7 @@ const AdminActionTable = ({ admissionId, patientId, patientName, id }) => {
         Manage Invoices
       </Link>
       <Link
-        to={`/AdminWardRoundNotes/${id}`}
+        to={`/AdminWardRoundNotes/${admissionId}`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
@@ -314,7 +314,7 @@ const LabActionTable = ({ admissionId, id }) => {
         Lab Services
       </Link>
       <Link
-        to={`/AdminWardRoundNotes/${id}`}
+        to={`/AdminWardRoundNotes/${admissionId}`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
