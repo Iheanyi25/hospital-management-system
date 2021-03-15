@@ -11,6 +11,8 @@ import { Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import { ReAssign } from "../../../Components/Modals/ReAssignModal";
 import { UserContext } from "../../../mobx/UserState";
+import formatDate from "../../../utils/formatDate";
+import formatTme from "../../../utils/formatTime";
 import { notification } from "../../../utils/notification";
 
 const ConsultationsWithDoctors = () => {
@@ -56,12 +58,8 @@ const ConsultationsWithDoctors = () => {
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        "Consultation Time": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleTimeString(),
-        "Consultation Date": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleDateString(),
+        "Consultation Time": formatDate(consultation?.dateOfConsultation),
+        "Consultation Date": formatTme(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
