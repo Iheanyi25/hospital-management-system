@@ -8,6 +8,12 @@ export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
 
 // Admin - Manage Appointment
 export const getDoctorAppointmentsUrl = () => `/Admin/GetDoctorAppointments`;
+export const getDoctorAppointmentsPendingUrl = (pageNumber, pageSize) =>
+  `/Admin/GetDoctorAppointmentsPending?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDoctorAppointmentsAcceptedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetDoctorAppointmentsAccepted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDoctorAppointmentsCompletedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetDoctorAppointmentsCompleted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAppointmentUrl = () => `/Admin/BookAppointment`;
 export const deleteAppointmentUrl = () => `/Admin/DeleteAppointment`;
 /* this endpoint will serve reassignment of appointment and reassignment of doctors*/
