@@ -25,6 +25,12 @@ export const postAdmissionsRequestServiceUrl = () =>
   `/Admission/RequestServices`;
 export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
   `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}`;
+export const getAdmissionServiceRequestUrl = (serviceRequestId) =>
+  `/Admission/GetAdmissionServiceRequest/${serviceRequestId}`;
+export const uploadServiceRequestResultUrl = () =>
+  `/Admission/UploadServiceRequestResult`;
+export const getAdmissionsServiceRequestResultUrl = (serviceRequestId) =>
+  `/Admission/GetServiceRequestResults/${serviceRequestId}`;
 
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
