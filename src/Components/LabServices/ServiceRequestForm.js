@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React, { useState, useEffect } from "react";
-import { isNotEmptyString } from "../../../../utils/validationUtils";
+import { isNotEmptyString } from "../../utils/validationUtils";
 
 const UploadLabResultForm = observer(
   ({ serviceRequest, uploadServiceRequestResult, loading }) => {

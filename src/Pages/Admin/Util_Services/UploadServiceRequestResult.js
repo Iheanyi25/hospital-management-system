@@ -7,7 +7,7 @@ import { getServiceRequestUrl, postServiceRequestUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
-import UploadLabResultForm from "./components/ServiceRequestForm";
+import UploadLabResultForm from "../../../Components/LabServices/ServiceRequestForm";
 
 const UploadServiceRequestResult = observer(({ match }) => {
   const {
