@@ -42,8 +42,18 @@ export const deleteWardUrl = () => `/Admission/Ward/DeleteWard`;
 export const getBedsInAWardUrl = (wardId, pageNumber, pageSize) =>
   `/Admission/Ward/GetBedsInAWard?WardId=${wardId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
+// Admission - Manage Wards
+export const getAdmissionsDoctorsNotesUrl = (AdmissionId) =>
+  `Admission/GetAdmissionNotesForAdmission?AdmissionId=${AdmissionId}`;
 // Admission - Manage Prescriptions
 export const getPrescriptionForAdmssionUrl = (id) =>
   `/Admission/GetPrescription?PrescriptionId=${id}`;
 export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
   `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+
+// Admission - Manage Medications
+export const getMedicationsUrl = (params) =>
+  `/Admission/GetMedications/?AdmissionId=${params?.admissionId}
+  &pageNumber=${params?.pageNumber}
+  &pageSize=${params?.pageSize}
+  `;

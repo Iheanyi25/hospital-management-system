@@ -214,7 +214,7 @@ const ManageAdmissions = observer(() => {
 });
 
 // Everything goes in here at first
-const AdminActionTable = ({ admissionId, patientId, patientName }) => {
+const AdminActionTable = ({ admissionId, patientId, patientName, id }) => {
   return (
     <ActionButton>
       <Link
@@ -251,6 +251,13 @@ const AdminActionTable = ({ admissionId, patientId, patientName }) => {
         <span className="btn-icon icofont-server mr-2" />
         Manage Invoices
       </Link>
+      <Link
+        to={`/AdminWardRoundNotes/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
+      </Link>
     </ActionButton>
   );
 };
@@ -280,7 +287,7 @@ const NurseActionTable = () => {
     </ActionButton>
   );
 };
-const PharmacyActionTable = ({ admissionId, patientName }) => {
+const PharmacyActionTable = ({ admissionId, patientName}) => {
   return (
     <ActionButton>
       <Link
@@ -296,7 +303,7 @@ const PharmacyActionTable = ({ admissionId, patientName }) => {
     </ActionButton>
   );
 };
-const LabActionTable = ({ admissionId }) => {
+const LabActionTable = ({ admissionId, id }) => {
   return (
     <ActionButton>
       <Link
@@ -305,6 +312,13 @@ const LabActionTable = ({ admissionId }) => {
       >
         <span className="btn-icon icofont-server mr-2" />
         Lab Services
+      </Link>
+      <Link
+        to={`/AdminWardRoundNotes/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
       </Link>
     </ActionButton>
   );

@@ -17,6 +17,9 @@ import {
 // import AdmissionReferral from "../../Components/Admissions/ReferredPatients";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
+import { DoctorsNotes } from "../../Components/Admissions/DoctorsNotes";
+import Medications from "./Components/Medications";
+import { ObservationCharts } from "./Components/ObservationChart";
 
 class WardRoundNotes extends React.Component {
   static contextType = UserContext;
@@ -54,7 +57,9 @@ class WardRoundNotes extends React.Component {
     this.submitRequest(payload);
     this.setState({ reMount: !this.state.reMount });
   };
-
+  componentDidMount(){
+    console.log(this.props.match.params);
+  }
 
   submitRequest = async (payload) => {
     const {
@@ -146,18 +151,18 @@ class WardRoundNotes extends React.Component {
           </div>
         </main> */}
 
-        <main className="main-content mt-5">
+        <main className="main-content mt-2">
           <div className="app-loader">
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-          <div className="card border-light w-75 m-auto">
-                                      <ClarkingHistory
-                                        patientDetails={{ firstName, lastName, id }}
-                                        setCount={this.setCount}
-                                        user
-                                      />
-                                    </div>
+          <div className="card border-light w-50 my-5 mx-auto">
+            <ClarkingHistory
+              patientDetails={{ firstName, lastName, id }}
+              setCount={this.setCount}
+              user
+              />
+          </div>
             {/* <header className="page-header d-flex justify-content-between">
               <h3 className="page-title">
                 Doctor Clerking:{" "}
@@ -249,7 +254,7 @@ class WardRoundNotes extends React.Component {
                     Request new service
                   </NavLink>
                 </div> */}
-                <div className="tab-content col-md-9" id="v-pills-tabContent">
+                <div className="tab-content col-md-12" id="v-pills-tabContent">
                   <div
                     className="tab-pane fade show active"
                     id="v-pills-home"
@@ -322,19 +327,25 @@ class WardRoundNotes extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-home-tab"
                         >
-                          <div className="row justify-content-center mt-5">
+                          <div className="row justify-content-center w-50 mx-auto mt-5">
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
                                   {/* <form className="mb-4"> */}
-                                    <div className="card border-light w-75 m-auto">
-                                    <h4>Doctors Notes</h4>
-                                      <ClarkingHistory
-                                        patientDetails={{ firstName, lastName, id }}
-                                        setCount={this.setCount}
-                                        user
+                                    <div className="d-flex justify-content-between align-item-between">
+                                    <h4 className="m-0">Doctors Notes</h4>
+                                    <button
+                                    className="btn btn-primary"
+                                  >
+                                    Update doctors notes
+                                  </button>
+                                  </div>
+                                      <DoctorsNotes admissionId={this.props.match.params.id}
+                                        // patientDetails={{ firstName, lastName, id }}
+                                        // setCount={this.setCount}
+                                        // user
                                       />
-                                    </div>
+                                    {/* </div> */}
                                     {/* <div className="form-group">
                                       <label>
                                         Additions like Smoking, Drinking etc
@@ -387,14 +398,21 @@ class WardRoundNotes extends React.Component {
                           role="tabpanel"
                           aria-labelledby="pills-profile-tab"
                         >
-                          <div className="row justify-content-center mt-5">
+                          <div className="row justify-content-center mt-4">
                             <div className="col-md-12">
-                              <div className="card border-light">
+                            <button
+                                    className="btn btn-primary"
+                                  >
+                                    Update medication
+                                  </button>
+                              <div className="card border-light mt-4">
+                                
                                 <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4>Family History</h4>
+                                  {/* <form className="mb-4"> */}
+                                    {/* <h4>Medications</h4> */}                                   
+                                    <Medications admissionId={this.props.match.params.id}/>
 
-                                    <div className="form-group">
+                                    {/* <div className="form-group">
                                       <label>
                                         Hereditary sickness like mental health,
                                         blood pressure etc
@@ -415,9 +433,9 @@ class WardRoundNotes extends React.Component {
                                         placeholder="Enter Family History Here"
                                         rows={3}
                                       />
-                                    </div>
+                                    </div> */}
 
-                                    <div className="row">
+                                    {/* <div className="row">
                                       <div className="col"></div>
                                       <div className="col text-right">
                                         <button
@@ -434,8 +452,8 @@ class WardRoundNotes extends React.Component {
                                           Save Family History
                                         </button>
                                       </div>
-                                    </div>
-                                  </form>
+                                    </div> */}
+                                  {/* </form> */}
                                 </div>
                               </div>
                             </div>
@@ -451,10 +469,9 @@ class WardRoundNotes extends React.Component {
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <form className="mb-4">
-                                    <h4>Medical History</h4>
-
-                                    <div className="form-group">
+                                    <h4>Observation Chart</h4>
+                                    <ObservationCharts/>
+                                    {/* <div className="form-group">
                                       <label>
                                         Common Sicknesses like
                                         Hepatitis,Diabetes etc
@@ -474,28 +491,8 @@ class WardRoundNotes extends React.Component {
                                         className="form-control"
                                         placeholder="Enter Medical History Here"
                                         rows={3}
-                                      />
-                                    </div>
-
-                                    <div className="row">
-                                      <div className="col"></div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          onClick={(e) =>
-                                            this.handleSubmit(
-                                              "capturePatientHealthHistory",
-                                              ["medicalHistory"],
-                                              e
-                                            )
-                                          }
-                                          className="btn btn-primary"
-                                        >
-                                          Save Medical History
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
+                                      /> */}
+                                    {/* </div> */}
                                 </div>
                               </div>
                             </div>
