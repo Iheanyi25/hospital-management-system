@@ -1,5 +1,6 @@
-import { observer } from "mobx-react";
 import React from "react";
+import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import { ClarkingHistory } from "../../Components/Clarking";
 import { DoctorsNotes } from "../../Components/Admissions/DoctorsNotes";
@@ -11,6 +12,7 @@ const WardRoundNotes = () => {
   const { id: admissionId } = useParams();
   const {
     location: {
+      state: patient,
       state: { firstName, lastName, id },
     },
   } = useHistory();
@@ -23,8 +25,20 @@ const WardRoundNotes = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4
+              className="page-title mb-0"
+              style={{ textTransform: "capitalize" }}
+            >{`${firstName} ${lastName}`}</h4>
+            <Link
+              className="btn btn-outline-primary"
+              to={{ pathname: `/AdminPatientProfile/${id}`, state: patient }}
+            >
+              View patient profile
+            </Link>
+          </header>
           <div className="card border-light w-50 my-5 mx-auto">
-            <ClarkingHistory patientDetails={{ firstName, lastName, id }} />
+            <ClarkingHistory patientDetails={{ firstName, lastName, id }} user />
           </div>
           <div className="page-content">
             <div className="row">
