@@ -85,6 +85,8 @@ import ManageAdmissionInvoices from "../Components/Admissions/ManageAdmissionInv
 import AdmissionCreateServiceRequest from "../Components/Admissions/CreateServiceRequest";
 import ManageServiceRequests from "../Components/Admissions/MangeServiceRequests";
 import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
+import UploadServiceRequestResult from "../Components/Admissions/LabServices/UploadServiceRequestResult";
+import ViewServiceRequestResults from "../Components/Admissions/LabServices/ViewServiceRequestResults";
 
 export default function AdminRoutes() {
   return (
@@ -367,6 +369,16 @@ export default function AdminRoutes() {
             exact
             path="/AdminManageAdmissionServiceRequest/:id"
             component={ManageServiceRequests}
+          />
+          <Route
+            exact
+            path="/AdminUploadAdmissionsServiceRequestResult/:id"
+            component={UploadServiceRequestResult}
+          />
+          <Route
+            exact
+            path="/AdminViewAdmissionsServiceRequestResults/:id"
+            component={ViewServiceRequestResults}
           />
           <Route
             exact

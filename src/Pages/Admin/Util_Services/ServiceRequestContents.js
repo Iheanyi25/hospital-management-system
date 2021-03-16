@@ -77,7 +77,7 @@ const ServiceRequestContents = ({ match, location }) => {
           Amount: formatAmount(request?.amount) ?? "",
           Status: (
             <>
-              {request?.status === "NOT PAID" ? (
+              {request?.status === "False" ? (
                 <>
                   <img src={notpaid} alt="not paid" /> Not paid
                 </>
@@ -151,7 +151,9 @@ const ServiceRequestContents = ({ match, location }) => {
 };
 
 const ServiceRequestContentTableAction = ({ request, userType }) => {
-  return (
+  return request.status === "False" ? (
+    "Pay for service"
+  ) : (
     <ActionButton>
       <Link
         to={

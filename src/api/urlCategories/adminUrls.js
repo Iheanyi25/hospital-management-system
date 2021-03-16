@@ -8,6 +8,12 @@ export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
 
 // Admin - Manage Appointment
 export const getDoctorAppointmentsUrl = () => `/Admin/GetDoctorAppointments`;
+export const getDoctorAppointmentsPendingUrl = (pageNumber, pageSize) =>
+  `/Admin/GetDoctorAppointmentsPending?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDoctorAppointmentsAcceptedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetDoctorAppointmentsAccepted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDoctorAppointmentsCompletedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetDoctorAppointmentsCompleted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAppointmentUrl = () => `/Admin/BookAppointment`;
 export const deleteAppointmentUrl = () => `/Admin/DeleteAppointment`;
 /* this endpoint will serve reassignment of appointment and reassignment of doctors*/
@@ -23,6 +29,12 @@ export const getPatientsUnattentedToCountUrl = () =>
   `/Admin/GetPatientsUnattendedToCount`;
 export const getPatientsAttentedToCountUrl = () =>
   `/Admin/GetPatientsAttendedToCount`;
+export const getPatientConsultationsOnOpenListUrl = (pageNumber, pageSize) =>
+  `/Admin/GetPatientConsultationsOnOpenList?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPatientConsultationsWithDoctorsUrl = (pageNumber, pageSize) =>
+  `/Admin/GetPatientConsultationsWithDoctors?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPatientConsultationsCompletedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetPatientConsultationsCompleted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postBookConsultationUrl = () => `/Admin/BookConsultation`;
 export const deleteConsultationUrl = () => `/Admin/DeleteConsultation`;
 //ReAssignment of doctors shares url with reAssignment of appointment
@@ -83,7 +95,8 @@ export const deleteServiceUrl = () => `/Admin/DeleteService`;
 export const registerUserUrl = () => `/Admin/Register`;
 export const getRegistrationFeeInvoiceUrl = () =>
   `/Admin/GetRegistrationFeeInvoices`;
-export const getTheRegistrationFeeInvoiceUrl = (patientId) => `/api/Admin/GetRegistrationFeeInvoice=${patientId}`
+export const getTheRegistrationFeeInvoiceUrl = (patientId) =>
+  `/api/Admin/GetRegistrationFeeInvoice=${patientId}`;
 export const registerPatientUrl = () => `/Admin/RegisterPatient`;
 export const getPatientRegistrationInvoiceUrl = (patientId) =>
   `/Admin/GetPatientRegistrationInvoice?patientId=${patientId}`;

@@ -38,7 +38,7 @@ const ManageAdmissionInvoices = observer(({ history }) => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Admission Invoices</h4>
-            {data?.admissionInvoice.amount <=
+            {data?.admissionInvoice.amount ===
             data?.admissionInvoice.amountPaid ? null : (
               <Link
                 className="btn btn-primary"
@@ -60,16 +60,24 @@ const ManageAdmissionInvoices = observer(({ history }) => {
             )}
           </header>
           <div className="page-content">
-            <div className="row">
+            {data?.admissionInvoice.amount !==
+            data?.admissionInvoice.amountPaid ? (
+              <div className="row">
+                <TableSize
+                  size={formatAmount(data?.admissionInvoice.amount ?? "0")}
+                  heading="Total Amount"
+                />
+                <TableSize
+                  size={formatAmount(data?.admissionInvoice.amountPaid ?? "0")}
+                  heading="Amount Paid"
+                />
+              </div>
+            ) : (
               <TableSize
                 size={formatAmount(data?.admissionInvoice.amount ?? "0")}
-                heading="Total Amount"
+                heading="Payment Completed"
               />
-              <TableSize
-                size={formatAmount(data?.admissionInvoice.amountPaid ?? "0")}
-                heading="Amount Paid"
-              />
-            </div>
+            )}
             <div className="row">
               <TableSize size="23" heading="No. of Prescription Invoices" />
               <TableSize size="20" heading="No. of Service Request Invoices" />
@@ -84,6 +92,7 @@ const ManageAdmissionInvoices = observer(({ history }) => {
                 {data && (
                   <AdmissionTabContent
                     admissionInvoiceId={data.admissionInvoice.id}
+                    admissionId={id}
                   />
                 )}
               </div>
