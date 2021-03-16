@@ -157,12 +157,12 @@ class WardRoundNotes extends React.Component {
           </div>
           <div className="main-content-wrap">
           <div className="card border-light w-50 my-5 mx-auto">
-                                      <ClarkingHistory
-                                        patientDetails={{ firstName, lastName, id }}
-                                        setCount={this.setCount}
-                                        user
-                                      />
-                                    </div>
+            <ClarkingHistory
+              patientDetails={{ firstName, lastName, id }}
+              setCount={this.setCount}
+              user
+              />
+          </div>
             {/* <header className="page-header d-flex justify-content-between">
               <h3 className="page-title">
                 Doctor Clerking:{" "}
@@ -410,7 +410,7 @@ class WardRoundNotes extends React.Component {
                                 <div className="card-body">
                                   {/* <form className="mb-4"> */}
                                     {/* <h4>Medications</h4> */}                                   
-                                    <Medications/>
+                                    <Medications admissionId={this.props.match.params.id}/>
 
                                     {/* <div className="form-group">
                                       <label>
@@ -469,7 +469,6 @@ class WardRoundNotes extends React.Component {
                             <div className="col-md-12">
                               <div className="card border-light">
                                 <div className="card-body">
-                                  <form className="mb-4">
                                     <h4>Observation Chart</h4>
                                     <ObservationCharts/>
                                     {/* <div className="form-group">
@@ -494,26 +493,6 @@ class WardRoundNotes extends React.Component {
                                         rows={3}
                                       /> */}
                                     {/* </div> */}
-
-                                    <div className="row">
-                                      <div className="col"></div>
-                                      <div className="col text-right">
-                                        <button
-                                          type="button"
-                                          onClick={(e) =>
-                                            this.handleSubmit(
-                                              "capturePatientHealthHistory",
-                                              ["medicalHistory"],
-                                              e
-                                            )
-                                          }
-                                          className="btn btn-primary"
-                                        >
-                                          Save Medical History
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
                                 </div>
                               </div>
                             </div>

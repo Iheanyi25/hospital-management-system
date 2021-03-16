@@ -42,19 +42,19 @@ const ObservationCharts = () => {
               <NoDataState />
             ) : (
              patientPreConsultations.map((patientPreConsultation, index) => ( */}
-            { Charts.notes?.map((Chart) =>(
+            { Charts.notes?.map((Chart, index) =>(
                 
             // ))
 // }
           <div className="card mb-0">
-            <div className="card-header" id={`heading${1}`}>
+            <div className="card-header" id={`heading${index}`}>
               <h5 className="mb-0">
                 <button
                   className="btn btn-outline-primary btn-block"
                   data-toggle="collapse"
-                  data-target={`#collapseDrNote${1}`}
+                  data-target={`#collapseDrNote${index}`}
                   aria-expanded="true"
-                  aria-controls={`collapse${1}`}
+                  aria-controls={`collapse${index}`}
                 >
                   Observation Chart
                   {`Captured on ${
@@ -64,7 +64,7 @@ const ObservationCharts = () => {
               </h5>
             </div>
             <div
-              id={`collapseDrNote${1}`}
+              id={`collapseDrNote${index}`}
               className="collapse"
               aria-labelledby="headingOne"
               data-parent="#accordion"

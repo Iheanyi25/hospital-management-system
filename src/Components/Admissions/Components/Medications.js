@@ -1,88 +1,90 @@
-import React, { useState, Fragment } from "react";
-import { Link } from "react-router-dom";
-// import { fetchConfig } from "../../api/fetchConfig";
-// import { useRequest } from "../../api/fetcher";
+import React, { Fragment } from "react";
+// import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getMedicationsUrl } from "../../../api/URLs";
 // import { getAdmissionsUrl, getAllWardsUrl } from "../../api/URLs";
 // import incomplete from "../../assets/img/incomplete.svg";
 // import paid from "../../assets/img/paid.svg";
 import { Table } from "../../DataTable";
-import TableSize from "../../DataTable/TableSize";
-import ActionButton from "../../DataTable/ActionButton";
+// import TableSize from "../../DataTable/TableSize";
+// import ActionButton from "../../DataTable/ActionButton";
 import { PageLoader } from "../../Loader";
 
-const Medications = () => {
-  //   const [pageNumber, setPageNumber] = useState(1);
-  //   const [pageSize, setPageSize] = useState(50);
+const Medications = ({admissionId}) => {
+    // const [pageNumber, setPageNumber] = useState(1);
+    // const [pageSize, setPageSize] = useState(50);
   //   const [wardId, setWardId] = useState("all");
 
-  //   //Fetching admissions
-  //   const getAdmissions = getAdmissionsUrl(wardId, pageNumber, pageSize);
-  //   const getAdmissionsConfig = fetchConfig({
-  //     url: getAdmissions,
-  //     method: "get",
-  //   });
-  //   const { data, error } = useRequest(getAdmissionsConfig, {
-  //     revalidateOnFocus: false,
-  //   });
+    //Fetching admissions
+    console.log("heloooo",admissionId,666)
+    // const params = { pageNumber, pageSize, admissionId}
+    const params = 2
+    const getMedications = getMedicationsUrl(params);
+    const getMedicationsConfig = fetchConfig({
+      url: getMedications,
+      method: "get",
+    });
+    const { data } = useRequest(getMedicationsConfig, {
+      revalidateOnFocus: false,
+    });
+    console.log(data,11116666);
 
-  //   // Fetching all wards
-  //   const getAllWards = getAllWardsUrl(pageNumber, pageSize);
-  //   const getAllWardsConfig = fetchConfig({ url: getAllWards, method: "get" });
-  //   const { data: wards } = useRequest(getAllWardsConfig, {
-  //     revalidateOnFocus: false,
-  //   });
-  //   console.log(wards, 89999);
+
+    // paginationDetails={data.paginationDetails}
+    // setPageNumber={setPageNumber}
+    // pageNumber={pageNumber}
+    // pageSize={pageSize}
+    // setPageSize={setPageSize}
+
+    // // Fetching all wards
+    // const getAllWards = getAllWardsUrl(pageNumber, pageSize);
+    // const getAllWardsConfig = fetchConfig({ url: getAllWards, method: "get" });
+    // const { data: wards } = useRequest(getAllWardsConfig, {
+    //   revalidateOnFocus: false,
+    // });
+    // console.log(wards, 89999);
   const patientsMedications = {
-    medication: [
-      {
-        medication: "Ezinne",
-        dose: "cefujkec",
-        freq: "2",
-        date: 3029,
-        start: "Kaduna",
-      },
-      {
-        medication: "Ezinne",
-        dose: "cefujkec",
-        freq: "2",
-        date: 3029,
-        start: "Kaduna",
-      },
-      {
-        medication: "Ezinne",
-        dose: "cefujkec",
-        ferq: "w2",
-        date: 3029,
-        start: "Kaduna",
-      },
-    ],
+    // medication: [
+    //   {
+    //     medication: "Ezinne",
+    //     dose: "cefujkec",
+    //     freq: "2",
+    //     date: 3029,
+    //     start: "Kaduna",
+    //   },
+    //   {
+    //     medication: "Ezinne",
+    //     dose: "cefujkec",
+    //     freq: "2",
+    //     date: 3029,
+    //     start: "Kaduna",
+    //   },
+    //   {
+    //     medication: "Ezinne",
+    //     dose: "cefujkec",
+    //     ferq: "w2",
+    //     date: 3029,
+    //     start: "Kaduna",
+    //   },
+    // ],
   };
   let dataTable = [];
-  if (patientsMedications) {
-    dataTable = patientsMedications.medication.map((medication, index) => {
+  if (data) {
+    dataTable = data?.medications.map((medication, index) => {
       return {
         "#": ++index,
         Medication: `${medication.medication}`,
         // `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-        Dose: `${medication.dose}`,
+        Dose: `${medication.dosage}`,
         //  `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-        FreQ: `${medication.freq}`,
+        FreQ: `${medication?.freq || "N/A"}`,
         // admission?.bed?.ward?.name,
-        Start: `${medication.start}`,
+        Start: `${medication.startDate}`,
         //  admission?.bed?.name,
-        Stop: `${medication.start}`,
-
-        //         Status:
-        //           admission?.bed === null ? (
-        //             <>
-        //               <img src={incomplete} alt="not paid" /> Pending
-        //             </>
-        //           ) : (
-        //             <>
-        //               <img src={paid} alt="paid" /> Admitted
-        //             </>
-        //           ),
-        //         Actions: <AdmissionsActionTable id={admission.id} />,
+        Stop: `${medication.endDate}`,
+        Status: `${medication.status}`,
+        Initiator: `${medication.initiator}`,
       };
     });
   }
@@ -141,19 +143,19 @@ const Medications = () => {
   );
 };
 
-const AdmissionsActionTable = ({ id }) => {
-  return (
-    <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Hello, Nothing
-      </Link>
-      <Link to={`/AdminWardRoundNotes/${id}`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
+// const AdmissionsActionTable = ({ id }) => {
+//   return (
+//     <ActionButton>
+//       <Link to="#" className="btn btn-sm btn-block">
+//         <span className="btn-icon icofont-server mr-2" />
+//         Hello, Nothing
+//       </Link>
+//       <Link to={`/AdminWardRoundNotes/${id}`} className="btn btn-sm btn-block">
+//         <span className="btn-icon icofont-server mr-2" />
+//         Manage Admission
+//       </Link>
+//     </ActionButton>
+//   );
+// };
 
 export default Medications;
