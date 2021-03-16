@@ -81,7 +81,7 @@ export const UserProvider = ({ children }) => {
             prevNotificationId = notification.warining({ message: "Network Error, try again", duration: 5000 })
           }
           if (userStore.user) toggleGlobalLoaderClass("remove");
-          console.log(error);
+          throw error
         }
       );
     }),

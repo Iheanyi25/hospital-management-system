@@ -5,6 +5,7 @@ import {
   AdminHeader,
   DoctorHeader,
   LabHeader,
+  NurseHeader,
   PatientHeader,
   PharmacyHeader,
 } from "../Header";
@@ -18,6 +19,7 @@ import {
   AdminSidebar,
   DoctorSidebar,
   LabSidebar,
+  NurseSidebar,
   PatientSidebar,
   PharmacySidebar,
 } from "../Sidebar";
@@ -104,6 +106,19 @@ export const PharmacyLayout = ({ children }) => {
       <div className="app-container">
         <PharmacyHeader />
         <PharmacySidebar />
+        {children}
+        <Footer />
+      </div>
+    </div>
+  );
+};
+
+export const NurseLayout = ({ children }) => {
+  return (
+    <div className="page-box">
+      <div className="app-container">
+        <NurseHeader />
+        <NurseSidebar />
         {children}
         <Footer />
       </div>

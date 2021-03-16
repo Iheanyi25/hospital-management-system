@@ -5,6 +5,8 @@ import { getServiceRequestsInAnInvoiceUrl } from "../../../api/URLs";
 import formatDate from "../../../utils/formatDate";
 import formatAmount from "../../../utils/formatAmount";
 import { Table } from "../../DataTable";
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 
 const ServiceRequestsInInvoice = ({ admissionInvoiceId }) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -20,32 +22,31 @@ const ServiceRequestsInInvoice = ({ admissionInvoiceId }) => {
   console.log(data);
   let dataTable = [];
   if (data) {
-    dataTable = data.serviceRequests.map(({ service }, index) => {
-      return {
-        "#": ++index,
-        "Patient's Name": service?.fullname,
-        "No. of Services": service?.noofServices,
-        "Date Generated": formatDate(service?.dateGenerated),
-        "Total Cost": formatAmount(service?.cost),
-        Status: (
-          <>
-            {/* {service?.paymentStatus === "NOT PAID" ? (
-              <>
-                <img src={notpaid} alt="not paid" /> Not paid
-              </>
-            ) : service?.paymentStatus === "PAID" ? (
-              <>
-                <img src={paid} alt="paid" /> Paid
-              </>
-            ) : (
-              <>
-                <img src={incomplete} alt="paid" /> Incomplete
-              </>
-            )} */}
-          </>
-        ),
-      };
-    });
+    dataTable = data.serviceRequests.map(
+      ({ service: { name, dateCreated, cost }, status }, index) => {
+        return {
+          "#": ++index,
+          "Service Name": (
+            <span style={{ textTransform: "capitalize" }}>{name}</span>
+          ),
+          "Date Generated": formatDate(dateCreated),
+          Cost: formatAmount(cost),
+          Status: (
+            <>
+              {status === "UNDONE" ? (
+                <>
+                  <img src={notpaid} alt="undone" /> Undone
+                </>
+              ) : (
+                <>
+                  <img src={paid} alt="done" /> Done
+                </>
+              )}
+            </>
+          ),
+        };
+      }
+    );
   }
   if (error) return <div>failed to load</div>;
   return (

@@ -45,13 +45,12 @@ const ServiceRequestContents = ({ match, location }) => {
       if (userType === "Admin" || userType === "Lab") {
         return {
           "#": ++index,
-          "Patient's Name": `${request?.serviceInvoice.patient.firstName} ${request?.serviceInvoice.patient.lastName}`,
-          "Service Category": request?.service?.serviceCategory?.name,
           "Service Name": request?.serviceName,
+          "Service Category": request?.service?.serviceCategory?.name,
           Amount: formatAmount(request?.cost) ?? "",
           Status: (
             <>
-              {request?.paymentStatus === "False" ? (
+              {request?.status === "False" ? (
                 <>
                   <img src={notpaid} alt="not paid" /> Not paid
                 </>
@@ -78,7 +77,7 @@ const ServiceRequestContents = ({ match, location }) => {
           Amount: formatAmount(request?.amount) ?? "",
           Status: (
             <>
-              {request?.paymentStatus === "False" ? (
+              {request?.status === "False" ? (
                 <>
                   <img src={notpaid} alt="not paid" /> Not paid
                 </>
@@ -152,7 +151,9 @@ const ServiceRequestContents = ({ match, location }) => {
 };
 
 const ServiceRequestContentTableAction = ({ request, userType }) => {
-  return (
+  return request.status === "False" ? (
+    "Pay for service"
+  ) : (
     <ActionButton>
       <Link
         to={

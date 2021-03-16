@@ -7,7 +7,7 @@ export const getPrescriptionUrl = (id) =>
   `/Pharmacy/GetPrescription?ClerkingId=${id}`;
 export const generateDrugDispenseInvoiceUrl = () =>
   `/Pharmacy/GenerateDrugDispenseInvoice`;
-export const getDAllrugDispencingInvoicesUrl = () =>
+export const getAllDrugDispencingInvoicesUrl = () =>
   `/Pharmacy/GetDrugDispencingInvoices`;
 export const payForDrugsUrl = () => `/Pharmacy/PayForDrugs`;
 export const payForDrugsWithAccountUrl = () =>
