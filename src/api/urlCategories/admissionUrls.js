@@ -20,6 +20,11 @@ export const postPayForAdmissionUrl = () => `/Admission/PayForAdmission`;
 export const postPayForAdmissionWithAccountUrl = () =>
   `/Admission/PayForAdmissionWithAccount`;
 
+// Admission - Manage Admission Notes
+export const getAdmissionsDoctorsNotesUrl = (AdmissionId) =>
+  `Admission/GetAdmissionNotesForAdmission?AdmissionId=${AdmissionId}`;
+export const createAdmissionsNoteUrl = () => `Admission/CreateAdmissionNote`;
+
 // Admission - Manage Admission Service Requests
 export const postAdmissionsRequestServiceUrl = () =>
   `/Admission/RequestServices`;
@@ -42,9 +47,6 @@ export const deleteWardUrl = () => `/Admission/Ward/DeleteWard`;
 export const getBedsInAWardUrl = (wardId, pageNumber, pageSize) =>
   `/Admission/Ward/GetBedsInAWard?WardId=${wardId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
-// Admission - Manage Wards
-export const getAdmissionsDoctorsNotesUrl = (AdmissionId) =>
-  `Admission/GetAdmissionNotesForAdmission?AdmissionId=${AdmissionId}`;
 // Admission - Manage Prescriptions
 export const getPrescriptionForAdmssionUrl = (id) =>
   `/Admission/GetPrescription?PrescriptionId=${id}`;
