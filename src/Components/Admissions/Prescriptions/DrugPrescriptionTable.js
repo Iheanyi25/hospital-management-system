@@ -7,9 +7,8 @@ export default function DrugPrescriptionTable({
   selectedDrugs,
   removeFromSelected,
 }) {
-    console.log(selectedDrugs,666)
   let dataTable = [];
-//   if (selectedDrugs) {
+  if (selectedDrugs) {
     dataTable = selectedDrugs.map((item, index) => {
       return {
         "#": <strong>{index + 1}</strong>,
@@ -45,19 +44,21 @@ export default function DrugPrescriptionTable({
         ),
       };
     });
-//   }
+  }
 
-  return <Table content={dataTable} emptyTable={EmptyTableState} />;
+  return <Table content={dataTable} emptyTable={<EmptyTableState />} />;
 }
 
 const EmptyTableState = () => {
   return (
-    // <tr>
-      <td colSpan="4">
-        <p className="w-50 text-secondary">
-          Search and select the drugs prescribed to the patient
-        </p>
-      </td>
-    // </tr>
+    <div className="card border-light">
+      <div className="card-body">
+        <div>
+          <p className="w-50 text-secondary">
+            Search and select the drugs prescribed to the patient
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
