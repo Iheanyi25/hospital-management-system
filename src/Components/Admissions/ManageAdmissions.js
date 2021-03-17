@@ -59,7 +59,7 @@ const ManageAdmissions = observer(() => {
           Actions: (
             <NurseActionTable
               admissionId={admission.id}
-              patient={admission.patient.id}
+              patient={admission.patient}
             />
           ),
         };
@@ -304,12 +304,18 @@ const AccountantTable = ({ admissionId, patient }) => {
     </ActionButton>
   );
 };
-const NurseActionTable = () => {
+const NurseActionTable = ({ admissionId, patient }) => {
   return (
     <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/NurseWardRoundNotes/${admissionId}`,
+          state: patient,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Nurse
+        Manage Admission
       </Link>
     </ActionButton>
   );
