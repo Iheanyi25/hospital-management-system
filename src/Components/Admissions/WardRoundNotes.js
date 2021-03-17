@@ -38,7 +38,10 @@ const WardRoundNotes = () => {
             </Link>
           </header>
           <div className="card border-light w-50 my-5 mx-auto">
-            <ClarkingHistory patientDetails={{ firstName, lastName, id }} user />
+            <ClarkingHistory
+              patientDetails={{ firstName, lastName, id }}
+              user
+            />
           </div>
           <div className="page-content">
             <div className="row">
@@ -102,21 +105,7 @@ const WardRoundNotes = () => {
                         role="tabpanel"
                         aria-labelledby="pills-home-tab"
                       >
-                        <div className="row justify-content-center w-50 mx-auto mt-5">
-                          <div className="col-md-12">
-                            <div className="card border-light">
-                              <div className="card-body">
-                                <div className="d-flex justify-content-between align-item-between">
-                                  <h4 className="m-0">Doctors Notes</h4>
-                                  <button className="btn btn-primary">
-                                    Update doctors notes
-                                  </button>
-                                </div>
-                                <DoctorsNotes admissionId={admissionId} />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <DoctorsNotes admissionId={admissionId} />
                       </div>
                       <div
                         className="tab-pane fade"
