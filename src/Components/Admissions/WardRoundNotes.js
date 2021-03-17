@@ -42,6 +42,8 @@ const WardRoundNotes = observer(() => {
                     ? `/AdminPatientProfile/${id}`
                     : userType === "Doctor"
                     ? `/DoctorPatientProfile/${id}`
+                    : userType === "Nurse"
+                    ? `/NursePatientProfile/${id}`
                     : "#",
                 state: patient,
               }}
