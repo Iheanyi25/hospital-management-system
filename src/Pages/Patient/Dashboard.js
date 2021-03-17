@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import {
-  getPatientAllAppointmentsUrl
+  getPatientDashboardUrl,
+  getPatientPendingAppointmentsUrl
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
@@ -15,24 +16,25 @@ const Dashboard = () => {
   const {
     user: { id, firstName, lastName },
   } = useContext(UserContext);
-  const getPatientAllAppointments = getPatientAllAppointmentsUrl(id);
+  const getPatientAllAppointments = getPatientPendingAppointmentsUrl(id);
   const getPatientAllAppointmentsConfig = fetchConfig({
     url: getPatientAllAppointments,
     method: "get",
   });
-  const { data, error, mutate } = useRequest(getPatientAllAppointmentsConfig, {
+  const { data, error1, mutate } = useRequest(getPatientAllAppointmentsConfig, {
     revalidateOnFocus: false,
   });
-  const pendingAppointments = [];
-  if (data) {
-    data.appointments.forEach((appointment) => {
-      if (appointment.isPending) {
-        pendingAppointments.push(appointment);
-      }
-    });
-  }
 
-  if (error) return <div>failed to load</div>;
+  const getPatientAllCounts = getPatientDashboardUrl(id);
+  const getPatientAllCountsConfig = fetchConfig({
+    url: getPatientAllCounts,
+    method: "get",
+  });
+  const { data: allCounts, error2 } = useRequest(getPatientAllCountsConfig, {
+    revalidateOnFocus: false,
+  });
+
+  if (error1 && error2) return <div>failed to load</div>;
   return (
     <>
       <PageLoader />
@@ -43,12 +45,12 @@ const Dashboard = () => {
         <div className="main-content-wrap">
           <div className="page-content">
             <PatientDashboardSummary
-              pendingAppointmentsCount={pendingAppointments.length}
+              allCounts={allCounts || {}}
             />
             <PatientDahboardHeader firstName={firstName} lastName={lastName} />
             {data && (
               <PatientDashboardAppointmentList
-                pendingAppointments={pendingAppointments}
+                pendingAppointments={data?.appointments}
                 mutate={mutate}
               />
             )}
