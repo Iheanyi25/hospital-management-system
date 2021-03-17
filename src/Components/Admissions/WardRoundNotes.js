@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import { ClarkingHistory } from "../../Components/Clarking";
-import { DoctorsNotes } from "../../Components/Admissions/DoctorsNotes";
+import DoctorsNotes  from "./ward-round-components/DoctorsNotes";
 import Medications from "./ward-round-components/Medications";
 import { ObservationCharts } from "./ward-round-components/ObservationChart";
 import { useHistory, useParams } from "react-router";
@@ -113,18 +113,7 @@ const WardRoundNotes = () => {
                         role="tabpanel"
                         aria-labelledby="pills-profile-tab"
                       >
-                        <div className="row justify-content-center mt-4">
-                          <div className="col-md-12">
-                            <button className="btn btn-primary">
-                              Update medication
-                            </button>
-                            <div className="card border-light mt-4">
-                              <div className="card-body">
-                                <Medications admissionId={admissionId} />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <Medications admissionId={admissionId} />
                       </div>
                       <div
                         className="tab-pane fade"

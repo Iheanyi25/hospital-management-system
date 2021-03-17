@@ -1,12 +1,12 @@
 import React from "react";
-import { fetchConfig } from "../../api/fetchConfig";
-import { useRequest } from "../../api/fetcher";
-import user from "../../assets/img/user.png";
-import { getAdmissionsDoctorsNotesUrl } from "../../api/URLs";
-import formatDate from "../../utils/formatDate";
-import { PageLoader } from "../Loader";
-import EmptyUploadState from "../../Components/EmptyState/EmptyUploadState";
-import UpdateDoctorsNotes from "../Modals/UpdateDoctorsNotes";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import user from "../../../assets/img/user.png";
+import { getAdmissionsDoctorsNotesUrl } from "../../../api/URLs";
+import formatDate from "../../../utils/formatDate";
+import { PageLoader } from "../../Loader";
+import EmptyUploadState from "../../EmptyState/EmptyUploadState";
+import UpdateDoctorsNotes from "../../Modals/UpdateDoctorsNotes";
 
 const DoctorsNotes = ({ admissionId }) => {
   const getAdmissionsDoctorsNotes = getAdmissionsDoctorsNotesUrl(admissionId);
@@ -109,4 +109,4 @@ const DoctorsNotes = ({ admissionId }) => {
   );
 };
 
-export { DoctorsNotes };
+export default DoctorsNotes ;
