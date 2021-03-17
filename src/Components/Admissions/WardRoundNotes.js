@@ -1,8 +1,9 @@
-import { observer } from "mobx-react";
 import React from "react";
+import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import { ClarkingHistory } from "../../Components/Clarking";
-import { DoctorsNotes } from "../../Components/Admissions/DoctorsNotes";
+import DoctorsNotes  from "./ward-round-components/DoctorsNotes";
 import Medications from "./ward-round-components/Medications";
 import { ObservationCharts } from "./ward-round-components/ObservationChart";
 import { useHistory, useParams } from "react-router";
@@ -11,6 +12,7 @@ const WardRoundNotes = () => {
   const { id: admissionId } = useParams();
   const {
     location: {
+      state: patient,
       state: { firstName, lastName, id },
     },
   } = useHistory();
@@ -23,8 +25,23 @@ const WardRoundNotes = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
+          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+            <h4
+              className="page-title mb-0"
+              style={{ textTransform: "capitalize" }}
+            >{`${firstName} ${lastName}`}</h4>
+            <Link
+              className="btn btn-outline-primary"
+              to={{ pathname: `/AdminPatientProfile/${id}`, state: patient }}
+            >
+              View patient profile
+            </Link>
+          </header>
           <div className="card border-light w-50 my-5 mx-auto">
-            <ClarkingHistory patientDetails={{ firstName, lastName, id }} />
+            <ClarkingHistory
+              patientDetails={{ firstName, lastName, id }}
+              user
+            />
           </div>
           <div className="page-content">
             <div className="row">
@@ -88,21 +105,7 @@ const WardRoundNotes = () => {
                         role="tabpanel"
                         aria-labelledby="pills-home-tab"
                       >
-                        <div className="row justify-content-center w-50 mx-auto mt-5">
-                          <div className="col-md-12">
-                            <div className="card border-light">
-                              <div className="card-body">
-                                <div className="d-flex justify-content-between align-item-between">
-                                  <h4 className="m-0">Doctors Notes</h4>
-                                  <button className="btn btn-primary">
-                                    Update doctors notes
-                                  </button>
-                                </div>
-                                <DoctorsNotes admissionId={admissionId} />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <DoctorsNotes admissionId={admissionId} />
                       </div>
                       <div
                         className="tab-pane fade"
@@ -110,18 +113,7 @@ const WardRoundNotes = () => {
                         role="tabpanel"
                         aria-labelledby="pills-profile-tab"
                       >
-                        <div className="row justify-content-center mt-4">
-                          <div className="col-md-12">
-                            <button className="btn btn-primary">
-                              Update medication
-                            </button>
-                            <div className="card border-light mt-4">
-                              <div className="card-body">
-                                <Medications admissionId={admissionId} />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <Medications admissionId={admissionId} />
                       </div>
                       <div
                         className="tab-pane fade"

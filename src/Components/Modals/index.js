@@ -14,3 +14,5 @@ export * from "./AddPrescriptionQuantity";
 export * from "./PrescriptionInvoice";
 export * from "./PrescriptionReciept";
 export * from "./AddBed";
+export * from "./UpdateDoctorsNotes";
+export * from "./UpdateMedications";
