@@ -45,10 +45,11 @@ const ManageServiceRequests = observer(() => {
   const { data: invoice, error } = useRequest(getServiceRequestInvoice, {
     revalidateOnFocus: false,
   });
+  console.log(invoice,77);
   let dataTable = [];
   if (invoice) {
     dataTable = invoice.serviceRequests.map(
-      ({ service: { name, dateCreated, cost, id }, status }, index) => {
+      ({ service: { name, dateCreated, cost }, id, status }, index) => {
         return {
           "#": ++index,
           "Service Name": name,
@@ -116,8 +117,8 @@ const ServiceActionTable = ({ serviceId, userType }) => {
       <Link
         to={
           userType === "Admin"
-            ? `/AdminUploadServiceRequestResult/${serviceId}`
-            : `/LabUploadServiceRequestResult/${serviceId}`
+            ? `/AdminUploadAdmissionsServiceRequestResult/${serviceId}`
+            : `/LabUploadAdmissionsServiceRequestResult/${serviceId}`
         }
         className="btn btn-sm btn-block"
       >
@@ -128,8 +129,8 @@ const ServiceActionTable = ({ serviceId, userType }) => {
       <Link
         to={
           userType === "Admin"
-            ? `/AdminViewLabResults/${serviceId}`
-            : `/LabViewLabResults/${serviceId}`
+            ? `/AdminViewAdmissionsServiceRequestResults/${serviceId}`
+            : `/LabViewAdmissionsServiceRequestResults/${serviceId}`
         }
         className="btn btn-sm btn-block"
       >

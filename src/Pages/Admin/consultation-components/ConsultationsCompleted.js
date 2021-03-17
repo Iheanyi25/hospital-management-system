@@ -5,6 +5,8 @@ import { useRequest } from "../../../api/fetcher";
 import { getPatientConsultationsCompletedUrl } from "../../../api/URLs";
 import { Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
+import formatDate from "../../../utils/formatDate";
+import formatTme from "../../../utils/formatTime";
 
 const ConsultationsCompleted = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -33,12 +35,8 @@ const ConsultationsCompleted = () => {
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        "Consultation Time": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleTimeString(),
-        "Consultation Date": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleDateString(),
+        "Consultation Time": formatDate(consultation?.dateOfConsultation),
+        "Consultation Date": formatTme(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (

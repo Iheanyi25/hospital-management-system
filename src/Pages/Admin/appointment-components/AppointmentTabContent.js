@@ -1,12 +1,9 @@
 import React from "react";
-import AppointmentTableContainer from "./AppointmentTableContainer";
+import AppointmentsAccepted from "./AppointmentsAccepted";
+import AppointmentsCompleted from "./AppointmentsCompleted";
+import AppointmentsPending from "./AppointmentsPending";
 
-export default function AppointmentTabContent({
-  pendingAppointments,
-  acceptedAppointments,
-  completedAppointments,
-  mutate
-}) {
+export default function AppointmentTabContent() {
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -16,11 +13,7 @@ export default function AppointmentTabContent({
           role="tabpanel"
           aria-labelledby="pills-pending-tab"
         >
-          <AppointmentTableContainer
-            appointments={pendingAppointments}
-            category="pending"
-            mutate={mutate}
-          />
+          <AppointmentsPending />
         </div>
 
         <div
@@ -29,11 +22,7 @@ export default function AppointmentTabContent({
           role="tabpanel"
           aria-labelledby="pills-accepted-tab"
         >
-          <AppointmentTableContainer
-            appointments={acceptedAppointments}
-            category="accepted"
-            mutate={mutate}
-          />
+          <AppointmentsAccepted />
         </div>
 
         <div
@@ -42,11 +31,7 @@ export default function AppointmentTabContent({
           role="tabpanel"
           aria-labelledby="pills-completed-tab"
         >
-          <AppointmentTableContainer
-            appointments={completedAppointments}
-            category="completed"
-            mutate={mutate}
-          />
+          <AppointmentsCompleted />
         </div>
       </div>
     </div>

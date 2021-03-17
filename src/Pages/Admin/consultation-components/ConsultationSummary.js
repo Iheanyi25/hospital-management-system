@@ -3,10 +3,7 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
 import { getPatientsAttentedToCountUrl } from "../../../api/URLs";
 
-export default function ConsultationSummary({
-  patientsAttachedToDoctorsCount,
-  patientsOnOpenListCount,
-}) {
+export default function ConsultationSummary() {
   const patientsAttentedToCount = getPatientsAttentedToCountUrl();
   const getPatientsAttentedToCountConfig = fetchConfig({
     url: patientsAttentedToCount,
@@ -28,7 +25,7 @@ export default function ConsultationSummary({
                 <div className="col col-9">
                   <h6 className="mt-0 mb-1">Total Patient On Open List</h6>
                   <div className="count text-primary fs-20">
-                    {patientsOnOpenListCount}
+                    {`N/A`}
                   </div>
                 </div>
               </div>
@@ -45,7 +42,7 @@ export default function ConsultationSummary({
                 <div className="col col-9">
                   <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
                   <div className="count text-primary fs-20">
-                    {patientsAttachedToDoctorsCount}
+                    {`N/A`}
                   </div>
                 </div>
               </div>

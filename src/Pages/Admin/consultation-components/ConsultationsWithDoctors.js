@@ -11,12 +11,13 @@ import { Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import { ReAssign } from "../../../Components/Modals/ReAssignModal";
 import { UserContext } from "../../../mobx/UserState";
+import formatDate from "../../../utils/formatDate";
+import formatTme from "../../../utils/formatTime";
 import { notification } from "../../../utils/notification";
 
 const ConsultationsWithDoctors = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const [consultationId, setConsultationId] = useState();
   const patientConsultationsWithDoctorsCount = getPatientConsultationsWithDoctorsUrl(
     pageNumber,
     pageSize
@@ -57,19 +58,15 @@ const ConsultationsWithDoctors = () => {
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        "Consultation Time": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleTimeString(),
-        "Consultation Date": new Date(
-          consultation?.dateOfConsultation
-        ).toLocaleDateString(),
+        "Consultation Time": formatDate(consultation?.dateOfConsultation),
+        "Consultation Date": formatTme(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
           <ConsultationsWithDoctorsActionTable
             consultation={consultation}
-            setConsultationId={setConsultationId}
             deleteConsultation={deleteConsultation}
+            mutate={mutate}
           />
         ),
       };
@@ -88,76 +85,82 @@ const ConsultationsWithDoctors = () => {
         pageSize={pageSize}
         setPageSize={setPageSize}
       />
-      <ReAssign
-        idType="consultationId"
-        route={"ReassignAppointment"}
-        reRun={mutate}
-        id={consultationId}
-      />
     </div>
   );
 };
 
 export const ConsultationsWithDoctorsActionTable = observer(
-  ({ consultation, setConsultationId, deleteConsultation }) => {
+  ({ consultation, deleteConsultation, mutate }) => {
     const {
       user: { userType },
     } = useContext(UserContext);
     return (
-      <ActionButton>
-        <Link
-          title="Go For Clerking"
-          to={{
-            pathname: `/DoctorClarking`,
-            state: {
-              id: consultation.id,
-              type: "consultation",
-              patient: consultation.patient,
-            },
-          }}
-          key={`/DoctorClarking`}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-          Go For Clerking
-        </Link>
-        <Link
-          title="Go For Pre-consultation"
-          to={
-            userType === "Nurse"
-              ? `/NursePreConsultation/${consultation.patient.id}`
-              : `/AdminPreConsultation/${consultation.patient.id}`
-          }
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-          Go For Pre-consultation
-        </Link>
-        <Link
-          title="Clerking History"
-          to={{ pathname: `/ViewClarkingHistory`, state: consultation.patient }}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-stethoscope-alt mr-2" />
-          Clerking History
-        </Link>
-        <button
-          className="btn btn-sm btn-block"
-          data-toggle="modal"
-          onClick={() => setConsultationId(consultation.id)}
-          data-target={`#reassign-patient-${consultation.id}`}
-        >
-          <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-          Assign to Doctor
-        </button>
-        <button
-          className="btn btn-sm btn-block"
-          onClick={() => deleteConsultation(consultation.id)}
-        >
-          <span className="mr-3 btn-icon icofont-delete-alt" />
-          Delete Consultation
-        </button>
-      </ActionButton>
+      <div>
+        <ActionButton>
+          {userType === "Admin" ? (
+            <Link
+              title="Go For Clerking"
+              to={{
+                pathname: `/DoctorClarking`,
+                state: {
+                  id: consultation.id,
+                  type: "consultation",
+                  patient: consultation.patient,
+                },
+              }}
+              key={`/DoctorClarking`}
+              className="btn btn-sm btn-block"
+            >
+              <span className="btn-icon icofont-stethoscope-alt mr-2" />
+              Go For Clerking
+            </Link>
+          ) : null}
+          <Link
+            title="Go For Pre-consultation"
+            to={
+              userType === "Nurse"
+                ? `/NursePreConsultation/${consultation.patient.id}`
+                : `/AdminPreConsultation/${consultation.patient.id}`
+            }
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+            Go For Pre-consultation
+          </Link>
+          <Link
+            title="Clerking History"
+            to={{
+              pathname: `/ViewClarkingHistory`,
+              state: consultation.patient,
+            }}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-stethoscope-alt mr-2" />
+            Clerking History
+          </Link>
+          <button
+            className="btn btn-sm btn-block"
+            data-toggle="modal"
+            data-target={`#reassign-patient-${consultation.id}`}
+          >
+            <span className="mr-3 btn-icon icofont-stethoscope-alt" />
+            Assign to Doctor
+          </button>
+          <button
+            className="btn btn-sm btn-block"
+            onClick={() => deleteConsultation(consultation.id)}
+          >
+            <span className="mr-3 btn-icon icofont-delete-alt" />
+            Delete Consultation
+          </button>
+        </ActionButton>
+        <ReAssign
+          idType="consultationId"
+          route={"ReassignAppointment"}
+          reRun={mutate}
+          id={consultation.id}
+        />
+      </div>
     );
   }
 );

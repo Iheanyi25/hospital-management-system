@@ -1,5 +1,4 @@
 import React from "react";
-import { ReAssign } from "../../../Components/Modals/ReAssignModal";
 import ConsultationsCompleted from "./ConsultationsCompleted";
 import ConsultationsOnOpenList from "./ConsultationsOnOpenList";
 import ConsultationsWithDoctors from "./ConsultationsWithDoctors";
@@ -36,12 +35,6 @@ export default function ConsultationTabContent() {
           <ConsultationsCompleted />
         </div>
       </div>
-      <ReAssign
-        idType="consultationId"
-        route={"ReassignAppointment"}
-        // reRun={mutate}
-        // id={consultationId}
-      />
     </div>
   );
 }

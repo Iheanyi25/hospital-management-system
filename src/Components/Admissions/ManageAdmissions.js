@@ -59,7 +59,7 @@ const ManageAdmissions = observer(() => {
           Actions: (
             <NurseActionTable
               admissionId={admission.id}
-              patientId={admission.patient.id}
+              patient={admission.patient.id}
             />
           ),
         };
@@ -83,7 +83,7 @@ const ManageAdmissions = observer(() => {
           Actions: (
             <AccountantTable
               admissionId={admission.id}
-              patientId={admission.patient.id}
+              patient={admission.patient}
             />
           ),
         };
@@ -150,7 +150,7 @@ const ManageAdmissions = observer(() => {
           Actions: (
             <AdminActionTable
               admissionId={admission.id}
-              patientId={admission.patient.id}
+              patient={admission.patient}
               patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
             />
           ),
@@ -214,9 +214,19 @@ const ManageAdmissions = observer(() => {
 });
 
 // Everything goes in here at first
-const AdminActionTable = ({ admissionId, patientId, patientName }) => {
+const AdminActionTable = ({ admissionId, patient, patientName, id }) => {
   return (
     <ActionButton>
+      <Link
+        to={{
+          pathname: `/AdminWardRoundNotes/${admissionId}`,
+          state: patient,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
+      </Link>
       <Link
         to={{
           pathname: `/AdminManageAdmissionPrescriptions/${admissionId}`,
@@ -244,7 +254,7 @@ const AdminActionTable = ({ admissionId, patientId, patientName }) => {
       <Link
         to={{
           pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
-          state: patientId,
+          state: patient.id,
         }}
         className="btn btn-sm btn-block"
       >
@@ -254,13 +264,13 @@ const AdminActionTable = ({ admissionId, patientId, patientName }) => {
     </ActionButton>
   );
 };
-const AccountantTable = ({ admissionId, patientId }) => {
+const AccountantTable = ({ admissionId, patient }) => {
   return (
     <ActionButton>
       <Link
         to={{
           pathname: `/AccountantManageAdmissionInvoices/${admissionId}`,
-          state: patientId,
+          state: patient.id,
         }}
         className="btn btn-sm btn-block"
       >
@@ -305,6 +315,13 @@ const LabActionTable = ({ admissionId }) => {
       >
         <span className="btn-icon icofont-server mr-2" />
         Lab Services
+      </Link>
+      <Link
+        to={`/AdminWardRoundNotes/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
       </Link>
     </ActionButton>
   );

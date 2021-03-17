@@ -3,7 +3,10 @@ import React, { Fragment, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { getServiceRequestUrl, postServiceRequestUrl } from "../../../api/URLs";
+import {
+  getAdmissionServiceRequestUrl,
+  uploadServiceRequestResultUrl,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
@@ -16,17 +19,18 @@ const UploadServiceRequestResult = observer(({ match }) => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const {
-    params: { serviceRequestId },
+    params: { id: serviceRequestId },
   } = match;
 
-  const serviceRequestUrl = getServiceRequestUrl(serviceRequestId);
-  const getServiceRequestUrlConfig = fetchConfig({
+  const serviceRequestUrl = getAdmissionServiceRequestUrl(serviceRequestId);
+  const getAdmissionServiceRequestConfig = fetchConfig({
     url: serviceRequestUrl,
     method: "get",
   });
-  const { data, error } = useRequest(getServiceRequestUrlConfig, {
+  const { data, error } = useRequest(getAdmissionServiceRequestConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data);
   const uploadServiceRequestResult = async (data) => {
     //append others
     setLoading(true);
@@ -38,9 +42,9 @@ const UploadServiceRequestResult = observer(({ match }) => {
 
     images.forEach((image) => requestResultData.append("images", image));
 
-    const serviceRequesyUrl = postServiceRequestUrl();
+    const serviceRequestUrl = uploadServiceRequestResultUrl();
     const postServiceRequest = fetchConfig({
-      url: serviceRequesyUrl,
+      url: serviceRequestUrl,
       method: "post",
       data: requestResultData,
     });
@@ -50,11 +54,12 @@ const UploadServiceRequestResult = observer(({ match }) => {
         notification.success({
           message: resServiceRequestUpdate.data.message,
         });
+        console.log(resServiceRequestUpdate, 5775);
         history.push({
           pathname:
             userType === "Admin"
-              ? `/AdminViewLabResults/${serviceRequestId}`
-              : `/LabViewLabResults/${serviceRequestId}`,
+              ? `/AdminViewAdmissionsServiceRequestResults/${serviceRequestId}`
+              : `/LabViewAdmissionsServiceRequestResults/${serviceRequestId}`,
           state: resServiceRequestUpdate.data.serviceRequestResult.id,
         });
       }
@@ -86,7 +91,7 @@ const UploadServiceRequestResult = observer(({ match }) => {
                   <div className="card border-light p-4">
                     <div className="card-body">
                       <UploadLabResultForm
-                        serviceRequest={data?.serviceRequest}
+                        serviceRequest={data?.admissionServiceRequest}
                         loading={loading}
                         uploadServiceRequestResult={uploadServiceRequestResult}
                       />
