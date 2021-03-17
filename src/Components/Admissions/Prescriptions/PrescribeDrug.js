@@ -189,7 +189,7 @@ const DrugPrescription = observer(({ match }) => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-5">
+                  <div className="col-12 col-md-5 card-body">
                       <DrugPrescriptionTable
                         selectedDrugs={selectedDrugs}
                         removeFromSelected={removeFromSelected}

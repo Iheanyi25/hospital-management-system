@@ -47,7 +47,7 @@ const Table = ({
       sync();
     }
   }, [tableID, content, exportAction]);
-  console.log(emptyTable)
+
   return (
     <>
       <div

@@ -33,13 +33,13 @@ export default function CreateServiceTable({ items, deleteService }) {
 
 const EmptyTable = () => {
   return (
-    // <tr>
-    //   <td colSpan="4">
+    <tr>
+      <td colSpan="4">
         <p className="w-50 text-secondary">
           You can always change the service category, if you want to add
           different services from different categories
         </p>
-    //   </td>
-    // </tr>
+      </td>
+    </tr>
   );
 };
