@@ -130,6 +130,30 @@ const ManageAdmissions = observer(() => {
             />
           ),
         };
+      } else if (userType === "Doctor") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <DoctorActionTable
+              admissionId={admission.id}
+              patient={admission.patient}
+            />
+          ),
+        };
       } else {
         return {
           "#": ++index,
@@ -318,6 +342,22 @@ const LabActionTable = ({ admissionId }) => {
       </Link>
       <Link
         to={`/AdminWardRoundNotes/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
+      </Link>
+    </ActionButton>
+  );
+};
+const DoctorActionTable = ({ admissionId, patient }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/DoctorWardRoundNotes/${admissionId}`,
+          state: patient,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
