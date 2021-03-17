@@ -25,6 +25,10 @@ export const updatePatientPreConsultationBMIUrl = () =>
 // Patient- Dashboard
 
 // Patient- Manage Doctor Appointments
+export const getPatientDashboardUrl = (patientId) =>
+  `/Patient/Dashboard?PatientId=${patientId}`;
+export const getPatientPendingAppointmentsUrl = (patientId) =>
+  `/Patient/GetPendingAppointments?PatientId=${patientId}`;
 export const getPatientAllAppointmentsUrl = (patientId) =>
   `/Patient/ViewAllAppointments?PatientId=${patientId}`;
 export const postPatientAppointmentUrl = () => `/Patient/BookAppointment`;

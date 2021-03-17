@@ -24,6 +24,7 @@ const Table = ({
   setPageNumber,
   pageSize,
   setPageSize,
+  emptyTable,
 }) => {
   const [isReady, setIsReady] = useState(false);
 
@@ -46,7 +47,7 @@ const Table = ({
       sync();
     }
   }, [tableID, content, exportAction]);
-
+  console.log(emptyTable)
   return (
     <>
       <div
@@ -74,7 +75,7 @@ const Table = ({
           />
         ) : null}
       </div>
-      <div>{content.length === 0 && <NoDataState />}</div>
+      <div>{content.length === 0 &&( emptyTable ? <div> {emptyTable}</div> : <NoDataState />)}</div>
     </>
   );
 };
