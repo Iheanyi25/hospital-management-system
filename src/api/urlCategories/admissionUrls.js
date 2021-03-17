@@ -57,3 +57,8 @@ export const getMedicationsUrl = (params) =>
   &pageNumber=${params?.pageNumber}
   &pageSize=${params?.pageSize}
   `;
+// Admission - Manage Observation Charts
+export const getObservationChartUrl = (admissionId) =>
+  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
+  export const postObservationChartUrl = () =>
+  `/Admission/UpdateObservationChart`;
