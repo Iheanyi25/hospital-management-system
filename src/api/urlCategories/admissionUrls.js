@@ -56,3 +56,4 @@ export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
 // Admission - Manage Medications
 export const getMedicationsUrl = (admissionId, pageNumber, pageSize) =>
   `/Admission/GetMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export const createMedicationUrl = () => `Admission/CreateMedication`;
