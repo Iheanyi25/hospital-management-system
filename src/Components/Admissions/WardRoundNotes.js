@@ -1,14 +1,18 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { PageLoader } from "../../Components";
 import { ClarkingHistory } from "../../Components/Clarking";
-import DoctorsNotes  from "./ward-round-components/DoctorsNotes";
+import DoctorsNotes from "./ward-round-components/DoctorsNotes";
 import Medications from "./ward-round-components/Medications";
 import { ObservationCharts } from "./ward-round-components/ObservationChart";
 import { useHistory, useParams } from "react-router";
+import { observer } from "mobx-react";
+import { UserContext } from "../../mobx/UserState";
 
-const WardRoundNotes = () => {
+const WardRoundNotes = observer(() => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const { id: admissionId } = useParams();
   const {
     location: {
@@ -32,7 +36,17 @@ const WardRoundNotes = () => {
             >{`${firstName} ${lastName}`}</h4>
             <Link
               className="btn btn-outline-primary"
-              to={{ pathname: `/AdminPatientProfile/${id}`, state: patient }}
+              to={{
+                pathname:
+                  userType === "Admin"
+                    ? `/AdminPatientProfile/${id}`
+                    : userType === "Doctor"
+                    ? `/DoctorPatientProfile/${id}`
+                    : userType === "Nurse"
+                    ? `/NursePatientProfile/${id}`
+                    : "#",
+                state: patient,
+              }}
             >
               View patient profile
             </Link>
@@ -142,6 +156,6 @@ const WardRoundNotes = () => {
       </main>
     </>
   );
-};
+});
 
-export default observer(WardRoundNotes);
+export default WardRoundNotes;

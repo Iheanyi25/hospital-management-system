@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
 import user from "../../../assets/img/user.png";
@@ -7,8 +7,13 @@ import formatDate from "../../../utils/formatDate";
 import { PageLoader } from "../../Loader";
 import EmptyUploadState from "../../EmptyState/EmptyUploadState";
 import UpdateDoctorsNotes from "../../Modals/UpdateDoctorsNotes";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../mobx/UserState";
 
-const DoctorsNotes = ({ admissionId }) => {
+const DoctorsNotes = observer(({ admissionId }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const getAdmissionsDoctorsNotes = getAdmissionsDoctorsNotesUrl(admissionId);
   const getAdmissionsDoctorsNotesConfig = fetchConfig({
     url: getAdmissionsDoctorsNotes,
@@ -26,25 +31,30 @@ const DoctorsNotes = ({ admissionId }) => {
               {data?.admissionNotes.length > 0 ? (
                 <div className="d-flex justify-content-between align-item-between">
                   <h5 className="m-0">Doctor's Notes</h5>
-                  <button
-                    className="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#doctors-note"
-                  >
-                    Update
-                  </button>
+                  {userType === ("Admin" || "Doctor") ? (
+                    <button
+                      className="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#doctors-note"
+                    >
+                      Update
+                    </button>
+                  ) : null}
                 </div>
               ) : null}
 
               <div id="accordion" className="mb-3">
                 {!data ? (
                   <PageLoader />
-                ) : data?.admissionNotes?.length === 0 ? (
+                ) : data?.admissionNotes?.length === 0 &&
+                  userType === ("Admin" || "Doctor") ? (
                   <EmptyUploadState
                     message="No Doctors Notes"
                     target="#doctors-note"
                     targetDescription="Update notes"
                   />
+                ) : data?.admissionNotes?.length === 0 ? (
+                  <EmptyUploadState message="No Doctors Notes" />
                 ) : (
                   data?.admissionNotes.map((doctorsnote, index) => (
                     <div className="card mb-0">
@@ -107,6 +117,6 @@ const DoctorsNotes = ({ admissionId }) => {
       <UpdateDoctorsNotes admissionId={admissionId} mutate={mutate} />
     </>
   );
-};
+});
 
-export default DoctorsNotes ;
+export default DoctorsNotes;
