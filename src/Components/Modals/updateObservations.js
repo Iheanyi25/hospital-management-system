@@ -13,7 +13,7 @@ const $ = window.$;
 const UpdateObservationChart = observer(( ) => {
 const {user : {id}} = useContext(UserContext)
 console.log(id, 10100101)
-const getObservationChart = getObservationChartUrl(admissionId);
+const getObservationChart = getObservationChartUrl();
   const getObservationChartConfig = fetchConfig({
     url: getObservationChart,
     method: "get",

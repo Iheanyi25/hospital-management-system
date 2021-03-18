@@ -17,6 +17,8 @@ import ClarkingHistory from "../Pages/Components/ClarkingHistory";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import MyPatients from "../Pages/Doctor/MyPatients";
 import PreConsultationHistory from "../Pages/Components/PreConsultationHistory";
+import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
+import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
 
 export default function DoctorRoutes() {
   return (
@@ -41,11 +43,6 @@ export default function DoctorRoutes() {
             component={DoctorAppointments}
           />
           <Route exact path="/DoctorClarking" component={DoctorClarking} />
-          {/* <Route
-            exact
-            path="/DoctorPatientProfile"
-            component={DoctorPatientProfile}
-          /> */}
           <Route
             exact
             path="/DoctorPatientMedicalHistory"
@@ -88,7 +85,16 @@ export default function DoctorRoutes() {
             path="/ViewPreConsultationHistory"
             component={PreConsultationHistory}
           />
-
+          <Route
+            exact
+            path="/DoctorManageAdmissions"
+            component={ManageAdmissions}
+          />
+          <Route
+            exact
+            path="/DoctorWardRoundNotes/:id"
+            component={WardRoundNotes}
+          />
           <Route
             exact
             path="*"

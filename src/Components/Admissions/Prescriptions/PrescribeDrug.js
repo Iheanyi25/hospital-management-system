@@ -7,7 +7,6 @@ import {
   postAdmissionsRequestDrugUrl,
 } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
-import remove from "../../../assets/img/remove.svg";
 import {
   AddPrescriptionQuantity,
   SelectableDropDown,
@@ -18,9 +17,9 @@ import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionList } from "../../../Pages/Components/DrugPrescription";
 import { notification } from "../../../utils/notification";
+import DrugPrescriptionTable from "./DrugPrescriptionTable";
 
 const $ = window.$;
-
 const DrugPrescription = observer(({ match }) => {
   const history = useHistory();
   const {
@@ -190,75 +189,11 @@ const DrugPrescription = observer(({ match }) => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-5">
-                    <div className="table-responsive">
-                      <table className="table table-striped">
-                        <thead>
-                          <tr className="">
-                            <th>#</th>
-                            <th>Drug name</th>
-                            <th>Qty</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {selectedDrugs && selectedDrugs.length > 0 ? (
-                            selectedDrugs.map((item, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <strong>{index + 1}</strong>
-                                </td>
-                                <td>
-                                  <strong>
-                                    <div className="d-flex align-items-center nowrap">
-                                      {item?.name ?? "N/A"}
-                                    </div>
-                                  </strong>
-                                </td>
-                                <td>
-                                  {Number(item?.numberOfUnits) === 1
-                                    ? `${item.numberOfUnits} tablet, `
-                                    : Number(item?.numberOfUnits) > 1
-                                    ? `${item.numberOfUnits} tablets, `
-                                    : null}
-                                  {Number(item?.numberOfContainers) === 1
-                                    ? `${item.numberOfContainers} pack, `
-                                    : Number(item?.numberOfContainers) > 1
-                                    ? `${item.numberOfContainers} packs,  `
-                                    : null}
-                                  {Number(item?.numberOfCartons) === 1
-                                    ? `${item.numberOfCartons} carton `
-                                    : Number(item?.numberOfCartons) > 1
-                                    ? `${item.numberOfCartons} cartons `
-                                    : null}
-                                </td>
-                                <td>
-                                  <div className="d-flex align-items-center nowrap">
-                                    <Link
-                                      title="Delete"
-                                      to="#"
-                                      onClick={() => removeFromSelected(index)}
-                                      className="text-danger mr-4"
-                                    >
-                                      <img src={remove} alt="delete" />
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="4">
-                                <p className="w-50 text-secondary">
-                                  Search and select the drugs prescribed to the
-                                  patient
-                                </p>
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                  <div className="col-12 col-md-5 card-body">
+                      <DrugPrescriptionTable
+                        selectedDrugs={selectedDrugs}
+                        removeFromSelected={removeFromSelected}
+                      />
                   </div>
                 </div>
               </div>

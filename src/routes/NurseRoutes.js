@@ -10,6 +10,8 @@ import PreConsultation from "../Pages/Admin/PreConsultation";
 import BookAppointment from "../Pages/Admin/BookAppointment";
 import Appointments from "../Pages/Admin/Appointments";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
+import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
+import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 
 export default function NurseRoutes() {
   return (
@@ -42,8 +44,18 @@ export default function NurseRoutes() {
           />
           <Route
             exact
+            path="/NursePatientProfile/:id"
+            component={ViewPatientProfile}
+          />
+          <Route
+            exact
             path="/NurseManageAdmissions"
             component={ManageAdmissions}
+          />
+           <Route
+            exact
+            path="/NurseWardRoundNotes/:id"
+            component={WardRoundNotes}
           />
           <Route
             exact
