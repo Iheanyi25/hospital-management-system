@@ -23,23 +23,45 @@ function PatientAccount() {
   const { user } = useContext(UserContext);
 
   const getPatientAccountBalance = getPatientAccountBalanceUrl(user.id);
-  const getPatientAccountBalanceConfig = fetchConfig({ url: getPatientAccountBalance,method: "get"});
-  const { data: accountBalanceDet } = useRequest(getPatientAccountBalanceConfig,{ revalidateOnFocus: false });
+  const getPatientAccountBalanceConfig = fetchConfig({
+    url: getPatientAccountBalance,
+    method: "get",
+  });
+  const { data: accountBalanceDet } = useRequest(
+    getPatientAccountBalanceConfig,
+    { revalidateOnFocus: false }
+  );
 
-  const getPatientAccountTransactions = getPatientAccountTransactionsUrl(user.id);
-  const getPatientAccountTransactionsConfig = fetchConfig({url: getPatientAccountTransactions,method: "get",});
-  const { data: accountTransactionDet,error,} = useRequest(getPatientAccountTransactionsConfig, {revalidateOnFocus: false,});
+  const getPatientAccountTransactions = getPatientAccountTransactionsUrl(
+    user.id
+  );
+  const getPatientAccountTransactionsConfig = fetchConfig({
+    url: getPatientAccountTransactions,
+    method: "get",
+  });
+  const {
+    data: accountTransactionDet,
+    error,
+  } = useRequest(getPatientAccountTransactionsConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(accountTransactionDet, "dets");
 
   const getPatientAccount = getPatientAccountUrl(user.id);
-  const getPatientAccountConfig = fetchConfig({ url: getPatientAccount, method: "get"});
-  const { data: accountDet } = useRequest(getPatientAccountConfig, { revalidateOnFocus: false });
+  const getPatientAccountConfig = fetchConfig({
+    url: getPatientAccount,
+    method: "get",
+  });
+  const { data: accountDet } = useRequest(getPatientAccountConfig, {
+    revalidateOnFocus: false,
+  });
 
   const copyToClipboard = () => {
     const thirdPartyFundingLink = `${local}/common/ThirdPartyFundAccount/${accountDet?.account?.accountNumber}`;
     navigator.clipboard.writeText(`${thirdPartyFundingLink}`);
   };
 
-  const [activeTransaction, setActiveTransaction] = useState({})
+  const [activeTransaction, setActiveTransaction] = useState({});
 
   let dataTable = [];
   if (accountTransactionDet) {
@@ -48,11 +70,17 @@ function PatientAccount() {
         return {
           "#": ++index,
           Amount: formatAmount(transaction.amount),
+          "Account Balance": formatAmount(transaction.accountBalance),
           "Transaction Type": transaction.transactionType,
           "Paid By": transaction.initiator,
           "Medium Of Payment": transaction.description,
           Date: formatDate(transaction.trasactionDate),
-          Action: <PatientAccountTableAction setActiveTransaction={setActiveTransaction} transaction={transaction}/>,
+          Action: (
+            <PatientAccountTableAction
+              setActiveTransaction={setActiveTransaction}
+              transaction={transaction}
+            />
+          ),
         };
       }
     );
@@ -109,14 +137,16 @@ function PatientAccount() {
         </div>
       </main>
       <ReceiptModal modalId="view-reciept">
-        <PatientInvoiceReceipt activeTransaction={activeTransaction} patient={toJS(user)}/>
+        <PatientInvoiceReceipt
+          activeTransaction={activeTransaction}
+          patient={toJS(user)}
+        />
       </ReceiptModal>
     </Fragment>
   );
 }
 
 const PatientAccountTableAction = ({ setActiveTransaction, transaction }) => {
-
   return (
     <ActionButton>
       <Link

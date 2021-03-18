@@ -66,16 +66,6 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="form-group">
-                    <label>Medication Title</label>
-                    <input
-                      className="form-control"
-                      name="medication"
-                      type="text"
-                      tabIndex={-98}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
                     <label>Administration Instructions</label>
                     <textarea
                       className="form-control"
@@ -85,69 +75,41 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
                       required
                     />
                   </div>
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
-                      <label>Dosage</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="dosage"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label>-</label>
-                      <select
-                        className="form-control"
-                        name="workDays"
-                        onChange={handleChange}
-                      >
-                        <option value="Monday">G</option>
-                        <option value="Tuesday">H</option>
-                      </select>
-                    </div>
+                  <div className="form-group">
+                    <label>Dosage</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="dosage"
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
-                      <label>Frequency</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="frequency"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label>-</label>
-                      <select
-                        className="form-control"
-                        name="workDays"
-                        onChange={handleChange}
-                      >
-                        <option value="Monday">G</option>
-                        <option value="Tuesday">H</option>
-                      </select>
-                    </div>
+                  <div className="form-group">
+                    <label>Frequency</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="frequency"
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
-                      <label>Commencement Date</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        name="startDate"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label>Stop Date</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        name="endDate"
-                        onChange={handleChange}
-                      />
-                    </div>
+                  <div className="form-group">
+                    <label>Commencement Date</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      name="startDate"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Stop Date</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      name="endDate"
+                      onChange={handleChange}
+                    />
                   </div>
                   <div className="col"></div>
                   <div className="col text-right">
