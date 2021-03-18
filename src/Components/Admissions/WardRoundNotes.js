@@ -6,6 +6,7 @@ import DoctorsNotes from "./ward-round-components/DoctorsNotes";
 import Medications from "./ward-round-components/Medications";
 import { ObservationCharts } from "./ward-round-components/ObservationChart";
 import { useHistory, useParams } from "react-router";
+import {UpdateObservationChart}  from "../Modals/UpdateObservations";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 
@@ -137,6 +138,12 @@ const WardRoundNotes = observer(() => {
                       >
                         <div className="row justify-content-center mt-5">
                           <div className="col-md-12">
+                          <button className="btn btn-primary" to="#"
+                            data-toggle="modal"
+                            data-target="#update-observation">
+                            
+                              Update Observation
+                            </button>
                             <div className="card border-light">
                               <div className="card-body">
                                 <h4>Observation Chart</h4>
@@ -153,6 +160,7 @@ const WardRoundNotes = observer(() => {
             </div>
           </div>
         </div>
+      <UpdateObservationChart admissionId={admissionId}/>
       </main>
     </>
   );
