@@ -19,10 +19,10 @@ function AllNurses() {
   const { data, error } = useRequest(fetchNursesConfig, {
     revalidateOnFocus: false,
   });
-
+  console.log(data, 2233);
   let tableData = [];
   if (data) {
-    tableData = data.nurses.map((nurse, index) => {
+    tableData = data.nurses.map(({ nurse }, index) => {
       return {
         "#": ++index,
         Photo: (

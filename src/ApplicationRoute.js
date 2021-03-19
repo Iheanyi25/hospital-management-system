@@ -7,6 +7,7 @@ import DoctorRoutes from "./routes/DoctorRoutes";
 import PharmacyRoutes from "./routes/PharmacyRoutes";
 import LabRoutes from "./routes/LabRoutes";
 import AccountantRoutes from "./routes/AccountantRoutes";
+import HMORoutes from "./routes/HMORoutes";
 import { UserContext } from "./mobx/UserState";
 import { observer } from "mobx-react";
 import { CommonRoute } from "./routes/CommonRoutes";
@@ -49,6 +50,8 @@ const AppRouter = observer(() => {
           return <AccountantRoutes />;
         case "nurse":
           return <NurseRoutes />;
+        case "hmoadmin":
+          return <HMORoutes />;
         default:
           localStorage.clear();
           window.location.reload();

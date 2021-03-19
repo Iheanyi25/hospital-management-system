@@ -5,3 +5,4 @@ export * from "./LabSidebar";
 export * from "./PatientSidebar";
 export * from "./PharmacySidebar";
 export * from "./NurseSidebar";
+export * from "./HMOSidebar";
