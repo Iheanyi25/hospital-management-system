@@ -90,6 +90,7 @@ import ViewServiceRequestResults from "../Components/Admissions/LabServices/View
 // health insurance
 import CreateNHIS from "../Pages/HealthInsurance/Government/CreateNHIS";
 import ManageNHIS from "../Pages/HealthInsurance/Government/ManageNHIS";
+import ManageNHISPatients from "../Pages/HealthInsurance/Government/ManagePatients";
 
 export default function AdminRoutes() {
   return (
@@ -392,6 +393,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminManageNHIS"
             component={ManageNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHISPatients"
+            component={ManageNHISPatients}
           />
           <Route
             exact

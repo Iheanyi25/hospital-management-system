@@ -5,23 +5,23 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManageNHIS = () => {
+const ManagePatients = () => {
   const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
+    patients: [
+      { user: "Mark" },
+      { user: "Jacob" },
+      { user: "Larry" },
+      { user: "Jacob" },
+      { user: "Mark" },
     ],
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.patients.map(({ user }, index) => {
       return {
         "#": ++index,
-        "NHIS Types": type,
-        Actions: <NHISActionTable />,
+        Users: user,
+        Actions: <NHISPatientActionTable />,
       };
     });
   }
@@ -35,16 +35,16 @@ const ManageNHIS = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Government NHIS</h4>
+            <h4 className="page-title mb-0">Manage Patients</h4>
             <Link className="btn btn-primary" to="/AdminCreateNHIS">
-              Create government NHIS plan
+              Add patient
             </Link>
           </header>
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
-              heading="Number of NHIS Plans"
+              size={data ? data.patients.length : 0}
+              heading="Total Patients"
             />
           </div>
           <div className="page-content">
@@ -64,18 +64,25 @@ const ManageNHIS = () => {
     </Fragment>
   );
 };
-const NHISActionTable = () => {
+const NHISPatientActionTable = () => {
   return (
     <ActionButton>
       <Link
-        to={`/AdminManageNHISPatients`}
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Manage patient
+        Edit patient
+      </Link>
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Delete
       </Link>
     </ActionButton>
   );
 };
 
-export default ManageNHIS;
+export default ManagePatients;
