@@ -24,6 +24,7 @@
     "react-ravepayment": "^3.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-select": "^4.2.1",
     "react-to-print": "^2.12.2",
     "reactstrap": "^8.6.0",
     "styled-components": "^5.2.0",
