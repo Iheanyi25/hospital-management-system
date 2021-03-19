@@ -39,7 +39,7 @@ const ManageDrugs = () => {
             <h4 className="page-title mb-0">
               Manage Drugs in Lagos state NHIS
             </h4>
-            <Link className="btn btn-primary" to="/AdminCreateNHIS">
+            <Link className="btn btn-primary" to="/AdminAddDrugToNHIS">
               Add drug
             </Link>
           </header>
