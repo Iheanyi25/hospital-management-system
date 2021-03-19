@@ -24,8 +24,8 @@ const DoctorsNotes = observer(({ admissionId }) => {
   });
   return (
     <>
-      <div className="row justify-content-center w-50 mx-auto mt-5">
-        <div className="col-md-12">
+      <div className="row justify-content-center mx-auto mt-5">
+        <div className="col-md-6">
           <div className="card border-light">
             <div className="card-body">
               {data?.admissionNotes.length > 0 ? (
