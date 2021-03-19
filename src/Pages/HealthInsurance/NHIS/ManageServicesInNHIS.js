@@ -39,7 +39,7 @@ const ManageServices = () => {
             <h4 className="page-title mb-0">
               Manage Services in Lagos state HMO
             </h4>
-            <Link className="btn btn-primary" to="/AdminCreateNHIS">
+            <Link className="btn btn-primary" to="/AdminAddServiceToNHIS">
               Add service
             </Link>
           </header>

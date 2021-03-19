@@ -37,7 +37,7 @@ const ManageNHIS = () => {
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">NHIS Health Plans</h4>
             <Link className="btn btn-primary" to="/AdminCreateNHIS">
-              Create government NHIS plan
+              Create NHIS Health Plan
             </Link>
           </header>
 
@@ -69,11 +69,11 @@ const NHISActionTable = () => {
     <ActionButton>
       <Link to={`/AdminManageNHISPatients`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Manage patient
+        Manage patients
       </Link>
       <Link to={`/AdminManageNHISDrugs`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Manage drug
+        Manage drugs
       </Link>
       <Link to={`/AdminManageNHISServices`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
