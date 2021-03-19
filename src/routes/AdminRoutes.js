@@ -92,6 +92,7 @@ import CreateNHIS from "../Pages/HealthInsurance/NHIS/CreateNHIS";
 import ManageNHIS from "../Pages/HealthInsurance/NHIS/ManageNHIS";
 import ManagePatientsInNHIS from "../Pages/HealthInsurance/NHIS/ManagePatientsInNHIS";
 import ManageDrugsInNHIS from "../Pages/HealthInsurance/NHIS/ManageDrugsInNHIS";
+import ManageServicesInNHIS from "../Pages/HealthInsurance/NHIS/ManageServicesInNHIS";
 
 export default function AdminRoutes() {
   return (
@@ -404,6 +405,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminManageNHISDrugs"
             component={ManageDrugsInNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHISServices"
+            component={ManageServicesInNHIS}
           />
           <Route
             exact

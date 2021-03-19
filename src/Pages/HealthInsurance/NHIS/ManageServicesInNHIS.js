@@ -5,23 +5,24 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManageNHIS = () => {
+const ManageServices = () => {
   const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
+    services: [
+      { name: "Mark", category: "Liquid" },
+      { name: "Jacob", category: "Liquid" },
+      { name: "Larry", category: "Liquid" },
+      { name: "Jacob", category: "Liquid" },
+      { name: "Mark", category: "Liquid" },
     ],
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.services.map(({ name, category }, index) => {
       return {
         "#": ++index,
-        "NHIS Types": type,
-        Actions: <NHISActionTable />,
+        "Service Category": category,
+        "Service Name": name,
+        Actions: <NHISServicesActionTable />,
       };
     });
   }
@@ -35,16 +36,18 @@ const ManageNHIS = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">NHIS Health Plans</h4>
+            <h4 className="page-title mb-0">
+              Manage Services in Lagos state HMO
+            </h4>
             <Link className="btn btn-primary" to="/AdminCreateNHIS">
-              Create government NHIS plan
+              Add service
             </Link>
           </header>
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
-              heading="Number of NHIS Plans"
+              size={data ? data.services.length : 0}
+              heading="Total No of Services"
             />
           </div>
           <div className="page-content">
@@ -64,23 +67,25 @@ const ManageNHIS = () => {
     </Fragment>
   );
 };
-const NHISActionTable = () => {
+const NHISServicesActionTable = () => {
   return (
     <ActionButton>
-      <Link to={`/AdminManageNHISPatients`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage patient
+        Update service
       </Link>
-      <Link to={`/AdminManageNHISDrugs`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage drug
-      </Link>
-      <Link to={`/AdminManageNHISServices`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage services
+        Delete
       </Link>
     </ActionButton>
   );
 };
 
-export default ManageNHIS;
+export default ManageServices;

@@ -40,14 +40,14 @@ const ManageDrugs = () => {
               Manage Drugs in Lagos state NHIS
             </h4>
             <Link className="btn btn-primary" to="/AdminCreateNHIS">
-              Add patient
+              Add drug
             </Link>
           </header>
 
           <div className="page-content">
             <TableSize
               size={data ? data.drugs.length : 0}
-              heading="Total Patients"
+              heading="Total No of Drugs"
             />
           </div>
           <div className="page-content">
