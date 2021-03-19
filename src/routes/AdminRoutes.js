@@ -36,6 +36,7 @@ import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
 import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
 import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
+import ViewNurseProfile from "../Pages/Nurse/ViewNurseProfile";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 // service utils
@@ -335,6 +336,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminViewLabProfile/:id"
             component={ViewLabProfile}
+          />
+          <Route
+            exact
+            path="/AdminViewNurseProfile/:id"
+            component={ViewNurseProfile}
           />
           <Route
             exact

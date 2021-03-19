@@ -84,7 +84,7 @@ const NurseTableAction = ({ nurse }) => {
   const tableFunctions = [
     {
       text: "View Profile",
-      path: `/AdminViewLabProfile/${nurse.id}`,
+      path: `/AdminViewNurseProfile/${nurse.id}`,
       iconClass: "btn-icon icofont-ui-edit  mr-2",
     },
   ];
