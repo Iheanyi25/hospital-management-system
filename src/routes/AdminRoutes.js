@@ -36,6 +36,7 @@ import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
 import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
 import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
+import ViewNurseProfile from "../Pages/Nurse/ViewNurseProfile";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 // service utils
@@ -86,6 +87,18 @@ import ManageServiceRequests from "../Components/Admissions/MangeServiceRequests
 import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
 import UploadServiceRequestResult from "../Components/Admissions/LabServices/UploadServiceRequestResult";
 import ViewServiceRequestResults from "../Components/Admissions/LabServices/ViewServiceRequestResults";
+
+// health insurance
+import CreateNHIS from "../Pages/HealthInsurance/NHIS/CreateNHIS";
+import ManageNHIS from "../Pages/HealthInsurance/NHIS/ManageNHIS";
+import ManagePatientsInNHIS from "../Pages/HealthInsurance/NHIS/ManagePatientsInNHIS";
+import ManageDrugsInNHIS from "../Pages/HealthInsurance/NHIS/ManageDrugsInNHIS";
+import ManageServicesInNHIS from "../Pages/HealthInsurance/NHIS/ManageServicesInNHIS";
+import AddUserToNHIS from "../Pages/HealthInsurance/NHIS/AddUserToNHIS";
+import AddDrugToNHIS from "../Pages/HealthInsurance/NHIS/AddDrugToNHIS";
+import AddServiceToNHIS from "../Pages/HealthInsurance/NHIS/AddServiceToNHIS";
+import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
+import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
 
 export default function AdminRoutes() {
   return (
@@ -326,6 +339,11 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/AdminViewNurseProfile/:id"
+            component={ViewNurseProfile}
+          />
+          <Route
+            exact
             path="/AdminViewPatientHealthHistory/:id"
             component={ViewPatientHealthHistory}
           />
@@ -378,6 +396,56 @@ export default function AdminRoutes() {
             exact
             path="/AdminPaymentForAdmissionInvoices/:id"
             component={PaymentForAdmissionInvoices}
+          />
+          <Route
+            exact
+            path="/AdminCreateNHIS"
+            component={CreateNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHIS"
+            component={ManageNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHISPatients"
+            component={ManagePatientsInNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHISDrugs"
+            component={ManageDrugsInNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHISServices"
+            component={ManageServicesInNHIS}
+          />
+          <Route
+            exact
+            path="/AdminAddUserToNHIS"
+            component={AddUserToNHIS}
+          />
+          <Route
+            exact
+            path="/AdminAddDrugToNHIS"
+            component={AddDrugToNHIS}
+          />
+          <Route
+            exact
+            path="/AdminAddServiceToNHIS"
+            component={AddServiceToNHIS}
+          />
+          <Route
+            exact
+            path="/AdminCreateHMO"
+            component={CreateHMO}
+          />
+          <Route
+            exact
+            path="/AdminManageHMO"
+            component={ManageHMO}
           />
           <Route
             exact

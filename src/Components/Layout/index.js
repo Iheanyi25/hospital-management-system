@@ -4,6 +4,7 @@ import {
   AccountantHeader,
   AdminHeader,
   DoctorHeader,
+  HMOHeader,
   LabHeader,
   NurseHeader,
   PatientHeader,
@@ -18,6 +19,7 @@ import {
   AccountantSidebar,
   AdminSidebar,
   DoctorSidebar,
+  HMOSidebar,
   LabSidebar,
   NurseSidebar,
   PatientSidebar,
@@ -119,6 +121,18 @@ export const NurseLayout = ({ children }) => {
       <div className="app-container">
         <NurseHeader />
         <NurseSidebar />
+        {children}
+        <Footer />
+      </div>
+    </div>
+  );
+};
+export const HMOLayout = ({ children }) => {
+  return (
+    <div className="page-box">
+      <div className="app-container">
+        <HMOHeader />
+        <HMOSidebar />
         {children}
         <Footer />
       </div>

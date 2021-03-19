@@ -248,30 +248,6 @@ class AdminSidebar extends React.Component {
                     </ul>
                   </li>
 
-                  {/* <li className="menu-item has-sub">
-										<div className="itemcursor -link">
-											<span className="link-text">Other Admins</span>{' '}
-											<span className="link-caret icofont-thin-right" />
-										</Link>
-										<ul className="sub">
-											<li className="menu-item">
-												<Link
-													to="#"
-													className="item-link"
-													data-toggle="modal"
-													data-target="#add-user"
-												>
-													<span className="link-text">Register Other Admins</span>
-												</Link>
-											</li>
-											<li className="menu-item">
-												<div className="item-link">
-													<span className="link-text">Manage Other Admins</span>
-												</Link>
-											</li>
-										</ul>
-									</li> */}
-
                   <li className="menu-item">
                     <span className="group-title">Utility</span>
                   </li>
@@ -560,25 +536,48 @@ class AdminSidebar extends React.Component {
                       <span className="link-text">Manage Admissions</span>
                     </Link>
                   </li>
-                  {/* <li className="menu-item has-sub">
+
+                  <li className="menu-item">
+                    <span className="group-title">Health Insurance</span>
+                  </li>
+                  <li className="menu-item has-sub">
                     <div className="cursor item-link">
-                      <span className="link-icon icofont-prescription" />{" "}
-                      <span className="link-text">Prescription</span>{" "}
+                      <span className="link-icon icofont-hospital" />{" "}
+                      <span className="link-text">NHIS</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
                     <ul className="sub">
                       <li className="menu-item">
-                        <Link
-                          to="/AdminManagePrescriptionInvoice"
-                          className="item-link"
-                        >
-                          <span className="link-text">
-                            Prescription Invoices
-                          </span>
+                        <Link to="/AdminCreateNHIS" className="item-link">
+                          <span className="link-text">Create NHIS</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link to="/AdminManageNHIS" className="item-link">
+                          <span className="link-text">Manage NHIS</span>
                         </Link>
                       </li>
                     </ul>
-                  </li> */}
+                  </li>
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
+                      <span className="link-icon icofont-hospital" />{" "}
+                      <span className="link-text">HMO</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link to="/AdminCreateHMO" className="item-link">
+                          <span className="link-text">Create HMO</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link to="/AdminManageHMO" className="item-link">
+                          <span className="link-text">Manage HMO</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -587,9 +586,6 @@ class AdminSidebar extends React.Component {
                 <span className="btn-icon icofont-plus mr-2" />
                 Register Patient
               </Link>
-              {/* <button className="btn btn-primary" data-toggle="modal" data-target="#add-patient">
-								<span className="btn-icon icofont-plus mr-2" /> Register Patient
-							</button> */}
             </div>
 
             <div className="assistant-menu">

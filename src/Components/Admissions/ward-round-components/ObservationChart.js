@@ -4,7 +4,7 @@ import { useRequest } from "../../../api/fetcher";
 import user from "../../../assets/img/user.png";
 import { getObservationChartUrl } from "../../../api/URLs";
 import formatDate from "../../../utils/formatDate";
-import { UpdateObservationChart } from "../../Modals/UpdateObservations";
+import { UpdateObservationChart } from "../../Modals";
 
 let $ = window.$;
 $.DataTables = require("datatables.net");
