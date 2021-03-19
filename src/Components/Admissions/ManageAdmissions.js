@@ -59,7 +59,7 @@ const ManageAdmissions = observer(() => {
           Actions: (
             <NurseActionTable
               admissionId={admission.id}
-              patient={admission.patient.id}
+              patient={admission.patient}
             />
           ),
         };
@@ -127,6 +127,30 @@ const ManageAdmissions = observer(() => {
             <PharmacyActionTable
               admissionId={admission.id}
               patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+            />
+          ),
+        };
+      } else if (userType === "Doctor") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status:
+            admission?.bed === null ? (
+              <>
+                <img src={incomplete} alt="not paid" /> Pending
+              </>
+            ) : (
+              <>
+                <img src={paid} alt="paid" /> Admitted
+              </>
+            ),
+          Actions: (
+            <DoctorActionTable
+              admissionId={admission.id}
+              patient={admission.patient}
             />
           ),
         };
@@ -280,12 +304,18 @@ const AccountantTable = ({ admissionId, patient }) => {
     </ActionButton>
   );
 };
-const NurseActionTable = () => {
+const NurseActionTable = ({ admissionId, patient }) => {
   return (
     <ActionButton>
-      <Link to="#" className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/NurseWardRoundNotes/${admissionId}`,
+          state: patient,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Hello, Nurse
+        Manage Admission
       </Link>
     </ActionButton>
   );
@@ -318,6 +348,22 @@ const LabActionTable = ({ admissionId }) => {
       </Link>
       <Link
         to={`/AdminWardRoundNotes/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Manage Admission
+      </Link>
+    </ActionButton>
+  );
+};
+const DoctorActionTable = ({ admissionId, patient }) => {
+  return (
+    <ActionButton>
+      <Link
+        to={{
+          pathname: `/DoctorWardRoundNotes/${admissionId}`,
+          state: patient,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />

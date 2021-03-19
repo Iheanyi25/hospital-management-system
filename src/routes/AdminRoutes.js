@@ -76,7 +76,6 @@ import ManageBeds from "../Components/Admissions/Wards/ViewBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
-import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
 import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
 import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
@@ -319,11 +318,6 @@ export default function AdminRoutes() {
             exact
             path="/AdminViewPharmacistProfile/:id"
             component={ViewPharmacyProfile}
-          />
-          <Route
-            exact
-            path="/AdminDoctorsNotes/:id"
-            component={DoctorsNotes}
           />
           <Route
             exact
