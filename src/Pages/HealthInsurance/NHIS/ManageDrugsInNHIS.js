@@ -75,7 +75,7 @@ const NHISDrugActionTable = () => {
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Edit patient
+        Update drug
       </Link>
       <Link
         // to={`/LabManageAdmissionServiceRequest/${admissionId}`}

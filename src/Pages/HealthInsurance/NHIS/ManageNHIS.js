@@ -75,7 +75,7 @@ const NHISActionTable = () => {
         Manage patient
       </Link>
       <Link
-        to={`/AdminManageNHISPatients`}
+        to={`/AdminManageNHISDrugs`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
