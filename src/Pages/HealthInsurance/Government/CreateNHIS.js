@@ -65,6 +65,19 @@ export default function CreateInsurance() {
                           required
                         />
                       </div>
+                      <div className="custom-control custom-checkbox mb-3">
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id="customCheck1"
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="customCheck1"
+                        >
+                          Require authorization code
+                        </label>
+                      </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
