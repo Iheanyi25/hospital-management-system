@@ -572,7 +572,7 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                       <li className="menu-item">
-                        <Link to="/AdminManageNHIS" className="item-link">
+                        <Link to="/AdminManageHMO" className="item-link">
                           <span className="link-text">Manage HMO</span>
                         </Link>
                       </li>

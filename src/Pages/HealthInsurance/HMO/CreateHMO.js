@@ -16,7 +16,7 @@ export default function CreateHMO() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">Create a HMO Account</h4>
+                      <h4 className="text-center">Create HMO Account</h4>
                       <div className="form-group">
                         <label>HMO Name</label>
                         <input
