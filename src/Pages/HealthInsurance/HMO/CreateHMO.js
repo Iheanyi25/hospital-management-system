@@ -1,7 +1,18 @@
 import React from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getAllHealthPlansUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 
 export default function CreateHMO() {
+  const getAllHealthPlans = getAllHealthPlansUrl(1, 200);
+  const getAllHealthPlansConfig = fetchConfig({
+    url: getAllHealthPlans,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllHealthPlansConfig, {
+    revalidateOnFocus: false,
+  });
   return (
     <>
       <PageLoader />
@@ -39,9 +50,24 @@ export default function CreateHMO() {
                       </div>
                       <div className="form-group">
                         <label>Select Health Plan Type</label>
-                        <select className="form-control" name="workDays">
-                          <option value="">A</option>
-                          <option value="Monday">B</option>
+                        <select className="form-control">
+                          <option value="" selected="true" disabled>
+                            {data?.healthPlans.length > 0
+                              ? "Select health plan"
+                              : error
+                              ? "No healthplans loaded"
+                              : "Loading..."}
+                            {/** added loading state to the form */}
+                          </option>
+                          {data?.healthPlans.length > 0 &&
+                            data?.healthPlans.map(({ name, id }, index) => (
+                              <option
+                                key={index}
+                                value={`${name.toLowerCase()}#${id}`}
+                              >
+                                {name}
+                              </option>
+                            ))}
                         </select>
                       </div>
                       <div className="form-group">
