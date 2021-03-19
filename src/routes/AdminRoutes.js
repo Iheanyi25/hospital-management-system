@@ -90,7 +90,7 @@ import ViewServiceRequestResults from "../Components/Admissions/LabServices/View
 // health insurance
 import CreateNHIS from "../Pages/HealthInsurance/Government/CreateNHIS";
 import ManageNHIS from "../Pages/HealthInsurance/Government/ManageNHIS";
-import ManageNHISPatients from "../Pages/HealthInsurance/Government/ManagePatients";
+import ManageNHISPatients from "../Pages/HealthInsurance/Government/ManagePatientsInNHIS";
 
 export default function AdminRoutes() {
   return (
