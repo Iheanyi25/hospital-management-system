@@ -34,37 +34,18 @@ const HMOSidebar = () => {
                 <li className="menu-item has-sub">
                   <div className="item-link cursor">
                     <span className="link-icon icofont-contact-add" />{" "}
-                    <span className="link-text">Consultations</span>{" "}
+                    <span className="link-text">Health Plans</span>{" "}
                     <span className="link-caret icofont-thin-right" />
                   </div>
                   <ul className="sub">
                     <li className="menu-item">
-                      <Link to="/NurseBookConsultation" className="item-link">
-                        <span className="link-text">Book Consultation</span>
+                      <Link to="/CreateHealthPlan" className="item-link">
+                        <span className="link-text">Create Health Plan</span>
                       </Link>
                     </li>
                     <li className="menu-item">
-                      <Link to="/NurseConsultations" className="item-link">
-                        <span className="link-text">Manage Consultations</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="menu-item has-sub">
-                  <div className="cursor item-link">
-                    <span className="link-icon icofont-ui-contact-list" />{" "}
-                    <span className="link-text">Appointments</span>{" "}
-                    <span className="link-caret icofont-thin-right" />
-                  </div>
-                  <ul className="sub">
-                    <li className="menu-item">
-                      <Link to="/NurseBookAppointment" className="item-link">
-                        <span className="link-text">Book Appointment</span>
-                      </Link>
-                    </li>
-                    <li className="menu-item">
-                      <Link to="/NurseAppointments" className="item-link">
-                        <span className="link-text">Manage Appointments</span>
+                      <Link to="/ManageHealthPlans" className="item-link">
+                        <span className="link-text">Manage Health Plan</span>
                       </Link>
                     </li>
                   </ul>
