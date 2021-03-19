@@ -87,6 +87,10 @@ import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmi
 import UploadServiceRequestResult from "../Components/Admissions/LabServices/UploadServiceRequestResult";
 import ViewServiceRequestResults from "../Components/Admissions/LabServices/ViewServiceRequestResults";
 
+// health insurance
+import CreateNHIS from "../Pages/HealthInsurance/Government/CreateNHIS";
+import ManageNHIS from "../Pages/HealthInsurance/Government/ManageNHIS";
+
 export default function AdminRoutes() {
   return (
     <BrowserRouter basename="admin">
@@ -378,6 +382,16 @@ export default function AdminRoutes() {
             exact
             path="/AdminPaymentForAdmissionInvoices/:id"
             component={PaymentForAdmissionInvoices}
+          />
+          <Route
+            exact
+            path="/AdminCreateNHIS"
+            component={CreateNHIS}
+          />
+          <Route
+            exact
+            path="/AdminManageNHIS"
+            component={ManageNHIS}
           />
           <Route
             exact
