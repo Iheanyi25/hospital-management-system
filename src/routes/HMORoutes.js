@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { HMOLayout } from "../Components/Layout";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
+import CreateHealthPlan from "../Pages/HealthInsurance/HMO/CreateHealthPlans";
 
 export default function NurseRoutes() {
   return (
@@ -12,6 +13,11 @@ export default function NurseRoutes() {
             exact
             path="/Dashboard"
             component={Dashboard}
+          />
+        <Route
+            exact
+            path="/CreateHealthPlan"
+            component={CreateHealthPlan}
           />
           <Route exact path="*" render={() => <Redirect to="/Dashboard" />} />
         </Switch>
