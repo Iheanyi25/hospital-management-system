@@ -32,7 +32,6 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
   const { data } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
-  console.log(data, 7777);
   const handleChange = (e) => {
     setpayload({
       ...payload,
@@ -42,7 +41,6 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(payload);
     try {
       const createMedication = createMedicationUrl();
       const createMedicationConfig = fetchConfig({
