@@ -88,9 +88,9 @@ import UploadServiceRequestResult from "../Components/Admissions/LabServices/Upl
 import ViewServiceRequestResults from "../Components/Admissions/LabServices/ViewServiceRequestResults";
 
 // health insurance
-import CreateNHIS from "../Pages/HealthInsurance/Government/CreateNHIS";
-import ManageNHIS from "../Pages/HealthInsurance/Government/ManageNHIS";
-import ManageNHISPatients from "../Pages/HealthInsurance/Government/ManagePatientsInNHIS";
+import CreateNHIS from "../Pages/HealthInsurance/NHIS/CreateNHIS";
+import ManageNHIS from "../Pages/HealthInsurance/NHIS/ManageNHIS";
+import ManageNHISPatients from "../Pages/HealthInsurance/NHIS/ManagePatientsInNHIS";
 
 export default function AdminRoutes() {
   return (

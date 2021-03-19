@@ -16,9 +16,7 @@ export default function CreateInsurance() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">
-                        Create Government NHIS Type
-                      </h4>
+                      <h4 className="text-center">Create NHIS Health Plan</h4>
                       <div className="form-group">
                         <label>Plan Name</label>
                         <input
