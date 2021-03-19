@@ -6,8 +6,36 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
 export const assignPatientToBedSpaceUrl = () =>
   `/Admission/AssignPatientToBedspace`;
 
-// Admission - Manage Admission Requests
-export const postAdmissionsRequestServiceUrl = () => `/Admission/RequestService`;
+// Admission - Manage Admission Drug Dispensing
+export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
+export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
+  `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}`;
+
+// Admission - Manage Admission Invoices
+export const getAdmissionTransactionsUrl = (admssionId, pageNumber, pageSize) =>
+  `/Admission/GetAdmissionTransactions?AdmissionId=${admssionId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAdmissionInvoiceUrl = (admssionId) =>
+  `/Admission/GetAdmissionInvoice?AdmissionId=${admssionId}`;
+export const postPayForAdmissionUrl = () => `/Admission/PayForAdmission`;
+export const postPayForAdmissionWithAccountUrl = () =>
+  `/Admission/PayForAdmissionWithAccount`;
+
+// Admission - Manage Admission Notes
+export const getAdmissionsDoctorsNotesUrl = (AdmissionId) =>
+  `Admission/GetAdmissionNotesForAdmission?AdmissionId=${AdmissionId}`;
+export const createAdmissionsNoteUrl = () => `Admission/CreateAdmissionNote`;
+
+// Admission - Manage Admission Service Requests
+export const postAdmissionsRequestServiceUrl = () =>
+  `/Admission/RequestServices`;
+export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
+  `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}`;
+export const getAdmissionServiceRequestUrl = (serviceRequestId) =>
+  `/Admission/GetAdmissionServiceRequest/${serviceRequestId}`;
+export const uploadServiceRequestResultUrl = () =>
+  `/Admission/UploadServiceRequestResult`;
+export const getAdmissionsServiceRequestResultUrl = (serviceRequestId) =>
+  `/Admission/GetServiceRequestResults/${serviceRequestId}`;
 
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
@@ -24,3 +52,15 @@ export const getPrescriptionForAdmssionUrl = (id) =>
   `/Admission/GetPrescription?PrescriptionId=${id}`;
 export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
   `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+
+// Admission - Manage Medications
+export const getMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+  `/Admission/GetMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export const createMedicationUrl = () => `Admission/CreateMedication`;
+
+// Admission - Manage Observation Charts
+export const getObservationChartUrl = (admissionId) =>
+  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
+  export const postObservationChartUrl = () =>
+  `/Admission/UpdateObservationChart`;
+

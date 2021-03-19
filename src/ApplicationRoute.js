@@ -10,6 +10,7 @@ import AccountantRoutes from "./routes/AccountantRoutes";
 import { UserContext } from "./mobx/UserState";
 import { observer } from "mobx-react";
 import { CommonRoute } from "./routes/CommonRoutes";
+import NurseRoutes from "./routes/NurseRoutes";
 
 const AppRouter = observer(() => {
   const { loadUser, user, isLoadingUser } = useContext(UserContext);
@@ -31,8 +32,6 @@ const AppRouter = observer(() => {
           : rootPath === "common"
           ? rootPath
           : userType.toLowerCase();
-      console.log(tempUserRoute, "check root path");
-
       switch (tempUserRoute) {
         case "common":
           return <CommonRoute who={userType} />;
@@ -48,6 +47,8 @@ const AppRouter = observer(() => {
           return <LabRoutes />;
         case "accountant":
           return <AccountantRoutes />;
+        case "nurse":
+          return <NurseRoutes />;
         default:
           localStorage.clear();
           window.location.reload();

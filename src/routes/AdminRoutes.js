@@ -4,6 +4,7 @@ import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
 import AdminAllDoctors from "../Pages/Admin/AllDoctors";
+import AdminAllNurses from "../Pages/Admin/AllNurses";
 import AdminAllPharmacists from "../Pages/Admin/AllPharmacist";
 import AdminAllAccountants from "../Pages/Admin/AllAccountants";
 import AdminAllLabTechnicians from "../Pages/Admin/AllLab";
@@ -75,13 +76,16 @@ import ManageBeds from "../Components/Admissions/Wards/ViewBeds";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 import AdminWardRoundNotes from "../Components/Admissions/WardRoundNotes";
-import { DoctorsNotes } from "../Components/Admissions/DoctorsNotes";
 import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
 import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
 import AdmissionPrescribeDrug from "../Components/Admissions/Prescriptions/PrescribeDrug";
-import AdmissionManagePrescriptionInvoice from "../Components/Admissions/Prescriptions/ManagePrescriptionInvoice";
+import ManageAdmissionInvoices from "../Components/Admissions/ManageAdmissionInvoices";
 import AdmissionCreateServiceRequest from "../Components/Admissions/CreateServiceRequest";
+import ManageServiceRequests from "../Components/Admissions/MangeServiceRequests";
+import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
+import UploadServiceRequestResult from "../Components/Admissions/LabServices/UploadServiceRequestResult";
+import ViewServiceRequestResults from "../Components/Admissions/LabServices/ViewServiceRequestResults";
 
 export default function AdminRoutes() {
   return (
@@ -101,6 +105,7 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminAllPatients" component={AllPatients} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
+          <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
           <Route
             exact
             path="/AdminAllPharmacists"
@@ -118,7 +123,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminWardRoundNotes"
+            path="/AdminWardRoundNotes/:id"
             component={AdminWardRoundNotes}
           />
           <Route
@@ -316,11 +321,6 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminDoctorsNotes"
-            component={DoctorsNotes}
-          />
-          <Route
-            exact
             path="/AdminViewLabProfile/:id"
             component={ViewLabProfile}
           />
@@ -351,13 +351,33 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminManageAdmissionPrescriptionInvoice/:id"
-            component={AdmissionManagePrescriptionInvoice}
+            path="/AdminManageAdmissionInvoices/:id"
+            component={ManageAdmissionInvoices}
           />
           <Route
             exact
             path="/AdminCreateAdmissionServiceRequest/:id"
             component={AdmissionCreateServiceRequest}
+          />
+          <Route
+            exact
+            path="/AdminManageAdmissionServiceRequest/:id"
+            component={ManageServiceRequests}
+          />
+          <Route
+            exact
+            path="/AdminUploadAdmissionsServiceRequestResult/:id"
+            component={UploadServiceRequestResult}
+          />
+          <Route
+            exact
+            path="/AdminViewAdmissionsServiceRequestResults/:id"
+            component={ViewServiceRequestResults}
+          />
+          <Route
+            exact
+            path="/AdminPaymentForAdmissionInvoices/:id"
+            component={PaymentForAdmissionInvoices}
           />
           <Route
             exact

@@ -138,6 +138,32 @@ class AdminSidebar extends React.Component {
 
                   <li className="menu-item has-sub">
                     <div className="cursor item-link">
+                      <span className="link-icon icofont-doctor-alt" />{" "}
+                      <span className="link-text">Nurses</span>{" "}
+                      <span className="link-caret icofont-thin-right" />
+                    </div>
+                    <ul className="sub">
+                      <li className="menu-item">
+                        <Link
+                          to="#"
+                          className="item-link"
+                          data-toggle="modal"
+                          data-target="#add-user"
+                          onClick={() => setUserType("nurse")}
+                        >
+                          <span className="link-text">Register Nurses</span>
+                        </Link>
+                      </li>
+                      <li className="menu-item">
+                        <Link className="item-link" to="/AdminAllNurses">
+                          <span className="link-text">Manage Nurses</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li className="menu-item has-sub">
+                    <div className="cursor item-link">
                       <span className="link-icon icofont-drug-pack" />{" "}
                       <span className="link-text">Pharmacists</span>{" "}
                       <span className="link-caret icofont-thin-right" />
@@ -534,21 +560,13 @@ class AdminSidebar extends React.Component {
                       <span className="link-text">Manage Admissions</span>
                     </Link>
                   </li>
-                  <li className="menu-item has-sub">
+                  {/* <li className="menu-item has-sub">
                     <div className="cursor item-link">
                       <span className="link-icon icofont-prescription" />{" "}
                       <span className="link-text">Prescription</span>{" "}
                       <span className="link-caret icofont-thin-right" />
                     </div>
                     <ul className="sub">
-                      {/* <li className="menu-item">
-                        <Link
-                          to="/AdminManageAdmissionPrescriptions"
-                          className="item-link"
-                        >
-                          <span className="link-text">Prescriptions</span>
-                        </Link>
-                      </li> */}
                       <li className="menu-item">
                         <Link
                           to="/AdminManagePrescriptionInvoice"
@@ -560,7 +578,7 @@ class AdminSidebar extends React.Component {
                         </Link>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                 </ul>
               </nav>
             </div>

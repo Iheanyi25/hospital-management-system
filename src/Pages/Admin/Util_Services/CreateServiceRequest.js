@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
 import { PageLoader, SelectableDropDown } from "../../../Components";
 import { fetchWrapper } from "../../../api/fetcher";
@@ -13,11 +12,9 @@ import {
 } from "../../../api/URLs";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
+import CreateServiceTable from "./components/CreateServiceTable";
 
 const $ = window.$;
-// let selectBasic = Math.random();
-// selectBasic = selectBasic.toString().replace(".", "_");
-
 class CreateService extends Component {
   static contextType = UserContext;
   state = {
@@ -101,12 +98,11 @@ class CreateService extends Component {
       url: getAllServicesInACategory,
       method: "get",
     });
-    const { data } = await fetchWrapper(getAllServicesInACategoryConfig);
+    const serviceInCatRes = await fetchWrapper(getAllServicesInACategoryConfig);
 
-    console.log(data);
     this.setState(
       {
-        services: data.services,
+        services: serviceInCatRes?.data?.services || [],
         showServices: true,
         isFetchingServicesInCategory: false,
       },
@@ -231,11 +227,13 @@ class CreateService extends Component {
     }
   };
   admissionsRequestService = async (serviceId, generatedBy) => {
+    const admissionId = this.props.admissionId;
+    const nextRoute = `/AdminManageAdmissionInvoices/${admissionId}`;
     console.log(serviceId);
     const payload = {
       serviceId,
       generatedBy,
-      admissionId: this.props.admissionId,
+      admissionId,
     };
     console.log(payload);
     const postRequestServices = postAdmissionsRequestServiceUrl();
@@ -244,8 +242,15 @@ class CreateService extends Component {
       data: payload,
       method: "post",
     });
-    const res = await fetchWrapper(postRequestServicesConfig);
-    console.log(res);
+    try {
+      const res = await fetchWrapper(postRequestServicesConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        this.props.history.push(nextRoute);
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data?.message });
+    }
   };
   render() {
     return (
@@ -344,62 +349,7 @@ class CreateService extends Component {
                       <header className="page-header justify-content-between d-flex align-items-center mb-2">
                         <h4 className="page-title"> Selected Services</h4>
                       </header>
-                      <div className="table-responsive">
-                        <table className="table table-striped">
-                          <thead>
-                            <tr className="">
-                              <th>#</th>
-                              <th>Service</th>
-                              <th>Category</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {this.state.values.length > 0 ? (
-                              this.state.values.map((item, index) => (
-                                <tr key={index}>
-                                  <td>
-                                    <strong>{index + 1}</strong>
-                                  </td>
-                                  <td>
-                                    <strong>
-                                      <div className="d-flex align-items-center nowrap">
-                                        {item.service}
-                                      </div>
-                                    </strong>
-                                  </td>
-                                  <td>{item.category}</td>
-                                  <td>
-                                    <div className="d-flex align-items-center nowrap">
-                                      <Link
-                                        title="Delete"
-                                        to="#"
-                                        onClick={() =>
-                                          this.deleteService(index)
-                                        }
-                                        className="text-danger mr-4"
-                                      >
-                                        <span className="btn-icon icofont-delete-alt" />
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
-                            ) : (
-                              <tr>
-                                <td colSpan="4">
-                                  <p className="w-50 text-secondary">
-                                    You can always change the service category,
-                                    if you want to add different services from
-                                    different categories
-                                  </p>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
+                        <CreateServiceTable items={this.state.values} deleteService={this.deleteService} />
                       <div className="row mt-5">
                         <div className="col">
                           {this.state.isFromClarking ? (

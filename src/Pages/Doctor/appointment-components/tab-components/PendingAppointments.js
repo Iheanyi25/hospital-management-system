@@ -15,7 +15,7 @@ import { notification } from "../../../../utils/notification";
 function PendingAppointmentsTableContainer({
   pendingAppointments,
   category,
-  getDoctorAppointments,
+  mutate,
 }) {
   const acceptAppointment = async (e, id) => {
     e.preventDefault();
@@ -26,10 +26,12 @@ function PendingAppointmentsTableContainer({
         url: postDoctorAcceptAppointment,
         method: "post",
       });
-      const { status } = await fetchWrapper(postDoctorAcceptAppointmentConfig);
-      if (status === 200) {
+      const res = await fetchWrapper(postDoctorAcceptAppointmentConfig);
+      console.log(res,222)
+      if (res.status === 200) {
         notification.success({ message: "Appointment accepted successfully" });
-        getDoctorAppointments();
+        console.log(mutate,3333)
+        await mutate();
       }
     } catch (err) {
       notification.error({ message: "Operation failed" });
@@ -45,10 +47,12 @@ function PendingAppointmentsTableContainer({
         url: postDoctorRejectAppointment,
         method: "post",
       });
-      const { status } = await fetchWrapper(postDoctorRejectAppointmentConfig);
-      if (status === 200) {
+      const res = await fetchWrapper(postDoctorRejectAppointmentConfig);
+      console.log(res,777)
+      if (res.status === 200) {
         notification.success({ message: "Appointment rejected successfully" });
-        getDoctorAppointments();
+        console.log(mutate,888)
+        await mutate();
       }
     } catch (err) {
         notification.error({ message: "Operation failed" });

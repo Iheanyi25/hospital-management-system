@@ -1,10 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import CreateServiceRequest from "../../Pages/Admin/Util_Services/CreateServiceRequest";
 
 const ServiceRequest = () => {
+  const history = useHistory();
   const { id } = useParams();
-  return <CreateServiceRequest admissionId={id} />;
+  return <CreateServiceRequest admissionId={id} history={history} />;
 };
 
 export default ServiceRequest;

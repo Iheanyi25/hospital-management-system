@@ -1,8 +1,14 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getDoctorsUrl, getPatientsUrl, postBookConsultationUrl } from "../../api/URLs";
+import {
+  getDoctorsUrl,
+  getPatientsUrl,
+  postBookConsultationUrl,
+} from "../../api/URLs";
 import { PageLoader } from "../../Components";
+import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
@@ -10,6 +16,7 @@ let selectId = Math.random();
 selectId = selectId.toString().replace(".", "_");
 
 class BookConsultation extends React.Component {
+  static contextType = UserContext;
   constructor(props) {
     super(props);
 
@@ -27,8 +34,8 @@ class BookConsultation extends React.Component {
   async componentDidMount() {
     this.fetchDoctors();
     this.fetchPatients().then(() => {
-      this.sync(selectId)
-      this.sync(selectId + 1)
+      this.sync(selectId);
+      this.sync(selectId + 1);
     });
   }
 
@@ -38,13 +45,13 @@ class BookConsultation extends React.Component {
     if (select.length) {
       select.each(function () {
         $(this).selectpicker({
-          style: '',
-          styleBase: 'form-control',
-          tickIcon: 'icofont-check-alt'
+          style: "",
+          styleBase: "form-control",
+          tickIcon: "icofont-check-alt",
         });
       });
     }
-  }
+  };
 
   renderPatientPicker() {
     var select = $(".custom-patient-picker");
@@ -76,9 +83,9 @@ class BookConsultation extends React.Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl()
-    const getPatientsConfig = fetchConfig({url : getPatients, method : 'get'})
-    const {data} = await fetchWrapper(getPatientsConfig)
+    const getPatients = getPatientsUrl();
+    const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
+    const { data } = await fetchWrapper(getPatientsConfig);
 
     const patientArray = [];
 
@@ -92,9 +99,9 @@ class BookConsultation extends React.Component {
   };
 
   fetchDoctors = async () => {
-    const getDoctors = getDoctorsUrl()
-    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
-    const {data} = await fetchWrapper(getDoctorsConfig)
+    const getDoctors = getDoctorsUrl();
+    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: "get" });
+    const { data } = await fetchWrapper(getDoctorsConfig);
 
     const doctorArray = [];
 
@@ -116,7 +123,11 @@ class BookConsultation extends React.Component {
 
   async bookConsultation(e) {
     e.preventDefault();
-
+    const {
+      user: { userType },
+    } = this.context;
+    const nextRoute =
+      userType === "Admin" ? "/AdminConsultations" : "/NurseConsultations";
     const {
       consultationTitle,
       reasonForConsultation,
@@ -128,7 +139,7 @@ class BookConsultation extends React.Component {
       consultationTitle,
       reasonForConsultation,
       patientId,
-      doctorId
+      doctorId,
     };
 
     if (!doctorId) {
@@ -136,14 +147,18 @@ class BookConsultation extends React.Component {
     }
 
     try {
-      const postBookConsultation = postBookConsultationUrl()
-      const postBookConsultationConfig = fetchConfig({url : postBookConsultation, data, method : 'post'})
-      const res = await fetchWrapper(postBookConsultationConfig)
+      const postBookConsultation = postBookConsultationUrl();
+      const postBookConsultationConfig = fetchConfig({
+        url: postBookConsultation,
+        data,
+        method: "post",
+      });
+      const res = await fetchWrapper(postBookConsultationConfig);
 
       notification.success({ message: res.data.message });
-      this.props.history.push("/AdminConsultations")
+      this.props.history.push(nextRoute);
     } catch (error) {
-      notification.error({ message:  error?.response?.data?.message });
+      notification.error({ message: error?.response?.data?.message });
     }
   }
 
@@ -154,6 +169,7 @@ class BookConsultation extends React.Component {
       consultationTitle,
       reasonForConsultation,
     } = this.state;
+    console.log(this.state.doctors, "Dd2oo");
 
     return (
       <>
@@ -198,8 +214,8 @@ class BookConsultation extends React.Component {
 
                         <div className="form-group">
                           <label>
-                            Select A Doctor ( If you want this consultation to be
-                            assigned to a doctor )
+                            Select A Doctor ( If you want this consultation to
+                            be assigned to a doctor )
                           </label>
                           <select
                             className="form-control"
@@ -250,8 +266,7 @@ class BookConsultation extends React.Component {
                         {/* {displayErrorMessage}
                         {displaySuccessMessage} */}
                         <div className="row mt-5">
-                          <div className="col">
-                          </div>
+                          <div className="col"></div>
                           <div className="col text-right">
                             <button
                               type="button"
@@ -259,8 +274,8 @@ class BookConsultation extends React.Component {
                               onClick={(e) => this.bookConsultation(e)}
                               disabled={
                                 patientId === "" ||
-                                  reasonForConsultation === "" ||
-                                  consultationTitle === ""
+                                reasonForConsultation === "" ||
+                                consultationTitle === ""
                                   ? true
                                   : false
                               }
@@ -268,7 +283,6 @@ class BookConsultation extends React.Component {
                               Book Now
                             </button>
                           </div>
-
                         </div>
                       </form>
                     </div>
@@ -283,4 +297,4 @@ class BookConsultation extends React.Component {
   }
 }
 
-export default BookConsultation;
+export default observer(BookConsultation);
