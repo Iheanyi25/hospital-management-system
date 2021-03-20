@@ -175,6 +175,9 @@ const ManageAdmissions = observer(() => {
             <AdminActionTable
               admissionId={admission.id}
               patient={admission.patient}
+              appointmentOrConsultationId={
+                admission.appointmentId || admission.consultationId
+              }
               patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
             />
           ),
@@ -238,13 +241,18 @@ const ManageAdmissions = observer(() => {
 });
 
 // Everything goes in here at first
-const AdminActionTable = ({ admissionId, patient, patientName, id }) => {
+const AdminActionTable = ({
+  admissionId,
+  patient,
+  patientName,
+  appointmentOrConsultationId,
+}) => {
   return (
     <ActionButton>
       <Link
         to={{
           pathname: `/AdminWardRoundNotes/${admissionId}`,
-          state: patient,
+          state: { patient, appointmentOrConsultationId },
         }}
         className="btn btn-sm btn-block"
       >
