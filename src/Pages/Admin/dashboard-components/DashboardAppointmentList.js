@@ -35,7 +35,11 @@ export default function DashboardAppointmentList({ appointments }) {
         <div className="card-header">Doctors Appointment List</div>
         <div className="card-body">
           <div className="table-responsive">
-            {appointments && <Table content={dataTable} />}
+            {appointments && <Table
+                content={dataTable}
+                tableID={`appointment-${dataTable.length}`}
+                key={`appointment-${dataTable.length}`}
+              />}
           </div>
         </div>
       </div>
