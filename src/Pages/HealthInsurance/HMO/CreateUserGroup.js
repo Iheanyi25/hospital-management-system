@@ -1,23 +1,7 @@
 import React from "react";
-import Select from "react-select";
 import { PageLoader } from "../../../Components";
 
-export default function AddDrugToNHIS() {
-  const data = {
-    drugs: [
-      { drugName: "Mark", type: "Liquid", id: "12" },
-      { drugName: "Jacob", type: "Liquid", id: "12" },
-      { drugName: "Larry", type: "Liquid", id: "12" },
-      { drugName: "Jacob", type: "Liquid", id: "12" },
-      { drugName: "Mark", type: "Liquid", id: "12" },
-    ],
-  };
-  let options = [];
-  if (data.drugs.length > 0) {
-    data.drugs.forEach(({ id, drugName }) => {
-      options.push({ value: id, label: drugName });
-    });
-  }
+export default function CreateUserGroup() {
   return (
     <>
       <PageLoader />
@@ -27,7 +11,7 @@ export default function AddDrugToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Add A Drug To Health plan name</h4>
+            <h4 className="page-title mb-0">Create A User Group In HMO name</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -35,20 +19,31 @@ export default function AddDrugToNHIS() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">Add Drug</h4>
+                      <h4 className="text-center">Create User Group</h4>
                       <div className="form-group">
-                        <label>Search & select drug(s)</label>
-                        <Select
-                          isSearchable
-                          options={options}
-                          placeholder="Search"
+                        <label>User group Name</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          tabIndex={-98}
+                          name="name"
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Description</label>
+                        <textarea
+                          className="form-control"
+                          type="text"
+                          tabIndex={-98}
+                          required
                         />
                       </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
                           <button type="submit" className="btn btn-primary">
-                            Add to health plan
+                            Register user group
                           </button>
                         </div>
                       </div>

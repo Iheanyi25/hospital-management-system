@@ -44,11 +44,21 @@ export default function AddDrugToNHIS() {
                           placeholder="Search"
                         />
                       </div>
+                      <div className="form-group">
+                        <label>Amount</label>
+                        <input
+                          className="form-control"
+                          type="number"
+                          tabIndex={-98}
+                          name="name"
+                          required
+                        />
+                      </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
                           <button type="submit" className="btn btn-primary">
-                            Add to health plan
+                            Add drug
                           </button>
                         </div>
                       </div>

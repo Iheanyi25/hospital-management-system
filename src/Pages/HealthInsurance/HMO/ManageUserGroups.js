@@ -5,23 +5,23 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManageHealthPlans = () => {
+const ManageUserGroups = () => {
   const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
+    patients: [
+      { user: "Mark" },
+      { user: "Jacob" },
+      { user: "Larry" },
+      { user: "Jacob" },
+      { user: "Mark" },
     ],
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.patients.map(({ user }, index) => {
       return {
         "#": ++index,
-        "Health plans": type,
-        Actions: <HealthPlansActionTable />,
+        "User Groups": user,
+        Actions: <ActionTable />,
       };
     });
   }
@@ -35,16 +35,31 @@ const ManageHealthPlans = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Health Plans</h4>
-            <Link className="btn btn-primary" to="/CreateHealthPlan">
-              Create Health Plan
-            </Link>
+            <h4 className="page-title mb-0">Manage User Groups in HMO Name</h4>
+            <div>
+              <div className="col"></div>
+              <div className="col text-right">
+                <Link
+                  to="/CreateUserGroup"
+                  className="btn btn-outline-primary mr-2 mb-2"
+                >
+                  Create User group
+                </Link>
+                <Link
+                  to="/CreateHealthPlan"
+                  type="submit"
+                  className="btn btn-primary mr-2 mb-2"
+                >
+                  Add new user to a user group
+                </Link>
+              </div>
+            </div>
           </header>
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
-              heading="Number of Health Plans"
+              size={data ? data.patients.length : 0}
+              heading="Total User Groups"
             />
           </div>
           <div className="page-content">
@@ -64,27 +79,29 @@ const ManageHealthPlans = () => {
     </Fragment>
   );
 };
-const HealthPlansActionTable = () => {
+const ActionTable = () => {
   return (
     <ActionButton>
-      <Link to={`/ManageHealthPlanPatients`} className="btn btn-sm btn-block">
+      <Link to={`/AddUserToUserGroup`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Manage patients
+        Register patient
       </Link>
-      <Link to={`/ManageHealthPlanDrugs`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage drugs
+        Edit
       </Link>
-      <Link to={`/ManageHealthPlanServices`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage services
-      </Link>
-      <Link to={`/ManageUserGroups`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage user groups
+        Delete
       </Link>
     </ActionButton>
   );
 };
 
-export default ManageHealthPlans;
+export default ManageUserGroups;

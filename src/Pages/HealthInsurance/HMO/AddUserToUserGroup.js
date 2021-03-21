@@ -3,7 +3,7 @@ import Select from "react-select";
 import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
 
-export default function AddUserToNHIS() {
+export default function AddUserToUserGroup() {
   const data = {
     patients: [
       { user: "Mark", id: "0292" },
@@ -41,9 +41,7 @@ export default function AddUserToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">
-              Add A Patient To Health plan name
-            </h4>
+            <h4 className="page-title mb-0">Add A Patient To HMO Plan</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -51,7 +49,7 @@ export default function AddUserToNHIS() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">Add User</h4>
+                      <h4 className="text-center">Add User To A User Group</h4>
                       <div className="form-group">
                         <label>Search Patient with:</label>
                         <Select
@@ -70,7 +68,7 @@ export default function AddUserToNHIS() {
                         <p className="">Add a new patient</p>
                       </div>
                       <div className="form-group">
-                        <label>Select Health Plan</label>
+                        <label>Select User Group</label>
                         <Select
                           isSearchable
                           options={patientOptions}
@@ -81,7 +79,7 @@ export default function AddUserToNHIS() {
                         <div className="col"></div>
                         <div className="col text-right">
                           <button type="submit" className="btn btn-primary">
-                            Add to health plan
+                            Register user
                           </button>
                         </div>
                       </div>

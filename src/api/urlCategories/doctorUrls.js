@@ -11,9 +11,12 @@ export const postDoctorCancelAppointmentUrl = (appointmentId) =>
 // Doctor - Manage Clerking
 export const getPatientClarkingHistoryUrl = (id) =>
   `/Doctor/GetClerkingHistoryForPatient?PatientId=${id}`;
+export const getPatientClarkingHistoryByAppointmentOrConsultationUrl = (id) =>
+  `/Doctor/GetClerkingByAppointmentOrConsultation?Id=${id}`;
 export const updatePatientClerkingUrl = (id, type, userId, patientId) =>
   `/Doctor/UpdatePatientClerking?Id=${id}&IdType=${type}&UserId=${userId}&PatientId=${patientId}`;
-export const postAdmitOrSendPatientHomeUrl = () => `/Doctor/AdmitOrSendPatientHome`;
+export const postAdmitOrSendPatientHomeUrl = () =>
+  `/Doctor/AdmitOrSendPatientHome`;
 
 // Doctor - Manage Consultation
 export const getDoctorAllConsultationsUrl = (doctorId) =>
@@ -22,7 +25,8 @@ export const getDoctorPendingConsultationsUrl = (doctorId) =>
   `/Doctor/GetPendingConsultations?DoctorId=${doctorId}`;
 
 // Doctor- Dashboard
-export const getDoctorDashboardUrl = (doctorId) => `/Doctor/Dashboard?doctorId=${doctorId}`
+export const getDoctorDashboardUrl = (doctorId) =>
+  `/Doctor/Dashboard?doctorId=${doctorId}`;
 
 // Doctor- Manage Profile
 export const getDoctorUrl = (doctorId) =>
@@ -52,5 +56,6 @@ export const UpdateDoctorProfessionalDetailsUrl = () =>
 export const deleteDoctorProfileInfoUrl = (deleteInfoUrl, id) =>
   `/Doctor/${deleteInfoUrl}/${id}`;
 
-  // admit or send patient 
-  export const postDoctorAdmitOrSendPatientHomeUrl = ()=> `Doctor/AdmitOrSendPatientHome`;
+// admit or send patient
+export const postDoctorAdmitOrSendPatientHomeUrl = () =>
+  `Doctor/AdmitOrSendPatientHome`;

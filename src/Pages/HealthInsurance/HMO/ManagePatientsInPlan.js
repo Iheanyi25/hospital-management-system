@@ -5,23 +5,23 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManageHealthPlans = () => {
+const ManagePatients = () => {
   const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
+    patients: [
+      { user: "Mark" },
+      { user: "Jacob" },
+      { user: "Larry" },
+      { user: "Jacob" },
+      { user: "Mark" },
     ],
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.patients.map(({ user }, index) => {
       return {
         "#": ++index,
-        "Health plans": type,
-        Actions: <HealthPlansActionTable />,
+        Users: user,
+        Actions: <NHISPatientActionTable />,
       };
     });
   }
@@ -35,16 +35,16 @@ const ManageHealthPlans = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Health Plans</h4>
-            <Link className="btn btn-primary" to="/CreateHealthPlan">
-              Create Health Plan
+            <h4 className="page-title mb-0">Manage Patients in HMO Name</h4>
+            <Link className="btn btn-primary" to="/AddUserToPlan">
+              Add patient
             </Link>
           </header>
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
-              heading="Number of Health Plans"
+              size={data ? data.patients.length : 0}
+              heading="Total Patients"
             />
           </div>
           <div className="page-content">
@@ -64,27 +64,25 @@ const ManageHealthPlans = () => {
     </Fragment>
   );
 };
-const HealthPlansActionTable = () => {
+const NHISPatientActionTable = () => {
   return (
     <ActionButton>
-      <Link to={`/ManageHealthPlanPatients`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage patients
+        Edit patient
       </Link>
-      <Link to={`/ManageHealthPlanDrugs`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage drugs
-      </Link>
-      <Link to={`/ManageHealthPlanServices`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage services
-      </Link>
-      <Link to={`/ManageUserGroups`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage user groups
+        Delete
       </Link>
     </ActionButton>
   );
 };
 
-export default ManageHealthPlans;
+export default ManagePatients;

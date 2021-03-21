@@ -73,6 +73,16 @@ export default function AddServiceToNHIS() {
                           />
                         </div>
                       )}
+                      <div className="form-group">
+                        <label>Amount</label>
+                        <input
+                          className="form-control"
+                          type="number"
+                          tabIndex={-98}
+                          name="name"
+                          required
+                        />
+                      </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
