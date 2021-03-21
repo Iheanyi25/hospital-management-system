@@ -5,23 +5,24 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManageHealthPlans = () => {
+const ManageDrugs = () => {
   const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
+    drugs: [
+      { drugName: "Mark", type: "Liquid" },
+      { drugName: "Jacob", type: "Liquid" },
+      { drugName: "Larry", type: "Liquid" },
+      { drugName: "Jacob", type: "Liquid" },
+      { drugName: "Mark", type: "Liquid" },
     ],
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.drugs.map(({ drugName, type }, index) => {
       return {
         "#": ++index,
-        "NHIS Types": type,
-        Actions: <HealthPlansActionTable />,
+        "Drug Name": drugName,
+        Type: type,
+        Actions: <NHISDrugActionTable />,
       };
     });
   }
@@ -35,16 +36,16 @@ const ManageHealthPlans = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Health Plans</h4>
-            <Link className="btn btn-primary" to="/CreateHealthPlan">
-              Create Health Plan
+            <h4 className="page-title mb-0">Manage Drugs in HMO name</h4>
+            <Link className="btn btn-primary" to="/AdminAddDrugToNHIS">
+              Add drug
             </Link>
           </header>
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
-              heading="Number of Health Plans"
+              size={data ? data.drugs.length : 0}
+              heading="Total No of Drugs"
             />
           </div>
           <div className="page-content">
@@ -64,23 +65,25 @@ const ManageHealthPlans = () => {
     </Fragment>
   );
 };
-const HealthPlansActionTable = () => {
+const NHISDrugActionTable = () => {
   return (
     <ActionButton>
-      <Link to={`/ManageHealthPlanPatients`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage patients
+        Update drug
       </Link>
-      <Link to={`/ManageHealthPlanDrugs`} className="btn btn-sm btn-block">
+      <Link
+        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
-        Manage drugs
-      </Link>
-      <Link to={`/ManageHealthPlanServices`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage services
+        Delete
       </Link>
     </ActionButton>
   );
 };
 
-export default ManageHealthPlans;
+export default ManageDrugs;
