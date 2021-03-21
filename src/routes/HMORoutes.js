@@ -11,6 +11,8 @@ import ManageUserGroups from "../Pages/HealthInsurance/HMO/ManageUserGroups";
 import AddUserToPlan from "../Pages/HealthInsurance/HMO/AddUserToPlan";
 import AddDrugToPlan from "../Pages/HealthInsurance/HMO/AddDrugToPlan";
 import AddServiceToPlan from "../Pages/HealthInsurance/HMO/AddServiceToPlan";
+import AddUserToUserGroup from "../Pages/HealthInsurance/HMO/AddUserToUserGroup";
+import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
 
 export default function NurseRoutes() {
   return (
@@ -43,6 +45,12 @@ export default function NurseRoutes() {
           <Route exact path="/AddUserToPlan" component={AddUserToPlan} />
           <Route exact path="/AddDrugToPlan" component={AddDrugToPlan} />
           <Route exact path="/AddServiceToPlan" component={AddServiceToPlan} />
+          <Route
+            exact
+            path="/AddUserToUserGroup"
+            component={AddUserToUserGroup}
+          />
+          <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
           <Route exact path="*" render={() => <Redirect to="/Dashboard" />} />
         </Switch>
       </HMOLayout>

@@ -40,7 +40,7 @@ const ManageUserGroups = () => {
               <div className="col"></div>
               <div className="col text-right">
                 <Link
-                  type="submit"
+                  to="/CreateUserGroup"
                   className="btn btn-outline-primary mr-2 mb-2"
                 >
                   Create User group
@@ -82,10 +82,7 @@ const ManageUserGroups = () => {
 const ActionTable = () => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <Link to={`/AddUserToUserGroup`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Register patient
       </Link>
