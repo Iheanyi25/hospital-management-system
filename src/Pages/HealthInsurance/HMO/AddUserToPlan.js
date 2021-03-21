@@ -3,7 +3,7 @@ import Select from "react-select";
 import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
 
-export default function AddUserToNHIS() {
+export default function AddUserToPlan() {
   const data = {
     patients: [
       { user: "Mark", id: "0292" },
@@ -41,9 +41,7 @@ export default function AddUserToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">
-              Add A Patient To Health plan name
-            </h4>
+            <h4 className="page-title mb-0">Add A Patient To HMO Plan</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
