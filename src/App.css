@@ -154,3 +154,40 @@ body {
   border-color: #336cfb !important;
   color: #fff !important;
 }
+
+.submenu-ul{
+  list-style-type: none;
+  font-weight: normal;
+  padding: 0;
+}
+.panel-heading[aria-expanded=true] {
+    color: #336cfb !important;
+  }
+  .panel-heading {
+    position: relative;
+  }
+  .panel-heading[data-toggle="collapse"]:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\203A"; /* "play" icon */
+    position: absolute;
+    color: #b0c5d8;
+    font-size: 18px;
+    line-height: 22px;
+    right: 20px;
+    top: calc(50% - 16px);
+  
+    /* rotate "play" icon from > (right arrow) to down arrow */
+    -webkit-transform: rotate(-90deg);
+    -moz-transform:    rotate(-90deg);
+    -ms-transform:     rotate(-90deg);
+    -o-transform:      rotate(-90deg);
+    transform:         rotate(-90deg);
+  }
+  .panel-heading[data-toggle="collapse"].collapsed:after {
+    /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+    -webkit-transform: rotate(90deg);
+    -moz-transform:    rotate(90deg);
+    -ms-transform:     rotate(90deg);
+    -o-transform:      rotate(90deg);
+    transform:         rotate(90deg);
+  }

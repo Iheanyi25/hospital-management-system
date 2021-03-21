@@ -18,7 +18,7 @@ export default function DashboardConsultationList({ consultations }) {
           ? "CANCELLED"
           : consultation.isExpired
           ? "EXPIRED"
-          : "PENDING"
+          : "PENDING",
       };
     });
   }
@@ -29,7 +29,13 @@ export default function DashboardConsultationList({ consultations }) {
         <div className="card-header">Doctor Consultation Queue</div>
         <div className="card-body">
           <div className="table-responsive">
-            {consultations && <Table content={dataTable} />}
+            {consultations && (
+              <Table
+                content={dataTable}
+                tableID={`consultation-${dataTable.length}`}
+                key={`consultation-${dataTable.length}`}
+              />
+            )}
           </div>
         </div>
       </div>
