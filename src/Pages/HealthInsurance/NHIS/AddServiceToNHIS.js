@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
+import Select from "react-select";
 import { PageLoader } from "../../../Components";
 
 export default function AddServiceToNHIS() {
-//   const data = {
-//     services: [
-//       { name: "Mark", category: "Liquid" },
-//       { name: "Jacob", category: "Liquid" },
-//       { name: "Larry", category: "Liquid" },
-//       { name: "Jacob", category: "Liquid" },
-//       { name: "Mark", category: "Liquid" },
-//     ],
-//   };
+  const [catgeoryId, setcatgeoryId] = useState("");
+  const data = {
+    categories: [
+      { name: "Mark", category: "Liquid", id: "dwo" },
+      { name: "Jacob", category: "Liquid", id: "dwo" },
+      { name: "Larry", category: "Liquid", id: "dwo" },
+      { name: "Jacob", category: "Liquid", id: "dwo" },
+      { name: "Mark", category: "Liquid", id: "dwo" },
+    ],
+    services: [
+      { name: "Mark", category: "Liquid", id: "dwo" },
+      { name: "Jacob", category: "Liquid", id: "dwo" },
+      { name: "Larry", category: "Liquid", id: "dwo" },
+      { name: "Jacob", category: "Liquid", id: "dwo" },
+      { name: "Mark", category: "Liquid", id: "dwo" },
+    ],
+  };
+  let categoryOptions = [];
+  if (data.categories.length > 0) {
+    data.categories.forEach(({ id, name }) => {
+      categoryOptions.push({ value: id, label: name });
+    });
+  }
+  let serviceOptions = [];
+  if (data.services.length > 0) {
+    data.services.forEach(({ id, name }) => {
+      serviceOptions.push({ value: id, label: name });
+    });
+  }
+  const handleChange = (catgeoryId) => {
+    setcatgeoryId(catgeoryId);
+  };
   return (
     <>
       <PageLoader />
@@ -31,18 +55,24 @@ export default function AddServiceToNHIS() {
                       <h4 className="text-center">Add Service</h4>
                       <div className="form-group">
                         <label>Select Health Plan Category</label>
-                        <select className="form-control" name="workDays">
-                          <option value="">A</option>
-                          <option value="Monday">B</option>
-                        </select>
+                        <Select
+                          isSearchable
+                          value={catgeoryId}
+                          options={categoryOptions}
+                          placeholder="Search"
+                          onChange={handleChange}
+                        />
                       </div>
-                      <div className="form-group">
-                        <label>Select Service</label>
-                        <select className="form-control" name="workDays">
-                          <option value="">A</option>
-                          <option value="Monday">B</option>
-                        </select>
-                      </div>
+                      {catgeoryId === "" ? null : (
+                        <div className="form-group">
+                          <label>Select Service</label>
+                          <Select
+                            isSearchable
+                            options={categoryOptions}
+                            placeholder="Search"
+                          />
+                        </div>
+                      )}
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">

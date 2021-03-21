@@ -1,17 +1,24 @@
 import React from "react";
+import Select from "react-select";
 import add from "../../../assets/img/add.svg";
-import { PageLoader, SelectableDropDown } from "../../../Components";
+import { PageLoader } from "../../../Components";
 
 export default function AddUserToNHIS() {
   const data = {
     patients: [
-      { user: "Mark" },
-      { user: "Jacob" },
-      { user: "Larry" },
-      { user: "Jacob" },
-      { user: "Mark" },
+      { user: "Mark", id: "0292" },
+      { user: "Jacob", id: "0292" },
+      { user: "Larry", id: "0292" },
+      { user: "Jacob", id: "0292" },
+      { user: "Mark", id: "0292" },
     ],
   };
+  let options = [];
+  if (data.patients.length > 0) {
+    data.patients.forEach(({ id, user }) => {
+      options.push({ value: id, label: user });
+    });
+  }
   return (
     <>
       <PageLoader />
@@ -33,17 +40,11 @@ export default function AddUserToNHIS() {
                     <form className="mb-4 p-5">
                       <h4 className="text-center">Add User</h4>
                       <div className="form-group">
-                        <SelectableDropDown
-                          searchParams={["name", "sku"]}
-                          data={data?.patients ?? []}
-                          valueKeys={["user"]}
-                          label={"Patient"}
-                          multiple={false}
-                          search
-                          //   onChange={onChange}
-                          placeholder={"Email,Name or Username"}
-                          stateKey={["user"]}
-                          itemKey={["user"]}
+                        <label>Search Patient with:</label>
+                        <Select
+                          isSearchable
+                          options={options}
+                          placeholder="Email, Name or Username"
                         />
                       </div>
                       <div className="d-flex mt-3 mb-3">

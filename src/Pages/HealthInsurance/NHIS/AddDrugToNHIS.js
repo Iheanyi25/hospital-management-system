@@ -1,16 +1,23 @@
 import React from "react";
-import { PageLoader, SelectableDropDown } from "../../../Components";
+import Select from "react-select";
+import { PageLoader } from "../../../Components";
 
 export default function AddDrugToNHIS() {
   const data = {
     drugs: [
-      { drugName: "Mark", type: "Liquid" },
-      { drugName: "Jacob", type: "Liquid" },
-      { drugName: "Larry", type: "Liquid" },
-      { drugName: "Jacob", type: "Liquid" },
-      { drugName: "Mark", type: "Liquid" },
+      { drugName: "Mark", type: "Liquid", id: "12" },
+      { drugName: "Jacob", type: "Liquid", id: "12" },
+      { drugName: "Larry", type: "Liquid", id: "12" },
+      { drugName: "Jacob", type: "Liquid", id: "12" },
+      { drugName: "Mark", type: "Liquid", id: "12" },
     ],
   };
+  let options = [];
+  if (data.drugs.length > 0) {
+    data.drugs.forEach(({ id, drugName }) => {
+      options.push({ value: id, label: drugName });
+    });
+  }
   return (
     <>
       <PageLoader />
@@ -30,17 +37,11 @@ export default function AddDrugToNHIS() {
                     <form className="mb-4 p-5">
                       <h4 className="text-center">Add Drug</h4>
                       <div className="form-group">
-                        <SelectableDropDown
-                          searchParams={["drugName", "type"]}
-                          data={data?.drugs ?? []}
-                          valueKeys={["drugName"]}
-                          label={"Drug"}
-                          multiple={false}
-                          search
-                          //   onChange={onChange}
-                          placeholder={"Email, Name or Username"}
-                          stateKey={["drugName"]}
-                          itemKey={["drugName", "type"]}
+                        <label>Search & select drug(s)</label>
+                        <Select
+                          isSearchable
+                          options={options}
+                          placeholder="Search"
                         />
                       </div>
                       <div className="row">
