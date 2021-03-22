@@ -66,6 +66,7 @@ export default function CreateInsurance() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {
+      name,
       percentage,
       amount,
       description,
@@ -73,6 +74,7 @@ export default function CreateInsurance() {
       healthPlan: { value: healthPlanId },
     } = payload;
     const data = {
+      name,
       percentage,
       amount,
       description,
