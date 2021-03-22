@@ -12,7 +12,7 @@ function NurseProfile({ nurseId }) {
 	const getNurseProfile = getNurseProfileUrl(nurseId);
 	const getNurseProfileConfig = fetchConfig({ url: getNurseProfile, method: 'get' });
 	const { data, error, mutate } = useRequest(getNurseProfileConfig, { revalidateOnFocus: false,});
-
+	console.log(data,11111)
 	if (error) return <div>failed to load</div>;
 	return (
 		<Fragment>
@@ -29,7 +29,7 @@ function NurseProfile({ nurseId }) {
 							<ContactDetail
 								otherDetails={data.nurse}
 								primaryDetails={data.nurse.nurse}
-								userId={data.nurse.Id}
+								userId={data.nurse.nurseId}
 								mutate={mutate}
 							/>
 						</div>
