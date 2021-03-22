@@ -22,15 +22,17 @@ const ManageNHIS = () => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data.nhisHealthPlans.map(({ name, percentage, amount }, index) => {
-      return {
-        "#": ++index,
-        Name: name,
-        Percentage: percentage,
-        Amount: formatAmount(amount),
-        Actions: <NHISActionTable />,
-      };
-    });
+    dataTable = data.nhisHealthPlans.map(
+      ({ name, percentage, amount, id }, index) => {
+        return {
+          "#": ++index,
+          Name: name,
+          Percentage: percentage,
+          Amount: formatAmount(amount),
+          Actions: <NHISActionTable healthPlanId={id} healthPlanName={name} />,
+        };
+      }
+    );
   }
   if (error) return <div>failed to load</div>;
   return (
@@ -71,14 +73,20 @@ const ManageNHIS = () => {
     </Fragment>
   );
 };
-const NHISActionTable = () => {
+const NHISActionTable = ({ healthPlanId, healthPlanName }) => {
   return (
     <ActionButton>
-      <Link to={`/AdminManageNHISPatients`} className="btn btn-sm btn-block">
+      <Link
+        to={`/AdminManageNHISPatients/${healthPlanId}`}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage patients
       </Link>
-      <Link to={`/AdminManageNHISDrugs`} className="btn btn-sm btn-block">
+      <Link
+        to={{ pathname: `/AdminManageNHISDrugs/${healthPlanId}`, state: healthPlanName }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage drugs
       </Link>

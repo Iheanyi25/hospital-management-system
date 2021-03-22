@@ -1,32 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHealthPlanDrugsByHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageDrugs = () => {
-  const data = {
-    drugs: [
-      { drugName: "Mark", type: "Liquid" },
-      { drugName: "Jacob", type: "Liquid" },
-      { drugName: "Larry", type: "Liquid" },
-      { drugName: "Jacob", type: "Liquid" },
-      { drugName: "Mark", type: "Liquid" },
-    ],
-  };
+  const {
+    location: { state: patientName },
+  } = useHistory();
+  const { id } = useParams();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getNHISHealthPlans = getHealthPlanDrugsByHealthPlanUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getNHISHealthPlansConfig = fetchConfig({
+    url: getNHISHealthPlans,
+    method: "get",
+  });
+  const { data, error } = useRequest(getNHISHealthPlansConfig, {
+    revalidateOnFocus: false,
+  });
   let dataTable = [];
   if (data) {
-    dataTable = data.drugs.map(({ drugName, type }, index) => {
-      return {
-        "#": ++index,
-        "Drug Name": drugName,
-        Type: type,
-        Actions: <NHISDrugActionTable />,
-      };
-    });
+    dataTable = data.healthPlanDrugs.map(
+      ({ drug: { name, genericName, manufacturer, drugType } }, index) => {
+        return {
+          "#": ++index,
+          "Drug Name": name,
+          "Generic Name": genericName,
+          Type: drugType,
+          Manufacturer: manufacturer,
+          Actions: <NHISDrugActionTable />,
+        };
+      }
+    );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -37,7 +53,7 @@ const ManageDrugs = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              Manage Drugs in Lagos state NHIS
+              {`Manage Drugs in ${patientName}`}
             </h4>
             <Link className="btn btn-primary" to="/AdminAddDrugToNHIS">
               Add drug
@@ -46,7 +62,7 @@ const ManageDrugs = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.drugs.length : 0}
+              size={data ? data.healthPlanDrugs.length : 0}
               heading="Total No of Drugs"
             />
           </div>
@@ -54,11 +70,11 @@ const ManageDrugs = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
@@ -70,13 +86,6 @@ const ManageDrugs = () => {
 const NHISDrugActionTable = () => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Update drug
-      </Link>
       <Link
         // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
         className="btn btn-sm btn-block"

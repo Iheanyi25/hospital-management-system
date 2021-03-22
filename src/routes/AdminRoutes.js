@@ -414,7 +414,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminManageNHISDrugs"
+            path="/AdminManageNHISDrugs/:id"
             component={ManageDrugsInNHIS}
           />
           <Route
