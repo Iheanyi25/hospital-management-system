@@ -16,4 +16,4 @@ export * from "./PrescriptionReciept";
 export * from "./AddBed";
 export * from "./UpdateDoctorsNotes";
 export * from "./UpdateMedications";
-export * from "./Nancy";
+export * from "./UpdateObservation";
