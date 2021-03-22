@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getHealthPlanDrugsByHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getHealthPlanDrugsByHealthPlanUrl,
+  deleteNHISHealthPlanDrugUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { notification } from "../../../utils/notification";
 
 const ManageDrugs = () => {
   const {
@@ -24,20 +28,39 @@ const ManageDrugs = () => {
     url: getNHISHealthPlans,
     method: "get",
   });
-  const { data, error } = useRequest(getNHISHealthPlansConfig, {
+  const { data, error, mutate } = useRequest(getNHISHealthPlansConfig, {
     revalidateOnFocus: false,
   });
+
+  const deleteDrug = async (id) => {
+    console.log(id);
+    try {
+      const deleteNHISHealthPlanDrug = deleteNHISHealthPlanDrugUrl();
+      const deleteNHISHealthPlanDrugConfig = fetchConfig({
+        url: deleteNHISHealthPlanDrug,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deleteNHISHealthPlanDrugConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.healthPlanDrugs.map(
-      ({ drug: { name, genericName, manufacturer, drugType } }, index) => {
+      ({ drug: { name, genericName, manufacturer, drugType }, id }, index) => {
         return {
           "#": ++index,
           "Drug Name": name,
           "Generic Name": genericName,
           Type: drugType,
           Manufacturer: manufacturer,
-          Actions: <NHISDrugActionTable />,
+          Actions: <NHISDrugActionTable deleteDrug={deleteDrug} id={id} />,
         };
       }
     );
@@ -55,7 +78,13 @@ const ManageDrugs = () => {
             <h4 className="page-title mb-0">
               {`Manage Drugs in ${healthPlanName}`}
             </h4>
-            <Link className="btn btn-primary" to={{pathname:`/AdminAddDrugToNHIS/${id}`, state: healthPlanName}}>
+            <Link
+              className="btn btn-primary"
+              to={{
+                pathname: `/AdminAddDrugToNHIS/${id}`,
+                state: healthPlanName,
+              }}
+            >
               Add drug
             </Link>
           </header>
@@ -83,13 +112,10 @@ const ManageDrugs = () => {
     </Fragment>
   );
 };
-const NHISDrugActionTable = () => {
+const NHISDrugActionTable = ({ deleteDrug, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <Link onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </Link>
