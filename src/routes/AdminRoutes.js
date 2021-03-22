@@ -419,7 +419,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminManageNHISServices"
+            path="/AdminManageNHISServices/:id"
             component={ManageServicesInNHIS}
           />
           <Route
@@ -434,7 +434,7 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminAddServiceToNHIS"
+            path="/AdminAddServiceToNHIS/:id"
             component={AddServiceToNHIS}
           />
           <Route
