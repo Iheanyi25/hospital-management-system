@@ -1,7 +1,24 @@
 import React from "react";
+import Select from "react-select";
+import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
 
-export default function CreateHealthPlan() {
+export default function AddUserToSubGroup() {
+  const data = {
+    patients: [
+      { user: "Mark", id: "0292" },
+      { user: "Jacob", id: "0292" },
+      { user: "Larry", id: "0292" },
+      { user: "Jacob", id: "0292" },
+      { user: "Mark", id: "0292" },
+    ],
+  };
+  let patientOptions = [];
+  if (data.patients.length > 0) {
+    data.patients.forEach(({ id, user }) => {
+      patientOptions.push({ value: id, label: user });
+    });
+  }
   return (
     <>
       <PageLoader />
@@ -11,7 +28,7 @@ export default function CreateHealthPlan() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Create Health Plan</h4>
+            <h4 className="page-title mb-0">Add A Patient To HMO Plan</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -19,31 +36,29 @@ export default function CreateHealthPlan() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">Create Health Plan</h4>
+                      <h4 className="text-center">Add User</h4>
                       <div className="form-group">
-                        <label>Health Plan Name</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          tabIndex={-98}
-                          name="name"
-                          required
+                        <label>Search Patient with:</label>
+                        <Select
+                          isSearchable
+                          options={patientOptions}
+                          placeholder="Email, Name or Username"
                         />
                       </div>
-                      <div className="form-group">
-                        <label>Description</label>
-                        <textarea
-                          className="form-control"
-                          type="text"
-                          tabIndex={-98}
-                          required
+                      <div className="d-flex mt-3 mb-3">
+                        <img
+                          src={add}
+                          alt="reset"
+                          className="mr-2 mb-2"
+                          style={{ cursor: "pointer" }}
                         />
+                        <p className="">Add a new patient</p>
                       </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
                           <button type="submit" className="btn btn-primary">
-                            Create Plan
+                            Add to health plan
                           </button>
                         </div>
                       </div>

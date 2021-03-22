@@ -5,7 +5,7 @@ import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
-const ManageUserGroups = () => {
+const ManagePatients = () => {
   const data = {
     patients: [
       { user: "Mark" },
@@ -20,8 +20,8 @@ const ManageUserGroups = () => {
     dataTable = data.patients.map(({ user }, index) => {
       return {
         "#": ++index,
-        "User Groups": user,
-        Actions: <ActionTable />,
+        Users: user,
+        Actions: <PatientActionTable />,
       };
     });
   }
@@ -35,24 +35,16 @@ const ManageUserGroups = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Manage User Groups in HMO Name</h4>
-            <div>
-              <div className="col"></div>
-              <div className="col text-right">
-                <Link
-                  to="/CreateUserGroup"
-                  className="btn btn-outline-primary mr-2 mb-2"
-                >
-                  Create User group
-                </Link>
-              </div>
-            </div>
+            <h4 className="page-title mb-0">Manage Patients Sub group name</h4>
+            <Link className="btn btn-primary" to="/AddUserToSubGroup">
+              Add patient
+            </Link>
           </header>
 
           <div className="page-content">
             <TableSize
               size={data ? data.patients.length : 0}
-              heading="Total User Groups"
+              heading="Total Patients"
             />
           </div>
           <div className="page-content">
@@ -72,20 +64,9 @@ const ManageUserGroups = () => {
     </Fragment>
   );
 };
-const ActionTable = () => {
+const PatientActionTable = () => {
   return (
     <ActionButton>
-      <Link to={`/ManageUserSubGroups`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Sub Groups
-      </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Edit
-      </Link>
       <Link
         // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
         className="btn btn-sm btn-block"
@@ -97,4 +78,4 @@ const ActionTable = () => {
   );
 };
 
-export default ManageUserGroups;
+export default ManagePatients;
