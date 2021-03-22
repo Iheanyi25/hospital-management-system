@@ -79,9 +79,9 @@ const HealthPlansActionTable = () => {
         <span className="btn-icon icofont-server mr-2" />
         Manage services
       </Link>
-      <Link to={`/ManageUserGroups`} className="btn btn-sm btn-block">
+      <Link to={`/EditHealthPlan`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
-        Manage user groups
+        Edit
       </Link>
     </ActionButton>
   );

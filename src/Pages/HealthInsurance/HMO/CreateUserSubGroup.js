@@ -1,7 +1,7 @@
 import React from "react";
 import { PageLoader } from "../../../Components";
 
-export default function CreateHealthPlan() {
+export default function CreateUserGroup() {
   return (
     <>
       <PageLoader />
@@ -11,7 +11,7 @@ export default function CreateHealthPlan() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Create Health Plan</h4>
+            <h4 className="page-title mb-0">Create A User Sub Group In HMO name</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -19,9 +19,9 @@ export default function CreateHealthPlan() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">Create Health Plan</h4>
+                      <h4 className="text-center">Create User Group</h4>
                       <div className="form-group">
-                        <label>Health Plan Name</label>
+                        <label>User group Name</label>
                         <input
                           className="form-control"
                           type="text"
@@ -43,7 +43,7 @@ export default function CreateHealthPlan() {
                         <div className="col"></div>
                         <div className="col text-right">
                           <button type="submit" className="btn btn-primary">
-                            Create Plan
+                            Register user group
                           </button>
                         </div>
                       </div>

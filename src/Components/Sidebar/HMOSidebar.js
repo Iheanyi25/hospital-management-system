@@ -50,16 +50,26 @@ const HMOSidebar = () => {
                     </li>
                   </ul>
                 </li>
-                <li className="menu-item">
-                  <span className="group-title">ADDMISSION</span>
+                <li className="menu-item has-sub">
+                  <div className="item-link cursor">
+                    <span className="link-icon icofont-contact-add" />{" "}
+                    <span className="link-text">User Groups</span>{" "}
+                    <span className="link-caret icofont-thin-right" />
+                  </div>
+                  <ul className="sub">
+                    <li className="menu-item">
+                      <Link to="/CreateUserGroup" className="item-link">
+                        <span className="link-text">Create User Group</span>
+                      </Link>
+                    </li>
+                    <li className="menu-item">
+                      <Link to="/ManageUserGroups" className="item-link">
+                        <span className="link-text">Manage User Group</span>
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
-                <li className="menu-item">
-                  <Link className="item-link" to="/NurseManageAdmissions">
-                    <span className="link-icon icofont-users" />{" "}
-                    <span className="link-text">Manage Admissions</span>
-                  </Link>
-                </li>
-                <li className="menu-item">
+                {/* <li className="menu-item">
                   <span className="group-title">Profile</span>
                 </li>
                 <li className="menu-item">
@@ -67,7 +77,7 @@ const HMOSidebar = () => {
                     <span className="link-icon icofont-user-suited" />{" "}
                     <span className="link-text">My Profile</span>{" "}
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </nav>
           </div>

@@ -2,6 +2,7 @@
 export * from './urlCategories/loginUrls.js';
 export * from './urlCategories/adminUrls.js';
 export * from './urlCategories/admissionUrls';
+export * from './urlCategories/healthInsuranceUrls';
 export * from './urlCategories/accountantUrls.js';
 export * from './urlCategories/doctorUrls.js';
 export * from './urlCategories/nurseUrls.js';
