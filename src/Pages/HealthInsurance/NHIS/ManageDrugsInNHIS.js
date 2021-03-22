@@ -10,7 +10,7 @@ import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageDrugs = () => {
   const {
-    location: { state: patientName },
+    location: { state: healthPlanName },
   } = useHistory();
   const { id } = useParams();
   const [pageNumber, setPageNumber] = useState(1);
@@ -53,9 +53,9 @@ const ManageDrugs = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              {`Manage Drugs in ${patientName}`}
+              {`Manage Drugs in ${healthPlanName}`}
             </h4>
-            <Link className="btn btn-primary" to="/AdminAddDrugToNHIS">
+            <Link className="btn btn-primary" to={{pathname:`/AdminAddDrugToNHIS/${id}`, state: healthPlanName}}>
               Add drug
             </Link>
           </header>
