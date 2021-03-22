@@ -16,8 +16,11 @@ const WardRoundNotes = observer(() => {
   const { id: admissionId } = useParams();
   const {
     location: {
-      state: patient,
-      state: { firstName, lastName, id },
+      state: {
+        patient,
+        patient: { firstName, lastName, id },
+        appointmentOrConsultationId
+      },
     },
   } = useHistory();
   return (
@@ -54,6 +57,7 @@ const WardRoundNotes = observer(() => {
           <div className="card border-light w-50 my-5 mx-auto">
             <ClarkingHistory
               patientDetails={{ firstName, lastName, id }}
+              appointmentOrConsultationId={appointmentOrConsultationId}
               user
             />
           </div>

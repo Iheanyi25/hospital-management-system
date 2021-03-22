@@ -39,7 +39,7 @@ export const UserProvider = ({ children }) => {
         userStore.user = res.data.authenticatedUser;
         userStore.userToken = res.data.token;
         userStore.loading = false;
-        window.location.href = "/";
+        // window.location.href = "/";
       } catch (error) {
         userStore.error = error;
         userStore.loading = false;

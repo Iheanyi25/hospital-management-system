@@ -4,7 +4,10 @@ import user from "../../assets/img/user.png";
 import formatDate from "../../utils/formatDate";
 import { fetchWrapper } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
-import { getPatientClarkingHistoryUrl } from "../../api/URLs";
+import {
+  getPatientClarkingHistoryUrl,
+  getPatientClarkingHistoryByAppointmentOrConsultationUrl,
+} from "../../api/URLs";
 import NoDataState from "../../Components/EmptyState/NoDataState";
 
 let $ = window.$;
@@ -27,12 +30,16 @@ class ClarkingHistory extends React.Component {
 
   fetchClarkingHistories = async () => {
     const { id } = this.props.patientDetails;
+    const getPatientClarkingHistory = this.props.appointmentOrConsultationId
+      ? getPatientClarkingHistoryByAppointmentOrConsultationUrl(
+          this.props.appointmentOrConsultationId
+        )
+      : getPatientClarkingHistoryUrl(id);
+    const getPatientClarkingHistoryConfig = fetchConfig({
+      url: getPatientClarkingHistory,
+      method: "GET",
+    });
     try {
-      const getPatientClarkingHistory = getPatientClarkingHistoryUrl(id);
-      const getPatientClarkingHistoryConfig = fetchConfig({
-        url: getPatientClarkingHistory,
-        method: "GET",
-      });
       const { data, status } = await fetchWrapper(
         getPatientClarkingHistoryConfig
       );
