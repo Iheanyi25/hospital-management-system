@@ -12,24 +12,11 @@ export default function AddUserToPlan() {
       { user: "Jacob", id: "0292" },
       { user: "Mark", id: "0292" },
     ],
-    plans: [
-      { type: "Mark", id: "0292" },
-      { type: "Jacob", id: "0292" },
-      { type: "Larry", id: "0292" },
-      { type: "Jacob", id: "0292" },
-      { type: "Mark", id: "0292" },
-    ],
   };
   let patientOptions = [];
   if (data.patients.length > 0) {
     data.patients.forEach(({ id, user }) => {
       patientOptions.push({ value: id, label: user });
-    });
-  }
-  let planOptions = [];
-  if (data.plans.length > 0) {
-    data.plans.forEach(({ id, type }) => {
-      planOptions.push({ value: id, label: type });
     });
   }
   return (

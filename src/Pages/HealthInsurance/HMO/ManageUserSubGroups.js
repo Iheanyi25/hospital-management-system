@@ -43,7 +43,7 @@ const ManageUserSubGroups = () => {
               <div className="col text-right">
                 <Link
                   to="/CreateUserSubGroup"
-                  className="btn btn-outline-primary mr-2 mb-2"
+                  className="btn btn-primary mr-2 mb-2"
                 >
                   Create User sub group
                 </Link>
@@ -77,7 +77,7 @@ const ManageUserSubGroups = () => {
 const ActionTable = () => {
   return (
     <ActionButton>
-      <Link to={`/AddUserToUserGroup`} className="btn btn-sm btn-block">
+      <Link to={`/AddUserGroupToPlan`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Assign to health plan
       </Link>

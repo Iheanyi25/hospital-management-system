@@ -11,12 +11,12 @@ import ManageUserGroups from "../Pages/HealthInsurance/HMO/ManageUserGroups";
 import AddUserToPlan from "../Pages/HealthInsurance/HMO/AddUserToPlan";
 import AddDrugToPlan from "../Pages/HealthInsurance/HMO/AddDrugToPlan";
 import AddServiceToPlan from "../Pages/HealthInsurance/HMO/AddServiceToPlan";
-import AddUserToUserGroup from "../Pages/HealthInsurance/HMO/AddUserToUserGroup";
 import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
 import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroups";
 import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
+import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
 
 export default function NurseRoutes() {
   return (
@@ -49,11 +49,6 @@ export default function NurseRoutes() {
           <Route exact path="/AddUserToPlan" component={AddUserToPlan} />
           <Route exact path="/AddDrugToPlan" component={AddDrugToPlan} />
           <Route exact path="/AddServiceToPlan" component={AddServiceToPlan} />
-          <Route
-            exact
-            path="/AddUserToUserGroup"
-            component={AddUserToUserGroup}
-          />
           <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
           <Route
             exact
@@ -74,6 +69,11 @@ export default function NurseRoutes() {
             exact
             path="/AddUserToSubGroup"
             component={AddUserToSubGroup}
+          />
+          <Route
+            exact
+            path="/AddUserGroupToPlan"
+            component={AddUserGroupToPlan}
           />
           <Route exact path="*" render={() => <Redirect to="/Dashboard" />} />
         </Switch>
