@@ -13,6 +13,10 @@ import AddDrugToPlan from "../Pages/HealthInsurance/HMO/AddDrugToPlan";
 import AddServiceToPlan from "../Pages/HealthInsurance/HMO/AddServiceToPlan";
 import AddUserToUserGroup from "../Pages/HealthInsurance/HMO/AddUserToUserGroup";
 import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
+import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroups";
+import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup";
+import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
+import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
 
 export default function NurseRoutes() {
   return (
@@ -51,6 +55,26 @@ export default function NurseRoutes() {
             component={AddUserToUserGroup}
           />
           <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
+          <Route
+            exact
+            path="/ManageUserSubGroups"
+            component={ManageUserSubGroups}
+          />
+          <Route
+            exact
+            path="/CreateUserSubGroup"
+            component={CreateUserSubGroup}
+          />
+          <Route
+            exact
+            path="/ManagePatientsInSubGroup"
+            component={ManagePatientsInSubGroup}
+          />
+          <Route
+            exact
+            path="/AddUserToSubGroup"
+            component={AddUserToSubGroup}
+          />
           <Route exact path="*" render={() => <Redirect to="/Dashboard" />} />
         </Switch>
       </HMOLayout>
