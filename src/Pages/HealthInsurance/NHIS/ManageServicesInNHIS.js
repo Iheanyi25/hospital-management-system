@@ -1,34 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHealthPlanServicesByHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import formatAmount from "../../../utils/formatAmount";
 
 const ManageServices = () => {
   const {
     location: { state: healthPlanName },
   } = useHistory();
   const { id } = useParams();
-  const data = {
-    services: [
-      { name: "Mark", category: "Liquid" },
-      { name: "Jacob", category: "Liquid" },
-      { name: "Larry", category: "Liquid" },
-      { name: "Jacob", category: "Liquid" },
-      { name: "Mark", category: "Liquid" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHealthPlanServicesByHealthPlan = getHealthPlanServicesByHealthPlanUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getHealthPlanServicesByHealthPlanConfig = fetchConfig({
+    url: getHealthPlanServicesByHealthPlan,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(
+    getHealthPlanServicesByHealthPlanConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
   let dataTable = [];
   if (data) {
-    dataTable = data.services.map(({ name, category }, index) => {
-      return {
-        "#": ++index,
-        "Service Category": category,
-        "Service Name": name,
-        Actions: <NHISServicesActionTable />,
-      };
-    });
+    dataTable = data.healthPlanServices.map(
+      ({ service: { name, cost } }, index) => {
+        return {
+          "#": ++index,
+          "Service Name": name,
+          Cost: formatAmount(cost),
+          Actions: <NHISServicesActionTable />,
+        };
+      }
+    );
   }
   //   if (error) return <div>failed to load</div>;
   return (
@@ -56,7 +71,7 @@ const ManageServices = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.services.length : 0}
+              size={data ? data.healthPlanServices.length : 0}
               heading="Total No of Services"
             />
           </div>
@@ -64,11 +79,11 @@ const ManageServices = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
@@ -80,13 +95,6 @@ const ManageServices = () => {
 const NHISServicesActionTable = () => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Update service
-      </Link>
       <Link
         // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
         className="btn btn-sm btn-block"
