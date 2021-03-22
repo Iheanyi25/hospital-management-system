@@ -8,6 +8,10 @@ export const getHealthPlanDrugsByHealthPlanUrl = (healthPlanId, pageNumber, page
   export const deleteNHISHealthPlanDrugUrl = () =>
   `/${baseName}/DeleteHealthPlanDrug`;
 
+// Health Insurance - Manage NHIS Health Plan Services
+export const createNHISHealthPlanServiceUrl = () =>
+  `/${baseName}/CreateHealthPlanService`;
+
 // Health Insurance - Manage NHIS Health Plans
 export const getNHISHealthPlansUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetNHISHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;

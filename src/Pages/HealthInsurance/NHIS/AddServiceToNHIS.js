@@ -1,39 +1,62 @@
 import React, { useState } from "react";
+import { useHistory, useParams } from "react-router";
 import Select from "react-select";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  createNHISHealthPlanServiceUrl,
+  getAllServicesUrl,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
+import { notification } from "../../../utils/notification";
 
 export default function AddServiceToNHIS() {
-  const [catgeoryId, setcatgeoryId] = useState("");
-  const data = {
-    categories: [
-      { name: "Mark", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Larry", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Mark", category: "Liquid", id: "dwo" },
-    ],
-    services: [
-      { name: "Mark", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Larry", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Mark", category: "Liquid", id: "dwo" },
-    ],
-  };
-  let categoryOptions = [];
-  if (data.categories.length > 0) {
-    data.categories.forEach(({ id, name }) => {
-      categoryOptions.push({ value: id, label: name });
-    });
-  }
-  let serviceOptions = [];
-  if (data.services.length > 0) {
+  const {
+    push,
+    location: { state: healthPlanName },
+  } = useHistory();
+  const { id: nhisHealthPlanId } = useParams();
+  const [service, setService] = useState();
+  const getAllServices = getAllServicesUrl(1, 200);
+  const getAllServicesConfig = fetchConfig({
+    url: getAllServices,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllServicesConfig, {
+    revalidateOnFocus: false,
+  });
+  let options = [];
+  if (data?.services.length > 0) {
     data.services.forEach(({ id, name }) => {
-      serviceOptions.push({ value: id, label: name });
+      options.push({ value: id, label: name });
     });
   }
-  const handleChange = (catgeoryId) => {
-    setcatgeoryId(catgeoryId);
+  const handleChange = (service) => {
+    setService(service);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = { serviceId: service.value, nhisHealthPlanId };
+    try {
+      const createNHISHealthPlanServic = createNHISHealthPlanServiceUrl();
+      const createNHISHealthPlanServicConfig = fetchConfig({
+        url: createNHISHealthPlanServic,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(createNHISHealthPlanServicConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        push({
+          pathname: `/AdminManageNHISServices/${nhisHealthPlanId}`,
+          state: healthPlanName,
+        });
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+    console.log(payload);
   };
   return (
     <>
@@ -44,35 +67,27 @@ export default function AddServiceToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Add Service To Health plan name</h4>
+            <h4 className="page-title mb-0">{`Add Service To ${healthPlanName}`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
               <div className="col col-md-12">
                 <div className="card border-light">
                   <div className="card-body">
-                    <form className="mb-4 p-5">
+                    <form className="mb-4 p-5" onSubmit={handleSubmit}>
                       <h4 className="text-center">Add Service</h4>
                       <div className="form-group">
-                        <label>Select Health Plan Category</label>
+                        <label>Select Service</label>
                         <Select
-                          isSearchable
-                          value={catgeoryId}
-                          options={categoryOptions}
-                          placeholder="Search"
+                          value={service}
+                          isSearchable={true}
+                          options={options}
                           onChange={handleChange}
+                          placeholder={
+                            error ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
                         />
                       </div>
-                      {catgeoryId === "" ? null : (
-                        <div className="form-group">
-                          <label>Select Service</label>
-                          <Select
-                            isSearchable
-                            options={categoryOptions}
-                            placeholder="Search"
-                          />
-                        </div>
-                      )}
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
