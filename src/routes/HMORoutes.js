@@ -3,6 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { HMOLayout } from "../Components/Layout";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
 import CreateHealthPlan from "../Pages/HealthInsurance/HMO/CreateHealthPlans";
+import EditHealthPlan from "../Pages/HealthInsurance/HMO/EditHealthPlan";
 import ManageHealthPlans from "../Pages/HealthInsurance/HMO/ManageHealthPlans";
 import ManagePatientsInPlan from "../Pages/HealthInsurance/HMO/ManagePatientsInPlan";
 import ManageDrugsInPlan from "../Pages/HealthInsurance/HMO/ManageDrugsInPlan";
@@ -25,6 +26,7 @@ export default function NurseRoutes() {
         <Switch>
           <Route exact path="/Dashboard" component={Dashboard} />
           <Route exact path="/CreateHealthPlan" component={CreateHealthPlan} />
+          <Route exact path="/EditHealthPlan" component={EditHealthPlan} />
           <Route
             exact
             path="/ManageHealthPlans"
