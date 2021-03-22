@@ -1,11 +1,15 @@
 import React from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageServices = () => {
+  const {
+    location: { state: healthPlanName },
+  } = useHistory();
+  const { id } = useParams();
   const data = {
     services: [
       { name: "Mark", category: "Liquid" },
@@ -37,9 +41,15 @@ const ManageServices = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              Manage Services in Lagos state HMO
+              {`Manage Services in ${healthPlanName}`}
             </h4>
-            <Link className="btn btn-primary" to="/AdminAddServiceToNHIS">
+            <Link
+              className="btn btn-primary"
+              to={{
+                pathname: `/AdminAddServiceToNHIS/${id}`,
+                state: healthPlanName,
+              }}
+            >
               Add service
             </Link>
           </header>
