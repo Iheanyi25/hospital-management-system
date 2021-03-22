@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getHealthPlanServicesByHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getHealthPlanServicesByHealthPlanUrl,
+  deleteHealthPlanServiceUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import formatAmount from "../../../utils/formatAmount";
+import { notification } from "../../../utils/notification";
 
 const ManageServices = () => {
   const {
@@ -31,21 +35,40 @@ const ManageServices = () => {
       revalidateOnFocus: false,
     }
   );
-
+  const deleteService = async (id) => {
+    console.log(id);
+    try {
+      const deleteNHISHealthPlanDrug = deleteHealthPlanServiceUrl();
+      const deleteNHISHealthPlanDrugConfig = fetchConfig({
+        url: deleteNHISHealthPlanDrug,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deleteNHISHealthPlanDrugConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.healthPlanServices.map(
-      ({ service: { name, cost } }, index) => {
+      ({ service: { name, cost }, id }, index) => {
         return {
           "#": ++index,
           "Service Name": name,
           Cost: formatAmount(cost),
-          Actions: <NHISServicesActionTable />,
+          Actions: (
+            <NHISServicesActionTable deleteService={deleteService} id={id} />
+          ),
         };
       }
     );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -92,13 +115,10 @@ const ManageServices = () => {
     </Fragment>
   );
 };
-const NHISServicesActionTable = () => {
+const NHISServicesActionTable = ({ deleteService, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <Link onClick={() => deleteService(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </Link>
