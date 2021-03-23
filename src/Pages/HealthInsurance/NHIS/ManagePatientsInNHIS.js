@@ -1,6 +1,8 @@
-import React from "react";
-import { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getNHISHealthPlanPatientsByHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -10,26 +12,38 @@ const ManagePatients = () => {
     location: { state: healthPlanName },
   } = useHistory();
   const { id } = useParams();
-  const data = {
-    patients: [
-      { user: "Mark" },
-      { user: "Jacob" },
-      { user: "Larry" },
-      { user: "Jacob" },
-      { user: "Mark" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHealthPlanPatientsByHealthPlan = getNHISHealthPlanPatientsByHealthPlanUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getHealthPlanPatientsByHealthPlanConfig = fetchConfig({
+    url: getHealthPlanPatientsByHealthPlan,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(
+    getHealthPlanPatientsByHealthPlanConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   let dataTable = [];
   if (data) {
-    dataTable = data.patients.map(({ user }, index) => {
-      return {
-        "#": ++index,
-        Users: user,
-        Actions: <NHISPatientActionTable />,
-      };
-    });
+    dataTable = data.healthPlanPatients.map(
+      ({ patient: { firstName, lastName, email, phoneNumber } }, index) => {
+        return {
+          "#": ++index,
+          Name: `${firstName} ${lastName}`,
+          Email: <a href={"mailto:" + email}>{email}</a>,
+          Phone: phoneNumber || "Not available",
+          Actions: <NHISPatientActionTable />,
+        };
+      }
+    );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -53,7 +67,7 @@ const ManagePatients = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.patients.length : 0}
+              size={data ? data.healthPlanPatients.length : 0}
               heading="Total Patients"
             />
           </div>
@@ -61,11 +75,11 @@ const ManagePatients = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
