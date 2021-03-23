@@ -30,3 +30,6 @@ export const getNHISHealthPlansUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetNHISHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createNHISHealthPlanUrl = () =>
   `/${baseName}/CreateNHISHealthPlan`;
+  
+  // Health Insurance - Manage Profile
+  export const getHMOAdminUrl = (id) => `/${baseName}/GetHMOAdmin?HMOAdminId=${id}`;
