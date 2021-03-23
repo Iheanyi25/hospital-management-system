@@ -1,7 +1,49 @@
-import React from "react";
+import { observer } from "mobx-react";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { editHMOHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
+import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 
-export default function EditHealthPlan() {
+const EditHealthPlan = observer(() => {
+  // const 
+  const {hmoId} = useContext(UserContext);
+  const history = useHistory();
+  const [payload, setpayload] = useState({
+    name: "",
+    description: ""
+  });
+
+  const handleChange = (e) =>{
+    setpayload({
+      ...payload,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    const data = {...payload, id: hmoId};
+    console.log(data, "Jerry");
+    try{
+      const editHMOHealthPlan = editHMOHealthPlanUrl();
+      const createHMOHealthPlanConfig = fetchConfig({
+        url: editHMOHealthPlan,
+        data: data,
+        method: "post"
+      });
+      const res = await fetchWrapper(createHMOHealthPlanConfig);
+      if (res.status === 200) {
+        notification.success({mesage: res.data.message});
+        history.pushState("/manageHealthPlans")
+      }
+    }
+      catch(error){
+        notification.error({message: error?.response?.data.message});
+      }
+  };
   return (
     <>
       <PageLoader />
@@ -18,7 +60,7 @@ export default function EditHealthPlan() {
               <div className="col col-md-12">
                 <div className="card border-light">
                   <div className="card-body">
-                    <form className="mb-4 p-5">
+                    <form className="mb-4 p-5" onSubmit={handleSubmit}>
                       <h4 className="text-center">Edit Health Plan</h4>
                       <div className="form-group">
                         <label>Health Plan Name</label>
@@ -26,6 +68,7 @@ export default function EditHealthPlan() {
                           className="form-control"
                           type="text"
                           tabIndex={-98}
+                          onChange={handleChange}
                           name="name"
                           required
                         />
@@ -35,7 +78,9 @@ export default function EditHealthPlan() {
                         <textarea
                           className="form-control"
                           type="text"
+                          name= "description"
                           tabIndex={-98}
+                          onChange={handleChange}
                           required
                         />
                       </div>
@@ -58,3 +103,5 @@ export default function EditHealthPlan() {
     </>
   );
 }
+)
+export default EditHealthPlan;
