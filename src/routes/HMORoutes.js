@@ -21,7 +21,7 @@ import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatient
 import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
 import { UserContext } from "../mobx/UserState";
 
-export default function NurseRoutes() {
+export default function HMORoutes() {
 
   const { setHMOId, user } = useContext(UserContext);
 
