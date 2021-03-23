@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getHMODrugPricesByHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getHMODrugPricesByHealthPlanUrl,
+  deleteHMODrugPriceFromHMOHealthPlanUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import formatAmount from "../../../utils/formatAmount";
+import { notification } from "../../../utils/notification";
 
 const ManageDrugs = () => {
   const {
@@ -35,12 +39,31 @@ const ManageDrugs = () => {
       revalidateOnFocus: false,
     }
   );
+  const deleteDrug = async (id) => {
+    console.log(id);
+    try {
+      const deleteHMODrugPriceFromHMOHealthPlan = deleteHMODrugPriceFromHMOHealthPlanUrl();
+      const deleteHMODrugPriceFromHMOHealthPlanConfig = fetchConfig({
+        url: deleteHMODrugPriceFromHMOHealthPlan,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deleteHMODrugPriceFromHMOHealthPlanConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.drugPrices.map(
       (
         {
           drug: { name, genericName, drugType, manufacturer, quantityInStock },
+          id,
         },
         index
       ) => {
@@ -58,7 +81,7 @@ const ManageDrugs = () => {
           ),
           Manufacturer: manufacturer ?? "N/A",
           "Quantity in stock": formatAmount(quantityInStock) ?? "N/A",
-          Actions: <NHISDrugActionTable />,
+          Actions: <ActionTable deleteDrug={deleteDrug} id={id} />,
         };
       }
     );
@@ -105,20 +128,10 @@ const ManageDrugs = () => {
     </Fragment>
   );
 };
-const NHISDrugActionTable = () => {
+const ActionTable = ({ deleteDrug, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Update drug
-      </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <Link onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </Link>
