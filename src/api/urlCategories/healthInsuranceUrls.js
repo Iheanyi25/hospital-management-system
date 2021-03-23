@@ -17,12 +17,14 @@ export const getHealthPlanDrugsByHealthPlanUrl = (healthPlanId, pageNumber, page
   `/${baseName}/CreateHealthPlanDrug`;
   export const deleteNHISHealthPlanDrugUrl = () =>
   `/${baseName}/DeleteHealthPlanDrug`;
-
-//Health Insurance - Manage NHIS Health Plan Patients
-export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
-`/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-export const assignPatientToNHISHealthPlanUrl = () =>
-`/${baseName}/AssignPatientToNHISHealthPlan`;
+  
+  //Health Insurance - Manage NHIS Health Plan Patients
+  export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+  `/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const assignPatientToNHISHealthPlanUrl = () =>
+  `/${baseName}/AssignPatientToNHISHealthPlan`;
+  export const deletePatientFromNHISHealthPlanUrl = () =>
+  `/${baseName}/DeletePatientFromNHISHealthPlan`;
   
 // Health Insurance - Manage NHIS Health Plan Services
   export const getHealthPlanServicesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>

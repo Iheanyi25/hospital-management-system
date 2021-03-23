@@ -1,11 +1,15 @@
 import React, { Fragment, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getNHISHealthPlanPatientsByHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getNHISHealthPlanPatientsByHealthPlanUrl,
+  deletePatientFromNHISHealthPlanUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { notification } from "../../../utils/notification";
 
 const ManagePatients = () => {
   const {
@@ -29,16 +33,34 @@ const ManagePatients = () => {
       revalidateOnFocus: false,
     }
   );
+  const deletePatient = async (id) => {
+    console.log(id);
+    try {
+      const deletePatientFromNHISHealthPlan = deletePatientFromNHISHealthPlanUrl();
+      const deletePatientFromNHISHealthPlanConfig = fetchConfig({
+        url: deletePatientFromNHISHealthPlan,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deletePatientFromNHISHealthPlanConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.healthPlanPatients.map(
-      ({ patient: { firstName, lastName, email, phoneNumber } }, index) => {
+      ({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
         return {
           "#": ++index,
           Name: `${firstName} ${lastName}`,
           Email: <a href={"mailto:" + email}>{email}</a>,
           Phone: phoneNumber || "Not available",
-          Actions: <NHISPatientActionTable />,
+          Actions: <NHISPatientActionTable deletePatient={deletePatient} id={id} />,
         };
       }
     );
@@ -88,13 +110,10 @@ const ManagePatients = () => {
     </Fragment>
   );
 };
-const NHISPatientActionTable = () => {
+const NHISPatientActionTable = ({ deletePatient, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <Link onClick={() => deletePatient(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </Link>
