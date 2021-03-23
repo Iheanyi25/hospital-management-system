@@ -1,5 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHealthPlanPatientsInHMOByHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -13,26 +16,36 @@ const ManagePatients = () => {
   useEffect(() => {
     setPlanName(healthPlanName);
   }, [healthPlanName]);
-  const data = {
-    patients: [
-      { user: "Mark" },
-      { user: "Jacob" },
-      { user: "Larry" },
-      { user: "Jacob" },
-      { user: "Mark" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHealthPlanPatientsInHMOByHealthPlan = getHealthPlanPatientsInHMOByHealthPlanUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getHealthPlanPatientsInHMOByHealthPlanConfig = fetchConfig({
+    url: getHealthPlanPatientsInHMOByHealthPlan,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(
+    getHealthPlanPatientsInHMOByHealthPlanConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   let dataTable = [];
   if (data) {
-    dataTable = data.patients.map(({ user }, index) => {
+    dataTable = data.healthPlanPatients.map(({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
       return {
         "#": ++index,
-        Users: user,
+        Name: `${firstName} ${lastName}`,
+        Email: <a href={"mailto:" + email}>{email}</a>,
+        Phone: phoneNumber || "Not available",
         Actions: <NHISPatientActionTable />,
       };
     });
   }
-  //   if (error) return <div>failed to load</div>;
+    if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -53,7 +66,7 @@ const ManagePatients = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.patients.length : 0}
+              size={data ? data.healthPlanPatients.length : 0}
               heading="Total Patients"
             />
           </div>
@@ -61,11 +74,11 @@ const ManagePatients = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
