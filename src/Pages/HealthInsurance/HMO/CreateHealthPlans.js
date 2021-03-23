@@ -22,7 +22,7 @@ const CreateHealthPlan = observer(() => {
     if (isNotEmptyString(name)) {
       setEmptyField(false);
     }
-  }, [payload.name]);
+  }, [payload, payload.name]);
   const handleChange = (e) => {
     setPayload({
       ...payload,

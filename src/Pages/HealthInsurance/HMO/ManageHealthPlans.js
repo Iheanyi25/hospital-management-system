@@ -24,12 +24,12 @@ const ManageHealthPlans = observer(() => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data.hmoHealthPlans.map(({ name, description }, index) => {
+    dataTable = data.hmoHealthPlans.map(({ name, description, id }, index) => {
       return {
         "#": ++index,
         "Health Plan": name,
         Description: description,
-        Actions: <HealthPlansActionTable />,
+        Actions: <HealthPlansActionTable healthPlanName={name} healthPlanId={id} />,
       };
     });
   }
@@ -72,10 +72,10 @@ const ManageHealthPlans = observer(() => {
     </Fragment>
   );
 });
-const HealthPlansActionTable = () => {
+const HealthPlansActionTable = ({ healthPlanName, healthPlanId }) => {
   return (
     <ActionButton>
-      <Link to={`/ManageHealthPlanPatients`} className="btn btn-sm btn-block">
+      <Link to={{pathname:`/ManageHealthPlanPatients/${healthPlanId}`, state: healthPlanName}} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Manage patients
       </Link>
