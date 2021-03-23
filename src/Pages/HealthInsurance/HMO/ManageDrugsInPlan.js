@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageDrugs = () => {
+  const {
+    location: { state: healthPlanName },
+  } = useHistory();
+  const { id } = useParams();
+  const [planName, setPlanName] = useState("");
+  useEffect(() => {
+    setPlanName(healthPlanName);
+  }, [healthPlanName]);
   const data = {
     drugs: [
       { drugName: "Mark", type: "Liquid" },
@@ -36,8 +44,8 @@ const ManageDrugs = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Manage Drugs in HMO name</h4>
-            <Link className="btn btn-primary" to="/AddDrugToPlan">
+            <h4 className="page-title mb-0">{`Manage Drugs in ${planName}`}</h4>
+            <Link className="btn btn-primary" to={`/AddDrugToPlan/${id}`}>
               Add drug
             </Link>
           </header>

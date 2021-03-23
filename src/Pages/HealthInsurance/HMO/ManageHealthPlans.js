@@ -28,7 +28,9 @@ const ManageHealthPlans = () => {
         "#": ++index,
         "Health Plan": name,
         Description: description,
-        Actions: <HealthPlansActionTable healthPlanName={name} healthPlanId={id} />,
+        Actions: (
+          <HealthPlansActionTable healthPlanName={name} healthPlanId={id} />
+        ),
       };
     });
   }
@@ -74,11 +76,23 @@ const ManageHealthPlans = () => {
 const HealthPlansActionTable = ({ healthPlanName, healthPlanId }) => {
   return (
     <ActionButton>
-      <Link to={{pathname:`/ManageHealthPlanPatients/${healthPlanId}`, state: healthPlanName}} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/ManageHealthPlanPatients/${healthPlanId}`,
+          state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage patients
       </Link>
-      <Link to={`/ManageHealthPlanDrugs`} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/ManageHealthPlanDrugs/${healthPlanId}`,
+          state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage drugs
       </Link>
