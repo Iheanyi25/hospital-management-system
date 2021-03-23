@@ -1,15 +1,20 @@
 import { observer } from "mobx-react";
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper } from "../../../api/fetcher";
+import { createHMOHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { UserContext } from "../../../mobx/UserState";
+import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
 const CreateHealthPlan = observer(() => {
   const { hmoId } = useContext(UserContext);
+  const history = useHistory();
   const [payload, setPayload] = useState({
     name: "",
     description: "",
-    hmoId
   });
   const [emptyField, setEmptyField] = useState(true);
   useEffect(() => {
@@ -17,17 +22,33 @@ const CreateHealthPlan = observer(() => {
     if (isNotEmptyString(name)) {
       setEmptyField(false);
     }
-  }, [payload]);
+  }, [payload.name]);
   const handleChange = (e) => {
     setPayload({
       ...payload,
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(payload);
-  }
+    const data = { ...payload, hmoId };
+    try {
+      const createHMOHealthPlan = createHMOHealthPlanUrl();
+      const createHMOHealthPlanConfig = fetchConfig({
+        url: createHMOHealthPlan,
+        data: data,
+        method: "post",
+      });
+      const res = await fetchWrapper(createHMOHealthPlanConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        history.push("/ManageHealthPlans");
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+    console.log(data);
+  };
   return (
     <>
       <PageLoader />
