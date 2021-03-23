@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { HMOLayout } from "../Components/Layout";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
@@ -19,8 +19,17 @@ import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup"
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
 import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
+import { UserContext } from "../mobx/UserState";
 
-export default function NurseRoutes() {
+export default function HMORoutes() {
+
+  const { setHMOId, user } = useContext(UserContext);
+
+  useEffect(() => {
+    setHMOId();
+    console.log("I ran")
+  }, [setHMOId, user.id]);
+
   return (
     <BrowserRouter basename="HMOAdmin">
       <HMOLayout>

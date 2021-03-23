@@ -1,5 +1,10 @@
 const baseName = "HealthInsurance";
 
+// Health Insurance - Manage HMO Health Plans
+export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
+  `/${baseName}/GetHMOHealthPlans?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
+
 // Health Insurance - Manage HMOS
 export const getHMOsUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetHMOs?PageNumber=${pageNumber}&PageSize=${pageSize}`;
@@ -32,6 +37,7 @@ export const createNHISHealthPlanUrl = () =>
   `/${baseName}/CreateNHISHealthPlan`;
   
   // Health Insurance - Manage Profile
+  export const getHMOAdminsUrl = (pageNumber, pageSize) => `/${baseName}/GetHMOAdmins?PageNumber=${pageNumber}&PageSize=${pageSize}`;
   export const getHMOAdminUrl = (id) => `/${baseName}/GetHMOAdmin?HMOAdminId=${id}`;
   export const updateBasicInfoHMOAdminUrl = () => `/${baseName}/UpdateBasicInfo`;
   export const updateContactDetailsHMOAdminUrl = () => `/${baseName}/UpdateContactDetails`;

@@ -1,31 +1,38 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHMOHealthPlansUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { UserContext } from "../../../mobx/UserState";
 
 const ManageHealthPlans = () => {
-  const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
-    ],
-  };
+  const { hmoId } = useContext(UserContext);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getNHISHealthPlans = getHMOHealthPlansUrl(hmoId, pageNumber, pageSize);
+  const getNHISHealthPlansConfig = fetchConfig({
+    url: getNHISHealthPlans,
+    method: "get",
+  });
+  const { data, error } = useRequest(getNHISHealthPlansConfig, {
+    revalidateOnFocus: false,
+  });
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.hmoHealthPlans.map(({ name, description }, index) => {
       return {
         "#": ++index,
-        "Health plans": type,
+        "Health Plan": name,
+        Description: description,
         Actions: <HealthPlansActionTable />,
       };
     });
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -43,7 +50,7 @@ const ManageHealthPlans = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
+              size={data ? data.hmoHealthPlans.length : 0}
               heading="Number of Health Plans"
             />
           </div>
@@ -51,11 +58,11 @@ const ManageHealthPlans = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

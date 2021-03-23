@@ -76,31 +76,36 @@ export const UserProvider = ({ children }) => {
           if (error?.status === 403) {
             logOut();
           }
-          console.log(error.message,666666666)
+          console.log(error.message, 666666666);
           if (error.message === "Network Error") {
-            if(prevNotificationId) removeNotification(prevNotificationId)
-            prevNotificationId = notification.warining({ message: "Network Error, try again", duration: 5000 })
+            if (prevNotificationId) removeNotification(prevNotificationId);
+            prevNotificationId = notification.warining({
+              message: "Network Error, try again",
+              duration: 5000,
+            });
           }
           if (userStore.user) toggleGlobalLoaderClass("remove");
-          throw error
+          throw error;
         }
       );
     }),
-    setHMOId: flow(function* setHMOId(id) {
+    setHMOId: flow(function* setHMOId() {
       userStore.loading = true;
-      const url = getHMOAdminUrl(id);
-      const getHMOAdminConfig = fetchConfig({
-        url: url,
-        method: "get",
-      });
-      try {
-        const res = yield fetchWrapper(getHMOAdminConfig);
-        if (res.status === 200) {
-          userStore.hmoId = res.data.hmoAdmin.hmoId
-          console.log(res.data.hmoAdmin.hmoId);
+      if (userStore.user) {
+        const url = getHMOAdminUrl(userStore.user.id);
+        const getHMOAdminConfig = fetchConfig({
+          url: url,
+          method: "get",
+        });
+        try {
+          const res = yield fetchWrapper(getHMOAdminConfig);
+          if (res.status === 200) {
+            userStore.hmoId = res.data.hmoAdmin.hmoId;
+            console.log(res.data.hmoAdmin.hmoId);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     }),
   }));

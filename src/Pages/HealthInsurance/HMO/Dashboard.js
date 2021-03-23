@@ -11,10 +11,8 @@ import { UserContext } from "../../../mobx/UserState";
 
 const Dashboard = observer(() => {
   const {
-    user: { id, firstName, lastName },
-    setHMOId,
+    user: { firstName, lastName },
   } = useContext(UserContext);
-  setHMOId(id);
   const data = {
     plans: [
       { type: "Mark" },
