@@ -5,6 +5,8 @@ export const getHealthPlanPatientsInHMOByHealthPlanUrl = (healthPlanId, pageNumb
   `/${baseName}/GetHealthPlanPatientsByHealthPlan?HMOHealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToHMOHealthPlanUrl = () =>
 `/${baseName}/AssignPatientToHealthPlan`;
+export const deletePatientFromHMOHealthPlanUrl = () =>
+`/${baseName}/DeletePatientFromHealthPlan`;
 
 
 // Health Insurance - Manage HMO Health Plans

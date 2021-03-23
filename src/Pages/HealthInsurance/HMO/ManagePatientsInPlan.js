@@ -1,11 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getHealthPlanPatientsInHMOByHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getHealthPlanPatientsInHMOByHealthPlanUrl,
+  deletePatientFromHMOHealthPlanUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { notification } from "../../../utils/notification";
 
 const ManagePatients = () => {
   const {
@@ -33,19 +37,39 @@ const ManagePatients = () => {
       revalidateOnFocus: false,
     }
   );
+  const deletePatient = async (id) => {
+    console.log(id);
+    try {
+      const deletePatientFromHMOHealthPlan = deletePatientFromHMOHealthPlanUrl();
+      const deletePatientFromHMOHealthPlanConfig = fetchConfig({
+        url: deletePatientFromHMOHealthPlan,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deletePatientFromHMOHealthPlanConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
-    dataTable = data.healthPlanPatients.map(({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
-      return {
-        "#": ++index,
-        Name: `${firstName} ${lastName}`,
-        Email: <a href={"mailto:" + email}>{email}</a>,
-        Phone: phoneNumber || "Not available",
-        Actions: <NHISPatientActionTable />,
-      };
-    });
+    dataTable = data.healthPlanPatients.map(
+      ({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
+        return {
+          "#": ++index,
+          Name: `${firstName} ${lastName}`,
+          Email: <a href={"mailto:" + email}>{email}</a>,
+          Phone: phoneNumber || "Not available",
+          Actions: <ActionTable deletePatient={deletePatient} id={id} />,
+        };
+      }
+    );
   }
-    if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -87,20 +111,10 @@ const ManagePatients = () => {
     </Fragment>
   );
 };
-const NHISPatientActionTable = () => {
+const ActionTable = ({ deletePatient, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Edit patient
-      </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <Link onClick={() => deletePatient(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </Link>
