@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React, { useContext, useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
@@ -9,7 +10,7 @@ import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
 
-const ManageHealthPlans = () => {
+const ManageHealthPlans = observer(() => {
   const { hmoId } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -70,7 +71,7 @@ const ManageHealthPlans = () => {
       </main>
     </Fragment>
   );
-};
+});
 const HealthPlansActionTable = ({ healthPlanName, healthPlanId }) => {
   return (
     <ActionButton>
