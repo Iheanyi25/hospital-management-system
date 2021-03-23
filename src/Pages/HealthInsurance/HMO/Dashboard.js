@@ -2,9 +2,11 @@ import React, { Fragment } from "react";
 import { observer } from "mobx-react";
 import { PageLoader, Table } from "../../../Components";
 import { Link } from "react-router-dom";
-import TableSize from "../../../Components/DataTable/TableSize";
 import ActionButton from "../../../Components/DataTable/ActionButton";
-import { HMODashboardHeader } from "./hmo-dashboard-components";
+import {
+  HMODashboardHeader,
+  HMODashboardSummary,
+} from "./hmo-dashboard-components";
 
 const Dashboard = observer(() => {
   const data = {
@@ -35,43 +37,13 @@ const Dashboard = observer(() => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          {/* <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">HMO</h4>
-            <div>
-              <div className="col"></div>
-              <div className="col text-right">
-                <Link className="btn btn-outline-primary mr-2 mb-2">
-                  Add user to HMO
-                </Link>
-                <Link
-                  type="submit"
-                  className="btn btn-outline-primary mr-2 mb-2"
-                >
-                  Create a user group
-                </Link>
-                <Link to="/CreateHealthPlan" type="submit" className="btn btn-primary mr-2 mb-2">
-                  Create health plan
-                </Link>
-              </div>
-            </div>
-          </header> */}
-
           <div className="page-content">
-            <HMODashboardHeader firstName="Iheanyi" lastName="Ihekweaba" />
-            {/* <div className="row">
-              <TableSize
-                size={data ? data.plans.length : 0}
-                heading="Number of NHIS Plans"
-              />
-              <TableSize
-                size={data ? data.plans.length : 0}
-                heading="Total Users"
-              />
-              <TableSize
-                size={data ? data.plans.length : 0}
-                heading="Total Users Groups"
-              />
-            </div> */}
+            <HMODashboardSummary
+              userCount="N/A"
+              planCount="N/A"
+              userGroupCount="N/A"
+            />
+            <HMODashboardHeader />
           </div>
           <div className="page-content">
             {data && (

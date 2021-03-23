@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../../mobx/UserState";
 
-const HMODashboardHeader = ({ firstName, lastName }) => {
+const HMODashboardHeader = observer(() => {
+    const { user: { firstName, lastName }} = useContext(UserContext)
   return (
     <div className="row">
       <div className="col-12 col-md-6">
@@ -19,6 +22,6 @@ const HMODashboardHeader = ({ firstName, lastName }) => {
       </div>
     </div>
   );
-};
+});
 
 export { HMODashboardHeader };
