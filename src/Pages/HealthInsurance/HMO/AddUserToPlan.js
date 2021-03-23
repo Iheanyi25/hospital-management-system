@@ -49,7 +49,7 @@ export default function AddUserToPlan() {
       if (res.status === 200) {
         notification.success({ message: res.data.message });
         push({
-          pathname: `/AddUserToPlan/${hmoHealthPlanId}`,
+          pathname: `/ManageHealthPlanPatients/${hmoHealthPlanId}`,
           state: healthPlanName,
         });
       }
