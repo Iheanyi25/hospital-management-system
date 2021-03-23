@@ -77,20 +77,32 @@ const NHISActionTable = ({ healthPlanId, healthPlanName }) => {
   return (
     <ActionButton>
       <Link
-        to={`/AdminManageNHISPatients/${healthPlanId}`}
+        to={{
+          pathname: `/AdminManageNHISPatients/${healthPlanId}`,
+          state: healthPlanName,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Manage patients
       </Link>
       <Link
-        to={{ pathname: `/AdminManageNHISDrugs/${healthPlanId}`, state: healthPlanName }}
+        to={{
+          pathname: `/AdminManageNHISDrugs/${healthPlanId}`,
+          state: healthPlanName,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Manage drugs
       </Link>
-      <Link to={`/AdminManageNHISServices`} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/AdminManageNHISServices/${healthPlanId}`,
+          state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage services
       </Link>

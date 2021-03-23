@@ -397,19 +397,11 @@ export default function AdminRoutes() {
             path="/AdminPaymentForAdmissionInvoices/:id"
             component={PaymentForAdmissionInvoices}
           />
+          <Route exact path="/AdminCreateNHIS" component={CreateNHIS} />
+          <Route exact path="/AdminManageNHIS" component={ManageNHIS} />
           <Route
             exact
-            path="/AdminCreateNHIS"
-            component={CreateNHIS}
-          />
-          <Route
-            exact
-            path="/AdminManageNHIS"
-            component={ManageNHIS}
-          />
-          <Route
-            exact
-            path="/AdminManageNHISPatients"
+            path="/AdminManageNHISPatients/:id"
             component={ManagePatientsInNHIS}
           />
           <Route
@@ -419,12 +411,12 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminManageNHISServices"
+            path="/AdminManageNHISServices/:id"
             component={ManageServicesInNHIS}
           />
           <Route
             exact
-            path="/AdminAddUserToNHIS"
+            path="/AdminAddUserToNHIS/:id"
             component={AddUserToNHIS}
           />
           <Route
@@ -434,19 +426,11 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminAddServiceToNHIS"
+            path="/AdminAddServiceToNHIS/:id"
             component={AddServiceToNHIS}
           />
-          <Route
-            exact
-            path="/AdminCreateHMO"
-            component={CreateHMO}
-          />
-          <Route
-            exact
-            path="/AdminManageHMO"
-            component={ManageHMO}
-          />
+          <Route exact path="/AdminCreateHMO" component={CreateHMO} />
+          <Route exact path="/AdminManageHMO" component={ManageHMO} />
           <Route
             exact
             path="*"

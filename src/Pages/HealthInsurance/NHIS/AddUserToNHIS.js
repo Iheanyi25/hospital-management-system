@@ -1,37 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import Select from "react-select";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  assignPatientToNHISHealthPlanUrl,
+  getPatientsUrl,
+} from "../../../api/URLs";
 import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
+import { notification } from "../../../utils/notification";
 
 export default function AddUserToNHIS() {
-  const data = {
-    patients: [
-      { user: "Mark", id: "0292" },
-      { user: "Jacob", id: "0292" },
-      { user: "Larry", id: "0292" },
-      { user: "Jacob", id: "0292" },
-      { user: "Mark", id: "0292" },
-    ],
-    plans: [
-      { type: "Mark", id: "0292" },
-      { type: "Jacob", id: "0292" },
-      { type: "Larry", id: "0292" },
-      { type: "Jacob", id: "0292" },
-      { type: "Mark", id: "0292" },
-    ],
+  const {
+    push,
+    location: { state: healthPlanName },
+  } = useHistory();
+  const { id: nhisHealthPlanId } = useParams();
+  const [patient, setPatient] = useState();
+  const getPatients = getPatientsUrl(1, 200);
+  const getPatientsConfig = fetchConfig({
+    url: getPatients,
+    method: "get",
+  });
+  const { data, error } = useRequest(getPatientsConfig, {
+    revalidateOnFocus: false,
+  });
+  let options = [];
+  if (data?.patients.length > 0) {
+    data.patients.forEach(({ patient: { id, firstName, lastName } }) => {
+      options.push({ value: id, label: `${firstName} ${lastName}` });
+    });
+  }
+  const handleChange = (patient) => {
+    setPatient(patient);
   };
-  let patientOptions = [];
-  if (data.patients.length > 0) {
-    data.patients.forEach(({ id, user }) => {
-      patientOptions.push({ value: id, label: user });
-    });
-  }
-  let planOptions = [];
-  if (data.plans.length > 0) {
-    data.plans.forEach(({ id, type }) => {
-      planOptions.push({ value: id, label: type });
-    });
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = { patientId: patient.value, nhisHealthPlanId };
+    try {
+      const assignPatientToNHISHealthPlan = assignPatientToNHISHealthPlanUrl();
+      const assignPatientToNHISHealthPlanConfig = fetchConfig({
+        url: assignPatientToNHISHealthPlan,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(assignPatientToNHISHealthPlanConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        push({
+          pathname: `/AdminManageNHISPatients/${nhisHealthPlanId}`,
+          state: healthPlanName,
+        });
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+    console.log(payload);
+  };
   return (
     <>
       <PageLoader />
@@ -42,7 +69,7 @@ export default function AddUserToNHIS() {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              Add A Patient To Health plan name
+              {`Add A Patient To ${healthPlanName}`}
             </h4>
           </header>
           <div className="page-content w-50 m-auto">
@@ -50,32 +77,30 @@ export default function AddUserToNHIS() {
               <div className="col col-md-12">
                 <div className="card border-light">
                   <div className="card-body">
-                    <form className="mb-4 p-5">
+                    <form className="mb-4 p-5" onSubmit={handleSubmit}>
                       <h4 className="text-center">Add User</h4>
                       <div className="form-group">
-                        <label>Search Patient with:</label>
+                        <label>Search Patient</label>
                         <Select
-                          isSearchable
-                          options={patientOptions}
-                          placeholder="Email, Name or Username"
+                          value={patient}
+                          isSearchable={true}
+                          options={options}
+                          onChange={handleChange}
+                          placeholder={
+                            error ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
                         />
                       </div>
                       <div className="d-flex mt-3 mb-3">
-                        <img
-                          src={add}
-                          alt="reset"
-                          className="mr-2 mb-2"
-                          style={{ cursor: "pointer" }}
-                        />
+                        <Link to="/AdminAddPatients">
+                          <img
+                            src={add}
+                            alt="reset"
+                            className="mr-2 mb-2"
+                            style={{ cursor: "pointer" }}
+                          />
+                        </Link>
                         <p className="">Add a new patient</p>
-                      </div>
-                      <div className="form-group">
-                        <label>Select Health Plan</label>
-                        <Select
-                          isSearchable
-                          options={patientOptions}
-                          placeholder="Search"
-                        />
                       </div>
                       <div className="row">
                         <div className="col"></div>

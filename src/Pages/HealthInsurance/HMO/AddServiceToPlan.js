@@ -1,39 +1,28 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getAllServicesUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 
 export default function AddServiceToNHIS() {
-  const [catgeoryId, setcatgeoryId] = useState("");
-  const data = {
-    categories: [
-      { name: "Mark", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Larry", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Mark", category: "Liquid", id: "dwo" },
-    ],
-    services: [
-      { name: "Mark", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Larry", category: "Liquid", id: "dwo" },
-      { name: "Jacob", category: "Liquid", id: "dwo" },
-      { name: "Mark", category: "Liquid", id: "dwo" },
-    ],
-  };
-  let categoryOptions = [];
-  if (data.categories.length > 0) {
-    data.categories.forEach(({ id, name }) => {
-      categoryOptions.push({ value: id, label: name });
-    });
-  }
-  let serviceOptions = [];
-  if (data.services.length > 0) {
+  const [service, setService] = useState();
+  const getAllServices = getAllServicesUrl(1, 200);
+  const getAllServicesConfig = fetchConfig({
+    url: getAllServices,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAllServicesConfig, {
+    revalidateOnFocus: false,
+  });
+  let options = [];
+  if (data?.services.length > 0) {
     data.services.forEach(({ id, name }) => {
-      serviceOptions.push({ value: id, label: name });
+      options.push({ value: id, label: name });
     });
   }
-  const handleChange = (catgeoryId) => {
-    setcatgeoryId(catgeoryId);
+  const handleChange = (service) => {
+    setService(service);
   };
   return (
     <>
@@ -54,25 +43,17 @@ export default function AddServiceToNHIS() {
                     <form className="mb-4 p-5">
                       <h4 className="text-center">Add Service</h4>
                       <div className="form-group">
-                        <label>Select Health Plan Category</label>
+                        <label>Select Service</label>
                         <Select
-                          isSearchable
-                          value={catgeoryId}
-                          options={categoryOptions}
-                          placeholder="Search"
+                          value={service}
+                          isSearchable={true}
+                          options={options}
                           onChange={handleChange}
+                          placeholder={
+                            error ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
                         />
                       </div>
-                      {catgeoryId === "" ? null : (
-                        <div className="form-group">
-                          <label>Select Service</label>
-                          <Select
-                            isSearchable
-                            options={categoryOptions}
-                            placeholder="Search"
-                          />
-                        </div>
-                      )}
                       <div className="form-group">
                         <label>Amount</label>
                         <input

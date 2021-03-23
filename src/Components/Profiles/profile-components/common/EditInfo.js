@@ -11,7 +11,9 @@ import {
 	updateAdminBasicInfoUrl,
 	updateAdminContactDetailsUrl,
 	updateNurseBasicInfoUrl,
-	updateNurseContactDetailsUrl
+	updateNurseContactDetailsUrl,
+	updateBasicInfoHMOAdminUrl,
+	updateContactDetailsHMOAdminUrl
 } from '../../../../api/URLs';
 import { notification } from '../../../../utils/notification';
 import ProfileInfoForm from '../common/ProfileInfoForm';
@@ -110,5 +112,10 @@ const getUrls = {
 		id:"nurseId",
 		basic: updateNurseBasicInfoUrl(),
 		contact: updateNurseContactDetailsUrl()
+	},
+	hmoadmin: {
+		id:"hmoAdminId",
+		basic: updateBasicInfoHMOAdminUrl(),
+		contact: updateContactDetailsHMOAdminUrl()
 	}
 };
