@@ -10,6 +10,8 @@ import {
 	updateAccountantContactDetailsUrl,
 	updateAdminBasicInfoUrl,
 	updateAdminContactDetailsUrl,
+	updateNurseBasicInfoUrl,
+	updateNurseContactDetailsUrl,
 	updateBasicInfoHMOAdminUrl,
 	updateContactDetailsHMOAdminUrl
 } from '../../../../api/URLs';
@@ -30,6 +32,7 @@ export default function EditInfo({ otherDetails, userId : userProfileId, primary
 		state: otherDetails.state || '',
 		country: otherDetails.country || ''
 	});
+	console.log(primaryDetails,33333)
 
 	const handleChange = (e) => {
 		e.persist();
@@ -59,6 +62,7 @@ export default function EditInfo({ otherDetails, userId : userProfileId, primary
 		try {
 			const resBasicInfoUpdate = await fetchWrapper(postBasicInfoUrl);
 			const resContactDetailsUpdate = await fetchWrapper(postContactDetails);
+			console.log(resBasicInfoUpdate, resContactDetailsUpdate, 7777 )
 			if (resBasicInfoUpdate.status === 200 && resContactDetailsUpdate.status === 200) {
 				mutate();
 				$('#edit-info').modal('hide');
@@ -103,6 +107,11 @@ const getUrls = {
 		id:"adminId",
 		basic: updateAdminBasicInfoUrl(),
 		contact: updateAdminContactDetailsUrl()
+	},
+	nurse: {
+		id:"nurseId",
+		basic: updateNurseBasicInfoUrl(),
+		contact: updateNurseContactDetailsUrl()
 	},
 	hmoadmin: {
 		id:"hmoAdminId",
