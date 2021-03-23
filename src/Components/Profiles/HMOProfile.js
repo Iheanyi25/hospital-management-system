@@ -29,7 +29,7 @@ function HMOProfile({ hmoId }) {
 							<ContactDetail
 								otherDetails={data.hmoAdmin}
 								primaryDetails={data.hmoAdmin.hmoAdmin}
-								userId={data.hmoAdmin.id}
+								userId={data.hmoAdmin.hmoAdminId}
 								mutate={mutate}
 							/>
 						</div>

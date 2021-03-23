@@ -20,17 +20,13 @@ const ManageHMO = () => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data.hmOs.map(
-      ({ firstName, lastName, name, email, description }, index) => {
-        return {
-          "#": ++index,
-          User: `${firstName} ${lastName}`,
-          "HMO Name": name,
-          Email: <a href={"mailto:" + email}>{email}</a>,
-          Description: description,
-        };
-      }
-    );
+    dataTable = data.hmOs.map(({ name, description }, index) => {
+      return {
+        "#": ++index,
+        "HMO Name": name,
+        Description: description,
+      };
+    });
   }
   if (error) return <div>failed to load</div>;
   return (
