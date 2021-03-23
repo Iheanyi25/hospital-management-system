@@ -1,5 +1,14 @@
 const baseName = "HealthInsurance";
 
+// Health Insurance - Manage HMO Health Plan Patients
+export const getHealthPlanPatientsInHMOByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+  `/${baseName}/GetHealthPlanPatientsByHealthPlan?HMOHealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const assignPatientToHMOHealthPlanUrl = () =>
+`/${baseName}/AssignPatientToHealthPlan`;
+export const deletePatientFromHMOHealthPlanUrl = () =>
+`/${baseName}/DeletePatientFromHealthPlan`;
+
+
 // Health Insurance - Manage HMO Health Plans
 export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
   `/${baseName}/GetHMOHealthPlans?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
@@ -17,10 +26,14 @@ export const getHealthPlanDrugsByHealthPlanUrl = (healthPlanId, pageNumber, page
   `/${baseName}/CreateHealthPlanDrug`;
   export const deleteNHISHealthPlanDrugUrl = () =>
   `/${baseName}/DeleteHealthPlanDrug`;
-
-//Health Insurance - Manage NHIS Health Plan Patients
-export const assignPatientToNHISHealthPlanUrl = () =>
-`/${baseName}/AssignPatientToNHISHealthPlan`;
+  
+  //Health Insurance - Manage NHIS Health Plan Patients
+  export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+  `/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const assignPatientToNHISHealthPlanUrl = () =>
+  `/${baseName}/AssignPatientToNHISHealthPlan`;
+  export const deletePatientFromNHISHealthPlanUrl = () =>
+  `/${baseName}/DeletePatientFromNHISHealthPlan`;
   
 // Health Insurance - Manage NHIS Health Plan Services
   export const getHealthPlanServicesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
