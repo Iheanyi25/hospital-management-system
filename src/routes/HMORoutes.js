@@ -22,12 +22,9 @@ import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan"
 import { UserContext } from "../mobx/UserState";
 
 export default function HMORoutes() {
-
   const { setHMOId, user } = useContext(UserContext);
-
   useEffect(() => {
     setHMOId();
-    console.log("I ran")
   }, [setHMOId, user.id]);
 
   return (
@@ -45,7 +42,7 @@ export default function HMORoutes() {
           />
           <Route
             exact
-            path="/ManageHealthPlanPatients"
+            path="/ManageHealthPlanPatients/:id"
             component={ManagePatientsInPlan}
           />
           <Route
@@ -59,7 +56,7 @@ export default function HMORoutes() {
             component={ManageServicesInPlan}
           />
           <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
-          <Route exact path="/AddUserToPlan" component={AddUserToPlan} />
+          <Route exact path="/AddUserToPlan/:id" component={AddUserToPlan} />
           <Route exact path="/AddDrugToPlan" component={AddDrugToPlan} />
           <Route exact path="/AddServiceToPlan" component={AddServiceToPlan} />
           <Route exact path="/CreateUserGroup" component={CreateUserGroup} />

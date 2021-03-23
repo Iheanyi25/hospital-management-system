@@ -1,5 +1,10 @@
 const baseName = "HealthInsurance";
 
+// Health Insurance - Manage HMO Health Plan Patients
+export const assignPatientToHMOHealthPlanUrl = () =>
+`/${baseName}/AssignPatientToHealthPlan`;
+
+
 // Health Insurance - Manage HMO Health Plans
 export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
   `/${baseName}/GetHMOHealthPlans?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
