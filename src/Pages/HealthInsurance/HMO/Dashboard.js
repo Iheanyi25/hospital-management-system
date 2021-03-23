@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { observer } from "mobx-react";
 import { PageLoader, Table } from "../../../Components";
 import { Link } from "react-router-dom";
@@ -7,8 +7,14 @@ import {
   HMODashboardHeader,
   HMODashboardSummary,
 } from "./hmo-dashboard-components";
+import { UserContext } from "../../../mobx/UserState";
 
 const Dashboard = observer(() => {
+  const {
+    user: { id, firstName, lastName },
+    setHMOId,
+  } = useContext(UserContext);
+  setHMOId(id);
   const data = {
     plans: [
       { type: "Mark" },
@@ -43,7 +49,7 @@ const Dashboard = observer(() => {
               planCount="N/A"
               userGroupCount="N/A"
             />
-            <HMODashboardHeader />
+            <HMODashboardHeader firstName={firstName} lastName={lastName} />
           </div>
           <div className="page-content">
             {data && (
