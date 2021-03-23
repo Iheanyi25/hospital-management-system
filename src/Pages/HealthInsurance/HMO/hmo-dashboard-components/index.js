@@ -1,1 +1,2 @@
-export * from "./HMODashboardHeader"
+export * from "./HMODashboardSummary";
+export * from "./HMODashboardHeader";
