@@ -33,3 +33,5 @@ export const createNHISHealthPlanUrl = () =>
   
   // Health Insurance - Manage Profile
   export const getHMOAdminUrl = (id) => `/${baseName}/GetHMOAdmin?HMOAdminId=${id}`;
+  export const updateBasicInfoHMOAdminUrl = () => `/${baseName}/UpdateBasicInfo`;
+  export const updateContactDetailsHMOAdminUrl = () => `/${baseName}/UpdateContactDetails`;
