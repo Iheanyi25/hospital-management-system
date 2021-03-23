@@ -9,7 +9,9 @@ import {
 	updateAccountantBasicInfoUrl,
 	updateAccountantContactDetailsUrl,
 	updateAdminBasicInfoUrl,
-	updateAdminContactDetailsUrl
+	updateAdminContactDetailsUrl,
+	updateBasicInfoHMOAdminUrl,
+	updateContactDetailsHMOAdminUrl
 } from '../../../../api/URLs';
 import { notification } from '../../../../utils/notification';
 import ProfileInfoForm from '../common/ProfileInfoForm';
@@ -101,5 +103,10 @@ const getUrls = {
 		id:"adminId",
 		basic: updateAdminBasicInfoUrl(),
 		contact: updateAdminContactDetailsUrl()
+	},
+	hmoadmin: {
+		id:"hmoAdminId",
+		basic: updateBasicInfoHMOAdminUrl(),
+		contact: updateContactDetailsHMOAdminUrl()
 	}
 };

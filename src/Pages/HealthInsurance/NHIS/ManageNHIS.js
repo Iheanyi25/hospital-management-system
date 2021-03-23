@@ -77,7 +77,10 @@ const NHISActionTable = ({ healthPlanId, healthPlanName }) => {
   return (
     <ActionButton>
       <Link
-        to={`/AdminManageNHISPatients/${healthPlanId}`}
+        to={{
+          pathname: `/AdminManageNHISPatients/${healthPlanId}`,
+          state: healthPlanName,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
