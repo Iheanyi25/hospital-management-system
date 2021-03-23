@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHMODrugPricesByHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import formatAmount from "../../../utils/formatAmount";
 
 const ManageDrugs = () => {
   const {
@@ -14,27 +18,52 @@ const ManageDrugs = () => {
   useEffect(() => {
     setPlanName(healthPlanName);
   }, [healthPlanName]);
-  const data = {
-    drugs: [
-      { drugName: "Mark", type: "Liquid" },
-      { drugName: "Jacob", type: "Liquid" },
-      { drugName: "Larry", type: "Liquid" },
-      { drugName: "Jacob", type: "Liquid" },
-      { drugName: "Mark", type: "Liquid" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHMODrugPricesByHealthPlan = getHMODrugPricesByHealthPlanUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getHMODrugPricesByHealthPlanConfig = fetchConfig({
+    url: getHMODrugPricesByHealthPlan,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(
+    getHMODrugPricesByHealthPlanConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   let dataTable = [];
   if (data) {
-    dataTable = data.drugs.map(({ drugName, type }, index) => {
-      return {
-        "#": ++index,
-        "Drug Name": drugName,
-        Type: type,
-        Actions: <NHISDrugActionTable />,
-      };
-    });
+    dataTable = data.drugPrices.map(
+      (
+        {
+          drug: { name, genericName, drugType, manufacturer, quantityInStock },
+        },
+        index
+      ) => {
+        return {
+          "#": ++index,
+          "Drug Name": name ?? "N/A",
+          "Generic Name": genericName ?? "N/A",
+          Type: (
+            <div
+              className="text-muted text-nowrap"
+              style={{ textTransform: "capitalize" }}
+            >
+              {drugType ?? "N/A"}
+            </div>
+          ),
+          Manufacturer: manufacturer ?? "N/A",
+          "Quantity in stock": formatAmount(quantityInStock) ?? "N/A",
+          Actions: <NHISDrugActionTable />,
+        };
+      }
+    );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -55,7 +84,7 @@ const ManageDrugs = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.drugs.length : 0}
+              size={data ? data.drugPrices.length : 0}
               heading="Total No of Drugs"
             />
           </div>
@@ -63,11 +92,11 @@ const ManageDrugs = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
