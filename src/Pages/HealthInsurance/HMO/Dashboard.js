@@ -4,6 +4,7 @@ import { PageLoader, Table } from "../../../Components";
 import { Link } from "react-router-dom";
 import TableSize from "../../../Components/DataTable/TableSize";
 import ActionButton from "../../../Components/DataTable/ActionButton";
+import { HMODashboardHeader } from "./hmo-dashboard-components";
 
 const Dashboard = observer(() => {
   const data = {
@@ -34,7 +35,7 @@ const Dashboard = observer(() => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+          {/* <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">HMO</h4>
             <div>
               <div className="col"></div>
@@ -53,10 +54,11 @@ const Dashboard = observer(() => {
                 </Link>
               </div>
             </div>
-          </header>
+          </header> */}
 
           <div className="page-content">
-            <div className="row">
+            <HMODashboardHeader firstName="Iheanyi" lastName="Ihekweaba" />
+            {/* <div className="row">
               <TableSize
                 size={data ? data.plans.length : 0}
                 heading="Number of NHIS Plans"
@@ -69,7 +71,7 @@ const Dashboard = observer(() => {
                 size={data ? data.plans.length : 0}
                 heading="Total Users Groups"
               />
-            </div>
+            </div> */}
           </div>
           <div className="page-content">
             {data && (
