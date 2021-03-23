@@ -139,22 +139,26 @@ const WardRoundNotes = observer(() => {
                         role="tabpanel"
                         aria-labelledby="pills-contact-tab"
                       >
-                        <div className="row justify-content-center mt-5">
-                          <div className="col-md-12">
-                            <button
-                              className="btn btn-primary"
-                              to="#"
-                              data-toggle="modal"
-                              data-target="#update-observation"
-                            >
-                              Update Observation
-                            </button>
-                            <div className="card border-light">
+                        <div className="row justify-content-center mt-5">                            
+                          <div className="col-md-8">
+                            <div className="card border-light m-auto">
                               <div className="card-body">
+                                <div className="d-flex justify-content-between align-items-center">
                                 <h4>Observation Chart</h4>
+                                  <button
+                                    className="btn btn-primary"
+                                    to="#"
+                                    data-toggle="modal"
+                                    data-target="#update-observation"
+                                  >
+                                    Update Observation
+                                  </button>                                
+                                </div>
+                                
                                 <ObservationCharts admissionId={admissionId} />
                               </div>
                             </div>
+                          </div>
                           </div>
                         </div>
                       </div>
@@ -163,7 +167,6 @@ const WardRoundNotes = observer(() => {
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </main>
     </>
