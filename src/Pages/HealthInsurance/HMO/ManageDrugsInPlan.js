@@ -61,26 +61,15 @@ const ManageDrugs = () => {
   if (data) {
     dataTable = data.drugPrices.map(
       (
-        {
-          drug: { name, genericName, drugType, manufacturer, quantityInStock },
-          id,
-        },
+        { drug: { name }, pricePerUnit, pricePerContainer, pricePerCarton, id },
         index
       ) => {
         return {
           "#": ++index,
           "Drug Name": name ?? "N/A",
-          "Generic Name": genericName ?? "N/A",
-          Type: (
-            <div
-              className="text-muted text-nowrap"
-              style={{ textTransform: "capitalize" }}
-            >
-              {drugType ?? "N/A"}
-            </div>
-          ),
-          Manufacturer: manufacturer ?? "N/A",
-          "Quantity in stock": formatAmount(quantityInStock) ?? "N/A",
+          "Price per unit": formatAmount(pricePerUnit) ?? "N/A",
+          "Price per container": formatAmount(pricePerContainer) ?? "N/A",
+          "Price per carton": formatAmount(pricePerCarton) ?? "N/A",
           Actions: <ActionTable deleteDrug={deleteDrug} id={id} />,
         };
       }
@@ -115,6 +104,8 @@ const ManageDrugs = () => {
             {data && (
               <Table
                 content={dataTable}
+                tableID={"drugs" + data?.drugPrices.length}
+                key={"drugs" + data?.drugPrices.length}
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
@@ -131,10 +122,10 @@ const ManageDrugs = () => {
 const ActionTable = ({ deleteDrug, id }) => {
   return (
     <ActionButton>
-      <Link onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
+      <button onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };
