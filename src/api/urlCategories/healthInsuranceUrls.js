@@ -29,12 +29,14 @@ export const deletePatientFromHMOHealthPlanUrl = () =>
 // Health Insurance - Manage HMO Health Plans
 export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
   `/${baseName}/GetHMOHealthPlans?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
-export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
-
-// 
-export const creatHMOUserGroupUrl = () => `/${baseName}/CreatHMOUserGroup`;
-
+  export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
+  export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
+  
+  // Health Insurance - Manage HMO User Groups
+  export const getHMOUserGroupsUrl = (hmoId, pageNumber, pageSize) =>
+    `/${baseName}/GetHMOUserGroups?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const creatHMOUserGroupUrl = () => `/${baseName}/CreatHMOUserGroup`;
+  
 // Health Insurance - Manage HMOS
 export const getHMOsUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetHMOs?PageNumber=${pageNumber}&PageSize=${pageSize}`;
