@@ -3,7 +3,10 @@ import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { getHMOServicePricesByHealthPlanUrl, deleteHMODeleteServicePriceUrl } from "../../../api/URLs";
+import {
+  getHMOServicePricesByHealthPlanUrl,
+  deleteHMODeleteServicePriceUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -51,17 +54,19 @@ const ManageServices = () => {
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.servicePrices.map(({ service:{ name, serviceCategory }, price, id }, index) => {
-      return {
-        "#": ++index,
-        "Service Category": serviceCategory ?? "N/A",
-        "Service Name": name,
-        Price: formatAmount(price),
-        Actions: <ActionTable deleteService={deleteService} id={id} />,
-      };
-    });
+    dataTable = data.servicePrices.map(
+      ({ service: { name, serviceCategory }, price, id }, index) => {
+        return {
+          "#": ++index,
+          "Service Category": serviceCategory ?? "N/A",
+          "Service Name": name,
+          Price: formatAmount(price),
+          Actions: <ActionTable deleteService={deleteService} id={id} />,
+        };
+      }
+    );
   }
-    if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -108,10 +113,13 @@ const ManageServices = () => {
     </Fragment>
   );
 };
-const ActionTable = ({ deleteService, id}) => {
+const ActionTable = ({ deleteService, id }) => {
   return (
     <ActionButton>
-      <button onClick={()=> deleteService(id)} className="btn btn-sm btn-block">
+      <button
+        onClick={() => deleteService(id)}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </button>
