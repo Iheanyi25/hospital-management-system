@@ -17,7 +17,7 @@ const ManageDrugs = () => {
   const {
     location: { state: healthPlanName },
   } = useHistory();
-  const { id } = useParams();
+  const { id: healthPlanId } = useParams();
   const [planName, setPlanName] = useState("");
   useEffect(() => {
     setPlanName(healthPlanName);
@@ -25,7 +25,7 @@ const ManageDrugs = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getHMODrugPricesByHealthPlan = getHMODrugPricesByHealthPlanUrl(
-    id,
+    healthPlanId,
     pageNumber,
     pageSize
   );
@@ -40,7 +40,6 @@ const ManageDrugs = () => {
     }
   );
   const deleteDrug = async (id) => {
-    console.log(id);
     try {
       const deleteHMODrugPriceFromHMOHealthPlan = deleteHMODrugPriceFromHMOHealthPlanUrl();
       const deleteHMODrugPriceFromHMOHealthPlanConfig = fetchConfig({
@@ -61,7 +60,7 @@ const ManageDrugs = () => {
   if (data) {
     dataTable = data.drugPrices.map(
       (
-        { drug: { name }, pricePerUnit, pricePerContainer, pricePerCarton, id },
+        { drug: { name }, drugId, pricePerUnit, pricePerContainer, pricePerCarton, id },
         index
       ) => {
         return {
@@ -70,7 +69,21 @@ const ManageDrugs = () => {
           "Price per unit": formatAmount(pricePerUnit) ?? "N/A",
           "Price per container": formatAmount(pricePerContainer) ?? "N/A",
           "Price per carton": formatAmount(pricePerCarton) ?? "N/A",
-          Actions: <ActionTable deleteDrug={deleteDrug} id={id} />,
+          Actions: (
+            <ActionTable
+              deleteDrug={deleteDrug}
+              id={id}
+              drugDetails={{
+                name,
+                drugId,
+                pricePerUnit,
+                pricePerContainer,
+                pricePerCarton,
+                healthPlanId,
+                planName
+              }}
+            />
+          ),
         };
       }
     );
@@ -88,7 +101,10 @@ const ManageDrugs = () => {
             <h4 className="page-title mb-0">{`Manage Drugs in ${planName}`}</h4>
             <Link
               className="btn btn-primary"
-              to={{ pathname: `/AddDrugToPlan/${id}`, state: planName }}
+              to={{
+                pathname: `/AddDrugToPlan/${healthPlanId}`,
+                state: planName,
+              }}
             >
               Add drug
             </Link>
@@ -119,9 +135,19 @@ const ManageDrugs = () => {
     </Fragment>
   );
 };
-const ActionTable = ({ deleteDrug, id }) => {
+const ActionTable = ({ deleteDrug, id, drugDetails }) => {
   return (
     <ActionButton>
+      <Link
+        to={{
+          pathname: `/EditDrugInPlan/${id}`,
+          state: { ...drugDetails, id },
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Update price
+      </Link>
       <button onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete

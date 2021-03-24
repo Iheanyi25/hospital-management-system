@@ -1,9 +1,11 @@
 const baseName = "HealthInsurance";
 
 // Health Insurance - Manage HMO Health Plan Drug Prices
-export const createHMODrugPriceUrl = () => `/${baseName}/CreateDrugPrice`;
 export const getHMODrugPricesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetDrugPricesByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const createHMODrugPriceUrl = () => `/${baseName}/CreateDrugPrice`;
+export const updateHMODrugPriceDrugUrl = () =>
+  `/${baseName}/UpdateDrugPrice`;
 export const deleteHMODrugPriceFromHMOHealthPlanUrl = () =>
   `/${baseName}/DeleteDrugPrice`;
 
