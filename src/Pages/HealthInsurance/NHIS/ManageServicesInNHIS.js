@@ -103,6 +103,8 @@ const ManageServices = () => {
               <Table
                 content={dataTable}
                 paginationDetails={data.paginationDetails}
+                tableID={"drugs" + data?.healthPlanServices.length}
+                key={"drugs" + data?.healthPlanServices.length}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
                 pageSize={pageSize}
@@ -118,10 +120,10 @@ const ManageServices = () => {
 const NHISServicesActionTable = ({ deleteService, id }) => {
   return (
     <ActionButton>
-      <Link onClick={() => deleteService(id)} className="btn btn-sm btn-block">
+      <button onClick={() => deleteService(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };
