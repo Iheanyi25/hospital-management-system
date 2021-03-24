@@ -55,10 +55,10 @@ const ManageServices = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.servicePrices.map(
-      ({ service: { name, serviceCategory }, price, id }, index) => {
+      ({ service: { name, serviceCategory:{ name: categoryName } }, price, id }, index) => {
         return {
           "#": ++index,
-          "Service Category": serviceCategory ?? "N/A",
+          "Service Category": categoryName ?? "N/A",
           "Service Name": name,
           Price: formatAmount(price),
           Actions: <ActionTable deleteService={deleteService} id={id} />,
