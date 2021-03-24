@@ -53,7 +53,6 @@ const AllDrugs = ({ userType, category }) => {
           </div>
         ),
         Manufacturer: drug?.manufacturer ?? "N/A",
-        "Quantity in stock": formatAmount(drug?.quantityInStock) ?? "N/A",
         Actions: (
           <AllDrugsTableAction
             drug={drug}
