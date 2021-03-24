@@ -32,6 +32,9 @@ export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
 export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
 export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
 
+// 
+export const creatHMOUserGroupUrl = () => `/${baseName}/CreatHMOUserGroup`;
+
 // Health Insurance - Manage HMOS
 export const getHMOsUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetHMOs?PageNumber=${pageNumber}&PageSize=${pageSize}`;
