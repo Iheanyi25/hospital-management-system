@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHMOSubUserGroupsUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -10,26 +13,28 @@ const ManageUserSubGroups = () => {
     location: { state: userGroupName },
   } = useHistory();
   const { id } = useParams();
-  const data = {
-    patients: [
-      { user: "Mark" },
-      { user: "Jacob" },
-      { user: "Larry" },
-      { user: "Jacob" },
-      { user: "Mark" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHMOUserGroups = getHMOSubUserGroupsUrl(id, pageNumber, pageSize);
+  const getHMOUserGroupsConfig = fetchConfig({
+    url: getHMOUserGroups,
+    method: "get",
+  });
+  const { data, error } = useRequest(getHMOUserGroupsConfig, {
+    revalidateOnFocus: false,
+  });
   let dataTable = [];
   if (data) {
-    dataTable = data.patients.map(({ user }, index) => {
+    dataTable = data.hmoSubUserGroups.map(({ name, description }, index) => {
       return {
         "#": ++index,
-        "Sub Groups": user,
+        "Sub Groups": name,
+        Description: description,
         Actions: <ActionTable />,
       };
     });
   }
-  //   if (error) return <div>failed to load</div>;
+    if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -46,7 +51,10 @@ const ManageUserSubGroups = () => {
               <div className="col"></div>
               <div className="col text-right">
                 <Link
-                  to={{pathname:`/CreateUserSubGroup/${id}`, state: userGroupName}}
+                  to={{
+                    pathname: `/CreateUserSubGroup/${id}`,
+                    state: userGroupName,
+                  }}
                   className="btn btn-outline-primary mr-2 mb-2"
                 >
                   Create Sub Group
@@ -57,19 +65,19 @@ const ManageUserSubGroups = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.patients.length : 0}
-              heading="Total User Groups"
+              size={data ? data.hmoSubUserGroups.length : 0}
+              heading="Total Sub Groups"
             />
           </div>
           <div className="page-content">
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
