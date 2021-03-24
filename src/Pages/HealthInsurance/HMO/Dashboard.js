@@ -1,38 +1,17 @@
 import React, { Fragment, useContext } from "react";
 import { observer } from "mobx-react";
-import { PageLoader, Table } from "../../../Components";
-import { Link } from "react-router-dom";
-import ActionButton from "../../../Components/DataTable/ActionButton";
+import { PageLoader } from "../../../Components";
 import {
   HMODashboardHeader,
   HMODashboardSummary,
 } from "./hmo-dashboard-components";
 import { UserContext } from "../../../mobx/UserState";
+import ManageHealthPlans from "./ManageHealthPlans";
 
 const Dashboard = observer(() => {
   const {
     user: { firstName, lastName },
   } = useContext(UserContext);
-  const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
-    ],
-  };
-  let dataTable = [];
-  if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
-      return {
-        "#": ++index,
-        "NHIS Types": type,
-        Actions: <DashboardActionTable />,
-      };
-    });
-  }
-  //   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -50,39 +29,12 @@ const Dashboard = observer(() => {
             <HMODashboardHeader firstName={firstName} lastName={lastName} />
           </div>
           <div className="page-content">
-            {data && (
-              <Table
-                content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
-              />
-            )}
+            <ManageHealthPlans dashboard />
           </div>
         </div>
       </main>
     </Fragment>
   );
 });
-const DashboardActionTable = () => {
-  return (
-    <ActionButton>
-      <Link to={`/AdminManageNHISPatients`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage patients
-      </Link>
-      <Link to={`/AdminManageNHISDrugs`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage drugs
-      </Link>
-      <Link to={`/AdminManageNHISServices`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Manage services
-      </Link>
-    </ActionButton>
-  );
-};
 
 export default Dashboard;
