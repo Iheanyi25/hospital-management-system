@@ -1,11 +1,15 @@
 import React from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageServices = () => {
+  const {
+    location: { state: healthPlanName },
+  } = useHistory();
+  const { id } = useParams();
   const data = {
     services: [
       { name: "Mark", category: "Liquid" },
@@ -36,8 +40,14 @@ const ManageServices = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Manage Services in HMO name</h4>
-            <Link className="btn btn-primary" to="/AddServiceToPlan">
+            <h4 className="page-title mb-0">{`Manage Services in ${healthPlanName}`}</h4>
+            <Link
+              className="btn btn-primary"
+              to={{
+                pathname: `/AddServiceToPlan/${id}`,
+                state: healthPlanName,
+              }}
+            >
               Add service
             </Link>
           </header>
@@ -68,20 +78,10 @@ const ManageServices = () => {
 const NHISServicesActionTable = () => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Update service
-      </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
+      <button className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };

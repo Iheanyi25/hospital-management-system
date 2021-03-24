@@ -97,7 +97,7 @@ const HealthPlansActionTable = ({ healthPlanName, healthPlanId }) => {
         <span className="btn-icon icofont-server mr-2" />
         Manage drugs
       </Link>
-      <Link to={`/ManageHealthPlanServices`} className="btn btn-sm btn-block">
+      <Link to={{pathname: `/ManageHealthPlanServices/${healthPlanId}`, state: healthPlanName }} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Manage services
       </Link>

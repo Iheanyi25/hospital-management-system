@@ -16,6 +16,9 @@ export const getHealthPlanPatientsInHMOByHealthPlanUrl = (healthPlanId, pageNumb
 export const deletePatientFromHMOHealthPlanUrl = () =>
 `/${baseName}/DeletePatientFromHealthPlan`;
 
+// Health Insurance - Manage HMO Health Plan Service Prices
+export const createHMOServicePriceUrl = () => `/${baseName}/CreateServicePrice`;
+
 
 // Health Insurance - Manage HMO Health Plans
 export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
