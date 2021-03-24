@@ -29,9 +29,28 @@ export const deletePatientFromHMOHealthPlanUrl = () =>
 // Health Insurance - Manage HMO Health Plans
 export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
   `/${baseName}/GetHMOHealthPlans?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
-export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
+  export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
+  export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
+  
+  // Health Insurance - Manage HMO Sub Group Patients
+  export const getSubGroupPatientsBySubGroupUrl = (hmoSubGroupId, pageNumber, pageSize) =>
+    `/${baseName}/GetSubGroupPatientsBySubGroup?HMOSubGroupId=${hmoSubGroupId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const assignPatientToHMOSubGroupUrl = () =>
+    `/${baseName}/AssignPatientToHMOSubGroup`;
+    export const deletePatientFromSubGroupUrl = () =>
+      `/${baseName}/DeletePatientFromSubGroup`;
 
+
+  // Health Insurance - Manage HMO User Sub Groups
+  export const getHMOSubUserGroupsUrl = (hmoId, pageNumber, pageSize) =>
+    `/${baseName}/GetHMOSubUserGroups?HMOUserGroupId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const creatHMOSubUserGroupUrl = () => `/${baseName}/CreatHMOSubUserGroup`;
+
+  // Health Insurance - Manage HMO User Groups
+  export const getHMOUserGroupsUrl = (hmoId, pageNumber, pageSize) =>
+    `/${baseName}/GetHMOUserGroups?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const creatHMOUserGroupUrl = () => `/${baseName}/CreatHMOUserGroup`;
+  
 // Health Insurance - Manage HMOS
 export const getHMOsUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetHMOs?PageNumber=${pageNumber}&PageSize=${pageSize}`;

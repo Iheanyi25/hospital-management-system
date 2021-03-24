@@ -10,7 +10,7 @@ import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { UserContext } from "../../../mobx/UserState";
 
-const ManageHealthPlans = observer(() => {
+const ManageHealthPlans = observer(({ dashboard }) => {
   const { hmoId } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -49,19 +49,27 @@ const ManageHealthPlans = observer(() => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Health Plans</h4>
-            <Link className="btn btn-primary" to="/CreateHealthPlan">
-              Create Health Plan
-            </Link>
-          </header>
+          {dashboard ? (
+            <header className="page-header justify-content-between d-flex align-items-center mb-2">
+              <h4 className="page-title mb-0">Health Plans</h4>
+            </header>
+          ) : (
+            <>
+              <header className="page-header justify-content-between d-flex align-items-center mb-2">
+                <h4 className="page-title mb-0">Health Plans</h4>
+                <Link className="btn btn-primary" to="/CreateHealthPlan">
+                  Create Health Plan
+                </Link>
+              </header>
 
-          <div className="page-content">
-            <TableSize
-              size={data ? data.hmoHealthPlans.length : 0}
-              heading="Number of Health Plans"
-            />
-          </div>
+              <div className="page-content">
+                <TableSize
+                  size={data ? data.hmoHealthPlans.length : 0}
+                  heading="Number of Health Plans"
+                />
+              </div>
+            </>
+          )}
           <div className="page-content">
             {data && (
               <Table
@@ -106,7 +114,13 @@ const HealthPlansActionTable = ({
         <span className="btn-icon icofont-server mr-2" />
         Manage drugs
       </Link>
-      <Link to={{pathname: `/ManageHealthPlanServices/${healthPlanId}`, state: healthPlanName }} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/ManageHealthPlanServices/${healthPlanId}`,
+          state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage services
       </Link>
