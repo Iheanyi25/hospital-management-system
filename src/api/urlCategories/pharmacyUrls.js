@@ -20,6 +20,7 @@ export const markInvoiceAsDispensedUrl = (drugInvoiceId) =>
 // Pharmacy - Manage Drug Inventory
 export const getDrugBatchByDrugUrl = (drugId) =>
   `/Pharmacy/GetDrugBatchByDrug?DrugBatchId=${drugId}`;
+  export const createDrugBatchUrl = () => `/Pharmacy/CreateDrugBatch`;
 
 // Pharmacy - Manage Drug Prices
 export const updateDrugBasePriceUrl = () => `/Pharmacy/UpdateDefaultDrugPrice`;

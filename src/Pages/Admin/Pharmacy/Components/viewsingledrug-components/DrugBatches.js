@@ -9,7 +9,7 @@ import {
 } from "../../../../../api/URLs";
 import edit from "../../../../../assets/img/edit.svg";
 import remove from "../../../../../assets/img/remove.svg";
-import { PageLoader } from "../../../../../Components";
+import { CreateDrugBatch, PageLoader } from "../../../../../Components";
 import EmptyState from "../../../../../Components/EmptyState/EmptyUploadState";
 import { CreateHealthPlanPrice } from "../../../../../Components/Modals/CreateHealthPlanPrice";
 import { EditHealthPlanPrice } from "../../../../../Components/Modals/EditHealthPlanPrice";
@@ -62,17 +62,16 @@ const DrugBatch = ({ drugId, drugType }) => {
       ) : (
         <>
           <div className="text-right">
-            <Link
-              to="#"
+            <button
               data-toggle="modal"
-              data-target="#create-healthplan-price"
+              data-target="#create-batch"
               className="btn btn-primary"
             >
               Enter new batch
-            </Link>
+            </button>
           </div>
           <div className="row p-5">
-            {data?.drugBatch.map(({ quantityInStock, expiryDate}, index) => (
+            {data?.drugBatch.map(({ quantityInStock, expiryDate }, index) => (
               <div className="col-12 col-md-6" key={index}>
                 <div className="card border-light p-4">
                   <div className="card-body">
@@ -122,6 +121,7 @@ const DrugBatch = ({ drugId, drugType }) => {
           </div>
         </>
       )}
+      <CreateDrugBatch drugId={drugId} mutate={mutate} />
     </>
   );
 };
