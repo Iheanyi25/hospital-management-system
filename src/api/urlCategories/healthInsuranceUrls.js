@@ -32,6 +32,11 @@ export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
   export const createHMOHealthPlanUrl = () => `/${baseName}/CreateHealthPlan`;
   export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
   
+  // Health Insurance - Manage HMO User Sub Groups
+  // export const getHMOUserGroupsUrl = (hmoId, pageNumber, pageSize) =>
+  //   `/${baseName}/GetHMOUserGroups?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const creatHMOSubUserGroupUrl = () => `/${baseName}/CreatHMOSubUserGroup`;
+
   // Health Insurance - Manage HMO User Groups
   export const getHMOUserGroupsUrl = (hmoId, pageNumber, pageSize) =>
     `/${baseName}/GetHMOUserGroups?HMOId=${hmoId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;

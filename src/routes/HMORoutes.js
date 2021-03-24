@@ -73,7 +73,7 @@ export default function HMORoutes() {
           />
           <Route
             exact
-            path="/CreateUserSubGroup"
+            path="/CreateUserSubGroup/:id"
             component={CreateUserSubGroup}
           />
           <Route

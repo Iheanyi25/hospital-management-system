@@ -1,11 +1,15 @@
 import React from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageUserSubGroups = () => {
+  const {
+    location: { state: userGroupName },
+  } = useHistory();
+  const { id } = useParams();
   const data = {
     patients: [
       { user: "Mark" },
@@ -36,16 +40,16 @@ const ManageUserSubGroups = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              Manage User Sub Groups in HMO Name
+              {`Manage User Sub Group in ${userGroupName}`}
             </h4>
             <div>
               <div className="col"></div>
               <div className="col text-right">
                 <Link
-                  to="/CreateUserSubGroup"
-                  className="btn btn-primary mr-2 mb-2"
+                  to={{pathname:`/CreateUserSubGroup/${id}`, state: userGroupName}}
+                  className="btn btn-outline-primary mr-2 mb-2"
                 >
-                  Create User sub group
+                  Create Sub Group
                 </Link>
               </div>
             </div>
