@@ -78,12 +78,12 @@ export default function HMORoutes() {
           />
           <Route
             exact
-            path="/ManagePatientsInSubGroup"
+            path="/ManagePatientsInSubGroup/:id"
             component={ManagePatientsInSubGroup}
           />
           <Route
             exact
-            path="/AddUserToSubGroup"
+            path="/AddUserToSubGroup/:id"
             component={AddUserToSubGroup}
           />
           <Route

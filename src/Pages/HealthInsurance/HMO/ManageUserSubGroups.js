@@ -23,18 +23,43 @@ const ManageUserSubGroups = () => {
   const { data, error } = useRequest(getHMOUserGroupsConfig, {
     revalidateOnFocus: false,
   });
+  const deleteSubGroup = async (id) => {
+    // try {
+    //   const deleteHMODrugPriceFromHMOHealthPlan = deleteHMODrugPriceFromHMOHealthPlanUrl();
+    //   const deleteHMODrugPriceFromHMOHealthPlanConfig = fetchConfig({
+    //     url: deleteHMODrugPriceFromHMOHealthPlan,
+    //     data: { id },
+    //     method: "delete",
+    //   });
+    //   const res = await fetchWrapper(deleteHMODrugPriceFromHMOHealthPlanConfig);
+    //   if (res.status === 200) {
+    //     notification.success({ message: res.data.message });
+    //     mutate();
+    //   }
+    // } catch (error) {
+    //   notification.error({ message: error?.response?.data.message });
+    // }
+  };
   let dataTable = [];
   if (data) {
-    dataTable = data.hmoSubUserGroups.map(({ name, description }, index) => {
-      return {
-        "#": ++index,
-        "Sub Groups": name,
-        Description: description,
-        Actions: <ActionTable />,
-      };
-    });
+    dataTable = data.hmoSubUserGroups.map(
+      ({ name, description, id }, index) => {
+        return {
+          "#": ++index,
+          "Sub Groups": name,
+          Description: description,
+          Actions: (
+            <ActionTable
+              subGroupName={name}
+              deleteSubGroup={deleteSubGroup}
+              id={id}
+            />
+          ),
+        };
+      }
+    );
   }
-    if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -73,6 +98,8 @@ const ManageUserSubGroups = () => {
             {data && (
               <Table
                 content={dataTable}
+                tableID={"hmoSubUserGroups" + data.hmoSubUserGroups.length}
+                key={"hmoSubUserGroups" + data.hmoSubUserGroups.length}
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
@@ -86,24 +113,27 @@ const ManageUserSubGroups = () => {
     </Fragment>
   );
 };
-const ActionTable = () => {
+const ActionTable = ({ subGroupName, id }) => {
   return (
     <ActionButton>
       <Link to={`/AddUserGroupToPlan`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Assign to health plan
       </Link>
-      <Link to={`/ManagePatientsInSubGroup`} className="btn btn-sm btn-block">
+      <Link
+        to={{ pathname: `/ManagePatientsInSubGroup/${id}`, state: subGroupName }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage Patients
       </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+      {/* <button
+        onClick={() => deleteSubGroup(id)}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button> */}
     </ActionButton>
   );
 };
