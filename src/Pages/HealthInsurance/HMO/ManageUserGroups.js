@@ -24,12 +24,12 @@ const ManageUserGroups = observer(() => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data.hmoUserGroups.map(({ name }, index) => {
+    dataTable = data.hmoUserGroups.map(({ name, id }, index) => {
       return {
         "#": ++index,
         "User Group": name,
-        "Description": "Remember to map through them",
-        Actions: <ActionTable />,
+        Description: "Remember to map through them",
+        Actions: <ActionTable userGroupName={name} id={id} />,
       };
     });
   }
@@ -80,10 +80,13 @@ const ManageUserGroups = observer(() => {
     </Fragment>
   );
 });
-const ActionTable = () => {
+const ActionTable = ({ userGroupName, id }) => {
   return (
     <ActionButton>
-      <Link to={`/ManageUserSubGroups`} className="btn btn-sm btn-block">
+      <Link
+        to={{ pathname: `/ManageUserSubGroups/${id}`, state: userGroupName }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage Sub Groups
       </Link>
