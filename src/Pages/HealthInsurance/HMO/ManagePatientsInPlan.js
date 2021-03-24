@@ -99,6 +99,8 @@ const ManagePatients = () => {
               <Table
                 content={dataTable}
                 paginationDetails={data.paginationDetails}
+                tableID={"drugs" + data?.healthPlanPatients.length}
+                key={"drugs" + data?.healthPlanPatients.length}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
                 pageSize={pageSize}
@@ -114,10 +116,10 @@ const ManagePatients = () => {
 const ActionTable = ({ deletePatient, id }) => {
   return (
     <ActionButton>
-      <Link onClick={() => deletePatient(id)} className="btn btn-sm btn-block">
+      <button onClick={() => deletePatient(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };
