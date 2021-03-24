@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React, { useContext, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { editHMOHealthPlanUrl } from "../../../api/URLs";
@@ -10,11 +10,14 @@ import { notification } from "../../../utils/notification";
 
 const EditHealthPlan = observer(() => {
   // const 
+  const { state } = useLocation();
+  console.log(state,555555)
   const {hmoId} = useContext(UserContext);
   const history = useHistory();
   const [payload, setpayload] = useState({
-    name: "",
-    description: ""
+    name: state?.healthPlanName || "" ,
+    description: state?.healthPlanDescription || "",
+    hmoId : hmoId
   });
 
   const handleChange = (e) =>{
@@ -25,7 +28,7 @@ const EditHealthPlan = observer(() => {
   };
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    const data = {...payload, id: hmoId};
+    const data = {...payload, id: state?.healthPlanId};
     console.log(data, "Jerry");
     try{
       const editHMOHealthPlan = editHMOHealthPlanUrl();
@@ -37,7 +40,7 @@ const EditHealthPlan = observer(() => {
       const res = await fetchWrapper(createHMOHealthPlanConfig);
       if (res.status === 200) {
         notification.success({mesage: res.data.message});
-        history.pushState("/manageHealthPlans")
+        history.push("/manageHealthPlans")
       }
     }
       catch(error){
@@ -70,6 +73,7 @@ const EditHealthPlan = observer(() => {
                           tabIndex={-98}
                           onChange={handleChange}
                           name="name"
+                          value={payload?.name}
                           required
                         />
                       </div>
@@ -81,6 +85,7 @@ const EditHealthPlan = observer(() => {
                           name= "description"
                           tabIndex={-98}
                           onChange={handleChange}
+                          value={payload?.description}
                           required
                         />
                       </div>

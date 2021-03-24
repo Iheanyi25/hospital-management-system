@@ -23,13 +23,20 @@ const ManageHealthPlans = observer(() => {
     revalidateOnFocus: false,
   });
   let dataTable = [];
+  console.log(data, 3434);
   if (data) {
     dataTable = data.hmoHealthPlans.map(({ name, description, id }, index) => {
       return {
         "#": ++index,
         "Health Plan": name,
         Description: description,
-        Actions: <HealthPlansActionTable healthPlanName={name} healthPlanId={id} />,
+        Actions: (
+          <HealthPlansActionTable
+            healthPlanName={name}
+            healthPlanDescription={description}
+            healthPlanId={id}
+          />
+        ),
       };
     });
   }
@@ -72,10 +79,20 @@ const ManageHealthPlans = observer(() => {
     </Fragment>
   );
 });
-const HealthPlansActionTable = ({ healthPlanName, healthPlanId }) => {
+const HealthPlansActionTable = ({
+  healthPlanName,
+  healthPlanDescription,
+  healthPlanId,
+}) => {
   return (
     <ActionButton>
-      <Link to={{pathname:`/ManageHealthPlanPatients/${healthPlanId}`, state: healthPlanName}} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/ManageHealthPlanPatients/${healthPlanId}`,
+          state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage patients
       </Link>
@@ -87,7 +104,13 @@ const HealthPlansActionTable = ({ healthPlanName, healthPlanId }) => {
         <span className="btn-icon icofont-server mr-2" />
         Manage services
       </Link>
-      <Link to={`/EditHealthPlan`} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/EditHealthPlan`,
+          state: { healthPlanName, healthPlanDescription, healthPlanId },
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Edit
       </Link>
