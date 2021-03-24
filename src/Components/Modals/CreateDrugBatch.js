@@ -3,6 +3,7 @@ import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { createDrugBatchUrl } from "../../api/URLs";
 import { formatInputDate } from "../../utils/formatInputDate";
+import { notification } from "../../utils/notification";
 import { isNotEmptyString } from "../../utils/validationUtils";
 
 const $ = window.$;
@@ -38,11 +39,12 @@ const CreateDrugBatch = ({ drugId, mutate }) => {
       let res = await fetchWrapper(createDrugBatchConfig);
       console.log(res);
       if (res.status === 200) {
-        $("#create-batch").modal("hide");
+        notification.success({ message: res.data.message });
         mutate();
+        $("#create-batch").modal("hide");
       }
     } catch (error) {
-      console.log(error);
+      notification.error({ message: error?.response?.data.message });
     }
   };
   return (
@@ -56,7 +58,7 @@ const CreateDrugBatch = ({ drugId, mutate }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-body">
-            <h5 className="text-center">Create price for health plan</h5>
+            <h5 className="text-center">Add New Batch</h5>
             <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Quantity in stock</label>

@@ -11,6 +11,7 @@ import { CreateDrugBatch, PageLoader } from "../../../../../Components";
 import EmptyState from "../../../../../Components/EmptyState/EmptyUploadState";
 import formatAmount from "../../../../../utils/formatAmount";
 import formatDate from "../../../../../utils/formatDate";
+import { notification } from "../../../../../utils/notification";
 
 const DrugBatch = ({ drugId }) => {
   const getDrugBatchByDrug = getDrugBatchByDrugUrl();
@@ -32,12 +33,12 @@ const DrugBatch = ({ drugId }) => {
     });
     try {
       let res = await fetchWrapper(deleteDrugPricesConfig);
-      if (res.status) {
-        console.log(res);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
         mutate();
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
     }
     console.log(data);
   };
