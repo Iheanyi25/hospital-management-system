@@ -5,7 +5,8 @@ import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
   createNHISHealthPlanServiceUrl,
-  getAllServicesUrl,
+  getAllServicesCategoryUrl,
+  getAllServicesInACategoryUrl,
 } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
@@ -16,21 +17,50 @@ export default function AddServiceToNHIS() {
     location: { state: healthPlanName },
   } = useHistory();
   const { id: nhisHealthPlanId } = useParams();
+  const category = null;
+  const [showServices, setShowServices] = useState(false);
+  const [serviceOptions, setServiceOptions] = useState();
   const [service, setService] = useState();
-  const getAllServices = getAllServicesUrl(1, 200);
-  const getAllServicesConfig = fetchConfig({
-    url: getAllServices,
+
+  // fetch categories
+  const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
+  const getAllServicesCategoryConfig = fetchConfig({
+    url: getAllServicesCategory,
     method: "get",
   });
-  const { data, error } = useRequest(getAllServicesConfig, {
+  const { data: categories, error } = useRequest(getAllServicesCategoryConfig, {
     revalidateOnFocus: false,
   });
-  let options = [];
-  if (data?.services.length > 0) {
-    data.services.forEach(({ id, name }) => {
-      options.push({ value: id, label: name });
+  let categoryOptions = [];
+  if (categories?.serviceCategories.length > 0) {
+    categories.serviceCategories.forEach(({ id, name }) => {
+      categoryOptions.push({ value: id, label: name });
     });
   }
+  // fetch services
+  const fetchServices = async (category) => {
+    setShowServices(false);
+    const getAllServicesInACategory = getAllServicesInACategoryUrl(
+      category.value
+    );
+    const getAllServicesInACategoryConfig = fetchConfig({
+      url: getAllServicesInACategory,
+      method: "get",
+    });
+    try {
+      const { data } = await fetchWrapper(getAllServicesInACategoryConfig);
+      let serviceOptions = [];
+      if (data?.services.length > 0) {
+        data.services.forEach(({ id, name }) => {
+          serviceOptions.push({ value: id, label: name });
+        });
+      }
+      setServiceOptions(serviceOptions);
+      setShowServices(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleChange = (service) => {
     setService(service);
   };
@@ -77,17 +107,30 @@ export default function AddServiceToNHIS() {
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
                       <h4 className="text-center">Add Service</h4>
                       <div className="form-group">
-                        <label>Select Service</label>
+                        <label>Select a Service Category</label>
                         <Select
-                          value={service}
+                          value={category}
                           isSearchable={true}
-                          options={options}
-                          onChange={handleChange}
+                          options={categoryOptions}
+                          onChange={fetchServices}
                           placeholder={
                             error ? "Sorry, unable to fetch. Retry" : "Search"
                           }
                         />
                       </div>
+                      {showServices ? (
+                        <div className="form-group">
+                          <label>Select a Service</label>
+                          <Select
+                            value={service}
+                            isSearchable={true}
+                            options={serviceOptions}
+                            onChange={handleChange}
+                            placeholder="Search"
+                          />
+                        </div>
+                      ) : null}
+
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">

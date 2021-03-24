@@ -96,11 +96,17 @@ const HealthPlansActionTable = ({
         <span className="btn-icon icofont-server mr-2" />
         Manage patients
       </Link>
-      <Link to={`/ManageHealthPlanDrugs`} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/ManageHealthPlanDrugs/${healthPlanId}`,
+          state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage drugs
       </Link>
-      <Link to={`/ManageHealthPlanServices`} className="btn btn-sm btn-block">
+      <Link to={{pathname: `/ManageHealthPlanServices/${healthPlanId}`, state: healthPlanName }} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Manage services
       </Link>

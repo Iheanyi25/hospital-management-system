@@ -1,12 +1,29 @@
 const baseName = "HealthInsurance";
 
+// Health Insurance - Manage HMO Health Plan Drug Prices
+export const getHMODrugPricesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+  `/${baseName}/GetDrugPricesByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const createHMODrugPriceUrl = () => `/${baseName}/CreateDrugPrice`;
+export const updateHMODrugPriceDrugUrl = () =>
+  `/${baseName}/UpdateDrugPrice`;
+export const deleteHMODrugPriceFromHMOHealthPlanUrl = () =>
+  `/${baseName}/DeleteDrugPrice`;
+
+
 // Health Insurance - Manage HMO Health Plan Patients
 export const getHealthPlanPatientsInHMOByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetHealthPlanPatientsByHealthPlan?HMOHealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToHMOHealthPlanUrl = () =>
-`/${baseName}/AssignPatientToHealthPlan`;
+  `/${baseName}/AssignPatientToHealthPlan`;
 export const deletePatientFromHMOHealthPlanUrl = () =>
-`/${baseName}/DeletePatientFromHealthPlan`;
+  `/${baseName}/DeletePatientFromHealthPlan`;
+  
+  // Health Insurance - Manage HMO Health Plan Service Prices
+  export const getHMOServicePricesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+  `/${baseName}/GetServicePricesByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const createHMOServicePriceUrl = () => `/${baseName}/CreateServicePrice`;
+  export const deleteHMODeleteServicePriceUrl = () =>
+    `/${baseName}/DeleteServicePrice`;
 
 
 // Health Insurance - Manage HMO Health Plans
@@ -23,25 +40,25 @@ export const createHMOUrl = () => `/${baseName}/CreatHMO`;
 // Health Insurance - Manage NHIS Health Plan Drugs
 export const getHealthPlanDrugsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetHealthPlanDrugsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-  export const createNHISHealthPlanDrugUrl = () =>
+export const createNHISHealthPlanDrugUrl = () =>
   `/${baseName}/CreateHealthPlanDrug`;
-  export const deleteNHISHealthPlanDrugUrl = () =>
+export const deleteNHISHealthPlanDrugUrl = () =>
   `/${baseName}/DeleteHealthPlanDrug`;
-  
-  //Health Insurance - Manage NHIS Health Plan Patients
-  export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+
+//Health Insurance - Manage NHIS Health Plan Patients
+export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-  export const assignPatientToNHISHealthPlanUrl = () =>
+export const assignPatientToNHISHealthPlanUrl = () =>
   `/${baseName}/AssignPatientToNHISHealthPlan`;
-  export const deletePatientFromNHISHealthPlanUrl = () =>
+export const deletePatientFromNHISHealthPlanUrl = () =>
   `/${baseName}/DeletePatientFromNHISHealthPlan`;
-  
+
 // Health Insurance - Manage NHIS Health Plan Services
-  export const getHealthPlanServicesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
+export const getHealthPlanServicesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetHealthPlanServicesByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-  export const createNHISHealthPlanServiceUrl = () =>
+export const createNHISHealthPlanServiceUrl = () =>
   `/${baseName}/CreateHealthPlanService`;
-  export const deleteHealthPlanServiceUrl = () =>
+export const deleteHealthPlanServiceUrl = () =>
   `/${baseName}/DeleteHealthPlanService`;
 
 // Health Insurance - Manage NHIS Health Plans
@@ -49,9 +66,9 @@ export const getNHISHealthPlansUrl = (pageNumber, pageSize) =>
   `/${baseName}/GetNHISHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createNHISHealthPlanUrl = () =>
   `/${baseName}/CreateNHISHealthPlan`;
-  
-  // Health Insurance - Manage Profile
-  export const getHMOAdminsUrl = (pageNumber, pageSize) => `/${baseName}/GetHMOAdmins?PageNumber=${pageNumber}&PageSize=${pageSize}`;
-  export const getHMOAdminUrl = (id) => `/${baseName}/GetHMOAdmin?HMOAdminId=${id}`;
-  export const updateBasicInfoHMOAdminUrl = () => `/${baseName}/UpdateBasicInfo`;
-  export const updateContactDetailsHMOAdminUrl = () => `/${baseName}/UpdateContactDetails`;
+
+// Health Insurance - Manage Profile
+export const getHMOAdminsUrl = (pageNumber, pageSize) => `/${baseName}/GetHMOAdmins?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getHMOAdminUrl = (id) => `/${baseName}/GetHMOAdmin?HMOAdminId=${id}`;
+export const updateBasicInfoHMOAdminUrl = () => `/${baseName}/UpdateBasicInfo`;
+export const updateContactDetailsHMOAdminUrl = () => `/${baseName}/UpdateContactDetails`;

@@ -100,6 +100,8 @@ const ManageDrugs = () => {
               <Table
                 content={dataTable}
                 paginationDetails={data.paginationDetails}
+                tableID={"drugs" + data?.healthPlanDrugs.length}
+                key={"drugs" + data?.healthPlanDrugs.length}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
                 pageSize={pageSize}
@@ -115,10 +117,10 @@ const ManageDrugs = () => {
 const NHISDrugActionTable = ({ deleteDrug, id }) => {
   return (
     <ActionButton>
-      <Link onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
+      <button onClick={() => deleteDrug(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };

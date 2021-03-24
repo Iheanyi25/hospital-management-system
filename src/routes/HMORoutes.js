@@ -12,6 +12,7 @@ import ManageServicesInPlan from "../Pages/HealthInsurance/HMO/ManageServicesInP
 import ManageUserGroups from "../Pages/HealthInsurance/HMO/ManageUserGroups";
 import AddUserToPlan from "../Pages/HealthInsurance/HMO/AddUserToPlan";
 import AddDrugToPlan from "../Pages/HealthInsurance/HMO/AddDrugToPlan";
+import EditDrugInPlan from "../Pages/HealthInsurance/HMO/EditDrugInPlan";
 import AddServiceToPlan from "../Pages/HealthInsurance/HMO/AddServiceToPlan";
 import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
 import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroups";
@@ -47,18 +48,19 @@ export default function HMORoutes() {
           />
           <Route
             exact
-            path="/ManageHealthPlanDrugs"
+            path="/ManageHealthPlanDrugs/:id"
             component={ManageDrugsInPlan}
           />
           <Route
             exact
-            path="/ManageHealthPlanServices"
+            path="/ManageHealthPlanServices/:id"
             component={ManageServicesInPlan}
           />
           <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
           <Route exact path="/AddUserToPlan/:id" component={AddUserToPlan} />
-          <Route exact path="/AddDrugToPlan" component={AddDrugToPlan} />
-          <Route exact path="/AddServiceToPlan" component={AddServiceToPlan} />
+          <Route exact path="/EditDrugInPlan/:id" component={EditDrugInPlan} />
+          <Route exact path="/AddDrugToPlan/:id" component={AddDrugToPlan} />
+          <Route exact path="/AddServiceToPlan/:id" component={AddServiceToPlan} />
           <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
           <Route
             exact

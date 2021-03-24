@@ -55,7 +55,7 @@ const ManageServices = () => {
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.healthPlanServices.map(
+    dataTable = data.servicePrices.map(
       ({ service: { name, cost }, id }, index) => {
         return {
           "#": ++index,
@@ -94,7 +94,7 @@ const ManageServices = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.healthPlanServices.length : 0}
+              size={data ? data.servicePrices.length : 0}
               heading="Total No of Services"
             />
           </div>
@@ -103,6 +103,8 @@ const ManageServices = () => {
               <Table
                 content={dataTable}
                 paginationDetails={data.paginationDetails}
+                tableID={"services" + data?.servicePrices.length}
+                key={"services" + data?.servicePrices.length}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
                 pageSize={pageSize}
@@ -118,10 +120,10 @@ const ManageServices = () => {
 const NHISServicesActionTable = ({ deleteService, id }) => {
   return (
     <ActionButton>
-      <Link onClick={() => deleteService(id)} className="btn btn-sm btn-block">
+      <button onClick={() => deleteService(id)} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };
