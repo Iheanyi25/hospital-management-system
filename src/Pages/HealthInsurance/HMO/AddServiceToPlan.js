@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import Select from "react-select";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest, fetchWrapper } from "../../../api/fetcher";
-import { getAllServicesUrl, createHMOServicePriceUrl } from "../../../api/URLs";
+import {
+  createHMOServicePriceUrl,
+  getAllServicesCategoryUrl,
+  getAllServicesInACategoryUrl,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
+import { isNotEmptyString } from "../../../utils/validationUtils";
 
 export default function AddServiceToPlan() {
   const {
@@ -14,21 +19,56 @@ export default function AddServiceToPlan() {
   } = useHistory();
   const { id: hmoHealthPlanId } = useParams();
   const [price, setPrice] = useState("");
+  const category = null;
+  const [showServices, setShowServices] = useState(false);
+  const [serviceOptions, setServiceOptions] = useState();
   const [service, setService] = useState();
-  const getAllServices = getAllServicesUrl(1, 200);
-  const getAllServicesConfig = fetchConfig({
-    url: getAllServices,
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    if (isNotEmptyString(price)) {
+      setEmptyField(false);
+    }
+  }, [price]);
+
+  // fetch categories
+  const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
+  const getAllServicesCategoryConfig = fetchConfig({
+    url: getAllServicesCategory,
     method: "get",
   });
-  const { data, error } = useRequest(getAllServicesConfig, {
+  const { data: categories, error } = useRequest(getAllServicesCategoryConfig, {
     revalidateOnFocus: false,
   });
-  let options = [];
-  if (data?.services.length > 0) {
-    data.services.forEach(({ id, name }) => {
-      options.push({ value: id, label: name });
+  let categoryOptions = [];
+  if (categories?.serviceCategories.length > 0) {
+    categories.serviceCategories.forEach(({ id, name }) => {
+      categoryOptions.push({ value: id, label: name });
     });
   }
+  // fetch services
+  const fetchServices = async (category) => {
+    setShowServices(false);
+    const getAllServicesInACategory = getAllServicesInACategoryUrl(
+      category.value
+    );
+    const getAllServicesInACategoryConfig = fetchConfig({
+      url: getAllServicesInACategory,
+      method: "get",
+    });
+    try {
+      const { data } = await fetchWrapper(getAllServicesInACategoryConfig);
+      let serviceOptions = [];
+      if (data?.services.length > 0) {
+        data.services.forEach(({ id, name }) => {
+          serviceOptions.push({ value: id, label: name });
+        });
+      }
+      setServiceOptions(serviceOptions);
+      setShowServices(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleChange = (service) => {
     setService(service);
   };
@@ -74,17 +114,29 @@ export default function AddServiceToPlan() {
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
                       <h4 className="text-center">Add Service</h4>
                       <div className="form-group">
-                        <label>Select Service</label>
+                        <label>Select a Service Category</label>
                         <Select
-                          value={service}
+                          value={category}
                           isSearchable={true}
-                          options={options}
-                          onChange={handleChange}
+                          options={categoryOptions}
+                          onChange={fetchServices}
                           placeholder={
                             error ? "Sorry, unable to fetch. Retry" : "Search"
                           }
                         />
                       </div>
+                      {showServices ? (
+                        <div className="form-group">
+                          <label>Select a Service</label>
+                          <Select
+                            value={service}
+                            isSearchable={true}
+                            options={serviceOptions}
+                            onChange={handleChange}
+                            placeholder="Search"
+                          />
+                        </div>
+                      ) : null}
                       <div className="form-group">
                         <label>Amount</label>
                         <input
@@ -98,7 +150,11 @@ export default function AddServiceToPlan() {
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
-                          <button type="submit" className="btn btn-primary">
+                          <button
+                            type="submit"
+                            disabled={emptyField ? true : false}
+                            className="btn btn-primary"
+                          >
                             Add to health plan
                           </button>
                         </div>
