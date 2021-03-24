@@ -33,6 +33,8 @@ export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
   export const editHMOHealthPlanUrl = () => `/${baseName}/UpdateHealthPlan`;
   
   // Health Insurance - Manage HMO Sub Group Patients
+  export const getSubGroupPatientsBySubGroupUrl = (hmoSubGroupId, pageNumber, pageSize) =>
+    `/${baseName}/GetSubGroupPatientsBySubGroup?HMOSubGroupId=${hmoSubGroupId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
   export const assignPatientToHMOSubGroupUrl = () =>
     `/${baseName}/AssignPatientToHMOSubGroup`;
 

@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getSubGroupPatientsBySubGroupUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
@@ -10,26 +13,38 @@ const ManagePatients = () => {
     location: { state: subGroupName },
   } = useHistory();
   const { id } = useParams();
-  const data = {
-    patients: [
-      { user: "Mark" },
-      { user: "Jacob" },
-      { user: "Larry" },
-      { user: "Jacob" },
-      { user: "Mark" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getSubGroupPatientsBySubGroup = getSubGroupPatientsBySubGroupUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getSubGroupPatientsBySubGroupConfig = fetchConfig({
+    url: getSubGroupPatientsBySubGroup,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(
+    getSubGroupPatientsBySubGroupConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   let dataTable = [];
   if (data) {
-    dataTable = data.patients.map(({ user }, index) => {
-      return {
-        "#": ++index,
-        Users: user,
-        Actions: <PatientActionTable />,
-      };
-    });
+    dataTable = data.patients.map(
+      ({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
+        return {
+          "#": ++index,
+          Name: `${firstName} ${lastName}`,
+          Email: <a href={"mailto:" + email}>{email}</a>,
+          Phone: phoneNumber || "Not available",
+          Actions: <PatientActionTable />,
+        };
+      }
+    );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -58,11 +73,11 @@ const ManagePatients = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
