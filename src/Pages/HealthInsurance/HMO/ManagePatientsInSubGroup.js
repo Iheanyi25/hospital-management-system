@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getSubGroupPatientsBySubGroupUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getSubGroupPatientsBySubGroupUrl,
+  deletePatientFromSubGroupUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { notification } from "../../../utils/notification";
 
 const ManagePatients = () => {
   const {
@@ -30,6 +34,24 @@ const ManagePatients = () => {
       revalidateOnFocus: false,
     }
   );
+  const deletePatient = async (id) => {
+    console.log(id);
+    try {
+      const deletePatientFromSubGroup = deletePatientFromSubGroupUrl();
+      const deletePatientFromSubGroupConfig = fetchConfig({
+        url: deletePatientFromSubGroup,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deletePatientFromSubGroupConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.patients.map(
@@ -39,7 +61,7 @@ const ManagePatients = () => {
           Name: `${firstName} ${lastName}`,
           Email: <a href={"mailto:" + email}>{email}</a>,
           Phone: phoneNumber || "Not available",
-          Actions: <PatientActionTable />,
+          Actions: <PatientActionTable deletePatient={deletePatient} id={id} />,
         };
       }
     );
@@ -73,6 +95,8 @@ const ManagePatients = () => {
             {data && (
               <Table
                 content={dataTable}
+                tableID={"patients" + data.patients.length}
+                key={"patients" + data.patients.length}
                 paginationDetails={data.paginationDetails}
                 setPageNumber={setPageNumber}
                 pageNumber={pageNumber}
@@ -86,16 +110,16 @@ const ManagePatients = () => {
     </Fragment>
   );
 };
-const PatientActionTable = () => {
+const PatientActionTable = ({ deletePatient, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+      <button
+        onClick={() => deletePatient(id)}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };

@@ -37,6 +37,8 @@ export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>
     `/${baseName}/GetSubGroupPatientsBySubGroup?HMOSubGroupId=${hmoSubGroupId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
   export const assignPatientToHMOSubGroupUrl = () =>
     `/${baseName}/AssignPatientToHMOSubGroup`;
+    export const deletePatientFromSubGroupUrl = () =>
+      `/${baseName}/DeletePatientFromSubGroup`;
 
 
   // Health Insurance - Manage HMO User Sub Groups
