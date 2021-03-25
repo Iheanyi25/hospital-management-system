@@ -24,11 +24,11 @@ const ManageUserGroups = observer(() => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data.hmoUserGroups.map(({ name, id }, index) => {
+    dataTable = data.hmoUserGroups.map(({ name, description, id }, index) => {
       return {
         "#": ++index,
         "User Group": name,
-        Description: "Remember to map through them",
+        Description: description ?? "Not Available",
         Actions: <ActionTable userGroupName={name} id={id} />,
       };
     });
