@@ -1,32 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getHMOServicePricesByHealthPlanUrl,
+  deleteHMODeleteServicePriceUrl,
+} from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import formatAmount from "../../../utils/formatAmount";
+import { notification } from "../../../utils/notification";
 
 const ManageServices = () => {
-  const data = {
-    services: [
-      { name: "Mark", category: "Liquid" },
-      { name: "Jacob", category: "Liquid" },
-      { name: "Larry", category: "Liquid" },
-      { name: "Jacob", category: "Liquid" },
-      { name: "Mark", category: "Liquid" },
-    ],
+  const {
+    location: { state: healthPlanName },
+  } = useHistory();
+  const { id } = useParams();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHMOServicePricesByHealthPlan = getHMOServicePricesByHealthPlanUrl(
+    id,
+    pageNumber,
+    pageSize
+  );
+  const getHMOServicePricesByHealthPlanConfig = fetchConfig({
+    url: getHMOServicePricesByHealthPlan,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(
+    getHMOServicePricesByHealthPlanConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+  const deleteService = async (id) => {
+    try {
+      const deleteHMODeleteServicePrice = deleteHMODeleteServicePriceUrl();
+      const deleteHMODeleteServicePriceConfig = fetchConfig({
+        url: deleteHMODeleteServicePrice,
+        data: { id },
+        method: "delete",
+      });
+      const res = await fetchWrapper(deleteHMODeleteServicePriceConfig);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+        mutate();
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.services.map(({ name, category }, index) => {
-      return {
-        "#": ++index,
-        "Service Category": category,
-        "Service Name": name,
-        Actions: <NHISServicesActionTable />,
-      };
-    });
+    dataTable = data.servicePrices.map(
+      ({ service: { name, serviceCategory:{ name: categoryName } }, price, id }, index) => {
+        return {
+          "#": ++index,
+          "Service Category": categoryName ?? "N/A",
+          "Service Name": name,
+          Price: formatAmount(price),
+          Actions: <ActionTable deleteService={deleteService} id={id} />,
+        };
+      }
+    );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -36,15 +76,21 @@ const ManageServices = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Manage Services in HMO name</h4>
-            <Link className="btn btn-primary" to="/AddServiceToPlan">
+            <h4 className="page-title mb-0">{`Manage Services in ${healthPlanName}`}</h4>
+            <Link
+              className="btn btn-primary"
+              to={{
+                pathname: `/AddServiceToPlan/${id}`,
+                state: healthPlanName,
+              }}
+            >
               Add service
             </Link>
           </header>
 
           <div className="page-content">
             <TableSize
-              size={data ? data.services.length : 0}
+              size={data ? data.servicePrices.length : 0}
               heading="Total No of Services"
             />
           </div>
@@ -52,11 +98,13 @@ const ManageServices = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                tableID={"services" + data?.servicePrices.length}
+                key={"services" + data?.servicePrices.length}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
@@ -65,23 +113,16 @@ const ManageServices = () => {
     </Fragment>
   );
 };
-const NHISServicesActionTable = () => {
+const ActionTable = ({ deleteService, id }) => {
   return (
     <ActionButton>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Update service
-      </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+      <button
+        onClick={() => deleteService(id)}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button>
     </ActionButton>
   );
 };

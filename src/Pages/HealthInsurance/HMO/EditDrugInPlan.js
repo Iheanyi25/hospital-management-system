@@ -1,28 +1,37 @@
-import { observer } from "mobx-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
-import { createHMOHealthPlanUrl } from "../../../api/URLs";
+import { updateHMODrugPriceDrugUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
-import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
-const CreateHealthPlan = observer(() => {
-  const { hmoId } = useContext(UserContext);
-  const history = useHistory();
-  const [payload, setPayload] = useState({
-    name: "",
-    description: "",
-  });
+export default function EditDrugInPlan() {
   const [emptyField, setEmptyField] = useState(true);
+
+  const {
+    push,
+    location: { state },
+  } = useHistory();
+
+  const [payload, setPayload] = useState({
+    pricePerUnit: state?.pricePerUnit || "",
+    pricePerContainer: state?.pricePerContainer || "",
+    pricePerCarton: state?.pricePerCarton || "",
+  });
+
   useEffect(() => {
-    const { name } = payload;
-    if (isNotEmptyString(name)) {
+    const { pricePerUnit, pricePerCarton, pricePerContainer } = payload;
+    if (
+      isNotEmptyString(pricePerUnit) &&
+      isNotEmptyString(pricePerCarton) &&
+      isNotEmptyString(pricePerContainer)
+    ) {
       setEmptyField(false);
     }
-  }, [payload, payload.name]);
+  }, [payload]);
+
   const handleChange = (e) => {
     setPayload({
       ...payload,
@@ -31,23 +40,31 @@ const CreateHealthPlan = observer(() => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { ...payload, hmoId };
+    const data = {
+      ...payload,
+      drugId: state?.drugId || "",
+      hmoHealthPlanId: state?.healthPlanId,
+      id: state?.id,
+    };
     try {
-      const createHMOHealthPlan = createHMOHealthPlanUrl();
-      const createHMOHealthPlanConfig = fetchConfig({
-        url: createHMOHealthPlan,
+      const updateHMODrugPriceDrug = updateHMODrugPriceDrugUrl();
+      const updateHMODrugPriceDrugConfig = fetchConfig({
+        url: updateHMODrugPriceDrug,
         data: data,
         method: "post",
       });
-      const res = await fetchWrapper(createHMOHealthPlanConfig);
+      const res = await fetchWrapper(updateHMODrugPriceDrugConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        history.push("/ManageHealthPlans");
+        push({
+          pathname: `/ManageHealthPlanDrugs/${state?.healthPlanId}`,
+          state: state?.planName,
+        });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
     }
-    console.log(data);
+    console.log(payload);
   };
   return (
     <>
@@ -58,7 +75,9 @@ const CreateHealthPlan = observer(() => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Create Health Plan</h4>
+            <h4 className="page-title mb-0">{`Update Pricing for ${
+              state?.name || ""
+            }`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -66,26 +85,48 @@ const CreateHealthPlan = observer(() => {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
-                      <h4 className="text-center">Create Health Plan</h4>
+                      <h4 className="text-center">Update Price</h4>
                       <div className="form-group">
-                        <label>Health Plan Name</label>
+                        <label>Drug Name</label>
                         <input
                           className="form-control"
                           type="text"
                           tabIndex={-98}
-                          name="name"
-                          onChange={handleChange}
-                          required
+                          value={state?.name}
+                          disabled
                         />
                       </div>
                       <div className="form-group">
-                        <label>Description</label>
-                        <textarea
+                        <label>Price per unit</label>
+                        <input
                           className="form-control"
-                          type="text"
-                          name="description"
-                          onChange={handleChange}
+                          type="number"
                           tabIndex={-98}
+                          name="pricePerUnit"
+                          value={payload.pricePerUnit}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Price per container</label>
+                        <input
+                          className="form-control"
+                          type="number"
+                          tabIndex={-98}
+                          name="pricePerContainer"
+                          value={payload.pricePerContainer}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Price per Carton</label>
+                        <input
+                          className="form-control"
+                          type="number"
+                          tabIndex={-98}
+                          name="pricePerCarton"
+                          value={payload.pricePerCarton}
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="row">
@@ -96,7 +137,7 @@ const CreateHealthPlan = observer(() => {
                             disabled={emptyField ? true : false}
                             className="btn btn-primary"
                           >
-                            Create Plan
+                            Add drug
                           </button>
                         </div>
                       </div>
@@ -110,6 +151,4 @@ const CreateHealthPlan = observer(() => {
       </main>
     </>
   );
-});
-
-export default CreateHealthPlan;
+}

@@ -1,29 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHMOsUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageHMO = () => {
-  const data = {
-    plans: [
-      { type: "Mark" },
-      { type: "Jacob" },
-      { type: "Larry" },
-      { type: "Jacob" },
-      { type: "Mark" },
-    ],
-  };
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getNHISHealthPlans = getHMOsUrl(pageNumber, pageSize);
+  const getNHISHealthPlansConfig = fetchConfig({
+    url: getNHISHealthPlans,
+    method: "get",
+  });
+  const { data, error } = useRequest(getNHISHealthPlansConfig, {
+    revalidateOnFocus: false,
+  });
   let dataTable = [];
   if (data) {
-    dataTable = data.plans.map(({ type }, index) => {
+    dataTable = data.hmOs.map(({ name, description }, index) => {
       return {
         "#": ++index,
-        Accounts: type,
+        "HMO Name": name,
+        Description: description,
       };
     });
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -41,7 +46,7 @@ const ManageHMO = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.plans.length : 0}
+              size={data ? data.hmOs.length : 0}
               heading="Number of HMO Accounts"
             />
           </div>
@@ -49,11 +54,11 @@ const ManageHMO = () => {
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>

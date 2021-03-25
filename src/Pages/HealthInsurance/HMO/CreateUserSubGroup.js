@@ -1,48 +1,81 @@
-import { observer } from "mobx-react";
 import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import Select from "react-select";
+import { useHistory, useParams } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper } from "../../../api/fetcher";
-import { createHMOHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getHMOHealthPlansUrl,
+  creatHMOSubUserGroupUrl,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { UserContext } from "../../../mobx/UserState";
-import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
+import { notification } from "../../../utils/notification";
 
-const CreateHealthPlan = observer(() => {
+export default function CreateUserSubGroup() {
   const { hmoId } = useContext(UserContext);
-  const history = useHistory();
-  const [payload, setPayload] = useState({
+  const {
+    push,
+    location: { state: userGroupName },
+  } = useHistory();
+  const { id: hmoUserGroupId } = useParams();
+  const [healthPlan, setHealthPlan] = useState();
+  const [details, setDetails] = useState({
     name: "",
     description: "",
   });
   const [emptyField, setEmptyField] = useState(true);
   useEffect(() => {
-    const { name } = payload;
-    if (isNotEmptyString(name)) {
+    if (isNotEmptyString(details.name)) {
       setEmptyField(false);
     }
-  }, [payload, payload.name]);
+  }, [details.name]);
+
+  // fetching the health plans
+  const getHMOHealthPlans = getHMOHealthPlansUrl(hmoId, 1, 200);
+  const getHMOHealthPlansConfig = fetchConfig({
+    url: getHMOHealthPlans,
+    method: "get",
+  });
+  const { data, error } = useRequest(getHMOHealthPlansConfig, {
+    revalidateOnFocus: false,
+  });
+  let options = [];
+  if (data?.hmoHealthPlans.length > 0) {
+    data.hmoHealthPlans.forEach(({ name, id }) => {
+      options.push({ value: id, label: name });
+    });
+  }
   const handleChange = (e) => {
-    setPayload({
-      ...payload,
+    setDetails({
+      ...details,
       [e.target.name]: e.target.value,
     });
   };
+  const handleSelect = (healthPlan) => {
+    setHealthPlan(healthPlan);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { ...payload, hmoId };
+    const data = {
+      ...details,
+      hmoUserGroupId,
+      hmoHealthPlanId: healthPlan.value,
+    };
     try {
-      const createHMOHealthPlan = createHMOHealthPlanUrl();
-      const createHMOHealthPlanConfig = fetchConfig({
-        url: createHMOHealthPlan,
+      const creatHMOSubUserGroup = creatHMOSubUserGroupUrl();
+      const creatHMOSubUserGroupConfig = fetchConfig({
+        url: creatHMOSubUserGroup,
         data: data,
         method: "post",
       });
-      const res = await fetchWrapper(createHMOHealthPlanConfig);
+      const res = await fetchWrapper(creatHMOSubUserGroupConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        history.push("/ManageHealthPlans");
+        push({
+          pathname: `/ManageUserSubGroups/${hmoUserGroupId}`,
+          state: userGroupName,
+        });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
@@ -58,7 +91,7 @@ const CreateHealthPlan = observer(() => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Create Health Plan</h4>
+            <h4 className="page-title mb-0">{`Create A User Sub Group ${userGroupName}`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -66,9 +99,9 @@ const CreateHealthPlan = observer(() => {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
-                      <h4 className="text-center">Create Health Plan</h4>
+                      <h4 className="text-center">Create Sub Group</h4>
                       <div className="form-group">
-                        <label>Health Plan Name</label>
+                        <label>Sub group Name</label>
                         <input
                           className="form-control"
                           type="text"
@@ -88,6 +121,18 @@ const CreateHealthPlan = observer(() => {
                           tabIndex={-98}
                         />
                       </div>
+                      <div className="form-group">
+                        <label>Select a health plan</label>
+                        <Select
+                          value={healthPlan}
+                          isSearchable={true}
+                          options={options}
+                          onChange={handleSelect}
+                          placeholder={
+                            error ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
+                        />
+                      </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
@@ -96,7 +141,7 @@ const CreateHealthPlan = observer(() => {
                             disabled={emptyField ? true : false}
                             className="btn btn-primary"
                           >
-                            Create Plan
+                            Register sub group
                           </button>
                         </div>
                       </div>
@@ -110,6 +155,4 @@ const CreateHealthPlan = observer(() => {
       </main>
     </>
   );
-});
-
-export default CreateHealthPlan;
+}

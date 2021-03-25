@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 import { useLocalObservable } from "mobx-react";
 import { flow } from "mobx";
-import { logInUrl } from "../api/URLs";
+import { logInUrl, getHMOAdminUrl } from "../api/URLs";
 import { fetchConfig } from "../api/fetchConfig";
 import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
@@ -18,6 +18,7 @@ export const UserProvider = ({ children }) => {
     isLoadingUser: true,
     error: null,
     userToken: null,
+    hmoId: null,
     logIn: flow(function* logIn(data) {
       userStore.loading = true;
       const url = logInUrl();
@@ -75,15 +76,37 @@ export const UserProvider = ({ children }) => {
           if (error?.status === 403) {
             logOut();
           }
-          console.log(error.message,666666666)
+          console.log(error.message, 666666666);
           if (error.message === "Network Error") {
-            if(prevNotificationId) removeNotification(prevNotificationId)
-            prevNotificationId = notification.warining({ message: "Network Error, try again", duration: 5000 })
+            if (prevNotificationId) removeNotification(prevNotificationId);
+            prevNotificationId = notification.warining({
+              message: "Network Error, try again",
+              duration: 5000,
+            });
           }
           if (userStore.user) toggleGlobalLoaderClass("remove");
-          throw error
+          throw error;
         }
       );
+    }),
+    setHMOId: flow(function* setHMOId() {
+      userStore.loading = true;
+      if (userStore.user) {
+        const url = getHMOAdminUrl(userStore.user.id);
+        const getHMOAdminConfig = fetchConfig({
+          url: url,
+          method: "get",
+        });
+        try {
+          const res = yield fetchWrapper(getHMOAdminConfig);
+          if (res.status === 200) {
+            userStore.hmoId = res.data.hmoAdmin.hmoId;
+            console.log(res.data.hmoAdmin.hmoId);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }),
   }));
   return (

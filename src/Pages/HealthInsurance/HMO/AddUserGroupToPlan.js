@@ -1,9 +1,8 @@
 import React from "react";
 import Select from "react-select";
-import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
 
-export default function AddUserToUserGroup() {
+export default function AddUserGroupToPlan() {
   const data = {
     patients: [
       { user: "Mark", id: "0292" },
@@ -12,24 +11,11 @@ export default function AddUserToUserGroup() {
       { user: "Jacob", id: "0292" },
       { user: "Mark", id: "0292" },
     ],
-    plans: [
-      { type: "Mark", id: "0292" },
-      { type: "Jacob", id: "0292" },
-      { type: "Larry", id: "0292" },
-      { type: "Jacob", id: "0292" },
-      { type: "Mark", id: "0292" },
-    ],
   };
   let patientOptions = [];
   if (data.patients.length > 0) {
     data.patients.forEach(({ id, user }) => {
       patientOptions.push({ value: id, label: user });
-    });
-  }
-  let planOptions = [];
-  if (data.plans.length > 0) {
-    data.plans.forEach(({ id, type }) => {
-      planOptions.push({ value: id, label: type });
     });
   }
   return (
@@ -41,7 +27,7 @@ export default function AddUserToUserGroup() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Add A Patient To HMO Plan</h4>
+            <h4 className="page-title mb-0">Add User Sub Groups To HMO Plan</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -49,37 +35,20 @@ export default function AddUserToUserGroup() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5">
-                      <h4 className="text-center">Add User To A User Group</h4>
+                      <h4 className="text-center">Add User Sub Groups</h4>
                       <div className="form-group">
-                        <label>Search Patient with:</label>
+                        <label>Search User Group:</label>
                         <Select
                           isSearchable
                           options={patientOptions}
-                          placeholder="Email, Name or Username"
-                        />
-                      </div>
-                      <div className="d-flex mt-3 mb-3">
-                        <img
-                          src={add}
-                          alt="reset"
-                          className="mr-2 mb-2"
-                          style={{ cursor: "pointer" }}
-                        />
-                        <p className="">Add a new patient</p>
-                      </div>
-                      <div className="form-group">
-                        <label>Select User Group</label>
-                        <Select
-                          isSearchable
-                          options={patientOptions}
-                          placeholder="Search"
+                          placeholder="Search "
                         />
                       </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
                           <button type="submit" className="btn btn-primary">
-                            Register user
+                            Add user group
                           </button>
                         </div>
                       </div>

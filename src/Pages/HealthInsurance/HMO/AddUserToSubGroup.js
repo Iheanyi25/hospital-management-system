@@ -1,53 +1,54 @@
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { getAllDrugsUrl, createNHISHealthPlanDrugUrl } from "../../../api/URLs";
+import { getPatientsUrl, assignPatientToHMOSubGroupUrl } from "../../../api/URLs";
+import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
 
-export default function AddDrugToNHIS() {
-  const [drug, setDrug] = useState();
+export default function AddUserToSubGroup() {
   const {
     push,
-    location: { state: healthPlanName },
+    location: { state: subGroupName },
   } = useHistory();
-  const { id: nhisHealthPlanId } = useParams();
-
-  const getDrugsUrl = getAllDrugsUrl(1, 200);
-  const getDrugConfig = fetchConfig({
-    url: getDrugsUrl,
+  const { id: hmoSubUserGroupId } = useParams();
+  const [patient, setPatient] = useState();
+  const getPatients = getPatientsUrl(1, 200);
+  const getPatientsConfig = fetchConfig({
+    url: getPatients,
     method: "get",
   });
-  const { data, error } = useRequest(getDrugConfig, {
+  const { data, error } = useRequest(getPatientsConfig, {
     revalidateOnFocus: false,
   });
   let options = [];
-  if (data?.drugs.length > 0) {
-    data.drugs.forEach(({ id, name }) => {
-      options.push({ value: id, label: name });
+  if (data?.patients.length > 0) {
+    data.patients.forEach(({ patient: { id, firstName, lastName } }) => {
+      options.push({ value: id, label: `${firstName} ${lastName}` });
     });
   }
-  const handleChange = (drug) => {
-    setDrug(drug);
+  const handleChange = (patient) => {
+    setPatient(patient);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { drugId: drug.value, nhisHealthPlanId };
+    const payload = { patientId: patient.value, hmoSubUserGroupId };
     try {
-      const createNHISHealthPlanDrug = createNHISHealthPlanDrugUrl();
-      const createNHISHealthPlanDrugConfig = fetchConfig({
-        url: createNHISHealthPlanDrug,
+      const assignPatientToHMOSubGroup = assignPatientToHMOSubGroupUrl();
+      const assignPatientToHMOSubGroupConfig = fetchConfig({
+        url: assignPatientToHMOSubGroup,
         data: payload,
         method: "post",
       });
-      const res = await fetchWrapper(createNHISHealthPlanDrugConfig);
+      const res = await fetchWrapper(assignPatientToHMOSubGroupConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
         push({
-          pathname: `/AdminManageNHISDrugs/${nhisHealthPlanId}`,
-          state: healthPlanName,
+          pathname: `/ManagePatientsInSubGroup/${hmoSubUserGroupId}`,
+          state: subGroupName,
         });
       }
     } catch (error) {
@@ -64,7 +65,7 @@ export default function AddDrugToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">{`Add A Drug To ${healthPlanName} Health Plan`}</h4>
+            <h4 className="page-title mb-0">{`Add A Patient To ${subGroupName} Sub Group`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -72,18 +73,29 @@ export default function AddDrugToNHIS() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
-                      <h4 className="text-center">Add Drug</h4>
+                      <h4 className="text-center">Add User</h4>
                       <div className="form-group">
-                        <label>Search & select drug(s)</label>
+                        <label>Search Patient with:</label>
                         <Select
-                          value={drug}
-                          onChange={handleChange}
+                          value={patient}
                           isSearchable={true}
                           options={options}
+                          onChange={handleChange}
                           placeholder={
                             error ? "Sorry, unable to fetch. Retry" : "Search"
                           }
                         />
+                      </div>
+                      <div className="d-flex mt-3 mb-3">
+                        <Link to="/AdminAddPatients">
+                          <img
+                            src={add}
+                            alt="reset"
+                            className="mr-2 mb-2"
+                            style={{ cursor: "pointer" }}
+                          />
+                        </Link>
+                        <p className="">Add a new patient</p>
                       </div>
                       <div className="row">
                         <div className="col"></div>

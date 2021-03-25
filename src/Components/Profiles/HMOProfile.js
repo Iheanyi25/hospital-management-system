@@ -1,18 +1,18 @@
 import React, { Fragment } from 'react';
 import { fetchConfig } from '../../api/fetchConfig';
 import { useRequest } from '../../api/fetcher';
-import { getNurseProfileUrl } from '../../api/URLs';
+import { getHMOAdminUrl } from '../../api/URLs';
 import Bio from './profile-components/common/Bio';
 import ContactDetail from './profile-components/common/ContactDetail';
 import LabImage from "../../assets/img/PharmacistIcon.svg";
 import SpinnerLoader from '../Loader/SpinnerLoader';
 
 
-function NurseProfile({ nurseId }) {
-	const getNurseProfile = getNurseProfileUrl(nurseId);
-	const getNurseProfileConfig = fetchConfig({ url: getNurseProfile, method: 'get' });
-	const { data, error, mutate } = useRequest(getNurseProfileConfig, { revalidateOnFocus: false,});
-	console.log(data,11111)
+function HMOProfile({ hmoId }) {
+	const getHMOAdmin = getHMOAdminUrl(hmoId);
+	const getHMOAdminConfig = fetchConfig({ url: getHMOAdmin, method: 'get' });
+	const { data, error, mutate } = useRequest(getHMOAdminConfig, { revalidateOnFocus: false,});
+
 	if (error) return <div>failed to load</div>;
 	return (
 		<Fragment>
@@ -25,11 +25,11 @@ function NurseProfile({ nurseId }) {
 					</div>
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<Bio bioDetails={data.nurse.nurse} user="nurse" image={LabImage} />
+							<Bio bioDetails={data.hmoAdmin.hmoAdmin} user="hmoAdmin" image={LabImage} />
 							<ContactDetail
-								otherDetails={data.nurse}
-								primaryDetails={data.nurse.nurse}
-								userId={data.nurse.nurseId}
+								otherDetails={data.hmoAdmin}
+								primaryDetails={data.hmoAdmin.hmoAdmin}
+								userId={data.hmoAdmin.hmoAdminId}
 								mutate={mutate}
 							/>
 						</div>
@@ -40,4 +40,4 @@ function NurseProfile({ nurseId }) {
 	);
 }
 
-export { NurseProfile };
+export { HMOProfile };
