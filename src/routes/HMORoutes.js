@@ -21,6 +21,7 @@ import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroup
 import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup";
 import EditUserSubGroup from "../Pages/HealthInsurance/HMO/EditUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
+import EditServiceInPlan from "../Pages/HealthInsurance/HMO/EditServiceInPlan";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
 import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
 
@@ -57,6 +58,11 @@ export default function HMORoutes() {
             exact
             path="/ManageHealthPlanServices/:id"
             component={ManageServicesInPlan}
+          />
+          <Route
+            exact
+            path="/EditServiceInPlan/:id"
+            component={EditServiceInPlan}
           />
           <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
           <Route exact path="/AddUserToPlan/:id" component={AddUserToPlan} />

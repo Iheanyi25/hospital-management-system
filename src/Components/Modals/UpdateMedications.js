@@ -73,8 +73,8 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
             <h5 className="text-center">Update medications</h5>
             <form className="p-3" onSubmit={handleSubmit}>
               <div className="d-block d-md-flex justify-content-between">
-                <div style={{ width: "48%" }}><UpdateMedicationForm handleChange={handleChange}/></div>
-                <div style={{ width: "48%" }} className="card border-light">
+                <div style={{ flex: "1" }} className="mr-md-4"><UpdateMedicationForm handleChange={handleChange}/></div>
+                <div style={{ flex: "1" }} className="card border-light my-3 my-md-0">
                   <MedicationDrugs drugs={data?.drugs} />
                 </div>
               </div>
@@ -178,7 +178,7 @@ const MedicationDrugs = ({ drugs }) => {
   };
 
   return (
-    <div className="card-body">
+    <div className="card-body"  style={{ minHeight: "300px"}}>
       <Select options={options} onChange={handleClick} />
       <div className="py-4">
         {drugList.map(({ value: id, label }, index) => (

@@ -55,13 +55,13 @@ const ManageServices = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.servicePrices.map(
-      ({ service: { name, serviceCategory:{ name: categoryName } }, price, id }, index) => {
+      ({ service: { name, serviceCategory:{ name: categoryName } }, serviceId, hmoHealthPlanId, price, id }, index) => {
         return {
           "#": ++index,
           "Service Category": categoryName ?? "N/A",
           "Service Name": name,
           Price: formatAmount(price),
-          Actions: <ActionTable deleteService={deleteService} id={id} />,
+          Actions: <ActionTable deleteService={deleteService} id={id} details={{categoryName, serviceId, hmoHealthPlanId, name, price, id}} />,
         };
       }
     );
@@ -113,9 +113,18 @@ const ManageServices = () => {
     </Fragment>
   );
 };
-const ActionTable = ({ deleteService, id }) => {
+const ActionTable = ({ deleteService, id, details }) => {
   return (
     <ActionButton>
+      <Link
+        to={{
+          pathname: `/EditServiceInPlan/${id}`,
+          state: details,
+        }}
+        className="btn btn-sm btn-block"
+      >
+      Edit Service
+      </Link>
       <button
         onClick={() => deleteService(id)}
         className="btn btn-sm btn-block"

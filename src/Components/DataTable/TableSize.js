@@ -3,7 +3,7 @@ import React from "react";
 export default function TableSize({ heading, size, icon }) {
   return (
     // <div className="row">
-      <div className="col col-12 col-md-6 col-xl-4">
+      <div className="col col-12 col-md-6 col-xl-4 p-0">
         <div className="card animated fadeInUp delay-02s bg-light">
           <div className="card-body">
             <div className="row align-items-center">

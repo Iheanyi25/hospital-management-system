@@ -17,7 +17,6 @@ function AllPatients() {
     revalidateOnFocus: false,
   });
 
-
   const [activePatientId, setActivePatientId] = useState("");
   let dataTable = [];
   if (data) {
