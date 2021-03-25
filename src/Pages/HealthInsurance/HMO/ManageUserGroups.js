@@ -29,7 +29,7 @@ const ManageUserGroups = observer(() => {
         "#": ++index,
         "User Group": name,
         Description: description ?? "Not Available",
-        Actions: <ActionTable userGroupName={name} id={id} />,
+        Actions: <ActionTable userGruopuDetails={{ name, description, id }} />,
       };
     });
   }
@@ -80,22 +80,24 @@ const ManageUserGroups = observer(() => {
     </Fragment>
   );
 });
-const ActionTable = ({ userGroupName, id }) => {
+const ActionTable = ({ userGruopuDetails }) => {
+  console.log(userGruopuDetails);
+  const { name, id } = userGruopuDetails;
   return (
     <ActionButton>
       <Link
-        to={{ pathname: `/ManageUserSubGroups/${id}`, state: userGroupName }}
+        to={{ pathname: `/ManageUserSubGroups/${id}`, state: name }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Manage Sub Groups
       </Link>
       <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        to={{ pathname: `/EditUserGroup/${id}`, state: userGruopuDetails }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Edit
+        Update
       </Link>
       {/* <Link
         // to={`/LabManageAdmissionServiceRequest/${admissionId}`}

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { HMOLayout } from "../Components/Layout";
+import { UserContext } from "../mobx/UserState";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
 import ViewHMOProfile from "../Pages/HealthInsurance/HMO/ViewHMOProfile";
 import CreateHealthPlan from "../Pages/HealthInsurance/HMO/CreateHealthPlans";
@@ -15,12 +16,12 @@ import AddDrugToPlan from "../Pages/HealthInsurance/HMO/AddDrugToPlan";
 import EditDrugInPlan from "../Pages/HealthInsurance/HMO/EditDrugInPlan";
 import AddServiceToPlan from "../Pages/HealthInsurance/HMO/AddServiceToPlan";
 import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
+import EditUserGroup from "../Pages/HealthInsurance/HMO/EditUserGroups";
 import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroups";
 import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
 import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
-import { UserContext } from "../mobx/UserState";
 
 export default function HMORoutes() {
   const { setHMOId, user } = useContext(UserContext);
@@ -66,6 +67,7 @@ export default function HMORoutes() {
             component={AddServiceToPlan}
           />
           <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
+          <Route exact path="/EditUserGroup/:id" component={EditUserGroup} />
           <Route
             exact
             path="/ManageUserSubGroups/:id"
