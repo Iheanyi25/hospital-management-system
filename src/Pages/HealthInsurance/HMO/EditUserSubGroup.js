@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Select from "react-select";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
@@ -18,7 +18,6 @@ export default function EditUserSubGroup() {
     push,
     location: { state },
   } = useHistory();
-  //   const { id: hmoUserGroupId } = useParams();
   const [healthPlan, setHealthPlan] = useState();
   const [details, setDetails] = useState({
     name: state?.name || "",
