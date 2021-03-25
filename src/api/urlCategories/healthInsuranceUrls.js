@@ -9,7 +9,6 @@ export const updateHMODrugPriceDrugUrl = () =>
 export const deleteHMODrugPriceFromHMOHealthPlanUrl = () =>
   `/${baseName}/DeleteDrugPrice`;
 
-
 // Health Insurance - Manage HMO Health Plan Patients
 export const getHealthPlanPatientsInHMOByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetHealthPlanPatientsByHealthPlan?HMOHealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
@@ -24,7 +23,8 @@ export const deletePatientFromHMOHealthPlanUrl = () =>
   export const createHMOServicePriceUrl = () => `/${baseName}/CreateServicePrice`;
   export const deleteHMODeleteServicePriceUrl = () =>
     `/${baseName}/DeleteServicePrice`;
-
+  export const updateHMOServicePriceUrl = () =>
+    `/${baseName}/UpdateServicePrice`;
 
 // Health Insurance - Manage HMO Health Plans
 export const getHMOHealthPlansUrl = (hmoId, pageNumber, pageSize) =>

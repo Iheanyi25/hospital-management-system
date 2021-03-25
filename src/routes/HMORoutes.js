@@ -18,6 +18,7 @@ import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
 import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroups";
 import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
+import EditServiceInPlan from "../Pages/HealthInsurance/HMO/EditServiceInPlan";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
 import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
 import { UserContext } from "../mobx/UserState";
@@ -55,6 +56,11 @@ export default function HMORoutes() {
             exact
             path="/ManageHealthPlanServices/:id"
             component={ManageServicesInPlan}
+          />
+          <Route
+            exact
+            path="/EditServiceInPlan/:id"
+            component={EditServiceInPlan}
           />
           <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
           <Route exact path="/AddUserToPlan/:id" component={AddUserToPlan} />
