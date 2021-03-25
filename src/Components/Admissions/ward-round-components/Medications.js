@@ -4,6 +4,7 @@ import { useRequest } from "../../../api/fetcher";
 import { getMedicationsUrl } from "../../../api/URLs";
 import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
+import ActionButton from "../../DataTable/ActionButton";
 import UpdateMedications from "../../Modals/UpdateMedications";
 
 const Medications = ({ admissionId }) => {
@@ -14,31 +15,48 @@ const Medications = ({ admissionId }) => {
     url: getMedications,
     method: "get",
   });
-  const { data } = useRequest(getMedicationsConfig, {
+  const { data, mutate } = useRequest(getMedicationsConfig, {
     revalidateOnFocus: false,
   });
   console.log(data, 11116666);
   let dataTable = [];
   if (data) {
-    dataTable = data?.medications.map((medication, index) => {
-      return {
-        "#": ++index,
-        Medication: `${medication.medication}`,
-        Dose: `${medication.dosage}`,
-        FreQ: `${medication?.frequency || "N/A"}`,
-        Start: formatDate(medication.startDate),
-        Stop: formatDate(medication.endDate),
-        Status: `${medication.status}`,
-      };
-    });
+    dataTable = data?.medications.map(
+      (
+        {
+          administrationInstruction,
+          dosage,
+          frequency,
+          startDate,
+          endDate,
+          status,
+          drug: { name },
+        },
+        index
+      ) => {
+        return {
+          "#": ++index,
+          "Administration Instructions": `${
+            administrationInstruction ?? "N/A"
+          }`,
+          Drug: `${name ?? "N/A"}`,
+          Dosage: `${dosage ?? "N/A"}`,
+          FreQ: `${frequency ?? "N/A"}`,
+          Start: formatDate(startDate ?? "N/A"),
+          Stop: formatDate(endDate ?? "N/A"),
+          Status: `${status ?? "N/A"}`,
+          Action: <ActionTableAction />,
+        };
+      }
+    );
   }
   return (
-    <div className="row justify-content-center w-75 mx-auto mt-5">
+    <div className="row justify-content-center mx-auto mt-5">
       <div className="col-md-12">
         <div className="card border-light">
           <div className="card-body">
             <div className="d-flex justify-content-between align-item-between">
-              <h5 className="m-0">Observation Chart</h5>
+              <h5 className="m-0">Medication</h5>
               <button
                 className="btn btn-primary"
                 data-toggle="modal"
@@ -60,8 +78,19 @@ const Medications = ({ admissionId }) => {
           </div>
         </div>
       </div>
-      <UpdateMedications />
+      <UpdateMedications admissionId={admissionId} mutate={mutate} />
     </div>
+  );
+};
+
+const ActionTableAction = () => {
+  return (
+    <ActionButton>
+      <button className="btn btn-sm btn-block text-danger">
+        <span className="btn-icon icofont-delete-alt mr-2" />
+        Delete
+      </button>
+    </ActionButton>
   );
 };
 export default Medications;
