@@ -1,0 +1,102 @@
+import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getDoctorAllSurgeriesUrl } from "../../../api/URLs";
+import { PageLoader, Table } from "../../../Components";
+import ActionButton from "../../../Components/DataTable/ActionButton";
+import TableSize from "../../../Components/DataTable/TableSize";
+import formatDate from "../../../utils/formatDate";
+import formatTime from "../../../utils/formatTime";
+
+export default function ManageSurgeries() {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+
+  const getDoctorAllSurgeries = getDoctorAllSurgeriesUrl(pageNumber, pageSize);
+  const getDoctorAllSurgeriesConfig = fetchConfig({
+    url: getDoctorAllSurgeries,
+    method: "get",
+  });
+  const { data, error } = useRequest(getDoctorAllSurgeriesConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(data, 5555);
+  let tableData = [];
+  if (data) {
+    tableData = data.surgeries.map((surgery, index) => {
+      return {
+        "#": ++index,
+        "Patient Name": `${surgery?.patient?.firstName} ${surgery?.patient?.lastName}`,
+        "Initiator Name": `${surgery?.initiator?.firstName} ${surgery?.initiator?.lastName}`,
+        "Surgery Date": formatDate(surgery?.dateOfSurgery) || "N/A",
+        "Surgery Time": formatTime(surgery?.timeOfSurgery) || "N/A",
+        "Referral note": surgery.referralNote || "N/A",
+        Actions: <SurgeryTableAction surgery={surgery} />,
+      };
+    });
+  }
+
+  console.log(data, 111);
+
+  if (error) return <div>failed to load</div>;
+  return (
+    <Fragment>
+      <PageLoader />
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap">
+          <header className="page-header">
+            <h4 className="page-title">All Surgeries</h4>
+          </header>
+
+          <div className="page-content">
+            <TableSize
+              size={data ? data?.surgeries?.length : 0}
+              heading="No Of Surgeries"
+            />
+          </div>
+          <div className="page-content">
+            {data && (
+              <Table
+                content={tableData}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+              />
+            )}
+          </div>
+        </div>
+      </main>
+    </Fragment>
+  );
+}
+
+const SurgeryTableAction = ({ surgery }) => {
+  return (
+    <ActionButton>
+      <Link
+        title="Go For Pre-consultation"
+        to={{
+          pathname: `/AdminSurgicalOperationNotes/${surgery.id}`,
+          state: surgery,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-stethoscope-alt mr-2" />
+        Surgery Notes
+      </Link>
+      {/* <button
+        className="btn btn-sm btn-block "
+        // onClick={() => deleteAppointment(appointment.id)}
+      >
+        <span className="mr-3 btn-icon icofont-delete-alt" />
+        Delete Consultation
+      </button> */}
+    </ActionButton>
+  );
+};

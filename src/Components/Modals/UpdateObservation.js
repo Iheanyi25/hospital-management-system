@@ -51,7 +51,7 @@ const UpdateObservationChart = observer(() => {
         role="dialog"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-body">
               <h5 className="text-center">Observation Chart</h5>
