@@ -55,15 +55,17 @@ export default function PatientHealthHistoryContainer({ patientId }) {
         <PageWrapper>
           <PatientHealthHistoryHeader handlePrint={handlePrint} />
           <div ref={componentRef}>
-            <Card>
-              <PatientHealthHistoryBody
-                patientDet={data.patientHealthHistory}
-              />
-              {(data.patientHealthHistory.clerking.length > 1 ||
-                data.patientHealthHistory.preConsultation.length > 1) && (
-                <DownloadStatement handlePrint={handlePrint} />
-              )}
-            </Card>
+            <div className="p-4">
+              <Card>
+                <PatientHealthHistoryBody
+                  patientDet={data.patientHealthHistory}
+                />
+                {(data.patientHealthHistory.clerking.length > 1 ||
+                  data.patientHealthHistory.preConsultation.length > 1) && (
+                  <DownloadStatement handlePrint={handlePrint} />
+                )}
+              </Card>
+            </div>
           </div>
         </PageWrapper>
       )}
