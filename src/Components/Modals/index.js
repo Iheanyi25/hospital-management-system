@@ -18,3 +18,4 @@ export * from "./UpdateDoctorsNotes";
 export * from "./UpdateMedications";
 export * from "./UpdateObservation";
 export * from "./CreateDrugBatch";
+export * from "./EditDrugBatch";

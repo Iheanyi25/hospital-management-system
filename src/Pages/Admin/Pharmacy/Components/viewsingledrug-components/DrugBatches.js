@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fetchConfig } from "../../../../../api/fetchConfig";
 import { useRequest, fetchWrapper } from "../../../../../api/fetcher";
 import {
@@ -7,13 +7,18 @@ import {
 } from "../../../../../api/URLs";
 import edit from "../../../../../assets/img/edit.svg";
 import remove from "../../../../../assets/img/remove.svg";
-import { CreateDrugBatch, PageLoader } from "../../../../../Components";
+import {
+  CreateDrugBatch,
+  EditDrugBatch,
+  PageLoader,
+} from "../../../../../Components";
 import EmptyState from "../../../../../Components/EmptyState/EmptyUploadState";
 import formatAmount from "../../../../../utils/formatAmount";
 import formatDate from "../../../../../utils/formatDate";
 import { notification } from "../../../../../utils/notification";
 
 const DrugBatch = ({ drugId }) => {
+  const [batch, setBatch] = useState({});
   const getDrugBatchByDrug = getDrugBatchByDrugUrl();
   const getDrugBatchByDrugConfig = fetchConfig({
     url: getDrugBatchByDrug,
@@ -80,12 +85,12 @@ const DrugBatch = ({ drugId }) => {
                           <img
                             src={edit}
                             data-toggle="modal"
-                            data-target="#edit-healthplan-price"
+                            data-target="#edit-batch"
                             alt="edit"
                             className="mr-2"
-                            // onClick={() => {
-                            //   setHealthPlanPrice(price);
-                            // }}
+                            onClick={() => {
+                              setBatch({ quantityInStock, expiryDate, id });
+                            }}
                             style={{ cursor: "pointer" }}
                           />
                           <img
@@ -120,6 +125,7 @@ const DrugBatch = ({ drugId }) => {
         </>
       )}
       <CreateDrugBatch drugId={drugId} mutate={mutate} />
+      <EditDrugBatch drugId={drugId} mutate={mutate} batch={batch} />
     </>
   );
 };
