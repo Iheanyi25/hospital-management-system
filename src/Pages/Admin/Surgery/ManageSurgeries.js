@@ -5,6 +5,7 @@ import { useRequest } from "../../../api/fetcher";
 import { getDoctorAllSurgeriesUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
+import SurgeryReferral from "../../../Components/Modals/SurgeryReferral";
 import TableSize from "../../../Components/DataTable/TableSize";
 import formatDate from "../../../utils/formatDate";
 import formatTime from "../../../utils/formatTime";
@@ -18,7 +19,7 @@ export default function ManageSurgeries() {
     url: getDoctorAllSurgeries,
     method: "get",
   });
-  const { data, error } = useRequest(getDoctorAllSurgeriesConfig, {
+  const { data, error, mutate } = useRequest(getDoctorAllSurgeriesConfig, {
     revalidateOnFocus: false,
   });
   console.log(data, 5555);
@@ -48,8 +49,18 @@ export default function ManageSurgeries() {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <header className="page-header">
+          <header className="page-header d-flex justify-content-between">
             <h4 className="page-title">All Surgeries</h4>
+            <div>
+              <Link
+                to="#"
+                data-toggle="modal"
+                data-target="#surgery-referral"
+                className="btn btn-outline-primary mr-2 mb-2"
+              >
+                Surgery
+              </Link>
+            </div>
           </header>
 
           <div className="page-content">
@@ -72,6 +83,12 @@ export default function ManageSurgeries() {
           </div>
         </div>
       </main>
+      <SurgeryReferral
+        mutate={mutate}
+        // id={otherDetails.id}
+        // idType={otherDetails?.type}
+        // patientId={otherDetails?.patient?.id}
+      />
     </Fragment>
   );
 }
