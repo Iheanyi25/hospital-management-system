@@ -33,11 +33,11 @@ export const UserProvider = ({ children }) => {
           console.log(res.data.token, 66666);
           localStorage.setItem(
             "authenticatedUser",
-            JSON.stringify(res.data.authenticatedUser)
+            JSON.stringify(res.data)
           );
           localStorage.setItem("userToken", JSON.stringify(res.data.token));
         }
-        userStore.user = res.data.authenticatedUser;
+        userStore.user = res.data;
         userStore.userToken = res.data.token;
         userStore.loading = false;
         // window.location.href = "/";

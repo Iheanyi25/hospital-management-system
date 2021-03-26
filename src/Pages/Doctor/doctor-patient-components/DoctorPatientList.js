@@ -11,7 +11,7 @@ export default function DoctorPatientList({
 }) {
   let dataTable = [];
   if (patients) {
-    dataTable = patients.map(({ patient }, index) => {
+    dataTable = patients.map((patient, index) => {
       console.log(patient, 111);
       return {
         "#": ++index,
@@ -52,7 +52,7 @@ const MyPatientListTableAction = ({ patient }) => {
       <Link
         title="Patient Profile"
         to={{
-          pathname: `/DoctorPatientProfile/${patient.id}`,
+          pathname: `/DoctorPatientProfile/${patient.patientId}`,
           state: patient,
         }}
         className="btn btn-sm btn-block"
@@ -97,7 +97,7 @@ const PatientListTableAction = ({ patient }) => {
           <Link
             title={title}
             to={{
-              pathname: `${pathname}/${patient.id}`,
+              pathname: `${pathname}/${patient.patientId}`,
               state: patient,
             }}
             className="btn btn-sm btn-block"

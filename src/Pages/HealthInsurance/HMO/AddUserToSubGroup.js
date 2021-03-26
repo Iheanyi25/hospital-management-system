@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { getPatientsUrl, assignPatientToHMOSubGroupUrl } from "../../../api/URLs";
+import {
+  getPatientsUrl,
+  assignPatientToHMOSubGroupUrl,
+} from "../../../api/URLs";
 import add from "../../../assets/img/add.svg";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
@@ -26,7 +29,7 @@ export default function AddUserToSubGroup() {
   });
   let options = [];
   if (data?.patients.length > 0) {
-    data.patients.forEach(({ patient: { id, firstName, lastName } }) => {
+    data.patients.forEach(({ id, firstName, lastName }) => {
       options.push({ value: id, label: `${firstName} ${lastName}` });
     });
   }

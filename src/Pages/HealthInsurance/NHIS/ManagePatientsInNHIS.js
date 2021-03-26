@@ -54,13 +54,15 @@ const ManagePatients = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.healthPlanPatients.map(
-      ({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
+      ({ firstName, lastName, email, phoneNumber, id }, index) => {
         return {
           "#": ++index,
           Name: `${firstName} ${lastName}`,
           Email: <a href={"mailto:" + email}>{email}</a>,
           Phone: phoneNumber || "Not available",
-          Actions: <NHISPatientActionTable deletePatient={deletePatient} id={id} />,
+          Actions: (
+            <NHISPatientActionTable deletePatient={deletePatient} id={id} />
+          ),
         };
       }
     );
@@ -115,7 +117,10 @@ const ManagePatients = () => {
 const NHISPatientActionTable = ({ deletePatient, id }) => {
   return (
     <ActionButton>
-      <button onClick={() => deletePatient(id)} className="btn btn-sm btn-block">
+      <button
+        onClick={() => deletePatient(id)}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Delete
       </button>

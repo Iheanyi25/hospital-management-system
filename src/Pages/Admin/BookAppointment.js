@@ -67,13 +67,8 @@ class BookAppointment extends React.Component {
     const getPatients = getPatientsUrl();
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
-    const patientArray = [];
 
-    data.patients.forEach((element) => {
-      patientArray.push(element.patient);
-    });
-
-    this.setState({ patients: patientArray }, () => {
+    this.setState({ patients: data?.patients }, () => {
       this.renderPatientPicker();
     });
   };
@@ -81,14 +76,8 @@ class BookAppointment extends React.Component {
   fetchDoctors = async () => {
     const getDoctors = getDoctorsUrl();
     const getDoctorsConfig = fetchConfig({ url: getDoctors, method: "get" });
-    const { data } = await fetchWrapper(getDoctorsConfig);
-    const doctorArray = [];
-
-    data.doctors.forEach((element) => {
-      doctorArray.push(element.doctor);
-    });
-
-    this.setState({ doctors: doctorArray }, () => {
+    const { data: doctors } = await fetchWrapper(getDoctorsConfig);
+    this.setState({ doctors: doctors?.doctors }, () => {
       this.renderDoctorPicker();
     });
   };

@@ -66,7 +66,7 @@ export const DoctorLayout = ({ children }) => {
         <DoctorSidebar />
         {children}
         <TemplateSettings />
-        <SearchDoctorsModal />
+        {/* <SearchDoctorsModal /> */}
         <Footer />
       </div>
     </div>
