@@ -5,6 +5,7 @@ import { getMedicationsUrl } from "../../../api/URLs";
 import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
+import { AdministerMedication } from "../../Modals";
 import UpdateMedications from "../../Modals/UpdateMedications";
 
 const Medications = ({ admissionId }) => {
@@ -21,34 +22,27 @@ const Medications = ({ admissionId }) => {
   console.log(data, 11116666);
   let dataTable = [];
   if (data) {
-    dataTable = data?.medications.map(
-      (
-        {
-          administrationInstruction,
-          dosage,
-          frequency,
-          startDate,
-          endDate,
-          status,
-          drug: { name },
-        },
-        index
-      ) => {
-        return {
-          "#": ++index,
-          "Administration Instructions": `${
-            administrationInstruction ?? "N/A"
-          }`,
-          Drug: `${name ?? "N/A"}`,
-          Dosage: `${dosage ?? "N/A"}`,
-          FreQ: `${frequency ?? "N/A"}`,
-          Start: formatDate(startDate ?? "N/A"),
-          Stop: formatDate(endDate ?? "N/A"),
-          Status: `${status ?? "N/A"}`,
-          Action: <ActionTableAction />,
-        };
-      }
-    );
+    dataTable = data?.medications.map((medication, index) => {
+      const {
+        administrationInstruction,
+        dosage,
+        frequency,
+        startDate,
+        endDate,
+        status,
+      } = medication;
+      return {
+        "#": ++index,
+        "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
+        Drug: `${medication?.drug?.name ?? "N/A"}`,
+        Dosage: `${dosage ?? "N/A"}`,
+        FreQ: `${frequency ?? "N/A"}`,
+        Start: formatDate(startDate ?? "N/A"),
+        Stop: formatDate(endDate ?? "N/A"),
+        Status: `${status ?? "N/A"}`,
+        Action: <ActionTableAction />,
+      };
+    });
   }
   return (
     <div className="row justify-content-center mx-auto mt-5">
@@ -85,12 +79,20 @@ const Medications = ({ admissionId }) => {
 
 const ActionTableAction = () => {
   return (
-    <ActionButton>
-      <button className="btn btn-sm btn-block text-danger">
-        <span className="btn-icon icofont-delete-alt mr-2" />
-        Delete
-      </button>
-    </ActionButton>
+    <>
+      <ActionButton>
+        <button
+          data-toggle="modal"
+          data-target="#administer-medication"
+          // onClick={() => deleteService(id)}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Update status
+        </button>
+      </ActionButton>
+      <AdministerMedication />
+    </>
   );
 };
 export default Medications;
