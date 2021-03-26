@@ -21,10 +21,10 @@ class PreConsultationHistory extends React.Component {
   }
 
   fetchServiceCategories = async () => {
-    const { id } = this.props.patientDetails;
+    const { patientId } = this.props.patientDetails;
 
     try {
-      const getPatientPreConsultation = getPatientPreConsultationUrl(id);
+      const getPatientPreConsultation = getPatientPreConsultationUrl(patientId);
       const getPatientPreConsultationConfig = fetchConfig({
         url: getPatientPreConsultation,
         method: "GET",

@@ -28,7 +28,7 @@ export default function AddUserToPlan() {
   });
   let options = [];
   if (data?.patients.length > 0) {
-    data.patients.forEach(({ patient: { id, firstName, lastName } }) => {
+    data.patients.forEach(({ id, firstName, lastName }) => {
       options.push({ value: id, label: `${firstName} ${lastName}` });
     });
   }

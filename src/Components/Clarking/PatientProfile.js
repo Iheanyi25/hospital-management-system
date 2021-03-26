@@ -18,11 +18,11 @@ class PatientProfile extends React.Component {
 
   fetchPatientDetails = async () => {
     try {
-      const getPatient = getPatientUrl(this.props.patientId)
-      const getPatientConfig = fetchConfig({ url: getPatient, method: 'GET'});
-      const { data } = await fetchWrapper(getPatientConfig)
+      const getPatient = getPatientUrl(this.props.patientId);
+      const getPatientConfig = fetchConfig({ url: getPatient, method: "GET" });
+      const { data } = await fetchWrapper(getPatientConfig);
       this.setState({
-        patientDetails: data.patientProfile,
+        patientDetails: data.patient,
       });
     } catch (error) {
       console.log(error);
@@ -34,19 +34,6 @@ class PatientProfile extends React.Component {
     return (
       <>
         <PageLoader />
-
-        {/* <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
-          </div>
-          <div className="main-content-wrap"> */}
-        {/* <div className="page-content"> */}
-        {/* <header className="page-header">
-                <h3 className="page-title">
-                  {" "}
-                  {`${patientDetails?.fullName ?? ""}'s profile`}
-                </h3>
-              </header> */}
         <div className="col col-md-12">
           <div className="card border-light">
             <div className="card-body d-flex justify-content-between">
@@ -59,7 +46,9 @@ class PatientProfile extends React.Component {
                 />
                 <div>
                   <h5 className="mb-2 mt-2 font-weight-bold">
-                    {`${patientDetails?.fullName ?? ""} `}
+                    {`${patientDetails?.firstName ?? ""} ${
+                      patientDetails?.lastName ?? ""
+                    }`}
                   </h5>
                   <p className="mb-2">Patient</p>
                 </div>
@@ -67,13 +56,11 @@ class PatientProfile extends React.Component {
               <div className="mt-2">
                 <div className="d-flex mb-3 mt-2">
                   <img src={email} alt="reset" className="mr-2 mb-2" />
-                  <p>{`${
-                    patientDetails?.patient?.email.toLowerCase() ?? "N/A"
-                  }`}</p>
+                  <p>{`${patientDetails?.email.toLowerCase() ?? "N/A"}`}</p>
                 </div>
                 <div className="d-flex pl-1">
                   <img src={phone} alt="reset" className="mr-3 mb-2" />
-                  <p>{`${patientDetails?.patient?.phoneNumber ?? "N/A"}`}</p>
+                  <p>{`${patientDetails?.phoneNumber ?? "N/A"}`}</p>
                 </div>
               </div>
             </div>
@@ -87,14 +74,6 @@ class PatientProfile extends React.Component {
                   <h6 className="card-title mt-0 font-weight-bold">
                     Health details
                   </h6>
-                  {/* <Link
-                    to={{
-                      pathname: `/AdminUpdatePatientProfile/${this.props.location.state.id}`,
-                      state: this.props.location.state,
-                    }}
-                  > */}
-                    {/* <img src={edit} alt="reset" className="mr-3 mb-2" /> */}
-                  {/* </Link> */}
                 </div>
                 <div className="basic-info d-flex justify-content-between mt-4">
                   <div>
@@ -132,9 +111,6 @@ class PatientProfile extends React.Component {
             </div>
           </div>
         </div>
-        {/* </div>
-          </div>
-        </main> */}
       </>
     );
   }

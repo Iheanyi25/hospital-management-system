@@ -4,7 +4,7 @@ import { PreConsultationHistory } from "../../Components/Clarking";
 class ViewPreConsultationHistory extends React.Component {
   render() {
     console.log(this.props.history.location.state);
-    const { firstName, lastName, id } = this.props.history.location.state;
+    const { firstName, lastName, patientId } = this.props.history.location.state;
     return (
       <>
         <PageLoader />
@@ -21,7 +21,7 @@ class ViewPreConsultationHistory extends React.Component {
               </header>
               <div className="card border-light w-75 m-auto">
                 <PreConsultationHistory
-                  patientDetails={{ id, firstName, lastName }}
+                  patientDetails={{ patientId, firstName, lastName }}
                 />
               </div>
             </div>

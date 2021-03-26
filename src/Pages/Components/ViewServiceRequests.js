@@ -4,8 +4,7 @@ import { LabResults } from "../../Components/Clarking";
 class ViewServiceRequests extends React.Component {
   render() {
     console.log(this.props.history.location.state);
-    const { firstName, lastName, id } = this.props.history.location.state;
-    console.log(id);
+    const { firstName, lastName, patientId } = this.props.history.location.state;
     return (
       <>
         <PageLoader />
@@ -19,7 +18,7 @@ class ViewServiceRequests extends React.Component {
                 <h4 className="text-center">{`${firstName} ${lastName}`}</h4>
               </header>
               <div className="card border-light w-75 m-auto">
-                <LabResults patientId={id} />
+                <LabResults patientId={patientId} />
               </div>
             </div>
           </div>

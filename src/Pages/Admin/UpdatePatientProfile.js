@@ -3,11 +3,16 @@ import { PageLoader } from "../../Components";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { getPatientRegistrationInvoiceUrl, getPatientUrl, updatePatientBasicInfoUrl, updatePatientContactDetailsUrl, updatePatientHealthDetailsUrl } from "../../api/URLs";
+import {
+  getPatientRegistrationInvoiceUrl,
+  getPatientUrl,
+  updatePatientBasicInfoUrl,
+  updatePatientContactDetailsUrl,
+  updatePatientHealthDetailsUrl,
+} from "../../api/URLs";
 import CountryRegionDropdown from "../../Components/Select/CountryRegionSelectableDropdown";
-import PatientAndAdminImage from '../../assets/img/PatientAndAdminIcon.svg';
+import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import { notification } from "../../utils/notification";
-
 
 class UpdatePatientProfile extends React.Component {
   constructor(props) {
@@ -58,44 +63,51 @@ class UpdatePatientProfile extends React.Component {
 
   getRegistrationStatus = async () => {
     try {
-      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(this.state.patientId)
-      const getPatientRegistrationInvoiceConfig = fetchConfig({ url: getPatientRegistrationInvoice, method: 'get' })
-      const { data } = await fetchWrapper(getPatientRegistrationInvoiceConfig)
-      console.log(data, 1111)
-      this.setState({ paymentStatus: data.patientRegistrationInvoice.paymentStatus });
+      const getPatientRegistrationInvoice = getPatientRegistrationInvoiceUrl(
+        this.state.patientId
+      );
+      const getPatientRegistrationInvoiceConfig = fetchConfig({
+        url: getPatientRegistrationInvoice,
+        method: "get",
+      });
+      const { data } = await fetchWrapper(getPatientRegistrationInvoiceConfig);
+      console.log(data, 1111);
+      this.setState({
+        paymentStatus: data.patientRegistrationInvoice.paymentStatus,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
   fetchPatientDetails = async (id) => {
-    console.log(id)
+    console.log(id);
 
-    const getPatient = getPatientUrl(id)
-    const getPatientConfig = fetchConfig({ url: getPatient, method: 'get' })
-    const { data } = await fetchWrapper(getPatientConfig)
-    console.log(data, 222222)
+    const getPatient = getPatientUrl(id);
+    const getPatientConfig = fetchConfig({ url: getPatient, method: "get" });
+    const { data } = await fetchWrapper(getPatientConfig);
+    console.log(data, 222222);
 
     console.log(data, 999999);
 
     this.setState({
-      firstName: data.patientProfile.patient.firstName,
-      lastName: data.patientProfile.patient.lastName,
-      otherNames: data.patientProfile.patient.otherNames,
-      email: data.patientProfile.patient.email,
+      firstName: data.patient.firstName,
+      lastName: data.patient.lastName,
+      otherNames: data.patient.otherNames,
+      email: data.patient.email,
       patient: data,
-      dateOfBirth: data.patientProfile?.dateOfBirth,
-      gender: data.patientProfile?.gender,
-      phoneNumber: data.patientProfile.patient?.phoneNumber,
-      address: data.patientProfile?.address,
-      state: data.patientProfile?.state,
-      country: data.patientProfile?.country,
-      bloodGroup: data.patientProfile?.bloodGroup,
-      genoType: data.patientProfile?.genoType,
-      diabetic: data.patientProfile?.diabetic,
-      allergies: data.patientProfile?.allergies,
-      disabilities: data.patientProfile?.disabilities,
-      patientId: id
+      dateOfBirth: data.dateOfBirth,
+      gender: data.gender,
+      phoneNumber: data.patient?.phoneNumber,
+      address: data.address,
+      state: data.state,
+      country: data.country,
+      bloodGroup: data.bloodGroup,
+      genoType: data.genoType,
+      diabetic: data.diabetic,
+      allergies: data.allergies,
+      disabilities: data.disabilities,
+      patientId: id,
     });
     await this.getRegistrationStatus();
   };
@@ -123,17 +135,21 @@ class UpdatePatientProfile extends React.Component {
         patientId: this.state.patientId,
       };
 
-      const updatePatientBasicInfo = updatePatientBasicInfoUrl()
-      const updatePatientBasicInfoConfig = fetchConfig({ url: updatePatientBasicInfo, data: payload, method: 'post' })
-      const res = await fetchWrapper(updatePatientBasicInfoConfig)
+      const updatePatientBasicInfo = updatePatientBasicInfoUrl();
+      const updatePatientBasicInfoConfig = fetchConfig({
+        url: updatePatientBasicInfo,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(updatePatientBasicInfoConfig);
 
       if (res.status === 200) {
         this.setState({ success: true });
-        notification.success({message: res.data.message})
+        notification.success({ message: res.data.message });
       }
     } catch (error) {
       console.log(error);
-      notification.error({message: error?.response?.data?.message})
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 
@@ -150,15 +166,19 @@ class UpdatePatientProfile extends React.Component {
         patientId: this.state.patientId,
       };
 
-      const updatePatientContactDetails = updatePatientContactDetailsUrl()
-      const updatePatientContactDetailsConfig = fetchConfig({ url: updatePatientContactDetails, data: payload, method: 'post' })
-      const res = await fetchWrapper(updatePatientContactDetailsConfig)
+      const updatePatientContactDetails = updatePatientContactDetailsUrl();
+      const updatePatientContactDetailsConfig = fetchConfig({
+        url: updatePatientContactDetails,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(updatePatientContactDetailsConfig);
       if (res.status === 200) {
-        notification.success({message: res.data.message})
+        notification.success({ message: res.data.message });
       }
     } catch (error) {
       console.log(error);
-      notification.error({message: error?.response?.data?.message})
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 
@@ -176,15 +196,19 @@ class UpdatePatientProfile extends React.Component {
       };
 
       // );
-      const UpdatePatientHealthDetails = updatePatientHealthDetailsUrl()
-      const UpdatePatientHealthDetailsConfig = fetchConfig({ url: UpdatePatientHealthDetails, data: payload, method: 'post' })
-      const res = await fetchWrapper(UpdatePatientHealthDetailsConfig)
+      const UpdatePatientHealthDetails = updatePatientHealthDetailsUrl();
+      const UpdatePatientHealthDetailsConfig = fetchConfig({
+        url: UpdatePatientHealthDetails,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(UpdatePatientHealthDetailsConfig);
       if (res.status === 200) {
-        notification.success({message: res.data.message})
+        notification.success({ message: res.data.message });
       }
     } catch (error) {
       console.log(error);
-      notification.error({message: error?.response?.data?.message})
+      notification.error({ message: error?.response?.data?.message });
     }
   };
 
@@ -206,7 +230,7 @@ class UpdatePatientProfile extends React.Component {
       paymentStatus,
     } = this.state;
 
-    console.log(paymentStatus, "PaymentStatus")
+    console.log(paymentStatus, "PaymentStatus");
     return (
       <>
         <PageLoader />
@@ -216,7 +240,6 @@ class UpdatePatientProfile extends React.Component {
             <i className="icofont-spinner-alt-4 rotate" />
           </div>
           <div className="main-content-wrap">
-
             {paymentStatus === "Paid" ? null : paymentStatus === "Not Paid" ? (
               <div className="card">
                 <div className="card-body bg-warning p-4">
@@ -232,9 +255,8 @@ class UpdatePatientProfile extends React.Component {
                           state: {
                             patientId: this.state.patientId,
                             email: this.state.email,
-                            cost: this.state.patient?.patientProfile?.account
-                              ?.healthPlan?.cost,
-                              name: `${firstName} ${lastName}`
+                            cost: this.state.patient?.account?.healthPlan?.cost,
+                            name: `${firstName} ${lastName}`,
                           },
                         }}
                       >
@@ -256,7 +278,8 @@ class UpdatePatientProfile extends React.Component {
                     <div className="card-body">
                       <label>Photo</label>
                       <div className="form-group avatar-box d-flex align-items-center">
-                        <img src={PatientAndAdminImage}
+                        <img
+                          src={PatientAndAdminImage}
                           width={100}
                           height={100}
                           alt="user avatar"
@@ -280,7 +303,9 @@ class UpdatePatientProfile extends React.Component {
                                 required
                                 className="form-control"
                                 type="text"
-                                onChange={(e) => this.handleChange("firstName", e)}
+                                onChange={(e) =>
+                                  this.handleChange("firstName", e)
+                                }
                                 placeholder="First name"
                                 value={firstName}
                               />
@@ -293,7 +318,9 @@ class UpdatePatientProfile extends React.Component {
                                 required
                                 className="form-control"
                                 type="text"
-                                onChange={(e) => this.handleChange("lastName", e)}
+                                onChange={(e) =>
+                                  this.handleChange("lastName", e)
+                                }
                                 value={lastName}
                                 placeholder="Last name"
                               />
@@ -352,10 +379,7 @@ class UpdatePatientProfile extends React.Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button
-                              type="submit"
-                              className="btn btn-primary"
-                            >
+                            <button type="submit" className="btn btn-primary">
                               Save Core Details
                             </button>
                           </div>
@@ -367,7 +391,10 @@ class UpdatePatientProfile extends React.Component {
                 <div className="col col-md-6">
                   <div className="card border-light">
                     <div className="card-body">
-                      <form className="mb-4" onSubmit={(e) => this.updateContactDetails(e)}>
+                      <form
+                        className="mb-4"
+                        onSubmit={(e) => this.updateContactDetails(e)}
+                      >
                         <h4>Contact Details</h4>
 
                         <div className="form-group">
@@ -415,10 +442,7 @@ class UpdatePatientProfile extends React.Component {
                         <div className="row">
                           <div className="col"></div>
                           <div className="col text-right">
-                            <button
-                              type="submit"
-                              className="btn btn-primary"
-                            >
+                            <button type="submit" className="btn btn-primary">
                               Save Contact Details
                             </button>
                           </div>
@@ -430,7 +454,10 @@ class UpdatePatientProfile extends React.Component {
                 <div className="col col-md-12">
                   <div className="card border-light">
                     <div className="card-body">
-                      <form className="mb-4" onSubmit={(e) => this.updateHealthDetails(e)}>
+                      <form
+                        className="mb-4"
+                        onSubmit={(e) => this.updateHealthDetails(e)}
+                      >
                         <h4>Basic Health Details</h4>
                         <div className="row">
                           <div className="col-12 col-sm-6">
@@ -546,7 +573,7 @@ class UpdatePatientProfile extends React.Component {
                             <button
                               type="submit"
                               className="btn btn-primary"
-                            // onClick={}
+                              // onClick={}
                             >
                               Save Health Details
                             </button>

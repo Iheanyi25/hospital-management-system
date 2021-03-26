@@ -80,13 +80,8 @@ class CreateService extends Component {
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
     console.log(data, 2222);
-    const patientArray = [];
 
-    data.patients.forEach((element) => {
-      patientArray.push(element.patient);
-    });
-
-    this.setState({ patients: patientArray }, () => {
+    this.setState({ patients: data.patients }, () => {
       this.renderPicker(".custom-picker");
     });
   };

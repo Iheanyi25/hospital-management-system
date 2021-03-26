@@ -32,7 +32,7 @@ class PatientProfile extends React.Component {
       const { data } = await fetchWrapper(getPatientConfig);
 
       this.setState({
-        patientDetails: data.patientProfile,
+        patientDetails: data.patient,
         loading: false,
       });
     } catch (error) {
@@ -69,8 +69,8 @@ class PatientProfile extends React.Component {
                         />
                         <div>
                           <h5 className="mb-2 mt-2 font-weight-bold">
-                            {`${patientDetails?.patient?.firstName ?? ""} ${
-                              patientDetails?.patient?.lastName ?? ""
+                            {`${patientDetails?.firstName ?? ""} ${
+                              patientDetails?.lastName ?? ""
                             }`}
                           </h5>
                           <p className="mb-2">Patient</p>
@@ -89,15 +89,12 @@ class PatientProfile extends React.Component {
                         <div className="d-flex mb-3 mt-2">
                           <img src={email} alt="reset" className="mr-2 mb-2" />
                           <p>{`${
-                            patientDetails?.patient?.email.toLowerCase() ??
-                            "N/A"
+                            patientDetails?.email.toLowerCase() ?? "N/A"
                           }`}</p>
                         </div>
                         <div className="d-flex pl-1">
                           <img src={phone} alt="reset" className="mr-3 mb-2" />
-                          <p>{`${
-                            patientDetails?.patient?.phoneNumber ?? "N/A"
-                          }`}</p>
+                          <p>{`${patientDetails?.phoneNumber ?? "N/A"}`}</p>
                         </div>
                       </div>
                     </div>
@@ -186,15 +183,12 @@ class PatientProfile extends React.Component {
                         <div className="contact-info">
                           <div className="mb-4">
                             <p className="font-weight-bold mb-2">Mobile</p>
-                            <p>{`${
-                              patientDetails?.patient?.phoneNumber ?? "N/A"
-                            }`}</p>
+                            <p>{`${patientDetails?.phoneNumber ?? "N/A"}`}</p>
                           </div>
                           <div className="mb-4">
                             <p className="font-weight-bold mb-2">Email</p>
                             <p>{`${
-                              patientDetails?.patient?.email.toLowerCase() ??
-                              "N/A"
+                              patientDetails?.email.toLowerCase() ?? "N/A"
                             }`}</p>
                           </div>
                           <div className="mb-4">
