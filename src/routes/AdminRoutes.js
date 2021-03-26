@@ -401,7 +401,7 @@ export default function AdminRoutes() {
             path="/AdminPaymentForAdmissionInvoices/:id"
             component={PaymentForAdmissionInvoices}
           />
-        
+
           <Route
             exact
             path="/AdminManageSurgeries"
@@ -412,19 +412,10 @@ export default function AdminRoutes() {
             path="/AdminSurgicalOperationNotes/:id"
             component={SurgicalOperationNotes}
           />
+          <Route exact path="/AdminCreateNHIS" component={CreateNHIS} />
+          <Route exact path="/AdminManageNHIS" component={ManageNHIS} />
           <Route
             exact
-            path="/AdminCreateNHIS"
-            component={CreateNHIS}
-          />
-          <Route
-            exact
-            path="/AdminManageNHIS"
-            component={ManageNHIS}
-          />
-          <Route
-            exact
-            path="/AdminManageNHISPatients"
             path="/AdminManageNHISPatients/:id"
             component={ManagePatientsInNHIS}
           />

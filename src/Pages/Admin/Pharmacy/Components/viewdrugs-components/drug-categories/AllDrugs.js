@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { UpdateInventory } from "../../../../../../Components/Modals";
-import formatAmount from "../../../../../../utils/formatAmount";
 import remove from "../../../../../../assets/img/remove.svg";
 import view from "../../../../../../assets/img/view.svg";
 import inventory from "../../../../../../assets/img/inventory.svg";
@@ -53,7 +52,6 @@ const AllDrugs = ({ userType, category }) => {
           </div>
         ),
         Manufacturer: drug?.manufacturer ?? "N/A",
-        "Quantity in stock": formatAmount(drug?.quantityInStock) ?? "N/A",
         Actions: (
           <AllDrugsTableAction
             drug={drug}

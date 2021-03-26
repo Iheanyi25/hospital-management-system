@@ -43,16 +43,16 @@ const ManageUserSubGroups = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.hmoSubUserGroups.map(
-      ({ name, description, id }, index) => {
+      ({ name, description, id, hmoUserGroupId }, index) => {
         return {
           "#": ++index,
           "Sub Groups": name,
           Description: description,
+          "Health Plan": "Not Available",
           Actions: (
             <ActionTable
-              subGroupName={name}
+              subGroupDetails={{ name, description, id, hmoUserGroupId }}
               deleteSubGroup={deleteSubGroup}
-              id={id}
             />
           ),
         };
@@ -113,15 +113,26 @@ const ManageUserSubGroups = () => {
     </Fragment>
   );
 };
-const ActionTable = ({ subGroupName, id }) => {
+const ActionTable = ({ subGroupDetails }) => {
+  const { name, id } = subGroupDetails;
   return (
     <ActionButton>
+      <Link
+        to={{ pathname: `/EditUserSubGroup/${id}`, state: subGroupDetails }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Update
+      </Link>
       <Link to={`/AddUserGroupToPlan`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Assign to health plan
       </Link>
       <Link
-        to={{ pathname: `/ManagePatientsInSubGroup/${id}`, state: subGroupName }}
+        to={{
+          pathname: `/ManagePatientsInSubGroup/${id}`,
+          state: name,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
