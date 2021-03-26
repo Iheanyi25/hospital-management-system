@@ -19,26 +19,26 @@ function AllPharmacists() {
   });
 
   let tableData = [];
-    if (data) {
-      tableData = data.pharmacists.map(({ pharmacy }, index) => {
-        return {
-          "#": ++index,
-          Photo: (
-            <img
-              src={PharmacistImage}
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-500"
-            />
-          ),
-          Name: `${pharmacy.firstName} ${pharmacy.lastName}`,
-          Email: <a href={"mailto:" + pharmacy.email}>{pharmacy.email}</a>,
-          Phone: pharmacy.phoneNumber || "Not available",
-          Actions: <PharmacistTableAction pharmacist={pharmacy} />,
-        };
-      });
-    }
+  if (data) {
+    tableData = data.pharmacists.map((pharmacy, index) => {
+      return {
+        "#": ++index,
+        Photo: (
+          <img
+            src={PharmacistImage}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-500"
+          />
+        ),
+        Name: `${pharmacy.firstName} ${pharmacy.lastName}`,
+        Email: <a href={"mailto:" + pharmacy.email}>{pharmacy.email}</a>,
+        Phone: pharmacy.phoneNumber || "Not available",
+        Actions: <PharmacistTableAction pharmacist={pharmacy} />,
+      };
+    });
+  }
 
   if (error) return <div>failed to load</div>;
   return (
@@ -73,7 +73,7 @@ const PharmacistTableAction = ({ pharmacist }) => {
   const tableFunctions = [
     {
       text: "View Profile",
-      path: `/AdminViewPharmacistProfile/${pharmacist.id}`,
+      path: `/AdminViewPharmacistProfile/${pharmacist.pharmacistId}`,
       iconClass: "btn-icon icofont-ui-edit  mr-2",
     },
   ];

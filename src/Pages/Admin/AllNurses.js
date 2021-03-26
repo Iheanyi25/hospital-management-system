@@ -22,7 +22,7 @@ function AllNurses() {
   console.log(data, 2233);
   let tableData = [];
   if (data) {
-    tableData = data.nurses.map(({ nurse }, index) => {
+    tableData = data.nurses.map((nurse , index) => {
       return {
         "#": ++index,
         Photo: (
@@ -84,7 +84,7 @@ const NurseTableAction = ({ nurse }) => {
   const tableFunctions = [
     {
       text: "View Profile",
-      path: `/AdminViewNurseProfile/${nurse.id}`,
+      path: `/AdminViewNurseProfile/${nurse.nurseId}`,
       iconClass: "btn-icon icofont-ui-edit  mr-2",
     },
   ];
