@@ -8,6 +8,13 @@ import { ObservationCharts } from "./ward-round-components/ObservationChart";
 import { useHistory, useParams } from "react-router";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
+import {
+  DrugsInInvoice,
+  ServiceRequestsInInvoice,
+} from "./admission-invoices-components";
+import { getAdmissionInvoiceUrl } from "../../api/URLs";
+import { fetchConfig } from "../../api/fetchConfig";
+import { useRequest } from "../../api/fetcher";
 
 const WardRoundNotes = observer(() => {
   const {
@@ -19,10 +26,21 @@ const WardRoundNotes = observer(() => {
       state: {
         patient,
         patient: { firstName, lastName, id },
-        appointmentOrConsultationId
+        appointmentOrConsultationId,
       },
     },
   } = useHistory();
+
+  // get admission invoice
+  const invoicesUrl = getAdmissionInvoiceUrl(admissionId);
+  const getAdmissionInvoiceConfig = fetchConfig({
+    url: invoicesUrl,
+    method: "get",
+  });
+  const { data, error } = useRequest(getAdmissionInvoiceConfig, {
+    revalidateOnFocus: false,
+  });
+  if (error) return <div>failed to load</div>;
   return (
     <>
       <PageLoader />
@@ -115,6 +133,32 @@ const WardRoundNotes = observer(() => {
                           Observation Chart
                         </a>
                       </li>
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          id="pills-drug-tab"
+                          data-toggle="pill"
+                          href="#pills-drug"
+                          role="tab"
+                          aria-controls="pills-drug"
+                          aria-selected="false"
+                        >
+                          Drugs administered
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          id="pills-services-tab"
+                          data-toggle="pill"
+                          href="#pills-services"
+                          role="tab"
+                          aria-controls="pills-services"
+                          aria-selected="false"
+                        >
+                          Services administered
+                        </a>
+                      </li>
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
                       <div
@@ -139,12 +183,12 @@ const WardRoundNotes = observer(() => {
                         role="tabpanel"
                         aria-labelledby="pills-contact-tab"
                       >
-                        <div className="row justify-content-center mt-5">                            
+                        <div className="row justify-content-center mt-5">
                           <div className="col-md-8">
                             <div className="card border-light m-auto">
                               <div className="card-body">
                                 <div className="d-flex justify-content-between align-items-center">
-                                <h4>Observation Chart</h4>
+                                  <h4>Observation Chart</h4>
                                   <button
                                     className="btn btn-primary"
                                     to="#"
@@ -152,21 +196,41 @@ const WardRoundNotes = observer(() => {
                                     data-target="#update-observation"
                                   >
                                     Update Observation
-                                  </button>                                
+                                  </button>
                                 </div>
-                                
+
                                 <ObservationCharts admissionId={admissionId} />
                               </div>
                             </div>
                           </div>
-                          </div>
                         </div>
+                      </div>
+                      <div
+                        className="tab-pane fade"
+                        id="pills-drug"
+                        role="tabpanel"
+                        aria-labelledby="pills-drug-tab"
+                      >
+                        <DrugsInInvoice
+                          admissionInvoiceId={data?.admissionInvoice.id}
+                        />
+                      </div>
+                      <div
+                        className="tab-pane fade"
+                        id="pills-services"
+                        role="tabpanel"
+                        aria-labelledby="pills-services-tab"
+                      >
+                        <ServiceRequestsInInvoice
+                          admissionInvoiceId={data?.admissionInvoice.id}
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </main>
     </>
