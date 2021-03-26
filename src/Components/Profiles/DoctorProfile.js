@@ -29,7 +29,7 @@ import EmptyState from "../EmptyState/EmptyUploadState";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { deleteDoctorProfileInfoUrl, getDoctorUrl } from "../../api/URLs";
-import DoctorImage from "../../assets/img/DoctorIcon.svg"
+import DoctorImage from "../../assets/img/DoctorIcon.svg";
 import { notification } from "../../utils/notification";
 import SpinnerLoader from "../Loader/SpinnerLoader";
 
@@ -63,8 +63,7 @@ class DocProfile extends React.Component {
       const getDoctor = getDoctorUrl(this.props.doctorId);
       const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
       const { data } = await fetchWrapper(getDoctorConfig);
-
-      let doctorDetails = data.doctorProfile;
+      let doctorDetails = data?.doctor;
 
       this.setState({
         ...this.state,
