@@ -21,8 +21,9 @@ class PatientProfile extends React.Component {
       const getPatient = getPatientUrl(this.props.patientId);
       const getPatientConfig = fetchConfig({ url: getPatient, method: "GET" });
       const { data } = await fetchWrapper(getPatientConfig);
+      console.log(data, 5676);
       this.setState({
-        patientDetails: data.patient,
+        patientDetails: data?.patient,
       });
     } catch (error) {
       console.log(error);
@@ -31,6 +32,7 @@ class PatientProfile extends React.Component {
 
   render() {
     const { patientDetails } = this.state;
+    console.log(this.props.patientId, 5676);
     return (
       <>
         <PageLoader />
@@ -56,7 +58,7 @@ class PatientProfile extends React.Component {
               <div className="mt-2">
                 <div className="d-flex mb-3 mt-2">
                   <img src={email} alt="reset" className="mr-2 mb-2" />
-                  <p>{`${patientDetails?.email.toLowerCase() ?? "N/A"}`}</p>
+                  <p>{`${patientDetails?.email?.toLowerCase() ?? "N/A"}`}</p>
                 </div>
                 <div className="d-flex pl-1">
                   <img src={phone} alt="reset" className="mr-3 mb-2" />
