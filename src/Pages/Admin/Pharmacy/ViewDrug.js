@@ -5,7 +5,7 @@ import { getDrugUrl } from "../../../api/URLs";
 import { UpdateInventory } from "../../.././Components/Modals";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { BasePrice, DrugDetails, HealthPlanPrice } from "./Components/viewsingledrug-components";
+import { BasePrice, DrugBatch, DrugDetails, HealthPlanPrice } from "./Components/viewsingledrug-components";
 
 const ViewDrug = ({ match, history }) => {
   const { id } = match.params;
@@ -61,6 +61,19 @@ const ViewDrug = ({ match, history }) => {
                   <li className="nav-item">
                     <a
                       className="nav-link"
+                      id="pills-batch-tab"
+                      data-toggle="pill"
+                      href="#pills-batch"
+                      role="tab"
+                      aria-controls="pills-batch"
+                      aria-selected="false"
+                    >
+                      Drug batches
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
                       id="pills-base-tab"
                       data-toggle="pill"
                       href="#pills-base"
@@ -93,6 +106,17 @@ const ViewDrug = ({ match, history }) => {
                     aria-labelledby="pills-drug-tab"
                   >
                     <DrugDetails drug={drug} update={mutate} />
+                  </div>
+                  <div
+                    className="tab-pane fade"
+                    id="pills-batch"
+                    role="tabpanel"
+                    aria-labelledby="pills-batch-tab"
+                  >
+                    <DrugBatch
+                      drugId={id}
+                      drugType={history.location.state}
+                    />
                   </div>
                   <div
                     className="tab-pane fade"

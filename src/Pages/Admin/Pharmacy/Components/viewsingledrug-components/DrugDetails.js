@@ -1,7 +1,6 @@
 import React from "react";
 import { UpdateDrug } from "../../../../../Components/Modals";
 import formatAmount from "../../../../../utils/formatAmount";
-import formatDate from "../../../../../utils/formatDate";
 import edit from "../../../../../assets/img/edit.svg";
 
 const DrugDetails = ({ drug, update }) => {
@@ -11,7 +10,7 @@ const DrugDetails = ({ drug, update }) => {
         <div className="d-flex justify-content-between border-bottom">
           <h6 className="font-weight-bold">{drug.name}</h6>
           <div className="d-flex">
-            <p className="mt-4">
+            {/* <p className="mt-4">
               <span className="font-weight-bold text-info">
                 {formatAmount(drug.quantityInStock)}{" "}
               </span>
@@ -24,7 +23,7 @@ const DrugDetails = ({ drug, update }) => {
                   ? "cans in stock"
                   : "cannisters in stock"}
               </span>
-            </p>
+            </p> */}
             <img
               src={edit}
               data-toggle="modal"
@@ -72,22 +71,20 @@ const DrugDetails = ({ drug, update }) => {
               <p>{drug.quantityPerContainer}</p>
             </div>
             <div>
-              <h6 className="mb-2">{drug.drugType === "tabs"
+              <h6 className="mb-2">
+                {drug.drugType === "tabs"
                   ? "Number of packets in a carton"
                   : drug.drugType === "liquid"
                   ? "Number of bottles/tubes in a carton"
                   : drug.drugType === "powder"
                   ? "Number of cannisters in a carton"
-                  : "Number of cans in a carton"}</h6>
+                  : "Number of cans in a carton"}
+              </h6>
               <p>{drug.containersPerCarton}</p>
             </div>
             <div>
               <h6 className="mb-2">Price per packet/container (NGN)</h6>
               <p>{formatAmount(drug.costPricePerContainer) ?? "N/A"}</p>
-            </div>
-            <div>
-              <h6 className="mb-2">Expiry Date</h6>
-              <p>{formatDate(drug.expiryDate)}</p>
             </div>
           </div>
         </div>

@@ -57,6 +57,7 @@ export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
 export const getMedicationsUrl = (admissionId, pageNumber, pageSize) =>
   `/Admission/GetMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 export const createMedicationUrl = () => `Admission/CreateMedication`;
+export const updateMedicationStatusUrl = () => `Admission/UpdateMedicationStatus`;
 
 // Admission - Manage Observation Charts
 export const getObservationChartUrl = (admissionId) =>
