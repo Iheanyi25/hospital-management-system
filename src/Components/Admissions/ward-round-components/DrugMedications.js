@@ -7,7 +7,8 @@ import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
-import UpdateMedications from "../../Modals/UpdateMedications";
+import UpdateDrugMedications from "../../Modals/UpdateDrugMedications";
+import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication";
 
 const Medications = ({ admissionId }) => {
   const [medicationId, setMedicationId] = useState("");
@@ -87,8 +88,13 @@ const Medications = ({ admissionId }) => {
           </div>
         </div>
       </div>
-      <UpdateMedications admissionId={admissionId} mutate={mutate} />
+      <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
+      <AdministerDrugMedications
+      //  medicationId={medicationId} admissionId={admissionId} 
+       mutate={mutate} 
+       />
+
     </div>
   );
 };
@@ -98,14 +104,14 @@ const ActionTableAction = ({ id, setMedicationId }) => {
     <>
       <ActionButton>
       <Link
-        to={{
-          // pathname: `/ManageHealthPlanPatients/${healthPlanId}`,
-          // state: healthPlanName,
-        }}
+        to="#"
+          data-toggle="modal"
+          data-target="#admininster-drugMedication"
+          // onClick={() => setMedicationId(id)}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Medication Status
+        Administer Drugs
       </Link>
         <button
           data-toggle="modal"

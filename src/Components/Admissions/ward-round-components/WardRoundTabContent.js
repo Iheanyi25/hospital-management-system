@@ -7,7 +7,7 @@ import {
   ServiceRequestsInInvoice,
 } from "../admission-invoices-components";
 import DoctorsNotes from "./DoctorsNotes";
-import Medications from "./Medications";
+import Medications from "./DrugMedications";
 import { ObservationCharts } from "./ObservationChart";
 
 const WardRoundTabContent = ({ admissionId }) => {

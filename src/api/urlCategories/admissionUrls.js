@@ -64,4 +64,6 @@ export const getObservationChartUrl = (admissionId) =>
   `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
   export const postObservationChartUrl = () =>
   `/Admission/UpdateObservationChart`;
-
+// Admission - Manage Medication
+export const postAdministerDrugMedicationUrl = () =>
+  `/Admission/AdministerDrugMedication`;
