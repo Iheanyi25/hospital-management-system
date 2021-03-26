@@ -46,7 +46,7 @@ class ClarkingHistory extends React.Component {
       );
       if (this.props.appointmentOrConsultationId) {
         this.setState({
-          clerkingHistory: data.clerkingHistory,
+          clerkingHistories: [data.clerkingHistory],
         });
       } else {
         this.setState({
