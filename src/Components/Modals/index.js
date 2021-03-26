@@ -19,4 +19,4 @@ export * from "./UpdateMedications";
 export * from "./UpdateObservation";
 export * from "./CreateDrugBatch";
 export * from "./EditDrugBatch";
-export * from "./AdministerMedication";
+export * from "./UpdateMedicationStatus";

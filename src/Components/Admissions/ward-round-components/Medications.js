@@ -5,10 +5,11 @@ import { getMedicationsUrl } from "../../../api/URLs";
 import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
-import { AdministerMedication } from "../../Modals";
+import { UpdateMedicationStatus } from "../../Modals";
 import UpdateMedications from "../../Modals/UpdateMedications";
 
 const Medications = ({ admissionId }) => {
+  const [medicationId, setMedicationId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getMedications = getMedicationsUrl(admissionId, pageNumber, pageSize);
@@ -30,6 +31,7 @@ const Medications = ({ admissionId }) => {
         startDate,
         endDate,
         status,
+        id,
       } = medication;
       return {
         "#": ++index,
@@ -39,8 +41,20 @@ const Medications = ({ admissionId }) => {
         FreQ: `${frequency ?? "N/A"}`,
         Start: formatDate(startDate ?? "N/A"),
         Stop: formatDate(endDate ?? "N/A"),
-        Status: `${status ?? "N/A"}`,
-        Action: <ActionTableAction />,
+        Status: (
+          <span
+            className={
+              status === "Completed"
+                ? "text-success"
+                : status === "Discontinued"
+                ? "text-danger"
+                : "text-warning"
+            }
+          >
+            {status ?? "N/A"}
+          </span>
+        ),
+        Action: <ActionTableAction id={id} setMedicationId={setMedicationId} />,
       };
     });
   }
@@ -73,25 +87,25 @@ const Medications = ({ admissionId }) => {
         </div>
       </div>
       <UpdateMedications admissionId={admissionId} mutate={mutate} />
+      <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
     </div>
   );
 };
 
-const ActionTableAction = () => {
+const ActionTableAction = ({ id, setMedicationId }) => {
   return (
     <>
       <ActionButton>
         <button
           data-toggle="modal"
-          data-target="#administer-medication"
-          // onClick={() => deleteService(id)}
+          data-target="#update-medication-status"
+          onClick={() => setMedicationId(id)}
           className="btn btn-sm btn-block"
         >
           <span className="btn-icon icofont-server mr-2" />
           Update status
         </button>
       </ActionButton>
-      <AdministerMedication />
     </>
   );
 };
