@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { getMedicationsUrl } from "../../../api/URLs";
+import { getDrugMedicationsUrl } from "../../../api/URLs";
+import { Link } from "react-router-dom";
 import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
@@ -12,7 +13,7 @@ const Medications = ({ admissionId }) => {
   const [medicationId, setMedicationId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getMedications = getMedicationsUrl(admissionId, pageNumber, pageSize);
+  const getMedications = getDrugMedicationsUrl(admissionId, pageNumber, pageSize);
   const getMedicationsConfig = fetchConfig({
     url: getMedications,
     method: "get",
@@ -96,6 +97,16 @@ const ActionTableAction = ({ id, setMedicationId }) => {
   return (
     <>
       <ActionButton>
+      <Link
+        to={{
+          // pathname: `/ManageHealthPlanPatients/${healthPlanId}`,
+          // state: healthPlanName,
+        }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Medication Status
+      </Link>
         <button
           data-toggle="modal"
           data-target="#update-medication-status"

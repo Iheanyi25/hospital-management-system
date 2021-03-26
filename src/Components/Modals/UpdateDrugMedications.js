@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
-import { createMedicationUrl, getAllDrugsUrl } from "../../api/URLs";
+import { createDrugMedicationUrl, getAllDrugsUrl } from "../../api/URLs";
 import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
@@ -46,7 +46,7 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
     const data = { ...payload, drugId: drugDetails.value, admissionId };
     console.log(data);
     try {
-      const createMedication = createMedicationUrl();
+      const createMedication = createDrugMedicationUrl();
       const createMedicationConfig = fetchConfig({
         url: createMedication,
         data: data,
