@@ -39,6 +39,7 @@ const ManageWards = ({ admissionId }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.wards.map((ward, index) => {
+      console.log(ward,555)
       if (admissionId) {
         return {
           "#": ++index,

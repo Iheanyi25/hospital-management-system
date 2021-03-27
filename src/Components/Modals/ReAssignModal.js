@@ -29,14 +29,7 @@ class ReAssign extends React.Component {
         const getDoctors = getDoctorsUrl()
         const getDoctorsConfig = fetchConfig({ url: getDoctors, method: 'get' })
         const { data } = await fetchWrapper(getDoctorsConfig)
-
-        const doctorArray = [];
-
-        data.doctors.forEach((element) => {
-            doctorArray.push(element.doctor);
-        });
-
-        this.setState({ doctors: doctorArray });
+        this.setState({ doctors: data?.doctors  || [] });
     };
 
     handleChange(name, e) {

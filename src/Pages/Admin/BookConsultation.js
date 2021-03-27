@@ -129,6 +129,8 @@ class BookConsultation extends React.Component {
       doctorId,
     };
 
+    console.log(data,444)
+
     if (!doctorId) {
       delete data.doctorId;
     }
@@ -192,7 +194,7 @@ class BookConsultation extends React.Component {
                               return (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.patientId}
                                 >{`${item.firstName} ${item.lastName}`}</option>
                               );
                             })}
@@ -218,7 +220,7 @@ class BookConsultation extends React.Component {
                               return (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.doctorId}
                                 >{`${item.firstName} ${item.lastName}`}</option>
                               );
                             })}

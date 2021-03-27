@@ -222,7 +222,7 @@ class BookAppointment extends React.Component {
                               return (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.patientId}
                                 >{`${item.firstName} ${item.lastName}`}</option>
                               );
                             })}
@@ -246,7 +246,7 @@ class BookAppointment extends React.Component {
                               return (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.doctorId}
                                 >{`${item.firstName} ${item.lastName}`}</option>
                               );
                             })}
