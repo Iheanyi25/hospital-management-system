@@ -18,11 +18,22 @@ export const updatePatientClerkingUrl = (id, type, userId, patientId) =>
 export const postAdmitOrSendPatientHomeUrl = () =>
   `/Doctor/AdmitOrSendPatientHome`;
 
-// Doctor - Manage Consultation
+//Doctor - Manage  Consultation 
 export const getDoctorAllConsultationsUrl = (doctorId) =>
   `/Doctor/ViewAllConsultations?DoctorId=${doctorId}`;
 export const getDoctorPendingConsultationsUrl = (doctorId) =>
   `/Doctor/GetPendingConsultations?DoctorId=${doctorId}`;
+
+// Doctor - Manage Surgery
+export const getDoctorSurgeryUrl = (SurgeryId) =>
+  `/Doctor/GetSurgery?SurgeryId=${SurgeryId}`;
+export const getDoctorAllSurgeriesUrl = (pageNumber,pageSize) =>
+  `/Doctor/GetSurgeries?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const createDoctorSurgeryUrl = () =>`/Doctor/CreateSurgery`;
+export const updateSurgeryOperationNoteOneUrl = () =>`/Doctor/UpdateOperationNoteOne`;
+export const updateSurgeryOperationNoteTwoUrl = () =>`/Doctor/UpdateOperationNoteTwo`;
+export const updateSurgeryOperationProcedureUrl = () =>`/Doctor/UpdateOperationProcedure`;
+
 
 // Doctor- Dashboard
 export const getDoctorDashboardUrl = (doctorId) =>

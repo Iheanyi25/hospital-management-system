@@ -7,7 +7,11 @@ $.DataTables = require("datatables.net");
 
 class ViewClarkingHistory extends React.Component {
   render() {
-    const { firstName, lastName, id } = this.props.history.location.state;
+    const {
+      firstName,
+      lastName,
+      patientId: id,
+    } = this.props.history.location.state;
 
     return (
       <>

@@ -6,6 +6,8 @@ import { postAdmitOrSendPatientHomeUrl } from "../../api/URLs";
 import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
+
+const $ = window.$;
 const AdmissionReferral = observer(({ id }) => {
   let history = useHistory();
   const {
@@ -36,6 +38,7 @@ const AdmissionReferral = observer(({ id }) => {
       });
       const res = await fetchWrapper(postAdmitOrSendPatientHomeConfig);
       if (res.status === 200) {
+        $('#admission-referral').modal('hide');
         notification.success({ message: res.data.message });
         if (userType === "Admin") {
           history.push("/AdminViewReferredPatients");

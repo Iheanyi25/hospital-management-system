@@ -9,6 +9,7 @@ import {
 } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import AdmissionReferral from "../../Components/Modals/AdmissionReferral";
+import SurgeryReferral from "../../Components/Modals/SurgeryReferral";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 import { ClarkingTabContent, ClarkingTabHeader } from "./clarking-components";
@@ -125,8 +126,10 @@ class Clerking extends React.Component {
   };
 
   render() {
+    console.log(this.props.location, 99999);
     const { firstName, lastName, id } = this.props.location.state.patient;
     const { capturePatientHealthHistory, clarking } = this.state;
+    const { state: otherDetails } = this.props.location;
     return (
       <>
         <PageLoader />
@@ -147,10 +150,12 @@ class Clerking extends React.Component {
                 <div className="col"></div>
                 <div className="col text-right">
                   <Link
-                    onClick={(e) => this.finishClarking(e)}
-                    className="btn btn-primary mr-2 mb-2"
+                    to="#"
+                    data-toggle="modal"
+                    data-target="#surgery-referral"
+                    className="btn btn-outline-primary mr-2 mb-2"
                   >
-                    Send Home
+                    Surgery
                   </Link>
                   <Link
                     to="#"
@@ -159,6 +164,12 @@ class Clerking extends React.Component {
                     className="btn btn-outline-primary mr-2 mb-2"
                   >
                     Admit
+                  </Link>
+                  <Link
+                    onClick={(e) => this.finishClarking(e)}
+                    className="btn btn-primary mr-2 mb-2"
+                  >
+                    Send Home
                   </Link>
                 </div>
               </div>
@@ -181,6 +192,11 @@ class Clerking extends React.Component {
           </div>
         </main>
         <AdmissionReferral id={this.props.location.state.id} />
+        <SurgeryReferral
+          id={otherDetails.id}
+          idType={otherDetails?.type}
+          patientId={otherDetails?.patient?.id}
+        />
       </>
     );
   }

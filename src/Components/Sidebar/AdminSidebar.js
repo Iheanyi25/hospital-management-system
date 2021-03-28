@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import Admission from "./admin-sidebar-components/Admission";
 import HealthInsurance from "./admin-sidebar-components/HealthInsurance";
 import MyOffice from "./admin-sidebar-components/MyOffice";
-import Pharmacy  from "./admin-sidebar-components/Pharmacy";
+import Pharmacy from "./admin-sidebar-components/Pharmacy";
 import Reports from "./admin-sidebar-components/Reports";
+import Surgery from "./admin-sidebar-components/Surgery";
 import UserManagement from "./admin-sidebar-components/UserManagement";
 import Utility from "./admin-sidebar-components/Utility";
 class AdminSidebar extends React.Component {
@@ -38,11 +39,12 @@ class AdminSidebar extends React.Component {
               <nav className="main-menu-wrap">
                 <ul className="menu-ul">
                   <MyOffice />
-                  <UserManagement setUserType={setUserType}/>
-                  <Utility /> 
+                  <UserManagement setUserType={setUserType} />
+                  <Utility />
                   <Reports />
-                  <Pharmacy  />
+                  <Pharmacy />
                   <Admission />
+                  <Surgery />
                   <HealthInsurance />
                 </ul>
               </nav>
@@ -53,61 +55,8 @@ class AdminSidebar extends React.Component {
                 Register Patient
               </Link>
             </div>
-
-            <div className="assistant-menu">
-              <Link className="link">
-                <span className="link-icon icofont-ui-settings" />
-                Settings{" "}
-              </Link>
-              <Link className="link">
-                <span className="link-icon icofont-question-square" />
-                FAQ &amp; Support
-              </Link>
-            </div>
-            <div className="navbar-skeleton vertical">
-              <div className="top-part">
-                <div className="sk-logo bg animated-bg" />
-                <div className="sk-menu">
-                  <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-75" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-80" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-50" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-75" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-50" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-60" />
-                </div>
-                {/* <div className="sk-menu">
-                  <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-60" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-40" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-60" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-40" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-40" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-40" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-40" />
-                </div> */}
-                <div className="sk-menu">
-                  <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-60" />{" "}
-                  <span className="sk-menu-item bg animated-bg w-50" />
-                </div>
-                <div className="sk-button animated-bg w-90" />
-              </div>
-              <div className="bottom-part">
-                <div className="sk-menu">
-                  <span className="sk-menu-item bg-1 animated-bg w-60" />{" "}
-                  <span className="sk-menu-item bg-1 animated-bg w-80" />
-                </div>
-              </div>
-              <div className="horizontal-menu">
-                <span className="sk-menu-item bg animated-bg" />{" "}
-                <span className="sk-menu-item bg animated-bg" />{" "}
-                <span className="sk-menu-item bg animated-bg" />{" "}
-                <span className="sk-menu-item bg animated-bg" />{" "}
-                <span className="sk-menu-item bg animated-bg" />{" "}
-                <span className="sk-menu-item bg animated-bg" />
-              </div>
-            </div>
+            <AdminSideBarFooter />
+            <AdminSideBarSkeleton />
           </div>
         </div>
         {/* end Vertical navbar */}
@@ -117,3 +66,57 @@ class AdminSidebar extends React.Component {
 }
 
 export { AdminSidebar };
+
+const AdminSideBarSkeleton = () => {
+  return (
+    <div className="navbar-skeleton vertical">
+      <div className="top-part">
+        <div className="sk-logo bg animated-bg" />
+        <div className="sk-menu">
+          <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
+          <span className="sk-menu-item bg animated-bg w-75" />{" "}
+          <span className="sk-menu-item bg animated-bg w-80" />{" "}
+          <span className="sk-menu-item bg animated-bg w-50" />{" "}
+          <span className="sk-menu-item bg animated-bg w-75" />{" "}
+          <span className="sk-menu-item bg animated-bg w-50" />{" "}
+          <span className="sk-menu-item bg animated-bg w-60" />
+        </div>
+        <div className="sk-menu">
+          <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
+          <span className="sk-menu-item bg animated-bg w-60" />{" "}
+          <span className="sk-menu-item bg animated-bg w-50" />
+        </div>
+        <div className="sk-button animated-bg w-90" />
+      </div>
+      <div className="bottom-part">
+        <div className="sk-menu">
+          <span className="sk-menu-item bg-1 animated-bg w-60" />{" "}
+          <span className="sk-menu-item bg-1 animated-bg w-80" />
+        </div>
+      </div>
+      <div className="horizontal-menu">
+        <span className="sk-menu-item bg animated-bg" />{" "}
+        <span className="sk-menu-item bg animated-bg" />{" "}
+        <span className="sk-menu-item bg animated-bg" />{" "}
+        <span className="sk-menu-item bg animated-bg" />{" "}
+        <span className="sk-menu-item bg animated-bg" />{" "}
+        <span className="sk-menu-item bg animated-bg" />
+      </div>
+    </div>
+  );
+};
+
+const AdminSideBarFooter = () => {
+  return (
+    <div className="assistant-menu">
+      <Link className="link">
+        <span className="link-icon icofont-ui-settings" />
+        Settings{" "}
+      </Link>
+      <Link className="link">
+        <span className="link-icon icofont-question-square" />
+        FAQ &amp; Support
+      </Link>
+    </div>
+  );
+};

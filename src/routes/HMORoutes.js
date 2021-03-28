@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { HMOLayout } from "../Components/Layout";
+import { UserContext } from "../mobx/UserState";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
+import ViewHMOProfile from "../Pages/HealthInsurance/HMO/ViewHMOProfile";
 import CreateHealthPlan from "../Pages/HealthInsurance/HMO/CreateHealthPlans";
 import EditHealthPlan from "../Pages/HealthInsurance/HMO/EditHealthPlan";
 import ManageHealthPlans from "../Pages/HealthInsurance/HMO/ManageHealthPlans";
@@ -11,20 +13,30 @@ import ManageServicesInPlan from "../Pages/HealthInsurance/HMO/ManageServicesInP
 import ManageUserGroups from "../Pages/HealthInsurance/HMO/ManageUserGroups";
 import AddUserToPlan from "../Pages/HealthInsurance/HMO/AddUserToPlan";
 import AddDrugToPlan from "../Pages/HealthInsurance/HMO/AddDrugToPlan";
+import EditDrugInPlan from "../Pages/HealthInsurance/HMO/EditDrugInPlan";
 import AddServiceToPlan from "../Pages/HealthInsurance/HMO/AddServiceToPlan";
 import CreateUserGroup from "../Pages/HealthInsurance/HMO/CreateUserGroup";
+import EditUserGroup from "../Pages/HealthInsurance/HMO/EditUserGroups";
 import ManageUserSubGroups from "../Pages/HealthInsurance/HMO/ManageUserSubGroups";
 import CreateUserSubGroup from "../Pages/HealthInsurance/HMO/CreateUserSubGroup";
+import EditUserSubGroup from "../Pages/HealthInsurance/HMO/EditUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
+import EditServiceInPlan from "../Pages/HealthInsurance/HMO/EditServiceInPlan";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
 import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
 
-export default function NurseRoutes() {
+export default function HMORoutes() {
+  const { setHMOId, user } = useContext(UserContext);
+  useEffect(() => {
+    setHMOId();
+  }, [setHMOId, user.id]);
+
   return (
     <BrowserRouter basename="HMOAdmin">
       <HMOLayout>
         <Switch>
           <Route exact path="/Dashboard" component={Dashboard} />
+          <Route exact path="/HMOProfile" component={ViewHMOProfile} />
           <Route exact path="/CreateHealthPlan" component={CreateHealthPlan} />
           <Route exact path="/EditHealthPlan" component={EditHealthPlan} />
           <Route
@@ -34,42 +46,58 @@ export default function NurseRoutes() {
           />
           <Route
             exact
-            path="/ManageHealthPlanPatients"
+            path="/ManageHealthPlanPatients/:id"
             component={ManagePatientsInPlan}
           />
           <Route
             exact
-            path="/ManageHealthPlanDrugs"
+            path="/ManageHealthPlanDrugs/:id"
             component={ManageDrugsInPlan}
           />
           <Route
             exact
-            path="/ManageHealthPlanServices"
+            path="/ManageHealthPlanServices/:id"
             component={ManageServicesInPlan}
           />
-          <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
-          <Route exact path="/AddUserToPlan" component={AddUserToPlan} />
-          <Route exact path="/AddDrugToPlan" component={AddDrugToPlan} />
-          <Route exact path="/AddServiceToPlan" component={AddServiceToPlan} />
-          <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
           <Route
             exact
-            path="/ManageUserSubGroups"
+            path="/EditServiceInPlan/:id"
+            component={EditServiceInPlan}
+          />
+          <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
+          <Route exact path="/AddUserToPlan/:id" component={AddUserToPlan} />
+          <Route exact path="/EditDrugInPlan/:id" component={EditDrugInPlan} />
+          <Route exact path="/AddDrugToPlan/:id" component={AddDrugToPlan} />
+          <Route
+            exact
+            path="/AddServiceToPlan/:id"
+            component={AddServiceToPlan}
+          />
+          <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
+          <Route exact path="/EditUserGroup/:id" component={EditUserGroup} />
+          <Route
+            exact
+            path="/ManageUserSubGroups/:id"
             component={ManageUserSubGroups}
           />
           <Route
             exact
-            path="/CreateUserSubGroup"
+            path="/CreateUserSubGroup/:id"
             component={CreateUserSubGroup}
           />
           <Route
             exact
-            path="/ManagePatientsInSubGroup"
+            path="/EditUserSubGroup/:id"
+            component={EditUserSubGroup}
+          />
+          <Route
+            exact
+            path="/ManagePatientsInSubGroup/:id"
             component={ManagePatientsInSubGroup}
           />
           <Route
             exact
-            path="/AddUserToSubGroup"
+            path="/AddUserToSubGroup/:id"
             component={AddUserToSubGroup}
           />
           <Route

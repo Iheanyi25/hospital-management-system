@@ -13,6 +13,7 @@ export default function Bio({ bioDetails, image }) {
     accountant: "Acc.",
     admin: "Admin",
     nurse: "Nurse",
+    hmoadmin: "",
   };
   return (
     <div>

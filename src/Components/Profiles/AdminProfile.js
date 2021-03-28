@@ -24,10 +24,10 @@ function AdminProfile({ adminId }) {
 					</div>
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<Bio bioDetails={data.admin.admin} user="admin" image={PatientAndAdminImage}/>
+							<Bio bioDetails={data.admin} user="admin" image={PatientAndAdminImage}/>
 							<ContactDetail
 								otherDetails={data.admin}
-								primaryDetails={data.admin.admin}
+								primaryDetails={data.admin}
 								userId={data.admin.adminId}
 								mutate={mutate}
 							/>

@@ -1,31 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getHMOSubUserGroupsUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageUserSubGroups = () => {
-  const data = {
-    patients: [
-      { user: "Mark" },
-      { user: "Jacob" },
-      { user: "Larry" },
-      { user: "Jacob" },
-      { user: "Mark" },
-    ],
+  const {
+    location: { state: userGroupName },
+  } = useHistory();
+  const { id } = useParams();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getHMOUserGroups = getHMOSubUserGroupsUrl(id, pageNumber, pageSize);
+  const getHMOUserGroupsConfig = fetchConfig({
+    url: getHMOUserGroups,
+    method: "get",
+  });
+  const { data, error } = useRequest(getHMOUserGroupsConfig, {
+    revalidateOnFocus: false,
+  });
+  const deleteSubGroup = async (id) => {
+    // try {
+    //   const deleteHMODrugPriceFromHMOHealthPlan = deleteHMODrugPriceFromHMOHealthPlanUrl();
+    //   const deleteHMODrugPriceFromHMOHealthPlanConfig = fetchConfig({
+    //     url: deleteHMODrugPriceFromHMOHealthPlan,
+    //     data: { id },
+    //     method: "delete",
+    //   });
+    //   const res = await fetchWrapper(deleteHMODrugPriceFromHMOHealthPlanConfig);
+    //   if (res.status === 200) {
+    //     notification.success({ message: res.data.message });
+    //     mutate();
+    //   }
+    // } catch (error) {
+    //   notification.error({ message: error?.response?.data.message });
+    // }
   };
   let dataTable = [];
   if (data) {
-    dataTable = data.patients.map(({ user }, index) => {
-      return {
-        "#": ++index,
-        "Sub Groups": user,
-        Actions: <ActionTable />,
-      };
-    });
+    dataTable = data.hmoSubUserGroups.map(
+      ({ name, description, id, hmoUserGroupId }, index) => {
+        return {
+          "#": ++index,
+          "Sub Groups": name,
+          Description: description,
+          "Health Plan": "Not Available",
+          Actions: (
+            <ActionTable
+              subGroupDetails={{ name, description, id, hmoUserGroupId }}
+              deleteSubGroup={deleteSubGroup}
+            />
+          ),
+        };
+      }
+    );
   }
-  //   if (error) return <div>failed to load</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -36,16 +70,19 @@ const ManageUserSubGroups = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              Manage User Sub Groups in HMO Name
+              {`Manage User Sub Group in ${userGroupName}`}
             </h4>
             <div>
               <div className="col"></div>
               <div className="col text-right">
                 <Link
-                  to="/CreateUserSubGroup"
-                  className="btn btn-primary mr-2 mb-2"
+                  to={{
+                    pathname: `/CreateUserSubGroup/${id}`,
+                    state: userGroupName,
+                  }}
+                  className="btn btn-outline-primary mr-2 mb-2"
                 >
-                  Create User sub group
+                  Create Sub Group
                 </Link>
               </div>
             </div>
@@ -53,19 +90,21 @@ const ManageUserSubGroups = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.patients.length : 0}
-              heading="Total User Groups"
+              size={data ? data.hmoSubUserGroups.length : 0}
+              heading="Total Sub Groups"
             />
           </div>
           <div className="page-content">
             {data && (
               <Table
                 content={dataTable}
-                // paginationDetails={data.paginationDetails}
-                // setPageNumber={setPageNumber}
-                // pageNumber={pageNumber}
-                // pageSize={pageSize}
-                // setPageSize={setPageSize}
+                tableID={"hmoSubUserGroups" + data.hmoSubUserGroups.length}
+                key={"hmoSubUserGroups" + data.hmoSubUserGroups.length}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
               />
             )}
           </div>
@@ -74,24 +113,38 @@ const ManageUserSubGroups = () => {
     </Fragment>
   );
 };
-const ActionTable = () => {
+const ActionTable = ({ subGroupDetails }) => {
+  const { name, id } = subGroupDetails;
   return (
     <ActionButton>
+      <Link
+        to={{ pathname: `/EditUserSubGroup/${id}`, state: subGroupDetails }}
+        className="btn btn-sm btn-block"
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Update
+      </Link>
       <Link to={`/AddUserGroupToPlan`} className="btn btn-sm btn-block">
         <span className="btn-icon icofont-server mr-2" />
         Assign to health plan
       </Link>
-      <Link to={`/ManagePatientsInSubGroup`} className="btn btn-sm btn-block">
+      <Link
+        to={{
+          pathname: `/ManagePatientsInSubGroup/${id}`,
+          state: name,
+        }}
+        className="btn btn-sm btn-block"
+      >
         <span className="btn-icon icofont-server mr-2" />
         Manage Patients
       </Link>
-      <Link
-        // to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+      {/* <button
+        onClick={() => deleteSubGroup(id)}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Delete
-      </Link>
+      </button> */}
     </ActionButton>
   );
 };

@@ -69,15 +69,15 @@ const HMOSidebar = () => {
                     </li>
                   </ul>
                 </li>
-                {/* <li className="menu-item">
+                <li className="menu-item">
                   <span className="group-title">Profile</span>
                 </li>
                 <li className="menu-item">
-                  <Link className="item-link" to="/NurseProfile">
+                  <Link className="item-link" to="/HMOProfile">
                     <span className="link-icon icofont-user-suited" />{" "}
                     <span className="link-text">My Profile</span>{" "}
                   </Link>
-                </li> */}
+                </li>
               </ul>
             </nav>
           </div>

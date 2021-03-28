@@ -86,14 +86,7 @@ class BookConsultation extends React.Component {
     const getPatients = getPatientsUrl();
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
-
-    const patientArray = [];
-
-    data.patients.forEach((element) => {
-      patientArray.push(element.patient);
-    });
-
-    this.setState({ patients: patientArray }, () => {
+    this.setState({ patients: data?.patients }, () => {
       this.renderPatientPicker();
     });
   };
@@ -103,13 +96,7 @@ class BookConsultation extends React.Component {
     const getDoctorsConfig = fetchConfig({ url: getDoctors, method: "get" });
     const { data } = await fetchWrapper(getDoctorsConfig);
 
-    const doctorArray = [];
-
-    data.doctors.forEach((element) => {
-      doctorArray.push(element.doctor);
-    });
-
-    this.setState({ doctors: doctorArray }, () => {
+    this.setState({ doctors: data?.doctors }, () => {
       this.renderDoctorPicker();
     });
   };
@@ -141,6 +128,8 @@ class BookConsultation extends React.Component {
       patientId,
       doctorId,
     };
+
+    console.log(data,444)
 
     if (!doctorId) {
       delete data.doctorId;
@@ -205,7 +194,7 @@ class BookConsultation extends React.Component {
                               return (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.patientId}
                                 >{`${item.firstName} ${item.lastName}`}</option>
                               );
                             })}
@@ -231,7 +220,7 @@ class BookConsultation extends React.Component {
                               return (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.doctorId}
                                 >{`${item.firstName} ${item.lastName}`}</option>
                               );
                             })}

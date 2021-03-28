@@ -28,11 +28,11 @@ const customMessages = {
 
 //pass in message,  maybe duration
 export const notification = {
-    warining : (config) => configNotificationUtil({...config, type: "warning", title: "Warning"}),
-    success: (config) => configNotificationUtil({...config, type: "success", title: "Success"}),
-    error: (config) => configNotificationUtil({...config, type: "danger", title: "Error"}),
-    info: (config) => configNotificationUtil({...config, type: "info", title: "Info"}),
-    default: (config) => configNotificationUtil({...config, type: "default"}),
+    warining : (config) => configNotificationUtil({...config, type: "warning", title: config.title || "Warning"}),
+    success: (config) => configNotificationUtil({...config, type: "success", title: config.title || "Success"}),
+    error: (config) => configNotificationUtil({...config, type: "danger", title: config.title || "Error"}),
+    info: (config) => configNotificationUtil({...config, type: "info", title: config.title || "Info"}),
+    default: (config) => configNotificationUtil({...config, type: "default", title: config.title || "default"}),
 }
 
 export const removeNotification = (id) => store.removeNotification(id)

@@ -15,6 +15,7 @@ $.DataTables = require("datatables.net");
 class ClarkingHistory extends React.Component {
   state = {
     clerkingHistories: [],
+    clerkingHistory: {},
     loading: true,
   };
 
@@ -43,9 +44,15 @@ class ClarkingHistory extends React.Component {
       const { data, status } = await fetchWrapper(
         getPatientClarkingHistoryConfig
       );
-      this.setState({
-        clerkingHistories: data.clerkingHistory,
-      });
+      if (this.props.appointmentOrConsultationId) {
+        this.setState({
+          clerkingHistories: [data.clerkingHistory],
+        });
+      } else {
+        this.setState({
+          clerkingHistories: data.clerkingHistory,
+        });
+      }
       if (status === 200) {
         this.setState({ ...this.state, loading: false });
       }

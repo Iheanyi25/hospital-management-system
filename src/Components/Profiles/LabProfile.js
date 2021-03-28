@@ -25,11 +25,11 @@ function LabProfile({ labId }) {
 					</div>
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<Bio bioDetails={data.labTechnician.lab} user="lab" image={LabImage} />
+							<Bio bioDetails={data.labAttendant} user="lab" image={LabImage} />
 							<ContactDetail
-								otherDetails={data.labTechnician}
-								primaryDetails={data.labTechnician.lab}
-								userId={data.labTechnician.labId}
+								otherDetails={data}
+								primaryDetails={data.labAttendant}
+								userId={data.labId}
 								mutate={mutate}
 							/>
 						</div>

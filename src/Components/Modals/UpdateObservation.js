@@ -22,6 +22,11 @@ const UpdateObservationChart = observer(() => {
     method: "get",
   });
 
+  // const [state, setstate] = useState({
+  //   bloodPressure: "",
+    
+  // })
+
   const handleSubmit = async (e) => {
     console.log("omo", 1010);
     e.preventDefault();
@@ -29,6 +34,7 @@ const UpdateObservationChart = observer(() => {
     const postObservationChartConfig = fetchConfig({
       url: postObservationChart,
       method: "post",
+      // data: ,
     });
     try {
       let res = await fetchWrapper(postObservationChartConfig);
@@ -51,7 +57,7 @@ const UpdateObservationChart = observer(() => {
         role="dialog"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-body">
               <h5 className="text-center">Observation Chart</h5>

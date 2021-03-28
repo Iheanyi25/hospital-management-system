@@ -27,6 +27,7 @@ const ReferredPatients = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
+      console.log(admission,4444)
       return {
         "#": ++index,
         "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,

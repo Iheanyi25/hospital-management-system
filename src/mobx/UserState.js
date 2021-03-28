@@ -1,13 +1,13 @@
 import React, { createContext } from "react";
 import { useLocalObservable } from "mobx-react";
 import { flow } from "mobx";
-import { logInUrl } from "../api/URLs";
+import { logInUrl, getHMOAdminUrl } from "../api/URLs";
 import { fetchConfig } from "../api/fetchConfig";
 import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
 import { logOut } from "../utils/logout";
 import { toggleGlobalLoaderClass } from "../utils/toggleGlobalLoaderClass";
-import { notification, removeNotification } from "../utils/notification";
+// import { notification, removeNotification } from "../utils/notification";
 
 export const UserContext = createContext();
 
@@ -18,6 +18,7 @@ export const UserProvider = ({ children }) => {
     isLoadingUser: true,
     error: null,
     userToken: null,
+    hmoId: null,
     logIn: flow(function* logIn(data) {
       userStore.loading = true;
       const url = logInUrl();
@@ -32,11 +33,11 @@ export const UserProvider = ({ children }) => {
           console.log(res.data.token, 66666);
           localStorage.setItem(
             "authenticatedUser",
-            JSON.stringify(res.data.authenticatedUser)
+            JSON.stringify(res.data)
           );
           localStorage.setItem("userToken", JSON.stringify(res.data.token));
         }
-        userStore.user = res.data.authenticatedUser;
+        userStore.user = res.data;
         userStore.userToken = res.data.token;
         userStore.loading = false;
         // window.location.href = "/";
@@ -64,7 +65,7 @@ export const UserProvider = ({ children }) => {
           console.log(error);
         }
       );
-      let prevNotificationId;
+      // let prevNotificationId;
       axiosInstance.interceptors.response.use(
         (response) => {
           if (userStore.user) toggleGlobalLoaderClass("remove");
@@ -75,15 +76,37 @@ export const UserProvider = ({ children }) => {
           if (error?.status === 403) {
             logOut();
           }
-          console.log(error.message,666666666)
-          if (error.message === "Network Error") {
-            if(prevNotificationId) removeNotification(prevNotificationId)
-            prevNotificationId = notification.warining({ message: "Network Error, try again", duration: 5000 })
-          }
+          console.log(error.message, 666666666);
+          // if (error.message === "Network Error") {
+          //   if (prevNotificationId) removeNotification(prevNotificationId);
+          //   prevNotificationId = notification.warining({
+          //     message: "Network Error, try again",
+          //     duration: 5000,
+          //   });
+          // }
           if (userStore.user) toggleGlobalLoaderClass("remove");
-          throw error
+          throw error;
         }
       );
+    }),
+    setHMOId: flow(function* setHMOId() {
+      userStore.loading = true;
+      if (userStore.user) {
+        const url = getHMOAdminUrl(userStore.user.id);
+        const getHMOAdminConfig = fetchConfig({
+          url: url,
+          method: "get",
+        });
+        try {
+          const res = yield fetchWrapper(getHMOAdminConfig);
+          if (res.status === 200) {
+            userStore.hmoId = res.data.hmoAdmin.hmoId;
+            console.log(res.data.hmoAdmin.hmoId);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }),
   }));
   return (

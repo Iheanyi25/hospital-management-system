@@ -152,7 +152,7 @@ export default function CreateInsurance() {
                         <Select
                           value={healthPlan}
                           onChange={handleSelect}
-                          isSearchable={false}
+                          isSearchable={true}
                           options={options}
                           placeholder={
                             error ? "Sorry, unable to fetch. Retry" : "Search"

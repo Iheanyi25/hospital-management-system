@@ -20,7 +20,7 @@ function AllLabTechnicians() {
 
   let tableData = [];
   if (data) {
-    tableData = data.labTechnicians.map(({ lab }, index) => {
+    tableData = data.labAttendant.map((lab, index) => {
       return {
         "#": ++index,
         Photo: (
@@ -56,7 +56,7 @@ function AllLabTechnicians() {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.labTechnicians.length : 0}
+              size={data ? data.labAttendant.length : 0}
               heading="No Of Lab Technicians"
             />
           </div>
@@ -73,7 +73,7 @@ const LabTableAction = ({ lab }) => {
   const tableFunctions = [
     {
       text: "View Profile",
-      path: `/AdminViewLabProfile/${lab.id}`,
+      path: `/AdminViewLabProfile/${lab.labAttendantId}`,
       iconClass: "btn-icon icofont-ui-edit  mr-2",
     },
   ];
