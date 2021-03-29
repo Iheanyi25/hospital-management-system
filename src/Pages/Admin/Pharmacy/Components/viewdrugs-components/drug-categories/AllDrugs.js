@@ -1,9 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { UpdateInventory } from "../../../../../../Components/Modals";
 import remove from "../../../../../../assets/img/remove.svg";
 import view from "../../../../../../assets/img/view.svg";
-import inventory from "../../../../../../assets/img/inventory.svg";
 import { fetchWrapper, useRequest } from "../../../../../../api/fetcher";
 import { fetchConfig } from "../../../../../../api/fetchConfig";
 import { getAllDrugsUrl, deleteDrugUrl } from "../../../../../../api/URLs";
@@ -14,7 +12,6 @@ import ActionButton from "../../../../../../Components/DataTable/ActionButton";
 const AllDrugs = ({ userType, category }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const [singleDrug, setSingleDrug] = useState({});
   const getAllDrugs = getAllDrugsUrl(pageNumber, pageSize);
   const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
   const { data, error, mutate } = useRequest(getAllDrugsConfig, {
@@ -56,7 +53,6 @@ const AllDrugs = ({ userType, category }) => {
           <AllDrugsTableAction
             drug={drug}
             userType={userType}
-            setSingleDrug={setSingleDrug}
             deleteDrug={deleteDrug}
           />
         ),
@@ -79,12 +75,11 @@ const AllDrugs = ({ userType, category }) => {
           setPageSize={setPageSize}
         />
       )}
-      <UpdateInventory drug={singleDrug} setSuccess={mutate} />
     </Fragment>
   );
 };
 
-const AllDrugsTableAction = ({ drug, userType, setSingleDrug, deleteDrug }) => {
+const AllDrugsTableAction = ({ drug, userType, deleteDrug }) => {
   return (
     <ActionButton>
       <Link
@@ -99,16 +94,6 @@ const AllDrugsTableAction = ({ drug, userType, setSingleDrug, deleteDrug }) => {
       >
         <img src={view} alt="view" className="mr-2" />
         View drug
-      </Link>
-      <Link
-        to="#"
-        data-toggle="modal"
-        data-target="#update-inventory"
-        className="btn btn-sm btn-block"
-        onClick={() => setSingleDrug(drug)}
-      >
-        <img src={inventory} alt="inventory" className="mr-2" />
-        Update inventory
       </Link>
       <Link
         to="#"

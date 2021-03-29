@@ -71,6 +71,8 @@ export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumbe
   `/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToNHISHealthPlanUrl = () =>
   `/${baseName}/AssignPatientToNHISHealthPlan`;
+export const updatePatientNHISHealthPlanUrl = () =>
+  `/${baseName}/UpdatePatientNHISHealthPlan`;
 export const deletePatientFromNHISHealthPlanUrl = () =>
   `/${baseName}/DeletePatientFromNHISHealthPlan`;
 
