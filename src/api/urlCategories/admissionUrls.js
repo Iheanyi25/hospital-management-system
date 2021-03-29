@@ -37,6 +37,25 @@ export const uploadServiceRequestResultUrl = () =>
 export const getAdmissionsServiceRequestResultUrl = (serviceRequestId) =>
   `/Admission/GetServiceRequestResults/${serviceRequestId}`;
 
+// Admission - Manage Medications
+export const getDrugMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+  `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
+export const updateDrugMedicationStatusUrl = () =>
+  `Admission/UpdateDrugMedicationStatus`;
+  export const getServiceMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+  `/Admission/GetServiceMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export const createServiceMedicationUrl = () => `Admission/CreateServiceMedication`;
+export const updateServiceMedicationStatusUrl = () =>
+  `Admission/UpdateServiceMedicationStatus`;
+
+
+// Admission - Manage Observation Charts
+export const getObservationChartUrl = (admissionId) =>
+  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
+export const postObservationChartUrl = () =>
+  `/Admission/UpdateObservationChart`;
+
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
 export const createBedUrl = () => `/Admission/Ward/CreateBed`;
@@ -52,16 +71,3 @@ export const getPrescriptionForAdmssionUrl = (id) =>
   `/Admission/GetPrescription?PrescriptionId=${id}`;
 export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
   `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
-
-// Admission - Manage Medications
-export const getMedicationsUrl = (admissionId, pageNumber, pageSize) =>
-  `/Admission/GetMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
-export const createMedicationUrl = () => `Admission/CreateMedication`;
-export const updateMedicationStatusUrl = () => `Admission/UpdateMedicationStatus`;
-
-// Admission - Manage Observation Charts
-export const getObservationChartUrl = (admissionId) =>
-  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
-  export const postObservationChartUrl = () =>
-  `/Admission/UpdateObservationChart`;
-
