@@ -29,7 +29,7 @@ const ManageHealthPlans = observer(({ dashboard }) => {
       return {
         "#": ++index,
         "Health Plan": name,
-        Description: description,
+        Description: description || "Not Available",
         Actions: (
           <HealthPlansActionTable
             healthPlanName={name}

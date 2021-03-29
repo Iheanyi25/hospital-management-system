@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper } from "../../../api/fetcher";
-import { updatePatientNHISHealthPlanUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getNHISHealthPlansUrl,
+  updatePatientNHISHealthPlanUrl,
+} from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
@@ -15,6 +18,22 @@ export default function ReassignPatientToPlan() {
   console.log(state);
   const [authorizationCode, setAuthorizationCode] = useState("");
   const [emptyField, setEmptyField] = useState(true);
+  const getNHISHealthPlans = getNHISHealthPlansUrl(1, 200);
+  const getNHISHealthPlansConfig = fetchConfig({
+    url: getNHISHealthPlans,
+    method: "get",
+  });
+  const { data } = useRequest(getNHISHealthPlansConfig, {
+    revalidateOnFocus: false,
+  });
+  let condition = state?.healthPlanName === "Primary" ? "Secondary" : "Primary";
+  let nhisHealthPlanId;
+  for (let i = 0; i < data?.nhisHealthPlans.length; i++) {
+    if (data?.nhisHealthPlans[i].name === condition) {
+      console.log(data?.nhisHealthPlans[i].id, "found");
+      nhisHealthPlanId = data?.nhisHealthPlans[i].id;
+    }
+  }
   useEffect(() => {
     if (isNotEmptyString(authorizationCode)) {
       setEmptyField(false);
@@ -28,12 +47,12 @@ export default function ReassignPatientToPlan() {
             patientId: state?.patientId,
             id: state?.id,
             authorizationCode,
-            nhisHealthPlanId: state?.healthPlanId,
+            nhisHealthPlanId,
           }
         : {
             patientId: state?.patientId,
             id: state?.id,
-            nhisHealthPlanId: state?.healthPlanId,
+            nhisHealthPlanId,
           };
     console.log(payload);
     try {
@@ -76,7 +95,7 @@ export default function ReassignPatientToPlan() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
-                      <h4 className="text-center">Add User</h4>
+                      <h4 className="text-center">Reassign</h4>
                       <div className="form-group">
                         <label>Patient Name</label>
                         <input
