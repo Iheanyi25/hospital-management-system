@@ -68,9 +68,9 @@ const ManageUserSubGroups = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+          <header className="page-header justify-content-between d-sflex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              {`Manage User Sub Group in ${userGroupName}`}
+              {`Manage User Sub Group in ${userGroupName || ""}`}
             </h4>
             <div>
               <div className="col"></div>
