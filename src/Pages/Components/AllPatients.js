@@ -1,26 +1,17 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { fetchConfig } from "../../api/fetchConfig";
-import { useRequest } from "../../api/fetcher";
-import { getPatientsUrl } from "../../api/URLs";
 import { PageLoader, Table } from "../../Components";
 import TableSize from "../../Components/DataTable/TableSize";
 import PatientAndAdminImage from "../../assets/img/PatientAndAdminIcon.svg";
 import ActionButton from "../../Components/DataTable/ActionButton";
-import ReceiptModal from "../../Components/Modals/ReceiptModal";
-import PatientRegistrationReciept from "./PatientRegistrationReciept";
+// import ReceiptModal from "../../Components/Modals/ReceiptModal";
+// import PatientRegistrationReciept from "./PatientRegistrationReciept";
 
-function AllPatients() {
-  const getPatients = getPatientsUrl();
-  const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
-  const { data, error } = useRequest(getPatientsConfig, {
-    revalidateOnFocus: false,
-  });
-
-  const [activePatientId, setActivePatientId] = useState("");
+function AllPatients({ patients }) {
+  // const [activePatientId, setActivePatientId] = useState("");
   let dataTable = [];
-  if (data) {
-    dataTable = data.patients.map(
+  if (patients) {
+    dataTable = patients?.map(
       ({ firstName, lastName, email, phoneNumber, patientId: id }, index) => {
         return {
           "#": ++index,
@@ -38,8 +29,8 @@ function AllPatients() {
           Phone: phoneNumber || "Not available",
           Actions: (
             <PatientTableAction
-              patient={{ firstName, lastName, email, phoneNumber,id }}
-              setActivePatientId={setActivePatientId}
+              patient={{ firstName, lastName, email, phoneNumber, id }}
+              // setActivePatientId={setActivePatientId}
             />
           ),
         };
@@ -47,7 +38,6 @@ function AllPatients() {
     );
   }
 
-  if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -62,23 +52,23 @@ function AllPatients() {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.patients.length : 0}
+              size={patients ? patients.length : 0}
               heading="No Of Patients"
             />
           </div>
           <div className="page-content">
-            {data && <Table content={dataTable} />}
+            {patients && <Table content={dataTable} />}
           </div>
         </div>
       </main>
-      <ReceiptModal modalId="view-reciept">
+      {/* <ReceiptModal modalId="view-reciept">
         <PatientRegistrationReciept activePatientId={activePatientId} />
-      </ReceiptModal>
+      </ReceiptModal> */}
     </Fragment>
   );
 }
 
-const PatientTableAction = ({ patient, setActivePatientId }) => {
+const PatientTableAction = ({ patient }) => {
   console.log(patient);
   const tableFunctions = [
     {
@@ -130,7 +120,7 @@ const PatientTableAction = ({ patient, setActivePatientId }) => {
       {/* {
         patient.
       } */}
-      <NavLink
+      {/* <NavLink
         to="#"
         className="btn btn-sm btn-block"
         data-toggle="modal"
@@ -139,7 +129,7 @@ const PatientTableAction = ({ patient, setActivePatientId }) => {
       >
         <span className="btn-icon icofont-server mr-2" />
         View Reciept
-      </NavLink>
+      </NavLink> */}
     </ActionButton>
   );
 };
