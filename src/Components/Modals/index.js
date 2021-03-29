@@ -9,7 +9,6 @@ export * from "./AddWebsites";
 export * from "./searchDoctorBySpecialization";
 export * from "./AddSpecialization";
 export * from "./UpdateDrug";
-export * from "./UpdateInventory";
 export * from "./AddPrescriptionQuantity";
 export * from "./PrescriptionInvoice";
 export * from "./PrescriptionReciept";
