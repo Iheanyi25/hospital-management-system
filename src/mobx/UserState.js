@@ -7,7 +7,7 @@ import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
 import { logOut } from "../utils/logout";
 import { toggleGlobalLoaderClass } from "../utils/toggleGlobalLoaderClass";
-import { notification, removeNotification } from "../utils/notification";
+// import { notification, removeNotification } from "../utils/notification";
 
 export const UserContext = createContext();
 
@@ -33,11 +33,11 @@ export const UserProvider = ({ children }) => {
           console.log(res.data.token, 66666);
           localStorage.setItem(
             "authenticatedUser",
-            JSON.stringify(res.data.authenticatedUser)
+            JSON.stringify(res.data)
           );
           localStorage.setItem("userToken", JSON.stringify(res.data.token));
         }
-        userStore.user = res.data.authenticatedUser;
+        userStore.user = res.data;
         userStore.userToken = res.data.token;
         userStore.loading = false;
         // window.location.href = "/";
@@ -65,7 +65,7 @@ export const UserProvider = ({ children }) => {
           console.log(error);
         }
       );
-      let prevNotificationId;
+      // let prevNotificationId;
       axiosInstance.interceptors.response.use(
         (response) => {
           if (userStore.user) toggleGlobalLoaderClass("remove");
@@ -77,13 +77,13 @@ export const UserProvider = ({ children }) => {
             logOut();
           }
           console.log(error.message, 666666666);
-          if (error.message === "Network Error") {
-            if (prevNotificationId) removeNotification(prevNotificationId);
-            prevNotificationId = notification.warining({
-              message: "Network Error, try again",
-              duration: 5000,
-            });
-          }
+          // if (error.message === "Network Error") {
+          //   if (prevNotificationId) removeNotification(prevNotificationId);
+          //   prevNotificationId = notification.warining({
+          //     message: "Network Error, try again",
+          //     duration: 5000,
+          //   });
+          // }
           if (userStore.user) toggleGlobalLoaderClass("remove");
           throw error;
         }

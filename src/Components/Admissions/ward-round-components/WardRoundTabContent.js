@@ -8,6 +8,8 @@ import {
 } from "../admission-invoices-components";
 import DoctorsNotes from "./DoctorsNotes";
 import Medications from "./DrugMedications";
+// import Medications from "./Medications";
+import ServiceMedications from "./ServiceMedications";
 import { ObservationCharts } from "./ObservationChart";
 
 const WardRoundTabContent = ({ admissionId }) => {
@@ -40,6 +42,14 @@ const WardRoundTabContent = ({ admissionId }) => {
             aria-labelledby="pills-profile-tab"
           >
             <Medications admissionId={admissionId} />
+          </div>
+          <div
+            className="tab-pane fade"
+            id="pills-serviceMed"
+            role="tabpanel"
+            aria-labelledby="pills-serviceMed-tab"
+          >
+            <ServiceMedications admissionId={admissionId} />
           </div>
           <div
             className="tab-pane fade"

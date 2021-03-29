@@ -1,6 +1,5 @@
 import { observer } from "mobx-react";
 import React, { useState, useContext, Fragment } from "react";
-import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import { getAdmissionsUrl, getAllWardsUrl } from "../../api/URLs";
@@ -8,9 +7,16 @@ import incomplete from "../../assets/img/incomplete.svg";
 import paid from "../../assets/img/paid.svg";
 import { UserContext } from "../../mobx/UserState";
 import { Table } from "../DataTable";
-import ActionButton from "../DataTable/ActionButton";
 import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
+import {
+  AdminActionTable,
+  AccountantTable,
+  NurseActionTable,
+  PharmacyActionTable,
+  LabActionTable,
+  DoctorActionTable,
+} from "./manage-admissions-components/ManagaAdmissionTableActions";
 
 const ManageAdmissions = observer(() => {
   const {
@@ -240,145 +246,5 @@ const ManageAdmissions = observer(() => {
   );
 });
 
-// Everything goes in here at first
-const AdminActionTable = ({
-  admissionId,
-  patient,
-  patientName,
-  appointmentOrConsultationId,
-}) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/AdminWardRoundNotes/${admissionId}`,
-          state: { patient, appointmentOrConsultationId },
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-      <Link
-        to={{
-          pathname: `/AdminManageAdmissionPrescriptions/${admissionId}`,
-          state: patientName,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Prescriptions
-      </Link>
-      <Link
-        to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Request a service
-      </Link>
-      <Link
-        to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Lab Services
-      </Link>
-      <Link
-        to={{
-          pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
-          state: patient.id,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Invoices
-      </Link>
-    </ActionButton>
-  );
-};
-const AccountantTable = ({ admissionId, patient }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/AccountantManageAdmissionInvoices/${admissionId}`,
-          state: patient.id,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Invoices
-      </Link>
-    </ActionButton>
-  );
-};
-const NurseActionTable = ({ admissionId, patient }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/NurseWardRoundNotes/${admissionId}`,
-          state: patient,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
-const PharmacyActionTable = ({ admissionId, patientName }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/PharmacyManageAdmissionPrescriptions/${admissionId}`,
-          state: patientName,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Prescriptions
-      </Link>
-    </ActionButton>
-  );
-};
-const LabActionTable = ({ admissionId }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Lab Services
-      </Link>
-      <Link
-        to={`/AdminWardRoundNotes/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
-const DoctorActionTable = ({ admissionId, patient }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/DoctorWardRoundNotes/${admissionId}`,
-          state: patient,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
-
 export default ManageAdmissions;
+

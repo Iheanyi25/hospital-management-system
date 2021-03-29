@@ -15,7 +15,6 @@ import NurseRoutes from "./routes/NurseRoutes";
 
 const AppRouter = observer(() => {
   const { loadUser, user, isLoadingUser } = useContext(UserContext);
-
   useEffect(() => {
     loadUser();
   }, [loadUser]);

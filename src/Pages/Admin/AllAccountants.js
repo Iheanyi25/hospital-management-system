@@ -19,27 +19,27 @@ function AllAccountants() {
   });
 
   let tableData = [];
-    if (data) {
-      tableData = data.labTechnicians.map(({ accountant }, index) => {
-        return {
-          "#": ++index,
-          Photo: (
-            <img
-              src={AccountantImg}
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-500"
-            />
-          ),
-          Name: `${accountant.firstName} ${accountant.lastName}`,
-          Email: <a href={"mailto:" + accountant.email}>{accountant.email}</a>,
-          Phone: accountant.phoneNumber || "Not available",
-          Actions: <AccountantTableAction accountant={accountant} />,
-        };
-      });
-    }
-  
+  if (data) {
+    tableData = data.accountants.map((accountant, index) => {
+      return {
+        "#": ++index,
+        Photo: (
+          <img
+            src={AccountantImg}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-500"
+          />
+        ),
+        Name: `${accountant.firstName} ${accountant.lastName}`,
+        Email: <a href={"mailto:" + accountant.email}>{accountant.email}</a>,
+        Phone: accountant.phoneNumber || "Not available",
+        Actions: <AccountantTableAction accountant={accountant} />,
+      };
+    });
+  }
+
   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
@@ -56,7 +56,7 @@ function AllAccountants() {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.labTechnicians.length : 0}
+              size={data ? data.accountants.length : 0}
               heading="No Of Accountants"
             />
           </div>
@@ -75,9 +75,9 @@ const AccountantTableAction = ({ accountant }) => {
   const tableFunctions = [
     {
       text: "View Profile",
-      path: `/AdminViewAccountantProfile/${accountant.id}`,
+      path: `/AdminViewAccountantProfile/${accountant.accountantId}`,
       iconClass: "btn-icon icofont-ui-edit  mr-2",
-    }
+    },
   ];
   return (
     <ActionButton>

@@ -20,30 +20,31 @@ function AllPatients() {
   const [activePatientId, setActivePatientId] = useState("");
   let dataTable = [];
   if (data) {
-    dataTable = data.patients.map(({ patient }, index) => {
-      console.log(patient, 111);
-      return {
-        "#": ++index,
-        Photo: (
-          <img
-            src={PatientAndAdminImage}
-            alt=""
-            width={40}
-            height={40}
-            className="rounded-500"
-          />
-        ),
-        Name: `${patient.firstName} ${patient.lastName}`,
-        Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
-        Phone: patient.phoneNumber || "Not available",
-        Actions: (
-          <PatientTableAction
-            patient={patient}
-            setActivePatientId={setActivePatientId}
-          />
-        ),
-      };
-    });
+    dataTable = data.patients.map(
+      ({ firstName, lastName, email, phoneNumber, patientId: id }, index) => {
+        return {
+          "#": ++index,
+          Photo: (
+            <img
+              src={PatientAndAdminImage}
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-500"
+            />
+          ),
+          Name: `${firstName} ${lastName}`,
+          Email: <a href={"mailto:" + email}>{email}</a>,
+          Phone: phoneNumber || "Not available",
+          Actions: (
+            <PatientTableAction
+              patient={{ firstName, lastName, email, phoneNumber,id }}
+              setActivePatientId={setActivePatientId}
+            />
+          ),
+        };
+      }
+    );
   }
 
   if (error) return <div>failed to load</div>;
@@ -78,7 +79,7 @@ function AllPatients() {
 }
 
 const PatientTableAction = ({ patient, setActivePatientId }) => {
-  console.log(patient)
+  console.log(patient);
   const tableFunctions = [
     {
       text: "Update Profile",

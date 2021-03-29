@@ -24,11 +24,11 @@ function PharmacyProfile({ pharmacyId }) {
 					</div>
 					<div className="main-content-wrap">
 						<div className="page-content">
-							<Bio bioDetails={data.pharmacist[0].pharmacy} image={PharmacistImage} />
+							<Bio bioDetails={data.pharmacist} image={PharmacistImage} />
 							<ContactDetail
-								otherDetails={data.pharmacist[0]}
-								primaryDetails={data.pharmacist[0].pharmacy}
-								userId={data.pharmacist[0].pharmacyId}
+								otherDetails={data}
+								primaryDetails={data.pharmacist}
+								userId={data.pharmacistId}
 								mutate={mutate}
 							/>
 						</div>

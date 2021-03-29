@@ -32,6 +32,19 @@ const WardRoundTabHeader = () => {
       <li className="nav-item">
         <a
           className="nav-link"
+          id="pills-serviceMed-tab"
+          data-toggle="pill"
+          href="#pills-serviceMed"
+          role="tab"
+          aria-controls="pills-serviceMed"
+          aria-selected="false"
+        >
+          Service Medications
+        </a>
+      </li>
+      <li className="nav-item">
+        <a
+          className="nav-link"
           id="pills-contact-tab"
           data-toggle="pill"
           href="#pills-contact"
