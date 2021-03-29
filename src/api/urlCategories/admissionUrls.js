@@ -5,6 +5,7 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
   `/Admission/GetAdmissionsWithoutBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToBedSpaceUrl = () =>
   `/Admission/AssignPatientToBedspace`;
+  export const postDischargePatientUrl = () => `Admission/DischargePatient`;
 
 // Admission - Manage Admission Drug Dispensing
 export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
@@ -58,7 +59,6 @@ export const getDrugMedicationsUrl = (admissionId, pageNumber, pageSize) =>
   `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
 export const updateMedicationStatusUrl = () => `Admission/UpdateMedicationStatus`;
-
 // Admission - Manage Observation Charts
 export const getObservationChartUrl = (admissionId) =>
   `/Admission/GetObservationChart?AdmissionId=${admissionId}`;

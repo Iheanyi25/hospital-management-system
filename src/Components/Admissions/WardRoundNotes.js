@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 import WardRoundTabHeader from "./ward-round-components/WardRoundTabHeader";
 import WardRoundTabContent from "./ward-round-components/WardRoundTabContent";
+import { DischargePatients } from "../Modals/DischargePatients";
 
 const WardRoundNotes = observer(() => {
   const {
@@ -36,22 +37,31 @@ const WardRoundNotes = observer(() => {
               className="page-title mb-0"
               style={{ textTransform: "capitalize" }}
             >{`${firstName} ${lastName}`}</h4>
-            <Link
-              className="btn btn-outline-primary"
-              to={{
-                pathname:
-                  userType === "Admin"
-                    ? `/AdminPatientProfile/${id}`
-                    : userType === "Doctor"
-                    ? `/DoctorPatientProfile/${id}`
-                    : userType === "Nurse"
-                    ? `/NursePatientProfile/${id}`
-                    : "#",
-                state: patient,
-              }}
-            >
-              View patient profile
-            </Link>
+            {/* <p></p> */}
+            <div>
+              <Link
+                className="btn btn-outline-primary"
+                to="#"
+                data-toggle="modal"
+                data-target="#discharge-patient"
+              >Discharge Patient</Link>
+              <Link
+                className="btn btn-outline-primary"
+                to={{
+                  pathname:
+                    userType === "Admin"
+                      ? `/AdminPatientProfile/${id}`
+                      : userType === "Doctor"
+                      ? `/DoctorPatientProfile/${id}`
+                      : userType === "Nurse"
+                      ? `/NursePatientProfile/${id}`
+                      : "#",
+                  state: patient,
+                }}
+              >
+                View patient profile
+              </Link>
+            </div>          
           </header>
           <div className="card border-light w-50 my-5 mx-auto">
             <ClarkingHistory
@@ -79,6 +89,7 @@ const WardRoundNotes = observer(() => {
           </div>
         </div>
       </main>
+      <DischargePatients/>
     </>
   );
 });

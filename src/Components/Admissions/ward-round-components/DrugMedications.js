@@ -12,9 +12,14 @@ import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication
 
 const Medications = ({ admissionId }) => {
   const [medicationId, setMedicationId] = useState("");
+  const [drugId, setdrugId] = useState("")
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getMedications = getDrugMedicationsUrl(admissionId, pageNumber, pageSize);
+  const getMedications = getDrugMedicationsUrl(
+    admissionId,
+    pageNumber,
+    pageSize
+  );
   const getMedicationsConfig = fetchConfig({
     url: getMedications,
     method: "get",
@@ -56,7 +61,7 @@ const Medications = ({ admissionId }) => {
             {status ?? "N/A"}
           </span>
         ),
-        Action: <ActionTableAction id={id} setMedicationId={setMedicationId} />,
+        Action: <ActionTableAction id={id} drugId={medication?.drug?.id} setdrugId={setdrugId} setMedicationId={setMedicationId} />,
       };
     });
   }
@@ -90,29 +95,25 @@ const Medications = ({ admissionId }) => {
       </div>
       <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
-      <AdministerDrugMedications
-      //  medicationId={medicationId} admissionId={admissionId} 
-       mutate={mutate} 
-       />
-
+      <AdministerDrugMedications admissionId={admissionId} drugId={drugId} mutate={mutate} />
     </div>
   );
 };
 
-const ActionTableAction = ({ id, setMedicationId }) => {
+const ActionTableAction = ({ id, setMedicationId, setdrugId, drugId }) => {
   return (
     <>
       <ActionButton>
-      <Link
-        to="#"
+        <Link
+          to="#"
           data-toggle="modal"
           data-target="#admininster-drugMedication"
-          // onClick={() => setMedicationId(id)}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Administer Drugs
-      </Link>
+          onClick={() => setdrugId(drugId)}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Administer Drugs
+        </Link>
         <button
           data-toggle="modal"
           data-target="#update-medication-status"
