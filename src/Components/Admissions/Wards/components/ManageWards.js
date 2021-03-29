@@ -9,6 +9,7 @@ import ActionButton from "../../../DataTable/ActionButton";
 import TableSize from "../../../DataTable/TableSize";
 import { notification } from "../../../../utils/notification";
 import { AddBed } from "../../../Modals";
+import formatAmount from "../../../../utils/formatAmount";
 
 const ManageWards = ({ admissionId }) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -45,6 +46,7 @@ const ManageWards = ({ admissionId }) => {
           "#": ++index,
           Name: ward?.name,
           Capacity: ward?.capacity,
+          "Charge Per Night": formatAmount(ward?.chargePerNight),
           Description: ward?.description,
           Actions: (
             <AdmissionsActionTable admissionId={admissionId} ward={ward} />
@@ -55,6 +57,7 @@ const ManageWards = ({ admissionId }) => {
           "#": ++index,
           Name: ward?.name,
           Capacity: ward?.capacity,
+          "Charge Per Night": formatAmount(ward?.chargePerNight),
           Description: ward?.description,
           Actions: (
             <WardsTableAction
