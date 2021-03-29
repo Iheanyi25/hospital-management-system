@@ -5,7 +5,7 @@ const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
     setPayload(e.target.name, e.target.value);
   };
   console.log(firstStepDone);
-  const { sku, name, genericName, manufacturer, expiryDate } = data;
+  const { sku, name, genericName, manufacturer } = data;
   console.log(name);
   return (
     <form className="mb-4 p-5 needs-validation" noValidate>
@@ -67,21 +67,6 @@ const DrugDescription = ({ nextStep, firstStepDone, setPayload, data }) => {
           name="manufacturer"
           onChange={handleChange}
           value={manufacturer}
-          required
-        />
-        <div className="valid-feedback">Looks good!</div>
-        <div className="invalid-feedback">Please provide a valid text.</div>
-      </div>
-      <div className="form-group">
-        <label>Expiry Date</label>{" "}
-        <input
-          className="form-control"
-          type="date"
-          tabIndex={-98}
-          placeholder="Expiry Date"
-          name="expiryDate"
-          onChange={handleChange}
-          value={expiryDate}
           required
         />
         <div className="valid-feedback">Looks good!</div>

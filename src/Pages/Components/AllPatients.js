@@ -7,12 +7,20 @@ import ActionButton from "../../Components/DataTable/ActionButton";
 // import ReceiptModal from "../../Components/Modals/ReceiptModal";
 // import PatientRegistrationReciept from "./PatientRegistrationReciept";
 
-function AllPatients({ patients }) {
+function AllPatients({
+  patients,
+  paginationDetails,
+  pageNumber,
+  pageSize,
+  setPageNumber,
+  setPageSize,
+}) {
   // const [activePatientId, setActivePatientId] = useState("");
   let dataTable = [];
   if (patients) {
     dataTable = patients?.map(
       ({ firstName, lastName, email, phoneNumber, patientId: id }, index) => {
+        console.log(id,344);
         return {
           "#": ++index,
           Photo: (
@@ -57,7 +65,16 @@ function AllPatients({ patients }) {
             />
           </div>
           <div className="page-content">
-            {patients && <Table content={dataTable} />}
+            {patients && (
+              <Table
+                content={dataTable}
+                paginationDetails={paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+              />
+            )}
           </div>
         </div>
       </main>
@@ -69,7 +86,7 @@ function AllPatients({ patients }) {
 }
 
 const PatientTableAction = ({ patient }) => {
-  console.log(patient);
+  console.log(patient, 1222);
   const tableFunctions = [
     {
       text: "Update Profile",
@@ -78,7 +95,7 @@ const PatientTableAction = ({ patient }) => {
     },
     {
       text: "View Profile",
-      path: `/AdminPatientProfile/${patient.id}`,
+      path: `/AdminPatientProfile/${patient?.id}`,
       iconClass: "btn-icon icon sli-user mr-2",
     },
     {

@@ -112,7 +112,7 @@ const AccountTableAction = observer(({ account }) => {
     },
     {
       text: "View Patients",
-      path: `/ViewPatientsInAccount/${"sd"}`,
+      path: `/ViewPatientsInAccount/${account.id}`,
       iconClass: "btn-icon icon sli-link mr-2",
       routeState: {
         id: account.id,
