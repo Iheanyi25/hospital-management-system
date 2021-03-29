@@ -17,6 +17,7 @@ import AddPatient from "../Pages/Admin/AddPatient.js";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultations";
 import { AdminLayout } from "../Components/Layout";
 import ViewAllPatients from "../Pages/Admin/ViewAllPatients";
+import ViewPatientsInAccount from "../Pages/Admin/ViewPatientsInAccount";
 import ManageAccounts from "../Pages/Components/ManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Components/FundAccount";
@@ -122,6 +123,7 @@ export default function AdminRoutes() {
             component={AdminPreConsultation}
           />
           <Route exact path="/AdminAllPatients" component={ViewAllPatients} />
+          <Route exact path="/ViewPatientsInAccount/:id" component={ViewPatientsInAccount} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
           <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
           <Route
