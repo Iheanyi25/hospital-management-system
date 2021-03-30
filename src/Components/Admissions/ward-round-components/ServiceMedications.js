@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import { observer } from "mobx-react";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getServiceMedicationsUrl } from "../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import {
+  getServiceMedicationsUrl,
+  postAdministerServiceMedicationUrl,
+} from "../../../api/URLs";
+import { UserContext } from "../../../mobx/UserState";
 import formatDate from "../../../utils/formatDate";
+import { notification } from "../../../utils/notification";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
 import UpdateServiceMedication from "../../Modals/UpdateServiceMedication";
 
-const ServiceMedications = ({ admissionId }) => {
+const ServiceMedications = observer(({ admissionId }) => {
+  const{
+    user: { id: initiatorId},
+  } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getServiceMedications = getServiceMedicationsUrl(admissionId, pageNumber, pageSize);
+  const getServiceMedications = getServiceMedicationsUrl(
+    admissionId,
+    pageNumber,
+    pageSize
+  );
   const getServiceMedicationsConfig = fetchConfig({
     url: getServiceMedications,
     method: "get",
@@ -19,6 +33,25 @@ const ServiceMedications = ({ admissionId }) => {
   const { data, mutate } = useRequest(getServiceMedicationsConfig, {
     revalidateOnFocus: false,
   });
+
+  const administerService = async (serviceId) => {
+    const postAdministerServiceMedication = postAdministerServiceMedicationUrl();
+    const postAdministerServiceMedicationConfig = fetchConfig({
+      url: postAdministerServiceMedication,
+      method: "post",
+      data: {serviceId, admissionId, initiatorId },
+    });
+    try {
+      let res = await fetchWrapper(postAdministerServiceMedicationConfig);
+      console.log(res, 565);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+      }
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
 
   let dataTable = [];
   if (data) {
@@ -35,7 +68,7 @@ const ServiceMedications = ({ admissionId }) => {
       return {
         "#": ++index,
         "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
-        Drug: `${medication?.drug?.name ?? "N/A"}`,
+        Service: `${medication?.service?.name ?? "N/A"}`,
         Dosage: `${dosage ?? "N/A"}`,
         FreQ: `${frequency ?? "N/A"}`,
         Start: formatDate(startDate ?? "N/A"),
@@ -53,7 +86,14 @@ const ServiceMedications = ({ admissionId }) => {
             {status ?? "N/A"}
           </span>
         ),
-        Action: <ActionTableAction id={id} mutate={mutate} />,
+        Action: (
+          <ActionTableAction
+            id={id}
+            mutate={mutate}
+            administerService={administerService}
+            serviceId={medication?.serviceId}
+          />
+        ),
       };
     });
   }
@@ -91,9 +131,9 @@ const ServiceMedications = ({ admissionId }) => {
       {/* <UpdateMedicationStatus  medicationId={medicationId} mutate={mutate} /> */}
     </div>
   );
-};
+});
 
-const ActionTableAction = ({ id, mutate }) => {
+const ActionTableAction = ({ id, serviceId, administerService, mutate }) => {
   return (
     <>
       <ActionButton>
@@ -105,8 +145,18 @@ const ActionTableAction = ({ id, mutate }) => {
           <span className="btn-icon icofont-server mr-2" />
           Update status
         </button>
+        <button 
+        onClick={() => administerService(serviceId)}
+        className="btn btn-sm btn-block"
+        >
+          Administer Service
+        </button>
       </ActionButton>
-      <UpdateMedicationStatus  medicationId={id} mutate={mutate} medicationType="service" />
+      <UpdateMedicationStatus
+        medicationId={id}
+        mutate={mutate}
+        medicationType="service"
+      />
     </>
   );
 };
