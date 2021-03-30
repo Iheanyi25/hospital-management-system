@@ -130,8 +130,8 @@ const DrugPrescription = observer(({ match }) => {
       const res = await fetchWrapper(generateDrugDispenseInvoiceConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        history.push(nextRoute);
         $("#showInvoice").modal("hide");
+        history.push(nextRoute);
       }
     } catch (error) {
       notification.error({ message: error?.response?.data?.message });
