@@ -255,7 +255,7 @@ class UpdatePatientProfile extends React.Component {
                           state: {
                             patientId: this.state.patientId,
                             email: this.state.email,
-                            cost: this.state.patient?.account?.healthPlan?.cost,
+                            cost: this.state.patient?.account?.healthPlan?.amount,
                             name: `${firstName} ${lastName}`,
                           },
                         }}

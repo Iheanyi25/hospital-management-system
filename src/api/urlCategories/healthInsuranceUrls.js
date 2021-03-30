@@ -1,5 +1,9 @@
 const baseName = "HealthInsurance";
 
+// Health Insurance - Manage Counters
+export const getHMOCountersUrl = (hmoId) => `/${baseName}/GetHMOCounters?HMOId=${hmoId}`;
+
+
 // Health Insurance - Manage HMO Health Plan Drug Prices
 export const getHMODrugPricesByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetDrugPricesByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
@@ -71,6 +75,8 @@ export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumbe
   `/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToNHISHealthPlanUrl = () =>
   `/${baseName}/AssignPatientToNHISHealthPlan`;
+export const updatePatientNHISHealthPlanUrl = () =>
+  `/${baseName}/UpdatePatientNHISHealthPlan`;
 export const deletePatientFromNHISHealthPlanUrl = () =>
   `/${baseName}/DeletePatientFromNHISHealthPlan`;
 

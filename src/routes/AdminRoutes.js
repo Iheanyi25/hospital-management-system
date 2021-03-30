@@ -16,7 +16,8 @@ import AdminConsultationQueue from "../Pages/Admin/Consultations";
 import AddPatient from "../Pages/Admin/AddPatient.js";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultations";
 import { AdminLayout } from "../Components/Layout";
-import AllPatients from "../Pages/Admin/AllPatients";
+import ViewAllPatients from "../Pages/Admin/ViewAllPatients";
+import ViewPatientsInAccount from "../Pages/Admin/ViewPatientsInAccount";
 import ManageAccounts from "../Pages/Components/ManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Components/FundAccount";
@@ -103,6 +104,7 @@ import AddDrugToNHIS from "../Pages/HealthInsurance/NHIS/AddDrugToNHIS";
 import AddServiceToNHIS from "../Pages/HealthInsurance/NHIS/AddServiceToNHIS";
 import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
+import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
 
 export default function AdminRoutes() {
   return (
@@ -120,7 +122,8 @@ export default function AdminRoutes() {
             path="/AdminPreConsultation/:id"
             component={AdminPreConsultation}
           />
-          <Route exact path="/AdminAllPatients" component={AllPatients} />
+          <Route exact path="/AdminAllPatients" component={ViewAllPatients} />
+          <Route exact path="/ViewPatientsInAccount/:id" component={ViewPatientsInAccount} />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
           <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
           <Route
@@ -444,6 +447,7 @@ export default function AdminRoutes() {
             path="/AdminAddServiceToNHIS/:id"
             component={AddServiceToNHIS}
           />
+          <Route exact path="/AdminReassignPatientToNHIS/:id" component={ReassignPatientToPlan} />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
           <Route

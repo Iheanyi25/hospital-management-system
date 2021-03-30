@@ -32,7 +32,7 @@ const ConsultationsWithDoctors = () => {
       revalidateOnFocus: false,
     }
   );
-
+console.log(data,342);
   const deleteConsultation = async (id) => {
     try {
       const deleteConsultation = deleteConsultationUrl();

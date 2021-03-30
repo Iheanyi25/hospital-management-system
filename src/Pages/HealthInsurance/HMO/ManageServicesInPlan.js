@@ -76,7 +76,7 @@ const ManageServices = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">{`Manage Services in ${healthPlanName}`}</h4>
+            <h4 className="page-title mb-0">{`Manage Services in ${healthPlanName || ""}`}</h4>
             <Link
               className="btn btn-primary"
               to={{

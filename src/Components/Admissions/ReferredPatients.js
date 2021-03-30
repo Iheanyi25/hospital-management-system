@@ -32,7 +32,7 @@ const ReferredPatients = () => {
         "#": ++index,
         "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
         "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-        "Date of Admission": formatDate(admission.dateOfAdmission),
+        "Date of Referral": formatDate(admission.dateOfReferral),
         Actions: <ReferredPatientsActionTable admissionId={admission.id} />,
       };
     });
