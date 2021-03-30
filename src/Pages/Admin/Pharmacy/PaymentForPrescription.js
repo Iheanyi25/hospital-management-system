@@ -107,22 +107,31 @@ const PaymentForPrescription = observer(({ history }) => {
           </header>
           {amountTotal === amountDue ? (
             <div className=" d-flex">
-              <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
+              <h4 className="">Total Amount:&nbsp;</h4>
               <h4 className="text-info"> &#x20A6;{formatAmount(amountDue)}</h4>
             </div>
           ) : (
-            <div className=" d-flex">
-              <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-              <h4 className="text-dark">
-                <s>&#x20A6;{formatAmount(amountTotal)}</s> &nbsp;
-              </h4>
-              <h4 className="text-info">
-                {" "}
-                &#x20A6;{formatAmount(amountDue)}
-                <sub>
-                  <small className="text-dark">{`(${priceCalculationFormular})`}</small>
-                </sub>
-              </h4>
+            <div className="mb-5">
+              <div className=" d-flex" style={{ height: "50px" }}>
+                <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
+                <h4 className="text-info">&#x20A6;{formatAmount(amountDue)}</h4>
+                <h6
+                  className="text-muted"
+                  style={{ marginTop: "28px", marginLeft: "5px" }}
+                >
+                  <s>&#x20A6;{formatAmount(amountTotal)}</s> &nbsp;
+                </h6>
+              </div>
+              <span
+                className="badge badge-light font-weight-light"
+                style={{
+                  background: "#F8F9FA",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
+              >
+                {priceCalculationFormular}
+              </span>
             </div>
           )}
           <div className="page-content">
