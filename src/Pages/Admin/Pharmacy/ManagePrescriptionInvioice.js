@@ -76,7 +76,10 @@ const ManagePrescriptionInvoice = observer(({ isDashboard }) => {
         "Invoice No": drugInvoice?.invoiceNumber,
         "Date Generated": formatDate(drugInvoice?.dateGenerated),
         "Total Cost": formatAmount(drugInvoice?.amountTotal),
-        "Amount due": formatAmount(drugInvoice?.amountToBePaidByPatient),
+        "Amount due":
+          drugInvoice?.amountToBePaidByPatient === 0
+            ? "Covered"
+            : formatAmount(drugInvoice?.amountToBePaidByPatient),
         Status:
           drugInvoice?.paymentStatus === "NOT PAID" ? (
             <span>
