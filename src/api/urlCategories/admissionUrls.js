@@ -49,7 +49,8 @@ export const updateDrugMedicationStatusUrl = () =>
 export const createServiceMedicationUrl = () => `Admission/CreateServiceMedication`;
 export const updateServiceMedicationStatusUrl = () =>
   `Admission/UpdateServiceMedicationStatus`;
-
+  export const postAdministerServiceMedicationUrl = () =>
+  `Admission/AdministerServiceMedication`;
 
 // Admission - Manage Observation Charts
 export const getObservationChartUrl = (admissionId) =>

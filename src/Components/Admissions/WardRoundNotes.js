@@ -50,7 +50,7 @@ const WardRoundNotes = observer(() => {
                 className="page-title mb-0"
                 style={{ textTransform: "capitalize" }}
               >{`${firstName} ${lastName}`}</h4>
-              <p>Days admitted:{`${data?.daysAdmitted}`}</p>            
+              <p>Days admitted : {`${data?.daysAdmitted}`}</p>            
             </div>
             <div>
               <Link
