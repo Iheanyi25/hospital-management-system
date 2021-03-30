@@ -9,7 +9,6 @@ import {
 import { fetchConfig } from "../../../api/fetchConfig";
 import {
   AddPrescriptionQuantity,
-  SelectableDropDown,
 } from "../../../Components";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { PrescriptionInvoice } from "../../../Components/Modals";
@@ -18,6 +17,7 @@ import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionList } from "../../Components/DrugPrescription";
 import { notification } from "../../../utils/notification";
 import DrugPrescriptionTable from "../../../Components/Admissions/Prescriptions/DrugPrescriptionTable";
+import Select from "react-select";
 
 const $ = window.$;
 
@@ -47,29 +47,28 @@ const DrugPrescription = observer(({ match }) => {
     method: "get",
   });
   const [selectedDrugs, setSelectedDrugs] = useState([]);
-  const [activeDrugs, setActiveDrugs] = useState(null);
+  const [activeDrug, setActiveDrug] = useState({label: "", value: ""});
 
   const { data } = useRequest(getDrugConfig, {
     revalidateOnFocus: false,
   });
 
-  const onChange = (key, e) => {
-    e.preventDefault();
+  const onChange = (data, e) => {
+    // e.preventDefault();
 
-    let rawData = e.target.value;
-    rawData = rawData.split("#");
 
     let allDrugs = selectedDrugs;
-    let existingIndex = allDrugs.find((element) => element.id === rawData[1]);
+    let existingIndex = allDrugs.find((element) => element.id === data.value);
 
     if (!existingIndex) {
       let newValue = {
-        name: rawData[2],
-        drugId: rawData[1],
+        label: data.label,
+        value: data.value,
       };
-      setActiveDrugs(newValue);
+      console.log(newValue,333)
+      setActiveDrug(newValue);
       loadModal();
-    } else return;
+    }
   };
 
   const loadModal = () => {
@@ -77,11 +76,7 @@ const DrugPrescription = observer(({ match }) => {
   };
 
   const addPresQuality = (newValue) => {
-    let allDrugs = selectedDrugs;
-    allDrugs.push(newValue);
-    console.log(newValue, "heloo");
-    setSelectedDrugs(allDrugs);
-    setActiveDrugs(null);
+    setSelectedDrugs([...selectedDrugs, newValue]);
   };
 
   const removeFromSelected = (id) => {
@@ -112,7 +107,7 @@ const DrugPrescription = observer(({ match }) => {
     setcostingDetails(response?.data?.costings);
     console.log(response);
   };
-  
+
   const generateInvoice = async () => {
     const nextRoute =
       userType === "Admin"
@@ -142,6 +137,17 @@ const DrugPrescription = observer(({ match }) => {
       notification.error({ message: error?.response?.data?.message });
     }
   };
+
+  const allDrugs = [];
+
+    if (data?.drugs?.length > 0) {
+      data.drugs.forEach(({ id, name, sku }) => {
+        allDrugs.push({ value: id, label: name, sku });
+      });
+    }
+
+    console.log(selectedDrugs,5555)
+
 
   return (
     <>
@@ -177,24 +183,17 @@ const DrugPrescription = observer(({ match }) => {
                   </div>
                   <div className="col-12 col-md-3">
                     <label className={"mb-3"}>Search & select drugs</label>
-                    <SelectableDropDown
-                      searchParams={["name", "sku"]}
-                      data={data?.drugs ?? []}
-                      valueKeys={["name"]}
-                      label={"Drug"}
-                      multiple={false}
-                      search
+                    <Select
+                      options={allDrugs}
                       onChange={onChange}
-                      stateKey={["name"]}
-                      itemKey={["genericName", "id", "name"]}
                     />
                   </div>
 
                   <div className="col-12 col-md-5">
-                  <DrugPrescriptionTable
-                        selectedDrugs={selectedDrugs}
-                        removeFromSelected={removeFromSelected}
-                      />
+                    <DrugPrescriptionTable
+                      selectedDrugs={selectedDrugs}
+                      removeFromSelected={removeFromSelected}
+                    />
                   </div>
                 </div>
               </div>
@@ -210,7 +209,7 @@ const DrugPrescription = observer(({ match }) => {
         data-target="#add-prescription-quantity"
       />
 
-      <AddPrescriptionQuantity drug={activeDrugs} setSubmit={addPresQuality} />
+      <AddPrescriptionQuantity drug={ {name: activeDrug.label, drugId: activeDrug.value}} setSubmit={addPresQuality} />
       <PrescriptionInvoice
         costingDetails={costingDetails}
         doctor={prescription?.doctor}

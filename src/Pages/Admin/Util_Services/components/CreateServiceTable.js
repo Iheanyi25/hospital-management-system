@@ -9,7 +9,7 @@ export default function CreateServiceTable({ items, deleteService }) {
       return {
         "#": index + 1,
         Service: item.service,
-        Category: item.category,
+        Category: item.category.label,
         Actions: (
           <Link
             title="Delete"
