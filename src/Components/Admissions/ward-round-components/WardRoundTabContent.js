@@ -7,7 +7,8 @@ import {
   ServiceRequestsInInvoice,
 } from "../admission-invoices-components";
 import DoctorsNotes from "./DoctorsNotes";
-import Medications from "./Medications";
+import Medications from "./DrugMedications";
+// import Medications from "./Medications";
 import ServiceMedications from "./ServiceMedications";
 import { ObservationCharts } from "./ObservationChart";
 

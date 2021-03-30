@@ -2,17 +2,24 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
 import { getDrugMedicationsUrl } from "../../../api/URLs";
+import { Link } from "react-router-dom";
 import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
-import UpdateMedications from "../../Modals/UpdateMedications";
+import UpdateDrugMedications from "../../Modals/UpdateDrugMedications";
+import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication";
 
 const Medications = ({ admissionId }) => {
   const [medicationId, setMedicationId] = useState("");
+  const [drugId, setdrugId] = useState("")
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getMedications = getDrugMedicationsUrl(admissionId, pageNumber, pageSize);
+  const getMedications = getDrugMedicationsUrl(
+    admissionId,
+    pageNumber,
+    pageSize
+  );
   const getMedicationsConfig = fetchConfig({
     url: getMedications,
     method: "get",
@@ -54,7 +61,7 @@ const Medications = ({ admissionId }) => {
             {status ?? "N/A"}
           </span>
         ),
-        Action: <ActionTableAction id={id} setMedicationId={setMedicationId} />,
+        Action: <ActionTableAction id={id} drugId={medication?.drug?.id} setdrugId={setdrugId} setMedicationId={setMedicationId} />,
       };
     });
   }
@@ -88,16 +95,27 @@ const Medications = ({ admissionId }) => {
           </div>
         </div>
       </div>
-      <UpdateMedications admissionId={admissionId} mutate={mutate} />
+      <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
+      <AdministerDrugMedications admissionId={admissionId} drugId={drugId} mutate={mutate} />
     </div>
   );
 };
 
-const ActionTableAction = ({ id, setMedicationId }) => {
+const ActionTableAction = ({ id, setMedicationId, setdrugId, drugId }) => {
   return (
     <>
       <ActionButton>
+        <Link
+          to="#"
+          data-toggle="modal"
+          data-target="#admininster-drugMedication"
+          onClick={() => setdrugId(drugId)}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Administer Drugs
+        </Link>
         <button
           data-toggle="modal"
           data-target="#update-medication-status"
