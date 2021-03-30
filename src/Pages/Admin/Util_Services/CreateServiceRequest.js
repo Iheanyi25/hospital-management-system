@@ -36,7 +36,7 @@ class CreateService extends Component {
     if (this?.props?.location?.state) {
       this.setState({
         isFromClarking: true,
-        patient: this.props.location.state.patient.id,
+        patient: this.props.location.state.patient.patientId,
       });
     }
     if (this?.props?.admissionId) {
@@ -272,7 +272,7 @@ class CreateService extends Component {
                           this.state?.isFromClarking || this.props.admissionId
                         ) ? (
                           <SelectableDropDown
-                            itemKey={["id"]}
+                            itemKey={["patientId"]}
                             onChange={this.handleChange}
                             stateValue={this.state.patient}
                             stateKey={"patient"}
