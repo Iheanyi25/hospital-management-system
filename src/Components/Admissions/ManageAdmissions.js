@@ -52,16 +52,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <NurseActionTable
               admissionId={admission.id}
@@ -76,16 +75,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <AccountantTable
               admissionId={admission.id}
@@ -100,16 +98,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: <LabActionTable admissionId={admission.id} />,
         };
       } else if (userType === "Pharmacy") {
@@ -119,16 +116,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <PharmacyActionTable
               admissionId={admission.id}
@@ -143,16 +139,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <DoctorActionTable
               admissionId={admission.id}
@@ -167,16 +162,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <AdminActionTable
               admissionId={admission.id}
@@ -247,4 +241,3 @@ const ManageAdmissions = observer(() => {
 });
 
 export default ManageAdmissions;
-

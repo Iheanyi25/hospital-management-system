@@ -12,19 +12,28 @@ import { payForDrugsUrl, payForDrugsWithAccountUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { notification } from "../../../utils/notification";
+import { useHistory } from "react-router";
 
 const PaymentForPrescription = observer(({ history }) => {
-
   const {
     user: { userType },
   } = useContext(UserContext);
-  const nextRoute= userType === "Admin" ? "/AdminManagePrescriptionInvoice" : "/AccountManagePrescriptionInvoice";
-  const {
-    amountTotal: amount,
-    patient: { id: patientId, email },
-    invoiceNumber,
-  } = history.location.state;
+  const nextRoute =
+    userType === "Admin"
+      ? "/AdminManagePrescriptionInvoice"
+      : "/AccountManagePrescriptionInvoice";
 
+  const {
+    location: {
+      state: {
+        amountTotal,
+        amountToBePaidByPatient: amountDue,
+        priceCalculationFormular,
+        patient: { id: patientId, email },
+        invoiceNumber,
+      },
+    },
+  } = useHistory();
   const paidSuccessfully = async (
     referenceNumber,
     paymentMethod,
@@ -34,7 +43,7 @@ const PaymentForPrescription = observer(({ history }) => {
     const payload = {
       patientId,
       invoiceNumber,
-      totalAmount: amount,
+      totalAmount: amountDue,
       paymentMethod,
       referenceNumber,
       initiatorId,
@@ -47,12 +56,12 @@ const PaymentForPrescription = observer(({ history }) => {
       data: payload,
     });
     try {
-      const res= await fetchWrapper(payForDrugsConfig);
-      notification.success({ message: res.data.message})
+      const res = await fetchWrapper(payForDrugsConfig);
+      notification.success({ message: res.data.message });
       history.push(nextRoute);
     } catch (error) {
       console.log(error);
-      notification.error({ message: error?.response?.data.message }) 
+      notification.error({ message: error?.response?.data.message });
     }
   };
   const payWithAccount = async (
@@ -64,7 +73,7 @@ const PaymentForPrescription = observer(({ history }) => {
     const payload = {
       patientId,
       invoiceNumber,
-      totalAmount: amount,
+      totalAmount: amountDue,
       paymentMethod,
       referenceNumber,
       initiatorId,
@@ -78,11 +87,11 @@ const PaymentForPrescription = observer(({ history }) => {
     });
     try {
       const res = await fetchWrapper(payForDrugsConfig);
-      notification.success({ message: res.data.message})
+      notification.success({ message: res.data.message });
       history.push(nextRoute);
     } catch (error) {
       console.log(error);
-      notification.error({ message: error?.response?.data.message })
+      notification.error({ message: error?.response?.data.message });
     }
   };
 
@@ -96,10 +105,35 @@ const PaymentForPrescription = observer(({ history }) => {
           <header className="page-header">
             <h3>{`Payment for prescription invoice ${invoiceNumber}`}</h3>
           </header>
-          <div className=" d-flex">
-            <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
-            <h4 className="text-info"> &#x20A6;{formatAmount(amount)}</h4>
-          </div>
+          {amountTotal === amountDue ? (
+            <div className=" d-flex">
+              <h4 className="">Total Amount:&nbsp;</h4>
+              <h4 className="text-info"> &#x20A6;{formatAmount(amountDue)}</h4>
+            </div>
+          ) : (
+            <div className="mb-5">
+              <div className=" d-flex" style={{ height: "50px" }}>
+                <h4 className="font-weight-light">Total Amount:&nbsp;</h4>
+                <h4 className="text-info">&#x20A6;{formatAmount(amountDue)}</h4>
+                <h6
+                  className="text-muted"
+                  style={{ marginTop: "28px", marginLeft: "5px" }}
+                >
+                  <s>&#x20A6;{formatAmount(amountTotal)}</s> &nbsp;
+                </h6>
+              </div>
+              <span
+                className="badge badge-light font-weight-light"
+                style={{
+                  background: "#F8F9FA",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
+              >
+                {priceCalculationFormular}
+              </span>
+            </div>
+          )}
           <div className="page-content">
             <div className="card mb-0">
               <div className="card-body">
@@ -171,7 +205,7 @@ const PaymentForPrescription = observer(({ history }) => {
                         aria-labelledby="pills-active-tab"
                       >
                         <PayOnline
-                          details={{ amount, email }}
+                          details={{ amount: amountDue, email }}
                           paidSuccessfully={paidSuccessfully}
                         />
                       </div>
@@ -182,7 +216,7 @@ const PaymentForPrescription = observer(({ history }) => {
                         aria-labelledby="pills-accepted-tab"
                       >
                         <PayCash
-                          details={{ amount, email }}
+                          details={{ amount: amountDue, email }}
                           paidSuccessfully={paidSuccessfully}
                         />
                       </div>
@@ -194,7 +228,7 @@ const PaymentForPrescription = observer(({ history }) => {
                       >
                         <PayFromAccount
                           patientId={patientId}
-                          details={{ amount, email }}
+                          details={{ amount: amountDue, email }}
                           paidSuccessfully={payWithAccount}
                         />
                       </div>
@@ -205,7 +239,7 @@ const PaymentForPrescription = observer(({ history }) => {
                         aria-labelledby="pills-completed-tab"
                       >
                         <Others
-                          details={{ amount, email }}
+                          details={{ amount: amountDue, email }}
                           paidSuccessfully={paidSuccessfully}
                         />
                       </div>

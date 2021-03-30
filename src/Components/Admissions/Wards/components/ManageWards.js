@@ -40,7 +40,6 @@ const ManageWards = ({ admissionId }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.wards.map((ward, index) => {
-      console.log(ward,555)
       if (admissionId) {
         return {
           "#": ++index,
@@ -81,9 +80,11 @@ const ManageWards = ({ admissionId }) => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">Manage Wards</h4>
-            <Link className="btn btn-primary" to="/AdminCreateWard">
-              Create Ward
-            </Link>
+            {admissionId ? null : (
+              <Link className="btn btn-primary" to="/AdminCreateWard">
+                Create Ward
+              </Link>
+            )}
           </header>
 
           <div className="page-content">

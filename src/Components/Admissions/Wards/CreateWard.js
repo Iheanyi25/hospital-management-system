@@ -101,7 +101,7 @@ const CreateWard = ({ history }) => {
                           className="form-control"
                           type="number"
                           tabIndex={-98}
-                          placeholder="Room capacity"
+                          placeholder="Charge per night"
                           name="chargePerNight"
                           onChange={handleChange}
                           required

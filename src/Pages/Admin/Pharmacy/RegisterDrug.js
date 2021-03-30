@@ -23,31 +23,28 @@ class RegisterDrug extends React.Component {
     quantityPerContainer: "",
     containersPerCarton: "",
     costPricePerContainer: "",
-    measurment:"",
-    expiryDate: "",
+    measurment: "",
     message: "",
-    isSubmitting: false
+    isSubmitting: false,
   };
 
   componentDidUpdate() {
     const { firstStepDone } = this.state;
-    if ( this.verifyValidity() && !firstStepDone) {
+    if (this.verifyValidity() && !firstStepDone) {
       this.setState((state) => ({ ...state, firstStepDone: true }));
-    }
-    else if(!this.verifyValidity() && firstStepDone){
+    } else if (!this.verifyValidity() && firstStepDone) {
       this.setState((state) => ({ ...state, firstStepDone: false }));
     }
   }
   verifyValidity = () => {
-    const { sku, name, genericName, manufacturer, expiryDate } = this.state;
+    const { sku, name, genericName, manufacturer } = this.state;
     return (
       isNotEmptyString(sku) &&
       isNotEmptyString(name) &&
       isNotEmptyString(genericName) &&
-      isNotEmptyString(manufacturer) &&
-      isNotEmptyString(expiryDate)
+      isNotEmptyString(manufacturer)
     );
-  }; 
+  };
   nextStep = () => {
     this.setState((state) => ({ ...state, step: state.step + 1 }));
   };
@@ -63,7 +60,9 @@ class RegisterDrug extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     this.setState((state) => ({ ...state, isSubmitting: true }));
-    const { user: { userType }} = this.context
+    const {
+      user: { userType },
+    } = this.context;
     const {
       sku,
       name,
@@ -96,13 +95,13 @@ class RegisterDrug extends React.Component {
     });
     try {
       let res = await fetchWrapper(postdrugConfig);
-        const nextRoute= userType === "Admin" ? "/AdminViewDrugs" : "/PharmacyViewDrugs";
-        notification.success({ message: res.data.message})
-        this.props.history.push(nextRoute);
-      
+      const nextRoute =
+        userType === "Admin" ? "/AdminViewDrugs" : "/PharmacyViewDrugs";
+      notification.success({ message: res.data.message });
+      this.props.history.push(nextRoute);
     } catch (error) {
       console.log(error);
-      notification.error({ message: error?.response?.data.message })
+      notification.error({ message: error?.response?.data.message });
     }
     this.setState((state) => ({ ...state, isSubmitting: false }));
     console.log(payload);

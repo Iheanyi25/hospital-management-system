@@ -23,7 +23,7 @@ import {
   PharmacistActionTable,
 } from "./Components/prescription-invoice/PrescriptionActionTable";
 
-const ManagePrescriptionInvoice = observer(({isDashboard}) => {
+const ManagePrescriptionInvoice = observer(({ isDashboard }) => {
   const [drugs, setDrugs] = useState([]);
   const [isFetchingDrugs, setIsFetchingDrugs] = useState(false);
   const invoicesUrl = getAllDrugDispencingInvoicesUrl();
@@ -37,6 +37,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
       revalidateOnFocus: false,
     }
   );
+  console.log(data, 37623);
   const fetchDrugsInAnInvoice = async (invoiceNumber) => {
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
     const getDrugsInAnInvoiceConfig = fetchConfig({
@@ -75,6 +76,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
         "Invoice No": drugInvoice?.invoiceNumber,
         "Date Generated": formatDate(drugInvoice?.dateGenerated),
         "Total Cost": formatAmount(drugInvoice?.amountTotal),
+        "Amount due": formatAmount(drugInvoice?.amountToBePaidByPatient),
         Status:
           drugInvoice?.paymentStatus === "NOT PAID" ? (
             <span>
@@ -110,7 +112,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
   return (
     <Fragment>
       <PageLoader />
-      <main className={!isDashboard &&"main-content"}>
+      <main className={!isDashboard && "main-content"}>
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
@@ -118,12 +120,14 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Prescription Invoices</h4>
           </header>
-         {!isDashboard && <div className="page-content">
-            <TableSize
-              size={data ? formatAmount(data.drugInvoices.length) : 0}
-              heading="No of Prescription Invoices"
-            />
-          </div>}
+          {!isDashboard && (
+            <div className="page-content">
+              <TableSize
+                size={data ? formatAmount(data.drugInvoices.length) : 0}
+                heading="No of Prescription Invoices"
+              />
+            </div>
+          )}
           <div className="page-content">
             {data && <Table content={dataTable} />}
           </div>
@@ -142,7 +146,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
 export default ManagePrescriptionInvoice;
 
 const ActionCatgeories = observer(
-  ({drugInvoice, fetchDrugsInAnInvoice, markInvoiceAsDispensed}) => {
+  ({ drugInvoice, fetchDrugsInAnInvoice, markInvoiceAsDispensed }) => {
     const {
       user: { userType },
     } = useContext(UserContext);
