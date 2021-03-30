@@ -6,8 +6,8 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
 export const assignPatientToBedSpaceUrl = () =>
   `/Admission/AssignPatientToBedspace`;
   export const postDischargePatientUrl = () => `Admission/DischargePatient`;
-
-// Admission - Manage Admission Drug Dispensing
+  export const getAdmissionDaysUrl = (admssionId) => `Admission/GetAdmissionDays?AdmissionId=${admssionId}`;  
+  // Admission - Manage Admission Drug Dispensing
 export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
 export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
   `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}`;
@@ -74,15 +74,15 @@ export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
   `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
 // Admission - Manage Medications
-export const getDrugMedicationsUrl = (admissionId, pageNumber, pageSize) =>
-  `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
-export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
+// export const getDrugMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+//   `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+// export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
 export const updateMedicationStatusUrl = () => `Admission/UpdateMedicationStatus`;
 // Admission - Manage Observation Charts
-export const getObservationChartUrl = (admissionId) =>
-  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
-  export const postObservationChartUrl = () =>
-  `/Admission/UpdateObservationChart`;
+// export const getObservationChartUrl = (admissionId) =>
+//   `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
+  // export const postObservationChartUrl = () =>
+  // `/Admission/UpdateObservationChart`;
 // Admission - Manage Medication
 export const postAdministerDrugMedicationUrl = () =>
   `/Admission/AdministerDrugMedication`;

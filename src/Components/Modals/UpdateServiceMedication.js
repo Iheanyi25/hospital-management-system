@@ -3,6 +3,7 @@ import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import {
   createServiceMedicationUrl,
+  // createServiceMedicationUrl,
   getAllServicesCategoryUrl,
   getAllServicesInACategoryUrl,
 } from "../../api/URLs";
@@ -83,7 +84,7 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
     e.preventDefault();
     const data = { ...payload, serviceId: service?.value, admissionId };
     try {
-      const createMedication = createServiceMedicationUrl();
+      const createMedication = createServiceMedicationUrl ();
       const createMedicationConfig = fetchConfig({
         url: createMedication,
         data: data,

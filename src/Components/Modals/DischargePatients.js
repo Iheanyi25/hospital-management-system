@@ -4,18 +4,19 @@ import React, { useContext, useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDischargePatientUrl } from "../../api/URLs";
-import { UserContext } from "../../mobx/UserState";
+// import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
-const DischargePatients = observer(() => {
-  const {
-    user: { id },
-  } = useContext(UserContext);
+const DischargePatients = observer(({admissionId}) => {
+//   const {
+//     user: { id },
+//   } = useContext(UserContext);
   
 
   const [payload, setpayload] = useState({
     dischargeNotes: "",
+    admissionId,
     
   });
   const handleChange =(e)=>{
@@ -26,20 +27,20 @@ const DischargePatients = observer(() => {
   }
 
   const handleSubmit = async (e) => {
-    console.log("omo", 1010);
+    console.log( payload, "omo", 1010);
     e.preventDefault();
     const postDischargePatient = postDischargePatientUrl();
     const postDischargePatientConfig = fetchConfig({
       url: postDischargePatient,
       method: "post",
-    //   data: data,
+      data: payload,
     });
     try {
       let res = await fetchWrapper(postDischargePatientConfig);
       console.log(res, 2021);
       if (res.status === 200) {
         // mutate(JSON.stringify(getObservationChartConfig));
-        $("#update-observation").modal("hide");
+        $("#discharge-patient").modal("hide");
         notification.success({ message: res?.data?.message });
       }
     } catch (error) {
