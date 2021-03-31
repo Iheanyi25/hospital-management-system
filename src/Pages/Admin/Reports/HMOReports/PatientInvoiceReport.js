@@ -91,7 +91,7 @@ const PatientInvoiceReport = () => {
               endDate={endDate}
               hmo={hmo}
               handleHMOChange={handleHMOChange}
-              patient={patient}
+              optionValue={patient}
               optionTitle="Select Patient"
               options={patientOptions}
               handleOptionChange={handlePatientChange}

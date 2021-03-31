@@ -15,7 +15,7 @@ const FetchReportForm = ({
   optionTitle,
   options,
   handleHMOChange,
-  patient,
+  optionValue,
   handleOptionChange,
 }) => {
   const [emptyField, setEmptyField] = useState(true);
@@ -95,7 +95,7 @@ const FetchReportForm = ({
             <div className="form-group">
               <label>{optionTitle}</label>
               <Select
-                value={patient}
+                value={optionValue}
                 isSearchable={true}
                 options={options}
                 onChange={handleOptionChange}
