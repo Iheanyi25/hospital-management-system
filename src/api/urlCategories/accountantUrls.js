@@ -12,6 +12,8 @@ export const getTransactionsForRegistrationUrl = () =>
   `/Accountant/GetTransactionsForRegistration`;
 export const getReportsForExpiryDatesOfDrugsUrl = (date) =>
   `/Accountant//GetReportForExpiryDateofDrugs?date=${date}`;
+export const getPatientInvoicesForHMOUrl = () =>
+  `/Accountant//GetPatientInvoicesForHMO`;
 
 // Accountant- Manage Profile
 export const getAllAccountantsUrl = () => `/Accountant/GetAccountants?`;
