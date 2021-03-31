@@ -8,6 +8,7 @@ export default function Reports() {
       <ReportsSection />
       <ServiceReports pathname={pathname} />
       <AccountReports pathname={pathname} />
+      <HMOReports pathname={pathname} />
     </div>
   );
 }
@@ -147,6 +148,96 @@ const AccountReports = ({ pathname }) => {
               }
             >
               All Account Transactions
+            </span>
+          </Link>
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+const HMOReports = ({ pathname }) => {
+  return (
+    <div className="collapse" id="subMenuReports">
+      <li className="menu-item">
+        <div
+          className="cursor item-link   panel-heading collapsed  "
+          data-toggle="collapse"
+          data-target="#submenuHMOReports"
+        >
+          <span className="link-icon icofont-hospital" />{" "}
+          <span className="link-text">HMO reports</span>{" "}
+        </div>
+      </li>
+      <ul
+        className="collapse submenu-ul"
+        id="submenuHMOReports"
+        aria-expanded="false"
+        data-parent="#accordion"
+      >
+        <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminHMOPatientInvoiceReport">
+            <span
+              className={
+                pathname === "/AdminHMOPatientInvoiceReport"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Patient Reports
+            </span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link to="/AdminDrugReport" className="item-link">
+            <span
+              className={
+                pathname === "/AdminDrugReport"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Drug Report
+            </span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link to="/AdminServiceRequestReport" className="item-link">
+            <span
+              className={
+                pathname === "/AdminServiceRequestReport"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              {" "}
+              Service Request Report
+            </span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminRegistrationReport">
+            <span
+              className={
+                pathname === "/AdminRegistrationReport"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Registration Report
+            </span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link to="/AdminExpiredDrugsReport" className="item-link">
+            <span
+              className={
+                pathname === "/AdminExpiredDrugsReport"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Expired drugs report
             </span>
           </Link>
         </li>
