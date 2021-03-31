@@ -10,6 +10,7 @@ export default function DrugPrescriptionTable({
   let dataTable = [];
   if (selectedDrugs) {
     dataTable = selectedDrugs.map((item, index) => {
+      console.log(item,6666)
       return {
         "#": <strong>{index + 1}</strong>,
         "Drug Name": <strong>{item?.name ?? "N/A"}</strong>,
