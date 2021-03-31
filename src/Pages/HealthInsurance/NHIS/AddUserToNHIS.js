@@ -69,7 +69,7 @@ export default function AddUserToNHIS() {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              {`Add A Patient To ${healthPlanName}`}
+              {`Add A Patient To ${healthPlanName || ""}`}
             </h4>
           </header>
           <div className="page-content w-50 m-auto">

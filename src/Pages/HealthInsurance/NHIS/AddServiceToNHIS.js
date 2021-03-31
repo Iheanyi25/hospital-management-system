@@ -98,7 +98,7 @@ export default function AddServiceToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">{`Add Service To ${healthPlanName}`}</h4>
+            <h4 className="page-title mb-0">{`Add Service To ${healthPlanName || ""}`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">

@@ -64,7 +64,7 @@ export default function AddDrugToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">{`Add A Drug To ${healthPlanName} Health Plan`}</h4>
+            <h4 className="page-title mb-0">{`Add A Drug To ${healthPlanName || ""} Health Plan`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
