@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../../api/fetcher";
 import {
-  getHMOsUrl,
   getPatientsUrl,
   getPatientInvoicesForHMOUrl,
 } from "../../../../api/URLs";
@@ -40,20 +39,6 @@ const PatientInvoiceReport = () => {
   const handlePatientChange = (patient) => {
     setPatient(patient);
   };
-  const getHMOs = getHMOsUrl(1, 200);
-  const getHMOsConfig = fetchConfig({
-    url: getHMOs,
-    method: "get",
-  });
-  const { data: hmoObject } = useRequest(getHMOsConfig, {
-    revalidateOnFocus: false,
-  });
-  let hmOOptions = [];
-  if (hmoObject?.hmOs.length > 0) {
-    hmoObject.hmOs.forEach(({ id, name }) => {
-      hmOOptions.push({ value: id, label: name });
-    });
-  }
   const handleHMOChange = (hmo) => {
     setHmo(hmo);
   };
@@ -105,7 +90,6 @@ const PatientInvoiceReport = () => {
               startDate={startDate}
               endDate={endDate}
               hmo={hmo}
-              hmOOptions={hmOOptions}
               handleHMOChange={handleHMOChange}
               patient={patient}
               optionTitle="Select Patient"

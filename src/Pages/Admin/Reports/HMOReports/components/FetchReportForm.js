@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
+import { fetchConfig } from '../../../../../api/fetchConfig';
+import { useRequest } from '../../../../../api/fetcher';
+import { getHMOsUrl } from '../../../../../api/URLs';
 import { formatInputDate } from '../../../../../utils/formatInputDate';
 import { isNotEmptyString } from '../../../../../utils/validationUtils';
 
@@ -13,7 +16,6 @@ const FetchReportForm = ({
   options,
   handleHMOChange,
   patient,
-  hmOOptions,
   handleOptionChange,
 }) => {
   const [emptyField, setEmptyField] = useState(true);
@@ -22,6 +24,20 @@ const FetchReportForm = ({
       setEmptyField(false);
     }
   }, [startDate, endDate]);
+  const getHMOs = getHMOsUrl(1, 200);
+  const getHMOsConfig = fetchConfig({
+    url: getHMOs,
+    method: "get",
+  });
+  const { data: hmoObject } = useRequest(getHMOsConfig, {
+    revalidateOnFocus: false,
+  });
+  let hmOOptions = [];
+  if (hmoObject?.hmOs.length > 0) {
+    hmoObject.hmOs.forEach(({ id, name }) => {
+      hmOOptions.push({ value: id, label: name });
+    });
+  }
   return (
     <div className="card border-light p-4">
       <form className="mb-4" onSubmit={fetchReport}>
