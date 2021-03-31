@@ -83,7 +83,7 @@ class BookConsultation extends React.Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl();
+    const getPatients = getPatientsUrl(1, 200);
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
     this.setState({ patients: data?.patients }, () => {
@@ -129,7 +129,7 @@ class BookConsultation extends React.Component {
       doctorId,
     };
 
-    console.log(data,444)
+    console.log(data, 444);
 
     if (!doctorId) {
       delete data.doctorId;

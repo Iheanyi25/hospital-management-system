@@ -7,7 +7,7 @@ import { Table } from "../../../Components";
 const NHISReport = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getPatients = getPatientsUrl();
+  const getPatients = getPatientsUrl(pageNumber, pageSize);
   const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
   const { data } = useRequest(getPatientsConfig, {
     revalidateOnFocus: false,
