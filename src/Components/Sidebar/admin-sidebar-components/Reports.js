@@ -202,42 +202,16 @@ const HMOReports = ({ pathname }) => {
           </Link>
         </li>
         <li className="menu-item font-weight-normal">
-          <Link to="/AdminServiceRequestReport" className="item-link">
+          <Link to="/AdminHMOServiceInvoiceReport" className="item-link">
             <span
               className={
-                pathname === "/AdminServiceRequestReport"
+                pathname === "/AdminHMOServiceInvoiceReport"
                   ? "link-text text-primary"
                   : "link-text"
               }
             >
               {" "}
-              Service Request Report
-            </span>
-          </Link>
-        </li>
-        <li className="menu-item font-weight-normal">
-          <Link className="item-link" to="/AdminRegistrationReport">
-            <span
-              className={
-                pathname === "/AdminRegistrationReport"
-                  ? "link-text text-primary"
-                  : "link-text"
-              }
-            >
-              Registration Report
-            </span>
-          </Link>
-        </li>
-        <li className="menu-item font-weight-normal">
-          <Link to="/AdminExpiredDrugsReport" className="item-link">
-            <span
-              className={
-                pathname === "/AdminExpiredDrugsReport"
-                  ? "link-text text-primary"
-                  : "link-text"
-              }
-            >
-              Expired drugs report
+              Service Reports
             </span>
           </Link>
         </li>

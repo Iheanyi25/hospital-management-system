@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import Select from 'react-select'
-import { fetchConfig } from '../../../../../api/fetchConfig';
-import { useRequest } from '../../../../../api/fetcher';
-import { getHMOsUrl } from '../../../../../api/URLs';
-import { formatInputDate } from '../../../../../utils/formatInputDate';
-import { isNotEmptyString } from '../../../../../utils/validationUtils';
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import { fetchConfig } from "../../../../../api/fetchConfig";
+import { useRequest } from "../../../../../api/fetcher";
+import { getHMOsUrl } from "../../../../../api/URLs";
+import { formatInputDate } from "../../../../../utils/formatInputDate";
+import { isNotEmptyString } from "../../../../../utils/validationUtils";
 
 const FetchReportForm = ({
   startDate,
@@ -17,6 +17,11 @@ const FetchReportForm = ({
   handleHMOChange,
   optionValue,
   handleOptionChange,
+  thirdOptionFlag,
+  thirdOptionTitle,
+  thirdOptionValue,
+  thirdOptionOptions,
+  handleThirdOptionChange,
 }) => {
   const [emptyField, setEmptyField] = useState(true);
   useEffect(() => {
@@ -79,7 +84,9 @@ const FetchReportForm = ({
             </div>
           </div>
 
-          <div className="col-12 col-sm-3">
+          <div
+            className={`col-12 ${thirdOptionFlag ? " col-sm-2" : "col-sm-3"}`}
+          >
             <div className="form-group">
               <label>Select HMO</label>
               <Select
@@ -91,7 +98,9 @@ const FetchReportForm = ({
               />
             </div>
           </div>
-          <div className="col-12 col-sm-3">
+          <div
+            className={`col-12 ${thirdOptionFlag ? " col-sm-2" : "col-sm-3"}`}
+          >
             <div className="form-group">
               <label>{optionTitle}</label>
               <Select
@@ -103,6 +112,20 @@ const FetchReportForm = ({
               />
             </div>
           </div>
+          {thirdOptionFlag ? (
+            <div className="col-12 col-sm-2">
+              <div className="form-group">
+                <label>{thirdOptionTitle}</label>
+                <Select
+                  value={thirdOptionValue}
+                  isSearchable={true}
+                  options={thirdOptionOptions}
+                  onChange={handleThirdOptionChange}
+                  placeholder="Search"
+                />
+              </div>
+            </div>
+          ) : null}
           <div className="col-12 col-sm-2">
             <div className="form-group mt-4 text-center">
               <button

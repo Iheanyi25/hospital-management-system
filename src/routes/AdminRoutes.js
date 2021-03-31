@@ -71,6 +71,7 @@ import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
 import PatientInvoiceReport from "../Pages/Admin/Reports/HMOReports/PatientInvoiceReport";
 import DrugInvoiceReport from "../Pages/Admin/Reports/HMOReports/DrugInvoiceReport";
+import ServiceInvoiceReport from "../Pages/Admin/Reports/HMOReports/ServiceInvoiceReport";
 
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
@@ -461,6 +462,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminHMODrugInvoiceReport"
             component={DrugInvoiceReport}
+          />
+          <Route
+            exact
+            path="/AdminHMOServiceInvoiceReport"
+            component={ServiceInvoiceReport}
           />
           <Route
             exact

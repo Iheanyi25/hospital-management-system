@@ -3,7 +3,7 @@
 // Accountant - Manage Reports
 export const getTransactionsUrl = () => `/Accountant/GetTransactions`;
 export const getTransactionsForAccountsUrl = () =>
-  `/Accountant//GetTransactionsForAccount`;
+  `/Accountant/GetTransactionsForAccount`;
 export const getTransactionsForDrugsUrl = () =>
   `/Accountant/GetTransactionsForDrugs`;
 export const getTransactionsForServiceRequestsUrl = () =>
@@ -11,11 +11,13 @@ export const getTransactionsForServiceRequestsUrl = () =>
 export const getTransactionsForRegistrationUrl = () =>
   `/Accountant/GetTransactionsForRegistration`;
 export const getPatientInvoicesForHMOUrl = () =>
-  `/Accountant//GetPatientInvoicesForHMO`;
+  `/Accountant/GetPatientInvoicesForHMO`;
 export const getDrugInvoicesForHMOUrl = () =>
-  `/Accountant//GetDrugInvoicesForHMO`;
+  `/Accountant/GetDrugInvoicesForHMO`;
+export const getServiceInvoicesForHMOUrl = () =>
+  `/Accountant/GetServiceInvoicesForHMO`;
 export const getReportsForExpiryDatesOfDrugsUrl = (date) =>
-  `/Accountant//GetReportForExpiryDateofDrugs?date=${date}`;
+  `/Accountant/GetReportForExpiryDateofDrugs?date=${date}`;
 
 // Accountant- Manage Profile
 export const getAllAccountantsUrl = () => `/Accountant/GetAccountants?`;
