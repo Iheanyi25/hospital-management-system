@@ -9,10 +9,15 @@ import { Table } from "../DataTable";
 import ActionButton from "../DataTable/ActionButton";
 import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
+import { DisplayNotes } from "../Modals/DisplayNotes";
 
 const ReferredPatients = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
+  const [referralDetails, setreferralDetails] = useState({
+    title: "",
+    body: "",
+  });
   const getAdmissionsWithoutBed = getAdmissionsWithoutBedUrl(
     pageNumber,
     pageSize
@@ -27,13 +32,19 @@ const ReferredPatients = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
-      console.log(admission,4444)
+      console.log(admission, 4444);
       return {
         "#": ++index,
         "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
         "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
         "Date of Referral": formatDate(admission.dateOfReferral),
-        Actions: <ReferredPatientsActionTable admissionId={admission.id} />,
+        Actions: (
+          <ReferredPatientsActionTable
+            admissionId={admission.id}
+            setreferralDetails={setreferralDetails}
+            referralNote={`${admission?.admissionNote}`}
+          />
+        ),
       };
     });
   }
@@ -70,13 +81,25 @@ const ReferredPatients = () => {
           </div>
         </div>
       </main>
+      <DisplayNotes details={referralDetails} />
     </Fragment>
   );
 };
 
-const ReferredPatientsActionTable = ({ admissionId }) => {
+const ReferredPatientsActionTable = ({ admissionId, setreferralDetails, referralNote }) => {
   return (
     <ActionButton>
+      <Link
+        data-toggle="modal"
+        data-target="#notes"
+        className="btn btn-sm btn-block"
+        onClick={() =>
+          setreferralDetails({ title: "Referral Notes", body: referralNote })
+        }
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        Referral Notes
+      </Link>
       <Link
         to={`/AdminAssignWard/${admissionId}`}
         className="btn btn-sm btn-block"

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 // import { mutate } from "swr";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
@@ -15,7 +15,7 @@ const DischargePatients = observer(({admissionId}) => {
   
 
   const [payload, setpayload] = useState({
-    dischargeNotes: "",
+    dischargeNote: "",
     admissionId,
     
   });
@@ -66,7 +66,7 @@ const DischargePatients = observer(({admissionId}) => {
                   <textarea
                     className="form-control"
                     placeholder="Enter discharge note"
-                    name="dischargeNotes"
+                    name="dischargeNote"
                     rows={3}
                     required
                     onChange={handleChange}

@@ -3,6 +3,7 @@ import React, { useState, useContext, Fragment } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import { getAdmissionsUrl, getAllWardsUrl } from "../../api/URLs";
+import { DisplayNotes } from "../Modals/DisplayNotes";
 import incomplete from "../../assets/img/incomplete.svg";
 import paid from "../../assets/img/paid.svg";
 import { UserContext } from "../../mobx/UserState";
@@ -25,7 +26,10 @@ const ManageAdmissions = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [wardId, setWardId] = useState("all");
-
+  const [noteDetails, setNoteDetails] = useState({
+    title: "",
+    body: "",
+  });
   //Fetching admissions
   const getAdmissions = getAdmissionsUrl(wardId, pageNumber, pageSize);
   const getAdmissionsConfig = fetchConfig({
@@ -42,6 +46,8 @@ const ManageAdmissions = observer(() => {
   const { data: wards } = useRequest(getAllWardsConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data, 1232);
+
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
@@ -179,6 +185,10 @@ const ManageAdmissions = observer(() => {
                 admission.appointmentId || admission.consultationId
               }
               patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+              admissionNote={`${admission?.admissionNote}`}
+              dischargeNote = {`${admission?.dischargeNote}`}
+              setNoteDetails={setNoteDetails}
+              
             />
           ),
         };
@@ -236,6 +246,7 @@ const ManageAdmissions = observer(() => {
           </div>
         </div>
       </main>
+      <DisplayNotes details={noteDetails} />
     </Fragment>
   );
 });
