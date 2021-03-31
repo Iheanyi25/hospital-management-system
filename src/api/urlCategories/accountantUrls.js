@@ -10,10 +10,12 @@ export const getTransactionsForServiceRequestsUrl = () =>
   `/Accountant/GetTransactionsForServiceRequests`;
 export const getTransactionsForRegistrationUrl = () =>
   `/Accountant/GetTransactionsForRegistration`;
-export const getReportsForExpiryDatesOfDrugsUrl = (date) =>
-  `/Accountant//GetReportForExpiryDateofDrugs?date=${date}`;
 export const getPatientInvoicesForHMOUrl = () =>
   `/Accountant//GetPatientInvoicesForHMO`;
+export const getDrugInvoicesForHMOUrl = () =>
+  `/Accountant//GetDrugInvoicesForHMO`;
+export const getReportsForExpiryDatesOfDrugsUrl = (date) =>
+  `/Accountant//GetReportForExpiryDateofDrugs?date=${date}`;
 
 // Accountant- Manage Profile
 export const getAllAccountantsUrl = () => `/Accountant/GetAccountants?`;

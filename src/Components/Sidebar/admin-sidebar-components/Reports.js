@@ -189,15 +189,15 @@ const HMOReports = ({ pathname }) => {
           </Link>
         </li>
         <li className="menu-item font-weight-normal">
-          <Link to="/AdminDrugReport" className="item-link">
+          <Link to="/AdminHMODrugInvoiceReport" className="item-link">
             <span
               className={
-                pathname === "/AdminDrugReport"
+                pathname === "/AdminHMODrugInvoiceReport"
                   ? "link-text text-primary"
                   : "link-text"
               }
             >
-              Drug Report
+              Drug Reports
             </span>
           </Link>
         </li>
