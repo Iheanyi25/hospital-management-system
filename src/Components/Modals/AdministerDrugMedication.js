@@ -3,41 +3,30 @@ import React, { useContext, useState } from "react";
 import { mutate } from "swr";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import {
-  postAdministerDrugMedicationUrl,
-  // getDrugMedicationsUrl
-} from "../../api/URLs";
+import { postAdministerDrugMedicationUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
-const AdministerDrugMedications = observer(({ admissionId, drugId}) => {
+const AdministerDrugMedications = observer(({ admissionId, drugId }) => {
   const {
     user: { id: initiatorId },
   } = useContext(UserContext);
-  // console.log(id, 10100101);
-  // const getDrugMedications = getDrugMedicationsUrl();
-  // const getDrugMedicationsConfig = fetchConfig({
-  //   url: getDrugMedications,
-  //   method: "get",
-  // });
 
   const [payload, setpayload] = useState({
-    noOfCartons: "",
-    noOfContainers: "",
-    noOfUnits:"",
-    
-    
-  })
+    numberOfCartons: "",
+    numberOfContainers: "",
+    numberOfUnits: "",
+  });
   const handleChange = (e) => {
     setpayload({
       ...payload,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
   const handleSubmit = async (e) => {
-    const data = { ...payload, admissionId: admissionId , drugId, initiatorId}
-    console.log(payload,"omo", 1010);
+    const data = { ...payload, admissionId: admissionId, drugId, initiatorId };
+    console.log(payload, "omo", 1010);
     e.preventDefault();
     console.log(data);
     const postAdministerDrugMedication = postAdministerDrugMedicationUrl();
@@ -72,27 +61,32 @@ const AdministerDrugMedications = observer(({ admissionId, drugId}) => {
             <div className="modal-body">
               <h5 className="text-center">Observation Chart</h5>
               <form className="p-5" onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label>Number of Cartons</label>
-                    <input className="form-control" 
-                    type="number"
-                    name= "noOfCartons"
-                    onChange={handleChange} />
-                  </div>
-                  <div className="form-group">
-                    <label>Number of Containers</label>
-                    <input className="form-control" 
-                        type="number"
-                        name= "noOfContainers"
-                        onChange={handleChange}
-                     />
-                  </div>
                 <div className="form-group">
-                    <label>Number of Units</label>
-                    <input className="form-control" 
-                      type="number"
-                      name= "noOfUnits"
-                      onChange={handleChange} />
+                  <label>Number of Cartons</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="numberOfCartons"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Number of Containers</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="numberOfContainers"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Number of Units</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="numberOfUnits"
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="row mt-4">
                   <div className="col text-left">
