@@ -9,6 +9,7 @@ export default function Reports() {
       <ServiceReports pathname={pathname} />
       <AccountReports pathname={pathname} />
       <HMOReports pathname={pathname} />
+      <NHISReports pathname={pathname} />
     </div>
   );
 }
@@ -216,6 +217,27 @@ const HMOReports = ({ pathname }) => {
           </Link>
         </li>
       </ul>
+    </div>
+  );
+};
+
+const NHISReports = ({ pathname }) => {
+  return (
+    <div className="collapse" id="subMenuReports">
+      <li className="menu-item">
+        <Link className="item-link" to="/AdminNHISReport">
+          <span className="link-icon icofont-users" />{" "}
+          <span
+            className={
+              pathname === "/AdminNHISReport"
+                ? "link-text text-primary"
+                : "link-text"
+            }
+          >
+            NHIS Report
+          </span>
+        </Link>
+      </li>
     </div>
   );
 };
