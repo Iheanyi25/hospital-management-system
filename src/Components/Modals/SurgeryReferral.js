@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { fetchWrapper, useRequest } from "../../api/fetcher";
+import { fetchWrapper} from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { createDoctorSurgeryUrl } from "../../api/URLs";
 import { notification } from "../../utils/notification";
