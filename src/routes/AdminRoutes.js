@@ -52,6 +52,7 @@ import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequ
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
+import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
 // health-plan utils
 import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
@@ -68,7 +69,9 @@ import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
 import DrugReport from "../Pages/Admin/Reports/DrugReport";
 import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
-import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
+import PatientInvoiceReport from "../Pages/Admin/Reports/HMOReports/PatientInvoiceReport";
+import DrugInvoiceReport from "../Pages/Admin/Reports/HMOReports/DrugInvoiceReport";
+import ServiceInvoiceReport from "../Pages/Admin/Reports/HMOReports/ServiceInvoiceReport";
 
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
@@ -450,6 +453,21 @@ export default function AdminRoutes() {
           <Route exact path="/AdminReassignPatientToNHIS/:id" component={ReassignPatientToPlan} />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
+          <Route
+            exact
+            path="/AdminHMOPatientInvoiceReport"
+            component={PatientInvoiceReport}
+          />
+          <Route
+            exact
+            path="/AdminHMODrugInvoiceReport"
+            component={DrugInvoiceReport}
+          />
+          <Route
+            exact
+            path="/AdminHMOServiceInvoiceReport"
+            component={ServiceInvoiceReport}
+          />
           <Route
             exact
             path="*"

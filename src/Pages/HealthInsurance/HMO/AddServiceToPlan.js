@@ -19,7 +19,7 @@ export default function AddServiceToPlan() {
   } = useHistory();
   const { id: hmoHealthPlanId } = useParams();
   const [price, setPrice] = useState("");
-  const category = null;
+  const [category, setCategory] = useState();
   const [showServices, setShowServices] = useState(false);
   const [serviceOptions, setServiceOptions] = useState();
   const [service, setService] = useState();
@@ -48,6 +48,7 @@ export default function AddServiceToPlan() {
   // fetch services
   const fetchServices = async (category) => {
     setShowServices(false);
+    setCategory(category);
     const getAllServicesInACategory = getAllServicesInACategoryUrl(
       category.value
     );
