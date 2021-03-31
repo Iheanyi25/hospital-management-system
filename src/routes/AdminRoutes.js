@@ -69,6 +69,7 @@ import DrugReport from "../Pages/Admin/Reports/DrugReport";
 import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
 import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
+import PatientInvoiceReport from "../Pages/Admin/Reports/HMOReports/PatientInvoiceReport";
 
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
@@ -450,6 +451,11 @@ export default function AdminRoutes() {
           <Route exact path="/AdminReassignPatientToNHIS/:id" component={ReassignPatientToPlan} />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
+          <Route
+            exact
+            path="/AdminHMOPatientInvoiceReport"
+            component={PatientInvoiceReport}
+          />
           <Route
             exact
             path="*"
