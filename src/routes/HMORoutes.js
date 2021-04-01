@@ -23,7 +23,6 @@ import EditUserSubGroup from "../Pages/HealthInsurance/HMO/EditUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
 import EditServiceInPlan from "../Pages/HealthInsurance/HMO/EditServiceInPlan";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
-import AddUserGroupToPlan from "../Pages/HealthInsurance/HMO/AddUserGroupToPlan";
 
 export default function HMORoutes() {
   const { setHMOId, user } = useContext(UserContext);
@@ -99,11 +98,6 @@ export default function HMORoutes() {
             exact
             path="/AddUserToSubGroup/:id"
             component={AddUserToSubGroup}
-          />
-          <Route
-            exact
-            path="/AddUserGroupToPlan"
-            component={AddUserGroupToPlan}
           />
           <Route exact path="*" render={() => <Redirect to="/Dashboard" />} />
         </Switch>

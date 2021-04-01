@@ -5,3 +5,4 @@ export * from "./PharmacyProfile";
 export * from "./AccountantProfile";
 export * from "./AdminProfile";
 export * from "./NurseProfile";
+export * from "./WardPersonnelProfile";

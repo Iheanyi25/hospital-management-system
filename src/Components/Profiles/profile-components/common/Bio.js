@@ -14,6 +14,7 @@ export default function Bio({ bioDetails, image }) {
     admin: "Admin",
     nurse: "Nurse",
     hmoadmin: "",
+    wardpersonnel: "",
   };
   return (
     <div>
