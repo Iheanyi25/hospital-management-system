@@ -54,6 +54,10 @@ const ManageServiceRequest = observer(() => {
               <>
                 <img src={notpaid} alt="not paid" /> Not paid
               </>
+            ) : serviceInvoice?.paymentStatus === "Awaiting HMO Payment" ? (
+              <span>
+                <img src={incomplete} alt="not paid" /> HMO
+              </span>
             ) : serviceInvoice?.paymentStatus === "PAID" ? (
               <>
                 <img src={paid} alt="paid" /> Paid

@@ -36,7 +36,7 @@ class CreateService extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.location.state,444)
+    console.log(this.props.location.state, 444);
     if (this?.props?.location?.state) {
       this.setState({
         isFromClarking: true,
@@ -79,7 +79,7 @@ class CreateService extends Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl();
+    const getPatients = getPatientsUrl(1, 200);
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
     console.log(data, 2222);
@@ -121,7 +121,7 @@ class CreateService extends Component {
       if (elem.value) {
         // variable holders
         let stateValue = this.state.values;
-        console.log(stateValue,999999)
+        console.log(stateValue, 999999);
         let existingKey = stateValue.findIndex(
           (element) => element.serviceId === elem.value
         );
@@ -148,7 +148,6 @@ class CreateService extends Component {
       alert("select a patient");
     }
   };
-
 
   handlePatientSelect = (data) => {
     if (data?.value) {
@@ -179,7 +178,7 @@ class CreateService extends Component {
         idType: "",
       };
 
-      console.log(payload,7777)
+      console.log(payload, 7777);
 
       this.state.values.forEach((element) => {
         serviceId.push(element.serviceId);
@@ -258,7 +257,10 @@ class CreateService extends Component {
 
     if (this.state.patients.length > 0) {
       this.state.patients.forEach(({ patientId, firstName, lastName }) => {
-        allPatients.push({ value: patientId, label: `${firstName} ${lastName}` });
+        allPatients.push({
+          value: patientId,
+          label: `${firstName} ${lastName}`,
+        });
       });
     }
 
@@ -298,12 +300,11 @@ class CreateService extends Component {
                           this.state?.isFromClarking || this.props.admissionId
                         ) ? (
                           <div className="form-group">
-                          <label>  Select Patient
-                          </label>
-                          <Select
-                            options={allPatients}
-                            onChange={this.handlePatientSelect}
-                          />
+                            <label> Select Patient</label>
+                            <Select
+                              options={allPatients}
+                              onChange={this.handlePatientSelect}
+                            />
                           </div>
                         ) : null}
 

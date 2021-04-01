@@ -13,7 +13,7 @@ import { notification } from "../../../utils/notification";
 
 export default function AddUserToPlan() {
   const {
-    push,
+    goBack,
     location: { state: healthPlanName },
   } = useHistory();
   const { id: hmoHealthPlanId } = useParams();
@@ -48,10 +48,7 @@ export default function AddUserToPlan() {
       const res = await fetchWrapper(assignPatientToHMOHealthPlanConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/ManageHealthPlanPatients/${hmoHealthPlanId}`,
-          state: healthPlanName,
-        });
+        goBack({ state: healthPlanName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });

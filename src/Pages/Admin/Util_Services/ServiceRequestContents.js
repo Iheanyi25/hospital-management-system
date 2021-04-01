@@ -4,6 +4,7 @@ import { PageLoader, Table } from "../../../Components";
 import formatAmount from "../../../utils/formatAmount";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
+import incomplete from "../../../assets/img/incomplete.svg";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
 import { getServicesInAnInvoiceUrl } from "../../../api/URLs";
@@ -50,9 +51,13 @@ const ServiceRequestContents = ({ match, location }) => {
           Amount: formatAmount(request?.cost) ?? "",
           Status: (
             <>
-              {request?.status === "False" ? (
+              {request?.status === "Awaiting HMO Payment" ? (
                 <>
-                  <img src={notpaid} alt="not paid" /> Not paid
+                  <img src={incomplete} alt="not paid" /> Awaiting HMO
+                </>
+              ) : request?.status === "Awaiting HMO Payment" ? (
+                <>
+                  <img src={notpaid} alt="paid" /> Not Paid
                 </>
               ) : (
                 <>
@@ -77,9 +82,13 @@ const ServiceRequestContents = ({ match, location }) => {
           Amount: formatAmount(request?.amount) ?? "",
           Status: (
             <>
-              {request?.status === "False" ? (
+              {request?.status === "Awaiting HMO Payment" ? (
                 <>
-                  <img src={notpaid} alt="not paid" /> Not paid
+                  <img src={incomplete} alt="not paid" /> Awaiting HMO
+                </>
+              ) : request?.status === "Awaiting HMO Payment" ? (
+                <>
+                  <img src={notpaid} alt="paid" /> Not Paid
                 </>
               ) : (
                 <>
@@ -151,9 +160,8 @@ const ServiceRequestContents = ({ match, location }) => {
 };
 
 const ServiceRequestContentTableAction = ({ request, userType }) => {
-  return request.status === "False" ? (
-    "Pay for service"
-  ) : (
+  return request.status === "PAID" ||
+    request.status === "Awaiting HMO Payment" ? (
     <ActionButton>
       <Link
         to={
@@ -179,6 +187,8 @@ const ServiceRequestContentTableAction = ({ request, userType }) => {
         View Result
       </Link>
     </ActionButton>
+  ) : (
+    "Pay for service"
   );
 };
 

@@ -19,7 +19,7 @@ import { notification } from "../../../../../utils/notification";
 
 const DrugBatch = ({ drugId }) => {
   const [batch, setBatch] = useState({});
-  const getDrugBatchByDrug = getDrugBatchByDrugUrl();
+  const getDrugBatchByDrug = getDrugBatchByDrugUrl(drugId);
   const getDrugBatchByDrugConfig = fetchConfig({
     url: getDrugBatchByDrug,
     method: "get",
