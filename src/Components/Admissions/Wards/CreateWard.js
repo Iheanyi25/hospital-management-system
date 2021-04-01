@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
 import { createWardUrl } from "../../../api/URLs";
@@ -8,8 +8,12 @@ import {
   isNotEmptyString,
   isValidPositiveInteger,
 } from "../../../utils/validationUtils";
+import { UserContext } from "../../../mobx/UserState";
 
 const CreateWard = ({ history }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const [state, setState] = useState({
     name: "",
     capacity: "",
@@ -37,6 +41,8 @@ const CreateWard = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const nextRoute =
+      userType === "Admin" ? "/AdminManageWards" : "/WardManageWards";
     try {
       const createWard = createWardUrl();
       const createWardConfig = fetchConfig({
@@ -46,7 +52,7 @@ const CreateWard = ({ history }) => {
       });
       const res = await fetchWrapper(createWardConfig);
       notification.success({ message: res.data.message });
-      history.push("/AdminManageWards");
+      history.push(nextRoute);
     } catch (error) {
       console.log(error);
       notification.error({ message: error?.response?.data.message });
