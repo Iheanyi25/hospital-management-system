@@ -1,7 +1,10 @@
 import React, { Fragment } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { getPatientsAttentedToCountUrl } from "../../../api/URLs";
+import {
+  getPatientsAttentedToCountUrl,
+  getPatientsUnattentedToCountUrl,
+} from "../../../api/URLs";
 
 export default function ConsultationSummary() {
   const patientsAttentedToCount = getPatientsAttentedToCountUrl();
@@ -9,7 +12,16 @@ export default function ConsultationSummary() {
     url: patientsAttentedToCount,
     method: "get",
   });
-  const { data } = useRequest(getPatientsAttentedToCountConfig, {
+  const { data: patientAttendedTo } = useRequest(getPatientsAttentedToCountConfig, {
+    revalidateOnFocus: false,
+  });
+
+  const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl();
+  const getgetPatientsUnattentedToCountConfig = fetchConfig({
+    url: getPatientsUnattentedToCount,
+    method: "get",
+  });
+  const { data: patientUnattendedTo } = useRequest(getgetPatientsUnattentedToCountConfig, {
     revalidateOnFocus: false,
   });
   return (
@@ -24,9 +36,7 @@ export default function ConsultationSummary() {
                 </div>
                 <div className="col col-9">
                   <h6 className="mt-0 mb-1">Total Patient On Open List</h6>
-                  <div className="count text-primary fs-20">
-                    {`N/A`}
-                  </div>
+                  <div className="count text-primary fs-20">{`N/A`}</div>
                 </div>
               </div>
             </div>
@@ -41,9 +51,7 @@ export default function ConsultationSummary() {
                 </div>
                 <div className="col col-9">
                   <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
-                  <div className="count text-primary fs-20">
-                    {`N/A`}
-                  </div>
+                  <div className="count text-primary fs-20">{patientUnattendedTo?.consultationCount || 0}</div>
                 </div>
               </div>
             </div>
@@ -62,7 +70,7 @@ export default function ConsultationSummary() {
                     Total Patients Attended
                   </h6>
                   <div className="count text-primary fs-20">
-                    {data?.consultationCount}
+                    {patientAttendedTo?.consultationCount || 0}
                   </div>
                 </div>
               </div>
