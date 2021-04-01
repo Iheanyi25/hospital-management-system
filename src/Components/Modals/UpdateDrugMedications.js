@@ -82,6 +82,7 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
                     handleChange={handleChange}
                     handleClick={handleClick}
                     drugDetails={drugDetails}
+                    startDate={payload?.startDate}
                     drugs={data?.drugs}
                   />
                 </div>
@@ -100,6 +101,7 @@ const UpdateMedicationForm = ({
   drugs,
   handleClick,
   drugDetails,
+  startDate
 }) => {
   const options = [];
 
@@ -154,6 +156,7 @@ const UpdateMedicationForm = ({
           type="date"
           className="form-control"
           name="endDate"
+          min={startDate}
           onChange={handleChange}
         />
       </div>

@@ -7,7 +7,7 @@ import AllPatients from "../Components/AllPatients";
 const ViewAllPatients = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getPatients = getPatientsUrl();
+  const getPatients = getPatientsUrl(pageNumber, pageSize);
   const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
   const { data, error } = useRequest(getPatientsConfig, {
     revalidateOnFocus: false,

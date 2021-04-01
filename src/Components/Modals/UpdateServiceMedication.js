@@ -118,6 +118,7 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
                 <div style={{ flex: "1" }} className="mr-md-4">
                   <UpdateServiceMedicationForm
                     handleChange={handleChange}
+                    startDate={payload.startDate}
                     handleServiceCatSelect={handleServiceCatSelect}
                     handleServiceSelect={handleServiceSelect}
                     serviceCategories={categories?.serviceCategories}
@@ -144,6 +145,7 @@ const UpdateServiceMedicationForm = ({
   selectedServiceCategory,
   handleServiceCatSelect,
   handleServiceSelect,
+  startDate
 }) => {
   const optionsServiceCat = [];
   const optionsService = [];
@@ -205,6 +207,7 @@ const UpdateServiceMedicationForm = ({
           type="date"
           className="form-control"
           name="endDate"
+          min={startDate}
           onChange={handleChange}
         />
       </div>

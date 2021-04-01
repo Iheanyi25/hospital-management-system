@@ -64,7 +64,7 @@ class BookAppointment extends React.Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl();
+    const getPatients = getPatientsUrl(1, 200);
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
 

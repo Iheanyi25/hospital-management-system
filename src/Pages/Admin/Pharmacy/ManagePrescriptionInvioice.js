@@ -11,6 +11,7 @@ import formatAmount from "../../../utils/formatAmount";
 import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
+import incomplete from "../../../assets/img/incomplete.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionReciept } from "../../../Components/Modals";
@@ -84,6 +85,10 @@ const ManagePrescriptionInvoice = observer(({ isDashboard }) => {
           drugInvoice?.paymentStatus === "NOT PAID" ? (
             <span>
               <img src={notpaid} alt="not paid" /> Not paid
+            </span>
+          ) : drugInvoice?.paymentStatus === "Awaiting HMO Payment" ? (
+            <span>
+              <img src={incomplete} alt="not paid" /> HMO
             </span>
           ) : (
             <span>

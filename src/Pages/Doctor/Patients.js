@@ -7,7 +7,7 @@ import DoctorPatientList from "./doctor-patient-components/DoctorPatientList";
 import { useRequest } from "../../api/fetcher";
 
 const Patients = () => {
-  const getPatients = getPatientsUrl();
+  const getPatients = getPatientsUrl(1, 200);
   const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
   const { data } = useRequest(getPatientsConfig, {
     revalidateOnFocus: false,

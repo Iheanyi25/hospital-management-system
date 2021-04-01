@@ -11,7 +11,7 @@ export default function EditDrugInPlan() {
   const [emptyField, setEmptyField] = useState(true);
 
   const {
-    push,
+    goBack,
     location: { state },
   } = useHistory();
 
@@ -56,10 +56,7 @@ export default function EditDrugInPlan() {
       const res = await fetchWrapper(updateHMODrugPriceDrugConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/ManageHealthPlanDrugs/${state?.healthPlanId}`,
-          state: state?.planName,
-        });
+        goBack({ state: state?.planName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
