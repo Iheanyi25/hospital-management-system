@@ -31,6 +31,25 @@ const WardPersonnelSidebar = () => {
                     <span className="link-text">Dashboard</span>{" "}
                   </Link>
                 </li>
+                <li className="menu-item has-sub">
+                  <div className="item-link cursor">
+                    <span className="link-icon icofont-contact-add" />{" "}
+                    <span className="link-text">Wards</span>{" "}
+                    <span className="link-caret icofont-thin-right" />
+                  </div>
+                  <ul className="sub">
+                    <li className="menu-item">
+                      <Link to="/WardCreateWard" className="item-link">
+                        <span className="link-text">Create Ward</span>
+                      </Link>
+                    </li>
+                    <li className="menu-item">
+                      <Link to="/WardManageWards" className="item-link">
+                        <span className="link-text">Manage Wards</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
                 <li className="menu-item">
                   <span className="group-title">Profile</span>
                 </li>
