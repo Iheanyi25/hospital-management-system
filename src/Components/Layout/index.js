@@ -9,6 +9,7 @@ import {
   NurseHeader,
   PatientHeader,
   PharmacyHeader,
+  WardPersonnelHeader,
 } from "../Header";
 import {
   AddFamily,
@@ -24,6 +25,7 @@ import {
   NurseSidebar,
   PatientSidebar,
   PharmacySidebar,
+  WardPersonnelSidebar,
 } from "../Sidebar";
 import { TemplateSettings } from "../TemplateSettings";
 
@@ -133,6 +135,19 @@ export const HMOLayout = ({ children }) => {
       <div className="app-container">
         <HMOHeader />
         <HMOSidebar />
+        {children}
+        <Footer />
+      </div>
+    </div>
+  );
+};
+
+export const WardPersonnelLayout = ({ children }) => {
+  return (
+    <div className="page-box">
+      <div className="app-container">
+        <WardPersonnelHeader />
+        <WardPersonnelSidebar />
         {children}
         <Footer />
       </div>

@@ -12,6 +12,7 @@ import { UserContext } from "./mobx/UserState";
 import { observer } from "mobx-react";
 import { CommonRoute } from "./routes/CommonRoutes";
 import NurseRoutes from "./routes/NurseRoutes";
+import WardPersonnelRoutes from "./routes/WardPersonnelRoutes";
 
 const AppRouter = observer(() => {
   const { loadUser, user, isLoadingUser } = useContext(UserContext);
@@ -51,6 +52,8 @@ const AppRouter = observer(() => {
           return <NurseRoutes />;
         case "hmoadmin":
           return <HMORoutes />;
+        case "wardpersonnel":
+          return <WardPersonnelRoutes />;
         default:
           localStorage.clear();
           window.location.reload();

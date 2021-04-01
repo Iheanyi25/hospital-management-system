@@ -6,3 +6,4 @@ export * from "./PatientHeader"
 export * from "./PharmacyHeader";
 export * from "./NurseHeader";
 export * from "./HMOHeader";
+export * from "./WardPersonnelHeader";
