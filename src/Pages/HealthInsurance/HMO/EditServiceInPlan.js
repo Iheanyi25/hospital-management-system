@@ -8,11 +8,11 @@ import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
- const EditServicePlan = observer(() => {
+const EditServicePlan = observer(() => {
   const [emptyField, setEmptyField] = useState(true);
 
   const {
-    push,
+    goBack,
     location: { state },
   } = useHistory();
 
@@ -42,10 +42,10 @@ import { isNotEmptyString } from "../../../utils/validationUtils";
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-        ...payload,
-        serviceId: state?.serviceId,
-        hmoHealthPlanId: state?.hmoHealthPlanId,
-        id: state?.id,
+      ...payload,
+      serviceId: state?.serviceId,
+      hmoHealthPlanId: state?.hmoHealthPlanId,
+      id: state?.id,
     };
     console.log(data, 23322);
     try {
@@ -58,10 +58,7 @@ import { isNotEmptyString } from "../../../utils/validationUtils";
       const res = await fetchWrapper(updateHMOServicePriceConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/ManageHealthPlanServices/${state?.hmoHealthPlanId}`,
-          state: state?.name,
-        });
+        goBack({ state: state?.name });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
@@ -107,7 +104,7 @@ import { isNotEmptyString } from "../../../utils/validationUtils";
                           value={payload.name}
                           disabled
                         />
-                      </div>                      
+                      </div>
                       <div className="form-group">
                         <label>Price</label>
                         <input
@@ -142,4 +139,4 @@ import { isNotEmptyString } from "../../../utils/validationUtils";
     </>
   );
 });
-export default EditServicePlan
+export default EditServicePlan;

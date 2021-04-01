@@ -14,7 +14,7 @@ import { notification } from "../../../utils/notification";
 
 export default function AddUserToNHIS() {
   const {
-    push,
+    goBack,
     location: { state: healthPlanName },
   } = useHistory();
   const { id: nhisHealthPlanId } = useParams();
@@ -49,10 +49,7 @@ export default function AddUserToNHIS() {
       const res = await fetchWrapper(assignPatientToNHISHealthPlanConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/AdminManageNHISPatients/${nhisHealthPlanId}`,
-          state: healthPlanName,
-        });
+        goBack({ state: healthPlanName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });

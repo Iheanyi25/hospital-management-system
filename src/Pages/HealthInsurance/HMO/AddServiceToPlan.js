@@ -14,7 +14,7 @@ import { isNotEmptyString } from "../../../utils/validationUtils";
 
 export default function AddServiceToPlan() {
   const {
-    push,
+    goBack,
     location: { state: healthPlanName },
   } = useHistory();
   const { id: hmoHealthPlanId } = useParams();
@@ -86,10 +86,7 @@ export default function AddServiceToPlan() {
       const res = await fetchWrapper(createHMOServicePriceConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/ManageHealthPlanServices/${hmoHealthPlanId}`,
-          state: healthPlanName,
-        });
+        goBack({ state: healthPlanName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });

@@ -13,11 +13,11 @@ import { notification } from "../../../utils/notification";
 
 export default function AddServiceToNHIS() {
   const {
-    push,
+    goBack,
     location: { state: healthPlanName },
   } = useHistory();
   const { id: nhisHealthPlanId } = useParams();
-  const [category, setCategory] = useState()
+  const [category, setCategory] = useState();
   const [showServices, setShowServices] = useState(false);
   const [serviceOptions, setServiceOptions] = useState();
   const [service, setService] = useState();
@@ -40,7 +40,7 @@ export default function AddServiceToNHIS() {
   // fetch services
   const fetchServices = async (category) => {
     setShowServices(false);
-    setCategory(category)
+    setCategory(category);
     const getAllServicesInACategory = getAllServicesInACategoryUrl(
       category.value
     );
@@ -79,10 +79,7 @@ export default function AddServiceToNHIS() {
       const res = await fetchWrapper(createNHISHealthPlanServicConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/AdminManageNHISServices/${nhisHealthPlanId}`,
-          state: healthPlanName,
-        });
+        goBack({ state: healthPlanName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
@@ -98,7 +95,9 @@ export default function AddServiceToNHIS() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">{`Add Service To ${healthPlanName || ""}`}</h4>
+            <h4 className="page-title mb-0">{`Add Service To ${
+              healthPlanName || ""
+            }`}</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
