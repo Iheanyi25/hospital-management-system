@@ -12,6 +12,7 @@ export default function UserManagement({ setUserType }) {
       <Pharmacists setUserType={setUserType} pathname={pathname} />
       <Accountants setUserType={setUserType} pathname={pathname} />
       <Lab setUserType={setUserType} pathname={pathname} />
+      <WardPersonnel setUserType={setUserType} pathname={pathname} />
     </div>
   );
 }
@@ -203,7 +204,7 @@ const Pharmacists = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("pharmacy")}
+            onClick={() => setUserType("pharmacist")}
           >
             <span className="link-text">Register Pharmacist</span>
           </Link>
@@ -299,7 +300,7 @@ const Lab = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("lab")}
+            onClick={() => setUserType("labAttendant")}
           >
             <span className="link-text">Register Lab Technician</span>
           </Link>
@@ -314,6 +315,53 @@ const Lab = ({ setUserType, pathname }) => {
               }
             >
               Manage Lab Technicians
+            </span>
+          </Link>
+        </li>
+      </ul>
+    </div>
+  );
+};
+const WardPersonnel = ({ setUserType, pathname }) => {
+  return (
+    <div className="collapse" id="subMenuUserMangement">
+      <li className="menu-item">
+        <div
+          className="cursor item-link panel-heading collapsed "
+          data-toggle="collapse"
+          data-target="#submenuWard"
+        >
+          <span className="link-icon icofont-doctor-alt" />{" "}
+          <span className="link-text">Ward Personnel</span>{" "}
+        </div>
+      </li>
+      <ul
+        className="collapse submenu-ul"
+        id="submenuWard"
+        aria-expanded="false"
+        data-parent="#accordion"
+      >
+        <li className="menu-item font-weight-normal">
+          <Link
+            to="#"
+            className="item-link"
+            data-toggle="modal"
+            data-target="#add-user"
+            onClick={() => setUserType("WardPersonnel")}
+          >
+            <span className="link-text">Register Ward Personnel</span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminAllWardPersonnel">
+            <span
+              className={
+                pathname === "/AdminAllWardPersonnel"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Manage Ward Personnel
             </span>
           </Link>
         </li>

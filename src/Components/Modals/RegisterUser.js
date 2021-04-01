@@ -29,8 +29,8 @@ const RegisterUserModal = ({ userType }) => {
     doctor: "/AdminAllDoctors",
     nurse: "/AdminAllNurses",
     accountant: "/AdminAllAccountants",
-    pharmacy: "/AdminAllPharmacists",
-    lab: "/AdminAllLabTechnicians",
+    pharmacist: "/AdminAllPharmacists",
+    labAttendant: "/AdminAllLabTechnicians",
   };
 
   const handleChange = (name, e) => {

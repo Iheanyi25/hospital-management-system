@@ -8,6 +8,7 @@ import AdminAllNurses from "../Pages/Admin/AllNurses";
 import AdminAllPharmacists from "../Pages/Admin/AllPharmacist";
 import AdminAllAccountants from "../Pages/Admin/AllAccountants";
 import AdminAllLabTechnicians from "../Pages/Admin/AllLab";
+import AdminAllWardPersonnel from "../Pages/Admin/AllWardPersonnel";
 import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
 import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
@@ -38,6 +39,7 @@ import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
 import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
 import ViewNurseProfile from "../Pages/Nurse/ViewNurseProfile";
+import ViewWardPersonnelProfile from "../Pages/WardPersonnel/ViewWardPersonnelProfile";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 // service utils
@@ -127,7 +129,11 @@ export default function AdminRoutes() {
             component={AdminPreConsultation}
           />
           <Route exact path="/AdminAllPatients" component={ViewAllPatients} />
-          <Route exact path="/ViewPatientsInAccount/:id" component={ViewPatientsInAccount} />
+          <Route
+            exact
+            path="/ViewPatientsInAccount/:id"
+            component={ViewPatientsInAccount}
+          />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
           <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
           <Route
@@ -144,6 +150,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminAllLabTechnicians"
             component={AdminAllLabTechnicians}
+          />
+          <Route
+            exact
+            path="/AdminAllWardPersonnel"
+            component={AdminAllWardPersonnel}
           />
           <Route
             exact
@@ -355,6 +366,11 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/AdminViewWardPersonnelProfile/:id"
+            component={ViewWardPersonnelProfile}
+          />
+          <Route
+            exact
             path="/AdminViewPatientHealthHistory/:id"
             component={ViewPatientHealthHistory}
           />
@@ -451,7 +467,11 @@ export default function AdminRoutes() {
             path="/AdminAddServiceToNHIS/:id"
             component={AddServiceToNHIS}
           />
-          <Route exact path="/AdminReassignPatientToNHIS/:id" component={ReassignPatientToPlan} />
+          <Route
+            exact
+            path="/AdminReassignPatientToNHIS/:id"
+            component={ReassignPatientToPlan}
+          />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
           <Route
@@ -469,11 +489,7 @@ export default function AdminRoutes() {
             path="/AdminHMOServiceInvoiceReport"
             component={ServiceInvoiceReport}
           />
-          <Route
-            exact
-            path="/AdminNHISReport"
-            component={NHISReport}
-          />
+          <Route exact path="/AdminNHISReport" component={NHISReport} />
           <Route
             exact
             path="*"
