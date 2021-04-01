@@ -28,6 +28,8 @@ export const getPatientConsultationsUrl = () =>
   `/Admin/GetPatientConsultations`;
 export const getPatientConsultationCountUrl = () =>
   `/Admin/GetPatientConsultationCount`;
+export const getPatientsOnOpenListCountUrl = () =>
+  `/Admin/GetPatientsOnOpenListCount`;
 export const getPatientsUnattentedToCountUrl = () =>
   `/Admin/GetPatientsUnattendedToCount`;
 export const getPatientsAttentedToCountUrl = () =>
