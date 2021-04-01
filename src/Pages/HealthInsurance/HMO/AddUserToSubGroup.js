@@ -29,7 +29,7 @@ export default function AddUserToSubGroup() {
   });
   let options = [];
   if (data?.patients.length > 0) {
-    data.patients.forEach(({ id, firstName, lastName }) => {
+    data.patients.forEach(({ patientId: id, firstName, lastName }) => {
       options.push({ value: id, label: `${firstName} ${lastName}` });
     });
   }

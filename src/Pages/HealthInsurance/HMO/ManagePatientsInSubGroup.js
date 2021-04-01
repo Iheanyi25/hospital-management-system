@@ -55,7 +55,7 @@ const ManagePatients = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.patients.map(
-      ({ patient: { firstName, lastName, email, phoneNumber }, id }, index) => {
+      ({ firstName, lastName, email, phoneNumber, id }, index) => {
         return {
           "#": ++index,
           Name: `${firstName} ${lastName}`,
@@ -76,7 +76,9 @@ const ManagePatients = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">{`Manage Patients in ${subGroupName || ""}`}</h4>
+            <h4 className="page-title mb-0">{`Manage Patients in ${
+              subGroupName || ""
+            }`}</h4>
             <Link
               className="btn btn-primary"
               to={{ pathname: `/AddUserToSubGroup/${id}`, state: subGroupName }}
