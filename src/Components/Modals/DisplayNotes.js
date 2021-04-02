@@ -16,7 +16,15 @@ const DisplayNotes = ({ details }) => {
         <div className="modal-content">
           <div className="modal-body">
             <h5 className="text-center">{title}</h5>
-            <span>{body}</span>
+            <div className="p-5 text-center">
+                <div className="text-center">{body}</div>
+                <button
+                  className="btn btn-outline-primary mt-3"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+            </div>
           </div>
         </div>
       </div>
