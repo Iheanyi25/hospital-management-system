@@ -47,7 +47,7 @@ export const AdminActionTable = ({
           <span className="btn-icon icofont-server mr-2" />
           Discharge Notes
         </Link>
-        <Link
+        {/* <Link
           to={{
             pathname: `/AdminManageAdmissionPrescriptions/${admissionId}`,
             state: patientName,
@@ -56,7 +56,7 @@ export const AdminActionTable = ({
         >
           <span className="btn-icon icofont-server mr-2" />
           Prescriptions
-        </Link>
+        </Link> */}
         <Link
           to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
           className="btn btn-sm btn-block"

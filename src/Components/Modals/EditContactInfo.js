@@ -15,11 +15,11 @@ const EditContactInfo = ({
 }) => {
 
   const [details, setDetails] = useState({
-    phoneNumber: doctor.doctor.phoneNumber,
+    phoneNumber: doctor.phoneNumber,
     city: doctor.city,
     state: doctor.state,
     country: doctor.country,
-    email: doctor.doctor.email,
+    email: doctor.email,
     doctorId: doctorId,
     createdBy: doctorEmail,
   });
@@ -74,7 +74,7 @@ const EditContactInfo = ({
                   className="form-control"
                   type="text"
                   placeholder="Phone Number"
-                  value={doctor.doctor.email}
+                  value={doctor.email}
                   disabled
                 />
               </div>
