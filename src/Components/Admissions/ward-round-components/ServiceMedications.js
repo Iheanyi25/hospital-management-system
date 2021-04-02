@@ -22,10 +22,7 @@ const ServiceMedications = observer(({ admissionId }) => {
   } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const [serviceAdministration, setserviceAdministration] = useState({
-    title:"",
-    body:"",
-  });
+
   const getServiceMedications = getServiceMedicationsUrl(
     admissionId,
     pageNumber,
@@ -98,7 +95,6 @@ const ServiceMedications = observer(({ admissionId }) => {
             administerService={administerService}
             serviceId={medication?.serviceId}
             serviceNotes={`${administrationInstruction ?? "N/A"}`}
-            setserviceAdministration={setserviceAdministration}
           />
         ),
       };
@@ -135,13 +131,11 @@ const ServiceMedications = observer(({ admissionId }) => {
         </div>
       </div>
       <UpdateServiceMedication admissionId={admissionId} mutate={mutate} />
-      <DisplayNotes details={serviceAdministration}/>
-      {/* <UpdateMedicationStatus  medicationId={medicationId} mutate={mutate} /> */}
     </div>
   );
 });
 
-const ActionTableAction = ({ id, serviceId, administerService, mutate, setserviceAdministration, serviceNotes }) => {
+const ActionTableAction = ({ id, serviceId, administerService, mutate, serviceNotes }) => {
   return (
     <>
       <ActionButton>
@@ -155,10 +149,8 @@ const ActionTableAction = ({ id, serviceId, administerService, mutate, setservic
         </button>
         <Link
           data-toggle="modal"
-          data-target="#notes"
+          data-target={`#notes-${id}`}
           className="btn btn-sm btn-block"
-          onClick={()=>
-          setserviceAdministration({title: "Administration Instructions", body: serviceNotes})}
         >
           Service Medication
         </Link>
@@ -174,6 +166,7 @@ const ActionTableAction = ({ id, serviceId, administerService, mutate, setservic
         mutate={mutate}
         medicationType="service"
       />
+       <DisplayNotes id={id} details={{title: "Administration Instructions", body: serviceNotes}}/>
     </>
   );
 };

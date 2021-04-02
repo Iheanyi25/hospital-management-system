@@ -2,12 +2,12 @@ import React from "react";
 
 // const $ = window.$;
 
-const DisplayNotes = ({ details }) => {
+const DisplayNotes = ({ details, id }) => {
   const { title, body } = details;
   return (
     <div
       className="modal fade"
-      id="notes"
+      id={`notes-${id}`}
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"

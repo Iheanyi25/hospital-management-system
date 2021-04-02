@@ -13,7 +13,7 @@ import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication
 
 const Medications = ({ admissionId }) => {
   const [medicationId, setMedicationId] = useState("");
-  const [drugId, setdrugId] = useState("")
+  const [drugId, setdrugId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getMedications = getDrugMedicationsUrl(
@@ -21,10 +21,7 @@ const Medications = ({ admissionId }) => {
     pageNumber,
     pageSize
   );
-  const [drugAdministration, setdrugAdministration] = useState({
-    title: "",
-    body: "",
-  })
+
   const getMedicationsConfig = fetchConfig({
     url: getMedications,
     method: "get",
@@ -66,7 +63,15 @@ const Medications = ({ admissionId }) => {
             {status ?? "N/A"}
           </span>
         ),
-        Action: <ActionTableAction id={id} drugId={medication?.drug?.id}  setdrugId={setdrugId} setMedicationId={setMedicationId} drugNotes={administrationInstruction?? "N/A"} setdrugAdministration = {setdrugAdministration}/>,
+        Action: (
+          <ActionTableAction
+            id={id}
+            drugId={medication?.drug?.id}
+            setdrugId={setdrugId}
+            setMedicationId={setMedicationId}
+            drugNotes={administrationInstruction ?? "N/A"}
+          />
+        ),
       };
     });
   }
@@ -100,25 +105,31 @@ const Medications = ({ admissionId }) => {
           </div>
         </div>
       </div>
-      <DisplayNotes details={drugAdministration} />
       <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
-      <AdministerDrugMedications admissionId={admissionId} drugId={drugId} mutate={mutate} />
+      <AdministerDrugMedications
+        admissionId={admissionId}
+        drugId={drugId}
+        mutate={mutate}
+      />
     </div>
   );
 };
 
-const ActionTableAction = ({ id, setMedicationId, setdrugId, drugId, drugNotes, setdrugAdministration }) => {
+const ActionTableAction = ({
+  id,
+  setMedicationId,
+  setdrugId,
+  drugId,
+  drugNotes,
+}) => {
   return (
     <>
       <ActionButton>
-      <Link
+        <Link
           data-toggle="modal"
           data-target="#notes"
           className="btn btn-sm btn-block"
-          onClick={() =>
-            setdrugAdministration({ title: "Administration Instructions", body: drugNotes })
-          }
         >
           <span className="btn-icon icofont-server mr-2" />
           Administration Instructions
@@ -143,6 +154,10 @@ const ActionTableAction = ({ id, setMedicationId, setdrugId, drugId, drugNotes, 
           Update status
         </button>
       </ActionButton>
+      <DisplayNotes
+        id={id}
+        details={{ title: "Administration Instructions", body: drugNotes }}
+      />
     </>
   );
 };
