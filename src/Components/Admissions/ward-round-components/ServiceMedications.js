@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
@@ -13,6 +14,7 @@ import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
 import UpdateServiceMedication from "../../Modals/UpdateServiceMedication";
+import { DisplayNotes } from "../../Modals/DisplayNotes";
 
 const ServiceMedications = observer(({ admissionId }) => {
   const{
@@ -20,6 +22,7 @@ const ServiceMedications = observer(({ admissionId }) => {
   } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
+
   const getServiceMedications = getServiceMedicationsUrl(
     admissionId,
     pageNumber,
@@ -91,6 +94,7 @@ const ServiceMedications = observer(({ admissionId }) => {
             mutate={mutate}
             administerService={administerService}
             serviceId={medication?.serviceId}
+            serviceNotes={`${administrationInstruction ?? "N/A"}`}
           />
         ),
       };
@@ -127,12 +131,11 @@ const ServiceMedications = observer(({ admissionId }) => {
         </div>
       </div>
       <UpdateServiceMedication admissionId={admissionId} mutate={mutate} />
-      {/* <UpdateMedicationStatus  medicationId={medicationId} mutate={mutate} /> */}
     </div>
   );
 });
 
-const ActionTableAction = ({ id, serviceId, administerService, mutate }) => {
+const ActionTableAction = ({ id, serviceId, administerService, mutate, serviceNotes }) => {
   return (
     <>
       <ActionButton>
@@ -144,6 +147,13 @@ const ActionTableAction = ({ id, serviceId, administerService, mutate }) => {
           <span className="btn-icon icofont-server mr-2" />
           Update status
         </button>
+        <Link
+          data-toggle="modal"
+          data-target={`#notes-${id}`}
+          className="btn btn-sm btn-block"
+        >
+          Service Medication
+        </Link>
         <button 
         onClick={() => administerService(serviceId)}
         className="btn btn-sm btn-block"
@@ -156,6 +166,7 @@ const ActionTableAction = ({ id, serviceId, administerService, mutate }) => {
         mutate={mutate}
         medicationType="service"
       />
+       <DisplayNotes id={id} details={{title: "Administration Instructions", body: serviceNotes}}/>
     </>
   );
 };

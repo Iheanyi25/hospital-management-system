@@ -7,12 +7,13 @@ import formatDate from "../../../utils/formatDate";
 import { Table } from "../../DataTable";
 import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
+import { DisplayNotes } from "../../Modals/DisplayNotes";
 import UpdateDrugMedications from "../../Modals/UpdateDrugMedications";
 import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication";
 
 const Medications = ({ admissionId }) => {
   const [medicationId, setMedicationId] = useState("");
-  const [drugId, setdrugId] = useState("")
+  const [drugId, setdrugId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getMedications = getDrugMedicationsUrl(
@@ -20,6 +21,7 @@ const Medications = ({ admissionId }) => {
     pageNumber,
     pageSize
   );
+
   const getMedicationsConfig = fetchConfig({
     url: getMedications,
     method: "get",
@@ -42,7 +44,7 @@ const Medications = ({ admissionId }) => {
       } = medication;
       return {
         "#": ++index,
-        "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
+        // "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
         Drug: `${medication?.drug?.name ?? "N/A"}`,
         Dosage: `${dosage ?? "N/A"}`,
         FreQ: `${frequency ?? "N/A"}`,
@@ -61,7 +63,15 @@ const Medications = ({ admissionId }) => {
             {status ?? "N/A"}
           </span>
         ),
-        Action: <ActionTableAction id={id} drugId={medication?.drug?.id} setdrugId={setdrugId} setMedicationId={setMedicationId} />,
+        Action: (
+          <ActionTableAction
+            id={id}
+            drugId={medication?.drug?.id}
+            setdrugId={setdrugId}
+            setMedicationId={setMedicationId}
+            drugNotes={administrationInstruction ?? "N/A"}
+          />
+        ),
       };
     });
   }
@@ -97,15 +107,33 @@ const Medications = ({ admissionId }) => {
       </div>
       <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
-      <AdministerDrugMedications admissionId={admissionId} drugId={drugId} mutate={mutate} />
+      <AdministerDrugMedications
+        admissionId={admissionId}
+        drugId={drugId}
+        mutate={mutate}
+      />
     </div>
   );
 };
 
-const ActionTableAction = ({ id, setMedicationId, setdrugId, drugId }) => {
+const ActionTableAction = ({
+  id,
+  setMedicationId,
+  setdrugId,
+  drugId,
+  drugNotes,
+}) => {
   return (
     <>
       <ActionButton>
+        <Link
+          data-toggle="modal"
+          data-target="#notes"
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Administration Instructions
+        </Link>
         <Link
           to="#"
           data-toggle="modal"
@@ -126,6 +154,10 @@ const ActionTableAction = ({ id, setMedicationId, setdrugId, drugId }) => {
           Update status
         </button>
       </ActionButton>
+      <DisplayNotes
+        id={id}
+        details={{ title: "Administration Instructions", body: drugNotes }}
+      />
     </>
   );
 };
