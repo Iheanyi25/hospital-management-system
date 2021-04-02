@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { getDoctorsUrl } from "../../api/URLs";
-import { SelectableDropDown } from "../Select/SelectableDropDown";
+import Select from "react-select";
 import { SearchDoctorsBySpecializationModal } from "./searchDoctorBySpecialization";
 const $ = window.$;
 
@@ -20,6 +20,7 @@ class SearchDoctorsModal extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleDoctorSelect = this.handleDoctorSelect.bind(this);
   }
 
   async componentDidMount() {
@@ -30,19 +31,21 @@ class SearchDoctorsModal extends React.Component {
   }
 
   fetchDoctors = async () => {
-    const getDoctors = getDoctorsUrl()
-    const getDoctorsConfig = fetchConfig({url : getDoctors, method : 'get'})
-    const {data} = await fetchWrapper(getDoctorsConfig)
-
-    const doctorArray = [];
-
-    data.doctors.forEach((element) => {
-      doctorArray.push(element.doctor);
-    });
-
-    this.setState({ doctors: doctorArray }, () => {
+    const getDoctors = getDoctorsUrl();
+    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: "get" });
+    const { data } = await fetchWrapper(getDoctorsConfig);
+    this.setState({ doctors: data?.doctors || [] },  () => {
       this.renderDoctorPicker();
     });
+    // const doctorArray = [];
+
+    // data.doctors.forEach((element) => {
+    //   doctorArray.push(element.doctor);
+    // });
+
+    // this.setState({ doctors: doctorArray }, () => {
+    //   this.renderDoctorPicker();
+    // });
   };
 
   // const { params } = this.props.match;
@@ -81,6 +84,12 @@ class SearchDoctorsModal extends React.Component {
     });
   }
 
+  handleDoctorSelect(data) {
+    this.setState({
+      doctorId: data.value,
+    });
+  }
+
   routeToDoctor = () => {
     $("#search-doctor").modal("hide");
   };
@@ -94,6 +103,14 @@ class SearchDoctorsModal extends React.Component {
 
   render() {
     const { doctorId } = this.state;
+    const allDoctors = [];
+
+    console.log(this.state.doctors,7777)
+    if (this.state.doctors?.length > 0) {
+      this.state.doctors.forEach(({ doctorId, firstName, lastName }) => {
+        allDoctors.push({ value: doctorId, label: `${firstName} ${lastName}` });
+      });
+    }
 
     return (
       <>
@@ -113,15 +130,9 @@ class SearchDoctorsModal extends React.Component {
               <div className="modal-body p-5">
                 <form>
                   <div className="form-group">
-
-                    <SelectableDropDown
-                      data={this.state.doctors}
-                      itemKey={["id"]}
-                      valueKeys={["firstName", "lastName"]}
-                      label={"Doctors"}
-                      onChange={this.handleChange}
-                      stateKey={"doctorId"}
-                      search={true}
+                     <Select
+                      options={allDoctors}
+                      onChange={this.handleDoctorSelect}
                     />
                     <Link to="#" onClick={this.searchBySpecialization} className="text-right mt-2">Search by Specialization</Link>
                   </div>

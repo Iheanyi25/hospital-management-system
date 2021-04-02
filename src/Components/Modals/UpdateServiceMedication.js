@@ -63,8 +63,7 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
         notification.error({ message: error?.response?.data.message });
       }
     }
-
-    fetchServices();
+    if(serviceCategory.value) fetchServices();
   }, [serviceCategory.value]);
 
   const handleChange = (e) => {
@@ -219,14 +218,16 @@ const UpdateServiceMedicationForm = ({
           onChange={handleServiceCatSelect}
         />
       </div>
-      <div className="form-group">
-        <label>Services in Category</label>
-        <Select
-          options={optionsService}
-          value={selectedService}
-          onChange={handleServiceSelect}
-        />
-      </div>
+      {selectedServiceCategory.value && 
+       <div className="form-group">
+       <label>Services in Category</label>
+       <Select
+         options={optionsService}
+         value={selectedService}
+         onChange={handleServiceSelect}
+       />
+     </div>}
+     
       <div className="col"></div>
       <div className="d-flex justify-content-between">
         <button className="btn btn-outline-danger mr-3" data-dismiss="modal">
