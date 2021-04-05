@@ -7,8 +7,10 @@ import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
 
-const ChangePassword = observer(()=> {
-  const { user: { id: userId } } = useContext(UserContext)
+const ChangePassword = observer(() => {
+  const {
+    user: { id: userId },
+  } = useContext(UserContext);
   const [allPasswordDetails, setAllPasswordDetails] = useState({
     currentPassword: "",
     newPassword: "",
@@ -16,7 +18,7 @@ const ChangePassword = observer(()=> {
     passwordStatus: false,
     response: "",
     currentPasswordInputType: "password",
-    newPasswordInputType: "password"
+    newPasswordInputType: "password",
   });
 
   const {
@@ -24,7 +26,7 @@ const ChangePassword = observer(()=> {
     newPassword,
     submitting,
     currentPasswordInputType,
-    newPasswordInputType
+    newPasswordInputType,
   } = allPasswordDetails;
 
   const history = useHistory();
@@ -33,7 +35,7 @@ const ChangePassword = observer(()=> {
     setAllPasswordDetails({ ...allPasswordDetails, submitting: true });
     e.preventDefault();
     // const userId = JSON.parse(localStorage.getItem("authenticatedUser")).id;
-    
+
     if (newPassword !== "" && currentPassword !== "") {
       const payload = {
         userId,
@@ -47,19 +49,24 @@ const ChangePassword = observer(()=> {
           data: payload,
           method: "post",
         });
-  
+
         const res = await fetchWrapper(postPasswordConfig);
         if (res.status === 200) {
           setAllPasswordDetails({
             ...allPasswordDetails,
             passwordStatus: true,
           });
-          notification.success({ message: res.data.message})
-          history.goBack()
+          notification.success({ message: res.data.message });
+          history.goBack();
         }
       } catch (error) {
-        console.log(error.response.data)
-        notification.error({ message: error?.response?.data.message[0].description})
+        setAllPasswordDetails({
+          submitting: false,
+        });
+        console.log(error.response.data);
+        notification.error({
+          message: error?.response?.data.message[0].description,
+        });
       }
     }
   };
@@ -73,12 +80,28 @@ const ChangePassword = observer(()=> {
   };
 
   const toggleCurrentPasswordView = () => {
-    currentPasswordInputType === "password" ? setAllPasswordDetails({ ...allPasswordDetails, currentPasswordInputType: "text" }) : setAllPasswordDetails({ ...allPasswordDetails, currentPasswordInputType: "password" })
-  }
+    currentPasswordInputType === "password"
+      ? setAllPasswordDetails({
+          ...allPasswordDetails,
+          currentPasswordInputType: "text",
+        })
+      : setAllPasswordDetails({
+          ...allPasswordDetails,
+          currentPasswordInputType: "password",
+        });
+  };
 
   const toggleNewPasswordView = () => {
-    newPasswordInputType === "password" ? setAllPasswordDetails({ ...allPasswordDetails, newPasswordInputType: "text" }) : setAllPasswordDetails({ ...allPasswordDetails, newPasswordInputType: "password" })
-  }
+    newPasswordInputType === "password"
+      ? setAllPasswordDetails({
+          ...allPasswordDetails,
+          newPasswordInputType: "text",
+        })
+      : setAllPasswordDetails({
+          ...allPasswordDetails,
+          newPasswordInputType: "password",
+        });
+  };
 
   return (
     <main className="main-content">
@@ -104,7 +127,11 @@ const ChangePassword = observer(()=> {
                       />
                       <div class="input-group-append eye-icon pull-right">
                         <i
-                          class={currentPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                          class={
+                            currentPasswordInputType === "password"
+                              ? "icofont-eye"
+                              : "icofont-eye-blocked"
+                          }
                           onClick={(e) => toggleCurrentPasswordView()}
                         ></i>
                       </div>
@@ -123,7 +150,11 @@ const ChangePassword = observer(()=> {
                       />
                       <div class="input-group-append eye-icon pull-right">
                         <i
-                          class={newPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                          class={
+                            newPasswordInputType === "password"
+                              ? "icofont-eye"
+                              : "icofont-eye-blocked"
+                          }
                           onClick={(e) => toggleNewPasswordView()}
                         ></i>
                       </div>
@@ -135,7 +166,10 @@ const ChangePassword = observer(()=> {
                     >
                       Submit
                     </button>
-                    <p className="mt-3 text-danger text-center password-notice">Passwords must contain uppercase, numeric and special characters</p>
+                    <p className="mt-3 text-danger text-center password-notice">
+                      Passwords must contain uppercase, numeric and special
+                      characters
+                    </p>
                   </form>
                 </div>
               </div>
@@ -145,5 +179,5 @@ const ChangePassword = observer(()=> {
       </div>
     </main>
   );
-})
+});
 export { ChangePassword };
