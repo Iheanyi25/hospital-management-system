@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader, Table } from "../../Components";
 import PharmacistImage from "../../assets/img/DoctorIcon.svg";
@@ -9,7 +9,9 @@ import ActionButton from "../../Components/DataTable/ActionButton";
 import TableSize from "../../Components/DataTable/TableSize";
 
 function AllPharmacists() {
-  const fetchPharmacistsUrl = getAllPharmacistUrl();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const fetchPharmacistsUrl = getAllPharmacistUrl(pageNumber, pageSize);
   const fetchPharmacistConfig = fetchConfig({
     url: fetchPharmacistsUrl,
     method: "get",
@@ -61,7 +63,16 @@ function AllPharmacists() {
             />
           </div>
           <div className="page-content">
-            {data && <Table content={tableData} />}
+            {data && (
+              <Table
+                content={tableData}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+              />
+            )}
           </div>
         </div>
       </main>

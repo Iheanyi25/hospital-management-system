@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { PageLoader, Table } from "../../Components";
 import { getAllAccountantsUrl } from "../../api/URLs";
@@ -9,7 +9,9 @@ import TableSize from "../../Components/DataTable/TableSize";
 import ActionButton from "../../Components/DataTable/ActionButton";
 
 function AllAccountants() {
-  const fetchAccountantsUrl = getAllAccountantsUrl();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const fetchAccountantsUrl = getAllAccountantsUrl(pageNumber, pageSize);
   const fetchAccountantsConfig = fetchConfig({
     url: fetchAccountantsUrl,
     method: "get",
@@ -61,7 +63,16 @@ function AllAccountants() {
             />
           </div>
           <div className="page-content">
-            {data && <Table content={tableData} />}
+            {data && (
+              <Table
+                content={tableData}
+                paginationDetails={data.paginationDetails}
+                setPageNumber={setPageNumber}
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+              />
+            )}
           </div>
         </div>
       </main>
