@@ -20,7 +20,8 @@ export const getReportsForExpiryDatesOfDrugsUrl = (date) =>
   `/Accountant/GetReportForExpiryDateofDrugs?date=${date}`;
 
 // Accountant- Manage Profile
-export const getAllAccountantsUrl = () => `/Accountant/GetAccountants?`;
+export const getAllAccountantsUrl = (pageNumber, pageSize) =>
+  `/Accountant/GetAccountants?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAccountantProfileUrl = (accountantId) =>
   `/Accountant/GetAccountant?AccountantId=${accountantId}`;
 export const updateAccountantBasicInfoUrl = () =>

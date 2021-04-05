@@ -47,7 +47,8 @@ export const deleteDrugUrl = () => `/Pharmacy/DeleteDrug`;
 export const pharmacyDashboardUrl = () => `/Pharmacy/SystemSummary`;
 
 // Pharmacy- Manage Profile
-export const getAllPharmacistUrl = () => `/Pharmacy/GetAllPharmacists?`;
+export const getAllPharmacistUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetAllPharmacists?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getPharmacistProfileUrl = (pharmId) =>
   `/Pharmacy/GetAPharmacistById?id=${pharmId}`;
 export const updatePharmacistBasicInfoUrl = () =>
