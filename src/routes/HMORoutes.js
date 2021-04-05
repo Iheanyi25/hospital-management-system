@@ -4,6 +4,7 @@ import { HMOLayout } from "../Components/Layout";
 import { UserContext } from "../mobx/UserState";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
 import ViewHMOProfile from "../Pages/HealthInsurance/HMO/ViewHMOProfile";
+import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import CreateHealthPlan from "../Pages/HealthInsurance/HMO/CreateHealthPlans";
 import EditHealthPlan from "../Pages/HealthInsurance/HMO/EditHealthPlan";
 import ManageHealthPlans from "../Pages/HealthInsurance/HMO/ManageHealthPlans";
@@ -36,6 +37,7 @@ export default function HMORoutes() {
         <Switch>
           <Route exact path="/Dashboard" component={Dashboard} />
           <Route exact path="/HMOProfile" component={ViewHMOProfile} />
+          <Route exact path="/ChangePassword" component={ViewChangePassword} />
           <Route exact path="/CreateHealthPlan" component={CreateHealthPlan} />
           <Route exact path="/EditHealthPlan" component={EditHealthPlan} />
           <Route

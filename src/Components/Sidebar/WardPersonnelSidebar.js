@@ -54,7 +54,7 @@ const WardPersonnelSidebar = () => {
                   <span className="group-title">Profile</span>
                 </li>
                 <li className="menu-item">
-                  <Link className="item-link" to="/WardPersonnelProfile">
+                  <Link className="item-link" to="/WardProfile">
                     <span className="link-icon icofont-user-suited" />{" "}
                     <span className="link-text">My Profile</span>{" "}
                   </Link>
