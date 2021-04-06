@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { createBedUrl } from "../../api/URLs";
 import { notification } from "../../utils/notification";
+import { isNotEmptyString } from "../../utils/validationUtils";
 
 const $ = window.$;
 
 const AddBed = ({ wardId, mutate }) => {
   console.log(wardId);
   const [name, setName] = useState("");
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    if (isNotEmptyString(name)) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true)
+    }
+  }, [name]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +74,11 @@ const AddBed = ({ wardId, mutate }) => {
               </div>
               <div className="col"></div>
               <div className="col text-right">
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  disabled={emptyField ? true : false}
+                  className="btn btn-primary"
+                >
                   Add
                 </button>
               </div>
