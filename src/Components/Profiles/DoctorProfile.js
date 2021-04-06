@@ -105,6 +105,7 @@ class DocProfile extends React.Component {
     const {
       user: { userType, email },
     } = content;
+    console.log(userType, 12443);
     const {
       doctorDetails,
       doctorId,
@@ -725,13 +726,13 @@ class DocProfile extends React.Component {
                         </div>
                         <div className="d-flex flex-wrap">
                           {socials?.map((social, index) =>
-                            social.webSite === "LinkedIn" ? (
+                            social.website === "LinkedIn" ? (
                               <div className="d-flex mr-5" key={index}>
                                 <img src={linkedin} alt="youtube" />
                                 <div className="ml-4 mr-5">
                                   <div className="d-flex">
                                     <p className="mt-3 font-weight-bold mb-2">
-                                      {social.webSite}
+                                      {social.website}
                                     </p>
                                     {this.state.displayDeleteWebsite ? (
                                       <img
@@ -756,13 +757,13 @@ class DocProfile extends React.Component {
                                   </Link>
                                 </div>
                               </div>
-                            ) : social.webSite === "Facebook" ? (
+                            ) : social.website === "Facebook" ? (
                               <div className="d-flex mr-5">
                                 <img src={facebook} alt="youtube" />
                                 <div className="ml-4 mr-5">
                                   <div className="d-flex">
                                     <p className="mt-3 font-weight-bold mb-2">
-                                      {social.webSite}
+                                      {social.website}
                                     </p>
                                     {this.state.displayDeleteWebsite ? (
                                       <img
@@ -787,13 +788,13 @@ class DocProfile extends React.Component {
                                   </Link>
                                 </div>
                               </div>
-                            ) : social.webSite === "Twitter" ? (
+                            ) : social.website === "Twitter" ? (
                               <div className="d-flex mr-5">
                                 <img src={twitter} alt="youtube" />
                                 <div className="ml-4 mr-5">
                                   <div className="d-flex">
                                     <p className="mt-3 font-weight-bold mb-2">
-                                      {social.webSite}
+                                      {social.website}
                                     </p>
                                     {this.state.displayDeleteWebsite ? (
                                       <img

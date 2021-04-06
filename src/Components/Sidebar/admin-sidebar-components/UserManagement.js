@@ -108,7 +108,7 @@ const Doctors = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("doctor")}
+            onClick={() => setUserType("Doctor")}
           >
             <span className="link-text">Register Doctors</span>
           </Link>
@@ -156,7 +156,7 @@ const Nurses = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("nurse")}
+            onClick={() => setUserType("Nurse")}
           >
             <span className="link-text">Register Nurses</span>
           </Link>
@@ -204,7 +204,7 @@ const Pharmacists = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("pharmacist")}
+            onClick={() => setUserType("Pharmacist")}
           >
             <span className="link-text">Register Pharmacist</span>
           </Link>
@@ -252,7 +252,7 @@ const Accountants = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("accountant")}
+            onClick={() => setUserType("Accountant")}
           >
             <span className="link-text">Register Accountant</span>
           </Link>
@@ -300,7 +300,7 @@ const Lab = ({ setUserType, pathname }) => {
             className="item-link"
             data-toggle="modal"
             data-target="#add-user"
-            onClick={() => setUserType("labAttendant")}
+            onClick={() => setUserType("LabAttendant")}
           >
             <span className="link-text">Register Lab Technician</span>
           </Link>
