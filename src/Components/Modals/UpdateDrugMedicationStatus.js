@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { updateMedicationStatusUrl } from "../../api/URLs";
+import {
+  updateDrugMedicationStatusUrl,
+  updateServiceMedicationStatusUrl,
+} from "../../api/URLs";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
-const UpdateMedicationStatus = ({ medicationId, mutate }) => {
+const UpdateMedicationStatus = ({ medicationId, medicationType, mutate }) => {
   console.log(medicationId, "1212");
   const [status, setStatus] = useState();
   const handleChange = (status) => {
@@ -17,7 +20,10 @@ const UpdateMedicationStatus = ({ medicationId, mutate }) => {
     e.preventDefault();
     const payload = { status: status.value, medicationId };
     try {
-      const updateMedicationStatus = updateMedicationStatusUrl();
+      const updateMedicationStatus =
+        medicationType === "service"
+          ? updateServiceMedicationStatusUrl()
+          : updateDrugMedicationStatusUrl();
       const updateMedicationStatusConfig = fetchConfig({
         url: updateMedicationStatus,
         data: payload,
@@ -27,7 +33,7 @@ const UpdateMedicationStatus = ({ medicationId, mutate }) => {
       if (res.status === 200) {
         notification.success({ message: res.data.message });
         mutate();
-        $("#update-medication-status").modal("hide");
+        $(`#update-medication-status-${medicationId}`).modal("hide");
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
@@ -41,7 +47,7 @@ const UpdateMedicationStatus = ({ medicationId, mutate }) => {
   return (
     <div
       className="modal fade"
-      id="update-medication-status"
+      id={`update-medication-status-${medicationId}`}
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"

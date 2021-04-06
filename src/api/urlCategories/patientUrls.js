@@ -8,7 +8,7 @@ export const getPatientAccountUrl = (patientId) => `/Patient/Account/GetAccount?
 // Patient - Manage Profile
 export const getPatientUrl = (patientId) =>
   `/Patient/GetPatient?id=${patientId}`;
-export const getPatientsUrl = () => `/Patient/GetPatients`;
+export const getPatientsUrl = (pageNumber, pageSize) => `/Patient/GetPatients?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const updatePatientBasicInfoUrl = () => `/Patient/UpdatePatientBasicInfo`;
 export const updatePatientContactDetailsUrl = () => `/Patient/UpdatePatientContactDetails`;
 export const updatePatientHealthDetailsUrl = () => `/Patient/UpdatePatientHealthDetails`;

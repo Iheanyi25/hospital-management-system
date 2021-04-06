@@ -8,6 +8,7 @@ import AdminAllNurses from "../Pages/Admin/AllNurses";
 import AdminAllPharmacists from "../Pages/Admin/AllPharmacist";
 import AdminAllAccountants from "../Pages/Admin/AllAccountants";
 import AdminAllLabTechnicians from "../Pages/Admin/AllLab";
+import AdminAllWardPersonnel from "../Pages/Admin/AllWardPersonnel";
 import AdminAppointments from "../Pages/Admin/Appointments";
 import AdminBookAppointment from "../Pages/Admin/BookAppointment";
 import AdminDoctorAppointments from "../Pages/Admin/DoctorAppointments";
@@ -16,7 +17,8 @@ import AdminConsultationQueue from "../Pages/Admin/Consultations";
 import AddPatient from "../Pages/Admin/AddPatient.js";
 import AdminDoctorConsultationQueue from "../Pages/Admin/DoctorConsultations";
 import { AdminLayout } from "../Components/Layout";
-import AllPatients from "../Pages/Admin/AllPatients";
+import ViewAllPatients from "../Pages/Admin/ViewAllPatients";
+import ViewPatientsInAccount from "../Pages/Admin/ViewPatientsInAccount";
 import ManageAccounts from "../Pages/Components/ManageAccounts";
 import PatientRegistration from "../Pages/Admin/PatientRegistration";
 import AdminFundAccount from "../Pages/Components/FundAccount";
@@ -37,6 +39,7 @@ import ViewAccountantProfile from "../Pages/Accountant/ViewAccountantProfile";
 import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 import ViewAdminProfile from "../Pages/Admin/ViewAdminProfile";
 import ViewNurseProfile from "../Pages/Nurse/ViewNurseProfile";
+import ViewWardPersonnelProfile from "../Pages/WardPersonnel/ViewWardPersonnelProfile";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 
 // service utils
@@ -51,6 +54,7 @@ import ManageServiceRequest from "../Pages/Admin/Util_Services/ManageServiceRequ
 import ServiceRequestContents from "../Pages/Admin/Util_Services/ServiceRequestContents";
 import ServiceRequestResultUpload from "../Pages/Admin/Util_Services/UploadServiceRequestResult";
 import ViewLabResults from "../Pages/Admin/Util_Services/ViewLabResults";
+import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
 
 // health-plan utils
 import CreateHealthPlan from "../Pages/Admin/Util_HealtlPlans/CreateHealthPlan";
@@ -67,7 +71,10 @@ import ServiceRequestReport from "../Pages/Admin/Reports/ServiceRequestReport";
 import DrugReport from "../Pages/Admin/Reports/DrugReport";
 import ExpiredDrugsReport from "../Pages/Admin/Reports/ExpiredDrugsReport";
 import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransactions";
-import ViewPatientHealthHistory from "../Pages/Admin/ViewPatientHealthHistory";
+import PatientInvoiceReport from "../Pages/Admin/Reports/HMOReports/PatientInvoiceReport";
+import DrugInvoiceReport from "../Pages/Admin/Reports/HMOReports/DrugInvoiceReport";
+import ServiceInvoiceReport from "../Pages/Admin/Reports/HMOReports/ServiceInvoiceReport";
+import NHISReport from "../Pages/Admin/Reports/NHISReport";
 
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
@@ -103,6 +110,7 @@ import AddDrugToNHIS from "../Pages/HealthInsurance/NHIS/AddDrugToNHIS";
 import AddServiceToNHIS from "../Pages/HealthInsurance/NHIS/AddServiceToNHIS";
 import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
+import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
 
 export default function AdminRoutes() {
   return (
@@ -120,7 +128,12 @@ export default function AdminRoutes() {
             path="/AdminPreConsultation/:id"
             component={AdminPreConsultation}
           />
-          <Route exact path="/AdminAllPatients" component={AllPatients} />
+          <Route exact path="/AdminAllPatients" component={ViewAllPatients} />
+          <Route
+            exact
+            path="/ViewPatientsInAccount/:id"
+            component={ViewPatientsInAccount}
+          />
           <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
           <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
           <Route
@@ -137,6 +150,11 @@ export default function AdminRoutes() {
             exact
             path="/AdminAllLabTechnicians"
             component={AdminAllLabTechnicians}
+          />
+          <Route
+            exact
+            path="/AdminAllWardPersonnel"
+            component={AdminAllWardPersonnel}
           />
           <Route
             exact
@@ -348,6 +366,11 @@ export default function AdminRoutes() {
           />
           <Route
             exact
+            path="/AdminViewWardPersonnelProfile/:id"
+            component={ViewWardPersonnelProfile}
+          />
+          <Route
+            exact
             path="/AdminViewPatientHealthHistory/:id"
             component={ViewPatientHealthHistory}
           />
@@ -444,8 +467,29 @@ export default function AdminRoutes() {
             path="/AdminAddServiceToNHIS/:id"
             component={AddServiceToNHIS}
           />
+          <Route
+            exact
+            path="/AdminReassignPatientToNHIS/:id"
+            component={ReassignPatientToPlan}
+          />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
+          <Route
+            exact
+            path="/AdminHMOPatientInvoiceReport"
+            component={PatientInvoiceReport}
+          />
+          <Route
+            exact
+            path="/AdminHMODrugInvoiceReport"
+            component={DrugInvoiceReport}
+          />
+          <Route
+            exact
+            path="/AdminHMOServiceInvoiceReport"
+            component={ServiceInvoiceReport}
+          />
+          <Route exact path="/AdminNHISReport" component={NHISReport} />
           <Route
             exact
             path="*"

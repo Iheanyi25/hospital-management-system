@@ -4,15 +4,28 @@ import { PageLoader } from "../../Components";
 import { ClarkingHistory } from "../../Components/Clarking";
 import { useHistory, useParams } from "react-router";
 import { observer } from "mobx-react";
+import { getAdmissionDaysUrl } from "../../api/URLs";
+import { useRequest } from "../../api/fetcher";
 import { UserContext } from "../../mobx/UserState";
 import WardRoundTabHeader from "./ward-round-components/WardRoundTabHeader";
 import WardRoundTabContent from "./ward-round-components/WardRoundTabContent";
+import { DischargePatients } from "../Modals/DischargePatients";
+import { fetchConfig } from "../../api/fetchConfig";
 
 const WardRoundNotes = observer(() => {
   const {
     user: { userType },
   } = useContext(UserContext);
   const { id: admissionId } = useParams();
+  const getAdmissionDays = getAdmissionDaysUrl(admissionId);
+  const getAdmissionDaysConfig = fetchConfig({
+    url: getAdmissionDays,
+    method: "post",
+  });
+  const { data } = useRequest(getAdmissionDaysConfig, {
+    revalidateOnFocus: false,
+  });
+  console.log(data, 210);
   const {
     location: {
       state: {
@@ -32,26 +45,39 @@ const WardRoundNotes = observer(() => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4
-              className="page-title mb-0"
-              style={{ textTransform: "capitalize" }}
-            >{`${firstName} ${lastName}`}</h4>
-            <Link
-              className="btn btn-outline-primary"
-              to={{
-                pathname:
-                  userType === "Admin"
-                    ? `/AdminPatientProfile/${id}`
-                    : userType === "Doctor"
-                    ? `/DoctorPatientProfile/${id}`
-                    : userType === "Nurse"
-                    ? `/NursePatientProfile/${id}`
-                    : "#",
-                state: patient,
-              }}
-            >
-              View patient profile
-            </Link>
+            <div>
+              <h4
+                className="page-title mb-0"
+                style={{ textTransform: "capitalize" }}
+              >{`${firstName} ${lastName}`}</h4>
+              <p>Days admitted : {`${data?.daysAdmitted ?? "0"}`}</p>            
+            </div>
+            <div>
+              <Link
+                className="btn btn-outline-primary mr-2"
+                to="#"
+                data-toggle="modal"
+                data-target="#discharge-patient"
+              >
+                Discharge Patient
+              </Link>
+              <Link
+                className="btn btn-primary"
+                to={{
+                  pathname:
+                    userType === "Admin"
+                      ? `/AdminPatientProfile/${id}`
+                      : userType === "Doctor"
+                      ? `/DoctorPatientProfile/${id}`
+                      : userType === "Nurse"
+                      ? `/NursePatientProfile/${id}`
+                      : "#",
+                  state: patient,
+                }}
+              >
+                View patient profile
+              </Link>
+            </div>
           </header>
           <div className="card border-light w-50 my-5 mx-auto">
             <ClarkingHistory
@@ -79,6 +105,7 @@ const WardRoundNotes = observer(() => {
           </div>
         </div>
       </main>
+      <DischargePatients admissionId={admissionId} />
     </>
   );
 });

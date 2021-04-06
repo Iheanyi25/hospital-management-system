@@ -5,6 +5,9 @@ export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
   `/Admission/GetAdmissionsWithoutBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToBedSpaceUrl = () =>
   `/Admission/AssignPatientToBedspace`;
+export const postDischargePatientUrl = () => `Admission/DischargePatient`;
+export const getAdmissionDaysUrl = (admssionId) =>
+  `Admission/GetAdmissionDays?AdmissionId=${admssionId}`;
 
 // Admission - Manage Admission Drug Dispensing
 export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
@@ -37,6 +40,37 @@ export const uploadServiceRequestResultUrl = () =>
 export const getAdmissionsServiceRequestResultUrl = (serviceRequestId) =>
   `/Admission/GetServiceRequestResults/${serviceRequestId}`;
 
+// Admission - Manage Medications
+export const getDrugMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+  `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
+export const updateDrugMedicationStatusUrl = () =>
+  `Admission/UpdateDrugMedicationStatus`;
+export const getServiceMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+  `/Admission/GetServiceMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export const createServiceMedicationUrl = () =>
+  `Admission/CreateServiceMedication`;
+export const updateServiceMedicationStatusUrl = () =>
+  `Admission/UpdateServiceMedicationStatus`;
+export const postAdministerServiceMedicationUrl = () =>
+  `Admission/AdministerServiceMedication`;
+
+// Admission - Manage Observation Charts
+export const getObservationChartUrl = (admissionId) =>
+  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
+export const postObservationChartUrl = () =>
+  `/Admission/UpdateObservationChart`;
+
+// Admission - Manage Profile
+export const getWardPersonnelsUrl = (pageNumber, pageSize) =>
+  `/Admission/GetWardPersonnels?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getWardPersonnelProfileUrl = (wardPersonnelId) =>
+  `/Admission/GetWardPersonnel?WardPersonnelId=${wardPersonnelId}`;
+export const updateBasicInfoWardPersonnelUrl = () =>
+  `/Admission/UpdateBasicInfo`;
+export const updateContactDetailsWardPersonnelUrl = () =>
+  `/Admission/UpdateContactDetails`;
+
 // Admission - Manage Wards
 export const createWardUrl = () => `/Admission/Ward/CreateWard`;
 export const createBedUrl = () => `/Admission/Ward/CreateBed`;
@@ -54,14 +88,16 @@ export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
   `/Admission/GetPrescriptionsForAdmission?AdmissionId=${id}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
 // Admission - Manage Medications
-export const getMedicationsUrl = (admissionId, pageNumber, pageSize) =>
-  `/Admission/GetMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
-export const createMedicationUrl = () => `Admission/CreateMedication`;
-export const updateMedicationStatusUrl = () => `Admission/UpdateMedicationStatus`;
-
+// export const getDrugMedicationsUrl = (admissionId, pageNumber, pageSize) =>
+//   `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+// export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
+export const updateMedicationStatusUrl = () =>
+  `Admission/UpdateMedicationStatus`;
 // Admission - Manage Observation Charts
-export const getObservationChartUrl = (admissionId) =>
-  `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
-  export const postObservationChartUrl = () =>
-  `/Admission/UpdateObservationChart`;
-
+// export const getObservationChartUrl = (admissionId) =>
+//   `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
+// export const postObservationChartUrl = () =>
+// `/Admission/UpdateObservationChart`;
+// Admission - Manage Medication
+export const postAdministerDrugMedicationUrl = () =>
+  `/Admission/AdministerDrugMedication`;

@@ -1,16 +1,23 @@
 import { observer } from "mobx-react";
 import React, { useState, useContext, Fragment } from "react";
-import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import { getAdmissionsUrl, getAllWardsUrl } from "../../api/URLs";
+import { DisplayNotes } from "../Modals/DisplayNotes";
 import incomplete from "../../assets/img/incomplete.svg";
 import paid from "../../assets/img/paid.svg";
 import { UserContext } from "../../mobx/UserState";
 import { Table } from "../DataTable";
-import ActionButton from "../DataTable/ActionButton";
 import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
+import {
+  AdminActionTable,
+  AccountantTable,
+  NurseActionTable,
+  PharmacyActionTable,
+  LabActionTable,
+  DoctorActionTable,
+} from "./manage-admissions-components/ManagaAdmissionTableActions";
 
 const ManageAdmissions = observer(() => {
   const {
@@ -19,7 +26,10 @@ const ManageAdmissions = observer(() => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [wardId, setWardId] = useState("all");
-
+  const [noteDetails, setNoteDetails] = useState({
+    title: "",
+    body: "",
+  });
   //Fetching admissions
   const getAdmissions = getAdmissionsUrl(wardId, pageNumber, pageSize);
   const getAdmissionsConfig = fetchConfig({
@@ -36,6 +46,8 @@ const ManageAdmissions = observer(() => {
   const { data: wards } = useRequest(getAllWardsConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data, 1232);
+
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
@@ -46,16 +58,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <NurseActionTable
               admissionId={admission.id}
@@ -70,16 +81,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <AccountantTable
               admissionId={admission.id}
@@ -94,16 +104,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: <LabActionTable admissionId={admission.id} />,
         };
       } else if (userType === "Pharmacy") {
@@ -113,16 +122,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <PharmacyActionTable
               admissionId={admission.id}
@@ -137,16 +145,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <DoctorActionTable
               admissionId={admission.id}
@@ -161,16 +168,15 @@ const ManageAdmissions = observer(() => {
           "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
           Ward: admission?.bed?.ward?.name,
           Room: admission?.bed?.name,
-          Status:
-            admission?.bed === null ? (
-              <>
-                <img src={incomplete} alt="not paid" /> Pending
-              </>
-            ) : (
-              <>
-                <img src={paid} alt="paid" /> Admitted
-              </>
-            ),
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
           Actions: (
             <AdminActionTable
               admissionId={admission.id}
@@ -179,6 +185,10 @@ const ManageAdmissions = observer(() => {
                 admission.appointmentId || admission.consultationId
               }
               patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+              admissionNote={`${admission?.admissionNote}`}
+              dischargeNote = {`${admission?.dischargeNote}`}
+              setNoteDetails={setNoteDetails}
+              
             />
           ),
         };
@@ -236,149 +246,9 @@ const ManageAdmissions = observer(() => {
           </div>
         </div>
       </main>
+      <DisplayNotes details={noteDetails} />
     </Fragment>
   );
 });
-
-// Everything goes in here at first
-const AdminActionTable = ({
-  admissionId,
-  patient,
-  patientName,
-  appointmentOrConsultationId,
-}) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/AdminWardRoundNotes/${admissionId}`,
-          state: { patient, appointmentOrConsultationId },
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-      <Link
-        to={{
-          pathname: `/AdminManageAdmissionPrescriptions/${admissionId}`,
-          state: patientName,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Prescriptions
-      </Link>
-      <Link
-        to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Request a service
-      </Link>
-      <Link
-        to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Lab Services
-      </Link>
-      <Link
-        to={{
-          pathname: `/AdminManageAdmissionInvoices/${admissionId}`,
-          state: patient.id,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Invoices
-      </Link>
-    </ActionButton>
-  );
-};
-const AccountantTable = ({ admissionId, patient }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/AccountantManageAdmissionInvoices/${admissionId}`,
-          state: patient.id,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Invoices
-      </Link>
-    </ActionButton>
-  );
-};
-const NurseActionTable = ({ admissionId, patient }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/NurseWardRoundNotes/${admissionId}`,
-          state: patient,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
-const PharmacyActionTable = ({ admissionId, patientName }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/PharmacyManageAdmissionPrescriptions/${admissionId}`,
-          state: patientName,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Prescriptions
-      </Link>
-    </ActionButton>
-  );
-};
-const LabActionTable = ({ admissionId }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={`/LabManageAdmissionServiceRequest/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Lab Services
-      </Link>
-      <Link
-        to={`/AdminWardRoundNotes/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
-const DoctorActionTable = ({ admissionId, patient }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/DoctorWardRoundNotes/${admissionId}`,
-          state: patient,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
-      </Link>
-    </ActionButton>
-  );
-};
 
 export default ManageAdmissions;

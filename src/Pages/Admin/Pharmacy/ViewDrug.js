@@ -1,11 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { PageLoader } from "../../../Components";
 import { getDrugUrl } from "../../../api/URLs";
-import { UpdateInventory } from "../../.././Components/Modals";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { BasePrice, DrugBatch, DrugDetails, HealthPlanPrice } from "./Components/viewsingledrug-components";
+import {
+  BasePrice,
+  DrugBatch,
+  DrugDetails,
+  HealthPlanPrice,
+} from "./Components/viewsingledrug-components";
 
 const ViewDrug = ({ match, history }) => {
   const { id } = match.params;
@@ -34,13 +37,6 @@ const ViewDrug = ({ match, history }) => {
           <div className="main-content-wrap">
             <header className="d-flex justify-content-between align-items-center mb-5">
               <h4 className="page-title">Drug details</h4>
-              <Link
-                data-toggle="modal"
-                data-target="#update-inventory"
-                className="btn btn-primary"
-              >
-                Update inventory
-              </Link>
             </header>
             <div className="col col-md-12">
               <div>
@@ -113,10 +109,7 @@ const ViewDrug = ({ match, history }) => {
                     role="tabpanel"
                     aria-labelledby="pills-batch-tab"
                   >
-                    <DrugBatch
-                      drugId={id}
-                      drugType={history.location.state}
-                    />
+                    <DrugBatch drugId={id} drugType={history.location.state} />
                   </div>
                   <div
                     className="tab-pane fade"
@@ -150,7 +143,6 @@ const ViewDrug = ({ match, history }) => {
               </div>
             </div>
           </div>
-          <UpdateInventory drug={drug} setSuccess={mutate} />
         </main>
       )}
     </>

@@ -43,12 +43,15 @@ const ManageUserSubGroups = () => {
   let dataTable = [];
   if (data) {
     dataTable = data.hmoSubUserGroups.map(
-      ({ name, description, id, hmoUserGroupId }, index) => {
+      (
+        { name, description, id, hmoUserGroupId, hmoHealthPlan: { name: healthPlanName } },
+        index
+      ) => {
         return {
           "#": ++index,
           "Sub Groups": name,
           Description: description,
-          "Health Plan": "Not Available",
+          "Health Plan": healthPlanName ?? "Not Available",
           Actions: (
             <ActionTable
               subGroupDetails={{ name, description, id, hmoUserGroupId }}
@@ -68,9 +71,9 @@ const ManageUserSubGroups = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <header className="page-header justify-content-between d-flex align-items-center mb-2">
+          <header className="page-header justify-content-between d-sflex align-items-center mb-2">
             <h4 className="page-title mb-0">
-              {`Manage User Sub Group in ${userGroupName}`}
+              {`Manage User Sub Group in ${userGroupName || ""}`}
             </h4>
             <div>
               <div className="col"></div>
@@ -123,10 +126,6 @@ const ActionTable = ({ subGroupDetails }) => {
       >
         <span className="btn-icon icofont-server mr-2" />
         Update
-      </Link>
-      <Link to={`/AddUserGroupToPlan`} className="btn btn-sm btn-block">
-        <span className="btn-icon icofont-server mr-2" />
-        Assign to health plan
       </Link>
       <Link
         to={{

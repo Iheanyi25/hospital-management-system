@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { PageLoader, SelectableDropDown } from "../../../Components";
+import { PageLoader } from "../../../Components";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import {
@@ -13,6 +13,7 @@ import {
 import { UserContext } from "../../../mobx/UserState";
 import { notification } from "../../../utils/notification";
 import CreateServiceTable from "./components/CreateServiceTable";
+import Select from "react-select";
 
 const $ = window.$;
 class CreateService extends Component {
@@ -23,16 +24,19 @@ class CreateService extends Component {
     values: [],
     patients: [],
     services: [],
-    category: "",
     rerender: "",
     patient: "",
     description: "",
     showServices: false,
     isFetchingCategories: null,
     isFetchingServicesInCategory: null,
+    selectedPatient: { label: "", value: "" },
+    selectedCategory: { label: "", value: "" },
+    selectedService: { label: "", value: "" },
   };
 
   componentDidMount() {
+    console.log(this.props.location.state, 444);
     if (this?.props?.location?.state) {
       this.setState({
         isFromClarking: true,
@@ -54,7 +58,6 @@ class CreateService extends Component {
       method: "get",
     });
     const { data } = await fetchWrapper(getAllServicesCategoryConfig);
-    console.log(data, 11111);
     this.setState({
       categories: data.serviceCategories,
       isFetchingCategories: false,
@@ -76,7 +79,7 @@ class CreateService extends Component {
   }
 
   fetchPatients = async () => {
-    const getPatients = getPatientsUrl();
+    const getPatients = getPatientsUrl(1, 200);
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
     console.log(data, 2222);
@@ -107,17 +110,20 @@ class CreateService extends Component {
     );
   };
 
-  handleSelect = (elem, e) => {
-    e.preventDefault();
+  handleServiceCatSelect = (selectedCat) => {
+    this.setState({ selectedCategory: selectedCat, showServices: false });
+    this.fetchServicesInACategory(selectedCat?.value);
+  };
+
+  handleServiceSelect = (elem) => {
+    // e.preventDefault();
     if (this.state.patient) {
-      if (e.target.value) {
+      if (elem.value) {
         // variable holders
         let stateValue = this.state.values;
+        console.log(stateValue, 999999);
         let existingKey = stateValue.findIndex(
-          (element) => element.serviceId === e.target.value
-        );
-        let existingElement = this.state.services.find(
-          (element) => element.id === e.target.value
+          (element) => element.serviceId === elem.value
         );
 
         // console.log("check 1", stateValue, e.target.value, existingKey, existingElement);
@@ -125,15 +131,15 @@ class CreateService extends Component {
           // console.log("check 2: initial load ffor empty stateValue: ");
 
           let newSelect = {
-            serviceId: e.target.value,
-            service: existingElement.name,
-            category: this.state.category,
+            serviceId: elem.value,
+            service: elem.label,
+            category: this.state.selectedCategory,
             // index,
           };
           stateValue.push(newSelect);
 
           // console.log("check 3: first load ----- final: ", stateValue)
-          this.setState({ values: stateValue });
+          this.setState({ values: stateValue, selectedService: elem });
           return;
         } else return;
       }
@@ -143,16 +149,9 @@ class CreateService extends Component {
     }
   };
 
-  handleChange = (name, e) => {
-    let value = e.target.value;
-    if (name) {
-      this.setState({ [name]: value }, () => console.log(this.state));
-    } else {
-      console.log(name, value);
-      let fullData = value.split("#");
-      this.setState({ category: fullData[0], showServices: false });
-      console.log(fullData[1]);
-      this.fetchServicesInACategory(fullData[1]);
+  handlePatientSelect = (data) => {
+    if (data?.value) {
+      this.setState({ selectedPatient: data, patient: data.value });
     }
   };
 
@@ -162,7 +161,8 @@ class CreateService extends Component {
     this.setState({ values: serviceRequests });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async (e) => {
+    e.preventDefault();
     const { user } = this.context;
     const { isFromClarking } = this.state;
     try {
@@ -177,6 +177,8 @@ class CreateService extends Component {
         id: "",
         idType: "",
       };
+
+      console.log(payload, 7777);
 
       this.state.values.forEach((element) => {
         serviceId.push(element.serviceId);
@@ -248,6 +250,32 @@ class CreateService extends Component {
     }
   };
   render() {
+    console.log(this.state.patients, 5555);
+    const allPatients = [];
+    const optionsServiceCat = [];
+    const optionsService = [];
+
+    if (this.state.patients.length > 0) {
+      this.state.patients.forEach(({ patientId, firstName, lastName }) => {
+        allPatients.push({
+          value: patientId,
+          label: `${firstName} ${lastName}`,
+        });
+      });
+    }
+
+    if (this.state.categories.length > 0) {
+      this.state.categories.forEach(({ id, name }) => {
+        optionsServiceCat.push({ value: id, label: name });
+      });
+    }
+
+    if (this.state.services.length > 0) {
+      this.state.services.forEach(({ id, name }) => {
+        optionsService.push({ value: id, label: name });
+      });
+    }
+
     return (
       <>
         <PageLoader />
@@ -271,16 +299,13 @@ class CreateService extends Component {
                         {!(
                           this.state?.isFromClarking || this.props.admissionId
                         ) ? (
-                          <SelectableDropDown
-                            itemKey={["id"]}
-                            onChange={this.handleChange}
-                            stateValue={this.state.patient}
-                            stateKey={"patient"}
-                            label={"Patient"}
-                            data={this.state.patients}
-                            search
-                            valueKeys={["firstName", "lastName"]}
-                          />
+                          <div className="form-group">
+                            <label> Select Patient</label>
+                            <Select
+                              options={allPatients}
+                              onChange={this.handlePatientSelect}
+                            />
+                          </div>
                         ) : null}
 
                         <div className="form-group">
@@ -296,28 +321,21 @@ class CreateService extends Component {
                             }
                           />
                         </div>
-
-                        <SelectableDropDown
-                          itemKey={["name", "id"]}
-                          onChange={this.handleChange}
-                          stateValue={this.state.category}
-                          stateKey={null}
-                          label={"Service Category"}
-                          data={this.state.categories}
-                          valueKeys={["name"]}
-                          isFetchingCategories={this.state.isFetchingCategories}
-                        />
-
-                        {this.state.showServices ? (
-                          <SelectableDropDown
-                            itemKey={["id"]}
-                            onChange={this.handleSelect}
-                            stateValue={this.state.patient}
-                            stateKey={null}
-                            label={"Services"}
-                            data={this.state.services}
-                            valueKeys={["name"]}
+                        <div className="form-group">
+                          <label>Service Categories</label>
+                          <Select
+                            options={optionsServiceCat}
+                            onChange={this.handleServiceCatSelect}
                           />
+                        </div>
+                        {this.state.showServices ? (
+                          <div className="form-group">
+                            <label>Services</label>
+                            <Select
+                              options={optionsService}
+                              onChange={this.handleServiceSelect}
+                            />
+                          </div>
                         ) : null}
 
                         {/* <MultipleSelect
@@ -344,7 +362,10 @@ class CreateService extends Component {
                       <header className="page-header justify-content-between d-flex align-items-center mb-2">
                         <h4 className="page-title"> Selected Services</h4>
                       </header>
-                        <CreateServiceTable items={this.state.values} deleteService={this.deleteService} />
+                      <CreateServiceTable
+                        items={this.state.values}
+                        deleteService={this.deleteService}
+                      />
                       <div className="row mt-5">
                         <div className="col">
                           {this.state.isFromClarking ? (

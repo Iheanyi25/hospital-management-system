@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { fetchWrapper } from "../../api/fetcher";
+import { fetchWrapper} from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { createDoctorSurgeryUrl } from "../../api/URLs";
 import { notification } from "../../utils/notification";
@@ -9,7 +9,7 @@ import { UserContext } from "../../mobx/UserState";
 import { formatInputDate } from "../../utils/formatInputDate";
 
 const $ = window.$;
-const SurgeryReferral = observer(({ id, idType, patientId }) => {
+const SurgeryReferral = observer(({ id, idType, patientId, mutate }) => {
   console.log(idType, patientId, 1111);
   let history = useHistory();
   const {
@@ -30,7 +30,6 @@ const SurgeryReferral = observer(({ id, idType, patientId }) => {
       [e.target.name]: e.target.value,
     });
   };
-
   const finishClarking = async (e, key) => {
     e.preventDefault();
     console.log(payload, 8888);
@@ -44,7 +43,9 @@ const SurgeryReferral = observer(({ id, idType, patientId }) => {
       const res = await fetchWrapper(createDoctorSurgeryConfig);
       if (res.status === 200) {
         $("#surgery-referral").modal("hide");
+        setpayload({ dateOfSurgery:"", referralNote:"", timeOfSurgery:""})
         notification.success({ message: res.data.message });
+        mutate();
         if (userType === "Admin") {
           history.push("/AdminManageSurgeries");
         } else {

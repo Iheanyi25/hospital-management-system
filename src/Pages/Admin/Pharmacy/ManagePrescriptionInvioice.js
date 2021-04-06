@@ -11,6 +11,7 @@ import formatAmount from "../../../utils/formatAmount";
 import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
+import incomplete from "../../../assets/img/incomplete.svg";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import { PrescriptionReciept } from "../../../Components/Modals";
@@ -23,7 +24,7 @@ import {
   PharmacistActionTable,
 } from "./Components/prescription-invoice/PrescriptionActionTable";
 
-const ManagePrescriptionInvoice = observer(({isDashboard}) => {
+const ManagePrescriptionInvoice = observer(({ isDashboard }) => {
   const [drugs, setDrugs] = useState([]);
   const [isFetchingDrugs, setIsFetchingDrugs] = useState(false);
   const invoicesUrl = getAllDrugDispencingInvoicesUrl();
@@ -37,6 +38,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
       revalidateOnFocus: false,
     }
   );
+  console.log(data, 37623);
   const fetchDrugsInAnInvoice = async (invoiceNumber) => {
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
     const getDrugsInAnInvoiceConfig = fetchConfig({
@@ -75,10 +77,18 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
         "Invoice No": drugInvoice?.invoiceNumber,
         "Date Generated": formatDate(drugInvoice?.dateGenerated),
         "Total Cost": formatAmount(drugInvoice?.amountTotal),
+        "Amount due":
+          drugInvoice?.amountToBePaidByPatient === 0
+            ? "Covered"
+            : formatAmount(drugInvoice?.amountToBePaidByPatient),
         Status:
           drugInvoice?.paymentStatus === "NOT PAID" ? (
             <span>
               <img src={notpaid} alt="not paid" /> Not paid
+            </span>
+          ) : drugInvoice?.paymentStatus === "Awaiting HMO Payment" ? (
+            <span>
+              <img src={incomplete} alt="not paid" /> HMO
             </span>
           ) : (
             <span>
@@ -110,7 +120,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
   return (
     <Fragment>
       <PageLoader />
-      <main className={!isDashboard &&"main-content"}>
+      <main className={!isDashboard && "main-content"}>
         <div className="app-loader">
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
@@ -118,12 +128,14 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Prescription Invoices</h4>
           </header>
-         {!isDashboard && <div className="page-content">
-            <TableSize
-              size={data ? formatAmount(data.drugInvoices.length) : 0}
-              heading="No of Prescription Invoices"
-            />
-          </div>}
+          {!isDashboard && (
+            <div className="page-content">
+              <TableSize
+                size={data ? formatAmount(data.drugInvoices.length) : 0}
+                heading="No of Prescription Invoices"
+              />
+            </div>
+          )}
           <div className="page-content">
             {data && <Table content={dataTable} />}
           </div>
@@ -142,7 +154,7 @@ const ManagePrescriptionInvoice = observer(({isDashboard}) => {
 export default ManagePrescriptionInvoice;
 
 const ActionCatgeories = observer(
-  ({drugInvoice, fetchDrugsInAnInvoice, markInvoiceAsDispensed}) => {
+  ({ drugInvoice, fetchDrugsInAnInvoice, markInvoiceAsDispensed }) => {
     const {
       user: { userType },
     } = useContext(UserContext);

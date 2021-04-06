@@ -17,7 +17,7 @@ export default function AddDrugToPlan() {
     pricePerCarton: "",
   });
   const {
-    push,
+    goBack,
     location: { state: healthPlanName },
   } = useHistory();
   const { id: hmoHealthPlanId } = useParams();
@@ -70,10 +70,7 @@ export default function AddDrugToPlan() {
       const res = await fetchWrapper(createNHISHealthPlanDrugConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/ManageHealthPlanDrugs/${hmoHealthPlanId}`,
-          state: healthPlanName,
-        });
+        goBack({ state: healthPlanName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });

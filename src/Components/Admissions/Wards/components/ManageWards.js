@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
@@ -9,8 +9,13 @@ import ActionButton from "../../../DataTable/ActionButton";
 import TableSize from "../../../DataTable/TableSize";
 import { notification } from "../../../../utils/notification";
 import { AddBed } from "../../../Modals";
+import formatAmount from "../../../../utils/formatAmount";
+import { UserContext } from "../../../../mobx/UserState";
 
 const ManageWards = ({ admissionId }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [wardId, setWardId] = useState("");
@@ -39,15 +44,19 @@ const ManageWards = ({ admissionId }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.wards.map((ward, index) => {
-      console.log(ward,555)
       if (admissionId) {
         return {
           "#": ++index,
           Name: ward?.name,
           Capacity: ward?.capacity,
+          "Charge Per Night": formatAmount(ward?.chargePerNight),
           Description: ward?.description,
           Actions: (
-            <AdmissionsActionTable admissionId={admissionId} ward={ward} />
+            <AdmissionsActionTable
+              admissionId={admissionId}
+              ward={ward}
+              userType={userType}
+            />
           ),
         };
       } else {
@@ -55,12 +64,14 @@ const ManageWards = ({ admissionId }) => {
           "#": ++index,
           Name: ward?.name,
           Capacity: ward?.capacity,
+          "Charge Per Night": formatAmount(ward?.chargePerNight),
           Description: ward?.description,
           Actions: (
             <WardsTableAction
               ward={ward}
               deleteMe={deleteMe}
               setWardId={setWardId}
+              userType={userType}
             />
           ),
         };
@@ -78,9 +89,16 @@ const ManageWards = ({ admissionId }) => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">Manage Wards</h4>
-            <Link className="btn btn-primary" to="/AdminCreateWard">
-              Create Ward
-            </Link>
+            {admissionId ? null : (
+              <Link
+                className="btn btn-primary"
+                to={
+                  userType === "Admin" ? "/AdminCreateWard" : "/WardCreateWard"
+                }
+              >
+                Create Ward
+              </Link>
+            )}
           </header>
 
           <div className="page-content">
@@ -108,7 +126,7 @@ const ManageWards = ({ admissionId }) => {
   );
 };
 
-const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
+const WardsTableAction = ({ ward, deleteMe, setWardId, userType }) => {
   return (
     <ActionButton>
       <Link
@@ -123,7 +141,10 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
       </Link>
       <Link
         to={{
-          pathname: "/AdminManageBeds/" + ward.id,
+          pathname:
+            userType === "Admin"
+              ? "/AdminManageBeds/" + ward.id
+              : "/WardManageBeds/" + ward.id,
           state: ward.id,
         }}
         className="btn btn-sm btn-block"
@@ -133,7 +154,10 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
       </Link>
       <Link
         to={{
-          pathname: "/AdminEditWard/" + ward.id,
+          pathname:
+            userType === "Admin"
+              ? "/AdminEditWard/" + ward.id
+              : "/WardEditWard/" + ward.id,
           state: ward,
         }}
         className="btn btn-sm btn-block text-primary"
@@ -153,11 +177,17 @@ const WardsTableAction = ({ ward, deleteMe, setWardId }) => {
     </ActionButton>
   );
 };
-const AdmissionsActionTable = ({ admissionId, ward }) => {
+const AdmissionsActionTable = ({ admissionId, ward, userType }) => {
   return (
     <ActionButton>
       <Link
-        to={{ pathname: `/AdminAssignBed/${admissionId}`, state: ward.id }}
+        to={{
+          pathname:
+            userType === "Admin"
+              ? `/AdminAssignBed/${admissionId}`
+              : `/WardAssignBed/${admissionId}`,
+          state: ward.id,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-edit-alt mr-2" />

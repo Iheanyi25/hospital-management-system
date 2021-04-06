@@ -21,11 +21,7 @@ const Dashboard = observer(() => {
         </div>
         <div className="main-content-wrap">
           <div className="page-content">
-            <HMODashboardSummary
-              userCount="N/A"
-              planCount="N/A"
-              userGroupCount="N/A"
-            />
+            <HMODashboardSummary />
             <HMODashboardHeader firstName={firstName} lastName={lastName} />
           </div>
           <div className="page-content">

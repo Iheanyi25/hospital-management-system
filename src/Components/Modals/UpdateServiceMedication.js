@@ -1,14 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
-import { createMedicationUrl, getAllDrugsUrl } from "../../api/URLs";
+import {
+  createServiceMedicationUrl,
+  // createServiceMedicationUrl,
+  getAllServicesCategoryUrl,
+  getAllServicesInACategoryUrl,
+} from "../../api/URLs";
 import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 import Select from "react-select";
 
 const $ = window.$;
-const UpdateMedications = observer(({ admissionId, mutate }) => {
+const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
   const {
     user: { id: initiatorId },
   } = useContext(UserContext);
@@ -19,17 +24,47 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
     startDate: "",
     endDate: "",
     status: "In progress",
+    serviceId: "",
     initiatorId,
   });
-  const [drugDetails, setDrugDetails] = useState();
-  const getDrugsUrl = getAllDrugsUrl(1, 200);
-  const getDrugConfig = fetchConfig({
-    url: getDrugsUrl,
+  const [serviceCategory, setServiceCategory] = useState({
+    label: "",
+    value: "",
+  });
+  const [allServices, setAllServices] = useState([]);
+  const [service, setService] = useState({ label: "", value: "" });
+  const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
+  const getAllServicesCategoryConfig = fetchConfig({
+    url: getAllServicesCategory,
     method: "get",
   });
-  const { data } = useRequest(getDrugConfig, {
-    revalidateOnFocus: false,
-  });
+  const { data: categories, error } = useRequest(
+    getAllServicesCategoryConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  console.log(error,8888)
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const getAllServicesInACategory = getAllServicesInACategoryUrl(
+          serviceCategory.value
+        );
+        const getAllServicesInACategoryConfig = fetchConfig({
+          url: getAllServicesInACategory,
+          method: "get",
+        });
+        const { data } = await fetchWrapper(getAllServicesInACategoryConfig);
+        setAllServices(data?.services);
+      } catch (error) {
+        notification.error({ message: error?.response?.data.message });
+      }
+    }
+    if(serviceCategory.value) fetchServices();
+  }, [serviceCategory.value]);
 
   const handleChange = (e) => {
     setpayload({
@@ -38,15 +73,17 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
     });
   };
 
-  const handleClick = (drugDetails) => {
-    setDrugDetails(drugDetails);
+  const handleServiceCatSelect = (serviceCat) => {
+    setServiceCategory(serviceCat);
+  };
+  const handleServiceSelect = (service) => {
+    setService(service);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { ...payload, drugId: drugDetails.value, admissionId };
-    console.log(data);
+    const data = { ...payload, serviceId: service?.value, admissionId };
     try {
-      const createMedication = createMedicationUrl();
+      const createMedication = createServiceMedicationUrl ();
       const createMedicationConfig = fetchConfig({
         url: createMedication,
         data: data,
@@ -56,7 +93,7 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
       if (res.status === 200) {
         notification.success({ message: res.data.message });
         mutate();
-        $("#update-medication").modal("hide");
+        $("#update-service-medication").modal("hide");
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
@@ -66,7 +103,7 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
   return (
     <div
       className="modal fade"
-      id="update-medication"
+      id="update-service-medication"
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"
@@ -78,11 +115,15 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
             <form className="p-3" onSubmit={handleSubmit}>
               <div className="d-block d-md-flex justify-content-between">
                 <div style={{ flex: "1" }} className="mr-md-4">
-                  <UpdateMedicationForm
+                  <UpdateServiceMedicationForm
                     handleChange={handleChange}
-                    handleClick={handleClick}
-                    drugDetails={drugDetails}
-                    drugs={data?.drugs}
+                    startDate={payload.startDate}
+                    handleServiceCatSelect={handleServiceCatSelect}
+                    handleServiceSelect={handleServiceSelect}
+                    serviceCategories={categories?.serviceCategories}
+                    selectedServiceCategory={serviceCategory}
+                    services={allServices}
+                    selectedService={service}
                   />
                 </div>
               </div>
@@ -93,19 +134,30 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
     </div>
   );
 });
-export default UpdateMedications;
+export default UpdateServiceMedications;
 
-const UpdateMedicationForm = ({
+const UpdateServiceMedicationForm = ({
   handleChange,
-  drugs,
-  handleClick,
-  drugDetails,
+  services,
+  selectedService,
+  serviceCategories,
+  selectedServiceCategory,
+  handleServiceCatSelect,
+  handleServiceSelect,
+  startDate
 }) => {
-  const options = [];
+  const optionsServiceCat = [];
+  const optionsService = [];
 
-  if (drugs?.length > 0) {
-    drugs.forEach(({ id, name }) => {
-      options.push({ value: id, label: name });
+  if (serviceCategories?.length > 0) {
+    serviceCategories.forEach(({ id, name }) => {
+      optionsServiceCat.push({ value: id, label: name });
+    });
+  }
+
+  if (services?.length > 0) {
+    services.forEach(({ id, name }) => {
+      optionsService.push({ value: id, label: name });
     });
   }
   return (
@@ -154,13 +206,28 @@ const UpdateMedicationForm = ({
           type="date"
           className="form-control"
           name="endDate"
+          min={startDate}
           onChange={handleChange}
         />
       </div>
       <div className="form-group">
-        <label>Medication</label>
-        <Select options={options} value={drugDetails} onChange={handleClick} />
+        <label>Service Categories</label>
+        <Select
+          options={optionsServiceCat}
+          value={selectedServiceCategory}
+          onChange={handleServiceCatSelect}
+        />
       </div>
+      {selectedServiceCategory.value && 
+       <div className="form-group">
+       <label>Services in Category</label>
+       <Select
+         options={optionsService}
+         value={selectedService}
+         onChange={handleServiceSelect}
+       />
+     </div>}
+     
       <div className="col"></div>
       <div className="d-flex justify-content-between">
         <button className="btn btn-outline-danger mr-3" data-dismiss="modal">

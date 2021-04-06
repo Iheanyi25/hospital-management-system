@@ -95,7 +95,7 @@ class UpdatePatientProfile extends React.Component {
       lastName: data.patient.lastName,
       otherNames: data.patient.otherNames,
       email: data.patient.email,
-      patient: data,
+      patient: data.patient,
       dateOfBirth: data.dateOfBirth,
       gender: data.gender,
       phoneNumber: data.patient?.phoneNumber,
@@ -228,9 +228,10 @@ class UpdatePatientProfile extends React.Component {
       allergies,
       disabilities,
       paymentStatus,
+      patient,
+      patientId,
     } = this.state;
 
-    console.log(paymentStatus, "PaymentStatus");
     return (
       <>
         <PageLoader />
@@ -251,11 +252,11 @@ class UpdatePatientProfile extends React.Component {
                       <Link
                         className="btn btn-sm btn-primary"
                         to={{
-                          pathname: `/AdminPatientRegistration/${this.state.patientId}`,
+                          pathname: `/AdminPatientRegistration/${patientId}`,
                           state: {
-                            patientId: this.state.patientId,
-                            email: this.state.email,
-                            cost: this.state.patient?.account?.healthPlan?.cost,
+                            patientId,
+                            email: email,
+                            cost: patient?.account?.healthPlan?.cost,
                             name: `${firstName} ${lastName}`,
                           },
                         }}

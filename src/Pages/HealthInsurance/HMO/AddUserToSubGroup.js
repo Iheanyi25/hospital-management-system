@@ -14,7 +14,7 @@ import { notification } from "../../../utils/notification";
 
 export default function AddUserToSubGroup() {
   const {
-    push,
+    goBack,
     location: { state: subGroupName },
   } = useHistory();
   const { id: hmoSubUserGroupId } = useParams();
@@ -29,7 +29,7 @@ export default function AddUserToSubGroup() {
   });
   let options = [];
   if (data?.patients.length > 0) {
-    data.patients.forEach(({ id, firstName, lastName }) => {
+    data.patients.forEach(({ patientId: id, firstName, lastName }) => {
       options.push({ value: id, label: `${firstName} ${lastName}` });
     });
   }
@@ -49,10 +49,7 @@ export default function AddUserToSubGroup() {
       const res = await fetchWrapper(assignPatientToHMOSubGroupConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        push({
-          pathname: `/ManagePatientsInSubGroup/${hmoSubUserGroupId}`,
-          state: subGroupName,
-        });
+        goBack({ state: subGroupName });
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });

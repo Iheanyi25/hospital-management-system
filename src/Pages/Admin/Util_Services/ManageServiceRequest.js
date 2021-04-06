@@ -43,13 +43,21 @@ const ManageServiceRequest = observer(() => {
         "No. of Services": serviceInvoice?.noofServices,
         "Invoice No.": serviceInvoice?.invoiceNumber,
         "Date Generated": formatDate(serviceInvoice?.dateGenerated),
-        "Total Cost": formatAmount(serviceInvoice?.cost),
+        "Total Cost": formatAmount(serviceInvoice?.amountTotal),
+        "Amount Due":
+          serviceInvoice?.amountToBePaidByPatient === 0
+            ? "Covered"
+            : formatAmount(serviceInvoice?.amountToBePaidByPatient),
         Status: (
           <>
             {serviceInvoice?.paymentStatus === "NOT PAID" ? (
               <>
                 <img src={notpaid} alt="not paid" /> Not paid
               </>
+            ) : serviceInvoice?.paymentStatus === "Awaiting HMO Payment" ? (
+              <span>
+                <img src={incomplete} alt="not paid" /> HMO
+              </span>
             ) : serviceInvoice?.paymentStatus === "PAID" ? (
               <>
                 <img src={paid} alt="paid" /> Paid

@@ -1,7 +1,10 @@
 // Admin - Dashboard
 export const getAdminDashboardUrl = () => `/Admin/Dashboard`;
+
 // Admin - Manage Accounts
 export const postAdminAccountUrl = () => `/Admin/Account/CreateAccount`;
+export const getPatientsInAccountUrl = (accountId, pageNumber, pageSize) =>
+  `/Admin/GetPatientsInAccount?AccountId=${accountId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAllAccountsUrl = (pageNumber, pageSize) =>
   `/Admin/Account/GetAllAccounts?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
@@ -25,6 +28,8 @@ export const getPatientConsultationsUrl = () =>
   `/Admin/GetPatientConsultations`;
 export const getPatientConsultationCountUrl = () =>
   `/Admin/GetPatientConsultationCount`;
+export const getPatientsOnOpenListCountUrl = () =>
+  `/Admin/GetPatientsOnOpenListCount`;
 export const getPatientsUnattentedToCountUrl = () =>
   `/Admin/GetPatientsUnattendedToCount`;
 export const getPatientsAttentedToCountUrl = () =>

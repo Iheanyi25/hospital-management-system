@@ -61,7 +61,7 @@ class PatientRegistration extends React.Component {
   };
 
   async getAllPatients() {
-    const getPatients = getPatientsUrl();
+    const getPatients = getPatientsUrl(1, 200);
     const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
     const { data } = await fetchWrapper(getPatientsConfig);
     console.log(data, 22222);
@@ -73,7 +73,12 @@ class PatientRegistration extends React.Component {
     this.$el.DataTable();
   }
 
-  register = async (transactionReference, paymentMethod, description, initiatorId) => {
+  register = async (
+    transactionReference,
+    paymentMethod,
+    description,
+    initiatorId
+  ) => {
     const content = this.context;
     const { user } = content;
     const { amount, patientId, invoiceNumber } = this.state;
@@ -83,7 +88,7 @@ class PatientRegistration extends React.Component {
       invoiceNumber,
       paymentMethod,
       transactionReference,
-      initiatorId
+      initiatorId,
     };
     try {
       const postPayPatientRegistrationFee = postPayPatientRegistrationFeeUrl();
@@ -95,11 +100,14 @@ class PatientRegistration extends React.Component {
       const res = await fetchWrapper(getPatientRegistrationInvoiceConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        const route = (user.userType === "Admin" )? "/AdminAllPatients" : "/AccountRegistrationInvoice";
-        this.props.history.push(route)
+        const route =
+          user.userType === "Admin"
+            ? "/AdminAllPatients"
+            : "/AccountRegistrationInvoice";
+        this.props.history.push(route);
       }
     } catch (error) {
-      notification.error({ message:  error?.response?.data?.message });
+      notification.error({ message: error?.response?.data?.message });
     }
   };
   payWithAccount = async (
@@ -133,12 +141,15 @@ class PatientRegistration extends React.Component {
       );
       if (status === 200) {
         notification.success({ message: data.message });
-        const route = (user.userType === "Admin" )? "/AdminAllPatients" : "/AccountRegistrationInvoice";
-        this.props.history.push(route)
+        const route =
+          user.userType === "Admin"
+            ? "/AdminAllPatients"
+            : "/AccountRegistrationInvoice";
+        this.props.history.push(route);
       }
     } catch (error) {
       console.log(error);
-      notification.error({ message:  error?.response?.data?.message });
+      notification.error({ message: error?.response?.data?.message });
     }
   };
   render() {

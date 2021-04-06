@@ -39,7 +39,6 @@ class DocProfile extends React.Component {
     doctorDetails: {},
     doctorId: "",
     doctorAvailability: false,
-    doctor: {},
     educations: [],
     experiences: [],
     officeTime: [],
@@ -64,13 +63,12 @@ class DocProfile extends React.Component {
       const getDoctorConfig = fetchConfig({ url: getDoctor, method: "get" });
       const { data } = await fetchWrapper(getDoctorConfig);
       let doctorDetails = data?.doctor;
-
+      console.log(doctorDetails,222)
       this.setState({
         ...this.state,
         doctorDetails: doctorDetails,
         doctorId: doctorDetails.id,
         doctorAvailability: doctorDetails.isAvailable,
-        doctor: doctorDetails.doctor,
         educations: doctorDetails.educations,
         experiences: doctorDetails.experiences,
         officeTime: doctorDetails.officeTime,
@@ -111,7 +109,6 @@ class DocProfile extends React.Component {
       doctorDetails,
       doctorId,
       doctorAvailability,
-      doctor,
       educations,
       experiences,
       officeTime,
@@ -119,7 +116,7 @@ class DocProfile extends React.Component {
       socials,
       loading,
     } = this.state;
-    console.log(this.props.doctorId);
+    console.log(this.props.doctorId,9999);
     const specArray = specializations.slice(0, 3);
 
     return (
@@ -136,8 +133,8 @@ class DocProfile extends React.Component {
                 {userType === "Patient" ? (
                   <header className="page-header d-flex justify-content-between">
                     <h3 className="page-title">{`Dr. ${
-                      doctor?.firstName ?? ""
-                    } ${doctor?.lastName ?? ""}`}</h3>
+                      doctorDetails?.firstName ?? ""
+                    } ${doctorDetails?.lastName ?? ""}`}</h3>
                     <div>
                       <div className="col"></div>
                       <div className="col text-right">
@@ -145,8 +142,8 @@ class DocProfile extends React.Component {
                           to={{
                             pathname: `/PatientBookAppointment/${this.props.doctorId}`,
                             state: {
-                              firstName: doctor.firstName,
-                              lastName: doctor.lastName,
+                              firstName: doctorDetails.firstName,
+                              lastName: doctorDetails.lastName,
                             },
                           }}
                           className="btn btn-outline-primary mr-2 mb-2"
@@ -158,8 +155,8 @@ class DocProfile extends React.Component {
                             to={{
                               pathname: `/PatientBookConsultation/${this.props.doctorId}`,
                               state: {
-                                firstName: doctor.firstName,
-                                lastName: doctor.lastName,
+                                firstName: doctorDetails.firstName,
+                                lastName: doctorDetails.lastName,
                               },
                             }}
                             type="submit"
@@ -181,8 +178,8 @@ class DocProfile extends React.Component {
                 ) : (
                   <header className="page-header ml-3">
                     <h3 className="page-title">{`Dr. ${
-                      doctor?.firstName ?? ""
-                    } ${doctor?.lastName ?? ""}`}</h3>
+                      doctorDetails?.firstName ?? ""
+                    } ${doctorDetails?.lastName ?? ""}`}</h3>
                   </header>
                 )}
 
@@ -198,8 +195,8 @@ class DocProfile extends React.Component {
                         />
                         <div>
                           <h5 className="mb-2 mt-2 font-weight-bold">
-                            {`${doctor?.firstName ?? ""} ${
-                              doctor?.lastName ?? ""
+                            {`${doctorDetails?.firstName ?? ""} ${
+                              doctorDetails?.lastName ?? ""
                             }`}
                           </h5>
                           <p className="mb-2">
@@ -233,11 +230,11 @@ class DocProfile extends React.Component {
                             alt="reset"
                             className="mr-2 mb-2"
                           />
-                          <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
+                          <p>{doctorDetails?.email?.toLowerCase() ?? "N/A"}</p>
                         </div>
                         <div className="d-flex pl-1">
                           <img src={phone} alt="reset" className="mr-3 mb-2" />
-                          <p>{doctor?.phoneNumber ?? "N/A"}</p>
+                          <p>{doctorDetails?.phoneNumber ?? "N/A"}</p>
                         </div>
                       </div>
                     </div>
@@ -561,7 +558,7 @@ class DocProfile extends React.Component {
                           <img src={darkEmail} alt="email" className="mt-0" />
                           <div className="mt-3 ml-4">
                             <p className="font-weight-bold mb-0">Email</p>
-                            <p>{doctor?.email?.toLowerCase() ?? "N/A"}</p>
+                            <p>{doctorDetails?.email?.toLowerCase() ?? "N/A"}</p>
                           </div>
                         </div>
                         <div className="d-flex mt-4">
@@ -572,7 +569,7 @@ class DocProfile extends React.Component {
                           />
                           <div className="mt-3 ml-4">
                             <p className="font-weight-bold mb-0">Mobile</p>
-                            <p>{doctor?.phoneNumber ?? "N/A"}</p>
+                            <p>{doctorDetails?.phoneNumber ?? "N/A"}</p>
                           </div>
                         </div>
                         <div className="d-flex mt-4">

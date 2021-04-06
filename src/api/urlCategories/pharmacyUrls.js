@@ -19,7 +19,7 @@ export const markInvoiceAsDispensedUrl = (drugInvoiceId) =>
 
 // Pharmacy - Manage Drug Inventory
 export const getDrugBatchByDrugUrl = (drugId) =>
-  `/Pharmacy/GetDrugBatchByDrug?DrugBatchId=${drugId}`;
+  `/Pharmacy/GetDrugBatchByDrug?DrugId=${drugId}`;
 export const createDrugBatchUrl = () => `/Pharmacy/CreateDrugBatch`;
 export const deleteDrugBatchUrl = () => `/Pharmacy/DeleteDrugBatch`;
 export const updateDrugBatchUrl = () => `/Pharmacy/UpdateDrugBatch`;
@@ -47,7 +47,8 @@ export const deleteDrugUrl = () => `/Pharmacy/DeleteDrug`;
 export const pharmacyDashboardUrl = () => `/Pharmacy/SystemSummary`;
 
 // Pharmacy- Manage Profile
-export const getAllPharmacistUrl = () => `/Pharmacy/GetAllPharmacists?`;
+export const getAllPharmacistUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetAllPharmacists?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getPharmacistProfileUrl = (pharmId) =>
   `/Pharmacy/GetAPharmacistById?id=${pharmId}`;
 export const updatePharmacistBasicInfoUrl = () =>
