@@ -22,6 +22,7 @@ namespace HMS.Areas.HealthInsurance.Repositories
             _applicationDbContext = applicationDbContext;
             _mapper = mapper;
         }
+        
         public async Task<bool> CreateNHISHealthPlanPatient(NHISHealthPlanPatient NHISHealthPlanPatient)
         {
             try

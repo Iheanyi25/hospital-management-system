@@ -21,12 +21,14 @@ namespace HMS.Areas.Admissions.Controllers
         private readonly IAdmissionInvoice _admissionInvoice;
         private readonly IDrug _drug;
         private readonly IServices _service;
+        private readonly IDrugBatch _drugBatch;
 
-        public MedicationController(IMedication medication, IAdmission admission, IMapper mapper, IAdmissionInvoice admissionInvoice, IDrug drug, IServices service)
+        public MedicationController(IMedication medication, IAdmission admission, IMapper mapper, IAdmissionInvoice admissionInvoice, IDrug drug, IDrugBatch drugBatch, IServices service)
         {
             _admission = admission;
             _admissionInvoice = admissionInvoice;
             _drug = drug;
+            _drugBatch = drugBatch;
             _service = service;
             _medication = medication;
             _mapper = mapper;
@@ -73,7 +75,6 @@ namespace HMS.Areas.Admissions.Controllers
             }
 
             var medicationToCreate = _mapper.Map<AdmissionDrugMedication>(Medication);
-
             var medication = await _medication.CreateDrugMedication(medicationToCreate);
             if (!medication)
             {
@@ -158,7 +159,13 @@ namespace HMS.Areas.Admissions.Controllers
                 return BadRequest(new { response = "301", message = "Medication failed to Administer" });
             }
 
-            
+            var drugQuantity = Medication.NumberOfCartons * drug.ContainersPerCarton * drug.QuantityPerContainer + Medication.NumberOfContainers * drug.QuantityPerContainer + Medication.NumberOfUnits;
+            var drugBatch = await _drugBatch.GetDrugBatchByDrug(drug.Id, drugQuantity);
+
+            drugBatch.QuantityInStock -= drugQuantity;
+
+            await _drugBatch.UpdateDrugBatch(drugBatch);
+
             return Ok(new
             {
                 medicationToAdminister,
