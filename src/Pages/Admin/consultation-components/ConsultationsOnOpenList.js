@@ -55,8 +55,8 @@ const ConsultationsOnOpenList = () => {
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        "Consultation Time": formatTme(consultation?.dateOfConsultation),
         "Consultation Date": formatDate(consultation?.dateOfConsultation),
+        "Consultation Time": formatTme(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
