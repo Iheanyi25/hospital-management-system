@@ -60,12 +60,11 @@ class DoctorList extends React.Component {
                           to={`/ViewDoctorProfile/${doctor.doctorId}`}
                         >
                           <h4 className="my-0">
-                            Dr. {doctor.doctor.lastName}{" "}
-                            {doctor.doctor.firstName}
+                            Dr. {doctor.lastName} {doctor.firstName}
                           </h4>
                         </Link>
                         <p className="role">
-                          {doctor?.specialization || "Lawyer and Engineer"}
+                          {doctor?.specialization || "No specializations uploaded yet"}
                         </p>
                         <div className="d-flex align-items-center justify-content-center">
                           <div
@@ -88,8 +87,8 @@ class DoctorList extends React.Component {
                             to={{
                               pathname: `/PatientBookAppointment/${doctor.doctorId}`,
                               state: {
-                                firstName: doctor.doctor.firstName,
-                                lastName: doctor.doctor.lastName,
+                                firstName: doctor.firstName,
+                                lastName: doctor.lastName,
                               },
                             }}
                           >
@@ -103,8 +102,8 @@ class DoctorList extends React.Component {
                               to={{
                                 pathname: `/PatientBookConsultation/${doctor.doctorId}`,
                                 state: {
-                                  firstName: doctor.doctor.firstName,
-                                  lastName: doctor.doctor.lastName,
+                                  firstName: doctor.firstName,
+                                  lastName: doctor.lastName,
                                 },
                               }}
                             >
