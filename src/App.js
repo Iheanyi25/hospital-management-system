@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import AppRouter from "./ApplicationRoute";
 import "./App.css";
 import { UserProvider } from "./mobx/UserState";
@@ -8,14 +8,18 @@ import useNetwork from "./custom-hooks/useNetwork";
 import { notification } from "./utils/notification";
 
 function App() {
+  //use this prevent online message from showing, only after the user has gone offline atleast once
+  const offlineCount = useRef(0);
   const isOnline = useNetwork();
   useEffect(() => {
-    if (isOnline) {
+    if (isOnline && offlineCount.current > 0) {
       notification.success({
-        message: "you are online ",
+        message: "you are back online ",
         title: "Online",
       });
-    } else {
+    }
+    if (!isOnline) {
+      offlineCount.current = offlineCount.current + 1;
       notification.error({
         message: "oops!, looks you are offline ",
         duration: 4000,
