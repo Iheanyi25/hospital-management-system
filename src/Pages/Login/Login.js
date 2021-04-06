@@ -19,7 +19,7 @@ const Login = observer(() => {
     inputType: "password"
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
     const { email, password } = state;
     const data = { email, password };
@@ -35,7 +35,7 @@ const Login = observer(() => {
     const userEmailFromLink = params.get("email");
     const userTokenFromLink = params.get("token");
 
-    if (userEmailFromLink !== "" && userTokenFromLink !== "") {
+    if (userEmailFromLink  && userTokenFromLink) {
       try {
         const payload = {
           email: userEmailFromLink,
@@ -48,14 +48,12 @@ const Login = observer(() => {
           method: "post",
         });
         const res = await fetchWrapper(logInConfig);
-
         if (res.status === 200) {
           notification.success({ message : res.data.message})
           window.location.reload();
         }
       } catch (error) {
-        console.log(error)
-        // notification.error({ message : error?.response?.data?.message})
+        notification.error({ message : error?.response?.data?.message})
       }
     }
   };

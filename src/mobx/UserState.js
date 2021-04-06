@@ -7,7 +7,7 @@ import { fetchWrapper } from "../api/fetcher";
 import { axiosInstance } from "../api/axiosInstance";
 import { logOut } from "../utils/logout";
 import { toggleGlobalLoaderClass } from "../utils/toggleGlobalLoaderClass";
-// import { notification, removeNotification } from "../utils/notification";
+import { notification } from "../utils/notification";
 
 export const UserContext = createContext();
 
@@ -44,6 +44,7 @@ export const UserProvider = ({ children }) => {
       } catch (error) {
         userStore.error = error;
         userStore.loading = false;
+        notification.error({ message : error?.response?.data?.message})
       }
     }),
     loadUser: flow(function* loadUser() {
@@ -76,14 +77,6 @@ export const UserProvider = ({ children }) => {
           if (error?.status === 403) {
             logOut();
           }
-          console.log(error.message, 666666666);
-          // if (error.message === "Network Error") {
-          //   if (prevNotificationId) removeNotification(prevNotificationId);
-          //   prevNotificationId = notification.warining({
-          //     message: "Network Error, try again",
-          //     duration: 5000,
-          //   });
-          // }
           if (userStore.user) toggleGlobalLoaderClass("remove");
           throw error;
         }
