@@ -8,8 +8,8 @@ import emailImg from "../../../../assets/img/email.svg";
 export default function Bio({ bioDetails, image }) {
   const { firstName, lastName, phoneNumber, email, userType } = bioDetails;
   const title = {
-    pharmacy: "Pharm.",
-    lab: "Lab scientist.",
+    pharmacist: "Pharm.",
+    labattendant: "Lab scientist.",
     accountant: "Acc.",
     admin: "Admin",
     nurse: "Nurse",

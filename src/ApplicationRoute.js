@@ -42,9 +42,9 @@ const AppRouter = observer(() => {
           return <PatientRoutes />;
         case "doctor":
           return <DoctorRoutes />;
-        case "pharmacy":
+        case "pharmacist":
           return <PharmacyRoutes />;
-        case "lab":
+        case "labattendant":
           return <LabRoutes />;
         case "accountant":
           return <AccountantRoutes />;

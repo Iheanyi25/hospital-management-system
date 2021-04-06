@@ -16,6 +16,7 @@ export default function ContactDetail(props) {
 						{props.otherDetails&& (
 							<img
 								src={edit}
+								title="Edit Contact Info."
 								data-toggle="modal"
 								data-target="#edit-info"
 								alt="reset"

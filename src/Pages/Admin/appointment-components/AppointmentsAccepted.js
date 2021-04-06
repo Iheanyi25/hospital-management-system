@@ -103,7 +103,7 @@ export const AppointmentsAcceptedActionTable = observer(
             className="btn btn-sm btn-block"
           >
             <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Go For Pre-consultation
+            Go For Preconsultation
           </Link>
           <Link
             title="Clerking History"
@@ -129,7 +129,7 @@ export const AppointmentsAcceptedActionTable = observer(
             onClick={() => deleteAppointment(appointment.id)}
           >
             <span className="mr-3 btn-icon icofont-delete-alt" />
-            Delete Consultation
+            Delete Appointment
           </button>
         </ActionButton>
         <ReAssign

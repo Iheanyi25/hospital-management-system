@@ -22,7 +22,7 @@ const RegisterUserModal = ({ userType }) => {
     lastName: "",
     password: "Password101@",
     message: "",
-    isRegistering: false
+    isRegistering: false,
   });
   const history = useHistory();
   const routes = {
@@ -42,7 +42,7 @@ const RegisterUserModal = ({ userType }) => {
     e.preventDefault();
 
     try {
-      setState((state) => ({ ...state, isRegistering: true}));
+      setState((state) => ({ ...state, isRegistering: true }));
       const { email, firstName, lastName, password } = state;
       const data = {
         email: email,
@@ -65,20 +65,20 @@ const RegisterUserModal = ({ userType }) => {
         email: "",
         firstName: "",
         lastName: "",
-        isRegistering: false
+        isRegistering: false,
       }));
       $("#add-user").modal("hide");
       notification.success({ message: dataRes.message });
-      history.push(routes[userType]);
+      history.push(routes[userType.toLowerCase()]);
     } catch (error) {
       console.log(error);
       notification.error({ message: error?.response?.data?.message });
-      setState((state) => ({ ...state, isRegistering: false}));
+      setState((state) => ({ ...state, isRegistering: false }));
     }
   };
 
   console.log(userType, "eklelkkled");
-  const { email, firstName, lastName,isRegistering } = state;
+  const { email, firstName, lastName, isRegistering } = state;
 
   return (
     <>

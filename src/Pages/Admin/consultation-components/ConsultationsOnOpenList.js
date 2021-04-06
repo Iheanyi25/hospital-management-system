@@ -55,8 +55,8 @@ const ConsultationsOnOpenList = () => {
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        "Consultation Time": formatDate(consultation?.dateOfConsultation),
-        "Consultation Date": formatTme(consultation?.dateOfConsultation),
+        "Consultation Date": formatDate(consultation?.dateOfConsultation),
+        "Consultation Time": formatTme(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
@@ -122,7 +122,7 @@ export const ConsultationsOnOpenListActionTable = observer(
             className="btn btn-sm btn-block"
           >
             <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Go For Pre-consultation
+            Go For Preconsultation
           </Link>
           <Link
             title="Clerking History"
