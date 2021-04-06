@@ -58,8 +58,8 @@ console.log(data,342);
         Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
           consultation.doctor?.firstName || ""
         } `,
-        "Consultation Time": formatDate(consultation?.dateOfConsultation),
-        "Consultation Date": formatTme(consultation?.dateOfConsultation),
+        "Consultation Time": formatTme(consultation?.dateOfConsultation),
+        "Consultation Date": formatDate(consultation?.dateOfConsultation),
         Title: consultation?.consultationTitle,
         "Reason for consultation": consultation?.reasonForConsultation,
         Actions: (
