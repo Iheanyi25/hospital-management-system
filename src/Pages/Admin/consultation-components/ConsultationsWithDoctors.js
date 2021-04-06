@@ -125,7 +125,7 @@ export const ConsultationsWithDoctorsActionTable = observer(
             className="btn btn-sm btn-block"
           >
             <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Go For Pre-consultation
+            Go For Preconsultation
           </Link>
           <Link
             title="Clerking History"

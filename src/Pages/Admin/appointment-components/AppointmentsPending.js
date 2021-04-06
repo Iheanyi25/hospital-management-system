@@ -103,7 +103,7 @@ export const AppointmentsPendingActionTable = observer(
             className="btn btn-sm btn-block"
           >
             <span className="btn-icon icofont-stethoscope-alt mr-2" />
-            Go For Pre-consultation
+            Go For Preconsultation
           </Link>
           <Link
             title="Clerking History"
@@ -122,14 +122,14 @@ export const AppointmentsPendingActionTable = observer(
             data-target={`#reassign-patient-${appointment.id}`}
           >
             <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-            Assign to Doctor
+            Reassign to Doctor
           </button>
           <button
             className="btn btn-sm btn-block"
             onClick={() => deleteAppointment(appointment.id)}
           >
             <span className="mr-3 btn-icon icofont-delete-alt" />
-            Delete Consultation
+            Delete Appointment
           </button>
         </ActionButton>
         <ReAssign
