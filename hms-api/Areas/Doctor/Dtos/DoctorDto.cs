@@ -26,11 +26,11 @@ namespace HMS.Areas.Doctor.Dtos
         public string State { get; set; }
         public string Country { get; set; }
         public string UserType { get; set; }
-        public virtual ICollection<DoctorSocial> Socials { get; set; }
-        public virtual ICollection<DoctorEducation> Educations { get; set; }
-        public virtual ICollection<DoctorExperience> Experiences { get; set; }
-        public virtual ICollection<DoctorOfficeTime> OfficeTime { get; set; }
-        public virtual ICollection<DoctorSpecialization> Specializations { get; set; }
+        public virtual ICollection<DoctorSocialDtoForView> Socials { get; set; }
+        public virtual ICollection<DoctorEducationDtoForView> Educations { get; set; }
+        public virtual ICollection<DoctorExperienceDtoForView> Experiences { get; set; }
+        public virtual ICollection<DoctorOfficeTimeDtoForView> OfficeTime { get; set; }
+        public virtual ICollection<DoctorSpecializationsDtoForView> Specializations { get; set; }
     }
 
     public class DoctorEducationDtoForCreate

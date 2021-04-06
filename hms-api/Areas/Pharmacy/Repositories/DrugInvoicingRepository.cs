@@ -99,9 +99,9 @@ namespace HMS.Areas.Pharmacy.Repositories
                             AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
 
-                            
-                            
-                            drugBatch.QuantityInStock -= _drug.numberOfCartons * drug.ContainersPerCarton * drug.QuantityPerContainer + _drug.numberOfContainers * drug.QuantityPerContainer + _drug.numberOfUnits;
+
+
+                            drugBatch.QuantityInStock -= quantityOfDrugs;
 
                             await _drugBatch.UpdateDrugBatch(drugBatch);
                         }

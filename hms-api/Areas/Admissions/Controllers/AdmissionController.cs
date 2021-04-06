@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HMS.Areas.Admissions.Dtos;
+﻿using HMS.Areas.Admissions.Dtos;
 using HMS.Areas.Admissions.Interfaces;
 using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
@@ -18,20 +17,17 @@ namespace HMS.Areas.Admissions.Controllers
         private readonly IAdmission _admission;
         private readonly IBed _bed;
         private readonly IPatientProfile _patient;
-        private readonly IMapper _mapper;
         private readonly IWard _ward;
         private readonly IAdmissionInvoice _admissionInvoice;
    
 
-        public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient, IMapper mapper)
+        public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient)
         {
             _admission = admission;
             _admissionInvoice = admissionInvoice;
             _patient = patient;
             _bed = bed;
             _ward = ward;
-            _mapper = mapper;
-
         }
 
         [Route("GetAdmissionDays")]
@@ -227,6 +223,7 @@ namespace HMS.Areas.Admissions.Controllers
                 var res = await _admission.UpdateAdmission(admission);
                 var res1 = await _bed.UpdateBed(bed);
                 var wardAvailable = await _ward.CheckWardAvailability(bed.WardId);
+               
                 if (wardAvailable == false)
                 {
                     var ward = await _ward.GetBedsWard(bed.Id);
