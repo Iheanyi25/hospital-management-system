@@ -448,7 +448,8 @@ namespace HMS.Areas.Admissions.Repositories
 
                         priceTotal = HMOHealthPlanServicePrice.Price;
                         AmountToBePaidByPatient = 0;
-                       
+                        priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+
                     }
                 }
                 else if (HMOHealthPlanSubGroupPatient != null)
@@ -459,7 +460,8 @@ namespace HMS.Areas.Admissions.Repositories
                     {
                         priceTotal = HMOHealthPlanServicePrice.Price;
                         AmountToBePaidByPatient = 0;
-                        
+                        priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+
                     }
                 }
                 else if (NHISHealthPlanPatient != null)
@@ -470,6 +472,7 @@ namespace HMS.Areas.Admissions.Repositories
                     {
                         priceTotal = service.Cost;
                         AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
+                        priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
                     }
                 }
                
@@ -477,6 +480,7 @@ namespace HMS.Areas.Admissions.Repositories
                 {
                     priceTotal = service.Cost;
                     AmountToBePaidByPatient = service.Cost;
+                    priceCalculationFormular = "Default Price";
                 }
 
                 if (AdmissionInvoice.PriceCalculationFormula != priceCalculationFormular)
