@@ -12,7 +12,6 @@ import UpdateDrugMedications from "../../Modals/UpdateDrugMedications";
 import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication";
 
 const Medications = ({ admissionId }) => {
-  const [medicationId, setMedicationId] = useState("");
   const [drugId, setdrugId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -68,8 +67,8 @@ const Medications = ({ admissionId }) => {
             id={id}
             drugId={medication?.drug?.id}
             setdrugId={setdrugId}
-            setMedicationId={setMedicationId}
             drugNotes={administrationInstruction ?? "N/A"}
+            mutate={mutate}
           />
         ),
       };
@@ -106,7 +105,6 @@ const Medications = ({ admissionId }) => {
         </div>
       </div>
       <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
-      <UpdateMedicationStatus medicationId={medicationId} mutate={mutate} />
       <AdministerDrugMedications
         admissionId={admissionId}
         drugId={drugId}
@@ -118,17 +116,17 @@ const Medications = ({ admissionId }) => {
 
 const ActionTableAction = ({
   id,
-  setMedicationId,
   setdrugId,
   drugId,
   drugNotes,
+  mutate
 }) => {
   return (
     <>
       <ActionButton>
         <Link
           data-toggle="modal"
-          data-target="#notes"
+          data-target={`#notes-${id}`}
           className="btn btn-sm btn-block"
         >
           <span className="btn-icon icofont-server mr-2" />
@@ -146,14 +144,14 @@ const ActionTableAction = ({
         </Link>
         <button
           data-toggle="modal"
-          data-target="#update-medication-status"
-          onClick={() => setMedicationId(id)}
+          data-target={`#update-medication-status-${id}`}
           className="btn btn-sm btn-block"
         >
           <span className="btn-icon icofont-server mr-2" />
           Update status
         </button>
       </ActionButton>
+      <UpdateMedicationStatus medicationId={id} mutate={mutate} />
       <DisplayNotes
         id={id}
         details={{ title: "Administration Instructions", body: drugNotes }}
