@@ -92,7 +92,7 @@ export const getPrescriptionsForAdmissionUrl = (id, pageNumber, pageSize) =>
 //   `/Admission/GetDrugMedications?AdmissionId=${admissionId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 // export const createDrugMedicationUrl = () => `Admission/CreateDrugMedication`;
 export const updateMedicationStatusUrl = () =>
-  `Admission/UpdateMedicationStatus`;
+  `Admission/`;
 // Admission - Manage Observation Charts
 // export const getObservationChartUrl = (admissionId) =>
 //   `/Admission/GetObservationChart?AdmissionId=${admissionId}`;
