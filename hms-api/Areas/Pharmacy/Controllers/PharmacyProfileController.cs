@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace HMS.Areas.Pharmacy.Controllers
 {
-    [Route("api/Pharmacy", Name = "Pharmacy- Manage Profile")]
+    [Route("api/Pharmacy", Name = "Pharmacy - Manage Profile")]
     [ApiController]
     public class PharmacyProfileController : Controller
     {
@@ -23,7 +23,7 @@ namespace HMS.Areas.Pharmacy.Controllers
         public async Task<IActionResult> GetPharmacyByIdAsync(string id)
         {
            
-            var pharmacist = await _pharmacyProfile.GetPharmacyProfileByIdAsync(id);
+            var pharmacist = await _pharmacyProfile.GetPharmacist(id);
             if (pharmacist != null)
             {
                 return Ok(new
@@ -65,7 +65,7 @@ namespace HMS.Areas.Pharmacy.Controllers
             {
                 pharmacists,
                 paginationDetails,
-                message = "Nurses Returned"
+                message = "Pharmacists Returned"
             });
         }
 

@@ -165,13 +165,21 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new { message = "Invalid post attempt" });
             }
 
+
+
             var Account = await _accountRepo.GetAccountByIdAsync(account.AccountId);
-            var user = await _user.GetUserByIdAsync(account.InitiatorId);
-            if (Account == null || user == null)
+            var Initiator = await _user.GetUserByIdAsync(account.InitiatorId);
+            
+            if (Account == null)
             {
                 return BadRequest(new { message = "An Account with this Id was not found" });
             }
-
+            
+            if (Initiator == null)
+            {
+                return BadRequest(new { message = "Invalid InitiatorId" });
+            }
+           
             var accountToUpdate = _mapper.Map<Account>(Account);
             var previousAccountBalance = accountToUpdate.AccountBalance;
             accountToUpdate.AccountBalance += account.Amount;
