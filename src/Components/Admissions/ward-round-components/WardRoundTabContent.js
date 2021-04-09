@@ -59,6 +59,7 @@ const WardRoundTabContent = ({ admissionId, dischargeStatus }) => {
             <ServiceMedications
               admissionId={admissionId}
               admissionInvoiceId={data?.admissionInvoice.id}
+              dischargeStatus={dischargeStatus}
             />
           </div>
           <div
@@ -67,7 +68,10 @@ const WardRoundTabContent = ({ admissionId, dischargeStatus }) => {
             role="tabpanel"
             aria-labelledby="pills-contact-tab"
           >
-            <ObservationCharts admissionId={admissionId} />
+            <ObservationCharts
+              admissionId={admissionId}
+              dischargeStatus={dischargeStatus}
+            />
           </div>
           <div
             className="tab-pane fade"

@@ -9,7 +9,7 @@ import { UpdateObservationChart } from "../../Modals";
 let $ = window.$;
 $.DataTables = require("datatables.net");
 
-const ObservationCharts = ({ admissionId }) => {
+const ObservationCharts = ({ admissionId, dischargeStatus }) => {
   const getObservationChart = getObservationChartUrl(admissionId);
   const getObservationChartConfig = fetchConfig({
     url: getObservationChart,
@@ -18,6 +18,7 @@ const ObservationCharts = ({ admissionId }) => {
   const { data, mutate } = useRequest(getObservationChartConfig, {
     revalidateOnFocus: false,
   });
+  console.log(dischargeStatus, 1230923190);
   return (
     <>
       <div className="row justify-content-center mt-5">
@@ -26,14 +27,16 @@ const ObservationCharts = ({ admissionId }) => {
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
                 <h4>Observation Chart</h4>
-                <button
-                  className="btn btn-primary"
-                  to="#"
-                  data-toggle="modal"
-                  data-target="#update-observation"
-                >
-                  Update Observation
-                </button>
+                {dischargeStatus ? null : (
+                  <button
+                    className="btn btn-primary"
+                    to="#"
+                    data-toggle="modal"
+                    data-target="#update-observation"
+                  >
+                    Update Observation
+                  </button>
+                )}
               </div>
 
               <div className="card-body">
