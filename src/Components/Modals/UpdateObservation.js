@@ -1,17 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useContext, useState } from "react";
-import { mutate } from "swr";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import {
-  getObservationChartUrl,
-  postObservationChartUrl,
-} from "../../api/URLs";
+import { postObservationChartUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
-const UpdateObservationChart = observer(({ admissionId }) => {
+const UpdateObservationChart = observer(({ admissionId, mutate }) => {
   const {
     user: { id: initiatorId },
   } = useContext(UserContext);
@@ -31,12 +27,6 @@ const UpdateObservationChart = observer(({ admissionId }) => {
       [e.target.name]: e.target.value,
     });
   };
-  const getObservationChart = getObservationChartUrl();
-  const getObservationChartConfig = fetchConfig({
-    url: getObservationChart,
-    method: "get",
-  });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postObservationChart = postObservationChartUrl();
@@ -49,7 +39,7 @@ const UpdateObservationChart = observer(({ admissionId }) => {
       let res = await fetchWrapper(postObservationChartConfig);
       console.log(res, 2021);
       if (res.status === 200) {
-        mutate(JSON.stringify(getObservationChartConfig));
+        mutate();
         $("#update-observation").modal("hide");
         notification.success({ message: res?.data?.message });
       }
