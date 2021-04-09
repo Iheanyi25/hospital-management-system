@@ -22,7 +22,6 @@ export default function ManageSurgeries() {
   const { data, error, mutate } = useRequest(getDoctorAllSurgeriesConfig, {
     revalidateOnFocus: false,
   });
-  console.log(data, 5555);
   let tableData = [];
   if (data) {
     tableData = data.surgeries.map((surgery, index) => {
@@ -37,8 +36,6 @@ export default function ManageSurgeries() {
       };
     });
   }
-
-  console.log(data, 111);
 
   if (error) return <div>failed to load</div>;
   return (
@@ -58,7 +55,7 @@ export default function ManageSurgeries() {
                 data-target="#surgery-referral"
                 className="btn btn-outline-primary mr-2 mb-2"
               >
-                Surgery
+                Emergency Booking
               </Link>
             </div>
           </header>
@@ -83,12 +80,7 @@ export default function ManageSurgeries() {
           </div>
         </div>
       </main>
-      <SurgeryReferral
-        mutate={mutate}
-        // id={otherDetails.id}
-        // idType={otherDetails?.type}
-        // patientId={otherDetails?.patient?.id}
-      />
+      <SurgeryReferral mutate={mutate} emergency />
     </Fragment>
   );
 }
@@ -107,13 +99,6 @@ const SurgeryTableAction = ({ surgery }) => {
         <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Surgery Notes
       </Link>
-      {/* <button
-        className="btn btn-sm btn-block "
-        // onClick={() => deleteAppointment(appointment.id)}
-      >
-        <span className="mr-3 btn-icon icofont-delete-alt" />
-        Delete Consultation
-      </button> */}
     </ActionButton>
   );
 };
