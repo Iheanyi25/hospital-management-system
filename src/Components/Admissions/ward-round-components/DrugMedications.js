@@ -11,7 +11,7 @@ import { DisplayNotes } from "../../Modals/DisplayNotes";
 import UpdateDrugMedications from "../../Modals/UpdateDrugMedications";
 import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication";
 
-const Medications = ({ admissionId }) => {
+const Medications = ({ admissionId, admissionInvoiceId }) => {
   const [drugId, setdrugId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -43,7 +43,6 @@ const Medications = ({ admissionId }) => {
       } = medication;
       return {
         "#": ++index,
-        // "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
         Drug: `${medication?.drug?.name ?? "N/A"}`,
         Dosage: `${dosage ?? "N/A"}`,
         FreQ: `${frequency ?? "N/A"}`,
@@ -80,7 +79,7 @@ const Medications = ({ admissionId }) => {
         <div className="card border-light">
           <div className="card-body">
             <div className="d-flex justify-content-between align-item-between mr-4">
-              <h5 className="m-0">Medication</h5>
+              <h5 className="m-0">Drug Medications</h5>
               <button
                 className="btn btn-primary"
                 data-toggle="modal"
@@ -107,6 +106,7 @@ const Medications = ({ admissionId }) => {
       <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <AdministerDrugMedications
         admissionId={admissionId}
+        admissionInvoiceId={admissionInvoiceId}
         drugId={drugId}
         mutate={mutate}
       />

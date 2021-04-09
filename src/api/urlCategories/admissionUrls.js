@@ -11,8 +11,8 @@ export const getAdmissionDaysUrl = (admssionId) =>
 
 // Admission - Manage Admission Drug Dispensing
 export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
-export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
-  `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}`;
+export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId, pageNumber, pageSize) =>
+  `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
 // Admission - Manage Admission Invoices
 export const getAdmissionTransactionsUrl = (admssionId, pageNumber, pageSize) =>

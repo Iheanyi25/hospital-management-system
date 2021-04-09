@@ -7,15 +7,13 @@ import { Table } from "../../DataTable";
 const DrugsInInvoice = ({ admissionInvoiceId }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const invoicesUrl = getDrugsInAnAdmissionInvoiceUrl(admissionInvoiceId);
+  const invoicesUrl = getDrugsInAnAdmissionInvoiceUrl(admissionInvoiceId, pageNumber, pageSize);
   const getAdmissionInvoiceConfig = fetchConfig({
     url: invoicesUrl,
     method: "get",
   });
-  const { data, error } = useRequest(getAdmissionInvoiceConfig, {
-    revalidateOnFocus: false,
-  });
-  console.log(data);
+  const { data, error } = useRequest(getAdmissionInvoiceConfig);
+  console.log(getAdmissionInvoiceConfig,data, 555555);
   let dataTable = [];
   if (data) {
     dataTable = data.drugsInInvoice.map(({ drug }, index) => {
