@@ -12,7 +12,7 @@ import Medications from "./DrugMedications";
 import ServiceMedications from "./ServiceMedications";
 import { ObservationCharts } from "./ObservationChart";
 
-const WardRoundTabContent = ({ admissionId }) => {
+const WardRoundTabContent = ({ admissionId, dischargeStatus }) => {
   // get admission invoice
   const invoicesUrl = getAdmissionInvoiceUrl(admissionId);
   const getAdmissionInvoiceConfig = fetchConfig({
@@ -33,7 +33,10 @@ const WardRoundTabContent = ({ admissionId }) => {
             role="tabpanel"
             aria-labelledby="pills-home-tab"
           >
-            <DoctorsNotes admissionId={admissionId} />
+            <DoctorsNotes
+              admissionId={admissionId}
+              dischargeStatus={dischargeStatus}
+            />
           </div>
           <div
             className="tab-pane fade"
@@ -44,6 +47,7 @@ const WardRoundTabContent = ({ admissionId }) => {
             <Medications
               admissionId={admissionId}
               admissionInvoiceId={data?.admissionInvoice.id}
+              dischargeStatus={dischargeStatus}
             />
           </div>
           <div

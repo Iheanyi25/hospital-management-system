@@ -101,7 +101,7 @@ const WardRoundNotes = observer(() => {
                   <div>
                     <WardRoundTabHeader />
                   </div>
-                  <WardRoundTabContent admissionId={admissionId} />
+                  <WardRoundTabContent admissionId={admissionId} dischargeStatus={dischargeStatus} />
                 </div>
               </div>
             </div>
