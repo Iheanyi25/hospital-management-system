@@ -81,7 +81,7 @@ const ServiceMedications = observer(
         } = medication;
         return {
           "#": ++index,
-          "Service Category": `${"N/A"}`,
+          "Service Category": `${medication?.service?.serviceCategory?.name ?? "N/A"}`,
           Service: `${medication?.service?.name ?? "N/A"}`,
           Dosage: `${dosage ?? "N/A"}`,
           FreQ: `${frequency ?? "N/A"}`,
