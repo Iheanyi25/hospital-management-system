@@ -73,7 +73,10 @@ export const AdminActionTable = ({
           Prescriptions
         </Link> */}
         <Link
-          to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
+          to={{
+            pathname: `/AdminManageAdmissionServiceRequest/${admissionId}`,
+            state: dischargeStatus,
+          }}
           className="btn btn-sm btn-block"
         >
           <span className="btn-icon icofont-server mr-2" />
