@@ -6,6 +6,7 @@ import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
   getServiceMedicationsUrl,
   postAdministerServiceMedicationUrl,
+  getServiceRequestsInAnInvoiceUrl,
 } from "../../../api/URLs";
 import { UserContext } from "../../../mobx/UserState";
 import formatDate from "../../../utils/formatDate";
@@ -15,158 +16,187 @@ import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
 import UpdateServiceMedication from "../../Modals/UpdateServiceMedication";
 import { DisplayNotes } from "../../Modals/DisplayNotes";
+import { mutate } from "swr";
 
-const ServiceMedications = observer(({ admissionId }) => {
-  const{
-    user: { id: initiatorId},
-  } = useContext(UserContext);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(50);
+const ServiceMedications = observer(
+  ({ admissionId, admissionInvoiceId, dischargeStatus }) => {
+    const {
+      user: { id: initiatorId },
+    } = useContext(UserContext);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(50);
 
-  const getServiceMedications = getServiceMedicationsUrl(
-    admissionId,
-    pageNumber,
-    pageSize
-  );
-  const getServiceMedicationsConfig = fetchConfig({
-    url: getServiceMedications,
-    method: "get",
-  });
-  const { data, mutate } = useRequest(getServiceMedicationsConfig, {
-    revalidateOnFocus: false,
-  });
-
-  const administerService = async (serviceId) => {
-    const postAdministerServiceMedication = postAdministerServiceMedicationUrl();
-    const postAdministerServiceMedicationConfig = fetchConfig({
-      url: postAdministerServiceMedication,
-      method: "post",
-      data: {serviceId, admissionId, initiatorId },
+    const getServiceMedications = getServiceMedicationsUrl(
+      admissionId,
+      pageNumber,
+      pageSize
+    );
+    const getServiceMedicationsConfig = fetchConfig({
+      url: getServiceMedications,
+      method: "get",
     });
-    try {
-      let res = await fetchWrapper(postAdministerServiceMedicationConfig);
-      console.log(res, 565);
-      if (res.status === 200) {
-        notification.success({ message: res.data.message });
+    const { data, mutate: refresh } = useRequest(getServiceMedicationsConfig, {
+      revalidateOnFocus: false,
+    });
+
+    const administerService = async (serviceId) => {
+      const postAdministerServiceMedication = postAdministerServiceMedicationUrl();
+      const postAdministerServiceMedicationConfig = fetchConfig({
+        url: postAdministerServiceMedication,
+        method: "post",
+        data: { serviceId, admissionId, initiatorId },
+      });
+      try {
+        let res = await fetchWrapper(postAdministerServiceMedicationConfig);
+        if (res.status === 200) {
+          const invoicesUrl = getServiceRequestsInAnInvoiceUrl(
+            admissionInvoiceId,
+            pageNumber,
+            pageSize
+          );
+          const getAdmissionInvoiceConfig = fetchConfig({
+            url: invoicesUrl,
+            method: "get",
+          });
+          await mutate(JSON.stringify(getAdmissionInvoiceConfig));
+          notification.success({ message: res.data.message });
+        }
+      } catch (error) {
+        console.log(error);
+        notification.error({ message: error?.response?.data.message });
       }
-    } catch (error) {
-      console.log(error);
-      notification.error({ message: error?.response?.data.message });
-    }
-  };
+    };
 
-  let dataTable = [];
-  if (data) {
-    dataTable = data?.medications.map((medication, index) => {
-      const {
-        administrationInstruction,
-        dosage,
-        frequency,
-        startDate,
-        endDate,
-        status,
-        id,
-      } = medication;
-      return {
-        "#": ++index,
-        "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
-        Service: `${medication?.service?.name ?? "N/A"}`,
-        Dosage: `${dosage ?? "N/A"}`,
-        FreQ: `${frequency ?? "N/A"}`,
-        Start: formatDate(startDate ?? "N/A"),
-        Stop: formatDate(endDate ?? "N/A"),
-        Status: (
-          <span
-            className={
-              status === "Completed"
-                ? "text-success"
-                : status === "Discontinued"
-                ? "text-danger"
-                : "text-warning"
-            }
-          >
-            {status ?? "N/A"}
-          </span>
-        ),
-        Action: (
-          <ActionTableAction
-            id={id}
-            mutate={mutate}
-            administerService={administerService}
-            serviceId={medication?.serviceId}
-            serviceNotes={`${administrationInstruction ?? "N/A"}`}
-          />
-        ),
-      };
-    });
-  }
-  return (
-    <div className="row justify-content-center mx-auto mt-5">
-      <div className="col-md-12">
-        <div className="card border-light">
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-item-between mb-4">
-              <h5 className="m-0">Service Medications </h5>
-              <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#update-service-medication"
-              >
-                Update
-              </button>
+    let dataTable = [];
+    if (data) {
+      dataTable = data?.medications.map((medication, index) => {
+        const {
+          administrationInstruction,
+          dosage,
+          frequency,
+          startDate,
+          endDate,
+          status,
+          id,
+        } = medication;
+        return {
+          "#": ++index,
+          "Service Category": `${medication?.service?.serviceCategory?.name ?? "N/A"}`,
+          Service: `${medication?.service?.name ?? "N/A"}`,
+          Dosage: `${dosage ?? "N/A"}`,
+          FreQ: `${frequency ?? "N/A"}`,
+          Start: formatDate(startDate ?? "N/A"),
+          Stop: formatDate(endDate ?? "N/A"),
+          Status: (
+            <span
+              className={
+                status === "Completed"
+                  ? "text-success"
+                  : status === "Discontinued"
+                  ? "text-danger"
+                  : "text-warning"
+              }
+            >
+              {status ?? "N/A"}
+            </span>
+          ),
+          Action: (
+            <ActionTableAction
+              id={id}
+              mutate={refresh}
+              administerService={administerService}
+              serviceId={medication?.serviceId}
+              serviceNotes={`${administrationInstruction ?? "N/A"}`}
+              dischargeStatus={dischargeStatus}
+            />
+          ),
+        };
+      });
+    }
+    return (
+      <div className="row justify-content-center mx-auto mt-5">
+        <div className="col-md-12">
+          <div className="card border-light">
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-item-between mb-4">
+                <h5 className="m-0">Service Medications </h5>
+                {dischargeStatus ? null : (
+                  <button
+                    className="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#update-service-medication"
+                  >
+                    Update
+                  </button>
+                )}
+              </div>
+              {data && (
+                <Table
+                  content={dataTable}
+                  key={`serviceMed-${data?.medications?.length}`}
+                  tableID={`serviceMed-${data?.medications?.length}`}
+                  paginationDetails={data.paginationDetails}
+                  setPageNumber={setPageNumber}
+                  pageNumber={pageNumber}
+                  pageSize={pageSize}
+                  setPageSize={setPageSize}
+                />
+              )}
             </div>
-            {data && (
-              <Table
-                content={dataTable}
-                key={`serviceMed-${data?.medications?.length}`}
-                tableID={`serviceMed-${data?.medications?.length}`}
-                paginationDetails={data.paginationDetails}
-                setPageNumber={setPageNumber}
-                pageNumber={pageNumber}
-                pageSize={pageSize}
-                setPageSize={setPageSize}
-              />
-            )}
           </div>
         </div>
+        <UpdateServiceMedication admissionId={admissionId} mutate={refresh} />
       </div>
-      <UpdateServiceMedication admissionId={admissionId} mutate={mutate} />
-    </div>
-  );
-});
+    );
+  }
+);
 
-const ActionTableAction = ({ id, serviceId, administerService, mutate, serviceNotes }) => {
+const ActionTableAction = ({
+  id,
+  serviceId,
+  administerService,
+  mutate,
+  serviceNotes,
+  dischargeStatus,
+}) => {
   return (
     <>
-      <ActionButton>
-        <button
-          data-toggle="modal"
-          data-target={`#update-medication-status-${id}`}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Update status
-        </button>
-        <Link
-          data-toggle="modal"
-          data-target={`#notes-${id}`}
-          className="btn btn-sm btn-block"
-        >
-          Service Medication
-        </Link>
-        <button 
-        onClick={() => administerService(serviceId)}
-        className="btn btn-sm btn-block"
-        >
-          Administer Service
-        </button>
-      </ActionButton>
+      {dischargeStatus ? (
+        "Discharged"
+      ) : (
+        <ActionButton>
+          <button
+            data-toggle="modal"
+            data-target={`#update-medication-status-${id}`}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Update status
+          </button>
+          <Link
+            data-toggle="modal"
+            data-target={`#notes-${id}`}
+            className="btn btn-sm btn-block"
+          >
+            Service Medication
+          </Link>
+          <button
+            onClick={() => administerService(serviceId)}
+            className="btn btn-sm btn-block"
+          >
+            Administer Service
+          </button>
+        </ActionButton>
+      )}
       <UpdateMedicationStatus
         medicationId={id}
         mutate={mutate}
         medicationType="service"
       />
-       <DisplayNotes id={id} details={{title: "Administration Instructions", body: serviceNotes}}/>
+      <DisplayNotes
+        id={id}
+        details={{ title: "Administration Instructions", body: serviceNotes }}
+      />
     </>
   );
 };

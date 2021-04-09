@@ -186,9 +186,9 @@ const ManageAdmissions = observer(() => {
               }
               patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
               admissionNote={`${admission?.admissionNote}`}
-              dischargeNote = {`${admission?.dischargeNote}`}
+              dischargeNote={`${admission?.dischargeNote}`}
               setNoteDetails={setNoteDetails}
-              
+              dischargeStatus={admission?.isDischarged}
             />
           ),
         };

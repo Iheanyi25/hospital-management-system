@@ -1,46 +1,45 @@
 import { observer } from "mobx-react";
-import React, { useContext } from "react";
-import { mutate } from "swr";
+import React, { useContext, useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import {
-  getObservationChartUrl,
-  postObservationChartUrl,
-} from "../../api/URLs";
+import { postObservationChartUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
-const UpdateObservationChart = observer(() => {
+const UpdateObservationChart = observer(({ admissionId, mutate }) => {
   const {
-    user: { id },
+    user: { id: initiatorId },
   } = useContext(UserContext);
-  console.log(id, 10100101);
-  const getObservationChart = getObservationChartUrl();
-  const getObservationChartConfig = fetchConfig({
-    url: getObservationChart,
-    method: "get",
+  const [details, setDetails] = useState({
+    admissionId,
+    bloodPressure: "",
+    respiration: "",
+    pulse: "",
+    spO2: "",
+    temperature: "",
+    remarks: "",
+    initiatorId,
   });
-
-  // const [state, setstate] = useState({
-  //   bloodPressure: "",
-    
-  // })
-
+  const handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleSubmit = async (e) => {
-    console.log("omo", 1010);
     e.preventDefault();
     const postObservationChart = postObservationChartUrl();
     const postObservationChartConfig = fetchConfig({
       url: postObservationChart,
       method: "post",
-      // data: ,
+      data: details,
     });
     try {
       let res = await fetchWrapper(postObservationChartConfig);
       console.log(res, 2021);
       if (res.status === 200) {
-        mutate(JSON.stringify(getObservationChartConfig));
+        mutate();
         $("#update-observation").modal("hide");
         notification.success({ message: res?.data?.message });
       }
@@ -65,29 +64,50 @@ const UpdateObservationChart = observer(() => {
                 <div className="row">
                   <div className="form-group col-md-6">
                     <label>Blood Pressure</label>
-                    <input className="form-control" type="text" />
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="bloodPressure"
+                      onChange={handleChange}
+                    />
                   </div>
                   <div className="form-group col-md-6">
                     <label>Temperature</label>
-                    <input className="form-control" type="text" />
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="temperature"
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
                 <div className="row">
                   <div className="form-group col-md-6">
                     <label>Pulse</label>
-                    <input className="form-control" type="text" />
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="pulse"
+                      onChange={handleChange}
+                    />
                   </div>
                   <div className="form-group col-md-6">
                     <label>Respiration</label>
-                    <input className="form-control" type="text" />
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="respiration"
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>Medications</label>{" "}
-                  <textarea
+                  <label>SpO2</label>
+                  <input
                     className="form-control"
-                    placeholder="Enter Result"
-                    rows={3}
+                    type="text"
+                    name="spO2"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="form-group">
@@ -96,6 +116,8 @@ const UpdateObservationChart = observer(() => {
                     className="form-control"
                     placeholder="Enter Result"
                     rows={3}
+                    name="remarks"
+                    onChange={handleChange}
                   />
                 </div>
 
