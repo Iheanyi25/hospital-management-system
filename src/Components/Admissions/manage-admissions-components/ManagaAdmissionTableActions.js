@@ -6,46 +6,61 @@ import ActionButton from "../../DataTable/ActionButton";
 export const AdminActionTable = ({
   admissionId,
   patient,
-  patientName,
   appointmentOrConsultationId,
   admissionNote,
   dischargeNote,
   setNoteDetails,
+  dischargeStatus,
 }) => {
   return (
     <div>
       <ActionButton>
-        <Link
-          data-toggle="modal"
-          data-target="#notes"
-          className="btn btn-sm btn-block"
-          onClick={() =>
-            setNoteDetails({ title: "Admission Notes", body: admissionNote })
-          }
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Admission Notes
-        </Link>
+        {dischargeStatus ? (
+          <Link
+            data-toggle="modal"
+            data-target="#notes"
+            className="btn btn-sm btn-block"
+            onClick={() =>
+              setNoteDetails({ title: "Discharge Notes", body: dischargeNote })
+            }
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Discharge Notes
+          </Link>
+        ) : (
+          <>
+            <Link
+              data-toggle="modal"
+              data-target="#notes"
+              className="btn btn-sm btn-block"
+              onClick={() =>
+                setNoteDetails({
+                  title: "Admission Notes",
+                  body: admissionNote,
+                })
+              }
+            >
+              <span className="btn-icon icofont-server mr-2" />
+              Admission Notes
+            </Link>
+            <Link
+              to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
+              className="btn btn-sm btn-block"
+            >
+              <span className="btn-icon icofont-server mr-2" />
+              Request a service
+            </Link>
+          </>
+        )}
         <Link
           to={{
             pathname: `/AdminWardRoundNotes/${admissionId}`,
-            state: { patient, appointmentOrConsultationId },
+            state: { patient, appointmentOrConsultationId, dischargeStatus },
           }}
           className="btn btn-sm btn-block"
         >
           <span className="btn-icon icofont-server mr-2" />
           Manage Admission
-        </Link>
-        <Link
-          data-toggle="modal"
-          data-target="#notes"
-          className="btn btn-sm btn-block"
-          onClick={() =>
-            setNoteDetails({ title: "Discharge Notes", body: dischargeNote })
-          }
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Discharge Notes
         </Link>
         {/* <Link
           to={{
@@ -57,13 +72,6 @@ export const AdminActionTable = ({
           <span className="btn-icon icofont-server mr-2" />
           Prescriptions
         </Link> */}
-        <Link
-          to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Request a service
-        </Link>
         <Link
           to={`/AdminManageAdmissionServiceRequest/${admissionId}`}
           className="btn btn-sm btn-block"
