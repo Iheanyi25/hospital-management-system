@@ -6,6 +6,7 @@ import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
   getServiceMedicationsUrl,
   postAdministerServiceMedicationUrl,
+  getServiceRequestsInAnInvoiceUrl,
 } from "../../../api/URLs";
 import { UserContext } from "../../../mobx/UserState";
 import formatDate from "../../../utils/formatDate";
@@ -16,9 +17,9 @@ import { UpdateMedicationStatus } from "../../Modals";
 import UpdateServiceMedication from "../../Modals/UpdateServiceMedication";
 import { DisplayNotes } from "../../Modals/DisplayNotes";
 
-const ServiceMedications = observer(({ admissionId }) => {
-  const{
-    user: { id: initiatorId},
+const ServiceMedications = observer(({ admissionId, admissionInvoiceId }) => {
+  const {
+    user: { id: initiatorId },
   } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -41,12 +42,21 @@ const ServiceMedications = observer(({ admissionId }) => {
     const postAdministerServiceMedicationConfig = fetchConfig({
       url: postAdministerServiceMedication,
       method: "post",
-      data: {serviceId, admissionId, initiatorId },
+      data: { serviceId, admissionId, initiatorId },
     });
     try {
       let res = await fetchWrapper(postAdministerServiceMedicationConfig);
-      console.log(res, 565);
       if (res.status === 200) {
+        const invoicesUrl = getServiceRequestsInAnInvoiceUrl(
+          admissionInvoiceId,
+          pageNumber,
+          pageSize
+        );
+        const getAdmissionInvoiceConfig = fetchConfig({
+          url: invoicesUrl,
+          method: "get",
+        });
+        await mutate(JSON.stringify(getAdmissionInvoiceConfig));
         notification.success({ message: res.data.message });
       }
     } catch (error) {
@@ -135,7 +145,13 @@ const ServiceMedications = observer(({ admissionId }) => {
   );
 });
 
-const ActionTableAction = ({ id, serviceId, administerService, mutate, serviceNotes }) => {
+const ActionTableAction = ({
+  id,
+  serviceId,
+  administerService,
+  mutate,
+  serviceNotes,
+}) => {
   return (
     <>
       <ActionButton>
@@ -154,9 +170,9 @@ const ActionTableAction = ({ id, serviceId, administerService, mutate, serviceNo
         >
           Service Medication
         </Link>
-        <button 
-        onClick={() => administerService(serviceId)}
-        className="btn btn-sm btn-block"
+        <button
+          onClick={() => administerService(serviceId)}
+          className="btn btn-sm btn-block"
         >
           Administer Service
         </button>
@@ -166,7 +182,10 @@ const ActionTableAction = ({ id, serviceId, administerService, mutate, serviceNo
         mutate={mutate}
         medicationType="service"
       />
-       <DisplayNotes id={id} details={{title: "Administration Instructions", body: serviceNotes}}/>
+      <DisplayNotes
+        id={id}
+        details={{ title: "Administration Instructions", body: serviceNotes }}
+      />
     </>
   );
 };

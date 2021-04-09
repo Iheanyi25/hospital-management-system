@@ -49,7 +49,7 @@ const WardRoundTabContent = ({ admissionId }) => {
             role="tabpanel"
             aria-labelledby="pills-serviceMed-tab"
           >
-            <ServiceMedications admissionId={admissionId} />
+            <ServiceMedications admissionId={admissionId} admissionInvoiceId={data?.admissionInvoice.id} />
           </div>
           <div
             className="tab-pane fade"

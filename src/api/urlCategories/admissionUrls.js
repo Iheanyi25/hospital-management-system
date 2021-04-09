@@ -31,8 +31,8 @@ export const createAdmissionsNoteUrl = () => `Admission/CreateAdmissionNote`;
 // Admission - Manage Admission Service Requests
 export const postAdmissionsRequestServiceUrl = () =>
   `/Admission/RequestServices`;
-export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
-  `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}`;
+export const getServiceRequestsInAnInvoiceUrl = (invoiceId, pageNumber, pageSize) =>
+  `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAdmissionServiceRequestUrl = (serviceRequestId) =>
   `/Admission/GetAdmissionServiceRequest/${serviceRequestId}`;
 export const uploadServiceRequestResultUrl = () =>
