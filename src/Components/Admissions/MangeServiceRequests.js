@@ -36,7 +36,9 @@ const ManageServiceRequests = observer(() => {
 
   // Fetching service invoice
   const serviceRequest = getServiceRequestsInAnInvoiceUrl(
-    data?.admissionInvoice.id
+    data?.admissionInvoice.id,
+    pageNumber,
+    pageSize
   );
   const getServiceRequestInvoice = fetchConfig({
     url: serviceRequest,
@@ -45,7 +47,7 @@ const ManageServiceRequests = observer(() => {
   const { data: invoice, error } = useRequest(getServiceRequestInvoice, {
     revalidateOnFocus: false,
   });
-  console.log(invoice,77);
+  console.log(invoice, 77);
   let dataTable = [];
   if (invoice) {
     dataTable = invoice.serviceRequests.map(
@@ -89,7 +91,9 @@ const ManageServiceRequests = observer(() => {
           </header>
           <div className="page-content">
             <TableSize
-              size={data ? formatAmount(invoice?.serviceRequests.length ?? 0) : 0}
+              size={
+                data ? formatAmount(invoice?.serviceRequests.length ?? 0) : 0
+              }
               heading="No of Services"
             />
           </div>
