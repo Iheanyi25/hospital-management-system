@@ -79,7 +79,7 @@ const ServiceMedications = observer(({ admissionId, admissionInvoiceId }) => {
       } = medication;
       return {
         "#": ++index,
-        "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
+        "Service Category": `${"N/A"}`,
         Service: `${medication?.service?.name ?? "N/A"}`,
         Dosage: `${dosage ?? "N/A"}`,
         FreQ: `${frequency ?? "N/A"}`,
