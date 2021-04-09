@@ -9,6 +9,7 @@ import SurgeryReferral from "../../../Components/Modals/SurgeryReferral";
 import TableSize from "../../../Components/DataTable/TableSize";
 import formatDate from "../../../utils/formatDate";
 import formatTime from "../../../utils/formatTime";
+import { DisplayNotes } from "../../../Components/Modals/DisplayNotes";
 
 export default function ManageSurgeries() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -31,8 +32,13 @@ export default function ManageSurgeries() {
         "Initiator Name": `${surgery?.initiator?.firstName} ${surgery?.initiator?.lastName}`,
         "Surgery Date": formatDate(surgery?.dateOfSurgery) || "N/A",
         "Surgery Time": formatTime(surgery?.timeOfSurgery) || "N/A",
-        "Referral note": surgery.referralNote || "N/A",
-        Actions: <SurgeryTableAction surgery={surgery} />,
+        // "Referral note": surgery.referralNote || "N/A",
+        Actions: (
+          <SurgeryTableAction
+            surgery={surgery}
+            surgeryNotes={`${surgery.referralNote || "N/A"}`}
+          />
+        ),
       };
     });
   }
@@ -85,20 +91,34 @@ export default function ManageSurgeries() {
   );
 }
 
-const SurgeryTableAction = ({ surgery }) => {
+const SurgeryTableAction = ({ surgery, surgeryNotes }) => {
   return (
-    <ActionButton>
-      <Link
-        title="Go For Pre-consultation"
-        to={{
-          pathname: `/AdminSurgicalOperationNotes/${surgery.id}`,
-          state: surgery,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-        Surgery Notes
-      </Link>
-    </ActionButton>
+    <>
+      <ActionButton>
+        <Link
+          data-toggle="modal"
+          data-target={`#notes-${surgery.id}`}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+          Referral Notes
+        </Link>
+        <Link
+          title="Go For Pre-consultation"
+          to={{
+            pathname: `/AdminSurgicalOperationNotes/${surgery.id}`,
+            state: surgery,
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+          Surgery Notes
+        </Link>
+      </ActionButton>
+      <DisplayNotes
+        id={surgery.id}
+        details={{ title: "Referral Notes", body: surgeryNotes }}
+      />
+    </>
   );
 };
