@@ -26,6 +26,7 @@ const WardRoundNotes = observer(() => {
       },
     },
   } = useHistory();
+  console.log(patient,34554);
   const { id: admissionId } = useParams();
   const getAdmissionDays = getAdmissionDaysUrl(admissionId);
   const getAdmissionDaysConfig = fetchConfig({
@@ -84,7 +85,7 @@ const WardRoundNotes = observer(() => {
           </header>
           <div className="card border-light w-50 my-5 mx-auto">
             <ClarkingHistory
-              patientDetails={{ firstName, lastName, id }}
+              patientDetails={{ firstName, lastName }}
               appointmentOrConsultationId={appointmentOrConsultationId}
               user
             />
@@ -101,7 +102,10 @@ const WardRoundNotes = observer(() => {
                   <div>
                     <WardRoundTabHeader />
                   </div>
-                  <WardRoundTabContent admissionId={admissionId} dischargeStatus={dischargeStatus} />
+                  <WardRoundTabContent
+                    admissionId={admissionId}
+                    dischargeStatus={dischargeStatus}
+                  />
                 </div>
               </div>
             </div>

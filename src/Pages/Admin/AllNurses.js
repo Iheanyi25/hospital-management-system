@@ -36,7 +36,7 @@ function AllNurses() {
         ),
         Name: `${nurse.firstName} ${nurse.lastName}`,
         Email: <a href={"mailto:" + nurse.email}>{nurse.email}</a>,
-        Phone: nurse.phoneNumber || "Not avainursele",
+        Phone: nurse.phoneNumber || "Not Avaliable",
         Actions: <NurseTableAction nurse={nurse} />,
       };
     });

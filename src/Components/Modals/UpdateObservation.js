@@ -1,10 +1,11 @@
 import { observer } from "mobx-react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postObservationChartUrl } from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
+import { isNotEmptyString } from "../../utils/validationUtils";
 
 const $ = window.$;
 const UpdateObservationChart = observer(({ admissionId, mutate }) => {
@@ -21,6 +22,30 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
     remarks: "",
     initiatorId,
   });
+  const [emptyField, setEmptyField] = useState(true);
+
+  useEffect(() => {
+    const {
+      bloodPressure,
+      respiration,
+      pulse,
+      spO2,
+      temperature,
+      remarks,
+    } = details;
+    if (
+      isNotEmptyString(bloodPressure) &&
+      isNotEmptyString(respiration) &&
+      isNotEmptyString(pulse) &&
+      isNotEmptyString(spO2) &&
+      isNotEmptyString(temperature) &&
+      isNotEmptyString(remarks)
+    ) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
+  }, [details]);
   const handleChange = (e) => {
     setDetails({
       ...details,
@@ -69,6 +94,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                       type="text"
                       name="bloodPressure"
                       onChange={handleChange}
+                      value={details?.bloodPressure}
                     />
                   </div>
                   <div className="form-group col-md-6">
@@ -78,6 +104,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                       type="text"
                       name="temperature"
                       onChange={handleChange}
+                      value={details?.temperature}
                     />
                   </div>
                 </div>
@@ -89,6 +116,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                       type="text"
                       name="pulse"
                       onChange={handleChange}
+                      value={details?.pulse}
                     />
                   </div>
                   <div className="form-group col-md-6">
@@ -98,6 +126,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                       type="text"
                       name="respiration"
                       onChange={handleChange}
+                      value={details?.respiration}
                     />
                   </div>
                 </div>
@@ -108,6 +137,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                     type="text"
                     name="spO2"
                     onChange={handleChange}
+                    value={details?.spO2}
                   />
                 </div>
                 <div className="form-group">
@@ -118,6 +148,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                     rows={3}
                     name="remarks"
                     onChange={handleChange}
+                    value={details?.remarks}
                   />
                 </div>
 
@@ -127,12 +158,26 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
                       type="button"
                       className="btn btn-outline-danger"
                       data-dismiss="modal"
+                      onClick={() =>
+                        setDetails({
+                          bloodPressure: "",
+                          respiration: "",
+                          pulse: "",
+                          spO2: "",
+                          temperature: "",
+                          remarks: "",
+                        })
+                      }
                     >
                       Cancel
                     </button>
                   </div>
                   <div className="col text-right">
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      type="submit"
+                      disabled={emptyField ? true : false}
+                      className="btn btn-primary"
+                    >
                       {" "}
                       Save
                     </button>
