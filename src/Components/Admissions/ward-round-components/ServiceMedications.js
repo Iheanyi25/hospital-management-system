@@ -16,6 +16,7 @@ import ActionButton from "../../DataTable/ActionButton";
 import { UpdateMedicationStatus } from "../../Modals";
 import UpdateServiceMedication from "../../Modals/UpdateServiceMedication";
 import { DisplayNotes } from "../../Modals/DisplayNotes";
+import { mutate } from "swr";
 
 const ServiceMedications = observer(({ admissionId, admissionInvoiceId }) => {
   const {
@@ -33,7 +34,7 @@ const ServiceMedications = observer(({ admissionId, admissionInvoiceId }) => {
     url: getServiceMedications,
     method: "get",
   });
-  const { data, mutate } = useRequest(getServiceMedicationsConfig, {
+  const { data, mutate: refresh } = useRequest(getServiceMedicationsConfig, {
     revalidateOnFocus: false,
   });
 
@@ -101,7 +102,7 @@ const ServiceMedications = observer(({ admissionId, admissionInvoiceId }) => {
         Action: (
           <ActionTableAction
             id={id}
-            mutate={mutate}
+            mutate={refresh}
             administerService={administerService}
             serviceId={medication?.serviceId}
             serviceNotes={`${administrationInstruction ?? "N/A"}`}
@@ -140,7 +141,7 @@ const ServiceMedications = observer(({ admissionId, admissionInvoiceId }) => {
           </div>
         </div>
       </div>
-      <UpdateServiceMedication admissionId={admissionId} mutate={mutate} />
+      <UpdateServiceMedication admissionId={admissionId} mutate={refresh} />
     </div>
   );
 });
