@@ -38,7 +38,6 @@ const UpdateObservationChart = observer(({ admissionId }) => {
   });
 
   const handleSubmit = async (e) => {
-    console.log("omo", 1010);
     e.preventDefault();
     const postObservationChart = postObservationChartUrl();
     const postObservationChartConfig = fetchConfig({
