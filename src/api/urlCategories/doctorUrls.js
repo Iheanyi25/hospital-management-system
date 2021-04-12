@@ -3,8 +3,8 @@ export const getDoctorAllAppointmentsUrl = (doctorId) =>
   `/Doctor/ViewAllAppointments?DoctorId=${doctorId}`;
 export const postDoctorAcceptAppointmentUrl = (appointmentId) =>
   `/Doctor/AcceptAnAppointment?AppointmentId=${appointmentId}`;
-export const postDoctorRejectAppointmentUrl = (appointmentId) =>
-  `/Doctor/RejectAnAppointment?AppointmentId=${appointmentId}`;
+export const postDoctorRejectAppointmentUrl = () =>
+  `/Doctor/RejectAnAppointment`;
 export const postDoctorCancelAppointmentUrl = (appointmentId) =>
   `/Doctor/CancelAnAppointment?AppointmentId=${appointmentId}`;
 

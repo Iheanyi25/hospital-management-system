@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../api/fetcher";
-import {
-  postDoctorAcceptAppointmentUrl,
-  postDoctorRejectAppointmentUrl,
-} from "../../../../api/URLs";
-import { Table } from "../../../../Components";
+import { postDoctorAcceptAppointmentUrl } from "../../../../api/URLs";
+import { RejectAppointment, Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
@@ -17,6 +14,7 @@ function PendingAppointmentsTableContainer({
   category,
   mutate,
 }) {
+  const [appointmentId, setAppointmentId] = useState("");
   const acceptAppointment = async (e, id) => {
     e.preventDefault();
 
@@ -27,35 +25,14 @@ function PendingAppointmentsTableContainer({
         method: "post",
       });
       const res = await fetchWrapper(postDoctorAcceptAppointmentConfig);
-      console.log(res,222)
+      console.log(res, 222);
       if (res.status === 200) {
         notification.success({ message: "Appointment accepted successfully" });
-        console.log(mutate,3333)
+        console.log(mutate, 3333);
         await mutate();
       }
     } catch (err) {
       notification.error({ message: "Operation failed" });
-    }
-  };
-
-  const rejectAppointment = async (e, id) => {
-    e.preventDefault();
-
-    try {
-      const postDoctorRejectAppointment = postDoctorRejectAppointmentUrl(id);
-      const postDoctorRejectAppointmentConfig = fetchConfig({
-        url: postDoctorRejectAppointment,
-        method: "post",
-      });
-      const res = await fetchWrapper(postDoctorRejectAppointmentConfig);
-      console.log(res,777)
-      if (res.status === 200) {
-        notification.success({ message: "Appointment rejected successfully" });
-        console.log(mutate,888)
-        await mutate();
-      }
-    } catch (err) {
-        notification.error({ message: "Operation failed" });
     }
   };
 
@@ -74,7 +51,8 @@ function PendingAppointmentsTableContainer({
           <PendingAppointmentsTableAction
             pendingAppointment={pendingAppointment}
             acceptAppointment={acceptAppointment}
-            rejectAppointment={rejectAppointment}
+            // rejectAppointment={rejectAppointment}
+            setAppointmentId={setAppointmentId}
           />
         ),
       };
@@ -88,6 +66,7 @@ function PendingAppointmentsTableContainer({
         tableID={category + pendingAppointments.length}
         key={category + pendingAppointments.length}
       />
+      <RejectAppointment appointmentId={appointmentId} mutate={mutate} />
     </div>
   );
 }
@@ -95,7 +74,7 @@ function PendingAppointmentsTableContainer({
 const PendingAppointmentsTableAction = ({
   pendingAppointment,
   acceptAppointment,
-  rejectAppointment,
+  setAppointmentId,
 }) => {
   return (
     <ActionButton>
@@ -107,14 +86,18 @@ const PendingAppointmentsTableAction = ({
         <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Accept Appointment
       </Link>
-      <Link
+      <button
         title="Reject Appointment"
-        onClick={(e) => rejectAppointment(e, pendingAppointment.id)}
+        data-toggle="modal"
+        data-target="#reject-appointment"
+        onClick={() => {
+          setAppointmentId(pendingAppointment.id);
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-stethoscope-alt mr-2" />
         Reject Appointment
-      </Link>
+      </button>
     </ActionButton>
   );
 };
