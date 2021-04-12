@@ -10,7 +10,9 @@ export default function DashboardConsultationList({ consultations }) {
         "#": ++index,
         "Consultation Title": consultation.consultationTitle,
         "Patient Name": `${consultation?.patient?.firstName} ${consultation?.patient?.lastName}`,
-        "Doctor Name": `${consultation?.doctor?.firstName} ${consultation?.doctor?.lastName}`,
+        "Doctor Name": `${consultation.doctor?.firstName || "Unassigned"} ${
+          consultation.doctor?.lastName || ""
+        }`,
         Date: formatDate(consultation.dateOfConsultation) || "",
         Status: consultation.isCompleted
           ? "COMPLETED"

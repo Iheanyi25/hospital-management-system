@@ -17,7 +17,7 @@ const ManageHealthPlans = () => {
     url: getAllHealthPlans,
     method: "get",
   });
-  const { data, error } = useRequest(getAllHealthPlansConfig, {
+  const { data, error, mutate } = useRequest(getAllHealthPlansConfig, {
     revalidateOnFocus: false,
   });
   const disableHealthPlan = async (id) => {
@@ -30,7 +30,7 @@ const ManageHealthPlans = () => {
       });
       const res = await fetchWrapper(disableHealthPlansConfig);
       if (res.status === 200) {
-        this.getAllHealthPlans();
+        mutate();
         notification.success({ message: res.data.message });
       }
     } catch (error) {
