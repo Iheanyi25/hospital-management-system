@@ -1,36 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getConsultationsCompletedWithDoctorUrl } from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
+import formatDate from "../../../../utils/formatDate";
+import formatTime from "../../../../utils/formatTime";
 
-function PatientsAttendedTableContainer({ patientsAttendedTo, category }) {
+function PatientsAttendedTableContainer({ doctorId }) {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const patientsAttentedToCount = getConsultationsCompletedWithDoctorUrl(
+    doctorId,
+    pageNumber,
+    pageSize
+  );
+  const getPatientsAttentedToCountConfig = fetchConfig({
+    url: patientsAttentedToCount,
+    method: "get",
+  });
+  const { data, error } = useRequest(getPatientsAttentedToCountConfig, {
+    revalidateOnFocus: false,
+  });
+
   let tableData = [];
-  if (patientsAttendedTo) {
-    tableData = patientsAttendedTo.map((consultation, index) => {
+  if (data) {
+    tableData = data?.consultations.map((consultation, index) => {
       return {
         "#": ++index,
-        Title: consultation.patientQueue.consultationTitle,
-        "Reason for consultation":
-          consultation.patientQueue.reasonForConsultation,
+        Title: consultation.consultationTitle,
+        "Reason for consultation": consultation.reasonForConsultation,
         Patient: `${consultation.patient?.firstName} ${consultation.patient?.lastName}`,
         "Patient Contact": consultation?.patient?.phoneNumber ?? "N/A",
-        "Consultation Date": new Date(
-          consultation.patientQueue.dateOfConsultation
-        ).toLocaleDateString(),
-        "Consultation Time": new Date(
-          consultation.patientQueue.dateOfConsultation
-        ).toLocaleTimeString(),
+        "Consultation Date": formatDate(consultation.dateOfConsultation),
+        "Consultation Time": formatTime(consultation.dateOfConsultation),
         Actions: <PatientsAttendedTableAction consultation={consultation} />,
       };
     });
   }
-
+  if (error) return <div>failed to load</div>;
   return (
     <div>
       <Table
         content={tableData}
-        tableID={category + patientsAttendedTo.length}
-        key={category + patientsAttendedTo.length}
+        tableID={"patientsAttendedTo" + data?.consultations.length}
+        key={"patientsAttendedTo" + data?.consultations.length}
+        paginationDetails={data?.paginationDetails}
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );

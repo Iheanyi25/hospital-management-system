@@ -5,10 +5,8 @@ import {
   PatientsWaitingTableContainer,
 } from "./tab-components";
 
-function ConsultationTabContent({
-  patientsWaiting,
-  patientsAttendedTo,
-}) {
+function ConsultationTabContent({ doctorId }) {
+  
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -18,10 +16,7 @@ function ConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-active-tab"
         >
-          <PatientsWaitingTableContainer
-            patientsWaiting={patientsWaiting}
-            category="waitingList"
-          />
+          <PatientsWaitingTableContainer doctorId={doctorId} />
         </div>
         <div
           className="tab-pane fade"
@@ -29,10 +24,7 @@ function ConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-accepted-tab"
         >
-          <PatientsAttendedTableContainer
-            patientsAttendedTo={patientsAttendedTo}
-            category="attendedList"
-          />
+          <PatientsAttendedTableContainer doctorId={doctorId} />
         </div>
       </div>
     </div>

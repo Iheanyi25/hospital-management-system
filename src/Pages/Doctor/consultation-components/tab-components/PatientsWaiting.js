@@ -1,38 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getConsultationsWithDoctorUrl } from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
+import formatDate from "../../../../utils/formatDate";
+import formatTime from "../../../../utils/formatTime";
 
-function PatientsWaitingTableContainer({ patientsWaiting, category }) {
+function PatientsWaitingTableContainer({ doctorId }) {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const patientsAttentedToCount = getConsultationsWithDoctorUrl(
+    doctorId,
+    pageNumber,
+    pageSize
+  );
+  const getPatientsAttentedToCountConfig = fetchConfig({
+    url: patientsAttentedToCount,
+    method: "get",
+  });
+  const { data, error } = useRequest(getPatientsAttentedToCountConfig, {
+    revalidateOnFocus: false,
+  });
+
   let tableData = [];
-  if (patientsWaiting) {
-    tableData = patientsWaiting.map((patientWaiting, index) => {
+  if (data) {
+    tableData = data?.consultations.map((patientWaiting, index) => {
       return {
         "#": ++index,
-        Title: patientWaiting.patientQueue.consultationTitle,
-        "Reason for consultation":
-          patientWaiting.patientQueue.reasonForConsultation,
-        Patient: `${patientWaiting.patient?.lastName} ${patientWaiting.patient?.firstName}`,
+        Title: patientWaiting.consultationTitle,
+        "Reason for consultation": patientWaiting.reasonForConsultation,
+        Patient: `${patientWaiting.patient?.firstName} ${patientWaiting.patient?.lastName}`,
         "Patient Contact": patientWaiting?.patient?.phoneNumber ?? "N/A",
-        "Consultation Date": new Date(
-          patientWaiting.patientQueue.dateOfConsultation
-        ).toLocaleDateString(),
-        "Consultation Time": new Date(
-          patientWaiting.patientQueue.dateOfConsultation
-        ).toLocaleTimeString(),
-        Actions: (
-          <PatientsWaitingActionTable patientWaiting={patientWaiting} />
-        ),
+        "Consultation Date": formatDate(patientWaiting.dateOfConsultation),
+        "Consultation Time": formatTime(patientWaiting.dateOfConsultation),
+        Actions: <PatientsWaitingActionTable patientWaiting={patientWaiting} />,
       };
     });
   }
-
+  if (error) return <div>failed to load</div>;
   return (
     <div>
       <Table
         content={tableData}
-        tableID={category + patientsWaiting.length}
-        key={category + patientsWaiting.length}
+        tableID={"patientsWaiting" + data?.consultations.length}
+        key={"patientsWaiting" + data?.consultations.length}
+        paginationDetails={data?.paginationDetails}
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );
@@ -47,7 +65,7 @@ const PatientsWaitingActionTable = ({ patientWaiting }) => {
           pathname: "/DoctorClarking",
           state: {
             type: "consultation",
-            id: patientWaiting.patientQueue.id,
+            id: patientWaiting.id,
             patient: patientWaiting.patient,
           },
         }}
