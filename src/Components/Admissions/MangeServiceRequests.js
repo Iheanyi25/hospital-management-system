@@ -1,5 +1,5 @@
 import React, { useState, useContext, Fragment } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
 import {
@@ -20,9 +20,12 @@ const ManageServiceRequests = observer(() => {
   const {
     user: { userType },
   } = useContext(UserContext);
+  const { id } = useParams();
+  const {
+    location: { state: dischargeStatus },
+  } = useHistory();
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const { id } = useParams();
 
   // Fetching admission invoice
   const invoicesUrl = getAdmissionInvoiceUrl(id);
@@ -36,7 +39,9 @@ const ManageServiceRequests = observer(() => {
 
   // Fetching service invoice
   const serviceRequest = getServiceRequestsInAnInvoiceUrl(
-    data?.admissionInvoice.id
+    data?.admissionInvoice.id,
+    pageNumber,
+    pageSize
   );
   const getServiceRequestInvoice = fetchConfig({
     url: serviceRequest,
@@ -45,7 +50,7 @@ const ManageServiceRequests = observer(() => {
   const { data: invoice, error } = useRequest(getServiceRequestInvoice, {
     revalidateOnFocus: false,
   });
-  console.log(invoice,77);
+
   let dataTable = [];
   if (invoice) {
     dataTable = invoice.serviceRequests.map(
@@ -68,7 +73,13 @@ const ManageServiceRequests = observer(() => {
               )}
             </>
           ),
-          Actions: <ServiceActionTable serviceId={id} userType={userType} />,
+          Actions: (
+            <ServiceActionTable
+              serviceId={id}
+              userType={userType}
+              dischargeStatus={dischargeStatus}
+            />
+          ),
         };
       }
     );
@@ -89,7 +100,9 @@ const ManageServiceRequests = observer(() => {
           </header>
           <div className="page-content">
             <TableSize
-              size={data ? formatAmount(invoice?.serviceRequests.length ?? 0) : 0}
+              size={
+                data ? formatAmount(invoice?.serviceRequests.length ?? 0) : 0
+              }
               heading="No of Services"
             />
           </div>
@@ -111,21 +124,22 @@ const ManageServiceRequests = observer(() => {
   );
 });
 
-const ServiceActionTable = ({ serviceId, userType }) => {
+const ServiceActionTable = ({ serviceId, userType, dischargeStatus }) => {
   return (
     <ActionButton>
-      <Link
-        to={
-          userType === "Admin"
-            ? `/AdminUploadAdmissionsServiceRequestResult/${serviceId}`
-            : `/LabUploadAdmissionsServiceRequestResult/${serviceId}`
-        }
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-        Upload Result
-      </Link>
-
+      {dischargeStatus ? null : (
+        <Link
+          to={
+            userType === "Admin"
+              ? `/AdminUploadAdmissionsServiceRequestResult/${serviceId}`
+              : `/LabUploadAdmissionsServiceRequestResult/${serviceId}`
+          }
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+          Upload Result
+        </Link>
+      )}
       <Link
         to={
           userType === "Admin"

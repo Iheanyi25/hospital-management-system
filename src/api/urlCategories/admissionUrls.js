@@ -11,8 +11,8 @@ export const getAdmissionDaysUrl = (admssionId) =>
 
 // Admission - Manage Admission Drug Dispensing
 export const postAdmissionsRequestDrugUrl = () => `/Admission/RequestDrug`;
-export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId) =>
-  `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}`;
+export const getDrugsInAnAdmissionInvoiceUrl = (invoiceId, pageNumber, pageSize) =>
+  `/Admission/GetDrugsInAnInvoice?invoiceId=${invoiceId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
 // Admission - Manage Admission Invoices
 export const getAdmissionTransactionsUrl = (admssionId, pageNumber, pageSize) =>
@@ -31,8 +31,8 @@ export const createAdmissionsNoteUrl = () => `Admission/CreateAdmissionNote`;
 // Admission - Manage Admission Service Requests
 export const postAdmissionsRequestServiceUrl = () =>
   `/Admission/RequestServices`;
-export const getServiceRequestsInAnInvoiceUrl = (invoiceId) =>
-  `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}`;
+export const getServiceRequestsInAnInvoiceUrl = (invoiceId, pageNumber, pageSize) =>
+  `/Admission/GetServiceRequestsInAnInvoice?AdmissionInvoiceId=${invoiceId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAdmissionServiceRequestUrl = (serviceRequestId) =>
   `/Admission/GetAdmissionServiceRequest/${serviceRequestId}`;
 export const uploadServiceRequestResultUrl = () =>

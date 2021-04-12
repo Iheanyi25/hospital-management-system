@@ -9,6 +9,7 @@ import SurgeryReferral from "../../../Components/Modals/SurgeryReferral";
 import TableSize from "../../../Components/DataTable/TableSize";
 import formatDate from "../../../utils/formatDate";
 import formatTime from "../../../utils/formatTime";
+import { DisplayNotes } from "../../../Components/Modals/DisplayNotes";
 
 export default function ManageSurgeries() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -22,7 +23,6 @@ export default function ManageSurgeries() {
   const { data, error, mutate } = useRequest(getDoctorAllSurgeriesConfig, {
     revalidateOnFocus: false,
   });
-  console.log(data, 5555);
   let tableData = [];
   if (data) {
     tableData = data.surgeries.map((surgery, index) => {
@@ -32,13 +32,16 @@ export default function ManageSurgeries() {
         "Initiator Name": `${surgery?.initiator?.firstName} ${surgery?.initiator?.lastName}`,
         "Surgery Date": formatDate(surgery?.dateOfSurgery) || "N/A",
         "Surgery Time": formatTime(surgery?.timeOfSurgery) || "N/A",
-        "Referral note": surgery.referralNote || "N/A",
-        Actions: <SurgeryTableAction surgery={surgery} />,
+        // "Referral note": surgery.referralNote || "N/A",
+        Actions: (
+          <SurgeryTableAction
+            surgery={surgery}
+            surgeryNotes={`${surgery.referralNote || "N/A"}`}
+          />
+        ),
       };
     });
   }
-
-  console.log(data, 111);
 
   if (error) return <div>failed to load</div>;
   return (
@@ -58,7 +61,7 @@ export default function ManageSurgeries() {
                 data-target="#surgery-referral"
                 className="btn btn-outline-primary mr-2 mb-2"
               >
-                Surgery
+                Emergency Booking
               </Link>
             </div>
           </header>
@@ -83,37 +86,39 @@ export default function ManageSurgeries() {
           </div>
         </div>
       </main>
-      <SurgeryReferral
-        mutate={mutate}
-        // id={otherDetails.id}
-        // idType={otherDetails?.type}
-        // patientId={otherDetails?.patient?.id}
-      />
+      <SurgeryReferral mutate={mutate} emergency />
     </Fragment>
   );
 }
 
-const SurgeryTableAction = ({ surgery }) => {
+const SurgeryTableAction = ({ surgery, surgeryNotes }) => {
   return (
-    <ActionButton>
-      <Link
-        title="Go For Pre-consultation"
-        to={{
-          pathname: `/AdminSurgicalOperationNotes/${surgery.id}`,
-          state: surgery,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-stethoscope-alt mr-2" />
-        Surgery Notes
-      </Link>
-      {/* <button
-        className="btn btn-sm btn-block "
-        // onClick={() => deleteAppointment(appointment.id)}
-      >
-        <span className="mr-3 btn-icon icofont-delete-alt" />
-        Delete Consultation
-      </button> */}
-    </ActionButton>
+    <>
+      <ActionButton>
+        <Link
+          data-toggle="modal"
+          data-target={`#notes-${surgery.id}`}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+          Referral Notes
+        </Link>
+        <Link
+          title="Go For Pre-consultation"
+          to={{
+            pathname: `/AdminSurgicalOperationNotes/${surgery.id}`,
+            state: surgery,
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-stethoscope-alt mr-2" />
+          Surgery Notes
+        </Link>
+      </ActionButton>
+      <DisplayNotes
+        id={surgery.id}
+        details={{ title: "Referral Notes", body: surgeryNotes }}
+      />
+    </>
   );
 };

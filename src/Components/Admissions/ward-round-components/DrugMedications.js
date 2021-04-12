@@ -11,7 +11,7 @@ import { DisplayNotes } from "../../Modals/DisplayNotes";
 import UpdateDrugMedications from "../../Modals/UpdateDrugMedications";
 import { AdministerDrugMedications } from "../../Modals/AdministerDrugMedication";
 
-const Medications = ({ admissionId }) => {
+const Medications = ({ admissionId, admissionInvoiceId, dischargeStatus }) => {
   const [drugId, setdrugId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -43,7 +43,6 @@ const Medications = ({ admissionId }) => {
       } = medication;
       return {
         "#": ++index,
-        // "Administration Instructions": `${administrationInstruction ?? "N/A"}`,
         Drug: `${medication?.drug?.name ?? "N/A"}`,
         Dosage: `${dosage ?? "N/A"}`,
         FreQ: `${frequency ?? "N/A"}`,
@@ -69,6 +68,7 @@ const Medications = ({ admissionId }) => {
             setdrugId={setdrugId}
             drugNotes={administrationInstruction ?? "N/A"}
             mutate={mutate}
+            dischargeStatus={dischargeStatus}
           />
         ),
       };
@@ -79,15 +79,17 @@ const Medications = ({ admissionId }) => {
       <div className="col-md-12">
         <div className="card border-light">
           <div className="card-body">
-            <div className="d-flex justify-content-between align-item-between mr-4">
-              <h5 className="m-0">Medication</h5>
-              <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#update-medication"
-              >
-                Update
-              </button>
+            <div className="d-flex justify-content-between align-item-between mb-4">
+              <h5 className="m-0">Drug Medications</h5>
+              {dischargeStatus ? null : (
+                <button
+                  className="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#update-medication"
+                >
+                  Update
+                </button>
+              )}
             </div>
             {data && (
               <Table
@@ -107,6 +109,7 @@ const Medications = ({ admissionId }) => {
       <UpdateDrugMedications admissionId={admissionId} mutate={mutate} />
       <AdministerDrugMedications
         admissionId={admissionId}
+        admissionInvoiceId={admissionInvoiceId}
         drugId={drugId}
         mutate={mutate}
       />
@@ -119,38 +122,43 @@ const ActionTableAction = ({
   setdrugId,
   drugId,
   drugNotes,
-  mutate
+  mutate,
+  dischargeStatus,
 }) => {
   return (
     <>
-      <ActionButton>
-        <Link
-          data-toggle="modal"
-          data-target={`#notes-${id}`}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Administration Instructions
-        </Link>
-        <Link
-          to="#"
-          data-toggle="modal"
-          data-target="#admininster-drugMedication"
-          onClick={() => setdrugId(drugId)}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Administer Drugs
-        </Link>
-        <button
-          data-toggle="modal"
-          data-target={`#update-medication-status-${id}`}
-          className="btn btn-sm btn-block"
-        >
-          <span className="btn-icon icofont-server mr-2" />
-          Update status
-        </button>
-      </ActionButton>
+      {dischargeStatus ? (
+        "Discharged"
+      ) : (
+        <ActionButton>
+          <Link
+            data-toggle="modal"
+            data-target={`#notes-${id}`}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Administration Instructions
+          </Link>
+          <Link
+            to="#"
+            data-toggle="modal"
+            data-target="#admininster-drugMedication"
+            onClick={() => setdrugId(drugId)}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Administer Drugs
+          </Link>
+          <button
+            data-toggle="modal"
+            data-target={`#update-medication-status-${id}`}
+            className="btn btn-sm btn-block"
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Update status
+          </button>
+        </ActionButton>
+      )}
       <UpdateMedicationStatus medicationId={id} mutate={mutate} />
       <DisplayNotes
         id={id}

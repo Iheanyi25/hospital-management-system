@@ -135,6 +135,9 @@ const RegisterUserModal = ({ userType }) => {
                       type="button"
                       className="btn btn-outline-danger"
                       data-dismiss="modal"
+                      onClick={() =>
+                        setState({ firstName: "", lastName: "", email: "" })
+                      }
                     >
                       Close
                     </button>

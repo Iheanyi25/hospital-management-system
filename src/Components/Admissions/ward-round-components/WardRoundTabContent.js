@@ -12,7 +12,7 @@ import Medications from "./DrugMedications";
 import ServiceMedications from "./ServiceMedications";
 import { ObservationCharts } from "./ObservationChart";
 
-const WardRoundTabContent = ({ admissionId }) => {
+const WardRoundTabContent = ({ admissionId, dischargeStatus }) => {
   // get admission invoice
   const invoicesUrl = getAdmissionInvoiceUrl(admissionId);
   const getAdmissionInvoiceConfig = fetchConfig({
@@ -33,7 +33,10 @@ const WardRoundTabContent = ({ admissionId }) => {
             role="tabpanel"
             aria-labelledby="pills-home-tab"
           >
-            <DoctorsNotes admissionId={admissionId} />
+            <DoctorsNotes
+              admissionId={admissionId}
+              dischargeStatus={dischargeStatus}
+            />
           </div>
           <div
             className="tab-pane fade"
@@ -41,7 +44,11 @@ const WardRoundTabContent = ({ admissionId }) => {
             role="tabpanel"
             aria-labelledby="pills-profile-tab"
           >
-            <Medications admissionId={admissionId} />
+            <Medications
+              admissionId={admissionId}
+              admissionInvoiceId={data?.admissionInvoice.id}
+              dischargeStatus={dischargeStatus}
+            />
           </div>
           <div
             className="tab-pane fade"
@@ -49,7 +56,11 @@ const WardRoundTabContent = ({ admissionId }) => {
             role="tabpanel"
             aria-labelledby="pills-serviceMed-tab"
           >
-            <ServiceMedications admissionId={admissionId} />
+            <ServiceMedications
+              admissionId={admissionId}
+              admissionInvoiceId={data?.admissionInvoice.id}
+              dischargeStatus={dischargeStatus}
+            />
           </div>
           <div
             className="tab-pane fade"
@@ -57,27 +68,10 @@ const WardRoundTabContent = ({ admissionId }) => {
             role="tabpanel"
             aria-labelledby="pills-contact-tab"
           >
-            <div className="row justify-content-center mt-5">
-              <div className="col-md-8">
-                <div className="card border-light m-auto">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h4>Observation Chart</h4>
-                      <button
-                        className="btn btn-primary"
-                        to="#"
-                        data-toggle="modal"
-                        data-target="#update-observation"
-                      >
-                        Update Observation
-                      </button>
-                    </div>
-
-                    <ObservationCharts admissionId={admissionId} />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ObservationCharts
+              admissionId={admissionId}
+              dischargeStatus={dischargeStatus}
+            />
           </div>
           <div
             className="tab-pane fade"

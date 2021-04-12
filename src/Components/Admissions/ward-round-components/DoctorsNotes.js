@@ -10,7 +10,7 @@ import UpdateDoctorsNotes from "../../Modals/UpdateDoctorsNotes";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 
-const DoctorsNotes = observer(({ admissionId }) => {
+const DoctorsNotes = observer(({ admissionId, dischargeStatus }) => {
   const {
     user: { userType },
   } = useContext(UserContext);
@@ -31,7 +31,8 @@ const DoctorsNotes = observer(({ admissionId }) => {
               {data?.admissionNotes.length > 0 ? (
                 <div className="d-flex justify-content-between align-item-between">
                   <h5 className="m-0">Doctor's Notes</h5>
-                  {userType === ("Admin" || "Doctor") ? (
+                  {(userType === "Admin" || userType === "Doctor") &&
+                  dischargeStatus === false ? (
                     <button
                       className="btn btn-primary"
                       data-toggle="modal"
@@ -47,7 +48,8 @@ const DoctorsNotes = observer(({ admissionId }) => {
                 {!data ? (
                   <PageLoader />
                 ) : data?.admissionNotes?.length === 0 &&
-                  userType === ("Admin" || "Doctor") ? (
+                  (userType === "Admin" || userType === "Doctor") &&
+                  dischargeStatus === false ? (
                   <EmptyUploadState
                     message="No Doctors Notes"
                     target="#doctors-note"
