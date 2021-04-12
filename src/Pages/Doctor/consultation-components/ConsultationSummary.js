@@ -1,11 +1,18 @@
 import React from "react";
 import { Fragment } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getDoctorDashboardUrl } from "../../../api/URLs";
 
-function ConsultationSummary({
-  patientsWaitingForDoctorCount,
-  patientsAttendedToCOunt,
-  rejectedPatientsCount,
-}) {
+function ConsultationSummary({ doctorId }) {
+  const getDoctorDashboard = getDoctorDashboardUrl(doctorId);
+  const getDoctorDashboardConfig = fetchConfig({
+    url: getDoctorDashboard,
+    method: "get",
+  });
+  const { data } = useRequest(getDoctorDashboardConfig, {
+    revalidateOnFocus: false,
+  });
   return (
     <Fragment>
       <div className="row">
@@ -19,7 +26,7 @@ function ConsultationSummary({
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Total Patients Waiting</h6>
                   <div className="count text-primary fs-20">
-                    {patientsWaitingForDoctorCount}
+                    {/* {data.consultationsWithDoctor || 0} */}
                   </div>
                 </div>
               </div>
@@ -36,14 +43,14 @@ function ConsultationSummary({
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Total Patients Attended</h6>
                   <div className="count text-primary fs-20">
-                    {patientsAttendedToCOunt}
+                    {data?.completedConsultationCount || 0}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col col-12 col-md-6 col-xl-4">
+        {/* <div className="col col-12 col-md-6 col-xl-4">
           <div className="card animated fadeInUp delay-04s bg-light">
             <div className="card-body">
               <div className="row align-items-center">
@@ -61,7 +68,7 @@ function ConsultationSummary({
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Fragment>
   );

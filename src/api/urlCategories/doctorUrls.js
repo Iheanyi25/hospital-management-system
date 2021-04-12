@@ -21,8 +21,10 @@ export const postAdmitOrSendPatientHomeUrl = () =>
 //Doctor - Manage  Consultation 
 export const getDoctorAllConsultationsUrl = (doctorId) =>
   `/Doctor/ViewAllConsultations?DoctorId=${doctorId}`;
-export const getDoctorPendingConsultationsUrl = (doctorId) =>
-  `/Doctor/GetPendingConsultations?DoctorId=${doctorId}`;
+export const getConsultationsWithDoctorUrl = (doctorId, pageNumber, pageSize) =>
+  `/Doctor/GetConsultationsWithDoctor?DoctorId=${doctorId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getConsultationsCompletedWithDoctorUrl = (doctorId, pageNumber, pageSize) =>
+  `/Doctor/GetConsultationsCompleted?DoctorId=${doctorId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 
 // Doctor - Manage Surgery
 export const getDoctorSurgeryUrl = (SurgeryId) =>
