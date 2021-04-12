@@ -21,9 +21,9 @@ class EditService extends Component {
       const {
         history: { location },
       } = this.props;
-      const { name, cost } = location.state;
+      const { name, cost, serviceCategoryId } = location.state;
 
-      this.setState({ name: name, cost: cost }, () => {
+      this.setState({ name, cost, serviceCategoryId }, () => {
         this.fetchServiceCategories();
       });
     } else {

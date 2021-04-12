@@ -37,7 +37,7 @@ function AccountantProfile({ AccountantId }) {
               <ContactDetail
                 otherDetails={data}
                 primaryDetails={data.accountant}
-                userId={data.accountantId}
+                userId={data.accountant.accountantId}
                 mutate={mutate}
               />{" "}
               *

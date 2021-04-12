@@ -1,33 +1,26 @@
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-// import { mutate } from "swr";
+import { useHistory } from "react-router";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { postDischargePatientUrl } from "../../api/URLs";
-// import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
-const DischargePatients = observer(({admissionId}) => {
-//   const {
-//     user: { id },
-//   } = useContext(UserContext);
-  
-
+const DischargePatients = observer(({ admissionId }) => {
+  const { goBack } = useHistory();
   const [payload, setpayload] = useState({
     dischargeNote: "",
     admissionId,
-    
   });
-  const handleChange =(e)=>{
-      setpayload({
-          ...payload,
-          [e.target.name]: e.target.value,
-      });
-  }
+  const handleChange = (e) => {
+    setpayload({
+      ...payload,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
-    console.log( payload, "omo", 1010);
     e.preventDefault();
     const postDischargePatient = postDischargePatientUrl();
     const postDischargePatientConfig = fetchConfig({
@@ -37,11 +30,10 @@ const DischargePatients = observer(({admissionId}) => {
     });
     try {
       let res = await fetchWrapper(postDischargePatientConfig);
-      console.log(res, 2021);
       if (res.status === 200) {
-        // mutate(JSON.stringify(getObservationChartConfig));
         $("#discharge-patient").modal("hide");
         notification.success({ message: res?.data?.message });
+        goBack();
       }
     } catch (error) {
       console.log(error);
@@ -61,7 +53,7 @@ const DischargePatients = observer(({admissionId}) => {
             <div className="modal-body">
               <h5 className="text-center">Discharge Patient</h5>
               <form className="p-5" onSubmit={handleSubmit}>
-                <div className="form-group"> 
+                <div className="form-group">
                   <label>Discharge Notes</label>{" "}
                   <textarea
                     className="form-control"
@@ -85,7 +77,6 @@ const DischargePatients = observer(({admissionId}) => {
                   </div>
                   <div className="col text-right">
                     <button type="submit" className="btn btn-primary">
-                      {" "}
                       Save
                     </button>
                   </div>

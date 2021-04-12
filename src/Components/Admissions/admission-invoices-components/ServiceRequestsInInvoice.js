@@ -11,7 +11,7 @@ import notpaid from "../../../assets/img/notpaid.svg";
 const ServiceRequestsInInvoice = ({ admissionInvoiceId }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const invoicesUrl = getServiceRequestsInAnInvoiceUrl(admissionInvoiceId);
+  const invoicesUrl = getServiceRequestsInAnInvoiceUrl(admissionInvoiceId, pageNumber, pageSize);
   const getAdmissionInvoiceConfig = fetchConfig({
     url: invoicesUrl,
     method: "get",

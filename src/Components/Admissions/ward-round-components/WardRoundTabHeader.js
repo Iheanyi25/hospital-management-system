@@ -26,7 +26,7 @@ const WardRoundTabHeader = () => {
           aria-controls="pills-profile"
           aria-selected="false"
         >
-          Medications
+          Drug Medications
         </a>
       </li>
       <li className="nav-item">
@@ -65,7 +65,7 @@ const WardRoundTabHeader = () => {
           aria-controls="pills-drug"
           aria-selected="false"
         >
-          Drugs administered
+          Drugs Administered
         </a>
       </li>
       <li className="nav-item">
@@ -78,7 +78,7 @@ const WardRoundTabHeader = () => {
           aria-controls="pills-services"
           aria-selected="false"
         >
-          Services administered
+          Services Administered
         </a>
       </li>
     </ul>

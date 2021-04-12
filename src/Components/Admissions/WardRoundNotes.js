@@ -16,6 +16,17 @@ const WardRoundNotes = observer(() => {
   const {
     user: { userType },
   } = useContext(UserContext);
+  const {
+    location: {
+      state: {
+        patient,
+        patient: { firstName, lastName, id },
+        appointmentOrConsultationId,
+        dischargeStatus,
+      },
+    },
+  } = useHistory();
+  console.log(patient,34554);
   const { id: admissionId } = useParams();
   const getAdmissionDays = getAdmissionDaysUrl(admissionId);
   const getAdmissionDaysConfig = fetchConfig({
@@ -25,16 +36,7 @@ const WardRoundNotes = observer(() => {
   const { data } = useRequest(getAdmissionDaysConfig, {
     revalidateOnFocus: false,
   });
-  console.log(data, 210);
-  const {
-    location: {
-      state: {
-        patient,
-        patient: { firstName, lastName, id },
-        appointmentOrConsultationId,
-      },
-    },
-  } = useHistory();
+  console.log(dischargeStatus, 210);
   return (
     <>
       <PageLoader />
@@ -50,17 +52,19 @@ const WardRoundNotes = observer(() => {
                 className="page-title mb-0"
                 style={{ textTransform: "capitalize" }}
               >{`${firstName} ${lastName}`}</h4>
-              <p>Days admitted : {`${data?.daysAdmitted ?? "0"}`}</p>            
+              <p>Days admitted : {`${data?.daysAdmitted ?? "0"}`}</p>
             </div>
             <div>
-              <Link
-                className="btn btn-outline-primary mr-2"
-                to="#"
-                data-toggle="modal"
-                data-target="#discharge-patient"
-              >
-                Discharge Patient
-              </Link>
+              {dischargeStatus ? null : (
+                <Link
+                  className="btn btn-outline-primary mr-2"
+                  to="#"
+                  data-toggle="modal"
+                  data-target="#discharge-patient"
+                >
+                  Discharge Patient
+                </Link>
+              )}
               <Link
                 className="btn btn-primary"
                 to={{
@@ -81,7 +85,7 @@ const WardRoundNotes = observer(() => {
           </header>
           <div className="card border-light w-50 my-5 mx-auto">
             <ClarkingHistory
-              patientDetails={{ firstName, lastName, id }}
+              patientDetails={{ firstName, lastName }}
               appointmentOrConsultationId={appointmentOrConsultationId}
               user
             />
@@ -98,7 +102,10 @@ const WardRoundNotes = observer(() => {
                   <div>
                     <WardRoundTabHeader />
                   </div>
-                  <WardRoundTabContent admissionId={admissionId} />
+                  <WardRoundTabContent
+                    admissionId={admissionId}
+                    dischargeStatus={dischargeStatus}
+                  />
                 </div>
               </div>
             </div>

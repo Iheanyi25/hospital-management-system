@@ -3,12 +3,15 @@ import React, { useContext, useState } from "react";
 import { mutate } from "swr";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { postAdministerDrugMedicationUrl } from "../../api/URLs";
+import {
+  getDrugsInAnAdmissionInvoiceUrl,
+  postAdministerDrugMedicationUrl,
+} from "../../api/URLs";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
-const AdministerDrugMedications = observer(({ admissionId, drugId }) => {
+const AdministerDrugMedications = observer(({ admissionId, admissionInvoiceId, drugId }) => {
   const {
     user: { id: initiatorId },
   } = useContext(UserContext);
@@ -37,9 +40,14 @@ const AdministerDrugMedications = observer(({ admissionId, drugId }) => {
     });
     try {
       let res = await fetchWrapper(postAdministerDrugMedicationConfig);
-      console.log(res, 2021);
       if (res.status === 200) {
-        mutate();
+        const invoicesUrl = getDrugsInAnAdmissionInvoiceUrl(admissionInvoiceId, 1, 50);
+        const getAdmissionInvoiceConfig = fetchConfig({
+          url: invoicesUrl,
+          method: "get",
+        });
+        console.log(getAdmissionInvoiceConfig,23434)
+        await mutate(JSON.stringify(getAdmissionInvoiceConfig));
         notification.success({ message: res?.data?.message });
       }
     } catch (error) {
