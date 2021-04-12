@@ -70,6 +70,7 @@ const UpdateObservationChart = observer(({ admissionId, mutate }) => {
       }
     } catch (error) {
       console.log(error);
+      notification.error({ message: error?.response?.data.message });
     }
   };
   return (

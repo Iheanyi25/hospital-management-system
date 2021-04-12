@@ -2,38 +2,27 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
-import {
-  getDoctorPendingConsultationsUrl,
-  getDoctorDashboardUrl,
-} from "../../api/URLs";
+import { getDoctorDashboardUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
 import DoctorDashboardHeader from "./doctor-dashboard-components/DoctorDashboardHeader";
 import DoctorDashboardSummary from "./doctor-dashboard-components/DoctorDashboardSummary";
-import DoctorDashboardConsultationList from "./doctor-dashboard-components/DoctorDashboardConsultationList";
+import { PatientsWaitingTableContainer } from "./consultation-components/tab-components";
 
 const Dashboard = () => {
   const {
     user: { id, firstName, lastName },
   } = useContext(UserContext);
 
-  const getDoctorPendingConsultations = getDoctorPendingConsultationsUrl(id);
-  const getDoctorPendingConsultationsConfig = fetchConfig({
-    url: getDoctorPendingConsultations,
-    method: "get",
-  });
-  const { data, error1 } = useRequest(getDoctorPendingConsultationsConfig);
-
   const getDoctorDashboard = getDoctorDashboardUrl(id);
   const getDoctorDashboardConfig = fetchConfig({
     url: getDoctorDashboard,
     method: "get",
   });
-  const { data: allCounts, error2 } = useRequest(getDoctorDashboardConfig, {
+  const { data, error } = useRequest(getDoctorDashboardConfig, {
     revalidateOnFocus: false,
   });
-console.log(data?.consultations,11111)
-if (error1 && error2) return <div>An error occurred</div>;
+  if (error) return <div>failed to load</div>;
   return (
     <>
       <PageLoader />
@@ -43,13 +32,12 @@ if (error1 && error2) return <div>An error occurred</div>;
         </div>
         <div className="main-content-wrap">
           <div className="page-content">
-            <DoctorDashboardSummary allCounts={allCounts || {}} />
+            <DoctorDashboardSummary allCounts={data || {}} />
             <DoctorDashboardHeader firstName={firstName} lastName={lastName} />
-            {data && (
-              <DoctorDashboardConsultationList
-                pendingConsultations={data?.consultations}
-              />
-            )}
+            <header className="page-header justify-content-between d-flex align-items-center mb-2">
+              <h4 className="page-title mb-0">Consultation List</h4>
+            </header>
+            <PatientsWaitingTableContainer doctorId={id} />
           </div>
         </div>
       </main>

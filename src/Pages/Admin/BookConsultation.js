@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import Select from "react-select";
 import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
-import { fetchWrapper } from "../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../api/fetcher";
 import {
   getDoctorsUrl,
   getPatientsUrl,
@@ -10,130 +11,75 @@ import {
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
+import { useHistory } from "react-router";
 
-const $ = window.$;
-let selectId = Math.random();
-selectId = selectId.toString().replace(".", "_");
-
-class BookConsultation extends React.Component {
-  static contextType = UserContext;
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      doctors: [],
-      patients: [],
-      doctorId: "",
-      patientId: "",
-      patientEmail: "",
-      consultationTitle: "",
-      reasonForConsultation: "",
-    };
-  }
-
-  async componentDidMount() {
-    this.fetchDoctors();
-    this.fetchPatients().then(() => {
-      this.sync(selectId);
-      this.sync(selectId + 1);
+const BookConsultation = observer(() => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
+  const { push } = useHistory();
+  const [state, setState] = useState({
+    consultationTitle: "",
+    reasonForConsultation: "",
+  });
+  const [patient, setPatient] = useState();
+  const [doctor, setDoctor] = useState();
+  const getPatients = getPatientsUrl(1, 200);
+  const getPatientsConfig = fetchConfig({
+    url: getPatients,
+    method: "get",
+  });
+  const { data: data1, error1 } = useRequest(getPatientsConfig, {
+    revalidateOnFocus: false,
+  });
+  let patientOptions = [];
+  if (data1?.patients.length > 0) {
+    data1.patients.forEach(({ patientId: id, firstName, lastName }) => {
+      patientOptions.push({ value: id, label: `${firstName} ${lastName}` });
     });
   }
-
-  sync = (selectId) => {
-    var select = $(`#custom_select_${selectId}`);
-
-    if (select.length) {
-      select.each(function () {
-        $(this).selectpicker({
-          style: "",
-          styleBase: "form-control",
-          tickIcon: "icofont-check-alt",
-        });
-      });
-    }
-  };
-
-  renderPatientPicker() {
-    var select = $(".custom-patient-picker");
-
-    if (select.length) {
-      select.each(function () {
-        $(this).selectpicker({
-          style: "",
-          styleBase: "form-control",
-          tickIcon: "icofont-check-alt",
-        });
-      });
-    }
-  }
-
-  // const { params } = this.props.match;
-  renderDoctorPicker() {
-    var select = $(".custom-doctor-picker");
-
-    if (select.length) {
-      select.each(function () {
-        $(this).selectpicker({
-          style: "",
-          styleBase: "form-control",
-          tickIcon: "icofont-check-alt",
-        });
-      });
-    }
-  }
-
-  fetchPatients = async () => {
-    const getPatients = getPatientsUrl(1, 200);
-    const getPatientsConfig = fetchConfig({ url: getPatients, method: "get" });
-    const { data } = await fetchWrapper(getPatientsConfig);
-    this.setState({ patients: data?.patients }, () => {
-      this.renderPatientPicker();
+  const getDoctors = getDoctorsUrl();
+  const getDoctorsConfig = fetchConfig({
+    url: getDoctors,
+    method: "get",
+  });
+  const { data: data2, error2 } = useRequest(getDoctorsConfig, {
+    revalidateOnFocus: false,
+  });
+  let doctorOptions = [{ value: "", label: "Unassigned" }];
+  if (data2?.doctors.length > 0) {
+    data2.doctors.forEach(({ doctorId: id, firstName, lastName }) => {
+      doctorOptions.push({ value: id, label: `${firstName} ${lastName}` });
     });
+  }
+  const handleDoctor = (doctor) => {
+    setDoctor(doctor);
+  };
+  const handlePatient = (patient) => {
+    setPatient(patient);
   };
 
-  fetchDoctors = async () => {
-    const getDoctors = getDoctorsUrl();
-    const getDoctorsConfig = fetchConfig({ url: getDoctors, method: "get" });
-    const { data } = await fetchWrapper(getDoctorsConfig);
-
-    this.setState({ doctors: data?.doctors }, () => {
-      this.renderDoctorPicker();
-    });
-  };
-
-  handleChange(name, e) {
+  const handleChange = (name, e) => {
     const value = e.target.value;
-    this.setState({
-      [name]: value,
-    });
-  }
+    setState({ ...state, [name]: value });
+  };
 
-  async bookConsultation(e) {
+  const bookConsultation = async (e) => {
     e.preventDefault();
-    const {
-      user: { userType },
-    } = this.context;
     const nextRoute =
       userType === "Admin" ? "/AdminConsultations" : "/NurseConsultations";
-    const {
-      consultationTitle,
-      reasonForConsultation,
-      patientId,
-      doctorId,
-    } = this.state;
 
-    let data = {
-      consultationTitle,
-      reasonForConsultation,
-      patientId,
-      doctorId,
-    };
-
-    console.log(data, 444);
-
-    if (!doctorId) {
-      delete data.doctorId;
-    }
+    let data =
+      doctor.value === ""
+        ? {
+            ...state,
+            patientId: patient.value,
+          }
+        : {
+            ...state,
+            patientId: patient.value,
+            doctorId: doctor.value,
+          };
 
     try {
       const postBookConsultation = postBookConsultationUrl();
@@ -145,145 +91,107 @@ class BookConsultation extends React.Component {
       const res = await fetchWrapper(postBookConsultationConfig);
 
       notification.success({ message: res.data.message });
-      this.props.history.push(nextRoute);
+      push(nextRoute);
     } catch (error) {
       notification.error({ message: error?.response?.data?.message });
     }
-  }
+  };
+  let { consultationTitle, reasonForConsultation } = state;
+  return (
+    <>
+      <PageLoader />
 
-  render() {
-    let {
-      doctorId,
-      patientId,
-      consultationTitle,
-      reasonForConsultation,
-    } = this.state;
-    console.log(this.state.doctors, "Dd2oo");
+      <main className="main-content">
+        <div className="app-loader">
+          <i className="icofont-spinner-alt-4 rotate" />
+        </div>
+        <div className="main-content-wrap w-75">
+          <div className="page-content">
+            <div className="row justify-content-center">
+              <div className="col col-md-12">
+                <div className="card border-light">
+                  <div className="card-body">
+                    <form className="mb-4 p-5">
+                      <h4 className="text-center">Book Consultation</h4>
 
-    return (
-      <>
-        <PageLoader />
+                      <div className="form-group">
+                        <label>Search Patient with:</label>
+                        <Select
+                          value={patient}
+                          isSearchable={true}
+                          options={patientOptions}
+                          onChange={handlePatient}
+                          placeholder={
+                            error1 ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
+                        />
+                      </div>
 
-        <main className="main-content">
-          <div className="app-loader">
-            <i className="icofont-spinner-alt-4 rotate" />
-          </div>
-          <div className="main-content-wrap w-75">
-            <div className="page-content">
-              <div className="row justify-content-center">
-                <div className="col col-md-12">
-                  <div className="card border-light">
-                    <div className="card-body">
-                      <form className="mb-4 p-5">
-                        <h4 className="text-center">Book Consultation</h4>
+                      <div className="form-group">
+                        <label>Select A Doctor</label>
+                        <Select
+                          value={doctor}
+                          isSearchable={true}
+                          options={doctorOptions}
+                          onChange={handleDoctor}
+                          placeholder={
+                            error2 ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
+                        />
+                      </div>
 
-                        <div className="form-group">
-                          <label>Select A Patient</label>
+                      <div className="form-group">
+                        <label>Title of Consultation</label>
 
-                          <select
-                            className="form-control"
-                            value={patientId}
-                            id={`custom_select_${selectId}`}
-                            data-live-search="true"
-                            onChange={(e) => this.handleChange("patientId", e)}
+                        <input
+                          className="form-control"
+                          placeholder="Consultation Title"
+                          tabIndex={-98}
+                          onChange={(e) => handleChange("consultationTitle", e)}
+                          value={consultationTitle}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Reason for Consultation</label>{" "}
+                        <textarea
+                          className="form-control"
+                          rows={4}
+                          placeholder="Reason for Consultation"
+                          onChange={(e) =>
+                            handleChange("reasonForConsultation", e)
+                          }
+                          value={reasonForConsultation}
+                        />
+                      </div>
+                      <div className="row mt-5">
+                        <div className="col"></div>
+                        <div className="col text-right">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={(e) => bookConsultation(e)}
+                            // disabled={
+                            //   patientId === "" ||
+                            //   reasonForConsultation === "" ||
+                            //   consultationTitle === ""
+                            //     ? true
+                            //     : false
+                            // }
                           >
-                            <option selected value="">
-                              Select a Patient
-                            </option>
-                            {this.state.patients.map((item, index) => {
-                              return (
-                                <option
-                                  key={index}
-                                  value={item.patientId}
-                                >{`${item.firstName} ${item.lastName}`}</option>
-                              );
-                            })}
-                          </select>
+                            Book Now
+                          </button>
                         </div>
-
-                        <div className="form-group">
-                          <label>
-                            Select A Doctor ( If you want this consultation to
-                            be assigned to a doctor )
-                          </label>
-                          <select
-                            className="form-control"
-                            value={doctorId}
-                            id={`custom_select_${selectId + 1}`}
-                            data-live-search="true"
-                            onChange={(e) => this.handleChange("doctorId", e)}
-                          >
-                            <option selected value="">
-                              Select a Doctor
-                            </option>
-                            {this.state.doctors.map((item, index) => {
-                              return (
-                                <option
-                                  key={index}
-                                  value={item.doctorId}
-                                >{`${item.firstName} ${item.lastName}`}</option>
-                              );
-                            })}
-                          </select>
-                        </div>
-
-                        <div className="form-group">
-                          <label>Title of Consultation</label>
-
-                          <input
-                            className="form-control"
-                            placeholder="Consulation Title"
-                            tabIndex={-98}
-                            onChange={(e) =>
-                              this.handleChange("consultationTitle", e)
-                            }
-                            value={consultationTitle}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Reason for Consultation</label>{" "}
-                          <textarea
-                            className="form-control"
-                            rows={4}
-                            placeholder="Reason for Consultation"
-                            onChange={(e) =>
-                              this.handleChange("reasonForConsultation", e)
-                            }
-                            value={reasonForConsultation}
-                          />
-                        </div>
-                        {/* {displayErrorMessage}
-                        {displaySuccessMessage} */}
-                        <div className="row mt-5">
-                          <div className="col"></div>
-                          <div className="col text-right">
-                            <button
-                              type="button"
-                              className="btn btn-primary"
-                              onClick={(e) => this.bookConsultation(e)}
-                              disabled={
-                                patientId === "" ||
-                                reasonForConsultation === "" ||
-                                consultationTitle === ""
-                                  ? true
-                                  : false
-                              }
-                            >
-                              Book Now
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </main>
-      </>
-    );
-  }
-}
+        </div>
+      </main>
+    </>
+  );
+});
 
-export default observer(BookConsultation);
+export default BookConsultation;
