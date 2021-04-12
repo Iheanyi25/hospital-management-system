@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Select from 'react-select'
 import { useHistory } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
+  getAllServicesCategoryUrl,
+  getAllServicesInACategoryUrl,
   getNHISHealthPlansUrl,
   updatePatientNHISHealthPlanUrl,
 } from "../../../api/URLs";
@@ -18,6 +21,54 @@ export default function ReassignPatientToPlan() {
   console.log(state);
   const [authorizationCode, setAuthorizationCode] = useState("");
   const [emptyField, setEmptyField] = useState(true);
+  const [category, setCategory] = useState();
+  const [showServices, setShowServices] = useState(false);
+  const [serviceOptions, setServiceOptions] = useState();
+  const [service, setService] = useState();
+
+  // fetch categories
+  const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
+  const getAllServicesCategoryConfig = fetchConfig({
+    url: getAllServicesCategory,
+    method: "get",
+  });
+  const { data: categories, error } = useRequest(getAllServicesCategoryConfig, {
+    revalidateOnFocus: false,
+  });
+  let categoryOptions = [];
+  if (categories?.serviceCategories.length > 0) {
+    categories.serviceCategories.forEach(({ id, name }) => {
+      categoryOptions.push({ value: id, label: name });
+    });
+  }
+  // fetch services
+  const fetchServices = async (category) => {
+    setShowServices(false);
+    setCategory(category);
+    const getAllServicesInACategory = getAllServicesInACategoryUrl(
+      category.value
+    );
+    const getAllServicesInACategoryConfig = fetchConfig({
+      url: getAllServicesInACategory,
+      method: "get",
+    });
+    try {
+      const { data } = await fetchWrapper(getAllServicesInACategoryConfig);
+      let serviceOptions = [];
+      if (data?.services.length > 0) {
+        data.services.forEach(({ id, name }) => {
+          serviceOptions.push({ value: id, label: name });
+        });
+      }
+      setServiceOptions(serviceOptions);
+      setShowServices(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleChange = (service) => {
+    setService(service);
+  };
   const getNHISHealthPlans = getNHISHealthPlansUrl(1, 200);
   const getNHISHealthPlansConfig = fetchConfig({
     url: getNHISHealthPlans,
@@ -48,11 +99,13 @@ export default function ReassignPatientToPlan() {
             id: state?.id,
             authorizationCode,
             nhisHealthPlanId,
+            serviceId: service.value
           }
         : {
             patientId: state?.patientId,
             id: state?.id,
             nhisHealthPlanId,
+            serviceId: service.value
           };
     console.log(payload);
     try {
@@ -106,6 +159,31 @@ export default function ReassignPatientToPlan() {
                           disabled
                         />
                       </div>
+                      <div className="form-group">
+                        <label>Select a Service Category</label>
+                        <Select
+                          value={category}
+                          isSearchable={true}
+                          options={categoryOptions}
+                          onChange={fetchServices}
+                          placeholder={
+                            error ? "Sorry, unable to fetch. Retry" : "Search"
+                          }
+                        />
+                      </div>
+                      {showServices ? (
+                        <div className="form-group">
+                          <label>Select a Service</label>
+                          <Select
+                            value={service}
+                            isSearchable={true}
+                            options={serviceOptions}
+                            onChange={handleChange}
+                            placeholder="Search"
+                          />
+                        </div>
+                      ) : null}
+
                       {state?.healthPlanName === "Primary" ? (
                         <div className="form-group">
                           <label>Authorization code</label>
