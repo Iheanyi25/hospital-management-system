@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Select from "react-select";
 import { observer } from "mobx-react";
 import { fetchConfig } from "../../api/fetchConfig";
@@ -12,6 +12,7 @@ import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
 import { notification } from "../../utils/notification";
 import { useHistory } from "react-router";
+import { isNotEmptyString } from "../../utils/validationUtils";
 
 const BookConsultation = observer(() => {
   const {
@@ -22,8 +23,21 @@ const BookConsultation = observer(() => {
     consultationTitle: "",
     reasonForConsultation: "",
   });
+  const [emptyField, setEmptyField] = useState(true);
   const [patient, setPatient] = useState();
   const [doctor, setDoctor] = useState();
+  useEffect(() => {
+    const { consultationTitle, reasonForConsultation } = state;
+    if (
+      isNotEmptyString(consultationTitle) &&
+      isNotEmptyString(reasonForConsultation)
+    ) {
+      setEmptyField(false);
+    }
+    else {
+      setEmptyField(true)
+    }
+  }, [state, patient]);
   const getPatients = getPatientsUrl(1, 200);
   const getPatientsConfig = fetchConfig({
     url: getPatients,
@@ -170,13 +184,7 @@ const BookConsultation = observer(() => {
                             type="button"
                             className="btn btn-primary"
                             onClick={(e) => bookConsultation(e)}
-                            // disabled={
-                            //   patientId === "" ||
-                            //   reasonForConsultation === "" ||
-                            //   consultationTitle === ""
-                            //     ? true
-                            //     : false
-                            // }
+                            disabled={emptyField ? true : false}
                           >
                             Book Now
                           </button>
