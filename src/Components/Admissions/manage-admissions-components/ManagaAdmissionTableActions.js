@@ -169,13 +169,51 @@ export const LabActionTable = ({ admissionId }) => {
   );
 };
 
-export const DoctorActionTable = ({ admissionId, patient }) => {
+export const DoctorActionTable = ({
+  admissionId,
+  patient,
+  appointmentOrConsultationId,
+  dischargeStatus,
+  admissionNote,
+  dischargeNote,
+  setNoteDetails,
+}) => {
   return (
     <ActionButton>
+      {dischargeStatus ? (
+        <Link
+          data-toggle="modal"
+          data-target="#notes"
+          className="btn btn-sm btn-block"
+          onClick={() =>
+            setNoteDetails({ title: "Discharge Notes", body: dischargeNote })
+          }
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Discharge Notes
+        </Link>
+      ) : (
+        <>
+          <Link
+            data-toggle="modal"
+            data-target="#notes"
+            className="btn btn-sm btn-block"
+            onClick={() =>
+              setNoteDetails({
+                title: "Admission Notes",
+                body: admissionNote,
+              })
+            }
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Admission Notes
+          </Link>
+        </>
+      )}
       <Link
         to={{
           pathname: `/DoctorWardRoundNotes/${admissionId}`,
-          state: patient,
+          state: { patient, appointmentOrConsultationId, dischargeStatus },
         }}
         className="btn btn-sm btn-block"
       >
