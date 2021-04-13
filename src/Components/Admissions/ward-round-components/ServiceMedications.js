@@ -185,6 +185,7 @@ const ActionTableAction = ({
             onClick={() => administerService(serviceId)}
             className="btn btn-sm btn-block"
           >
+            <span className="btn-icon icofont-server mr-2" />
             Administer Service
           </button>
         </ActionButton>
