@@ -76,7 +76,7 @@ function AppointmentSummary({ doctorId }) {
                 </div>
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Rejected Appointments</h6>
-                  <div className="count text-primary fs-20">{data?.rejetedAppointmentCount}</div>
+                  <div className="count text-primary fs-20">{data?.rejetecdAppointmentCount}</div>
                 </div>
               </div>
             </div>

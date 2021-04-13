@@ -26,6 +26,7 @@ const AppointmentTabContent = ({
             pendingAppointments={pendingAppointments}
             mutate={mutate}
             category="pendingList"
+            doctorId={doctorId}
           />
         </div>
         <div
