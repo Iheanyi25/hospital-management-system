@@ -178,6 +178,7 @@ const ActionTableAction = ({
             data-target={`#notes-${id}`}
             className="btn btn-sm btn-block"
           >
+          <span className="btn-icon icofont-server mr-2" />
             Service Medication
           </Link>
           <button
