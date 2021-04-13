@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getPatientsUrl } from "../../../api/URLs";
-import { Table } from "../../../Components";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getPatientsUrl } from "../../../../api/URLs";
+import { Table } from "../../../../Components";
 
-const NHISReport = () => {
+const PrimaryNHISReports = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getPatients = getPatientsUrl(pageNumber, pageSize);
@@ -55,4 +55,4 @@ const NHISReport = () => {
   );
 };
 
-export default NHISReport;
+export default PrimaryNHISReports;
