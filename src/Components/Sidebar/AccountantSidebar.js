@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Admission from "./accountant-sidebar-components/Admission";
 import Invoices from "./accountant-sidebar-components/Invoices";
 import MyOffice from "./accountant-sidebar-components/MyOffice";
-import Profile from "./accountant-sidebar-components/Profile";
 import Reports from "./accountant-sidebar-components/Report";
+import Admission from "./common-sidebar-components/Admission";
+import Profile from "./common-sidebar-components/Profile";
 
 class AccountantSidebar extends React.Component {
   render() {
@@ -31,8 +31,8 @@ class AccountantSidebar extends React.Component {
                 <MyOffice />
                 <Invoices />
                 <Reports />
-                <Admission/>
-                <Profile />
+                <Admission admissionUrl="AccountantManageAdmissions"/>
+                <Profile profileUrl="AccountantProfile" />
                 </ul>
               </nav>
             </div>
