@@ -241,7 +241,7 @@ const NHISReports = ({ pathname }) => {
         data-parent="#accordion"
       >
         <li className="menu-item font-weight-normal">
-          <Link className="item-link" to="/AdminNHISReport">
+          <Link className="item-link" to="/AdminPrimaryNHISReports">
             <span
               className={
                 pathname === "/AdminNHISReport"
