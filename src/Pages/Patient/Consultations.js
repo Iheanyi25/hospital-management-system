@@ -65,6 +65,7 @@ const Consultations = () => {
                   <PatientConsultationTabHeader />
                   {data && (
                     <PatientConsultationTabContent
+                      patientId={id}
                       pendingConsultations={pendingConsultations}
                       completedConsultations={completedConsultations}
                       cancelledConsultations={cancelledConsultations}

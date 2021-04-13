@@ -37,6 +37,12 @@ export const patientCancelAppointments = (patientId) => `/Patient/CancelAnAppoin
 // Patient- Manage Doctor Consultation
 export const getPatientAllConsulationsUrl = (patientId) =>
   `/Patient/GetAllConsultations?PatientId=${patientId}`;
+export const getPatientPendingConsulationsUrl = (patientId, pageNumber, pageSize) =>
+  `/Patient/GetPendingConsultations?PatientId=${patientId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPatientCompletedConsulationsUrl = (patientId, pageNumber, pageSize) =>
+  `/Patient/GetCompletedConsultations?PatientId=${patientId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getPatientCanceledConsulationsUrl = (patientId, pageNumber, pageSize) =>
+  `/Patient/GetCanceledConsultations?PatientId=${patientId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getMyDoctors = (patientId) =>
   `/Doctor/GetDoctorsByPatient?PatientId=${patientId}`;
 export const postPatientConsultationUrl = () => `/Patient/BookConsultation`;
