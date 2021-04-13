@@ -7,8 +7,8 @@ import {
   getCanceledConsultationsCountUrl,
 } from "../../../api/URLs";
 
-export default function PatientConsultationSummary() {
-  const getCompletedConsultationsCount = getCompletedConsultationsCountUrl();
+export default function PatientConsultationSummary({ patientId }) {
+  const getCompletedConsultationsCount = getCompletedConsultationsCountUrl(patientId);
   const getCompletedConsultationsCountConfig = fetchConfig({
     url: getCompletedConsultationsCount,
     method: "get",
@@ -16,7 +16,7 @@ export default function PatientConsultationSummary() {
   const { data: data1 } = useRequest(getCompletedConsultationsCountConfig, {
     revalidateOnFocus: false,
   });
-  const getPendingConsultationsCount = getPendingConsultationsCountUrl();
+  const getPendingConsultationsCount = getPendingConsultationsCountUrl(patientId);
   const getPendingConsultationsCountConfig = fetchConfig({
     url: getPendingConsultationsCount,
     method: "get",
@@ -24,7 +24,7 @@ export default function PatientConsultationSummary() {
   const { data: data2 } = useRequest(getPendingConsultationsCountConfig, {
     revalidateOnFocus: false,
   });
-  const getCanceledConsultationsCoun = getCanceledConsultationsCountUrl();
+  const getCanceledConsultationsCoun = getCanceledConsultationsCountUrl(patientId);
   const getCanceledConsultationsCounConfig = fetchConfig({
     url: getCanceledConsultationsCoun,
     method: "get",
@@ -35,17 +35,17 @@ export default function PatientConsultationSummary() {
   const summaryDetails = [
     {
       iconName: "icofont-wheelchair",
-      text: "Pending Appointments",
+      text: "Pending Consultations",
       value: data2?.consultationCount,
     },
     {
       iconName: "icofont-blood",
-      text: "Finalized Appointments",
+      text: "Finalized Consultations",
       value: data1?.consultationCount,
     },
     {
       iconName: "icofont-list",
-      text: "Cancelled Appointments",
+      text: "Canceled Consultations",
       value: data3?.consultationCount,
     },
   ];

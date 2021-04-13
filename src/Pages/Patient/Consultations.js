@@ -19,7 +19,7 @@ const Consultations = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <PatientConsultationSummary />
+          <PatientConsultationSummary patientId={id} />
           <header className="page-header">
             <h4 className="page-title">My Consultations</h4>
           </header>
