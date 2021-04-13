@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink as Link } from "react-router-dom";
-import Admission from "./doctor-sidebar-components/Admission";
 import Availability from "./doctor-sidebar-components/Availability";
 import MyOffice from "./doctor-sidebar-components/MyOffice";
 import Patients from "./doctor-sidebar-components/Patients";
-import Profile from "./doctor-sidebar-components/Profile";
+import Profile from "./common-sidebar-components/Profile";
+import Admission from "./common-sidebar-components/Admission";
 
 function DoctorSidebar ()  {
     return (
@@ -29,8 +29,8 @@ function DoctorSidebar ()  {
                 <ul className="menu-ul">
                   <MyOffice />
                   <Patients />
-                  <Profile />
-                  <Admission />
+                  <Profile profileUrl="DoctorProfile" />
+                  <Admission admissionUrl="DoctorManageAdmissions" />
                   <Availability />
                 </ul>
               </nav>

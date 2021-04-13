@@ -2,12 +2,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Profile() {
+export default function Profile({profileUrl}) {
   const { pathname } = useLocation();
   return (
     <div>
       <ProfileSection />
-      <ProfileDetails pathname={pathname} />
+      <ProfileDetails pathname={pathname} profileUrl={profileUrl} />
     </div>
   );
 }
@@ -28,16 +28,17 @@ const ProfileSection = () => {
     );
   };
 
+ 
   
-const ProfileDetails = ({ pathname }) => {
+const ProfileDetails = ({ pathname, profileUrl }) => {
     return (
       <div className="collapse" id="subMenuProfile">
         <li className="menu-item">
-          <Link className="item-link" to="/AccountantProfile">
+          <Link className="item-link" to={`${profileUrl}`}>
             <span className="link-icon icofont-user-suited" />{" "}
             <span
               className={
-                pathname === "/AccountantProfile"
+                pathname === `${profileUrl}`
                   ? "link-text text-primary"
                   : "link-text"
               }

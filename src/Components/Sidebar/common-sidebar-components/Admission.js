@@ -1,12 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Admission() {
+export default function Admission({admissionUrl}) {
   const { pathname } = useLocation();
   return (
     <div>
       <AdmissionSection />
-      <ManageAdmissions pathname={pathname} />
+      <ManageAdmissions pathname={pathname} admissionUrl={admissionUrl} />
     </div>
   );
 }
@@ -27,16 +27,16 @@ const AdmissionSection = () => {
     );
   };
 
-  
-const ManageAdmissions = ({ pathname }) => {
+
+const ManageAdmissions = ({ pathname, admissionUrl }) => {
     return (
       <div className="collapse" id="subMenuAdmission">
         <li className="menu-item">
-          <Link className="item-link" to="/LabManageAdmissions">
+          <Link className="item-link" to={`${admissionUrl}` }>
             <span className="link-icon icofont-users" />{" "}
             <span
               className={
-                pathname === "/LabManageAdmissions"
+                pathname === `${admissionUrl}` 
                   ? "link-text text-primary"
                   : "link-text"
               }

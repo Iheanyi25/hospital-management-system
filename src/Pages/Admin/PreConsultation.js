@@ -148,7 +148,7 @@ class PreConsultation extends React.Component {
                                 <label>Blood Pressure</label>{" "}
                                 <input
                                   className="form-control"
-                                  type="number"
+                                  type="text"
                                   value={bloodPressure ? bloodPressure : ""}
                                   required
                                   onChange={(e) =>
