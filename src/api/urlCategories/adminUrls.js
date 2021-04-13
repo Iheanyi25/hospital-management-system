@@ -47,6 +47,8 @@ export const deleteConsultationUrl = () => `/Admin/DeleteConsultation`;
 // Admin - Manage Health Plans
 export const getAllHealthPlansUrl = (pageNumber, pageSize) =>
   `/Admin/GetAllHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllActiveHealthPlansUrl = () =>
+  `/Admin/GetAllActiveHealthPlans`;
 export const createHealthPlanUrl = () => `/Admin/CreateHealthPlan`;
 export const updateHealthPlanUrl = () => `/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `/Admin/DisableHealthPlan`;

@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import Select from "react-select";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { getAllHealthPlansUrl, createHMOUrl } from "../../../api/URLs";
+import { getAllActiveHealthPlansUrl, createHMOUrl } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
 import { isNotEmptyString, isValidEmail } from "../../../utils/validationUtils";
@@ -31,7 +31,7 @@ export default function CreateHMO() {
     }
   }, [details]);
   const history = useHistory();
-  const getAllHealthPlans = getAllHealthPlansUrl(1, 200);
+  const getAllHealthPlans = getAllActiveHealthPlansUrl(1, 200);
   const getAllHealthPlansConfig = fetchConfig({
     url: getAllHealthPlans,
     method: "get",
@@ -42,7 +42,7 @@ export default function CreateHMO() {
   const options = [];
 
   if (data?.healthPlans.length > 0) {
-    data.healthPlans.forEach(({ id, name }) => {
+    data.plans.forEach(({ id, name }) => {
       options.push({ value: id, label: name });
     });
   }
