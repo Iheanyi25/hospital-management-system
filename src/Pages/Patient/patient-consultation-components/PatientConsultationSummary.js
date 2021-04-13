@@ -1,25 +1,52 @@
 import React from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import {
+  getCompletedConsultationsCountUrl,
+  getPendingConsultationsCountUrl,
+  getCanceledConsultationsCountUrl,
+} from "../../../api/URLs";
 
-export default function PatientConsultationSummary({
-  pendingConsultationsCount,
-  finalizedConsultationsCount,
-  cancelledConsultationsCount,
-}) {
+export default function PatientConsultationSummary() {
+  const getCompletedConsultationsCount = getCompletedConsultationsCountUrl();
+  const getCompletedConsultationsCountConfig = fetchConfig({
+    url: getCompletedConsultationsCount,
+    method: "get",
+  });
+  const { data: data1 } = useRequest(getCompletedConsultationsCountConfig, {
+    revalidateOnFocus: false,
+  });
+  const getPendingConsultationsCount = getPendingConsultationsCountUrl();
+  const getPendingConsultationsCountConfig = fetchConfig({
+    url: getPendingConsultationsCount,
+    method: "get",
+  });
+  const { data: data2 } = useRequest(getPendingConsultationsCountConfig, {
+    revalidateOnFocus: false,
+  });
+  const getCanceledConsultationsCoun = getCanceledConsultationsCountUrl();
+  const getCanceledConsultationsCounConfig = fetchConfig({
+    url: getCanceledConsultationsCoun,
+    method: "get",
+  });
+  const { data: data3 } = useRequest(getCanceledConsultationsCounConfig, {
+    revalidateOnFocus: false,
+  });
   const summaryDetails = [
     {
       iconName: "icofont-wheelchair",
       text: "Pending Appointments",
-      value: pendingConsultationsCount,
+      value: data2?.consultationCount,
     },
     {
       iconName: "icofont-blood",
       text: "Finalized Appointments",
-      value: finalizedConsultationsCount,
+      value: data1?.consultationCount,
     },
     {
       iconName: "icofont-list",
       text: "Cancelled Appointments",
-      value: cancelledConsultationsCount,
+      value: data3?.consultationCount,
     },
   ];
   return (
