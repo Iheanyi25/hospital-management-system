@@ -6,7 +6,7 @@ import {
   RejectedAppointmentsTableContainer,
 } from "./tab-components";
 
-const AppointmentTabContent = ({ completedAppointments, doctorId }) => {
+const AppointmentTabContent = ({ doctorId }) => {
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -32,11 +32,7 @@ const AppointmentTabContent = ({ completedAppointments, doctorId }) => {
           role="tabpanel"
           aria-labelledby="pills-completed-tab"
         >
-          <CompletedAppointmentsTableContainer
-            doctorId={doctorId}
-            completedAppointments={completedAppointments}
-            category="completedList"
-          />
+          <CompletedAppointmentsTableContainer doctorId={doctorId} />
         </div>
         <div
           className="tab-pane fade"
