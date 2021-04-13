@@ -7,7 +7,7 @@ import {
   getCanceledConsultationsCountUrl,
 } from "../../../api/URLs";
 
-export default function PatientConsultationSummary({}) {
+export default function PatientConsultationSummary() {
   const getCompletedConsultationsCount = getCompletedConsultationsCountUrl();
   const getCompletedConsultationsCountConfig = fetchConfig({
     url: getCompletedConsultationsCount,

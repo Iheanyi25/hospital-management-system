@@ -1,7 +1,4 @@
 import React, { useContext } from "react";
-import { fetchConfig } from "../../api/fetchConfig";
-import { useRequest } from "../../api/fetcher";
-import { getPatientAllConsulationsUrl } from "../../api/URLs";
 import { PageLoader } from "../../Components";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
