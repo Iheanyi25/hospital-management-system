@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import MyOffice from "./labAttendant-components-sidebar/MyOffice";
-import Requests from "./labAttendant-components-sidebar/Requests";
-import ManageServices from "./labAttendant-components-sidebar/ManageServices";
-import Admission from "./labAttendant-components-sidebar/Admission";
-import Profile from "./labAttendant-components-sidebar/Profile";
+import MyOffice from "./labAttendant-sidebar-components/MyOffice";
+import Requests from "./labAttendant-sidebar-components/Requests";
+import ManageServices from "./labAttendant-sidebar-components/ManageServices";
+import Profile from "./common-sidebar-components/Profile";
+import Admission from "./common-sidebar-components/Admission";
 
 function LabSidebar() {
   return (
@@ -29,8 +29,8 @@ function LabSidebar() {
                 <MyOffice />
                 <Requests />
                 <ManageServices />
-                <Admission />
-                <Profile />
+                <Admission admissionUrl="LabManageAdmissions" />
+                <Profile profileUrl="LabProfile" />
               </ul>
             </nav>
           </div>

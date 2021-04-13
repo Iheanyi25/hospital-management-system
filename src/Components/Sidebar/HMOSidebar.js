@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import MyOffice from "./hmo-sidebar-components/MyOffice";
-import Profile from "./hmo-sidebar-components/Profile";
+import Profile from "./common-sidebar-components/Profile";
 
 const HMOSidebar = () => {
   return (
@@ -24,15 +24,10 @@ const HMOSidebar = () => {
             <nav className="main-menu-wrap">
               <ul className="menu-ul">
                 <MyOffice />
-                <Profile />
+                <Profile profileUrl="HMOProfile" />
               </ul>
             </nav>
           </div>
-          {/* <div className="add-patient">
-            <Link to="/PharmacyRegisterDrug" className="btn btn-primary">
-              <span className="btn-icon icofont-plus mr-2" /> Add Drugs
-            </Link>
-          </div> */}
           <div className="assistant-menu">
             <Link className="link" to="#">
               <span className="link-icon icofont-ui-settings" />
