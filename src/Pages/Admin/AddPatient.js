@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { PageLoader } from "../../Components";
 import SelectFamily from "./SelectFamily";
 import { isNotEmptyString, isValidEmail } from "../../utils/validationUtils";
-import { getAllHealthPlansUrl, registerPatientUrl } from "../../api/URLs";
+import { getAllActiveHealthPlansUrl, registerPatientUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import { notification } from "../../utils/notification";
@@ -43,11 +43,11 @@ export default class AddPatient extends Component {
   }
   fetchHealthPlans = async () => {
     try {
-      const getAllHealthPlans = getAllHealthPlansUrl(1, 200);
+      const getAllHealthPlans = getAllActiveHealthPlansUrl(1, 200);
       const getAllHealthPlansConfig = fetchConfig({ url: getAllHealthPlans, method: "get", });
       const { data } = await fetchWrapper(getAllHealthPlansConfig);
 
-      this.setState({ healthPlans: data.healthPlans });
+      this.setState({ healthPlans: data.plans });
     } catch (error) { }
   };
 

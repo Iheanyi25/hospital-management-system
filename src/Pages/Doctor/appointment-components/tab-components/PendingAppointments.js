@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { mutate } from "swr";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../../api/fetcher";
 import {
   getPendingAppointmentsWithDoctorUrl,
   postDoctorAcceptAppointmentUrl,
+  getAcceptedAppointmentsWithDoctorUrl,
 } from "../../../../api/URLs";
 import { RejectAppointment, Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
@@ -25,9 +27,12 @@ function PendingAppointmentsTableContainer({ doctorId }) {
     url: getDoctorAllAppointments,
     method: "get",
   });
-  const { data, error, mutate } = useRequest(getDoctorAllAppointmentsConfig, {
-    revalidateOnFocus: false,
-  });
+  const { data, error, mutate: refresh } = useRequest(
+    getDoctorAllAppointmentsConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
 
   const acceptAppointment = async (e, id) => {
     e.preventDefault();
@@ -42,8 +47,14 @@ function PendingAppointmentsTableContainer({ doctorId }) {
       console.log(res, 222);
       if (res.status === 200) {
         notification.success({ message: "Appointment accepted successfully" });
+        const getUpdate = getAcceptedAppointmentsWithDoctorUrl(doctorId, 1, 50);
+        const getUpdateConfig = fetchConfig({
+          url: getUpdate,
+          method: "get",
+        });
+        await mutate(getUpdateConfig);
         console.log(mutate, 3333);
-        await mutate();
+        await refresh();
       }
     } catch (err) {
       notification.error({ message: "Operation failed" });
@@ -84,7 +95,11 @@ function PendingAppointmentsTableContainer({ doctorId }) {
         pageSize={pageSize}
         setPageSize={setPageSize}
       />
-      <RejectAppointment appointmentId={appointmentId} mutate={mutate} />
+      <RejectAppointment
+        appointmentId={appointmentId}
+        refresh={refresh}
+        doctorId={doctorId}
+      />
     </div>
   );
 }
