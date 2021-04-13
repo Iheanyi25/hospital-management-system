@@ -1,11 +1,18 @@
 import React from "react";
 import { Fragment } from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import { getDoctorDashboardUrl } from "../../../api/URLs";
 
-function AppointmentSummary({
-  pendingAppointmentsCount,
-  acceptedAppointmentsCount,
-  completedAppointmentsCount,
-}) {
+function AppointmentSummary({ doctorId }) {
+  const getDoctorDashboard = getDoctorDashboardUrl(doctorId);
+  const getDoctorDashboardConfig = fetchConfig({
+    url: getDoctorDashboard,
+    method: "get",
+  });
+  const { data } = useRequest(getDoctorDashboardConfig, {
+    revalidateOnFocus: false,
+  });
   return (
     <Fragment>
       <div className="row">
@@ -19,7 +26,7 @@ function AppointmentSummary({
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Pending Appointments</h6>
                   <div className="count text-primary fs-20">
-                    {pendingAppointmentsCount}
+                    {data?.pendingAppoinmentsCount}
                   </div>
                 </div>
               </div>
@@ -36,7 +43,7 @@ function AppointmentSummary({
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Accepted Appointments</h6>
                   <div className="count text-primary fs-20">
-                    {acceptedAppointmentsCount}
+                    {data?.acceptedAppointmentsCount}
                   </div>
                 </div>
               </div>
@@ -53,7 +60,7 @@ function AppointmentSummary({
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Completed Appointments</h6>
                   <div className="count text-primary fs-20">
-                    {completedAppointmentsCount}
+                    {data?.completedAppoinmentsCount}
                   </div>
                 </div>
               </div>
@@ -69,7 +76,7 @@ function AppointmentSummary({
                 </div>
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Rejected Appointments</h6>
-                  <div className="count text-primary fs-20">{"N/A"}</div>
+                  <div className="count text-primary fs-20">{data?.rejetedAppointmentCount}</div>
                 </div>
               </div>
             </div>
