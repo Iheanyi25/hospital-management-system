@@ -10,6 +10,7 @@ export const getAllAccountsUrl = (pageNumber, pageSize) =>
 export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
 
 // Admin - Manage Appointment
+export const getAppointmentCountsUrl = () => `/Admin/GetAppointmentCounts`;
 export const getDoctorAppointmentsUrl = () => `/Admin/GetDoctorAppointments`;
 export const getDoctorAppointmentsPendingUrl = (pageNumber, pageSize) =>
   `/Admin/GetDoctorAppointmentsPending?PageNumber=${pageNumber}&PageSize=${pageSize}`;
