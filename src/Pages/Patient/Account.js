@@ -39,12 +39,12 @@ function PatientAccount() {
     url: getPatientAccountTransactions,
     method: "get",
   });
-  const {
-    data: accountTransactionDet,
-    error,
-  } = useRequest(getPatientAccountTransactionsConfig, {
-    revalidateOnFocus: false,
-  });
+  const { data: accountTransactionDet, error } = useRequest(
+    getPatientAccountTransactionsConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   console.log(accountTransactionDet, "dets");
 
   const getPatientAccount = getPatientAccountUrl(user.id);
@@ -70,9 +70,18 @@ function PatientAccount() {
         return {
           "#": ++index,
           Amount: formatAmount(transaction?.amount) ?? "N/A",
-          "Account Balance": formatAmount(transaction?.benefactorAccount?.accountBalance) ?? "N/A",
+          "Previous Balance":
+            formatAmount(
+              transaction?.benefactorAccountPreviousBalance
+            ) ?? "N/A",
           "Transaction Type": transaction?.transactionType ?? "N/A",
-          "Paid By": transaction?.initiator?.firstName ?? "N/A",
+          "Paid By": transaction?.initiator
+            ? `${transaction?.initiator.firstName ?? "Anonymous"} ${
+                transaction?.initiator?.lastName ?? ""
+              }`
+            : transaction?.depositorsName
+            ? transaction?.depositorsName
+            : "Anonymous",
           "Medium Of Payment": transaction?.paymentMethod ?? "N/A",
           Date: formatDate(transaction?.trasactionDate) ?? "N/A",
           Action: (
