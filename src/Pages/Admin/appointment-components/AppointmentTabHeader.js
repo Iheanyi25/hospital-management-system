@@ -46,6 +46,19 @@ export default function AppointmentTabHeader() {
             Completed Appointments
           </a>
         </li>
+        <li className="nav-item">
+          <a
+            className="nav-link"
+            id="pills-rejected-tab"
+            data-toggle="pill"
+            href="#pills-rejected"
+            role="tab"
+            aria-controls="pills-rejected"
+            aria-selected="false"
+          >
+            Rejected Appointments
+          </a>
+        </li>
 
       </ul>
     )

@@ -18,6 +18,8 @@ export const getDoctorAppointmentsAcceptedUrl = (pageNumber, pageSize) =>
   `/Admin/GetDoctorAppointmentsAccepted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDoctorAppointmentsCompletedUrl = (pageNumber, pageSize) =>
   `/Admin/GetDoctorAppointmentsCompleted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDoctorAppointmentsRejectedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetAppointmentsRejected?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAppointmentUrl = () => `/Admin/BookAppointment`;
 export const deleteAppointmentUrl = () => `/Admin/DeleteAppointment`;
 /* this endpoint will serve reassignment of appointment and reassignment of doctors*/
