@@ -26,7 +26,7 @@ function ConsultationSummary({ doctorId }) {
                 <div className="col col-7">
                   <h6 className="mt-0 mb-1">Total Patients Waiting</h6>
                   <div className="count text-primary fs-20">
-                    {/* {data.consultationsWithDoctor || 0} */}
+                    {data?.pendingConsultationsCount || 0}
                   </div>
                 </div>
               </div>

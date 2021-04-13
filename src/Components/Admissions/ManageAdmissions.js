@@ -158,6 +158,13 @@ const ManageAdmissions = observer(() => {
             <DoctorActionTable
               admissionId={admission.id}
               patient={admission.patient}
+              appointmentOrConsultationId={
+                admission.appointmentId || admission.consultationId
+              }
+              dischargeStatus={admission?.isDischarged}
+              admissionNote={`${admission?.admissionNote}`}
+              dischargeNote={`${admission?.dischargeNote}`}
+              setNoteDetails={setNoteDetails}
             />
           ),
         };

@@ -56,7 +56,6 @@ class AdminSidebar extends React.Component {
               </Link>
             </div>
             <AdminSideBarFooter />
-            <AdminSideBarSkeleton />
           </div>
         </div>
         {/* end Vertical navbar */}
@@ -66,45 +65,6 @@ class AdminSidebar extends React.Component {
 }
 
 export { AdminSidebar };
-
-const AdminSideBarSkeleton = () => {
-  return (
-    <div className="navbar-skeleton vertical">
-      <div className="top-part">
-        <div className="sk-logo bg animated-bg" />
-        <div className="sk-menu">
-          <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
-          <span className="sk-menu-item bg animated-bg w-75" />{" "}
-          <span className="sk-menu-item bg animated-bg w-80" />{" "}
-          <span className="sk-menu-item bg animated-bg w-50" />{" "}
-          <span className="sk-menu-item bg animated-bg w-75" />{" "}
-          <span className="sk-menu-item bg animated-bg w-50" />{" "}
-          <span className="sk-menu-item bg animated-bg w-60" />
-        </div>
-        <div className="sk-menu">
-          <span className="sk-menu-item menu-header bg-1 animated-bg" />{" "}
-          <span className="sk-menu-item bg animated-bg w-60" />{" "}
-          <span className="sk-menu-item bg animated-bg w-50" />
-        </div>
-        <div className="sk-button animated-bg w-90" />
-      </div>
-      <div className="bottom-part">
-        <div className="sk-menu">
-          <span className="sk-menu-item bg-1 animated-bg w-60" />{" "}
-          <span className="sk-menu-item bg-1 animated-bg w-80" />
-        </div>
-      </div>
-      <div className="horizontal-menu">
-        <span className="sk-menu-item bg animated-bg" />{" "}
-        <span className="sk-menu-item bg animated-bg" />{" "}
-        <span className="sk-menu-item bg animated-bg" />{" "}
-        <span className="sk-menu-item bg animated-bg" />{" "}
-        <span className="sk-menu-item bg animated-bg" />{" "}
-        <span className="sk-menu-item bg animated-bg" />
-      </div>
-    </div>
-  );
-};
 
 const AdminSideBarFooter = () => {
   return (
