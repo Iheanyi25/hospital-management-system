@@ -100,7 +100,7 @@ class ReAssign extends React.Component {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header p-5">
-                <h5 className="modal-title">Reassign to a doctor</h5>
+                <h5 className="modal-title">Assign to a doctor</h5>
               </div>
               <div className="modal-body p-5">
                 <form>
@@ -129,7 +129,7 @@ class ReAssign extends React.Component {
                     className="btn btn-primary mb-3"
                     onClick={this.handleSubmit}
                   >
-                    Re assign
+                    Assign
                   </button>
                 </div>
               </div>

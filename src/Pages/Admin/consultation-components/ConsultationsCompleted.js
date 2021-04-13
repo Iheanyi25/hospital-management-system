@@ -78,7 +78,7 @@ export const ConsultationsCompletedActionTable = ({ consultation }) => {
         className="btn btn-sm btn-block"
       >
         <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-        Clarking History
+        Clerking History
       </Link>
     </ActionButton>
   );
