@@ -120,7 +120,7 @@ const ServiceCategoriesTableAction = ({
   return (
     <ActionButton>
       <Link
-        title="Pre-consultation"
+        title="Edit"
         to={{
           pathname:
             userType === "Admin"
@@ -134,7 +134,7 @@ const ServiceCategoriesTableAction = ({
         Edit
       </Link>
       <Link
-        title="Pre-consultation"
+        title="Delete"
         onClick={() => deleteMe(serviceCategory.id)}
         className="btn btn-sm btn-block text-danger"
       >

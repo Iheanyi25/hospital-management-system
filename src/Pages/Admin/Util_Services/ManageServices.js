@@ -115,7 +115,7 @@ const ServicesTableAction = ({ service, deleteMe, userType }) => {
   return (
     <ActionButton>
       <Link
-        title="Pre-consultation"
+        title="Edit"
         to={{
           pathname:
             userType === "Admin"
@@ -129,7 +129,7 @@ const ServicesTableAction = ({ service, deleteMe, userType }) => {
         Edit
       </Link>
       <Link
-        title="Pre-consultation"
+        title="Delete"
         to="#"
         onClick={() => deleteMe(service.id)}
         className="btn btn-sm btn-block text-danger"
