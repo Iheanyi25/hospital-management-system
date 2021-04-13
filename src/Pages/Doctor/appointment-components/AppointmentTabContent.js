@@ -33,6 +33,7 @@ const AppointmentTabContent = ({ completedAppointments, doctorId }) => {
           aria-labelledby="pills-completed-tab"
         >
           <CompletedAppointmentsTableContainer
+            doctorId={doctorId}
             completedAppointments={completedAppointments}
             category="completedList"
           />
