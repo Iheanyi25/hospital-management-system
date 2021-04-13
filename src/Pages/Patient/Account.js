@@ -65,16 +65,16 @@ function PatientAccount() {
 
   let dataTable = [];
   if (accountTransactionDet) {
-    dataTable = accountTransactionDet.accountTransactions.map(
+    dataTable = accountTransactionDet?.accountTransactions.map(
       (transaction, index) => {
         return {
           "#": ++index,
-          Amount: formatAmount(transaction.amount),
-          "Account Balance": formatAmount(transaction.accountBalance),
-          "Transaction Type": transaction.transactionType,
-          "Paid By": transaction.initiator,
-          "Medium Of Payment": transaction.description,
-          Date: formatDate(transaction.trasactionDate),
+          Amount: formatAmount(transaction?.amount) ?? "N/A",
+          "Account Balance": formatAmount(transaction?.benefactorAccount?.accountBalance) ?? "N/A",
+          "Transaction Type": transaction?.transactionType ?? "N/A",
+          "Paid By": transaction?.initiator?.firstName ?? "N/A",
+          "Medium Of Payment": transaction?.paymentMethod ?? "N/A",
+          Date: formatDate(transaction?.trasactionDate) ?? "N/A",
           Action: (
             <PatientAccountTableAction
               setActiveTransaction={setActiveTransaction}
