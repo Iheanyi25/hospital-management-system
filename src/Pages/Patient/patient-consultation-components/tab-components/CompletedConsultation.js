@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { Table } from "../../../../Components";
 import DoctorImage from "../../../../assets/img/DoctorIcon.svg";
-import {
-  cancelPatientConsulationsUrl,
-  getPatientPendingConsulationsUrl,
-} from "../../../../api/URLs";
-import { notification } from "../../../../utils/notification";
+import { getPatientCompletedConsulationsUrl } from "../../../../api/URLs";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
-import { fetchWrapper, useRequest } from "../../../../api/fetcher";
+import {  useRequest } from "../../../../api/fetcher";
+import { Link } from "react-router-dom";
 
-const PendingConsultations = ({ patientId }) => {
+const CompletedConsultation = ({ patientId }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getDoctorAllAppointments = getPatientPendingConsulationsUrl(
+  const getDoctorAllAppointments = getPatientCompletedConsulationsUrl(
     patientId,
     pageNumber,
     pageSize
@@ -54,8 +51,8 @@ const PendingConsultations = ({ patientId }) => {
     <div>
       <Table
         content={tableData}
-        tableID={"pending" + data?.consultations.length}
-        key={"pending" + data?.consultations.length}
+        tableID={"completed" + data?.consultations.length}
+        key={"completed" + data?.consultations.length}
         paginationDetails={data?.paginationDetails}
         setPageNumber={setPageNumber}
         pageNumber={pageNumber}
@@ -66,34 +63,18 @@ const PendingConsultations = ({ patientId }) => {
   );
 };
 
-const ActionTable = ({ consultation, mutate }) => {
-  const cancelConsultation = async (id) => {
-    try {
-      const cancelPatientConsulations = cancelPatientConsulationsUrl(id);
-      const cancelPatientConsulationsConfig = fetchConfig({
-        url: cancelPatientConsulations,
-        method: "patch",
-      });
-      const res = await fetchWrapper(cancelPatientConsulationsConfig);
-      notification.success({ message: res.data.message });
-      await mutate();
-    } catch (error) {
-      console.log(error);
-      notification.error({ message: error?.response?.data?.message });
-    }
-  };
-
+const ActionTable = () => {
   return (
     <ActionButton>
-      <button
+      <Link
         type="button"
-        className="btn btn-danger"
-        onClick={(e) => cancelConsultation(consultation.id)}
+        className="btn btn-primary"
+        to="/PatientClarkingHistory"
       >
-        Cancel Consultation
-      </button>
+        View Clerking History
+      </Link>
     </ActionButton>
   );
 };
 
-export { PendingConsultations };
+export { CompletedConsultation };

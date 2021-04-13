@@ -1,20 +1,11 @@
 import React from "react";
-import PatientConsultationTableContainer from "./PatientConsultationTableContainer";
-import { PendingConsultations } from "./tab-components";
+import {
+  CanceledConsultation,
+  CompletedConsultation,
+  PendingConsultations,
+} from "./tab-components";
 
-export default function PatientConsultationTabContent({
-  pendingConsultations,
-  completedConsultations,
-  cancelledConsultations,
-  patientId,
-  mutate,
-}) {
-  console.log(
-    pendingConsultations,
-    completedConsultations,
-    cancelledConsultations,
-    44444
-  );
+export default function PatientConsultationTabContent({ patientId }) {
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -33,11 +24,7 @@ export default function PatientConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-completed-tab"
         >
-          <PatientConsultationTableContainer
-            consultations={completedConsultations}
-            category="completed"
-            mutate={mutate}
-          />
+          <CompletedConsultation patientId={patientId} />
         </div>
 
         <div
@@ -46,11 +33,7 @@ export default function PatientConsultationTabContent({
           role="tabpanel"
           aria-labelledby="pills-cancelled-tab"
         >
-          <PatientConsultationTableContainer
-            consultations={cancelledConsultations}
-            category="cancelled"
-            mutate={mutate}
-          />
+          <CanceledConsultation patientId={patientId} />
         </div>
       </div>
     </div>

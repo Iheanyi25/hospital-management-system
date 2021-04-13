@@ -13,32 +13,31 @@ const Consultations = () => {
   const {
     user: { id },
   } = useContext(UserContext);
-  const getPatientAllConsulations = getPatientAllConsulationsUrl(id);
-  const getPatientAllConsulationsConfig = fetchConfig({
-    url: getPatientAllConsulations,
-    method: "get",
-  });
-  const { data, error, mutate } = useRequest(getPatientAllConsulationsConfig, {
-    revalidateOnFocus: false,
-  });
+  // const getPatientAllConsulations = getPatientAllConsulationsUrl(id);
+  // const getPatientAllConsulationsConfig = fetchConfig({
+  //   url: getPatientAllConsulations,
+  //   method: "get",
+  // });
+  // const { data, error, mutate } = useRequest(getPatientAllConsulationsConfig, {
+  //   revalidateOnFocus: false,
+  // });
 
-  const cancelledConsultations = [];
-  const completedConsultations = [];
-  const pendingConsultations = [];
+  // const cancelledConsultations = [];
+  // const completedConsultations = [];
+  // const pendingConsultations = [];
 
-  if (data) {
-    data.patientConsultations.forEach((patientConsultations) => {
-      if (patientConsultations.isCanceled === true) {
-        cancelledConsultations.push(patientConsultations);
-      } else if (patientConsultations.isCompleted === true) {
-        completedConsultations.push(patientConsultations);
-      } else {
-        pendingConsultations.push(patientConsultations);
-      }
-    });
-  }
+  // if (data) {
+  //   data.patientConsultations.forEach((patientConsultations) => {
+  //     if (patientConsultations.isCanceled === true) {
+  //       cancelledConsultations.push(patientConsultations);
+  //     } else if (patientConsultations.isCompleted === true) {
+  //       completedConsultations.push(patientConsultations);
+  //     } else {
+  //       pendingConsultations.push(patientConsultations);
+  //     }
+  //   });
+  // }
 
-  if (error) return <div>failed to load</div>;
   return (
     <>
       <PageLoader />
@@ -47,11 +46,11 @@ const Consultations = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <PatientConsultationSummary
+          {/* <PatientConsultationSummary
             pendingConsultationsCount={pendingConsultations.length}
             finalizedConsultationsCount={completedConsultations.length}
             cancelledConsultationsCount={cancelledConsultations.length}
-          />
+          /> */}
           <header className="page-header">
             <h4 className="page-title">My Consultations</h4>
           </header>
@@ -63,15 +62,7 @@ const Consultations = () => {
               <div className="card-body">
                 <div>
                   <PatientConsultationTabHeader />
-                  {data && (
-                    <PatientConsultationTabContent
-                      patientId={id}
-                      pendingConsultations={pendingConsultations}
-                      completedConsultations={completedConsultations}
-                      cancelledConsultations={cancelledConsultations}
-                      mutate={mutate}
-                    />
-                  )}
+                  <PatientConsultationTabContent patientId={id} />
                 </div>
               </div>
             </div>
