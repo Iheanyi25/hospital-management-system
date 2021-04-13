@@ -73,6 +73,8 @@ export const deleteNHISHealthPlanDrugUrl = () =>
 //Health Insurance - Manage NHIS Health Plan Patients
 export const getNHISHealthPlanPatientsUrl = () =>
   `/${baseName}/GetNHISHealthPlanPatients`;
+export const getPatientSecondaryNHISServicesUrl = () =>
+  `/${baseName}/GetPatientSecondaryNHISServices`;
 export const getNHISHealthPlanPatientsByHealthPlanUrl = (healthPlanId, pageNumber, pageSize) =>
   `/${baseName}/GetNHISHealthPlanPatientsByHealthPlan?HealthPlanId=${healthPlanId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const assignPatientToNHISHealthPlanUrl = () =>

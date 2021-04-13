@@ -244,12 +244,25 @@ const NHISReports = ({ pathname }) => {
           <Link className="item-link" to="/AdminPrimaryNHISReports">
             <span
               className={
-                pathname === "/AdminNHISReport"
+                pathname === "/AdminPrimaryNHISReports"
                   ? "link-text text-primary"
                   : "link-text"
               }
             >
               Primary Reports
+            </span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminSecondaryNHISReports">
+            <span
+              className={
+                pathname === "/AdminSecondaryNHISReports"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Secondary Reports
             </span>
           </Link>
         </li>
