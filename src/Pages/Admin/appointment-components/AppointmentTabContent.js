@@ -1,8 +1,10 @@
 import React from "react";
-import AppointmentsAccepted from "./AppointmentsAccepted";
-import AppointmentsCompleted from "./AppointmentsCompleted";
-import AppointmentsPending from "./AppointmentsPending";
-import AppointmentsRejected from "./AppointmentsRejected";
+import { AppointmentsAccepted, AppointmentsPending, AppointmentsCompleted, AppointmentsRejected } from "./tab-components";
+// import AppointmentsPending from "./tab-components/AppointmentsPending";
+// import AppointmentsAccepted from "./AppointmentsAccepted";
+// import AppointmentsCompleted from "./AppointmentsCompleted";
+// import AppointmentsPending from "./tab-components/AppointmentsPending";
+// import AppointmentsRejected from "./tab-components/AppointmentsRejected";
 
 export default function AppointmentTabContent() {
   return (

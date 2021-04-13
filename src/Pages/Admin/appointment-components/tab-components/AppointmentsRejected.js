@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getDoctorAppointmentsRejectedUrl } from "../../../api/URLs";
-import { Table } from "../../../Components";
-import formatDate from "../../../utils/formatDate";
-import formatTime from "../../../utils/formatTime";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getDoctorAppointmentsRejectedUrl } from "../../../../api/URLs";
+import { Table } from "../../../../Components";
+import formatDate from "../../../../utils/formatDate";
+import formatTime from "../../../../utils/formatTime";
 
 const AppointmentsRejected = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -53,4 +53,4 @@ const AppointmentsRejected = () => {
   );
 };
 
-export default AppointmentsRejected;
+export { AppointmentsRejected };

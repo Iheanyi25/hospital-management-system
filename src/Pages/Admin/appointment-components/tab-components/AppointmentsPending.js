@@ -1,19 +1,19 @@
 import { observer } from "mobx-react";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../../api/fetcher";
 import {
   getDoctorAppointmentsPendingUrl,
   deleteAppointmentUrl,
-} from "../../../api/URLs";
-import { Table } from "../../../Components";
-import ActionButton from "../../../Components/DataTable/ActionButton";
-import { ReAssign } from "../../../Components/Modals/ReAssignModal";
-import { UserContext } from "../../../mobx/UserState";
-import formatDate from "../../../utils/formatDate";
-import formatTime from "../../../utils/formatTime";
-import { notification } from "../../../utils/notification";
+} from "../../../../api/URLs";
+import { Table } from "../../../../Components";
+import ActionButton from "../../../../Components/DataTable/ActionButton";
+import { ReAssign } from "../../../../Components/Modals/ReAssignModal";
+import { UserContext } from "../../../../mobx/UserState";
+import formatDate from "../../../../utils/formatDate";
+import formatTime from "../../../../utils/formatTime";
+import { notification } from "../../../../utils/notification";
 
 const AppointmentsPending = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -142,4 +142,4 @@ export const AppointmentsPendingActionTable = observer(
     );
   }
 );
-export default AppointmentsPending;
+export  { AppointmentsPending };
