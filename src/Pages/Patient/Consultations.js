@@ -13,30 +13,6 @@ const Consultations = () => {
   const {
     user: { id },
   } = useContext(UserContext);
-  // const getPatientAllConsulations = getPatientAllConsulationsUrl(id);
-  // const getPatientAllConsulationsConfig = fetchConfig({
-  //   url: getPatientAllConsulations,
-  //   method: "get",
-  // });
-  // const { data, error, mutate } = useRequest(getPatientAllConsulationsConfig, {
-  //   revalidateOnFocus: false,
-  // });
-
-  // const cancelledConsultations = [];
-  // const completedConsultations = [];
-  // const pendingConsultations = [];
-
-  // if (data) {
-  //   data.patientConsultations.forEach((patientConsultations) => {
-  //     if (patientConsultations.isCanceled === true) {
-  //       cancelledConsultations.push(patientConsultations);
-  //     } else if (patientConsultations.isCompleted === true) {
-  //       completedConsultations.push(patientConsultations);
-  //     } else {
-  //       pendingConsultations.push(patientConsultations);
-  //     }
-  //   });
-  // }
 
   return (
     <>
@@ -46,11 +22,7 @@ const Consultations = () => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          {/* <PatientConsultationSummary
-            pendingConsultationsCount={pendingConsultations.length}
-            finalizedConsultationsCount={completedConsultations.length}
-            cancelledConsultationsCount={cancelledConsultations.length}
-          /> */}
+          <PatientConsultationSummary />
           <header className="page-header">
             <h4 className="page-title">My Consultations</h4>
           </header>
