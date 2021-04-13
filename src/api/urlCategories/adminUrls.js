@@ -10,6 +10,7 @@ export const getAllAccountsUrl = (pageNumber, pageSize) =>
 export const postAdminFundAccountsUrl = () => `/Admin/Account/FundAccount`;
 
 // Admin - Manage Appointment
+export const getAppointmentCountsUrl = () => `/Admin/GetAppointmentCounts`;
 export const getDoctorAppointmentsUrl = () => `/Admin/GetDoctorAppointments`;
 export const getDoctorAppointmentsPendingUrl = (pageNumber, pageSize) =>
   `/Admin/GetDoctorAppointmentsPending?PageNumber=${pageNumber}&PageSize=${pageSize}`;
@@ -17,6 +18,8 @@ export const getDoctorAppointmentsAcceptedUrl = (pageNumber, pageSize) =>
   `/Admin/GetDoctorAppointmentsAccepted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDoctorAppointmentsCompletedUrl = (pageNumber, pageSize) =>
   `/Admin/GetDoctorAppointmentsCompleted?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDoctorAppointmentsRejectedUrl = (pageNumber, pageSize) =>
+  `/Admin/GetAppointmentsRejected?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postAppointmentUrl = () => `/Admin/BookAppointment`;
 export const deleteAppointmentUrl = () => `/Admin/DeleteAppointment`;
 /* this endpoint will serve reassignment of appointment and reassignment of doctors*/
@@ -47,9 +50,12 @@ export const deleteConsultationUrl = () => `/Admin/DeleteConsultation`;
 // Admin - Manage Health Plans
 export const getAllHealthPlansUrl = (pageNumber, pageSize) =>
   `/Admin/GetAllHealthPlans?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAllActiveHealthPlansUrl = () =>
+  `/Admin/GetAllActiveHealthPlans`;
 export const createHealthPlanUrl = () => `/Admin/CreateHealthPlan`;
 export const updateHealthPlanUrl = () => `/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `/Admin/DisableHealthPlan`;
+export const enableHealthPlanUrl = () => `/Admin/EnanbleHealthPlan`;
 
 // Admin - Manage Profile
 export const getAdminProfileUrl = (adminId) =>

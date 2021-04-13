@@ -74,7 +74,8 @@ import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransaction
 import PatientInvoiceReport from "../Pages/Admin/Reports/HMOReports/PatientInvoiceReport";
 import DrugInvoiceReport from "../Pages/Admin/Reports/HMOReports/DrugInvoiceReport";
 import ServiceInvoiceReport from "../Pages/Admin/Reports/HMOReports/ServiceInvoiceReport";
-import NHISReport from "../Pages/Admin/Reports/NHISReport";
+import PrimaryNHISReports from "../Pages/Admin/Reports/NHISReports/PrimaryNHISReports";
+import SecondaryNHISReports from "../Pages/Admin/Reports/NHISReports/SecondaryNHISReports";
 
 // admissions
 import CreateWard from "../Components/Admissions/Wards/CreateWard";
@@ -489,7 +490,8 @@ export default function AdminRoutes() {
             path="/AdminHMOServiceInvoiceReport"
             component={ServiceInvoiceReport}
           />
-          <Route exact path="/AdminNHISReport" component={NHISReport} />
+          <Route exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
+          <Route exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
           <Route
             exact
             path="*"

@@ -11,6 +11,7 @@ export const AdminActionTable = ({
   dischargeNote,
   setNoteDetails,
   dischargeStatus,
+  id,
 }) => {
   return (
     <div>
@@ -18,7 +19,7 @@ export const AdminActionTable = ({
         {dischargeStatus ? (
           <Link
             data-toggle="modal"
-            data-target="#notes"
+            data-target={`#notes-${id}`}
             className="btn btn-sm btn-block"
             onClick={() =>
               setNoteDetails({ title: "Discharge Notes", body: dischargeNote })
@@ -31,7 +32,7 @@ export const AdminActionTable = ({
           <>
             <Link
               data-toggle="modal"
-              data-target="#notes"
+              data-target={`#notes-${id}`}
               className="btn btn-sm btn-block"
               onClick={() =>
                 setNoteDetails({

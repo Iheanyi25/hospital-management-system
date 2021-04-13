@@ -1,17 +1,17 @@
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../../api/fetcher";
 import {
   getDoctorAppointmentsCompletedUrl,
   deleteAppointmentUrl,
-} from "../../../api/URLs";
-import { Table } from "../../../Components";
-import ActionButton from "../../../Components/DataTable/ActionButton";
-import formatDate from "../../../utils/formatDate";
-import formatTime from "../../../utils/formatTime";
-import { notification } from "../../../utils/notification";
+} from "../../../../api/URLs";
+import { Table } from "../../../../Components";
+import ActionButton from "../../../../Components/DataTable/ActionButton";
+import formatDate from "../../../../utils/formatDate";
+import formatTime from "../../../../utils/formatTime";
+import { notification } from "../../../../utils/notification";
 
 const AppointmentsCompleted = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -102,4 +102,4 @@ export const AppointmentsCompletedActionTable = observer(({ appointment }) => {
     </div>
   );
 });
-export default AppointmentsCompleted;
+export { AppointmentsCompleted };

@@ -1,7 +1,10 @@
 import React from "react";
-import AppointmentsAccepted from "./AppointmentsAccepted";
-import AppointmentsCompleted from "./AppointmentsCompleted";
-import AppointmentsPending from "./AppointmentsPending";
+import { AppointmentsAccepted, AppointmentsPending, AppointmentsCompleted, AppointmentsRejected } from "./tab-components";
+// import AppointmentsPending from "./tab-components/AppointmentsPending";
+// import AppointmentsAccepted from "./AppointmentsAccepted";
+// import AppointmentsCompleted from "./AppointmentsCompleted";
+// import AppointmentsPending from "./tab-components/AppointmentsPending";
+// import AppointmentsRejected from "./tab-components/AppointmentsRejected";
 
 export default function AppointmentTabContent() {
   return (
@@ -32,6 +35,14 @@ export default function AppointmentTabContent() {
           aria-labelledby="pills-completed-tab"
         >
           <AppointmentsCompleted />
+        </div>
+        <div
+          className="tab-pane fade"
+          id="pills-rejected"
+          role="tabpanel"
+          aria-labelledby="pills-rejected-tab"
+        >
+          <AppointmentsRejected />
         </div>
       </div>
     </div>

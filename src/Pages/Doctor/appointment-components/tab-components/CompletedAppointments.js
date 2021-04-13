@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getCompletedAppointmentsWithDoctorUrl } from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
 
-function CompletedAppointmentsTableContainer({
-  completedAppointments,
-  category,
-}) {
+function CompletedAppointmentsTableContainer({ doctorId }) {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getDoctorAllAppointments = getCompletedAppointmentsWithDoctorUrl(
+    doctorId,
+    pageNumber,
+    pageSize
+  );
+  const getDoctorAllAppointmentsConfig = fetchConfig({
+    url: getDoctorAllAppointments,
+    method: "get",
+  });
+  const { data, error } = useRequest(getDoctorAllAppointmentsConfig, {
+    revalidateOnFocus: false,
+  });
   let tableData = [];
-  if (completedAppointments) {
-    tableData = completedAppointments.map((completedAppointment, index) => {
+  if (data) {
+    tableData = data?.appointments.map((completedAppointment, index) => {
       return {
         "#": ++index,
         Title: completedAppointment.appointmentTitle,
@@ -28,13 +42,18 @@ function CompletedAppointmentsTableContainer({
       };
     });
   }
-
+  if (error) return <div>failed to load</div>;
   return (
     <div>
       <Table
         content={tableData}
-        tableID={category + completedAppointments.length}
-        key={category + completedAppointments.length}
+        tableID={"completed" + data?.appointments.length}
+        key={"completed" + data?.appointments.length}
+        paginationDetails={data?.paginationDetails}
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );

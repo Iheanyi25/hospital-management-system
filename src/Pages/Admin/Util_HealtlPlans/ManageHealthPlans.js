@@ -2,8 +2,10 @@ import React, { useState, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
-import { getAllHealthPlansUrl, disableHealthPlanUrl } from "../../../api/URLs";
+import { getAllHealthPlansUrl, disableHealthPlanUrl, enableHealthPlanUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
+import paid from "../../../assets/img/paid.svg";
+import notpaid from "../../../assets/img/notpaid.svg";
 import formatDate from "../../../utils/formatDate";
 import TableSize from "../../../Components/DataTable/TableSize";
 import { notification } from "../../../utils/notification";
@@ -20,6 +22,7 @@ const ManageHealthPlans = () => {
   const { data, error, mutate } = useRequest(getAllHealthPlansConfig, {
     revalidateOnFocus: false,
   });
+  console.log(data);
   const disableHealthPlan = async (id) => {
     try {
       const disableHealthPlan = disableHealthPlanUrl();
@@ -39,6 +42,25 @@ const ManageHealthPlans = () => {
       notification.error({ message: error?.response?.data.message });
     }
   };
+
+  const enableHealthPlan = async (id) => {
+    try {
+      const enableHealthPlan = enableHealthPlanUrl();
+      const enableHealthPlansConfig = fetchConfig({
+        url: enableHealthPlan,
+        method: "post",
+        data: { id },
+      });
+      const res = await fetchWrapper(enableHealthPlansConfig);
+      if (res.status === 200) {
+        mutate();
+        notification.success({ message: res.data.message });
+      }
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.healthPlans.map((healthPlan, index) => {
@@ -48,7 +70,7 @@ const ManageHealthPlans = () => {
         Cost: healthPlan.cost,
         "Renewal Cost": healthPlan.renewal,
         "Patients Per Folder": healthPlan.noOfPatients,
-        "Accounts Per Health Plan": healthPlan.noOfAccounts,
+        "Accounts Per Plan": healthPlan.noOfAccounts,
         Date: formatDate(healthPlan.dateCreated),
         "Instant billing": (
           <div className="custom-control custom-switch">
@@ -61,9 +83,24 @@ const ManageHealthPlans = () => {
             <label className="custom-control-label" for="control1"></label>
           </div>
         ),
+        Status: (
+          <>
+            {healthPlan?.status ? (
+              <>
+                <img src={paid} alt="not paid" /> Enabled
+              </>
+            ) : (
+              <>
+                <img src={notpaid} alt="not paid" /> Disabled
+              </>
+            )}
+          </>
+        ),
         Actions: (
           <HealthPlanTableAction
             healthPlan={healthPlan}
+            status={healthPlan?.status}
+            enableHealthPlan={enableHealthPlan}
             disableHealthPlan={disableHealthPlan}
           />
         ),
@@ -109,9 +146,31 @@ const ManageHealthPlans = () => {
     </Fragment>
   );
 };
-const HealthPlanTableAction = ({ healthPlan, disableHealthPlan }) => {
+const HealthPlanTableAction = ({ healthPlan, disableHealthPlan, enableHealthPlan, status }) => {
   return (
     <ActionButton>
+      {status ? (
+        <Link
+          title="Disable healthplan"
+          to="#"
+          className="btn btn-sm btn-block text-danger"
+          onClick={() => disableHealthPlan(healthPlan.id)}
+        >
+          <span className="btn-icon icofont-delete-alt mr-2" />
+          Disable
+        </Link>
+      ) : (
+        <Link
+          title="Enable healthplan"
+          to="#"
+          className="btn btn-sm btn-block text-success"
+          onClick={() => enableHealthPlan(healthPlan.id)}
+        >
+          <span className="btn-icon icofont-delete-alt mr-2" />
+          Enable
+        </Link>
+      )}
+
       <Link
         title="Edit healthplan"
         to={{
@@ -122,15 +181,6 @@ const HealthPlanTableAction = ({ healthPlan, disableHealthPlan }) => {
       >
         <span className="btn-icon icofont-edit-alt mr-2" />
         Edit
-      </Link>
-      <Link
-        title="Disable healthplan"
-        to="#"
-        className="btn btn-sm btn-block text-danger"
-        onClick={() => disableHealthPlan(healthPlan.id)}
-      >
-        <span className="btn-icon icofont-delete-alt mr-2" />
-        Disable
       </Link>
     </ActionButton>
   );

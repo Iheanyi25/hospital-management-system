@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getAcceptedAppointmentsWithDoctorUrl } from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
 
-function AcceptedAppointmentsTableContainer({ acceptedAppointments, category }) {
+function AcceptedAppointmentsTableContainer({ doctorId }) {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getDoctorAllAppointments = getAcceptedAppointmentsWithDoctorUrl(
+    doctorId,
+    pageNumber,
+    pageSize
+  );
+  const getDoctorAllAppointmentsConfig = fetchConfig({
+    url: getDoctorAllAppointments,
+    method: "get",
+  });
+  const { data, error } = useRequest(getDoctorAllAppointmentsConfig, {
+    revalidateOnFocus: false,
+  });
   let tableData = [];
-  if (acceptedAppointments) {
-    tableData = acceptedAppointments.map((acceptedAppointment, index) => {
+  if (data) {
+    tableData = data?.appointments.map((acceptedAppointment, index) => {
       return {
         "#": ++index,
         Title: acceptedAppointment.appointmentTitle,
@@ -25,13 +42,18 @@ function AcceptedAppointmentsTableContainer({ acceptedAppointments, category }) 
       };
     });
   }
-
+  if (error) return <div>failed to load</div>;
   return (
     <div>
       <Table
         content={tableData}
-        tableID={category + acceptedAppointments.length}
-        key={category + acceptedAppointments.length}
+        tableID={"accepted" + data?.appointments.length}
+        key={"accepted" + data?.appointments.length}
+        paginationDetails={data?.paginationDetails}
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );

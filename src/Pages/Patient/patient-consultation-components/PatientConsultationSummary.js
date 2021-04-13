@@ -1,25 +1,52 @@
 import React from "react";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { useRequest } from "../../../api/fetcher";
+import {
+  getCompletedConsultationsCountUrl,
+  getPendingConsultationsCountUrl,
+  getCanceledConsultationsCountUrl,
+} from "../../../api/URLs";
 
-export default function PatientConsultationSummary({
-  pendingConsultationsCount,
-  finalizedConsultationsCount,
-  cancelledConsultationsCount,
-}) {
+export default function PatientConsultationSummary({ patientId }) {
+  const getCompletedConsultationsCount = getCompletedConsultationsCountUrl(patientId);
+  const getCompletedConsultationsCountConfig = fetchConfig({
+    url: getCompletedConsultationsCount,
+    method: "get",
+  });
+  const { data: data1 } = useRequest(getCompletedConsultationsCountConfig, {
+    revalidateOnFocus: false,
+  });
+  const getPendingConsultationsCount = getPendingConsultationsCountUrl(patientId);
+  const getPendingConsultationsCountConfig = fetchConfig({
+    url: getPendingConsultationsCount,
+    method: "get",
+  });
+  const { data: data2 } = useRequest(getPendingConsultationsCountConfig, {
+    revalidateOnFocus: false,
+  });
+  const getCanceledConsultationsCoun = getCanceledConsultationsCountUrl(patientId);
+  const getCanceledConsultationsCounConfig = fetchConfig({
+    url: getCanceledConsultationsCoun,
+    method: "get",
+  });
+  const { data: data3 } = useRequest(getCanceledConsultationsCounConfig, {
+    revalidateOnFocus: false,
+  });
   const summaryDetails = [
     {
       iconName: "icofont-wheelchair",
-      text: "Pending Appointments",
-      value: pendingConsultationsCount,
+      text: "Pending Consultations",
+      value: data2?.consultationCount,
     },
     {
       iconName: "icofont-blood",
-      text: "Finalized Appointments",
-      value: finalizedConsultationsCount,
+      text: "Finalized Consultations",
+      value: data1?.consultationCount,
     },
     {
       iconName: "icofont-list",
-      text: "Cancelled Appointments",
-      value: cancelledConsultationsCount,
+      text: "Canceled Consultations",
+      value: data3?.consultationCount,
     },
   ];
   return (

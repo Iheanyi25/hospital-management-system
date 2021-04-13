@@ -6,13 +6,7 @@ import {
   RejectedAppointmentsTableContainer,
 } from "./tab-components";
 
-const AppointmentTabContent = ({
-  acceptedAppointments,
-  pendingAppointments,
-  completedAppointments,
-  mutate,
-  doctorId,
-}) => {
+const AppointmentTabContent = ({ doctorId }) => {
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -22,11 +16,7 @@ const AppointmentTabContent = ({
           role="tabpanel"
           aria-labelledby="pills-pending-tab"
         >
-          <PendingAppointmentsTableContainer
-            pendingAppointments={pendingAppointments}
-            mutate={mutate}
-            category="pendingList"
-          />
+          <PendingAppointmentsTableContainer doctorId={doctorId} />
         </div>
         <div
           className="tab-pane fade"
@@ -34,10 +24,7 @@ const AppointmentTabContent = ({
           role="tabpanel"
           aria-labelledby="pills-accepted-tab"
         >
-          <AcceptedAppointmentsTableContainer
-            acceptedAppointments={acceptedAppointments}
-            category="acceptedList"
-          />
+          <AcceptedAppointmentsTableContainer doctorId={doctorId} />
         </div>
         <div
           className="tab-pane fade"
@@ -45,10 +32,7 @@ const AppointmentTabContent = ({
           role="tabpanel"
           aria-labelledby="pills-completed-tab"
         >
-          <CompletedAppointmentsTableContainer
-            completedAppointments={completedAppointments}
-            category="completedList"
-          />
+          <CompletedAppointmentsTableContainer doctorId={doctorId} />
         </div>
         <div
           className="tab-pane fade"
