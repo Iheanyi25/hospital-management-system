@@ -74,6 +74,7 @@ const Appointments = observer(({doctorId}) => {
                     pendingAppointments={pendingAppointments}
                     completedAppointments={completedAppointments}
                     mutate={mutate}
+                    doctorId={doctorId || id}
                   />}
                 </div>
               </div>
