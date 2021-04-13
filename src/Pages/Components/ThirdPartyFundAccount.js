@@ -35,15 +35,15 @@ const ThirdPartyFundAccount = ({ match }) => {
   const paidSuccessfully = (referencce, modeOfPayment) => {
     const payload = {
       ...details,
-      accountNumber: accountNumber,
-      modeOfPayment: modeOfPayment,
+      accountNumber,
+      paymentMethod: modeOfPayment,
       transactionReference: referencce,
     };
     const thirdPartyFundAccount = thirdPartyFundAccountUrl();
     const thirdPartyFundAccountConfig = fetchConfig({
       url: thirdPartyFundAccount,
       method: "post",
-      data: payload
+      data: payload,
     });
     const res = fetchWrapper(thirdPartyFundAccountConfig);
     console.log(res);
