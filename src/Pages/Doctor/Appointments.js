@@ -11,7 +11,7 @@ import {
   AppointmentTabHeader,
 } from "./appointment-components";
 
-const Appointments = observer(({doctorId}) => {
+const Appointments = observer(({ doctorId }) => {
   const {
     user: { id },
   } = useContext(UserContext);
@@ -38,7 +38,7 @@ const Appointments = observer(({doctorId}) => {
         acceptedAppointments.push(appointment);
       } else if (appointment.isCompleted) {
         completedAppointments.push(appointment);
-      } 
+      }
     });
   }
 
@@ -52,11 +52,7 @@ const Appointments = observer(({doctorId}) => {
           <i className="icofont-spinner-alt-4 rotate" />
         </div>
         <div className="main-content-wrap">
-          <AppointmentSummary
-            pendingAppointmentsCount={pendingAppointments.length}
-            acceptedAppointmentsCount={acceptedAppointments.length}
-            completedAppointmentsCount={completedAppointments.length}
-          />
+          <AppointmentSummary doctorId={doctorId || id} />
 
           <header className="page-header">
             <h4 className="page-title"> Appointments List</h4>
@@ -69,13 +65,15 @@ const Appointments = observer(({doctorId}) => {
               <div className="card-body">
                 <div>
                   <AppointmentTabHeader />
-                  {data && <AppointmentTabContent
-                    acceptedAppointments={acceptedAppointments}
-                    pendingAppointments={pendingAppointments}
-                    completedAppointments={completedAppointments}
-                    mutate={mutate}
-                    doctorId={doctorId || id}
-                  />}
+                  {data && (
+                    <AppointmentTabContent
+                      acceptedAppointments={acceptedAppointments}
+                      pendingAppointments={pendingAppointments}
+                      completedAppointments={completedAppointments}
+                      mutate={mutate}
+                      doctorId={doctorId || id}
+                    />
+                  )}
                 </div>
               </div>
             </div>

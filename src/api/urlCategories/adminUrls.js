@@ -50,6 +50,7 @@ export const getAllHealthPlansUrl = (pageNumber, pageSize) =>
 export const createHealthPlanUrl = () => `/Admin/CreateHealthPlan`;
 export const updateHealthPlanUrl = () => `/Admin/UpdateHealthPlan`;
 export const disableHealthPlanUrl = () => `/Admin/DisableHealthPlan`;
+export const enableHealthPlanUrl = () => `/Admin/EnanbleHealthPlan`;
 
 // Admin - Manage Profile
 export const getAdminProfileUrl = (adminId) =>

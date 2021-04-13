@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { useRequest } from "../../../../api/fetcher";
-import { getDoctorAppointmentsRejectedUrl } from "../../../../api/URLs";
+import { getRejectedAppointmentsWithDoctorUrl } from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
@@ -9,7 +9,7 @@ import formatTime from "../../../../utils/formatTime";
 function RejectedAppointmentsTableContainer({ doctorId }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getDoctorAllAppointments = getDoctorAppointmentsRejectedUrl(
+  const getDoctorAllAppointments = getRejectedAppointmentsWithDoctorUrl(
     doctorId,
     pageNumber,
     pageSize

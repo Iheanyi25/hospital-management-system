@@ -1,7 +1,13 @@
 // Doctor - Manage Appointments
 export const getDoctorAllAppointmentsUrl = (doctorId) =>
   `/Doctor/ViewAllAppointments?DoctorId=${doctorId}`;
-export const getDoctorAppointmentsRejectedUrl = (doctorId, pageNumber, pageSize) =>
+export const getPendingAppointmentsWithDoctorUrl = (doctorId, pageNumber, pageSize) =>
+  `/Doctor/GetDoctorAppointmentsPending?DoctorId=${doctorId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getCompletedAppointmentsWithDoctorUrl = (doctorId, pageNumber, pageSize) =>
+  `/Doctor/GetDoctorAppointmentsCompleted?DoctorId=${doctorId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getAcceptedAppointmentsWithDoctorUrl = (doctorId, pageNumber, pageSize) =>
+  `/Doctor/GetDoctorAppointmentsAccepted?DoctorId=${doctorId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getRejectedAppointmentsWithDoctorUrl = (doctorId, pageNumber, pageSize) =>
   `/Doctor/GetDoctorAppointmentsRejected?DoctorId=${doctorId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const postDoctorAcceptAppointmentUrl = (appointmentId) =>
   `/Doctor/AcceptAnAppointment?AppointmentId=${appointmentId}`;

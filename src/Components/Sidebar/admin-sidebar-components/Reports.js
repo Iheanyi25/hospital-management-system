@@ -225,19 +225,48 @@ const NHISReports = ({ pathname }) => {
   return (
     <div className="collapse" id="subMenuReports">
       <li className="menu-item">
-        <Link className="item-link" to="/AdminNHISReport">
-          <span className="link-icon icofont-users" />{" "}
-          <span
-            className={
-              pathname === "/AdminNHISReport"
-                ? "link-text text-primary"
-                : "link-text"
-            }
-          >
-            NHIS Report
-          </span>
-        </Link>
+        <div
+          className="cursor item-link panel-heading collapsed  "
+          data-toggle="collapse"
+          data-target="#submenuNHISReports"
+        >
+          <span className="link-icon icofont-hospital" />{" "}
+          <span className="link-text">NHIS Report</span>{" "}
+        </div>
       </li>
+      <ul
+        className="collapse submenu-ul"
+        id="submenuNHISReports"
+        aria-expanded="false"
+        data-parent="#accordion"
+      >
+        <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminPrimaryNHISReports">
+            <span
+              className={
+                pathname === "/AdminPrimaryNHISReports"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Primary Reports
+            </span>
+          </Link>
+        </li>
+        <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminSecondaryNHISReports">
+            <span
+              className={
+                pathname === "/AdminSecondaryNHISReports"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Secondary Reports
+            </span>
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 };
