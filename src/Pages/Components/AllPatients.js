@@ -105,7 +105,7 @@ const PatientTableAction = ({ patient }) => {
     },
     {
       text: "Pre-Consultation History",
-      path: `/AdminUpdatePatientProfile/${patient.id}`,
+      path: `/AdminViewPreConsultationHistory/${patient.id}`,
       iconClass: "btn-icon icofont-stethoscope-alt mr-2",
     },
     {
