@@ -1,14 +1,15 @@
-import { observer } from "mobx-react";
 import React, { useContext } from "react";
-import { PatientProfile } from "../../Components/Profiles";
+import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
+import { PatientProfile } from "../../Components/Profiles";
 
-const ViewPatientProfile = observer(() => {
-	const { user: { id } } = useContext(UserContext)
+const ViewPatientProfile = observer(({ match }) => {
+  const { id } = match.params;
+  const { user } = useContext(UserContext);
   return (
-    <PatientProfile
-      patientId={id}
-    />
+    <>
+      <PatientProfile patientId={id ? id : user.id} />
+    </>
   );
 });
 

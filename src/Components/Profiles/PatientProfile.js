@@ -73,7 +73,7 @@ class PatientProfile extends React.Component {
                               patientDetails?.lastName ?? ""
                             }`}
                           </h5>
-                          <p className="mb-2">Patient</p>
+                          <p className="mb-2">{"Plan: "}{patientDetails?.account?.healthPlan?.name ?? ""}</p>
                           <Link
                             to={{
                               pathname: "/changepassword",
