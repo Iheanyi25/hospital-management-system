@@ -97,7 +97,7 @@ const ManageAdmissions = observer(() => {
             />
           ),
         };
-      } else if (userType === "Lab") {
+      } else if (userType === "LabAttendant") {
         return {
           "#": ++index,
           "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
@@ -113,7 +113,7 @@ const ManageAdmissions = observer(() => {
               <img src={paid} alt="paid" /> Admitted
             </>
           ),
-          Actions: <LabActionTable admissionId={admission.id} />,
+          Actions: <LabActionTable admissionId={admission.id} dischargeNote={`${admission?.dischargeNote}`} />,
         };
       } else if (userType === "Pharmacy") {
         return {

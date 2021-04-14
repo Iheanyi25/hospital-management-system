@@ -149,22 +149,15 @@ export const PharmacyActionTable = ({ admissionId, patientName }) => {
   );
 };
 
-export const LabActionTable = ({ admissionId }) => {
+export const LabActionTable = ({ admissionId, dischargeNote }) => {
   return (
     <ActionButton>
       <Link
-        to={`/LabManageAdmissionServiceRequest/${admissionId}`}
+        to={{pathname:`/LabManageAdmissionServiceRequest/${admissionId}`, state: dischargeNote}}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
         Lab Services
-      </Link>
-      <Link
-        to={`/AdminWardRoundNotes/${admissionId}`}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Manage Admission
       </Link>
     </ActionButton>
   );

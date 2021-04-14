@@ -124,7 +124,7 @@ const ServiceInvoiceTableAction = ({ serviceInvoice, user }) => {
   const { userType } = user;
   return (
     <ActionButton>
-      {userType === "Lab" ? null : serviceInvoice?.paymentStatus ===
+      {userType === "LabAttendant" ? null : serviceInvoice?.paymentStatus ===
           "NOT PAID" || serviceInvoice?.paymentStatus === "INCOMPLETE" ? (
         <NavLink
           to={{
@@ -151,7 +151,7 @@ const ServiceInvoiceTableAction = ({ serviceInvoice, user }) => {
           pathname:
             userType === "Admin"
               ? `/AdminViewServiceRequestContents/${serviceInvoice.id}`
-              : userType === "Lab"
+              : userType === "LabAttendant"
               ? `/LabServiceRequestContents/${serviceInvoice.id}`
               : `/AccountServiceRequestContents/${serviceInvoice.id}`,
           state: {

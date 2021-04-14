@@ -43,7 +43,7 @@ const ServiceRequestContents = ({ match, location }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.serviceRequests.map((request, index) => {
-      if (userType === "Admin" || userType === "Lab") {
+      if (userType === "Admin" || userType === "LabAttendant") {
         return {
           "#": ++index,
           "Service Name": request?.serviceName,
@@ -114,7 +114,7 @@ const ServiceRequestContents = ({ match, location }) => {
             <h4 className="page-title">
               {`Services Request in Invoice #${invoiceNumber}`}
             </h4>
-            {paymentStatus === "PAID" || user.userType === "Lab" ? null : (
+            {paymentStatus === "PAID" || user.userType === "LabAttendant" ? null : (
               <Link
                 className="btn btn-primary"
                 to={{
