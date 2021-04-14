@@ -6,7 +6,7 @@ export default function Admission({admissionUrl}) {
   return (
     <div>
       <AdmissionSection />
-      <ManageAdmissions pathname={pathname} admissionUrl={admissionUrl} />
+      {/* <ManageAdmissions pathname={pathname} admissionUrl={admissionUrl} /> */}
     </div>
   );
 }
@@ -21,30 +21,30 @@ const AdmissionSection = () => {
           aria-expanded="false"
           aria-controls="collapseAdmission"
         >
-          <span className="group-title">ADDMISSION</span>
+          <span className="group-title">ADMISSION</span>
         </div>
       </li>
     );
   };
 
 
-const ManageAdmissions = ({ pathname, admissionUrl }) => {
-    return (
-      <div className="collapse" id="subMenuAdmission">
-        <li className="menu-item">
-          <Link className="item-link" to={`${admissionUrl}` }>
-            <span className="link-icon icofont-users" />{" "}
-            <span
-              className={
-                pathname === `${admissionUrl}` 
-                  ? "link-text text-primary"
-                  : "link-text"
-              }
-            >
-              Manage Admissions
-            </span>
-          </Link>
-        </li>
-      </div>
-    );
-  };
+// const ManageAdmissions = ({ pathname, admissionUrl }) => {
+//     return (
+//       <div className="collapse" id="subMenuAdmission">
+//         <li className="menu-item">
+//           <Link className="item-link" to={`${admissionUrl}` }>
+//             <span className="link-icon icofont-users" />{" "}
+//             <span
+//               className={
+//                 pathname === `${admissionUrl}` 
+//                   ? "link-text text-primary"
+//                   : "link-text"
+//               }
+//             >
+//               Manage Admissions
+//             </span>
+//           </Link>
+//         </li>
+//       </div>
+//     );
+//   };

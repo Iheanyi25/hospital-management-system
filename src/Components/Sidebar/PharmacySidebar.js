@@ -28,7 +28,7 @@ function PharmacySidebar() {
               <ul className="menu-ul">
                 <MyOffice />
                 <DrugsMGT />
-                <Admission admissionUrl="PharmacyManageAdmissions" />
+                {/* <Admission admissionUrl="PharmacyManageAdmissions" /> */}
                 <Profile profileUrl="PharmacyProfile" />
               </ul>
             </nav>
