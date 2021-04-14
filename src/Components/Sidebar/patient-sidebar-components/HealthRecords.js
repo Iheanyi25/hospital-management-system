@@ -50,10 +50,10 @@ const HealthRecords = ({ pathname }) => {
         data-parent="#accordion"
       >
         <li className="menu-item font-weight-normal">
-          <Link to="/PatientPreHealthRecordsHistory" className="item-link">
+          <Link to="/PatientPreConsultationHistory" className="item-link">
             <span
               className={
-                pathname === "/PatientPreHealthRecordsHistory"
+                pathname === "/PatientPreConsultationHistory"
                   ? "link-text text-primary"
                   : "link-text"
               }
@@ -106,7 +106,7 @@ const MyDoctors = ({ pathname }) => {
                 : "link-text"
             }
           >
-            MyDoctorss
+            My Doctors
           </span>
         </Link>
       </li>
