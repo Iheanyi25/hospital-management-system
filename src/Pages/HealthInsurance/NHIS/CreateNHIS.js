@@ -4,7 +4,7 @@ import Select from "react-select";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
-  getAllHealthPlansUrl,
+  getAllActiveHealthPlansUrl,
   createNHISHealthPlanUrl,
 } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
@@ -33,7 +33,7 @@ export default function CreateInsurance() {
     }
   }, [payload]);
   const history = useHistory();
-  const getAllHealthPlans = getAllHealthPlansUrl(1, 200);
+  const getAllHealthPlans = getAllActiveHealthPlansUrl(1, 200);
   const getAllHealthPlansConfig = fetchConfig({
     url: getAllHealthPlans,
     method: "get",
@@ -44,7 +44,7 @@ export default function CreateInsurance() {
   const options = [];
 
   if (data?.healthPlans.length > 0) {
-    data.healthPlans.forEach(({ id, name }) => {
+    data.plans.forEach(({ id, name }) => {
       options.push({ value: id, label: name });
     });
   }

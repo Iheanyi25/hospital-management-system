@@ -1,20 +1,39 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { mutate } from "swr";
 import { fetchConfig } from "../../../../api/fetchConfig";
-import { fetchWrapper } from "../../../../api/fetcher";
-import { postDoctorAcceptAppointmentUrl } from "../../../../api/URLs";
+import { fetchWrapper, useRequest } from "../../../../api/fetcher";
+import {
+  getPendingAppointmentsWithDoctorUrl,
+  postDoctorAcceptAppointmentUrl,
+  getAcceptedAppointmentsWithDoctorUrl,
+} from "../../../../api/URLs";
 import { RejectAppointment, Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
 import { notification } from "../../../../utils/notification";
 
-function PendingAppointmentsTableContainer({
-  pendingAppointments,
-  category,
-  mutate,
-}) {
+function PendingAppointmentsTableContainer({ doctorId }) {
   const [appointmentId, setAppointmentId] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getDoctorAllAppointments = getPendingAppointmentsWithDoctorUrl(
+    doctorId,
+    pageNumber,
+    pageSize
+  );
+  const getDoctorAllAppointmentsConfig = fetchConfig({
+    url: getDoctorAllAppointments,
+    method: "get",
+  });
+  const { data, error, mutate: refresh } = useRequest(
+    getDoctorAllAppointmentsConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
   const acceptAppointment = async (e, id) => {
     e.preventDefault();
 
@@ -28,8 +47,14 @@ function PendingAppointmentsTableContainer({
       console.log(res, 222);
       if (res.status === 200) {
         notification.success({ message: "Appointment accepted successfully" });
+        const getUpdate = getAcceptedAppointmentsWithDoctorUrl(doctorId, 1, 50);
+        const getUpdateConfig = fetchConfig({
+          url: getUpdate,
+          method: "get",
+        });
+        await mutate(getUpdateConfig);
         console.log(mutate, 3333);
-        await mutate();
+        await refresh();
       }
     } catch (err) {
       notification.error({ message: "Operation failed" });
@@ -37,8 +62,8 @@ function PendingAppointmentsTableContainer({
   };
 
   let tableData = [];
-  if (pendingAppointments) {
-    tableData = pendingAppointments.map((pendingAppointment, index) => {
+  if (data) {
+    tableData = data?.appointments.map((pendingAppointment, index) => {
       return {
         "#": ++index,
         Title: pendingAppointment.appointmentTitle,
@@ -51,22 +76,30 @@ function PendingAppointmentsTableContainer({
           <PendingAppointmentsTableAction
             pendingAppointment={pendingAppointment}
             acceptAppointment={acceptAppointment}
-            // rejectAppointment={rejectAppointment}
             setAppointmentId={setAppointmentId}
           />
         ),
       };
     });
   }
-
+  if (error) return <div>failed to load</div>;
   return (
     <div>
       <Table
         content={tableData}
-        tableID={category + pendingAppointments.length}
-        key={category + pendingAppointments.length}
+        tableID={"pending" + data?.appointments.length}
+        key={"pending" + data?.appointments.length}
+        paginationDetails={data?.paginationDetails}
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
-      <RejectAppointment appointmentId={appointmentId} mutate={mutate} />
+      <RejectAppointment
+        appointmentId={appointmentId}
+        refresh={refresh}
+        doctorId={doctorId}
+      />
     </div>
   );
 }

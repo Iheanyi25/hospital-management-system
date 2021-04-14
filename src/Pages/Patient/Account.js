@@ -39,12 +39,12 @@ function PatientAccount() {
     url: getPatientAccountTransactions,
     method: "get",
   });
-  const {
-    data: accountTransactionDet,
-    error,
-  } = useRequest(getPatientAccountTransactionsConfig, {
-    revalidateOnFocus: false,
-  });
+  const { data: accountTransactionDet, error } = useRequest(
+    getPatientAccountTransactionsConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   console.log(accountTransactionDet, "dets");
 
   const getPatientAccount = getPatientAccountUrl(user.id);
@@ -65,16 +65,25 @@ function PatientAccount() {
 
   let dataTable = [];
   if (accountTransactionDet) {
-    dataTable = accountTransactionDet.accountTransactions.map(
+    dataTable = accountTransactionDet?.accountTransactions.map(
       (transaction, index) => {
         return {
           "#": ++index,
-          Amount: formatAmount(transaction.amount),
-          "Account Balance": formatAmount(transaction.accountBalance),
-          "Transaction Type": transaction.transactionType,
-          "Paid By": transaction.initiator,
-          "Medium Of Payment": transaction.description,
-          Date: formatDate(transaction.trasactionDate),
+          Amount: formatAmount(transaction?.amount) ?? "N/A",
+          "Previous Balance":
+            formatAmount(
+              transaction?.benefactorAccountPreviousBalance
+            ) ?? "N/A",
+          "Transaction Type": transaction?.transactionType ?? "N/A",
+          "Paid By": transaction?.initiator
+            ? `${transaction?.initiator.firstName ?? "Anonymous"} ${
+                transaction?.initiator?.lastName ?? ""
+              }`
+            : transaction?.depositorsName
+            ? transaction?.depositorsName
+            : "Anonymous",
+          "Medium Of Payment": transaction?.paymentMethod ?? "N/A",
+          Date: formatDate(transaction?.trasactionDate) ?? "N/A",
           Action: (
             <PatientAccountTableAction
               setActiveTransaction={setActiveTransaction}

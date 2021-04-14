@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { mutate } from "swr";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
-import { postDoctorRejectAppointmentUrl } from "../../api/URLs";
+import {
+  postDoctorRejectAppointmentUrl,
+  getRejectedAppointmentsWithDoctorUrl,
+} from "../../api/URLs";
 import { notification } from "../../utils/notification";
 
 const $ = window.$;
 
-const RejectAppointment = ({ appointmentId, mutate }) => {
+const RejectAppointment = ({ appointmentId, refresh, doctorId }) => {
   const [rejectionNote, setRejectionNote] = useState("");
   const handleSubmit = async (e, id) => {
     e.preventDefault();
@@ -22,7 +26,13 @@ const RejectAppointment = ({ appointmentId, mutate }) => {
       console.log(res, 777);
       if (res.status === 200) {
         notification.success({ message: "Appointment rejected successfully" });
-        await mutate();
+        const getUpdate = getRejectedAppointmentsWithDoctorUrl(doctorId, 1, 50);
+        const getUpdateConfig = fetchConfig({
+          url: getUpdate,
+          method: "get",
+        });
+        await mutate(getUpdateConfig);
+        await refresh();
         $("#reject-appointment").modal("hide");
       }
     } catch (err) {

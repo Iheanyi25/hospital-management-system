@@ -3,14 +3,14 @@ import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { getHMOsUrl } from "../../../api/URLs";
+import { getHMOAdminsUrl } from "../../../api/URLs";
 import { PageLoader, Table } from "../../../Components";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageHMO = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getNHISHealthPlans = getHMOsUrl(pageNumber, pageSize);
+  const getNHISHealthPlans = getHMOAdminsUrl(pageNumber, pageSize);
   const getNHISHealthPlansConfig = fetchConfig({
     url: getNHISHealthPlans,
     method: "get",
@@ -20,13 +20,16 @@ const ManageHMO = () => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data.hmOs.map(({ name, description }, index) => {
-      return {
-        "#": ++index,
-        "HMO Name": name,
-        Description: description,
-      };
-    });
+    dataTable = data?.hmoAdmins.map(
+      ({  email, hmo }, index) => {
+        return {
+          "#": ++index,
+          "HMO Name": hmo?.name,
+          Description: hmo?.description,
+          Email: <a href={"mailto:" + email}>{email}</a>,
+        };
+      }
+    );
   }
   if (error) return <div>failed to load</div>;
   return (
@@ -46,7 +49,7 @@ const ManageHMO = () => {
 
           <div className="page-content">
             <TableSize
-              size={data ? data.hmOs.length : 0}
+              size={data ? data?.hmoAdmins.length : 0}
               heading="Number of HMO Accounts"
             />
           </div>
