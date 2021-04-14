@@ -14,7 +14,6 @@ import {
   AdminActionTable,
   AccountantTable,
   NurseActionTable,
-  PharmacyActionTable,
   LabActionTable,
   DoctorActionTable,
 } from "./manage-admissions-components/ManagaAdmissionTableActions";
@@ -71,6 +70,13 @@ const ManageAdmissions = observer(() => {
             <NurseActionTable
               admissionId={admission.id}
               patient={admission.patient}
+              appointmentOrConsultationId={
+                admission.appointmentId || admission.consultationId
+              }
+              dischargeStatus={admission?.isDischarged}
+              admissionNote={`${admission?.admissionNote}`}
+              dischargeNote={`${admission?.dischargeNote}`}
+              setNoteDetails={setNoteDetails}
             />
           ),
         };
@@ -113,28 +119,10 @@ const ManageAdmissions = observer(() => {
               <img src={paid} alt="paid" /> Admitted
             </>
           ),
-          Actions: <LabActionTable admissionId={admission.id} dischargeNote={`${admission?.dischargeNote}`} />,
-        };
-      } else if (userType === "Pharmacy") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
           Actions: (
-            <PharmacyActionTable
+            <LabActionTable
               admissionId={admission.id}
-              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+              dischargeNote={`${admission?.dischargeNote}`}
             />
           ),
         };

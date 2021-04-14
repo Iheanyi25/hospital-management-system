@@ -2,6 +2,11 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react";
 import { PageLoader } from "../../Components";
 import { UserContext } from "../../mobx/UserState";
+import {
+  NurseDashboardSummary,
+  NurseDashboardHeader,
+} from "./nurse-dashboard-components";
+import ConsultationsWithDoctors from "../Admin/consultation-components/ConsultationsWithDoctors";
 
 const Dashboard = observer(() => {
   const {
@@ -16,72 +21,12 @@ const Dashboard = observer(() => {
         </div>
         <div className="main-content-wrap">
           <div className="page-content">
-            <div className="row">
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-01s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-first-aid-alt"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Appointments</h6>
-                        <div className="count text-primary fs-20">20</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-02s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Prescriptions</h6>
-                        <div className="count text-primary fs-20">0</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col col-12 col-md-6 col-xl-4">
-                <div className="card animated fadeInUp delay-03s bg-light">
-                  <div className="card-body">
-                    <div className="row align-items-center">
-                      <div className="col col-5">
-                        <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
-                      </div>
-                      <div className="col col-7">
-                        <h6 className="mt-0 mb-1">Notifications</h6>
-                        <div className="count text-primary fs-20">0</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12 col-md-6">
-                <div className="card bg-light">
-                  <div className="card-header">
-                    Hello {`${firstName} ${lastName}`}
-                  </div>
-                  <div className="card-body">You have no new notifications</div>
-                </div>
-              </div>
-              <div className="col-12 col-md-6">
-                <div className="card text-white bg-info">
-                  <div className="card-header">Important Updates</div>
-                  <div className="card-body">
-                    Yellow fever vaccinations are currently on going from 8am -
-                    2pm everyday at our hospital, Get vaccinated today!
-                  </div>
-                </div>
-              </div>
-            </div>
+            <NurseDashboardSummary />
+            <NurseDashboardHeader firstName={firstName} lastName={lastName} />
+            <header className="page-header justify-content-between d-flex align-items-center mb-2">
+              <h4 className="page-title">Consulations with Doctors</h4>
+            </header>
+            <ConsultationsWithDoctors />
           </div>
         </div>
       </main>

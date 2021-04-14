@@ -115,13 +115,51 @@ export const AccountantTable = ({ admissionId, patient }) => {
   );
 };
 
-export const NurseActionTable = ({ admissionId, patient }) => {
+export const NurseActionTable = ({
+  admissionId,
+  patient,
+  appointmentOrConsultationId,
+  dischargeStatus,
+  admissionNote,
+  dischargeNote,
+  setNoteDetails,
+}) => {
   return (
     <ActionButton>
+      {dischargeStatus ? (
+        <Link
+          data-toggle="modal"
+          data-target="#notes"
+          className="btn btn-sm btn-block"
+          onClick={() =>
+            setNoteDetails({ title: "Discharge Notes", body: dischargeNote })
+          }
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Discharge Notes
+        </Link>
+      ) : (
+        <>
+          <Link
+            data-toggle="modal"
+            data-target="#notes"
+            className="btn btn-sm btn-block"
+            onClick={() =>
+              setNoteDetails({
+                title: "Admission Notes",
+                body: admissionNote,
+              })
+            }
+          >
+            <span className="btn-icon icofont-server mr-2" />
+            Admission Notes
+          </Link>
+        </>
+      )}
       <Link
         to={{
           pathname: `/NurseWardRoundNotes/${admissionId}`,
-          state: patient,
+          state: { patient, appointmentOrConsultationId, dischargeStatus },
         }}
         className="btn btn-sm btn-block"
       >
@@ -132,28 +170,14 @@ export const NurseActionTable = ({ admissionId, patient }) => {
   );
 };
 
-export const PharmacyActionTable = ({ admissionId, patientName }) => {
-  return (
-    <ActionButton>
-      <Link
-        to={{
-          pathname: `/PharmacyManageAdmissionPrescriptions/${admissionId}`,
-          state: patientName,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Prescriptions
-      </Link>
-    </ActionButton>
-  );
-};
-
 export const LabActionTable = ({ admissionId, dischargeNote }) => {
   return (
     <ActionButton>
       <Link
-        to={{pathname:`/LabManageAdmissionServiceRequest/${admissionId}`, state: dischargeNote}}
+        to={{
+          pathname: `/LabManageAdmissionServiceRequest/${admissionId}`,
+          state: dischargeNote,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
