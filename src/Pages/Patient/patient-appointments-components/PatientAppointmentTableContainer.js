@@ -1,24 +1,40 @@
-{/* <table
-ref={(en) => (this.en = en)}
-className="table table-striped"
-data-paging="true"
-data-info="true"
->
-<thead>
-  <tr>
-    <th></th>
-    <th>Title</th>
-    <th>Reason for Appointment</th>
-    <th>Doctor's Name</th>
-    <th>Doctor's Phone Number</th>
-    <th>Actions</th>
-  </tr>
-</thead>
-<tbody>
-  {pendingAppointments &&
-    pendingAppointments.map((appointment) => (
-      <tr>
-        <td>
+import React, { useContext, useState } from "react";
+import { Table } from "../../../Components";
+import DoctorImage from "../../../assets/img/DoctorIcon.svg";
+import {
+  CompletedPatientAppointmentTableAction,
+  PendingPatientAppointmentTableAction,
+} from "./PatientAppointmentTableActions";
+import { cancelPatientAppointmentUrl } from "../../../api/URLs";
+import { notification } from "../../../utils/notification";
+import { fetchConfig } from "../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
+import { UserContext } from "../../../mobx/UserState";
+import {
+  getPatientDashboardUrl,
+  getPatientCancelledAppointmentsUrl,
+} from "../../../api/URLs";
+import { mutate as refetch } from "swr";
+
+export default function PatientAppointmentTableContainer({ url, category }) {
+  const {
+    user: { id: patientId },
+  } = useContext(UserContext);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const getPatientAppointments = url(patientId, pageNumber, pageSize);
+  const getPatientAppointmentsConfig = fetchConfig({
+    url: getPatientAppointments,
+    method: "get",
+  });
+  const { data, error, mutate } = useRequest(getPatientAppointmentsConfig, {
+    refreshWhenHidden: true,
+  });
+  let tableData = [];
+  if (data) {
+    tableData = data?.appointments?.map((appointment) => {
+      return {
+        "#": (
           <img
             src={DoctorImage}
             alt="hello"
@@ -26,124 +42,101 @@ data-info="true"
             height={40}
             className="rounded-500"
           />
-        </td>
-        <td>{appointment.appointmentTitle}</td>
-        <td>{appointment.reasonForAppointment}</td>
-        <td>
-          {appointment.doctor?.firstName ??
-            "None specified yet" +
-              " " +
-              appointment.doctor?.lastName}
-        </td>
-        <td>
-          {appointment.doctor?.phoneNumber ??
-            "None Specified Yet"}
-        </td>
-
-        <td>
-          <div className="btn-group">
-            <button
-              type="button"
-              className="btn btn-primary btn-sm btn-block dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Action
-            </button>
-            <div className="dropdown-menu text-left">
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={(e) =>
-                  this.cancelAppointments(
-                    appointment.id
-                  )
-                }
-              >
-                Cancel Appointment
-              </button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    ))}
-</tbody>
-</table>
-</div>
-</div>
-<div
-className="tab-pane fade"
-id="pills-completed"
-role="tabpanel"
-aria-labelledby="pills-accepted-tab"
->
-<div className="table-responsive">
-<table
-ref={(el) => (this.el = el)}
-className="table table-striped"
-data-paging="true"
-data-info="true"
->
-<thead>
-  <tr>
-    <th></th>
-    <th>Title</th>
-    <th>Reason for Appointment</th>
-    <th>Doctor's Name</th>
-    <th>Doctor's Phone Number</th>
-    <th>Actions</th>
-  </tr>
-</thead>
-<tbody>
-  {completedAppointments &&
-    completedAppointments.map((appointment) => (
-      <tr>
-        <td>
-          <img
-            src={DoctorImage}
-            alt="hello"
-            width={40}
-            height={40}
-            className="rounded-500"
+        ),
+        "Doctor's Name": `${appointment.doctor?.lastName || "unassigned"} ${
+          appointment.doctor?.firstName || ""
+        } `,
+        "Appointment Title": appointment?.reasonForAppointment,
+        "Reason For Appointment": appointment?.appointmentTitle,
+        Date: new Date(appointment.appointmentDate).toDateString(),
+        [category !== "cancelled" ? "Actions" : ""]: ( category !== "cancelled" &&
+          <PatientAppointmentTableActionsContainer
+            appointment={appointment}
+            category={category}
+            mutate={mutate}
+            patientId={patientId}
           />
-        </td>
-        <td>{appointment.appointmentTitle}</td>
-        <td>{appointment.reasonForAppointment}</td>
-        <td>
-          {appointment.doctor?.firstName ??
-            "None specified yet" +
-              " " +
-              appointment.doctor?.lastName}
-        </td>
-        <td>
-          {appointment.doctor?.phoneNumber ??
-            "None Specified Yet"}
-        </td>
+        ),
+      };
+    });
+  }
 
-        <td>
-          <div className="btn-group">
-            <button
-              type="button"
-              className="btn btn-primary btn-sm btn-block dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Action
-            </button>
-            <div className="dropdown-menu text-left">
-              <Link
-                type="button"
-                className="btn btn-primary"
-                to="/PatientClarkingHistory"
-              >
-                View Clerking History
-              </Link>
-            </div>
-          </div>
-        </td>
-      </tr>
-    ))}
-</tbody>
-</table> */}
+  if (error) return <div>failed to load</div>;
+  return (
+    <div>
+      {data && (
+        <Table
+          content={tableData}
+          tableID={category + tableData?.length}
+          key={category + tableData.length}
+          paginationDetails={data?.paginationDetails}
+          setPageNumber={setPageNumber}
+          pageNumber={pageNumber}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
+      )}
+    </div>
+  );
+}
+
+const PatientAppointmentTableActionsContainer = ({
+  appointment,
+  category,
+  mutate,
+  patientId,
+}) => {
+  const cancelAppointment = async (id) => {
+    try {
+      const cancelPatientAppointment = cancelPatientAppointmentUrl(id);
+      const cancelPatientAppointmentConfig = fetchConfig({
+        url: cancelPatientAppointment,
+        method: "post",
+      });
+      const res = await fetchWrapper(cancelPatientAppointmentConfig);
+      notification.success({ message: res.data.message });
+      mutate();
+
+      refetch(appointmentCountsStr(patientId));
+      refetch(cancelAppointmentStr(patientId));
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data?.message });
+    }
+  };
+  const categories = {
+    pending: (
+      <PendingPatientAppointmentTableAction
+        id={appointment.id}
+        cancelAppointment={cancelAppointment}
+      />
+    ),
+    completed: (
+      <CompletedPatientAppointmentTableAction appointment={appointment} />
+    ),
+  };
+
+  return <div>{categories[category] || " "}</div>;
+};
+
+const appointmentCountsStr = (patientId) => {
+  const getPatientAllCounts = getPatientDashboardUrl(patientId);
+  const getPatientAllCountsConfig = fetchConfig({
+    url: getPatientAllCounts,
+    method: "get",
+  });
+  return JSON.stringify(getPatientAllCountsConfig);
+};
+
+const cancelAppointmentStr = (patientId) => {
+  const getPatientAppointments = getPatientCancelledAppointmentsUrl(
+    patientId,
+    1,
+    50
+  );
+  const getPatientAppointmentsConfig = fetchConfig({
+    url: getPatientAppointments,
+    method: "get",
+  });
+  return JSON.stringify(getPatientAppointmentsConfig);
+};

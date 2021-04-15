@@ -9,7 +9,7 @@ import { UserContext } from "../../mobx/UserState";
 import { observer } from "mobx-react";
 import PatientAppointmentSummary from "./patient-appointments-components/PatientAppointmentSummary";
 import PatientAppointmentTabHeader from "./patient-appointments-components/PatientAppointmentTabHeader";
-// import PatientAppointmentTabContent from "./patient-appointments-components/PatientAppointmentTabContent";
+import PatientAppointmentTabContent from "./patient-appointments-components/PatientAppointmentTabContent";
 
 const Appointments = () => {
  const {user: { id }} = useContext(UserContext)
@@ -21,7 +21,6 @@ const Appointments = () => {
   const { data: allCounts, error } = useRequest(getPatientAllCountsConfig, {
     revalidateOnFocus: false,
   });
-
   if (error) return <div>failed to load</div>;
   return (
     <>
@@ -44,12 +43,7 @@ const Appointments = () => {
                   {" "}
                   <PatientAppointmentTabHeader />
                 </div>
-                  {/* <PatientAppointmentTabContent
-                    pendingAppointments={pendingAppointments}
-                    acceptedAppointments={acceptedAppointments}
-                    completedAppointments={completedAppointments}
-                    mutate={mutate}
-                  /> */}
+                  <PatientAppointmentTabContent />
               </div>
             </div>
           </div>
