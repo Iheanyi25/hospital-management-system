@@ -41,7 +41,7 @@ export default function CreateHMO() {
   });
   const options = [];
 
-  if (data?.healthPlans.length > 0) {
+  if (data?.plans.length > 0) {
     data.plans.forEach(({ id, name }) => {
       options.push({ value: id, label: name });
     });

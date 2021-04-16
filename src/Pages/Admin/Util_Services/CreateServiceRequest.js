@@ -36,7 +36,6 @@ class CreateService extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.location.state, 444);
     if (this?.props?.location?.state) {
       this.setState({
         isFromClarking: true,
