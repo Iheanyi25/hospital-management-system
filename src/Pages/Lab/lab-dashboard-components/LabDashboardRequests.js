@@ -63,7 +63,7 @@ const LabDashboardRequestsTableAction = observer(({ category }) => {
   console.log(user, 1111);
   return (
     <ActionButton>
-      {user?.userType === "Lab" ? null : category?.paymentStatus ===
+      {user?.userType === "LabAttendant" ? null : category?.paymentStatus ===
           "NOT PAID" || category?.paymentStatus === "INCOMPLETE" ? (
         <NavLink
           to={{
@@ -89,7 +89,7 @@ const LabDashboardRequestsTableAction = observer(({ category }) => {
           pathname:
             user?.userType === "Admin"
               ? `/AdminViewServiceRequestContents/${category.id}`
-              : user?.userType === "Lab"
+              : user?.userType === "LabAttendant"
               ? `/LabServiceRequestContents/${category.id}`
               : `/AccountServiceRequestContents/${category.id}`,
           state: {
