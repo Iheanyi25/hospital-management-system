@@ -112,7 +112,7 @@ console.log(data,"data");
                 />
               </div>
               <div className="col"></div>
-              <div className="col text-right">
+              <div className="col mx-0 text-right">
                 <button type="submit" className="btn btn-primary">
                   Create Price
                 </button>

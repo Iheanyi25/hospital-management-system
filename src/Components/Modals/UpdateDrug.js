@@ -165,17 +165,6 @@ const UpdateDrug = ({ drug, id, update }) => {
                       onChange={handleChange}
                     />
                   </div>
-                  <div className="form-group">
-                    <label>Expiry Date</label>
-                    <input
-                      className="form-control"
-                      type="date"
-                      tabIndex={-98}
-                      name="expiryDate"
-                      value={expiryDate}
-                      onChange={handleChange}
-                    />
-                  </div>
                 </div>
               </div>
               <div className="col"></div>
