@@ -1,50 +1,51 @@
-import React from 'react'
-import DoctorImage from "../../assets/img/DoctorIcon.svg";
-import { notification } from "../../utils/notification";
+import React from "react";
+import {
+  getPatientPendingAppointmentsUrl,
+  getPatientCompletedAppointmentsUrl,
+  getPatientCancelledAppointmentsUrl,
+} from "../../../api/URLs";
+import PatientAppointmentTableContainer from "./PatientAppointmentTableContainer";
 
 export default function PatientAppointmentTabContent() {
-    return (
-        <div>
+  return (
+    <div>
       <div className="tab-content" id="pills-tabContent">
         <div
-          className="tab-pane show fade active"
+          className="tab-pane fade show active"
           id="pills-pending"
           role="tabpanel"
           aria-labelledby="pills-pending-tab"
         >
-          <AppointmentTableContainer
-            appointments={pendingAppointments}
+          <PatientAppointmentTableContainer
+            url={getPatientPendingAppointmentsUrl}
             category="pending"
-            mutate={mutate}
           />
         </div>
 
         <div
-          className="tab-pane fade"
-          id="pills-accepted"
-          role="tabpanel"
-          aria-labelledby="pills-completed-tab"
+           className="tab-pane fade"
+           id="pills-completed"
+           role="tabpanel"
+           aria-labelledby="pills-completed-tab"
         >
-          <AppointmentTableContainer
-            appointments={acceptedAppointments}
-            category="accepted"
-            mutate={mutate}
-          />
-        </div>
-
-        <div
-          className="tab-pane fade"
-          id="pills-completed"
-          role="tabpanel"
-          aria-labelledby="pills-cancelled-tab"
-        >
-          <AppointmentTableContainer
-            appointments={completedAppointments}
+          <PatientAppointmentTableContainer
+            url={getPatientCompletedAppointmentsUrl}
             category="completed"
-            mutate={mutate}
+          />
+        </div>
+
+        <div
+            className="tab-pane fade"
+            id="pills-cancelled"
+            role="tabpanel"
+            aria-labelledby="pills-cancelled-tab"
+        >
+          <PatientAppointmentTableContainer
+            url={getPatientCancelledAppointmentsUrl}
+            category="cancelled"
           />
         </div>
       </div>
     </div>
-    )
+  );
 }

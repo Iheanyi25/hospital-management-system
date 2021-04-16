@@ -10,11 +10,11 @@ export default function PatientAppointmentTabHeader() {
         <li className="nav-item">
           <a
             className="nav-link active"
-            id="pills-active-tab"
+            id="pills-pending-tab"
             data-toggle="pill"
-            href="#pills-active"
+            href="#pills-pending"
             role="tab"
-            aria-controls="pills-active"
+            aria-controls="pills-pending"
             aria-selected="true"
           >
             Pending Appointments
@@ -37,11 +37,11 @@ export default function PatientAppointmentTabHeader() {
         <li className="nav-item">
           <a
             className="nav-link"
-            id="pills-pending-tab"
+            id="pills-cancelled-tab"
             data-toggle="pill"
-            href="#pills-pending"
+            href="#pills-cancelled"
             role="tab"
-            aria-controls="pills-pending"
+            aria-controls="pills-cancelled"
             aria-selected="false"
           >
             Canceled Appointments

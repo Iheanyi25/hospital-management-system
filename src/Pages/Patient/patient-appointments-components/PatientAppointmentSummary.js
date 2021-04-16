@@ -3,7 +3,8 @@ import React from "react";
 export default function PatientAppointmentSummary({allCounts}) {
   const {
     completedAppoinmentsCount,
-    pendingAppoinmentsCount
+    pendingAppoinmentsCount,
+    canceledAppointmentsCount
   } = allCounts;
 
   const summaryDetails = [
@@ -12,15 +13,15 @@ export default function PatientAppointmentSummary({allCounts}) {
       text: "Pending Appointments",
       value: pendingAppoinmentsCount,
     },
-    // {
-    //   iconName: "icofont-blood",
-    //   text: "Finalized Appointments",
-    //   value: finalizedAppointmentsCount,
-    // },
     {
       iconName: "icofont-list",
       text: "Completed Appointments",
       value: completedAppoinmentsCount,
+    },
+    {
+      iconName: "icofont-list",
+      text: "Cancelled Appointments",
+      value: canceledAppointmentsCount,
     },
   ];
 
