@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ProfileInfoForm({details, handleChange, handleSubmit }) {
+export default function ProfileInfoForm({details, handleChange, handleSubmit, IsValidPhone }) {
     const { email, phoneNumber, zipCode, city, state, dateOfBirth, country, address } = details;
 	return (
 		<form className="p-5" onSubmit={handleSubmit}>
@@ -9,11 +9,14 @@ export default function ProfileInfoForm({details, handleChange, handleSubmit }) 
 				<input
 					name="phoneNumber"
 					className="form-control"
-					type="number"
+					type="text" 
+					pattern="\d*" 
+					maxLength={phoneNumber[0] === "0" ? 11 : 14}
+					placeholder="234, +234 ,090-5876-5671"
 					onChange={handleChange}
-					placeholder="Phone Number"
 					value={phoneNumber}
 				/>
+				{!IsValidPhone && <div className="text-danger mt-1">Invalid phone number</div>}
 			</div>
 			<div className="form-group">
 				<label>Email</label>

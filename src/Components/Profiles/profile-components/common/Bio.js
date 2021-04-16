@@ -4,6 +4,7 @@ import reset from "../../../../assets/img/reset.svg";
 import phone from "../../../../assets/img/phone.svg";
 import resetText from "../../../../assets/img/resetText.svg";
 import emailImg from "../../../../assets/img/email.svg";
+import { formatPhoneNumber } from "../../../../utils/validationUtils";
 
 export default function Bio({ bioDetails, image }) {
   const { firstName, lastName, phoneNumber, email, userType } = bioDetails;
@@ -53,7 +54,7 @@ export default function Bio({ bioDetails, image }) {
               </div>
               <div className="d-flex pl-1">
                 <img src={phone} alt="reset" className="mr-3 mb-2" />
-                <p>{phoneNumber || "N/A"}</p>
+                <p>{formatPhoneNumber(phoneNumber) || "N/A"}</p>
               </div>
             </div>
           </div>
