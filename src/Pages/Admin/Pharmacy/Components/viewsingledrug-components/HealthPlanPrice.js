@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../../api/fetchConfig";
 import { useRequest, fetchWrapper } from "../../../../../api/fetcher";
-import { getDrugPricesUrl, deleteDrugPricesUrl } from "../../../../../api/URLs";
+import { getDrugPricesByDrugUrl, deleteDrugPricesUrl } from "../../../../../api/URLs";
 import edit from "../../../../../assets/img/edit.svg";
 import remove from "../../../../../assets/img/remove.svg";
 import { PageLoader } from "../../../../../Components";
@@ -13,7 +13,7 @@ import formatAmount from "../../../../../utils/formatAmount";
 
 const HealthPlanPrice = ({ drugId, drugType }) => {
   const [healthPlanPrice, setHealthPlanPrice] = useState({});
-  const drugPricesUrl = getDrugPricesUrl();
+  const drugPricesUrl = getDrugPricesByDrugUrl(drugId);
   const getDrugPricesConfig = fetchConfig({
     url: drugPricesUrl,
     method: "get",

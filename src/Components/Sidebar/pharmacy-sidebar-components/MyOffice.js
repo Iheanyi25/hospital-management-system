@@ -70,10 +70,10 @@ const Prescription = ({ pathname }) => {
         data-parent="#accordion"
       >
         <li className="menu-item font-weight-normal">
-          <Link to="/PharmacyManagePrescriptionInvoice" className="item-link">
+          <Link to="/PharmacyManagePrescriptions" className="item-link">
             <span
               className={
-                pathname === "/PharmacyManagePrescriptionInvoice"
+                pathname === "/PharmacyManagePrescriptions"
                   ? "link-text text-primary"
                   : "link-text"
               }
@@ -83,10 +83,10 @@ const Prescription = ({ pathname }) => {
           </Link>
         </li>
         <li className="menu-item font-weight-normal">
-          <Link className="item-link" to="/AdminPrescriptions">
+          <Link className="item-link" to="/PharmacyManagePrescriptionInvoice">
             <span
               className={
-                pathname === "/AdminPrescriptions"
+                pathname === "/PharmacyManagePrescriptionInvoice"
                   ? "link-text text-primary"
                   : "link-text"
               }

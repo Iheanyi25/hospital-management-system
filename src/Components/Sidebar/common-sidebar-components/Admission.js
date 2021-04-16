@@ -21,7 +21,7 @@ const AdmissionSection = () => {
           aria-expanded="false"
           aria-controls="collapseAdmission"
         >
-          <span className="group-title">ADDMISSION</span>
+          <span className="group-title">ADMISSION</span>
         </div>
       </li>
     );

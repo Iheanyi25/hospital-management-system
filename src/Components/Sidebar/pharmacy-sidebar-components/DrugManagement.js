@@ -69,7 +69,7 @@ const Drugs = ({ pathname }) => {
                   : "link-text"
               }
             >
-               view drugs
+               Manage drugs
             </span>
           </Link>
         </li>

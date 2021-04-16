@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
@@ -15,8 +15,13 @@ import { fetchWrapper, useRequest } from "../../../../api/fetcher";
 import paid from "../../../../assets/img/paid.svg";
 import notpaid from "../../../../assets/img/notpaid.svg";
 import { notification } from "../../../../utils/notification";
+import { observer } from "mobx-react";
+import { UserContext } from "../../../../mobx/UserState";
 
-const ManageBeds = ({ admissionId, wardId }) => {
+const ManageBeds = observer(({ admissionId, wardId }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const history = useHistory();
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -30,6 +35,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
   });
 
   const assignBed = async (bedId) => {
+    const nextRoute = userType === "Admin" ? "/AdminManageAdmissions" : "/";
     const payload = {
       admissionId,
       bedId,
@@ -43,7 +49,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
       });
       const res = await fetchWrapper(assignPatientToBedSpaceConfig);
       notification.success({ message: res.data.message });
-      history.push("/AdminManageAdmissions");
+      history.push(nextRoute);
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
     }
@@ -52,7 +58,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.beds.map((bed, index) => {
-      console.log(bed,6666)
+      console.log(bed, 6666);
       if (admissionId) {
         return {
           "#": ++index,
@@ -135,7 +141,7 @@ const ManageBeds = ({ admissionId, wardId }) => {
       <AddBed wardId={wardId} mutate={mutate} />
     </Fragment>
   );
-};
+});
 
 // const BedsTableAction = () => {
 //   return (
