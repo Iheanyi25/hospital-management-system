@@ -43,7 +43,7 @@ const ServiceRequestContents = ({ match, location }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.serviceRequests.map((request, index) => {
-      if (userType === "Admin" || userType === "LabAttendant") {
+      if (userType === "Admin" || userType === "LabAttendant"|| userType === "Accountant") {
         return {
           "#": ++index,
           "Service Name": request?.serviceName,
