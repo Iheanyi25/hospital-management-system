@@ -9,6 +9,7 @@ import { Table } from "../../../Components";
 import { observer } from "mobx-react";
 import { UserContext } from "../../../mobx/UserState";
 import ActionButton from "../../../Components/DataTable/ActionButton";
+import formatDate from "../../../utils/formatDate";
 
 export default function LabDashboardRequests({ serviceRequestInvoices }) {
   let tableData = [];
@@ -19,7 +20,7 @@ export default function LabDashboardRequests({ serviceRequestInvoices }) {
         "Patient's Name": category?.fullname,
         "No. of Services": category?.noofServices,
         "Invoice No.": category?.invoiceNumber,
-        "Date Generated": category?.dateGenerated ?? "N/A",
+        "Date Generated": formatDate(category?.dateGenerated) ?? "N/A",
         "Total Cost": formatAmount(category?.cost) ?? "",
         Status: (
           <div className="text-muted text-nowrap">
@@ -63,7 +64,7 @@ const LabDashboardRequestsTableAction = observer(({ category }) => {
   console.log(user, 1111);
   return (
     <ActionButton>
-      {user?.userType === "Lab" ? null : category?.paymentStatus ===
+      {user?.userType === "LabAttendant" ? null : category?.paymentStatus ===
           "NOT PAID" || category?.paymentStatus === "INCOMPLETE" ? (
         <NavLink
           to={{
@@ -89,7 +90,7 @@ const LabDashboardRequestsTableAction = observer(({ category }) => {
           pathname:
             user?.userType === "Admin"
               ? `/AdminViewServiceRequestContents/${category.id}`
-              : user?.userType === "Lab"
+              : user?.userType === "LabAttendant"
               ? `/LabServiceRequestContents/${category.id}`
               : `/AccountServiceRequestContents/${category.id}`,
           state: {

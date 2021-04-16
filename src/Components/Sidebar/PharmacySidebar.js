@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Admission from "./common-sidebar-components/Admission";
 import Profile from "./common-sidebar-components/Profile";
 import DrugsMGT from "./pharmacy-sidebar-components/DrugManagement";
 import MyOffice from "./pharmacy-sidebar-components/MyOffice";
@@ -28,7 +27,7 @@ function PharmacySidebar() {
               <ul className="menu-ul">
                 <MyOffice />
                 <DrugsMGT />
-                <Admission admissionUrl="PharmacyManageAdmissions" />
+                {/* <Admission admissionUrl="PharmacyManageAdmissions" /> */}
                 <Profile profileUrl="PharmacyProfile" />
               </ul>
             </nav>

@@ -27,6 +27,7 @@ export const updateDrugBatchUrl = () => `/Pharmacy/UpdateDrugBatch`;
 // Pharmacy - Manage Drug Prices
 export const updateDrugBasePriceUrl = () => `/Pharmacy/UpdateDefaultDrugPrice`;
 export const getDrugPricesUrl = () => `/Pharmacy/GetDrugPrices`;
+export const getDrugPricesByDrugUrl = (drugId) => `/Pharmacy/GetDrugPricesByDrug?DrugId=${drugId}`;
 export const postDrugPricesUrl = () => `/Pharmacy/CreateDrugPrice`;
 export const updateDrugPricesUrl = () => `/Pharmacy/UpdateDrugPrice`;
 export const deleteDrugPricesUrl = () => `/Pharmacy/DeleteDrugPrice`;

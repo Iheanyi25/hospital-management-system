@@ -10,8 +10,8 @@ import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
 import DrugPrescription from "../Pages/Admin/Pharmacy/DrugPrescription";
 import ManagePrescriptionInvioice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
-import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
-import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
+// import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
+// import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
 
 export default function PharmacyRoutes() {
   return (
@@ -48,7 +48,7 @@ export default function PharmacyRoutes() {
             component={DrugPrescription}
           />
           <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route
+          {/* <Route
             exact
             path="/PharmacyManageAdmissions"
             component={ManageAdmissions}
@@ -57,7 +57,7 @@ export default function PharmacyRoutes() {
             exact
             path="/PharmacyManageAdmissionPrescriptions/:id"
             component={ManageAdmissionPrescriptions}
-          />
+          /> */}
           <Route
             exact
             path="*"

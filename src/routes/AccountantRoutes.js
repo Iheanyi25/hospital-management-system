@@ -25,6 +25,7 @@ import AllAccountTransactions from "../Pages/Admin/Reports/AllAccountTransaction
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ManageAdmissionInvoices from "../Components/Admissions/ManageAdmissionInvoices";
 import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
+import ViewPatientsInAccount from "../Pages/Admin/ViewPatientsInAccount";
 
 export default function AccountantRoutes() {
   return (
@@ -50,6 +51,11 @@ export default function AccountantRoutes() {
             exact
             path="/AccountantManageAccounts"
             component={ManageAccounts}
+          />
+          <Route
+            exact
+            path="/ViewPatientsInAccount/:id"
+            component={ViewPatientsInAccount}
           />
           <Route
             exact
