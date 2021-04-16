@@ -11,8 +11,8 @@ const UploadLabResultForm = observer(
     });
     const [emptyField, setEmptyField] = useState(true);
     useEffect(() => {
-      const { result, additionalComments } = state;
-      if (isNotEmptyString(result) && isNotEmptyString(additionalComments)) {
+      const { result } = state;
+      if (isNotEmptyString(result)) {
         setEmptyField(false);
       }
     }, [state]);
