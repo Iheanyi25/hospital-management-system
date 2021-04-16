@@ -47,7 +47,7 @@ export default function EditInfo({
   };
 
   const { userId, dateOfBirth, gender, ...contactInfo } = details;
-
+console.log(userId, "user Id");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { firstName, lastName, otherNames, userType } = primaryDetails;
@@ -116,7 +116,7 @@ export default function EditInfo({
 }
 
 const getUrls = {
-  pharmacy: {
+  pharmacist: {
     id: "pharmacistId",
     basic: updatePharmacistBasicInfoUrl(),
     contact: updatePharmacistContactDetailsUrl(),

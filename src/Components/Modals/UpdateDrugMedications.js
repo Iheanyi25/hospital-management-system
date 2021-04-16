@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { fetchConfig } from "../../api/fetchConfig";
 import { createDrugMedicationUrl, getAllDrugsUrl } from "../../api/URLs";
@@ -6,6 +6,7 @@ import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 import Select from "react-select";
+import { isNotEmptyString } from "../../utils/validationUtils";
 
 const $ = window.$;
 const UpdateMedications = observer(({ admissionId, mutate }) => {
@@ -22,6 +23,27 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
     initiatorId,
   });
   const [drugDetails, setDrugDetails] = useState();
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const {
+      administrationInstruction,
+      dosage,
+      frequency,
+      startDate,
+      endDate,
+    } = payload;
+    if (
+      isNotEmptyString(administrationInstruction) &&
+      isNotEmptyString(dosage) &&
+      isNotEmptyString(frequency) &&
+      isNotEmptyString(startDate) &&
+      isNotEmptyString(endDate)
+    ) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
+  }, [payload]);
   const getDrugsUrl = getAllDrugsUrl(1, 200);
   const getDrugConfig = fetchConfig({
     url: getDrugsUrl,
@@ -37,7 +59,15 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const closeModal = () => {
+    setpayload({
+      administrationInstruction: "",
+      dosage: "",
+      frequency: "",
+      startDate: "",
+      endDate: "",
+    });
+  };
   const handleClick = (drugDetails) => {
     setDrugDetails(drugDetails);
   };
@@ -84,6 +114,9 @@ const UpdateMedications = observer(({ admissionId, mutate }) => {
                     drugDetails={drugDetails}
                     startDate={payload?.startDate}
                     drugs={data?.drugs}
+                    emptyField={emptyField}
+                    closeModal={closeModal}
+                    payload={payload}
                   />
                 </div>
               </div>
@@ -101,7 +134,10 @@ const UpdateMedicationForm = ({
   drugs,
   handleClick,
   drugDetails,
-  startDate
+  startDate,
+  emptyField,
+  closeModal,
+  payload,
 }) => {
   const options = [];
 
@@ -120,6 +156,7 @@ const UpdateMedicationForm = ({
           placeholder="Enter administration instructions"
           onChange={handleChange}
           name="administrationInstruction"
+          value={payload?.administrationInstruction}
           required
         />
       </div>
@@ -129,6 +166,7 @@ const UpdateMedicationForm = ({
           type="text"
           className="form-control"
           name="dosage"
+          value={payload?.dosage}
           onChange={handleChange}
         />
       </div>
@@ -138,6 +176,7 @@ const UpdateMedicationForm = ({
           type="text"
           className="form-control"
           name="frequency"
+          value={payload?.frequency}
           onChange={handleChange}
         />
       </div>
@@ -147,6 +186,7 @@ const UpdateMedicationForm = ({
           type="date"
           className="form-control"
           name="startDate"
+          value={payload?.startDate}
           onChange={handleChange}
         />
       </div>
@@ -156,6 +196,7 @@ const UpdateMedicationForm = ({
           type="date"
           className="form-control"
           name="endDate"
+          value={payload?.endDate}
           min={startDate}
           onChange={handleChange}
         />
@@ -166,10 +207,18 @@ const UpdateMedicationForm = ({
       </div>
       <div className="col"></div>
       <div className="d-flex justify-content-between">
-        <button className="btn btn-outline-danger mr-3" data-dismiss="modal">
+        <button
+          className="btn btn-outline-danger mr-3"
+          onClick={closeModal}
+          data-dismiss="modal"
+        >
           Close
         </button>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          disabled={emptyField ? true : false}
+          className="btn btn-primary"
+        >
           Save
         </button>
       </div>

@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import reset from "../../../../assets/img/reset.svg";
 import phone from "../../../../assets/img/phone.svg";
 import resetText from "../../../../assets/img/resetText.svg";
 import emailImg from "../../../../assets/img/email.svg";
+import { UserContext } from "../../../../mobx/UserState";
 
-export default function Bio({ bioDetails, image }) {
+const Bio = ({ bioDetails, image }) => {
+  const {
+    user: { userType: loggedInUser },
+  } = useContext(UserContext);
   const { firstName, lastName, phoneNumber, email, userType } = bioDetails;
   const title = {
     pharmacist: "Pharm.",
@@ -40,10 +44,12 @@ export default function Bio({ bioDetails, image }) {
                     : "N/A"}
                 </h5>
                 <p className="mb-2">{userType}</p>
-                <Link to="/ChangePassword">
-                  <img src={reset} alt="reset" className="mr-2" />
-                  <img src={resetText} alt="reset" className="mr-2" />
-                </Link>
+                {loggedInUser !== userType ? null : (
+                  <Link to="/ChangePassword">
+                    <img src={reset} alt="reset" className="mr-2" />
+                    <img src={resetText} alt="reset" className="mr-2" />
+                  </Link>
+                )}
               </div>
             </div>
             <div className="mt-2">
@@ -61,4 +67,6 @@ export default function Bio({ bioDetails, image }) {
       </div>
     </div>
   );
-}
+};
+
+export default Bio;

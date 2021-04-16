@@ -76,7 +76,7 @@ const ObservationCharts = ({ admissionId, dischargeStatus }) => {
                             <h5 className="mb-2 mt-1 font-weight-bold">
                               <u>
                                 {/* {" "} */}
-                                {`Dr. ${observation?.name}`}
+                                {`${observation?.initiator?.firstName} ${observation?.initiator?.lastName}`}
                               </u>
                             </h5>
                             <p className="mb-2">
@@ -118,7 +118,7 @@ const ObservationCharts = ({ admissionId, dischargeStatus }) => {
                               </small>
                             </div>
                             <div className="border-bottom pb-3">
-                              <p className="mb-0 mt-2">Tempreture (celcius)</p>
+                              <p className="mb-0 mt-2">Tempreture (celsius)</p>
                               <small className="text-info">
                                 {observation?.temperature}
                               </small>
