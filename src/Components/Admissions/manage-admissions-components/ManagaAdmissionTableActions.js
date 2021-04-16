@@ -44,13 +44,13 @@ export const AdminActionTable = ({
               <span className="btn-icon icofont-server mr-2" />
               Admission Notes
             </Link>
-            <Link
+            {/* <Link
               to={`/AdminCreateAdmissionServiceRequest/${admissionId}`}
               className="btn btn-sm btn-block"
             >
               <span className="btn-icon icofont-server mr-2" />
               Request a service
-            </Link>
+            </Link> */}
           </>
         )}
         <Link
