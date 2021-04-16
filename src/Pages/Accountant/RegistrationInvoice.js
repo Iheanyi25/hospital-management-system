@@ -109,5 +109,5 @@ const RegistrationInvoiceAction = ({ registrationInvoice }) => {
         </NavLink>
       </div>
     </div>
-  ) : null;
+  ) : "No Action";
 };
