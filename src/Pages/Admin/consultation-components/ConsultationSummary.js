@@ -18,19 +18,20 @@ export default function ConsultationSummary() {
     {
       revalidateOnFocus: false,
     }
-  );
-
-  const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl();
-  const getgetPatientsUnattentedToCountConfig = fetchConfig({
-    url: getPatientsUnattentedToCount,
-    method: "get",
-  });
-  const { data: patientUnattendedTo } = useRequest(
-    getgetPatientsUnattentedToCountConfig,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+    );
+    
+    const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl();
+    const getgetPatientsUnattentedToCountConfig = fetchConfig({
+      url: getPatientsUnattentedToCount,
+      method: "get",
+    });
+    const { data: patientUnattendedTo } = useRequest(
+      getgetPatientsUnattentedToCountConfig,
+      {
+        revalidateOnFocus: false,
+      }
+      );
+      console.log(patientUnattendedTo, 1212);
 
   const getPatientsOnOpenListCount = getPatientsOnOpenListCountUrl();
   const getgetPatientsOnOpenListCountConfig = fetchConfig({

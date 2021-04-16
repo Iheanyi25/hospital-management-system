@@ -1,7 +1,7 @@
 import React from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper } from "../../../api/fetcher";
-import { patientCancelAppointments } from "../../../api/URLs";
+import { cancelPatientAppointmentUrl } from "../../../api/URLs";
 import DoctorImage from "../../../assets/img/DoctorIcon.svg";
 import { Table } from "../../../Components";
 import { notification } from "../../../utils/notification";
@@ -56,7 +56,7 @@ export default function PatientDashboardAppointmentList({
 const PendingAppointmentsTableAction = ({ appointment, mutate }) => {
   const cancelAppointments = async (id) => {
     try {
-      const cancelPatientAppointment = patientCancelAppointments(id);
+      const cancelPatientAppointment = cancelPatientAppointmentUrl(id);
       const cancelPatientAppointmentConfig = fetchConfig({
         url: cancelPatientAppointment,
         method: "post",

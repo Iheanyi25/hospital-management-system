@@ -403,7 +403,8 @@ class UpdatePatientProfile extends React.Component {
                           <input
                             required
                             className="form-control"
-                            type="text"
+                            type="number"
+                            min="0"
                             placeholder="Phone Number"
                             value={phoneNumber ? phoneNumber : ""}
                             onChange={(e) =>

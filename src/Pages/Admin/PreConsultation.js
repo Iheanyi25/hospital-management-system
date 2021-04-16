@@ -163,6 +163,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
+                                  min="0"
                                   value={respiration ? respiration : ""}
                                   onChange={(e) =>
                                     this.handleChange("respiration", e)
@@ -178,6 +179,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
+                                  min="0"
                                   value={pulse ? pulse : ""}
                                   onChange={(e) =>
                                     this.handleChange("pulse", e)
@@ -191,6 +193,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
+                                  min="0"
                                   value={spo2 ? spo2 : ""}
                                   onChange={(e) => this.handleChange("spo2", e)}
                                 />
@@ -203,6 +206,7 @@ class PreConsultation extends React.Component {
                             <input
                               className="form-control"
                               type="number"
+                              min="0"
                               value={temperature ? temperature : ""}
                               onChange={(e) =>
                                 this.handleChange("temperature", e)
@@ -248,6 +252,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
+                                  min="0"
                                   value={weight}
                                   onChange={(e) =>
                                     this.handleChange("weight", e)
@@ -261,6 +266,7 @@ class PreConsultation extends React.Component {
                                 <input
                                   className="form-control"
                                   type="number"
+                                  min="0"
                                   value={height}
                                   onChange={(e) =>
                                     this.handleChange("height", e)

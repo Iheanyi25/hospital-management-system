@@ -69,12 +69,12 @@ const ManageServiceRequest = observer(() => {
             )}
           </>
         ),
-        Actions: (
-          <ServiceInvoiceTableAction
-            serviceInvoice={serviceInvoice}
-            user={user}
-          />
-        ),
+        // Actions: (
+        //   <ServiceInvoiceTableAction
+        //     serviceInvoice={serviceInvoice}
+        //     user={user}
+        //   />
+        // ),
       };
     });
   }
