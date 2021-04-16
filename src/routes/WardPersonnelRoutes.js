@@ -11,6 +11,7 @@ import AssignWard from "../Components/Admissions/Wards/AssignWard";
 import AssignBed from "../Components/Admissions/Wards/AssignBed";
 import { WardPersonnelLayout } from "../Components/Layout";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
+import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 
 export default function WardPersonnelRoutes() {
   return (
@@ -34,6 +35,11 @@ export default function WardPersonnelRoutes() {
             exact
             path="/WardViewReferredPatients"
             component={ReferredPatients}
+          />
+          <Route
+            exact
+            path="/WardManageAdmissions"
+            component={ManageAdmissions}
           />
           <Route
             exact

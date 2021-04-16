@@ -156,6 +156,23 @@ const ManageAdmissions = observer(() => {
             />
           ),
         };
+      } else if (userType === "WardPersonnel") {
+        return {
+          "#": ++index,
+          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+          Ward: admission?.bed?.ward?.name,
+          Room: admission?.bed?.name,
+          Status: admission?.isDischarged ? (
+            <>
+              <img src={incomplete} alt="not paid" /> Discharged
+            </>
+          ) : (
+            <>
+              <img src={paid} alt="paid" /> Admitted
+            </>
+          ),
+        };
       } else {
         return {
           "#": ++index,

@@ -9,6 +9,7 @@ export default function MyOffice() {
       <Dashboard pathname={pathname} />
       <Wards pathname={pathname} />
       <RefferedPatients pathname={pathname} />
+      <ManageAdmissions pathname={pathname} />
     </div>
   );
 }
@@ -115,6 +116,27 @@ const RefferedPatients = ({ pathname }) => {
             }
           >
             Referred Patients
+          </span>
+        </Link>
+      </li>
+    </div>
+  );
+};
+
+const ManageAdmissions = ({ pathname }) => {
+  return (
+    <div className="collapse" id="subMenuMyOffice">
+      <li className="menu-item">
+        <Link className="item-link" to="/WardManageAdmissions">
+          <span className="link-icon icofont-users" />{" "}
+          <span
+            className={
+              pathname === "/WardManageAdmissions"
+                ? "link-text text-primary"
+                : "link-text"
+            }
+          >
+            Manage Admissions
           </span>
         </Link>
       </li>
