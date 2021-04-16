@@ -11,6 +11,7 @@ import { notification } from "../../utils/notification";
 import { observer } from "mobx-react";
 import { UserContext } from "../../mobx/UserState";
 import Select from "react-select";
+import { isNotEmptyString } from "../../utils/validationUtils";
 
 const $ = window.$;
 const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
@@ -31,6 +32,27 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
     label: "",
     value: "",
   });
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const {
+      administrationInstruction,
+      dosage,
+      frequency,
+      startDate,
+      endDate,
+    } = payload;
+    if (
+      isNotEmptyString(administrationInstruction) &&
+      isNotEmptyString(dosage) &&
+      isNotEmptyString(frequency) &&
+      isNotEmptyString(startDate) &&
+      isNotEmptyString(endDate)
+    ) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
+  }, [payload]);
   const [allServices, setAllServices] = useState([]);
   const [service, setService] = useState({ label: "", value: "" });
   const getAllServicesCategory = getAllServicesCategoryUrl(1, 200);
@@ -38,14 +60,11 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
     url: getAllServicesCategory,
     method: "get",
   });
-  const { data: categories, error } = useRequest(
-    getAllServicesCategoryConfig,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  const { data: categories, error } = useRequest(getAllServicesCategoryConfig, {
+    revalidateOnFocus: false,
+  });
 
-  console.log(error,8888)
+  console.log(error, 8888);
 
   useEffect(() => {
     async function fetchServices() {
@@ -63,8 +82,18 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
         notification.error({ message: error?.response?.data.message });
       }
     }
-    if(serviceCategory.value) fetchServices();
+    if (serviceCategory.value) fetchServices();
   }, [serviceCategory.value]);
+
+  const closeModal = () => {
+    setpayload({
+      administrationInstruction: "",
+      dosage: "",
+      frequency: "",
+      startDate: "",
+      endDate: "",
+    });
+  };
 
   const handleChange = (e) => {
     setpayload({
@@ -83,7 +112,7 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
     e.preventDefault();
     const data = { ...payload, serviceId: service?.value, admissionId };
     try {
-      const createMedication = createServiceMedicationUrl ();
+      const createMedication = createServiceMedicationUrl();
       const createMedicationConfig = fetchConfig({
         url: createMedication,
         data: data,
@@ -124,6 +153,9 @@ const UpdateServiceMedications = observer(({ admissionId, mutate }) => {
                     selectedServiceCategory={serviceCategory}
                     services={allServices}
                     selectedService={service}
+                    emptyField={emptyField}
+                    closeModal={closeModal}
+                    payload={payload}
                   />
                 </div>
               </div>
@@ -144,7 +176,10 @@ const UpdateServiceMedicationForm = ({
   selectedServiceCategory,
   handleServiceCatSelect,
   handleServiceSelect,
-  startDate
+  startDate,
+  emptyField,
+  closeModal,
+  payload,
 }) => {
   const optionsServiceCat = [];
   const optionsService = [];
@@ -170,6 +205,7 @@ const UpdateServiceMedicationForm = ({
           placeholder="Enter administration instructions"
           onChange={handleChange}
           name="administrationInstruction"
+          value={payload?.administrationInstruction}
           required
         />
       </div>
@@ -179,6 +215,7 @@ const UpdateServiceMedicationForm = ({
           type="text"
           className="form-control"
           name="dosage"
+          value={payload?.dosage}
           onChange={handleChange}
         />
       </div>
@@ -188,6 +225,7 @@ const UpdateServiceMedicationForm = ({
           type="text"
           className="form-control"
           name="frequency"
+          value={payload?.frequency}
           onChange={handleChange}
         />
       </div>
@@ -197,6 +235,7 @@ const UpdateServiceMedicationForm = ({
           type="date"
           className="form-control"
           name="startDate"
+          value={payload?.startDate}
           onChange={handleChange}
         />
       </div>
@@ -206,6 +245,7 @@ const UpdateServiceMedicationForm = ({
           type="date"
           className="form-control"
           name="endDate"
+          value={payload?.endDate}
           min={startDate}
           onChange={handleChange}
         />
@@ -218,22 +258,31 @@ const UpdateServiceMedicationForm = ({
           onChange={handleServiceCatSelect}
         />
       </div>
-      {selectedServiceCategory.value && 
-       <div className="form-group">
-       <label>Services in Category</label>
-       <Select
-         options={optionsService}
-         value={selectedService}
-         onChange={handleServiceSelect}
-       />
-     </div>}
-     
+      {selectedServiceCategory.value && (
+        <div className="form-group">
+          <label>Services in Category</label>
+          <Select
+            options={optionsService}
+            value={selectedService}
+            onChange={handleServiceSelect}
+          />
+        </div>
+      )}
+
       <div className="col"></div>
       <div className="d-flex justify-content-between">
-        <button className="btn btn-outline-danger mr-3" data-dismiss="modal">
+        <button
+          className="btn btn-outline-danger mr-3"
+          onClick={closeModal}
+          data-dismiss="modal"
+        >
           Close
         </button>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          disabled={emptyField ? true : false}
+          className="btn btn-primary"
+        >
           Save
         </button>
       </div>

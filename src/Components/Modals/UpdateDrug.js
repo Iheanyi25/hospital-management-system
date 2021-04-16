@@ -31,9 +31,13 @@ const UpdateDrug = ({ drug, id, update }) => {
     console.log(payload);
     e.preventDefault();
     try {
-      const updateDrug = updateDrugUrl()
-      const updateDrugConfig = fetchConfig({url : updateDrug, data: payload, method : 'post'})
-      const res = await fetchWrapper(updateDrugConfig)
+      const updateDrug = updateDrugUrl();
+      const updateDrugConfig = fetchConfig({
+        url: updateDrug,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(updateDrugConfig);
 
       if (res.status === 200) {
         console.log(res);
@@ -53,7 +57,6 @@ const UpdateDrug = ({ drug, id, update }) => {
     costPricePerContainer,
     containersPerCarton,
     quantityPerContainer,
-    expiryDate,
   } = payload;
   return (
     <div
