@@ -4,7 +4,6 @@ import ContactDetailList from '../common/ContactDetailList';
 import EditInfo from './EditInfo';
 
 export default function ContactDetail(props) {
-    console.log(props)
     return (
 		<div className="col col-md-12">
 			<div className="card border-light p-4">
