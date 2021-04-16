@@ -1,13 +1,15 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { Fragment } from "react";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
 import {
+    getAppointmentCountsUrl,
   getPatientsAttentedToCountUrl,
-  getPatientsUnattentedToCountUrl,
   getPatientsOnOpenListCountUrl,
+  getPatientsUnattentedToCountUrl,
 } from "../../../api/URLs";
 
-export default function ConsultationSummary() {
+export const NurseDashboardSummary = () => {
   const patientsAttentedToCount = getPatientsAttentedToCountUrl();
   const getPatientsAttentedToCountConfig = fetchConfig({
     url: patientsAttentedToCount,
@@ -18,20 +20,19 @@ export default function ConsultationSummary() {
     {
       revalidateOnFocus: false,
     }
-    );
-    
-    const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl();
-    const getgetPatientsUnattentedToCountConfig = fetchConfig({
-      url: getPatientsUnattentedToCount,
-      method: "get",
-    });
-    const { data: patientUnattendedTo } = useRequest(
-      getgetPatientsUnattentedToCountConfig,
-      {
-        revalidateOnFocus: false,
-      }
-      );
-      console.log(patientUnattendedTo, 1212);
+  );
+
+  const getPatientsUnattentedToCount = getPatientsUnattentedToCountUrl();
+  const getgetPatientsUnattentedToCountConfig = fetchConfig({
+    url: getPatientsUnattentedToCount,
+    method: "get",
+  });
+  const { data: patientUnattendedTo } = useRequest(
+    getgetPatientsUnattentedToCountConfig,
+    {
+      revalidateOnFocus: false,
+    }
+  );
 
   const getPatientsOnOpenListCount = getPatientsOnOpenListCountUrl();
   const getgetPatientsOnOpenListCountConfig = fetchConfig({
@@ -44,6 +45,37 @@ export default function ConsultationSummary() {
       revalidateOnFocus: false,
     }
   );
+
+  const getAppointmentCounts = getAppointmentCountsUrl();
+  const getAppointmentCountsConfig = fetchConfig({
+    url: getAppointmentCounts,
+    method: "get",
+  });
+  const { data } = useRequest(getAppointmentCountsConfig, {
+    revalidateOnFocus: false,
+  });
+  const summaryDetails = [
+    {
+      iconName: "icofont-wheelchair",
+      text: "Pending Appointments",
+      value: data?.pendingAppoinmentsCount,
+    },
+    {
+      iconName: "icofont-blood",
+      text: "Accepted Appointments",
+      value: data?.acceptedAppointmentCount,
+    },
+    {
+      iconName: "icofont-list",
+      text: "Completed Appointments",
+      value: data?.completedAppoinmentsCount,
+    },
+    {
+      iconName: "icofont-list",
+      text: "Rejected Appointments",
+      value: data?.rejectedAppointmentCount,
+    },
+  ];
   return (
     <Fragment>
       <div className="row">
@@ -55,7 +87,9 @@ export default function ConsultationSummary() {
                   <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
                 </div>
                 <div className="col col-9">
-                  <h6 className="mt-0 mb-1">Total Patient On Open List</h6>
+                  <h6 className="mt-0 mb-1">
+                    Total Consultations On Open List
+                  </h6>
                   <div className="count text-primary fs-20">
                     {patientOnOpenList?.consultationCount || 0}
                   </div>
@@ -72,7 +106,7 @@ export default function ConsultationSummary() {
                   <div className="icon p-0 fs-48 text-primary opacity-50 icofont-blood" />
                 </div>
                 <div className="col col-9">
-                  <h6 className="mt-0 mb-1">Total Patients Unattended</h6>
+                  <h6 className="mt-0 mb-1">Total Consultations Unattended</h6>
                   <div className="count text-primary fs-20">
                     {patientUnattendedTo?.consultationCount || 0}
                   </div>
@@ -91,7 +125,7 @@ export default function ConsultationSummary() {
                 </div>
                 <div className="col col-9">
                   <h6 className="mt-0 mb-1 text-nowrap">
-                    Total Patients Attended
+                    Total Consultations Attended
                   </h6>
                   <div className="count text-primary fs-20">
                     {patientAttendedTo?.consultationCount || 0}
@@ -102,6 +136,27 @@ export default function ConsultationSummary() {
           </div>
         </div>
       </div>
+      <div className="row">
+        {summaryDetails.map(({ iconName, text, value }) => (
+          <div className="col col-12 col-md-6 col-xl-3">
+            <div className="card animated fadeInUp delay-02s bg-light">
+              <div className="card-body">
+                <div className="row align-items-center">
+                  <div className="col col-5">
+                    <div
+                      className={`icon p-0 fs-48 text-primary opacity-50 ${iconName}`}
+                    ></div>
+                  </div>
+                  <div className="col col-7">
+                    <h6 className="mt-0 mb-1">{text}</h6>
+                    <div className="count text-primary fs-20">{value}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </Fragment>
   );
-}
+};

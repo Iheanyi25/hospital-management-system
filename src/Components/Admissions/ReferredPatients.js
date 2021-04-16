@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
@@ -10,8 +10,13 @@ import ActionButton from "../DataTable/ActionButton";
 import TableSize from "../DataTable/TableSize";
 import { PageLoader } from "../Loader";
 import { DisplayNotes } from "../Modals/DisplayNotes";
+import { observer } from "mobx-react";
+import { UserContext } from "../../mobx/UserState";
 
-const ReferredPatients = () => {
+const ReferredPatients = observer(() => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getAdmissionsWithoutBed = getAdmissionsWithoutBedUrl(
@@ -38,6 +43,7 @@ const ReferredPatients = () => {
           <ReferredPatientsActionTable
             admissionId={admission.id}
             referralNote={`${admission?.admissionNote}`}
+            userType={userType}
           />
         ),
       };
@@ -78,9 +84,13 @@ const ReferredPatients = () => {
       </main>
     </Fragment>
   );
-};
+});
 
-const ReferredPatientsActionTable = ({ admissionId, referralNote }) => {
+const ReferredPatientsActionTable = ({
+  admissionId,
+  referralNote,
+  userType,
+}) => {
   return (
     <>
       {" "}
@@ -94,7 +104,11 @@ const ReferredPatientsActionTable = ({ admissionId, referralNote }) => {
           Referral Notes
         </Link>
         <Link
-          to={`/AdminAssignWard/${admissionId}`}
+          to={
+            userType === "Admin"
+              ? `/AdminAssignWard/${admissionId}`
+              : `/WardAssignWard/${admissionId}`
+          }
           className="btn btn-sm btn-block"
         >
           <span className="btn-icon icofont-server mr-2" />

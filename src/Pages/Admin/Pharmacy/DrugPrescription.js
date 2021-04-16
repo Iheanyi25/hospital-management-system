@@ -40,7 +40,7 @@ const DrugPrescription = observer(({ match }) => {
   const { data: prescription } = useRequest(getPrescriptionConfig, {
     revalidateOnFocus: false,
   });
-  console.log(prescription);
+  console.log(prescription,8932990);
   const getDrugsUrl = getAllDrugsUrl(1, 200);
   const getDrugConfig = fetchConfig({
     url: getDrugsUrl,

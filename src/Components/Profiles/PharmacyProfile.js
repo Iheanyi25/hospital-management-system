@@ -28,7 +28,7 @@ function PharmacyProfile({ pharmacyId }) {
 							<ContactDetail
 								otherDetails={data}
 								primaryDetails={data.pharmacist}
-								userId={data.pharmacistId}
+								userId={data.pharmacist.pharmacistId}
 								mutate={mutate}
 							/>
 						</div>

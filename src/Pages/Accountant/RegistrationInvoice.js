@@ -7,6 +7,7 @@ import { getRegistrationFeeInvoiceUrl } from "../../api/URLs";
 import RegistrationInvoiceSummary from "./RegistrationInvoiceSummary";
 import { useRequest } from "../../api/fetcher";
 import { Table } from "../../Components";
+import formatAmount from "../../utils/formatAmount";
 
 const RegistrationInvoice = () => {
   const getRegistrationFeeInvoice = getRegistrationFeeInvoiceUrl();
@@ -28,8 +29,8 @@ const RegistrationInvoice = () => {
         "Patient Name": `${patient.firstName} ${patient.lastName}`,
         Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
         Phone: patient.phoneNumber || "N/A",
-        "Invoice Number": patient.invoiceNumber || "N/A",
-        "Total Cost": patient.amount || "N/A",
+        "Invoice Number": registrationInvoice?.invoiceNumber || "N/A",
+        "Total Cost": formatAmount(registrationInvoice?.amount) || "N/A",
         Status:
           paymentStatus === "Not Paid" ? (
             <span>
@@ -60,7 +61,9 @@ const RegistrationInvoice = () => {
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title">Registration Invoices</h4>
           </header>
-          <RegistrationInvoiceSummary  registrationInvoices={data?.registrationInvoices || []} />
+          <RegistrationInvoiceSummary
+            registrationInvoices={data?.registrationInvoices || []}
+          />
           <div className="page-content">
             <div className="card mb-0">
               <div className="card-body">
@@ -106,5 +109,5 @@ const RegistrationInvoiceAction = ({ registrationInvoice }) => {
         </NavLink>
       </div>
     </div>
-  ) : null;
+  ) : "No Action";
 };

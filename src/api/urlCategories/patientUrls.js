@@ -27,12 +27,16 @@ export const updatePatientPreConsultationBMIUrl = () =>
 // Patient- Manage Doctor Appointments
 export const getPatientDashboardUrl = (patientId) =>
   `/Patient/Dashboard?PatientId=${patientId}`;
-export const getPatientPendingAppointmentsUrl = (patientId) =>
-  `/Patient/GetPendingAppointments?PatientId=${patientId}`;
-export const getPatientAllAppointmentsUrl = (patientId) =>
-  `/Patient/ViewAllAppointments?PatientId=${patientId}`;
+
+export const getPatientPendingAppointmentsUrl = (patientId, pageNumber, pageSize) =>
+  `/Patient/GetPendingAppointments?PatientId=${patientId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const getPatientCompletedAppointmentsUrl = (patientId,pageNumber, pageSize) =>
+  `/Patient/GetCompletedAppointments?PatientId=${patientId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  export const getPatientCancelledAppointmentsUrl = (patientId, pageNumber, pageSize) =>
+  `/Patient/GetCanceledAppointments?PatientId=${patientId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+ 
 export const postPatientAppointmentUrl = () => `/Patient/BookAppointment`;
-export const patientCancelAppointments = (patientId) => `/Patient/CancelAnAppointment?AppointmentId=${patientId}`;
+export const cancelPatientAppointmentUrl = (id) => `/Patient/CancelAnAppointment?AppointmentId=${id}`;
 
 // Patient- Manage Doctor Consultation
 export const getPendingConsultationsCountUrl = (patientId) =>

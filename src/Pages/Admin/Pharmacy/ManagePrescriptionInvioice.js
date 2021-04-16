@@ -160,7 +160,7 @@ const ActionCatgeories = observer(
     } = useContext(UserContext);
 
     const catgories = {
-      Pharmacy: (
+      Pharmacist: (
         <PharmacistActionTable
           drugInvoice={drugInvoice}
           fetchDrugsInAnInvoice={fetchDrugsInAnInvoice}
