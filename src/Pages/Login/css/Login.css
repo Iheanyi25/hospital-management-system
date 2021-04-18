@@ -7,6 +7,10 @@
   -o-background-size: cover;
   background-size: cover;
   overflow-y: scroll;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
 }
 
 .auth-background .row {
