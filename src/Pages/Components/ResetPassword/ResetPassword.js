@@ -36,11 +36,12 @@ function ResetPassword() {
         const res = await fetchWrapper(postResetPasswordConfig);
         console.log(res, 3333);
         if (res.status === 200) {
-          notification.success({ message: res.data.message });
+          setAllPasswordDetails({ ...allPasswordDetails, emailStatus: true });
         }
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
+      setAllPasswordDetails({ ...allPasswordDetails, submitting: false });
     }
   };
   const handleEmailValue = (val) => {
