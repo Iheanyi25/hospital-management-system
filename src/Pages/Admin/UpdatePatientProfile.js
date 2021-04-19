@@ -398,7 +398,7 @@ function UpdatePatientProfile(props) {
                           className="form-control"
                           type="text" 
                           pattern="\d*" 
-                          maxLength={phoneNumber[0] === "0" ? 11 : 14}
+                          maxLength={phoneNumber && phoneNumber[0] === "0" ? 11 : 14}
                           placeholder="Phone Number"
                           value={phoneNumber}
                           onChange={(e) => handleChange("phoneNumber", e)}
