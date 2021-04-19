@@ -3,10 +3,11 @@ import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postResetPasswordFromMailUrl } from "../../../api/URLs";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { notification } from "../../../utils/notification";
 
-function ResetPasswordFromMail(props) {
+function ResetPasswordFromMail() {
+  const { push } = useHistory();
   const params = new URLSearchParams(window.location.search);
   const userEmailFromLink = params.get("email");
   const userTokenFromLink = params.get("token");
@@ -37,8 +38,8 @@ function ResetPasswordFromMail(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (newPassword !== "" && confirmPassword !== "") {
+    if (newPassword === confirmPassword) {
+      try {
         const payload = {
           authenticationToken: userToken,
           newPassword,
@@ -53,11 +54,13 @@ function ResetPasswordFromMail(props) {
         const res = await fetchWrapper(resetPasswrdFromMailConfig);
         if (res.status === 200) {
           notification.success({ message: res.data.message });
-          props.history.push("/");
+          push("/");
         }
+      } catch (error) {
+        notification.error({ message: error?.response?.data.message });
       }
-    } catch (error) {
-      notification.error({ message: error?.response?.data.message });
+    } else {
+      notification.error({ message: "Your passwords don't match" });
     }
   };
   const handleNewPasswordValue = (val) => {
