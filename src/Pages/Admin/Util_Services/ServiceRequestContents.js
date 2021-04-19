@@ -43,7 +43,11 @@ const ServiceRequestContents = ({ match, location }) => {
   let dataTable = [];
   if (data) {
     dataTable = data.serviceRequests.map((request, index) => {
-      if (userType === "Admin" || userType === "LabAttendant"|| userType === "Accountant") {
+      if (
+        userType === "Admin" ||
+        userType === "LabAttendant" ||
+        userType === "Accountant"
+      ) {
         return {
           "#": ++index,
           "Service Name": request?.serviceName,
@@ -55,15 +59,15 @@ const ServiceRequestContents = ({ match, location }) => {
                 <>
                   <img src={incomplete} alt="not paid" /> Awaiting HMO
                 </>
-              ) : request?.status === "Awaiting HMO Payment" ? (
+              ) : request?.status === "Not Paid" ? (
                 <>
                   <img src={notpaid} alt="paid" /> Not Paid
                 </>
-              ) : (
+              ) : request?.status === "PAID" ? (
                 <>
                   <img src={paid} alt="paid" /> Paid
                 </>
-              )}
+              ) : null}
             </>
           ),
           Actions: (
@@ -86,15 +90,15 @@ const ServiceRequestContents = ({ match, location }) => {
                 <>
                   <img src={incomplete} alt="not paid" /> Awaiting HMO
                 </>
-              ) : request?.status === "Awaiting HMO Payment" ? (
+              ) : request?.status === "Not Paid" ? (
                 <>
                   <img src={notpaid} alt="paid" /> Not Paid
                 </>
-              ) : (
+              ) : request?.status === "PAID" ? (
                 <>
                   <img src={paid} alt="paid" /> Paid
                 </>
-              )}
+              ) : null}
             </>
           ),
         };
@@ -114,7 +118,8 @@ const ServiceRequestContents = ({ match, location }) => {
             <h4 className="page-title">
               {`Services Request in Invoice #${invoiceNumber}`}
             </h4>
-            {paymentStatus === "PAID" || user.userType === "LabAttendant" ? null : (
+            {paymentStatus === "PAID" ||
+            user.userType === "LabAttendant" ? null : (
               <Link
                 className="btn btn-primary"
                 to={{
