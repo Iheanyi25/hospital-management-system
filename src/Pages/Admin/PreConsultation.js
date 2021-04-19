@@ -132,7 +132,7 @@ class PreConsultation extends React.Component {
 
               <header className="page-header">
                 <h3 className="page-title">
-                  Patient Preconsultation( {patient.patientProfile?.fullName} )
+                  {`Patient Preconsultation (${patient?.patient?.firstName} ${patient?.patient?.lastName})`}
                 </h3>
               </header>
               <div className="page-content">
