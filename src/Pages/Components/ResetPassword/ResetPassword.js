@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postResetPasswordUrl } from "../../../api/URLs";
 import { InvalidDetails } from "../../../Components/Alerts";
+import { notification } from "../../../utils/notification";
 
 function ResetPassword() {
   const [allPasswordDetails, setAllPasswordDetails] = useState({
@@ -35,23 +36,11 @@ function ResetPassword() {
         const res = await fetchWrapper(postResetPasswordConfig);
         console.log(res, 3333);
         if (res.status === 200) {
-          console.log("Res is ", res);
-          const data = res;
-          setAllPasswordDetails({
-            ...allPasswordDetails,
-            response: data.message,
-            emailStatus: true,
-          });
-          console.log("Data is ", data);
-          console.log(email, " from handleSubmit");
+          notification.success({ message: res.data.message });
         }
       }
     } catch (error) {
-      setAllPasswordDetails({
-        ...allPasswordDetails,
-        emailError: error.response.data.message,
-      });
-      // console.log(error.response.data.message)
+      notification.error({ message: error?.response?.data.message });
     }
   };
   const handleEmailValue = (val) => {

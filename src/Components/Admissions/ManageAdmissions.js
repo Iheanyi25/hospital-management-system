@@ -46,165 +46,82 @@ const ManageAdmissions = observer(() => {
     revalidateOnFocus: false,
   });
   console.log(data, 1232);
-
+  const table = (admission) => {
+    return {
+      admin: (
+        <AdminActionTable
+          admissionId={admission.id}
+          patient={admission.patient}
+          appointmentOrConsultationId={
+            admission.appointmentId || admission.consultationId
+          }
+          patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
+          admissionNote={`${admission?.admissionNote}`}
+          dischargeNote={`${admission?.dischargeNote}`}
+          setNoteDetails={setNoteDetails}
+          dischargeStatus={admission?.isDischarged}
+        />
+      ),
+      nurse: (
+        <NurseActionTable
+          admissionId={admission.id}
+          patient={admission.patient}
+          appointmentOrConsultationId={
+            admission.appointmentId || admission.consultationId
+          }
+          dischargeStatus={admission?.isDischarged}
+          admissionNote={`${admission?.admissionNote}`}
+          dischargeNote={`${admission?.dischargeNote}`}
+          setNoteDetails={setNoteDetails}
+        />
+      ),
+      accountant: (
+        <AccountantTable
+          admissionId={admission.id}
+          patient={admission.patient}
+        />
+      ),
+      labattendant: (
+        <LabActionTable
+          admissionId={admission.id}
+          dischargeNote={`${admission?.dischargeNote}`}
+        />
+      ),
+      doctor: (
+        <DoctorActionTable
+          admissionId={admission.id}
+          patient={admission.patient}
+          appointmentOrConsultationId={
+            admission.appointmentId || admission.consultationId
+          }
+          dischargeStatus={admission?.isDischarged}
+          admissionNote={`${admission?.admissionNote}`}
+          dischargeNote={`${admission?.dischargeNote}`}
+          setNoteDetails={setNoteDetails}
+        />
+      ),
+    };
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.admissions.map((admission, index) => {
-      if (userType === "Nurse") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
-          Actions: (
-            <NurseActionTable
-              admissionId={admission.id}
-              patient={admission.patient}
-              appointmentOrConsultationId={
-                admission.appointmentId || admission.consultationId
-              }
-              dischargeStatus={admission?.isDischarged}
-              admissionNote={`${admission?.admissionNote}`}
-              dischargeNote={`${admission?.dischargeNote}`}
-              setNoteDetails={setNoteDetails}
-            />
-          ),
-        };
-      } else if (userType === "Accountant") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
-          Actions: (
-            <AccountantTable
-              admissionId={admission.id}
-              patient={admission.patient}
-            />
-          ),
-        };
-      } else if (userType === "LabAttendant") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
-          Actions: (
-            <LabActionTable
-              admissionId={admission.id}
-              dischargeNote={`${admission?.dischargeNote}`}
-            />
-          ),
-        };
-      } else if (userType === "Doctor") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
-          Actions: (
-            <DoctorActionTable
-              admissionId={admission.id}
-              patient={admission.patient}
-              appointmentOrConsultationId={
-                admission.appointmentId || admission.consultationId
-              }
-              dischargeStatus={admission?.isDischarged}
-              admissionNote={`${admission?.admissionNote}`}
-              dischargeNote={`${admission?.dischargeNote}`}
-              setNoteDetails={setNoteDetails}
-            />
-          ),
-        };
-      } else if (userType === "WardPersonnel") {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
-        };
-      } else {
-        return {
-          "#": ++index,
-          "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
-          "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
-          Ward: admission?.bed?.ward?.name,
-          Room: admission?.bed?.name,
-          Status: admission?.isDischarged ? (
-            <>
-              <img src={incomplete} alt="not paid" /> Discharged
-            </>
-          ) : (
-            <>
-              <img src={paid} alt="paid" /> Admitted
-            </>
-          ),
-          Actions: (
-            <AdminActionTable
-              admissionId={admission.id}
-              patient={admission.patient}
-              appointmentOrConsultationId={
-                admission.appointmentId || admission.consultationId
-              }
-              patientName={`${admission.patient.firstName} ${admission.patient.lastName}`}
-              admissionNote={`${admission?.admissionNote}`}
-              dischargeNote={`${admission?.dischargeNote}`}
-              setNoteDetails={setNoteDetails}
-              dischargeStatus={admission?.isDischarged}
-            />
-          ),
-        };
-      }
+      return {
+        "#": ++index,
+        "Patient Name": `${admission?.patient?.firstName} ${admission?.patient?.lastName}`,
+        "Doctor Name": `${admission?.doctor?.firstName} ${admission?.doctor?.lastName}`,
+        Ward: admission?.bed?.ward?.name,
+        Room: admission?.bed?.name,
+        Status: admission?.isDischarged ? (
+          <>
+            <img src={incomplete} alt="not paid" /> Discharged
+          </>
+        ) : (
+          <>
+            <img src={paid} alt="paid" /> Admitted
+          </>
+        ),
+        Actions: table(admission)[String(userType).toLowerCase()],
+      };
     });
   }
   if (error) return <div>failed to load</div>;
