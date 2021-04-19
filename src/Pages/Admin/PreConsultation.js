@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper } from "../../api/fetcher";
 import {
@@ -25,7 +25,7 @@ class PreConsultation extends React.Component {
 
       weight: "",
       height: "",
-      calculatedBMI: ""
+      calculatedBMI: "",
     };
   }
 
@@ -56,33 +56,6 @@ class PreConsultation extends React.Component {
     }
   };
 
-  updatePatientVitals = async (e) => {
-    e.preventDefault();
-
-    try {
-      const payload = {
-        bloodPressure: this.state.bloodPressure,
-        respiration: this.state.respiration,
-        pulse: this.state.pulse,
-        spo2: this.state.spo2,
-        temperature: this.state.spo2,
-        patientId: this.state.patientId,
-      };
-      //
-      const updatePatientPreConsultationVitals = updatePatientPreConsultationVitalsUrl();
-      const getPatientConfig = fetchConfig({
-        url: updatePatientPreConsultationVitals,
-        data: payload,
-        method: "post",
-      });
-      const res = await fetchWrapper(getPatientConfig);
-      notification.success({ message: res.data.message})
-    } catch (error) {
-      console.log(error);
-      notification.error({ message: error?.response?.data.message })
-    }
-  };
-
   updatePatientBMI = async (e) => {
     e.preventDefault();
 
@@ -100,24 +73,20 @@ class PreConsultation extends React.Component {
         method: "post",
       });
       const res = await fetchWrapper(updatePatientPreConsultationBMIConfig);
-      notification.success({ message: res.data.message})
+      notification.success({ message: res.data.message });
     } catch (error) {
       console.log(error);
-      notification.error({ message: error?.response?.data.message })
+      notification.error({ message: error?.response?.data.message });
     }
   };
 
   render() {
     const {
       patient,
-      bloodPressure,
-      respiration,
-      pulse,
-      spo2,
-      temperature,
+
       weight,
       height,
-      calculatedBMI
+      calculatedBMI,
     } = this.state;
     return (
       <>
@@ -129,7 +98,6 @@ class PreConsultation extends React.Component {
               <i className="icofont-spinner-alt-4 rotate" />
             </div>
             <div className="main-content-wrap">
-
               <header className="page-header">
                 <h3 className="page-title">
                   {`Patient Preconsultation (${patient?.patient?.firstName} ${patient?.patient?.lastName})`}
@@ -137,109 +105,9 @@ class PreConsultation extends React.Component {
               </header>
               <div className="page-content">
                 <div className="row justify-content-center">
-                  <div className="col-md-6">
-                    <div className="card border-light">
-                      <div className="card-body">
-                        <form className="mb-4">
-                          <h4>Patient Vitals</h4>
-                          <div className="row">
-                            <div className="col-12 col-sm-6">
-                              <div className="form-group">
-                                <label>Blood Pressure</label>{" "}
-                                <input
-                                  className="form-control"
-                                  type="text"
-                                  value={bloodPressure ? bloodPressure : ""}
-                                  required
-                                  onChange={(e) =>
-                                    this.handleChange("bloodPressure", e)
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="col-12 col-sm-6">
-                              <div className="form-group">
-                                <label>Respiration</label>{" "}
-                                <input
-                                  className="form-control"
-                                  type="number"
-                                  min="0"
-                                  value={respiration ? respiration : ""}
-                                  onChange={(e) =>
-                                    this.handleChange("respiration", e)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="col-12 col-sm-6">
-                              <div className="form-group">
-                                <label>Pulse</label>{" "}
-                                <input
-                                  className="form-control"
-                                  type="number"
-                                  min="0"
-                                  value={pulse ? pulse : ""}
-                                  onChange={(e) =>
-                                    this.handleChange("pulse", e)
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="col-12 col-sm-6">
-                              <div className="form-group">
-                                <label>SPO2</label>{" "}
-                                <input
-                                  className="form-control"
-                                  type="number"
-                                  min="0"
-                                  value={spo2 ? spo2 : ""}
-                                  onChange={(e) => this.handleChange("spo2", e)}
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="form-group">
-                            <label>Temperature(Celcius)</label>{" "}
-                            <input
-                              className="form-control"
-                              type="number"
-                              min="0"
-                              value={temperature ? temperature : ""}
-                              onChange={(e) =>
-                                this.handleChange("temperature", e)
-                              }
-                            />
-                          </div>
-
-                          <div className="row justify-content-end mt-5">
-                            {/* <div className="col">
-                              <button
-                                type="button"
-                                className="btn btn-outline-danger"
-                              >
-                                <span className="d-none d-sm-block">
-                                  Cancel
-                                    </span>{" "}
-                                <span className="d-sm-none">Cancel</span>
-                              </button>
-                            </div> */}
-                            <div className="col text-right">
-                              <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={(e) => this.updatePatientVitals(e)}
-                              >
-                                Save Patient Vitals
-                              </button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
+                  <UpdatePatientVitalsForm
+                    patientId={this.props.match.params.id}
+                  />
                   <div className="col col-md-6">
                     <div className="card border-light">
                       <div className="card-body">
@@ -248,7 +116,7 @@ class PreConsultation extends React.Component {
                           <div className="row">
                             <div className="col-12 col-sm-6">
                               <div className="form-group">
-                                <label>Weigth(Kg)</label>{" "}
+                                <label>Weigth(Kg)</label>
                                 <input
                                   className="form-control"
                                   type="number"
@@ -290,17 +158,6 @@ class PreConsultation extends React.Component {
                           </div>
 
                           <div className="row mt-5 justify-content-end">
-                            {/* <div className="col">
-                              <button
-                                type="button"
-                                className="btn btn-outline-danger"
-                              >
-                                <span className="d-none d-sm-block">
-                                  Cancel
-                                    </span>{" "}
-                                <span className="d-sm-none">Cancel</span>
-                              </button>
-                            </div> */}
                             <div className="col text-right">
                               <button
                                 type="button"
@@ -326,3 +183,159 @@ class PreConsultation extends React.Component {
 }
 
 export default PreConsultation;
+
+const UpdatePatientVitalsForm = ({ patientId }) => {
+  const [details, setDetails] = useState({
+    systolic: "",
+    diastolic: "",
+    respiration: "",
+    pulse: "",
+    spo2: "",
+    temperature: "",
+  });
+  const handleChange = async (name, e) => {
+    const value = e.target.value;
+    setDetails({ ...details, [name]: value });
+  };
+  const updatePatientVitals = async (e) => {
+    const {
+      systolic,
+      diastolic,
+      respiration,
+      pulse,
+      spo2,
+      temperature,
+    } = details;
+    e.preventDefault();
+
+    try {
+      const payload = {
+        bloodPressure: `${systolic}/${diastolic}`,
+        respiration,
+        pulse,
+        spo2,
+        temperature,
+        patientId,
+      };
+      console.log(payload, "I got here");
+      const updatePatientPreConsultationVitals = updatePatientPreConsultationVitalsUrl();
+      const getPatientConfig = fetchConfig({
+        url: updatePatientPreConsultationVitals,
+        data: payload,
+        method: "post",
+      });
+      const res = await fetchWrapper(getPatientConfig);
+      notification.success({ message: res.data.message });
+    } catch (error) {
+      console.log(error);
+      notification.error({ message: error?.response?.data.message });
+    }
+  };
+  const { systolic, diastolic, respiration, pulse, spo2, temperature } = details;
+  return (
+    <div className="col-md-6">
+      <div className="card border-light">
+        <div className="card-body">
+          <form className="mb-4">
+            <h4>Patient Vitals</h4>
+            <div className="row">
+              <div className="col-12 col-sm-6">
+                <div className="form-group">
+                  <label>Blood Pressure (mmHg)</label>
+                  <div className="row">
+                    <div className="col-12 col-sm-5">
+                      <div className="form-group">
+                        <input
+                          className="form-control"
+                          type="number"
+                          value={systolic ? systolic : ""}
+                          required
+                          onChange={(e) => handleChange("systolic", e)}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-12 col-sm-2">
+                      <p style={{ fontSize: "30px" }}>/</p>
+                    </div>
+                    <div className="col-12 col-sm-5">
+                      <div className="form-group">
+                        <input
+                          className="form-control"
+                          type="number"
+                          min="0"
+                          value={diastolic ? diastolic : ""}
+                          onChange={(e) => handleChange("diastolic", e)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-sm-6">
+                <div className="form-group">
+                  <label>Respiration (bpm)</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    min="0"
+                    value={respiration ? respiration : ""}
+                    onChange={(e) => handleChange("respiration", e)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-sm-6">
+                <div className="form-group">
+                  <label>Pulse (bpm)</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    min="0"
+                    value={pulse ? pulse : ""}
+                    onChange={(e) => handleChange("pulse", e)}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-6">
+                <div className="form-group">
+                  <label>SpO2 (%)</label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    min="0"
+                    value={spo2 ? spo2 : ""}
+                    onChange={(e) => handleChange("spo2", e)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Temperature (Celsius)</label>
+              <input
+                className="form-control"
+                type="number"
+                min="0"
+                value={temperature ? temperature : ""}
+                onChange={(e) => handleChange("temperature", e)}
+              />
+            </div>
+
+            <div className="row justify-content-end mt-5">
+              <div className="col text-right">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={(e) => updatePatientVitals(e)}
+                >
+                  Save Patient Vitals
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
