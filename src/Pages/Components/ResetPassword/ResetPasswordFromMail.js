@@ -4,7 +4,7 @@ import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postResetPasswordFromMailUrl } from "../../../api/URLs";
 import { Link } from "react-router-dom";
-
+import { notification } from "../../../utils/notification";
 
 function ResetPasswordFromMail(props) {
   const params = new URLSearchParams(window.location.search);
@@ -20,7 +20,7 @@ function ResetPasswordFromMail(props) {
     error: false,
     errorMessage: "",
     newPasswordInputType: "password",
-    confirmPasswordInputType: "password"
+    confirmPasswordInputType: "password",
   });
 
   const {
@@ -32,7 +32,7 @@ function ResetPasswordFromMail(props) {
     error,
     errorMessage,
     newPasswordInputType,
-    confirmPasswordInputType
+    confirmPasswordInputType,
   } = newPasswordDetails;
 
   const handleSubmit = async (e) => {
@@ -42,8 +42,8 @@ function ResetPasswordFromMail(props) {
         const payload = {
           authenticationToken: userToken,
           newPassword,
-          email: userEmail
-        }
+          email: userEmail,
+        };
         const resetPasswrdFromMail = postResetPasswordFromMailUrl();
         const resetPasswrdFromMailConfig = fetchConfig({
           url: resetPasswrdFromMail,
@@ -51,53 +51,52 @@ function ResetPasswordFromMail(props) {
           method: "post",
         });
         const res = await fetchWrapper(resetPasswrdFromMailConfig);
-        console.log(res, 111111)
         if (res.status === 200) {
-          console.log("Res is ", res);
-          const data = res;
-          setNewPasswordDetails({
-            ...newPasswordDetails,
-            serverRes: data.message,
-          });
-          props.history.push("/Login")
-          
+          notification.success({ message: res.data.message });
+          props.history.push("/");
         }
       }
     } catch (error) {
-
-      console.log(error)
-      setNewPasswordDetails({
-        ...newPasswordDetails,
-        errorMessage: error.response.data.message,
-        error: true
-      })
+      notification.error({ message: error?.response?.data.message });
     }
-
-
   };
   const handleNewPasswordValue = (val) => {
     setNewPasswordDetails({ ...newPasswordDetails, newPassword: val });
-    console.log(newPassword)
+    console.log(newPassword);
   };
 
   const handleConfirmPasswordValue = (val) => {
     setNewPasswordDetails({ ...newPasswordDetails, confirmPassword: val });
-    console.log(confirmPassword)
+    console.log(confirmPassword);
   };
 
   const toggleNewPasswordView = () => {
-    newPasswordInputType === "password" ? setNewPasswordDetails({ ...newPasswordDetails, newPasswordInputType: "text" }) : setNewPasswordDetails({ ...newPasswordDetails, newPasswordInputType: "password" })
-  }
+    newPasswordInputType === "password"
+      ? setNewPasswordDetails({
+          ...newPasswordDetails,
+          newPasswordInputType: "text",
+        })
+      : setNewPasswordDetails({
+          ...newPasswordDetails,
+          newPasswordInputType: "password",
+        });
+  };
 
   const toggleConfirmPasswordView = () => {
-    confirmPasswordInputType === "password" ? setNewPasswordDetails({ ...newPasswordDetails, confirmPasswordInputType: "text" }) : setNewPasswordDetails({ ...newPasswordDetails, confirmPasswordInputType: "password" })
-  }
+    confirmPasswordInputType === "password"
+      ? setNewPasswordDetails({
+          ...newPasswordDetails,
+          confirmPasswordInputType: "text",
+        })
+      : setNewPasswordDetails({
+          ...newPasswordDetails,
+          confirmPasswordInputType: "password",
+        });
+  };
 
   return (
     <>
-      <div>
-        {error ? <InvalidDetails message={errorMessage} /> : null}
-      </div>
+      <div>{error ? <InvalidDetails message={errorMessage} /> : null}</div>
       <div className="auth-background d-flex justify-content-center align-items-center">
         <div className="card border-light">
           <div className="card-body">
@@ -117,7 +116,11 @@ function ResetPasswordFromMail(props) {
                 />
                 <div class="input-group-append eye-icon pull-right">
                   <i
-                    class={newPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                    class={
+                      newPasswordInputType === "password"
+                        ? "icofont-eye"
+                        : "icofont-eye-blocked"
+                    }
                     onClick={(e) => toggleConfirmPasswordView()}
                   ></i>
                 </div>
@@ -136,7 +139,11 @@ function ResetPasswordFromMail(props) {
                 />
                 <div class="input-group-append eye-icon pull-right">
                   <i
-                    class={confirmPasswordInputType === "password" ? "icofont-eye" : "icofont-eye-blocked"}
+                    class={
+                      confirmPasswordInputType === "password"
+                        ? "icofont-eye"
+                        : "icofont-eye-blocked"
+                    }
                     onClick={(e) => toggleNewPasswordView()}
                   ></i>
                 </div>
@@ -147,15 +154,14 @@ function ResetPasswordFromMail(props) {
                 disabled={submitting}
               >
                 Create new password
-                </button>
-              <Link to="/Login" className="text-center mt-3">
+              </button>
+              <Link to="/" className="text-center mt-3">
                 <p className="text-center mt-3" style={{ color: "#007BFF" }}>
                   Back to Log in
-                  </p>
+                </p>
               </Link>
             </form>
           </div>
-
         </div>
       </div>
     </>
