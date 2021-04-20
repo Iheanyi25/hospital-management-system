@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import Select from "react-select";
 import { PageLoader } from "../../../Components";
+import NursingReportTabContent from "./nursing-report-components/NursingReportTabContent";
+import NursingReportTabHeader from "./nursing-report-components/NursingReportTabHeader";
 
 const CreateNursingReport = () => {
   return (
@@ -18,6 +20,8 @@ const CreateNursingReport = () => {
                   <h4 className="page-title">Nursing report</h4>
                 </header>
                 <ShiftSelectionForm />
+                <NursingReportTabHeader />
+                <NursingReportTabContent />
               </div>
               <div className="col-12 col-md-6"></div>
             </div>
@@ -32,7 +36,7 @@ export default CreateNursingReport;
 
 const ShiftSelectionForm = () => {
   return (
-    <form className="mb-4 p-5">
+    <form className="mb-4">
       <div className="form-row">
         <div className="form-group col-12 col-md-8">
           <label>Shift selection</label>
