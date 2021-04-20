@@ -17,7 +17,7 @@ const CreateNursingReport = () => {
             <div className="row mx-0">
               <div className="col-12 col-md-6">
                 <header className="page-header justify-content-between d-flex align-items-center mb-2">
-                  <h4 className="page-title">Nursing report</h4>
+                  <h3 className="page-title mb-5">Nursing report</h3>
                 </header>
                 <ShiftSelectionForm />
                 <NursingReportTabHeader />

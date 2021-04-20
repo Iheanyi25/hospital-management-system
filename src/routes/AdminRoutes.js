@@ -115,6 +115,7 @@ import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatient
 
 // nursing reports
 import CreateNursingReport from "../Pages/Admin/NursingReport/CreateNursingReport";
+import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
 
 
 export default function AdminRoutes() {
@@ -497,6 +498,7 @@ export default function AdminRoutes() {
           <Route exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
           <Route exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
           <Route exact path="/AdminCreateNursingReport" component={CreateNursingReport} />
+          <Route exact path="/AdminManageNursingReports" component={ManageNursingReports} />
           <Route
             exact
             path="*"

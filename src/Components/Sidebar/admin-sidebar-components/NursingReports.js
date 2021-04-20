@@ -7,7 +7,7 @@ export default function NursingReport() {
     <div>
       <NursingReportSection />
       <CreateReport pathname={pathname} />
-      {/* <HMO pathname={pathname} /> */}
+      <ManageReports pathname={pathname} />
     </div>
   );
 }
@@ -42,6 +42,27 @@ const CreateReport = ({ pathname }) => {
             }
           >
             Create Report
+          </span>
+        </Link>
+      </li>
+    </div>
+  );
+};
+
+const ManageReports = ({ pathname }) => {
+  return (
+    <div className="collapse" id="menuNursingReport">
+      <li className="menu-item">
+        <Link className="item-link" to="/AdminManageNursingReports">
+          <span className="link-icon icofont-users" />{" "}
+          <span
+            className={
+              pathname === "/AdminManageNursingReports"
+                ? "link-text text-primary"
+                : "link-text"
+            }
+          >
+            Manage Reports
           </span>
         </Link>
       </li>
