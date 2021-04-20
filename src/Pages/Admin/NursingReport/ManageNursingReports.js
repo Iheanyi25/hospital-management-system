@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { PageLoader, Table } from "../../../Components";
+import { CreateNursingReport, PageLoader, Table } from "../../../Components";
 import TableSize from "../../../Components/DataTable/TableSize";
 
 const ManageNursingReports = () => {
@@ -16,7 +16,7 @@ const ManageNursingReports = () => {
       };
     });
   }
-//   if (error) return <div>failed to load</div>;
+  //   if (error) return <div>failed to load</div>;
   return (
     <Fragment>
       <PageLoader />
@@ -27,7 +27,11 @@ const ManageNursingReports = () => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">Nursing Repports</h4>
-            <button className="btn btn-primary">
+            <button
+              className="btn btn-primary"
+              data-toggle="modal"
+              data-target="#create-nursing-report"
+            >
               Create a Report
             </button>
           </header>
@@ -52,6 +56,7 @@ const ManageNursingReports = () => {
           </div>
         </div>
       </main>
+      <CreateNursingReport />
     </Fragment>
   );
 };

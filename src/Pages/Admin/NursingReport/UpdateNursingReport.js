@@ -4,7 +4,7 @@ import { ShiftSelectionForm } from "./nursing-report-components/forms";
 import NursingReportTabContent from "./nursing-report-components/NursingReportTabContent";
 import NursingReportTabHeader from "./nursing-report-components/NursingReportTabHeader";
 
-const CreateNursingReport = () => {
+const UpdateNursingReport = () => {
   return (
     <Fragment>
       <PageLoader />
@@ -32,4 +32,4 @@ const CreateNursingReport = () => {
   );
 };
 
-export default CreateNursingReport;
+export default UpdateNursingReport;
