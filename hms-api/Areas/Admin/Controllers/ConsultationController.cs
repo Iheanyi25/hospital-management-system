@@ -21,15 +21,17 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly IUser _userRepo;
         private readonly IDoctorClerking _clerking;
-      
+        private readonly IRegister _registration;
 
 
-        public ConsultationController(IConsultation consultation, IMapper mapper, IUser userRepo, IDoctorClerking clerking)
+
+        public ConsultationController(IConsultation consultation, IMapper mapper, IUser userRepo, IDoctorClerking clerking, IRegister registration)
         {
             _consultation = consultation;
             _mapper = mapper;
             _userRepo = userRepo;
             _clerking = clerking;
+            _registration = registration;
         }
 
         [Route("GetPatientConsultationCount")]
@@ -96,6 +98,14 @@ namespace HMS.Areas.Admin.Controllers
             }
 
             var patient = await _userRepo.GetUserByIdAsync(consultation.PatientId);
+            
+            var registrationInvoice = await _registration.GetPatientRegistrationInvoice(consultation.PatientId);
+           
+            if (registrationInvoice.PaymentStatus != "Paid")
+            {
+                return BadRequest(new { response = 301, message = "Patient is yet to pay for registration" });
+            }
+
             var doctor = await _userRepo.GetUserByIdAsync(consultation.DoctorId);
             var doctorPatient = await _consultation.CheckDoctorInMyPatients(consultation.DoctorId, consultation.PatientId);
             if (patient == null)

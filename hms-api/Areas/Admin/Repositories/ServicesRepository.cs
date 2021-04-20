@@ -23,7 +23,6 @@ namespace HMS.Areas.Admin.Repositories
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly ITransactionLog _transaction;
-        private readonly IAccount _account;
 
         public ServicesRepository(ApplicationDbContext applicationDbContext, IMapper mapper, IWebHostEnvironment webHostEnvironment, IConfiguration config, ITransactionLog transaction, IAccount account)
         {
@@ -32,7 +31,6 @@ namespace HMS.Areas.Admin.Repositories
             _webHostEnvironment = webHostEnvironment;
             _config = config;
             _transaction = transaction;
-            _account = account;
         }
 
 
@@ -197,6 +195,10 @@ namespace HMS.Areas.Admin.Repositories
                                      });
 
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
                         {
@@ -214,6 +216,10 @@ namespace HMS.Areas.Admin.Repositories
                                         AppointmentId = serviceRequest.Id
                                     });
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
 
                         else if (NHISHealthPlanPatient != null)
@@ -227,10 +233,14 @@ namespace HMS.Areas.Admin.Repositories
                                     {
                                         ServiceId = serviceRequest.ServiceId[i],
                                         Amount = service.Cost * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100,
-                                        PaymentStatus = "False",
+                                        PaymentStatus = "Not Paid",
                                         ServiceInvoiceId = invoiceId,
                                         AppointmentId = serviceRequest.Id
                                     });
+                            }
+                            else
+                            {
+                                return false;
                             }
                         }
                     }
@@ -257,6 +267,10 @@ namespace HMS.Areas.Admin.Repositories
                                      });
 
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
                         {
@@ -274,6 +288,10 @@ namespace HMS.Areas.Admin.Repositories
                                         ConsultationId = serviceRequest.Id
                                     });
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
 
                         else if (NHISHealthPlanPatient != null)
@@ -287,10 +305,14 @@ namespace HMS.Areas.Admin.Repositories
                                     {
                                         ServiceId = serviceRequest.ServiceId[i],
                                         Amount = service.Cost * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100,
-                                        PaymentStatus = "False",
+                                        PaymentStatus = "Not Paid",
                                         ServiceInvoiceId = invoiceId,
                                         ConsultationId = serviceRequest.Id
                                     });
+                            }
+                            else
+                            {
+                                return false;
                             }
                         }
                     }
@@ -316,6 +338,10 @@ namespace HMS.Areas.Admin.Repositories
                                     });
 
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
                         {
@@ -333,6 +359,10 @@ namespace HMS.Areas.Admin.Repositories
                                         ConsultationId = serviceRequest.Id
                                     });
                             }
+                            else
+                            {
+                                return false;
+                            }
                         }
 
                         else if (NHISHealthPlanPatient != null)
@@ -347,9 +377,13 @@ namespace HMS.Areas.Admin.Repositories
                                     {
                                         ServiceId = serviceRequest.ServiceId[i],
                                         Amount = service.Cost * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100,
-                                        PaymentStatus = "False",
+                                        PaymentStatus = "Not Paid",
                                         ServiceInvoiceId = invoiceId,
                                     });
+                            }
+                            else
+                            {
+                                return false;
                             }
                         }
                     }
@@ -415,6 +449,10 @@ namespace HMS.Areas.Admin.Repositories
                             AmountToBePaidByPatient = 0;
                             priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
                         }
+                        else
+                        {
+                            return "-1";
+                        }
                     }
                     else if (HMOHealthPlanSubGroupPatient != null)
                     {
@@ -426,6 +464,10 @@ namespace HMS.Areas.Admin.Repositories
                             AmountToBePaidByPatient = 0;
                             priceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name;
                         }
+                        else
+                        {
+                            return "-1";
+                        }
                     }
                     else if (NHISHealthPlanPatient != null)
                     {
@@ -436,6 +478,10 @@ namespace HMS.Areas.Admin.Repositories
                             priceTotal = service.Cost;
                             AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
                             priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
+                        }
+                        else
+                        {
+                            return "-1";
                         }
                     }
 
@@ -607,7 +653,7 @@ namespace HMS.Areas.Admin.Repositories
             DateTime transactionDate = DateTime.Now;
             var patient = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == services.PatientId).FirstOrDefaultAsync();
             services.ServiceRequestId.ForEach( serviceRequestId =>
-           {
+            {
                var ServiceRequest =  _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
                ServiceRequest.PaymentStatus = "PAID";
 
@@ -615,7 +661,7 @@ namespace HMS.Areas.Admin.Repositories
                servicesPaid++;
                 _applicationDbContext.ServiceRequests.Update(ServiceRequest);
               
-           });
+            });
 
             //log transactions
             services.ServiceRequestId.ForEach(serviceRequestId =>
@@ -660,12 +706,12 @@ namespace HMS.Areas.Admin.Repositories
             string accountPaymentMethod = null;
             DateTime transactionDate = DateTime.Now;
 
-            var patient = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == services.PatientId).FirstOrDefaultAsync();
-            
+            var patient = await _applicationDbContext.PatientProfiles.Include(p => p.Account).Where(p => p.PatientId == services.PatientId).FirstOrDefaultAsync();
+
             services.ServiceRequestId.ForEach(serviceRequestId =>
             {
                 var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
-                totalAmount += ServiceRequest.Amount;               
+                totalAmount += ServiceRequest.Amount;
             });
             if (patient.Account.AccountBalance < totalAmount)
             {
@@ -676,49 +722,35 @@ namespace HMS.Areas.Admin.Repositories
                 var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
                 ServiceRequest.PaymentStatus = "PAID";
                 serviceInvoiceId = ServiceRequest.ServiceInvoiceId;
-               
-                 var account = _applicationDbContext.Accounts.FirstOrDefault(s => s.Id == patient.AccountId);
-                      
-
-                        var accountInvoiceToCreate = new AccountInvoice();
-
-                        accountInvoiceToCreate = new AccountInvoice()
-                        {
-                            Amount = ServiceRequest.Amount,
-                            GeneratedBy = services.InitiatorId,
-                            PaymentMethod = services.PaymentMethod,
-                            TransactionReference = services.TransactionReference,
-                            AccountId = account.Id,
-                        };
-
-                     
-
-                    _applicationDbContext.AccountInvoices.Add(accountInvoiceToCreate);
-                    _applicationDbContext.SaveChanges();
-                accountInvoiceId = accountInvoiceToCreate.Id;
                 servicesPaid++;
+                _applicationDbContext.ServiceRequests.Update(ServiceRequest);
 
+                var account = _applicationDbContext.Accounts.FirstOrDefault(s => s.Id == patient.AccountId);
 
+                var accountInvoiceToCreate = new AccountInvoice();
 
+                accountInvoiceToCreate = new AccountInvoice()
+                {
+                    Amount = ServiceRequest.Amount,
+                    GeneratedBy = services.InitiatorId,
+                    PaymentMethod = services.PaymentMethod,
+                    TransactionReference = services.TransactionReference,
+                    AccountId = account.Id,
+                };
+
+                _applicationDbContext.AccountInvoices.Add(accountInvoiceToCreate);
+
+                accountInvoiceId = accountInvoiceToCreate.Id;
 
             });
 
             var account = await _applicationDbContext.Accounts.FirstOrDefaultAsync(s => s.Id == patient.AccountId);
-            account.AccountBalance -= totalAmount;
-            _applicationDbContext.SaveChanges();
-            
-            services.ServiceRequestId.ForEach(serviceRequestId =>
-            {
-                var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
-                _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, serviceRequestId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId);
-                _transaction.LogAccountTransaction(ServiceRequest.Amount, accountTransactionType, accountInvoiceType, accountInvoiceId, accountPaymentMethod, transactionDate, patient.Account.Id, services.InitiatorId);
-            });
-          
 
-            //now check of all the servies in this invoice was paid for
             var serviceCount = await _applicationDbContext.ServiceRequests.Where(s => s.ServiceInvoiceId == serviceInvoiceId).CountAsync();
 
             var ServiceInvoice = await _applicationDbContext.ServiceInvoices.FirstOrDefaultAsync(s => s.Id == serviceInvoiceId);
+
+            account.AccountBalance -= totalAmount;
 
             if (serviceCount == servicesPaid)
             {
@@ -730,8 +762,22 @@ namespace HMS.Areas.Admin.Repositories
             {
                 ServiceInvoice.PaymentStatus = "INCOMPLETE";
             }
+            _applicationDbContext.ServiceInvoices.Update(ServiceInvoice);
+            _applicationDbContext.SaveChanges();
+            
 
-            await _applicationDbContext.SaveChangesAsync();
+            services.ServiceRequestId.ForEach(serviceRequestId =>
+            {
+                var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
+                _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, serviceRequestId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId);
+                _transaction.LogAccountTransaction(ServiceRequest.Amount, accountTransactionType, accountInvoiceType, accountInvoiceId, accountPaymentMethod, transactionDate, patient.Account.Id, services.InitiatorId);
+            });
+
+
+            //now check of all the servies in this invoice was paid for
+
+
+           
 
             return true;
 

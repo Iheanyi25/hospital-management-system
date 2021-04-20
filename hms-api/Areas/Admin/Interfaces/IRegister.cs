@@ -10,7 +10,7 @@ namespace HMS.Areas.Admin.Interfaces
     { 
         Task<File> CreateFile(string AccountId);
         Task<string> RegisterPatient(ApplicationUser patient, File file, Account account);
-        Task<object> GetPatientRegistrationInvoice(string patientId);
+        Task<DtoForPatientRegistrationInvoice> GetPatientRegistrationInvoice(string patientId);
         Task<RegistrationInvoice> GenerateRegistrationInvoice(decimal amount, string healthPlanId, string generatedBy, string patientId);
         Task<int> PayRegistrationFee(PatientRegistrationPaymentDto paymentDetails);
         Task<int> PayRegistrationFeeWithAccount(PatientRegistrationPaymentDto paymentDetails);

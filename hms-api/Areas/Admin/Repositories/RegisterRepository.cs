@@ -123,7 +123,7 @@ namespace HMS.Areas.Admin.Repositories
 
         }
 
-        public async Task<object> GetPatientRegistrationInvoice(string patientId)
+        public async Task<DtoForPatientRegistrationInvoice> GetPatientRegistrationInvoice(string patientId)
         {
             var invoice = await _applicationDbContext.RegistrationInvoices.Where(i => i.PatientId == patientId).Include(i => i.HealthPlan).FirstOrDefaultAsync();
             return _mapper.Map<DtoForPatientRegistrationInvoice>(invoice);

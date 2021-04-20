@@ -242,7 +242,7 @@ namespace HMS.Areas.Admin.Controllers
                 var res = await _registerRepo.PayRegistrationFee(paymentDetails);
                 if (res == 0)
                 {
-                    return Ok(new { paymentDetails, mwessage = "Payment Succesful" });
+                    return Ok(new { paymentDetails, message = "Payment successful" });
                 }
                 if (res == 1)
                 {

@@ -22,14 +22,14 @@ namespace HMS.Areas.Admin.Repositories
             _applicationDbContext = applicationDbContext;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<HealthPlan>> GetAllHealthPlan() => await _applicationDbContext.HealthPlans.Where(h => h.Status == true).OrderBy(h => h.Name).ToListAsync();
+        public async Task<IEnumerable<HealthPlan>> GetAllHealthPlans() => await _applicationDbContext.HealthPlans.Where(h => h.Status == true).OrderBy(h => h.Name).ToListAsync();
 
         public async Task<HealthPlan> GetHealthPlanByIdAsync(string id)
         {
             try
             {
                
-                var plan =await  _applicationDbContext.HealthPlans.Where(h => h.Id == id && h.Status == true).FirstAsync();
+                var plan =await  _applicationDbContext.HealthPlans.Where(h => h.Id == id).FirstAsync();
 
                 return plan;
             }
@@ -96,19 +96,15 @@ namespace HMS.Areas.Admin.Repositories
             }
             catch (Exception ex)
             {
-                throw ex;
+                return false;
             }
         }
 
         public PagedList<HealthPlanDtoForView> GetHealthPlansPagination(PaginationParameter paginationParameter)
         {
-            var healthPlans = _applicationDbContext.HealthPlans.Where(h => h.Status == true).OrderBy(h => h.Name).ToList();
+            var healthPlans = _applicationDbContext.HealthPlans.OrderBy(h => h.Name).ToList();
             var healthPlansToReturn = _mapper.Map<IEnumerable<HealthPlanDtoForView>>(healthPlans);
             return PagedList<HealthPlanDtoForView>.ToPagedList(healthPlansToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
-
-
-
-   
     }
 }

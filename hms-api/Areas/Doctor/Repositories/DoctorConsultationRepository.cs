@@ -4,10 +4,8 @@ using HMS.Areas.Doctor.Interfaces;
 using HMS.Database;
 using HMS.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HMS.Areas.Doctor.Repositories
 {
@@ -24,7 +22,7 @@ namespace HMS.Areas.Doctor.Repositories
 
         public PagedList<ConsultationDtoForView> GetConsultationsCompleted(string DoctorId, PaginationParameter paginationParameter)
         {
-            var consultations = _applicationDbContext.Consultations.Where(a => a.IsCompleted == true).Where(d => d.DoctorId == DoctorId).Include(a => a.Patient).OrderByDescending(c => c.DateOfConsultation).ToList();
+            var consultations = _applicationDbContext.Consultations.Where(a => a.IsCompleted == true && a.DoctorId == DoctorId).Include(a => a.Patient).OrderByDescending(c => c.DateOfConsultation).ToList();
             var consultationsToReturn = _mapper.Map<IEnumerable<ConsultationDtoForView>>(consultations);
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
@@ -38,7 +36,7 @@ namespace HMS.Areas.Doctor.Repositories
 
         public PagedList<ConsultationDtoForView> GetConsultationsWithDoctor(string DoctorId, PaginationParameter paginationParameter)
         {
-            var consultations = _applicationDbContext.Consultations.Where(d => d.DoctorId == DoctorId).Include(a => a.Patient).OrderByDescending(c => c.DateOfConsultation).ToList();
+            var consultations = _applicationDbContext.Consultations.Where(d => d.DoctorId == DoctorId && d.IsCompleted == false).Include(a => a.Patient).OrderByDescending(c => c.DateOfConsultation).ToList();
             var consultationsToReturn = _mapper.Map<IEnumerable<ConsultationDtoForView>>(consultations);
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }

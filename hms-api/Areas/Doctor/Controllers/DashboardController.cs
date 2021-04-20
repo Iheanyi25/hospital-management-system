@@ -33,9 +33,12 @@ namespace HMS.Areas.Doctor.Controllers
            
             var pendingAppoinmentsCount = await _appointment.GetDoctorsPendingAppointmentsCount(doctorId);
             var completedAppoinmentsCount = await _appointment.GetDoctorsCompletedAppointmentsCount(doctorId);
-
+            var rejectedAppointmentCount = await _appointment.GetDoctorsRejectedAppointmentsCount(doctorId);
+            var acceptedAppointmentCount = await _appointment.GetDoctorsAcceptedAppointmentsCount(doctorId);
+            
             var pendingConsultationsCount = await _consultation.GetDoctorsPendingConsultationCount(doctorId);
             var completedConsultationCount = await _consultation.GetDoctorsCompletedConsultationCount(doctorId);
+           
 
             var myPatientsCount = await _myPatient.GetMyPatientCountAsync(doctorId);
 
@@ -45,6 +48,8 @@ namespace HMS.Areas.Doctor.Controllers
                 completedAppoinmentsCount,
                 pendingConsultationsCount,
                 completedConsultationCount,
+                rejectedAppointmentCount,
+                acceptedAppointmentCount,
                 myPatientsCount,
                 message = "Doctor Dashboard Counts"
             });

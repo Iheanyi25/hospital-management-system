@@ -154,6 +154,40 @@ namespace HMS.Areas.Doctor.Controllers
             });
         }
 
+        [Route("GetDoctorAppointmentsRejected")]
+        [HttpGet]
+        public async Task<IActionResult> GetDoctorAppointmentsRejected(string DoctorId, [FromQuery] PaginationParameter paginationParameter)
+        {
+            var doctor = await _doctor.GetDoctorAsync(DoctorId);
+
+            if (doctor == null)
+            {
+                return BadRequest(new { response = 301, message = "Invalid Doctor Id" });
+            }
+
+            var appointments = _appointment.GetAppointmentsRejected(DoctorId, paginationParameter);
+
+            var paginationDetails = new
+            {
+                appointments.TotalCount,
+                appointments.PageSize,
+                appointments.CurrentPage,
+                appointments.TotalPages,
+                appointments.HasNext,
+                appointments.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                appointments,
+                paginationDetails,
+                message = "Appointments Returned"
+            });
+        }
+
         [Route("GetAnAppointment")]
         [HttpGet]
         public async Task<IActionResult> ViewAnAppointment(string AppointmentId)

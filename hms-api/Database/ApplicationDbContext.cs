@@ -78,6 +78,7 @@ namespace HMS.Database
         public DbSet<NHISHealthPlanDrug> NHISHealthPlanDrugs { get; set; }
         public DbSet<NHISHealthPlanPatient> NHISHealthPlanPatients { get; set; }
         public DbSet<NHISHealthPlanService> NHISHealthPlanServices { get; set; }
+        public DbSet<NHISSecondaryHealthplanPatientService> NHISSecondaryHealthplanPatientServices { get; set; }
 
 
         /*----------register Nurse models here---------*/

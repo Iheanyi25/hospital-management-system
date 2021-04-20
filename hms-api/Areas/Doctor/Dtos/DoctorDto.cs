@@ -1,4 +1,5 @@
 ﻿using HMS.Models;
+using System;
 using System.Collections.Generic;
 
 namespace HMS.Areas.Doctor.Dtos
@@ -20,12 +21,15 @@ namespace HMS.Areas.Doctor.Dtos
         public string PhoneNumber { get; set; }
         public string ProfileImageUrl { get; set; }
         public string Gender { get; set; }
+        public string DateOfBirth { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
+        public Boolean isAvailable { get; set; }
         public string UserType { get; set; }
+
         public virtual ICollection<DoctorSocialDtoForView> Socials { get; set; }
         public virtual ICollection<DoctorEducationDtoForView> Educations { get; set; }
         public virtual ICollection<DoctorExperienceDtoForView> Experiences { get; set; }

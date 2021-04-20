@@ -23,6 +23,7 @@ namespace HMS.Areas.Admissions.Dtos
         public AdmissionInvoice AdmissionInvoice { get; set; }
         public string ServiceId { get; set; }
         public virtual Service Service { get; set; }
+        public virtual ServiceCategory ServiceCategory { get; set; }
     }
 
     public class AdmissionServiceRequestPaymentDto

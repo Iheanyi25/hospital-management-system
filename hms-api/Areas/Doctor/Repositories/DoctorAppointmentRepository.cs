@@ -198,5 +198,11 @@ namespace HMS.Areas.Doctor.Repositories
             return PagedList<AppointmentDtoForView>.ToPagedList(appointmentsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
+        public PagedList<AppointmentDtoForView> GetAppointmentsRejected(string DoctorId, PaginationParameter paginationParameter)
+        {
+            var appointments = _applicationDbContext.DoctorAppointments.Where(a => a.IsRejected == true && a.DoctorId == DoctorId).Include(a => a.Patient).OrderByDescending(a => a.AppointmentDate).ToList();
+            var appointmentsToReturn = _mapper.Map<IEnumerable<AppointmentDtoForView>>(appointments);
+            return PagedList<AppointmentDtoForView>.ToPagedList(appointmentsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
+        }
     }
 }

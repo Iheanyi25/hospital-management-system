@@ -1,5 +1,5 @@
-﻿using HMS.Areas.Patient.Interfaces;
-using HMS.Areas.Patient.ViewModels;
+﻿using HMS.Areas.Admin.Interfaces;
+using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
 using HMS.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +16,13 @@ namespace HMS.Areas.Patient.Controllers
     {
         private readonly IPatientConsultation _consultation;
         private readonly IPatientProfile _patient;
+        private readonly IRegister _registration;
 
-        public PatientConsultationController(IPatientConsultation consultation, IPatientProfile patient)
+        public PatientConsultationController(IPatientConsultation consultation, IPatientProfile patient, IRegister registration)
         {
             _consultation = consultation;
             _patient = patient;
+            _registration = registration;
         }
 
         [Route("GetPendingConsultationsCount")]
@@ -66,6 +68,15 @@ namespace HMS.Areas.Patient.Controllers
         [HttpPost]
         public async Task<IActionResult> BookConsultation([FromBody] BookConsultation patientConsultation)
         {
+            var registrationInvoice = await _registration.GetPatientRegistrationInvoice(patientConsultation.PatientId);
+
+
+            if (registrationInvoice.PaymentStatus != "Paid")
+            {
+                return BadRequest(new { response = 301, message = "You are yet to pay for registration" });
+            }
+
+
             if (await _consultation.BookConsultation(patientConsultation))
             {
                 var myPatient = new MyPatient();

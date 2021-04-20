@@ -269,14 +269,14 @@ namespace HMS.Areas.Admin.Repositories
 
         public PagedList<ConsultationDtoForView> GetConsultationsOnOpenList(PaginationParameter paginationParameter)
         {
-            var consultations = _applicationDbContext.Consultations.Where(d=>d.DoctorId == null).Include(a => a.Patient).OrderByDescending(c => c.DateOfConsultation).ToList();
+            var consultations = _applicationDbContext.Consultations.Where(d=>d.DoctorId == null && d.IsCompleted == false).Include(a => a.Patient).OrderByDescending(c => c.DateOfConsultation).ToList();
             var consultationsToReturn = _mapper.Map<IEnumerable<ConsultationDtoForView>>(consultations);
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
         public PagedList<ConsultationDtoForView> GetConsultationsWithDoctors(PaginationParameter paginationParameter)
         {
-            var consultations = _applicationDbContext.Consultations.Where(d => d.DoctorId != null).Include(a => a.Patient).Include(a => a.Doctor).OrderByDescending(c => c.DateOfConsultation).ToList();
+            var consultations = _applicationDbContext.Consultations.Where(d => d.DoctorId != null && d.IsCompleted == false).Include(a => a.Patient).Include(a => a.Doctor).OrderByDescending(c => c.DateOfConsultation).ToList();
             var consultationsToReturn = _mapper.Map<IEnumerable<ConsultationDtoForView>>(consultations);
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
@@ -288,5 +288,7 @@ namespace HMS.Areas.Admin.Repositories
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
+       
+     
     }
 }
