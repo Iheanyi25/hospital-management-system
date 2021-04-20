@@ -1,4 +1,5 @@
 import React from "react";
+import { NursingReportForm } from "./forms";
 
 export default function NursingReportTabContent() {
   return (
@@ -10,7 +11,7 @@ export default function NursingReportTabContent() {
           role="tabpanel"
           aria-labelledby="pills-nursing-report-tab"
         >
-          Nursing report
+          <NursingReportForm />
         </div>
 
         <div
