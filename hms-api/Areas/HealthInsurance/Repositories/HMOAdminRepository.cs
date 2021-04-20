@@ -31,14 +31,14 @@ namespace HMS.Areas.HealthInsurance.Repositories
 
         public async Task<object> GetHMOAdmin(string GetHMOAdminId)
         {
-            var hmoAdmin = await _applicationDbContext.HMOAdminProfiles.Where(a => a.HMOAdminId == GetHMOAdminId).Include(a => a.HMOAdmin).FirstOrDefaultAsync();
+            var hmoAdmin = await _applicationDbContext.HMOAdminProfiles.Where(a => a.HMOAdminId == GetHMOAdminId).Include(a => a.HMO).Include(a => a.HMOAdmin).FirstOrDefaultAsync();
             var hmoAdminToReturn = _mapper.Map<HMOAdminDtoForView>(hmoAdmin);
             return hmoAdminToReturn;
         }
 
         public PagedList<HMOAdminDtoForView> GetHMOAdmins(PaginationParameter paginationParameter)
         {
-            var HMOAdmins = _applicationDbContext.HMOAdminProfiles.Include(h => h.HMOAdmin).OrderBy(d => d.HMOAdmin.FirstName).ToList();
+            var HMOAdmins = _applicationDbContext.HMOAdminProfiles.Include(h => h.HMOAdmin).Include(a => a.HMO).OrderBy(d => d.HMOAdmin.FirstName).ToList();
             var HMOAdminsToReturn = _mapper.Map<IEnumerable<HMOAdminDtoForView>>(HMOAdmins);
             return PagedList<HMOAdminDtoForView>.ToPagedList(HMOAdminsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
 

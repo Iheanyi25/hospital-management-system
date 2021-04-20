@@ -1640,9 +1640,6 @@ namespace HMS.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AuthorizationCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -1682,6 +1679,40 @@ namespace HMS.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("NHISHealthPlanServices");
+                });
+
+            modelBuilder.Entity("HMS.Models.NHISSecondaryHealthplanPatientService", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AuthorizationCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NHISHealthPlanId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NHISHealthPlanId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("NHISSecondaryHealthplanPatientServices");
                 });
 
             modelBuilder.Entity("HMS.Models.NurseProfile", b =>
@@ -3109,6 +3140,21 @@ namespace HMS.Migrations
                     b.HasOne("HMS.Models.NHISHealthPlan", "NHISHealthPlan")
                         .WithMany()
                         .HasForeignKey("NHISHealthPlanId");
+
+                    b.HasOne("HMS.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId");
+                });
+
+            modelBuilder.Entity("HMS.Models.NHISSecondaryHealthplanPatientService", b =>
+                {
+                    b.HasOne("HMS.Models.NHISHealthPlan", "NHISHealthPlan")
+                        .WithMany()
+                        .HasForeignKey("NHISHealthPlanId");
+
+                    b.HasOne("HMS.Models.ApplicationUser", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
 
                     b.HasOne("HMS.Models.Service", "Service")
                         .WithMany()

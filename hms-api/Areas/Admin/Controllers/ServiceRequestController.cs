@@ -19,12 +19,14 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IServices _serviceRepo;
         private readonly IMapper _mapper;
         private readonly IPatientProfile _patientRepo;
+        private readonly IRegister _registration;
 
-        public ServiceRequestController(IServices serviceRepo, IMapper mapper, IPatientProfile patientRepo)
+        public ServiceRequestController(IServices serviceRepo, IMapper mapper, IPatientProfile patientRepo, IRegister registration)
         {
             _serviceRepo = serviceRepo;
             _mapper = mapper;
             _patientRepo = patientRepo;
+            _registration = registration;
         }
 
 
@@ -44,7 +46,13 @@ namespace HMS.Areas.Admin.Controllers
                     response = "301",
                     message = "Invalid patient Id passed, Patient not found",
                 });
+            var registrationInvoice = await _registration.GetPatientRegistrationInvoice(serviceRequest.PatientId);
+            if (registrationInvoice.PaymentStatus != "Paid")
+            {
+                return BadRequest(new { response = 301, message = "Patient is yet to pay for registration" });
+            }
 
+           
             serviceRequest.PatientId = patient.PatientId;
             //check if all service id passed exist
             var servicesCheck = await _serviceRepo.CheckIfServicesExist(serviceRequest.ServiceId);
@@ -61,8 +69,12 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new
                 {
                     response = "301",
-                    message = "Failed to generate invoice !!!, Try Again"
+                    message = "Request service failed, check if service is in patients health plan"
                 });
+            if (invoiceId == "-1")
+            {
+
+            }
 
             //insert request
             var result = await _serviceRepo.CreateServiceRequest(serviceRequest, invoiceId);
@@ -70,7 +82,7 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new
                 {
                     response = "301",
-                    message = "Request Service Failed !!!, Try Again"
+                    message = "Request service failed, check if service is in patients health plan"
                 });
 
             return Ok(new { message="Service Request submitted successfully"});

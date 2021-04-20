@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using HMS.Areas.Admin.Interfaces;
 using HMS.Areas.HealthInsurance.Dtos;
 using HMS.Areas.HealthInsurance.Interfaces;
 using HMS.Areas.Patient.Interfaces;
@@ -18,14 +19,16 @@ namespace HMS.Areas.HealthInsurance.Controllers
         private readonly IMapper _mapper;
         private readonly INHISHealthPlan _NHISHealthPlan;
         private readonly IPatientProfile _patient;
+        private readonly IServices _service;
 
 
-        public NHISHealthPlanPatientController(INHISHealthPlanPatient NHISHealthPlanPatient, IMapper mapper, IPatientProfile patient, INHISHealthPlan NHISHealthPlan)
+        public NHISHealthPlanPatientController(INHISHealthPlanPatient NHISHealthPlanPatient, IMapper mapper, IPatientProfile patient, INHISHealthPlan NHISHealthPlan, IServices service)
         {
             _NHISHealthPlanPatient = NHISHealthPlanPatient;
             _patient = patient;
             _NHISHealthPlan = NHISHealthPlan;
             _mapper = mapper;
+            _service = service;
         }
 
         [Route("GetNHISHealthPlanPatient")]
@@ -48,6 +51,35 @@ namespace HMS.Areas.HealthInsurance.Controllers
                 message = "Patient Returned"
             });
         }
+
+        [Route("GetNHISHealthPlanPatients")]
+        [HttpGet]
+        public async Task<IActionResult> GetHealthPlanPatients([FromQuery] PaginationParameter paginationParameter)
+        {
+            var HealthPlanPatients = _NHISHealthPlanPatient.GetNHISHealthPlanPatients(paginationParameter);
+
+            var paginationDetails = new
+            {
+                HealthPlanPatients.TotalCount,
+                HealthPlanPatients.PageSize,
+                HealthPlanPatients.CurrentPage,
+                HealthPlanPatients.TotalPages,
+                HealthPlanPatients.HasNext,
+                HealthPlanPatients.HasPrevious
+            };
+
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                HealthPlanPatients,
+                paginationDetails,
+                message = "NHIS HealthPlan Patients Returned"
+            });
+        }
+
 
         [Route("GetNHISHealthPlanPatientsByHealthPlan")]
         [HttpGet]
@@ -77,6 +109,33 @@ namespace HMS.Areas.HealthInsurance.Controllers
             });
         }
 
+        [Route("GetPatientSecondaryNHISServices")]
+        [HttpGet]
+        public async Task<IActionResult> GetPatientSecondaryNHISServices([FromQuery] PaginationParameter paginationParameter)
+        {
+            var HealthPlanPatients = _NHISHealthPlanPatient.GetPatientSecondaryNHISServices(paginationParameter);
+
+            var paginationDetails = new
+            {
+                HealthPlanPatients.TotalCount,
+                HealthPlanPatients.PageSize,
+                HealthPlanPatients.CurrentPage,
+                HealthPlanPatients.TotalPages,
+                HealthPlanPatients.HasNext,
+                HealthPlanPatients.HasPrevious
+            };
+
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                HealthPlanPatients,
+                paginationDetails,
+                message = "NHIS HealthPlan Patients Returned"
+            });
+        }
 
         [Route("AssignPatientToNHISHealthPlan")]
         [HttpPost]
@@ -139,10 +198,18 @@ namespace HMS.Areas.HealthInsurance.Controllers
                 return BadRequest(new { response = "301", message = "Invalid PatientId" });
             }
 
+            var service = await _service.GetServiceByIdAsync(nHISHealthPlanPatient.ServiceId);
 
-            var NHISHealthPlanPatientToUpdate = _mapper.Map<NHISHealthPlanPatient>(nHISHealthPlanPatient);
+            if (service == null)
+            {
+                return BadRequest(new { response = "301", message = "Invalid ServiceId" });
+            }
 
-            var res = await _NHISHealthPlanPatient.UpdateNHISHealthPlanPatient(NHISHealthPlanPatientToUpdate);
+
+
+            var ServiceRequestToCreate = _mapper.Map<NHISSecondaryHealthplanPatientService>(nHISHealthPlanPatient);
+
+            var res = await _NHISHealthPlanPatient.CreateNHISSeondaryHealthPlanPatientService(ServiceRequestToCreate);
             if (!res)
             {
                 return BadRequest(new { response = "301", message = "Failed to Assign Patient To HealthPlan" });
@@ -150,7 +217,7 @@ namespace HMS.Areas.HealthInsurance.Controllers
 
             return Ok(new
             {
-                message = "Patient Assigned To HealthPlan Successfully"
+                message = "Service Requested For Patient Successfully"
             });
         }
 

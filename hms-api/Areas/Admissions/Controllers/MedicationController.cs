@@ -134,10 +134,6 @@ namespace HMS.Areas.Admissions.Controllers
                 return BadRequest(new { response = "301", message = "Invalid Admission Id passed" });
             }
 
-            if (admissionInvoice == null)
-            {
-                return BadRequest(new { response = "301", message = "No Invoice For This Admission" });
-            }
             var drug = await _drug.GetDrug(Medication.DrugId);
 
             if (drug == null)
@@ -148,9 +144,9 @@ namespace HMS.Areas.Admissions.Controllers
             var invoiceId = await _admissionInvoice.UpdateAdmissionInvoice(Medication, admissionInvoice);
             if (invoiceId == "1")
             {
-                return BadRequest(new { response = "301", message = "Out of Stock For This Drug" });
+                return BadRequest(new { response = "301", message = "Out of Stock" });
             }
-                
+
             var medicationToAdminister = _mapper.Map<AdmissionDrugDispensing>(Medication);
             medicationToAdminister.AdmissionInvoiceId = invoiceId;
             var medication = await _medication.AdministerDrugMedication(medicationToAdminister);
@@ -272,10 +268,6 @@ namespace HMS.Areas.Admissions.Controllers
                 return BadRequest(new { response = "301", message = "Invalid Admission Id passed" });
             }
 
-            if (admissionInvoice == null)
-            {
-                return BadRequest(new { response = "301", message = "No Invoice For This Admission" });
-            }
             var service = await _service.GetServiceByIdAsync(Medication.ServiceId);
 
             if (service == null)

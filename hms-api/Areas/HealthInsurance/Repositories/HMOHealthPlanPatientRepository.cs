@@ -28,11 +28,30 @@ namespace HMS.Areas.NHIS.Repositories
         {
             try
             {
+                var HMOHealthPlan = await _applicationDbContext.HMOHealthPlans.Include(n => n.HMO).ThenInclude(n => n.HealthPlan).Where(n => n.Id == HMOHealthPlanPatient.HMOHealthPlanId).FirstOrDefaultAsync();
+                var patient = await _applicationDbContext.PatientProfiles.Include(p => p.Account).Where(p => p.PatientId == HMOHealthPlanPatient.PatientId).FirstOrDefaultAsync();
+                var account = patient.Account;
+                account.HealthPlanId = HMOHealthPlan.HMO.HealthPlanId;
+                var HMOHealthPlanSubGroupPatient = await _applicationDbContext.HMOSubUserGroupPatients.Include(d => d.HMOSubUserGroup).Where(p => p.PatientId == patient.PatientId).FirstOrDefaultAsync();
+                var NHISHealthPlanPatient = await _applicationDbContext.NHISHealthPlanPatients.Where(p => p.PatientId == patient.PatientId).Include(n => n.NHISHealthPlan).FirstOrDefaultAsync();
+
                 if (HMOHealthPlanPatient == null)
                 {
                     return false;
                 }
+               
+                if (HMOHealthPlanSubGroupPatient != null)
+                {
+                    _applicationDbContext.HMOSubUserGroupPatients.Remove(HMOHealthPlanSubGroupPatient);
+                }
+                if (NHISHealthPlanPatient != null)
+                {
+                    _applicationDbContext.NHISHealthPlanPatients.Remove(NHISHealthPlanPatient);
+                }
 
+                
+
+                _applicationDbContext.Accounts.Update(account);
                 _applicationDbContext.HMOHealthPlanPatients.Add(HMOHealthPlanPatient);
                 await _applicationDbContext.SaveChangesAsync();
 

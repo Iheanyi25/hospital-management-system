@@ -30,30 +30,59 @@ namespace HMS.Areas.Admissions.Controllers
             _ward = ward;
         }
 
+        [Route("GetAdmissionsWithoutBedCount")]
+        [HttpGet]
+        public async Task<IActionResult> GetAdmittedPatientsWithoutBedCount()
+        {
+
+            var referredPatientsCounts = _admission.GetAdmissionsWithoutBedCount();
+
+          
+
+
+          
+            return Ok(new
+            {
+                referredPatientsCounts,
+                message = "Referred Patients Count"
+            });
+        }
+
         [Route("GetAdmissionDays")]
         [HttpPost]
         public async Task<IActionResult> DischargePatient(string AdmissionId)
         {
-
             if (AdmissionId == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
             }
             var admission = await _admission.GetAdmission(AdmissionId);
+            var daysAdmitted = -1;
+            if (admission.IsDischarged == false)
+            {
+                var todaysDate = DateTime.Now;
+                var admissionDate = admission.DateOfAdmission;
+
+                var days = todaysDate - admissionDate;
+                daysAdmitted = days.Days;
+
+
+                return Ok(new
+                {
+                    daysAdmitted,
+                    message = "Days Admitted Returned"
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    daysAdmitted,
+                    message = "Days Admitted Returned"
+                });
+            }
 
            
-            var todaysDate = DateTime.Now;
-            var admissionDate = admission.DateOfAdmission;
-            
-            var days = todaysDate - admissionDate;
-            var daysAdmitted = days.Days;
-            
-
-            return Ok(new
-            {
-                daysAdmitted,
-                message = "Days Admitted Returned"
-            });
         }
 
 
@@ -266,7 +295,7 @@ namespace HMS.Areas.Admissions.Controllers
             return Ok(new
             {
                 admission,
-                message = "Assigned BedSpace To Patient"
+                message = "Assigned Patient To Bedspace"
             });
         }
 

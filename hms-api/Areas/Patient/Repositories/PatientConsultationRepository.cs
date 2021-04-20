@@ -28,6 +28,12 @@ namespace HMS.Areas.Patient.Repositories
         {
             try
             {
+                var res = await _applicationDbContext.MyPatients.Where(p => p.DoctorId == patient.DoctorId && p.PatientId == patient.PatientId).FirstOrDefaultAsync();
+                if (res != null)
+                {
+                    return false;
+                }
+
                 _applicationDbContext.MyPatients.Add(patient);
 
                 await _applicationDbContext.SaveChangesAsync();
@@ -184,6 +190,6 @@ namespace HMS.Areas.Patient.Repositories
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
-        public async Task<int> GetPendingConsultationsCount(string patientId) => await _applicationDbContext.Consultations.Where(c => c.PatientId == patientId && c.IsCompleted == false).CountAsync();
+        public async Task<int> GetPendingConsultationsCount(string patientId) => await _applicationDbContext.Consultations.Where(c => c.PatientId == patientId && c.IsPending == true).CountAsync();
     }
 }

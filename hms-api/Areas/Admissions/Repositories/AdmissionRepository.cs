@@ -66,6 +66,8 @@ namespace HMS.Areas.Admissions.Repositories
             return PagedList<AdmissionDtoForView>.ToPagedList(admissionsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
+        public async Task<int> GetAdmissionsWithoutBedCount() => await _applicationDbContext.Admissions.Where(a => a.BedId == null).CountAsync();
+
         public async Task<bool> UpdateAdmission(Admission admission)
         {
             try
