@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Admission from "./admin-sidebar-components/Admission";
 import HealthInsurance from "./admin-sidebar-components/HealthInsurance";
 import MyOffice from "./admin-sidebar-components/MyOffice";
+import NursingReport from "./admin-sidebar-components/NursingReports";
 import Pharmacy from "./admin-sidebar-components/Pharmacy";
 import Reports from "./admin-sidebar-components/Reports";
 import Surgery from "./admin-sidebar-components/Surgery";
@@ -46,6 +47,7 @@ class AdminSidebar extends React.Component {
                   <Admission />
                   <Surgery />
                   <HealthInsurance />
+                  <NursingReport />
                 </ul>
               </nav>
             </div>
