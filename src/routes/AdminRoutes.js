@@ -113,6 +113,9 @@ import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
 import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
 
+// AnteNatal
+import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
+
 export default function AdminRoutes() {
   return (
     <BrowserRouter basename="admin">
@@ -492,6 +495,9 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
           <Route exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
+
+          <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
+
           <Route
             exact
             path="*"
