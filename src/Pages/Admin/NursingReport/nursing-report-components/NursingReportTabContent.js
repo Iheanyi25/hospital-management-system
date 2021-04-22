@@ -6,6 +6,8 @@ import {
   DailyReport,
   NandaReport,
   NursingReportForm,
+  ViewDailyReport,
+  ViewNandaReport,
   ViewNursingReport,
 } from "./forms";
 
@@ -37,7 +39,11 @@ const NursingReportTabContent = observer(({ view, report }) => {
           role="tabpanel"
           aria-labelledby="pills-nanda-tab"
         >
-          <NandaReport nurseId={nurseId} id={id} />
+          {view ? (
+            <ViewNandaReport report={report} />
+          ) : (
+            <NandaReport nurseId={nurseId} id={id} />
+          )}
         </div>
 
         <div
@@ -46,7 +52,11 @@ const NursingReportTabContent = observer(({ view, report }) => {
           role="tabpanel"
           aria-labelledby="pills-daily-report-tab"
         >
-          <DailyReport nurseId={nurseId} id={id} />
+          {view ? (
+            <ViewDailyReport report={report} />
+          ) : (
+            <DailyReport nurseId={nurseId} id={id} />
+          )}
         </div>
       </div>
     </div>
