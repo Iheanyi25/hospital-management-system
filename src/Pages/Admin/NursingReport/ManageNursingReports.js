@@ -1,18 +1,28 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { useRequest } from "../../../api/fetcher";
-import { getNurseReportsUrl } from "../../../api/URLs";
+import {
+  getNurseReportsUrl,
+  getNurseReportsByNurseUrl,
+} from "../../../api/URLs";
 import { CreateNursingReport, PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import { UserContext } from "../../../mobx/UserState";
 import formatDate from "../../../utils/formatDate";
 import formatTme from "../../../utils/formatTime";
 
 const ManageNursingReports = () => {
+  const {
+    user: { userType, id },
+  } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getNurseReports = getNurseReportsUrl(pageNumber, pageSize);
+  const getNurseReports =
+    userType === "Nurse"
+      ? getNurseReportsByNurseUrl(id, pageNumber, pageSize)
+      : getNurseReportsUrl(pageNumber, pageSize);
   const getNurseReportsConfig = fetchConfig({
     url: getNurseReports,
     method: "get",

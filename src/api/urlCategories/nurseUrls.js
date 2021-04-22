@@ -9,3 +9,5 @@ export const updateNurseContactDetailsUrl = () => `/Nurse/UpdateContactDetails`;
 // Nurse - Manage Profile
 export const getNurseReportsUrl = (pageNumber, pageSize) =>
   `/Nurse/GetNurseReports?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getNurseReportsByNurseUrl = (nurseId, pageNumber, pageSize) =>
+  `/Nurse/GetNurseReportsByNurse?NurseId=${nurseId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
