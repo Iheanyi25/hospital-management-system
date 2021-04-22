@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Admission from "./admin-sidebar-components/Admission";
 import HealthInsurance from "./admin-sidebar-components/HealthInsurance";
+import NatalHealth, {  } from "./admin-sidebar-components/NatalHealth";
 import MyOffice from "./admin-sidebar-components/MyOffice";
 import NursingReport from "./admin-sidebar-components/NursingReports";
 import Pharmacy from "./admin-sidebar-components/Pharmacy";
@@ -46,6 +47,7 @@ class AdminSidebar extends React.Component {
                   <Pharmacy />
                   <Admission />
                   <Surgery />
+                  <NatalHealth/>
                   <HealthInsurance />
                   <NursingReport />
                 </ul>
