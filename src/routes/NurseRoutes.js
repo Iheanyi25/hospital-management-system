@@ -59,7 +59,7 @@ export default function NurseRoutes() {
           />
           <Route
             exact
-            path="/NurseUpdateNursingReport"
+            path="/NurseUpdateNursingReport/:id"
             component={UpdateNursingReport}
           />
           <Route

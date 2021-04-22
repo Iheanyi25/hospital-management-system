@@ -499,7 +499,7 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
           <Route exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
-          <Route exact path="/AdminUpdateNursingReport" component={UpdateNursingReport} />
+          <Route exact path="/AdminUpdateNursingReport/:id" component={UpdateNursingReport} />
           <Route exact path="/AdminManageNursingReports" component={ManageNursingReports} />
           <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
 

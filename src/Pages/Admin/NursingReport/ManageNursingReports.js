@@ -33,14 +33,14 @@ const ManageNursingReports = () => {
   let dataTable = [];
   if (data) {
     dataTable = data?.report.map(
-      ({ firstName, lastName, shift, dateOfShift, timeOfShift }, index) => {
+      ({ firstName, lastName, shift, dateOfShift, timeOfShift, id }, index) => {
         return {
           "#": ++index,
           Name: `${firstName} ${lastName}` ?? "N/A",
           Shift: shift ?? "N/A",
           Date: formatDate(dateOfShift) ?? "N/A",
           Time: formatTme(timeOfShift) ?? "N/A",
-          Action: <ActionTable />,
+          Action: <ActionTable id={id} userType={userType} />,
         };
       }
     );
@@ -90,11 +90,16 @@ const ManageNursingReports = () => {
   );
 };
 
-const ActionTable = () => {
+const ActionTable = ({ id, userType }) => {
   return (
     <ActionButton>
       <Link
-        to={{ pathname: `/AdminUpdateNursingReport` }}
+        to={{
+          pathname:
+            userType === "Nurse"
+              ? `/NurseUpdateNursingReport/${id}`
+              : `/AdminUpdateNursingReport/${id}`,
+        }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
