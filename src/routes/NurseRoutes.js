@@ -15,6 +15,7 @@ import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
 import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
+import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 export default function NurseRoutes() {
   return (
@@ -66,6 +67,11 @@ export default function NurseRoutes() {
             exact
             path="/NurseManageNursingReports"
             component={ManageNursingReports}
+          />
+          <Route
+            exact
+            path="/NurseViewNursingReport/:id"
+            component={ViewNursingReport}
           />
           <Route
             exact
