@@ -13,3 +13,5 @@ export const getNurseReportsByNurseUrl = (nurseId, pageNumber, pageSize) =>
 `/Nurse/GetNurseReportsByNurse?NurseId=${nurseId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createNurseReportUrl = () => `/Nurse/CreateNurseReport`;
 export const updateNursingReportUrl = () => `/Nurse/UpdateNursingReport`;
+export const updateNANDAReportUrl = () => `/Nurse/UpdateNANDAReport`;
+export const updateDailyReportUrl = () => `/Nurse/UpdateDailyReport`;
