@@ -7,10 +7,12 @@ export const updateNurseBasicInfoUrl = () => `/Nurse/UpdateBasicInfo`;
 export const updateNurseContactDetailsUrl = () => `/Nurse/UpdateContactDetails`;
 
 // Nurse - Manage Profile
+export const getNurseReportUrl = (nurseReportId) =>
+  `/Nurse/GetNurseReport?NurseReportId=${nurseReportId}`;
 export const getNurseReportsUrl = (pageNumber, pageSize) =>
-`/Nurse/GetNurseReports?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  `/Nurse/GetNurseReports?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getNurseReportsByNurseUrl = (nurseId, pageNumber, pageSize) =>
-`/Nurse/GetNurseReportsByNurse?NurseId=${nurseId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
+  `/Nurse/GetNurseReportsByNurse?NurseId=${nurseId}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createNurseReportUrl = () => `/Nurse/CreateNurseReport`;
 export const updateNursingReportUrl = () => `/Nurse/UpdateNursingReport`;
 export const updateNANDAReportUrl = () => `/Nurse/UpdateNANDAReport`;

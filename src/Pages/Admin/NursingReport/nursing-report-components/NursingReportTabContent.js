@@ -2,9 +2,14 @@ import { observer } from "mobx-react";
 import React, { useContext } from "react";
 import { useParams } from "react-router";
 import { UserContext } from "../../../../mobx/UserState";
-import { DailyReport, NandaReport, NursingReportForm } from "./forms";
+import {
+  DailyReport,
+  NandaReport,
+  NursingReportForm,
+  ViewNursingReport,
+} from "./forms";
 
-const NursingReportTabContent = observer(() => {
+const NursingReportTabContent = observer(({ view, report }) => {
   const { id } = useParams();
   const {
     user: { id: nurseId },
@@ -18,7 +23,12 @@ const NursingReportTabContent = observer(() => {
           role="tabpanel"
           aria-labelledby="pills-nursing-report-tab"
         >
-          <NursingReportForm nurseId={nurseId} id={id} />
+          {" "}
+          {view ? (
+            <ViewNursingReport report={report} />
+          ) : (
+            <NursingReportForm nurseId={nurseId} id={id} />
+          )}
         </div>
 
         <div
