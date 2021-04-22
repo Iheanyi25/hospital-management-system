@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchConfig } from "../../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../../api/fetcher";
 import { updateNANDAReportUrl } from "../../../../../api/URLs";
 import { notification } from "../../../../../utils/notification";
+import { isNotEmptyString } from "../../../../../utils/validationUtils";
 
 const NandaReport = ({ nurseId, id }) => {
-  const [payload, setPayload] = useState({});
+  const [payload, setPayload] = useState({
+    nandaReport: "",
+  });
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const { nandaReport } = payload;
+    if (isNotEmptyString(nandaReport)) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
+  }, [payload]);
   const handleChange = (e) => {
     setPayload({
       ...payload,
@@ -48,7 +60,11 @@ const NandaReport = ({ nurseId, id }) => {
           <div className="row">
             <div className="col"></div>
             <div className="col text-right">
-              <button type="submit" className="btn btn-primary">
+              <button
+                type="submit"
+                disabled={emptyField ? true : false}
+                className="btn btn-primary"
+              >
                 Save report
               </button>
             </div>
