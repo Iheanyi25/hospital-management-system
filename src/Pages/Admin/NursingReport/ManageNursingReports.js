@@ -57,13 +57,15 @@ const ManageNursingReports = observer(() => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title mb-0">Nursing Reports</h4>
-            <button
-              className="btn btn-primary"
-              data-toggle="modal"
-              data-target="#create-nursing-report"
-            >
-              Create a Report
-            </button>
+            {userType === "Nurse" ? (
+              <button
+                className="btn btn-primary"
+                data-toggle="modal"
+                data-target="#create-nursing-report"
+              >
+                Create a Report
+              </button>
+            ) : null}
           </header>
 
           <div className="page-content">
@@ -94,18 +96,17 @@ const ManageNursingReports = observer(() => {
 const ActionTable = ({ id, userType }) => {
   return (
     <ActionButton>
-      <Link
-        to={{
-          pathname:
-            userType === "Nurse"
-              ? `/NurseUpdateNursingReport/${id}`
-              : `/AdminUpdateNursingReport/${id}`,
-        }}
-        className="btn btn-sm btn-block"
-      >
-        <span className="btn-icon icofont-server mr-2" />
-        Update Report
-      </Link>
+      {userType === "Nurse" ? (
+        <Link
+          to={{
+            pathname: `/NurseUpdateNursingReport/${id}`,
+          }}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-server mr-2" />
+          Update Report
+        </Link>
+      ) : null}
       <Link
         to={{
           pathname:
