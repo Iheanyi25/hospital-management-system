@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../api/fetchConfig";
@@ -13,7 +14,7 @@ import { UserContext } from "../../../mobx/UserState";
 import formatDate from "../../../utils/formatDate";
 import formatTme from "../../../utils/formatTime";
 
-const ManageNursingReports = () => {
+const ManageNursingReports = observer(() => {
   const {
     user: { userType, id },
   } = useContext(UserContext);
@@ -88,7 +89,7 @@ const ManageNursingReports = () => {
       <CreateNursingReport nurseId={id} mutate={mutate} />
     </Fragment>
   );
-};
+});
 
 const ActionTable = ({ id, userType }) => {
   return (
