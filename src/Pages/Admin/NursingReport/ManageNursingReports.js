@@ -27,7 +27,7 @@ const ManageNursingReports = () => {
     url: getNurseReports,
     method: "get",
   });
-  const { data, error } = useRequest(getNurseReportsConfig, {
+  const { data, error, mutate } = useRequest(getNurseReportsConfig, {
     revalidateOnFocus: false,
   });
   let dataTable = [];
@@ -85,7 +85,7 @@ const ManageNursingReports = () => {
           </div>
         </div>
       </main>
-      <CreateNursingReport />
+      <CreateNursingReport nurseId={id} mutate={mutate} />
     </Fragment>
   );
 };
