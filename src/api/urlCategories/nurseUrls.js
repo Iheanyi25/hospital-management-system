@@ -1,3 +1,6 @@
+//Nurse - Manage Antenatal
+export const createAntenatalUrl = () => `/Nurse/CreateAntenatal`;
+
 // Nurse- Manage Profile
 export const getNursesUrl = (pageNumber, pageSize) =>
   `/Nurse/GetNurses?PageNumber=${pageNumber}&PageSize=${pageSize}`;
@@ -6,7 +9,7 @@ export const getNurseProfileUrl = (NurseId) =>
 export const updateNurseBasicInfoUrl = () => `/Nurse/UpdateBasicInfo`;
 export const updateNurseContactDetailsUrl = () => `/Nurse/UpdateContactDetails`;
 
-// Nurse - Manage Profile
+// Nurse - Manage Report
 export const getNurseReportUrl = (nurseReportId) =>
   `/Nurse/GetNurseReport?NurseReportId=${nurseReportId}`;
 export const getNurseReportsUrl = (pageNumber, pageSize) =>
