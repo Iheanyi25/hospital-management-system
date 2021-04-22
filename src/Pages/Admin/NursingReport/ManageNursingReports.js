@@ -6,6 +6,8 @@ import { getNurseReportsUrl } from "../../../api/URLs";
 import { CreateNursingReport, PageLoader, Table } from "../../../Components";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import TableSize from "../../../Components/DataTable/TableSize";
+import formatDate from "../../../utils/formatDate";
+import formatTme from "../../../utils/formatTime";
 
 const ManageNursingReports = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -20,14 +22,18 @@ const ManageNursingReports = () => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data?.report.map(({ name, shift }, index) => {
-      return {
-        "#": ++index,
-        Name: name,
-        Shift: shift,
-        Action: <ActionTable />,
-      };
-    });
+    dataTable = data?.report.map(
+      ({ firstName, lastName, shift, dateOfShift, timeOfShift }, index) => {
+        return {
+          "#": ++index,
+          Name: `${firstName} ${lastName}` ?? "N/A",
+          Shift: shift ?? "N/A",
+          Date: formatDate(dateOfShift) ?? "N/A",
+          Time: formatTme(timeOfShift) ?? "N/A",
+          Action: <ActionTable />,
+        };
+      }
+    );
   }
   if (error) return <div>failed to load</div>;
   return (
