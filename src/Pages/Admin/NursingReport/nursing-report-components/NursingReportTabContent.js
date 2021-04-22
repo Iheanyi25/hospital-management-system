@@ -1,7 +1,21 @@
-import React from "react";
-import { DailyReport, NursingReportForm } from "./forms";
+import { observer } from "mobx-react";
+import React, { useContext } from "react";
+import { useParams } from "react-router";
+import { UserContext } from "../../../../mobx/UserState";
+import {
+  DailyReport,
+  NandaReport,
+  NursingReportForm,
+  ViewDailyReport,
+  ViewNandaReport,
+  ViewNursingReport,
+} from "./forms";
 
-export default function NursingReportTabContent() {
+const NursingReportTabContent = observer(({ view, report }) => {
+  const { id } = useParams();
+  const {
+    user: { id: nurseId },
+  } = useContext(UserContext);
   return (
     <div>
       <div className="tab-content" id="pills-tabContent">
@@ -11,7 +25,12 @@ export default function NursingReportTabContent() {
           role="tabpanel"
           aria-labelledby="pills-nursing-report-tab"
         >
-          <NursingReportForm />
+          {" "}
+          {view ? (
+            <ViewNursingReport report={report} />
+          ) : (
+            <NursingReportForm nurseId={nurseId} id={id} />
+          )}
         </div>
 
         <div
@@ -20,7 +39,11 @@ export default function NursingReportTabContent() {
           role="tabpanel"
           aria-labelledby="pills-nanda-tab"
         >
-          NANDA
+          {view ? (
+            <ViewNandaReport report={report} />
+          ) : (
+            <NandaReport nurseId={nurseId} id={id} />
+          )}
         </div>
 
         <div
@@ -29,9 +52,15 @@ export default function NursingReportTabContent() {
           role="tabpanel"
           aria-labelledby="pills-daily-report-tab"
         >
-          <DailyReport />
+          {view ? (
+            <ViewDailyReport report={report} />
+          ) : (
+            <DailyReport nurseId={nurseId} id={id} />
+          )}
         </div>
       </div>
     </div>
   );
-}
+});
+
+export default NursingReportTabContent;

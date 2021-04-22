@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import { observer } from "mobx-react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchConfig } from "../../../../api/fetchConfig";
 import { useRequest } from "../../../../api/fetcher";
 import { getConsultationsCompletedWithDoctorUrl } from "../../../../api/URLs";
 import { Table } from "../../../../Components";
 import ActionButton from "../../../../Components/DataTable/ActionButton";
+import { UserContext } from "../../../../mobx/UserState";
 import formatDate from "../../../../utils/formatDate";
 import formatTime from "../../../../utils/formatTime";
 
-function PatientsAttendedTableContainer({ doctorId }) {
+const PatientsAttendedTableContainer = observer(({ doctorId }) => {
+  const {
+    user: { userType },
+  } = useContext(UserContext);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const patientsAttentedToCount = getConsultationsCompletedWithDoctorUrl(
@@ -35,7 +40,12 @@ function PatientsAttendedTableContainer({ doctorId }) {
         "Patient Contact": consultation?.patient?.phoneNumber ?? "N/A",
         "Consultation Date": formatDate(consultation.dateOfConsultation),
         "Consultation Time": formatTime(consultation.dateOfConsultation),
-        Actions: <PatientsAttendedTableAction consultation={consultation} />,
+        Actions: (
+          <PatientsAttendedTableAction
+            consultation={consultation}
+            userType={userType}
+          />
+        ),
       };
     });
   }
@@ -54,15 +64,18 @@ function PatientsAttendedTableContainer({ doctorId }) {
       />
     </div>
   );
-}
+});
 
-const PatientsAttendedTableAction = ({ consultation }) => {
+const PatientsAttendedTableAction = ({ consultation, userType }) => {
   return (
     <ActionButton>
       <Link
         title="Patient Profile"
         to={{
-          pathname: `/DoctorPatientProfile/${consultation.patient.id}`,
+          pathname:
+            userType === "Admin"
+              ? `/AdminPatientProfile/${consultation.patient.id}`
+              : `/DoctorPatientProfile/${consultation.patient.id}`,
           state: consultation.patient,
         }}
         className="btn btn-sm btn-block"

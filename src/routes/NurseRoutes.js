@@ -13,6 +13,9 @@ import Appointments from "../Pages/Admin/Appointments";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
+import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
+import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
+import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 export default function NurseRoutes() {
   return (
@@ -39,11 +42,7 @@ export default function NurseRoutes() {
             path="/NurseBookAppointment"
             component={BookAppointment}
           />
-          <Route
-            exact
-            path="/NurseAppointments"
-            component={Appointments}
-          />
+          <Route exact path="/NurseAppointments" component={Appointments} />
           <Route
             exact
             path="/NursePatientProfile/:id"
@@ -54,10 +53,25 @@ export default function NurseRoutes() {
             path="/NurseManageAdmissions"
             component={ManageAdmissions}
           />
-           <Route
+          <Route
             exact
             path="/NurseWardRoundNotes/:id"
             component={WardRoundNotes}
+          />
+          <Route
+            exact
+            path="/NurseUpdateNursingReport/:id"
+            component={UpdateNursingReport}
+          />
+          <Route
+            exact
+            path="/NurseManageNursingReports"
+            component={ManageNursingReports}
+          />
+          <Route
+            exact
+            path="/NurseViewNursingReport/:id"
+            component={ViewNursingReport}
           />
           <Route
             exact
