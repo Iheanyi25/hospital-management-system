@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { InvalidDetails } from "../../../Components/Alerts/InvalidDetails";
 import { fetchWrapper } from "../../../api/fetcher";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { postResetPasswordFromMailUrl } from "../../../api/URLs";
@@ -30,14 +29,13 @@ function ResetPasswordFromMail() {
     userEmail,
     userToken,
     submitting,
-    error,
-    errorMessage,
     newPasswordInputType,
     confirmPasswordInputType,
   } = newPasswordDetails;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setNewPasswordDetails({ submitting: true });
     if (newPassword === confirmPassword) {
       try {
         const payload = {
@@ -57,20 +55,20 @@ function ResetPasswordFromMail() {
           push("/");
         }
       } catch (error) {
+        setNewPasswordDetails({ submitting: false });
         notification.error({ message: error?.response?.data.message });
       }
     } else {
-      notification.error({ message: "Your passwords don't match" });
+      setNewPasswordDetails({ submitting: false });
+      notification.error({ message: "Your passwords do not match" });
     }
   };
   const handleNewPasswordValue = (val) => {
     setNewPasswordDetails({ ...newPasswordDetails, newPassword: val });
-    console.log(newPassword);
   };
 
   const handleConfirmPasswordValue = (val) => {
     setNewPasswordDetails({ ...newPasswordDetails, confirmPassword: val });
-    console.log(confirmPassword);
   };
 
   const toggleNewPasswordView = () => {
@@ -99,7 +97,6 @@ function ResetPasswordFromMail() {
 
   return (
     <>
-      <div>{error ? <InvalidDetails message={errorMessage} /> : null}</div>
       <div className="auth-background d-flex justify-content-center align-items-center">
         <div className="card border-light">
           <div className="card-body">
@@ -117,14 +114,14 @@ function ResetPasswordFromMail() {
                   placeholder="Enter your new password"
                   required
                 />
-                <div class="input-group-append eye-icon pull-right">
+                <div className="input-group-append eye-icon pull-right">
                   <i
-                    class={
+                    className={
                       newPasswordInputType === "password"
                         ? "icofont-eye"
                         : "icofont-eye-blocked"
                     }
-                    onClick={(e) => toggleConfirmPasswordView()}
+                    onClick={(e) => toggleNewPasswordView()}
                   ></i>
                 </div>
               </div>
@@ -140,14 +137,14 @@ function ResetPasswordFromMail() {
                   placeholder="Confirm your new password"
                   required
                 />
-                <div class="input-group-append eye-icon pull-right">
+                <div className="input-group-append eye-icon pull-right">
                   <i
-                    class={
+                    className={
                       confirmPasswordInputType === "password"
                         ? "icofont-eye"
                         : "icofont-eye-blocked"
                     }
-                    onClick={(e) => toggleNewPasswordView()}
+                    onClick={(e) => toggleConfirmPasswordView()}
                   ></i>
                 </div>
               </div>

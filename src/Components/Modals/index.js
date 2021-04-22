@@ -20,3 +20,4 @@ export * from "./CreateDrugBatch";
 export * from "./EditDrugBatch";
 export * from "./UpdateDrugMedicationStatus";
 export * from "./RejectAppointment";
+export * from "./CreateNursingReport";
