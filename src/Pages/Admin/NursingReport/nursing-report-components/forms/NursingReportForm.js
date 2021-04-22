@@ -1,11 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchConfig } from "../../../../../api/fetchConfig";
 import { fetchWrapper } from "../../../../../api/fetcher";
 import { updateNursingReportUrl } from "../../../../../api/URLs";
 import { notification } from "../../../../../utils/notification";
+import { isNotEmptyString } from "../../../../../utils/validationUtils";
 
 const NursingReportForm = ({ nurseId, id }) => {
-  const [payload, setPayload] = useState({});
+  const [payload, setPayload] = useState({
+    nursingAssessment: "",
+    nursingDiagnosis: "",
+    nursingObjectives: "",
+    nursingActions: "",
+    nursingEvaluation: "",
+  });
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const {
+      nursingAssessment,
+      nursingDiagnosis,
+      nursingObjectives,
+      nursingActions,
+      nursingEvaluation,
+    } = payload;
+    if (
+      isNotEmptyString(nursingAssessment) &&
+      isNotEmptyString(nursingDiagnosis) &&
+      isNotEmptyString(nursingObjectives) &&
+      isNotEmptyString(nursingActions) &&
+      isNotEmptyString(nursingEvaluation)
+    ) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
+  }, [payload]);
   const handleChange = (e) => {
     setPayload({
       ...payload,
@@ -80,7 +108,11 @@ const NursingReportForm = ({ nurseId, id }) => {
           <div className="row">
             <div className="col"></div>
             <div className="col text-right">
-              <button type="submit" className="btn btn-primary">
+              <button
+                type="submit"
+                disabled={emptyField ? true : false}
+                className="btn btn-primary"
+              >
                 Save report
               </button>
             </div>
