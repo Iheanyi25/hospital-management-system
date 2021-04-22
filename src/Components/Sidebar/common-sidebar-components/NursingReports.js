@@ -1,12 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function NursingReport() {
+export default function NursingReport({ nursingReportUrl }) {
   const { pathname } = useLocation();
   return (
     <div>
       <NursingReportSection />
-      <ManageReports pathname={pathname} />
+      <ManageReports pathname={pathname} nursingReportUrl={nursingReportUrl} />
     </div>
   );
 }
@@ -27,15 +27,15 @@ const NursingReportSection = () => {
   );
 };
 
-const ManageReports = ({ pathname }) => {
+const ManageReports = ({ pathname, nursingReportUrl }) => {
   return (
     <div className="collapse" id="menuNursingReport">
       <li className="menu-item">
-        <Link className="item-link" to="/AdminManageNursingReports">
+        <Link className="item-link" to={nursingReportUrl}>
           <span className="link-icon icofont-users" />{" "}
           <span
             className={
-              pathname === "/AdminManageNursingReports"
+              pathname === nursingReportUrl
                 ? "link-text text-primary"
                 : "link-text"
             }
