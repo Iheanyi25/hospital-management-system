@@ -1,8 +1,11 @@
 // Nurse- Manage Profile
 export const getNursesUrl = (pageNumber, pageSize) =>
   `/Nurse/GetNurses?PageNumber=${pageNumber}&PageSize=${pageSize}`;
-  export const getNurseProfileUrl = (NurseId) =>
+export const getNurseProfileUrl = (NurseId) =>
   `/Nurse/GetNurse?NurseId=${NurseId}`;
-  export const updateNurseBasicInfoUrl = () => `/Nurse/UpdateBasicInfo`;
-  export const updateNurseContactDetailsUrl = () =>
-    `/Nurse/UpdateContactDetails`;
+export const updateNurseBasicInfoUrl = () => `/Nurse/UpdateBasicInfo`;
+export const updateNurseContactDetailsUrl = () => `/Nurse/UpdateContactDetails`;
+
+// Nurse - Manage Profile
+export const getNurseReportsUrl = (pageNumber, pageSize) =>
+  `/Nurse/GetNurseReports?PageNumber=${pageNumber}&PageSize=${pageSize}`;
