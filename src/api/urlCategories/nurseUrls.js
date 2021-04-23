@@ -2,6 +2,9 @@
 export const getAntenatalsUrl = (pageNumber, pageSize) =>
   `/Nurse/GetAntenatals?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createAntenatalUrl = () => `/Nurse/CreateAntenatal`;
+export const getAntenatalRecordsForAntenatalUrl = (antenatalId) =>
+`/Nurse/GetAntenatalRecordsForAntenatal?AntenatalId=${antenatalId}`;
+export const createAntenatalRecordUrl = () => `/Nurse/CreateAntenatalRecord`;
 
 // Nurse- Manage Profile
 export const getNursesUrl = (pageNumber, pageSize) =>

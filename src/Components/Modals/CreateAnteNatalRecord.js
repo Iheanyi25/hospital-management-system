@@ -155,17 +155,6 @@ const CreateAnteNatalRecord = ({ antenatalId, initiatorId, mutate }) => {
                     />
                   </div>
                   <div className="form-group">
-                    <label>Examiner</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      tabIndex={-98}
-                      name="name"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
                     <label>Remarks</label>{" "}
                     <textarea
                       className="form-control"
