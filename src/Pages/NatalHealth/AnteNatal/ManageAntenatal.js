@@ -38,20 +38,19 @@ const ManageAnteNatal = () => {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">Ante Natal</h4>
-            <button
+            <h4 className="page-title mb-0">Manage Antenatals</h4>
+            <Link
               className="btn btn-primary"
-              data-toggle="modal"
-              data-target="#create-nursing-report"
+              to="/AdminRegisterAnteNatal"
             >
-              Create a Report
-            </button>
+              Register an Antenatal
+            </Link>
           </header>
 
           <div className="page-content">
             <TableSize
               size={data ? data?.antenatals.length : 0}
-              heading="Number of Ante Natals"
+              heading="Number of Antenatals"
             />
           </div>
           <div className="page-content">
