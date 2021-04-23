@@ -20,11 +20,11 @@ const ManageAnteNatal = () => {
   });
   let dataTable = [];
   if (data) {
-    dataTable = data?.antenatals.map(({ firstName, lastName }, index) => {
+    dataTable = data?.antenatals.map(({ firstName, lastName, id }, index) => {
       return {
         "#": ++index,
         Name: `${firstName} ${lastName}` ?? "N/A",
-        Action: <ActionTable />,
+        Action: <ActionTable id={id} />,
       };
     });
   }
@@ -72,20 +72,15 @@ const ManageAnteNatal = () => {
   );
 };
 
-const ActionTable = () => {
+const ActionTable = ({ id }) => {
   return (
     <ActionButton>
       <Link
-        // to={{
-        //   pathname:
-        //     userType === "Nurse"
-        //       ? `/NurseViewNursingReport/${id}`
-        //       : `/AdminViewNursingReport/${id}`,
-        // }}
+        to={`/AdminViewAntenatalRecords/${id}`}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        View Report
+        View Records
       </Link>
     </ActionButton>
   );
