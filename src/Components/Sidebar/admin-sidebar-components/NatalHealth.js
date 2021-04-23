@@ -38,7 +38,7 @@ const AnteNatal = ({ pathname }) => {
           data-target="#submenuAnteNatal"
         >
           <span className="link-icon icofont-hospital" />{" "}
-          <span className="link-text">AnteNatal</span>{" "}
+          <span className="link-text">Ante Natal</span>{" "}
         </div>
       </li>
       <ul
@@ -56,20 +56,20 @@ const AnteNatal = ({ pathname }) => {
                   : "link-text"
               }
             >
-              Register for AnteNatal
+              Register for Ante Natal
             </span>
           </Link>
         </li>
         <li className="menu-item font-weight-normal">
-          <Link className="item-link" to="/AdminManageNHIS">
+          <Link className="item-link" to="/AdminManageAnteNatal">
             <span
               className={
-                pathname === "/AdminManageNHIS"
+                pathname === "/AdminManageAnteNatal"
                   ? "link-text text-primary"
                   : "link-text"
               }
             >
-              Manage AnteNatal
+              Manage Ante Natal
             </span>
           </Link>
         </li>

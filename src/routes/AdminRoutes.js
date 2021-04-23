@@ -120,6 +120,7 @@ import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 // AnteNatal
 import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
+import ManageAnteNatal from "../Pages/NatalHealth/AnteNatal/ManageAntenatal";
 
 export default function AdminRoutes() {
   return (
@@ -504,6 +505,7 @@ export default function AdminRoutes() {
           <Route exact path="/AdminManageNursingReports" component={ManageNursingReports} />
           <Route exact path="/AdminViewNursingReport/:id" component={ViewNursingReport} />
           <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
+          <Route exact path="/AdminManageAnteNatal" component={ManageAnteNatal} />
 
           <Route
             exact

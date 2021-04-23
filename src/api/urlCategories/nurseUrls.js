@@ -1,4 +1,6 @@
 //Nurse - Manage Antenatal
+export const getAntenatalsUrl = (pageNumber, pageSize) =>
+  `/Nurse/GetAntenatals?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const createAntenatalUrl = () => `/Nurse/CreateAntenatal`;
 
 // Nurse- Manage Profile
