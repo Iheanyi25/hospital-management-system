@@ -56,7 +56,7 @@ const ViewAntenatalRecords = observer(() => {
                     data?.antenatalRecords.map((antenatalRecord, index) => (
                       <div className="card mb-0">
                         <div className="card-header" id="headingTwo">
-                          <h5 className="mb-0">
+                          <h6 className="mb-0">
                             <button
                               className="btn btn-outline-primary btn-block"
                               data-toggle="collapse"
@@ -69,68 +69,68 @@ const ViewAntenatalRecords = observer(() => {
                                 "N/A"
                               }`}
                             </button>
-                          </h5>
+                          </h6>
                         </div>
                         <div
                           id={`collapse${index + 1}`}
-                          className="collapse px-5"
+                          className="collapse px-5 natal-style"
                           aria-labelledby="headingOne"
                         >
                           <div className="row">
                             <div className="col-12 col-md-4">
-                              <h5>Fundal Height</h5>
+                              <h6>Fundal Height</h6>
                               <p>{antenatalRecord?.fundalHeight ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>LIE</h5>
+                              <h6>LIE</h6>
                               <p>{antenatalRecord?.lie ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>Urine AI Bumin</h5>
+                              <h6>Urine AI Bumin</h6>
                               <p>{antenatalRecord?.urineAIBumin ?? "N/A"}</p>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-12 col-md-4">
-                              <h5>Blood Pressure</h5>
+                              <h6>Blood Pressure</h6>
                               <p>{antenatalRecord?.bloodPressure ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>H, B</h5>
+                              <h6>H, B</h6>
                               <p>{antenatalRecord?.hb ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>Examiner</h5>
+                              <h6>Examiner</h6>
                               <p>{`${antenatalRecord?.firstName ?? "N/A"} ${
-                                antenatalRecord?.lastname ?? ""
+                                antenatalRecord?.lastName ?? ""
                               }`}</p>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-12 col-md-4">
-                              <h5>Present</h5>
+                              <h6>Present</h6>
                               <p>{antenatalRecord?.present ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>Feotal Heart Rate</h5>
+                              <h6>Feotal Heart Rate</h6>
                               <p>{antenatalRecord?.feotalHeartRate ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>Urine Sugar</h5>
+                              <h6>Urine Sugar</h6>
                               <p>{antenatalRecord?.urineSugar ?? "N/A"}</p>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-12 col-md-4">
-                              <h5>Weight</h5>
+                              <h6>Weight</h6>
                               <p>{antenatalRecord?.weight ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>Odema</h5>
+                              <h6>Odema</h6>
                               <p>{antenatalRecord?.odema ?? "N/A"}</p>
                             </div>
                             <div className="col-12 col-md-4">
-                              <h5>Date of Return</h5>
+                              <h6>Date of Return</h6>
                               <p>
                                 {formatDate(antenatalRecord?.dateOfReturn) ??
                                   "N/A"}
@@ -139,7 +139,7 @@ const ViewAntenatalRecords = observer(() => {
                           </div>
                           <div className="row">
                             <div className="col-12 col-md-4">
-                              <h5>Remarks</h5>
+                              <h6>Remarks</h6>
                               <p>{antenatalRecord?.remarks ?? "N/A"}</p>
                             </div>
                           </div>
