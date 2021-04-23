@@ -7,12 +7,7 @@ import { isNotEmptyString } from "../../utils/validationUtils";
 
 const $ = window.$;
 
-const CreateAnteNatalRecord = ({
-  antenatalId,
-  initiatorId,
-  nurseId,
-  mutate,
-}) => {
+const CreateAnteNatalRecord = ({ antenatalId, initiatorId, mutate }) => {
   const [details, setDetails] = useState({
     fundalHeight: "",
     present: "",
