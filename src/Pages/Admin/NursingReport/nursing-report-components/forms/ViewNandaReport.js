@@ -11,7 +11,7 @@ const ViewNandaReport = ({ report }) => {
           <div className="col-12 col-md-6">
             <div>
               <h6 className="mb-2">Nursing assessment</h6>
-              <p>{report?.nursingAssessment ?? "N/A"}</p>
+              <p>{report?.nandaReport ?? "N/A"}</p>
             </div>
           </div>
         </div>

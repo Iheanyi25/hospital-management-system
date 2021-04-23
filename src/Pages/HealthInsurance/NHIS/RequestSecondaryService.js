@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Select from 'react-select'
+import Select from "react-select";
 import { useHistory } from "react-router";
 import { fetchConfig } from "../../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import {
   getAllServicesCategoryUrl,
   getAllServicesInACategoryUrl,
-  getNHISHealthPlansUrl,
-  updatePatientNHISHealthPlanUrl,
+  requestSecondaryServiceUrl,
 } from "../../../api/URLs";
 import { PageLoader } from "../../../Components";
 import { notification } from "../../../utils/notification";
 import { isNotEmptyString } from "../../../utils/validationUtils";
 
-export default function ReassignPatientToPlan() {
+export default function RequestSecondaryService() {
   const {
     push,
     location: { state },
@@ -69,22 +68,6 @@ export default function ReassignPatientToPlan() {
   const handleChange = (service) => {
     setService(service);
   };
-  const getNHISHealthPlans = getNHISHealthPlansUrl(1, 200);
-  const getNHISHealthPlansConfig = fetchConfig({
-    url: getNHISHealthPlans,
-    method: "get",
-  });
-  const { data } = useRequest(getNHISHealthPlansConfig, {
-    revalidateOnFocus: false,
-  });
-  let condition = state?.healthPlanName === "Primary" ? "Secondary" : "Primary";
-  let nhisHealthPlanId;
-  for (let i = 0; i < data?.nhisHealthPlans.length; i++) {
-    if (data?.nhisHealthPlans[i].name === condition) {
-      console.log(data?.nhisHealthPlans[i].id, "found");
-      nhisHealthPlanId = data?.nhisHealthPlans[i].id;
-    }
-  }
   useEffect(() => {
     if (isNotEmptyString(authorizationCode)) {
       setEmptyField(false);
@@ -92,24 +75,14 @@ export default function ReassignPatientToPlan() {
   }, [authorizationCode]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload =
-      state?.healthPlanName === "Primary"
-        ? {
-            patientId: state?.patientId,
-            id: state?.id,
-            authorizationCode,
-            nhisHealthPlanId,
-            serviceId: service.value
-          }
-        : {
-            patientId: state?.patientId,
-            id: state?.id,
-            nhisHealthPlanId,
-            serviceId: service.value
-          };
+    const payload = {
+      patientId: state?.patientId,
+      authorizationCode,
+      serviceId: service.value,
+    };
     console.log(payload);
     try {
-      const assignPatientToNHISHealthPlan = updatePatientNHISHealthPlanUrl();
+      const assignPatientToNHISHealthPlan = requestSecondaryServiceUrl();
       const assignPatientToNHISHealthPlanConfig = fetchConfig({
         url: assignPatientToNHISHealthPlan,
         data: payload,
@@ -136,11 +109,7 @@ export default function ReassignPatientToPlan() {
         </div>
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
-            <h4 className="page-title mb-0">
-              {`Reassign Patient to ${
-                state?.healthPlanName === "Primary" ? "Secondary" : "Primary"
-              } health plan`}
-            </h4>
+            <h4 className="page-title mb-0">Request Secondary Service</h4>
           </header>
           <div className="page-content w-50 m-auto">
             <div className="row justify-content-center">
@@ -148,7 +117,7 @@ export default function ReassignPatientToPlan() {
                 <div className="card border-light">
                   <div className="card-body">
                     <form className="mb-4 p-5" onSubmit={handleSubmit}>
-                      <h4 className="text-center">Reassign</h4>
+                      <h4 className="text-center">Request</h4>
                       <div className="form-group">
                         <label>Patient Name</label>
                         <input
@@ -183,33 +152,24 @@ export default function ReassignPatientToPlan() {
                           />
                         </div>
                       ) : null}
-
-                      {state?.healthPlanName === "Primary" ? (
-                        <div className="form-group">
-                          <label>Authorization code</label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            onChange={(e) =>
-                              setAuthorizationCode(e.target.value)
-                            }
-                            tabIndex={-98}
-                          />
-                        </div>
-                      ) : null}
+                      <div className="form-group">
+                        <label>Authorization code</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          onChange={(e) => setAuthorizationCode(e.target.value)}
+                          tabIndex={-98}
+                        />
+                      </div>
                       <div className="row">
                         <div className="col"></div>
                         <div className="col text-right">
                           <button
                             type="submit"
-                            disabled={
-                              emptyField && state?.healthPlanName === "Primary"
-                                ? true
-                                : false
-                            }
+                            disabled={emptyField ? true : false}
                             className="btn btn-primary"
                           >
-                            Reassign
+                            Request
                           </button>
                         </div>
                       </div>

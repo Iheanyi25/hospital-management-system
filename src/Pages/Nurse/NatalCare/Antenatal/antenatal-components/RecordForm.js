@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import Select from "react-select";
-import { fetchConfig } from "../../../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../../../api/fetcher";
-import { createAntenatalUrl, getPatientsUrl } from "../../../../api/URLs";
-import { notification } from "../../../../utils/notification";
+import { fetchConfig } from "../../../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../../../api/fetcher";
+import { createAntenatalUrl, getPatientsUrl } from "../../../../../api/URLs";
+import { notification } from "../../../../../utils/notification";
 
 const RecordForm = () => {
+  const { push } = useHistory();
   const [payload, setPayload] = useState({
     patientId: "",
     firstTimePregnancy: false,
@@ -59,7 +61,7 @@ const RecordForm = () => {
       const res = await fetchWrapper(createAntenatalConfig);
       if (res.status === 200) {
         notification.success({ message: res.data.message });
-        // history.push("/AdminManageHMO");
+        push("/AdminManageAnteNatal");
       }
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
@@ -67,9 +69,10 @@ const RecordForm = () => {
     console.log(data);
   };
   return (
-    <div className="card">
+    <div className="card border-light w-50 m-auto">
       <div className="card-body">
-        <form onSubmit={handleSubmit}>
+        <form className="mb-4 p-5" onSubmit={handleSubmit}>
+          <h4 className="text-center">Register</h4>
           <div className="form-group">
             <label>Search Patient with:</label>
             <Select
@@ -87,21 +90,11 @@ const RecordForm = () => {
               name="firstTimePregnancy"
               id="firstTimePregnancy"
               onChange={handleChange}
-            //   value={payload?.firstTimePregnancy}
             />
             <label className="custom-control-label" for="firstTimePregnancy">
               First time pregnancy
             </label>
           </div>
-          {/* <div className="form-group">
-            <label>Previous Surgeries</label>
-            <textarea
-              className="form-control"
-              placeholder="Previous surgeries"
-              onChange={handleChange}
-              name="previousSurgeries"
-            />
-          </div> */}
           <div className="row mb-2">
             <div className="col-4">
               <label>Any dead child</label>
@@ -135,7 +128,7 @@ const RecordForm = () => {
               name="causeOfDeath"
             />
           </div>
-          <div className="row mb-2">
+          {/* <div className="row mb-2">
             <div className="col-4">
               <label>Any complication on last pregnancy</label>
               <input
@@ -147,6 +140,15 @@ const RecordForm = () => {
                 required
               />
             </div>
+          </div> */}
+          <div className="form-group">
+            <label>Any complication on last pregnancy</label>
+            <textarea
+              className="form-control"
+              placeholder="Complications"
+              onChange={handleChange}
+              name="lastPregnancyComplication"
+            />
           </div>
           <div className="form-group">
             <label>Previous Surgeries</label>

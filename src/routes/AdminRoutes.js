@@ -111,7 +111,7 @@ import AddDrugToNHIS from "../Pages/HealthInsurance/NHIS/AddDrugToNHIS";
 import AddServiceToNHIS from "../Pages/HealthInsurance/NHIS/AddServiceToNHIS";
 import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
-import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
+import RequestSecondaryService from "../Pages/HealthInsurance/NHIS/RequestSecondaryService";
 
 // nursing reports
 import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
@@ -119,7 +119,10 @@ import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingRepo
 import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 // AnteNatal
-import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
+import RegisterAntenatal from "../Pages/Nurse/NatalCare/Antenatal/RegisterAntenatal";
+import ManageAnteNatal from "../Pages/Nurse/NatalCare/Antenatal/ManageAntenatal";
+import ViewAntenatalRecords from "../Pages/Nurse/NatalCare/Antenatal/ViewAntenatalRecords";
+import RegisterPostNatal from "../Pages/Nurse/NatalCare/Postnatal/RegisterPostNatal";
 
 export default function AdminRoutes() {
   return (
@@ -478,8 +481,8 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminReassignPatientToNHIS/:id"
-            component={ReassignPatientToPlan}
+            path="/AdminRequestSecondaryService/:id"
+            component={RequestSecondaryService}
           />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
@@ -504,6 +507,9 @@ export default function AdminRoutes() {
           <Route exact path="/AdminManageNursingReports" component={ManageNursingReports} />
           <Route exact path="/AdminViewNursingReport/:id" component={ViewNursingReport} />
           <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
+          <Route exact path="/AdminManageAnteNatal" component={ManageAnteNatal} />
+          <Route exact path="/AdminViewAntenatalRecords/:id" component={ViewAntenatalRecords} />
+          <Route exact path="/AdminRegisterPostNatal" component={RegisterPostNatal} />
 
           <Route
             exact

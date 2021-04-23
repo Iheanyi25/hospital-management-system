@@ -128,13 +128,13 @@ const NHISPatientActionTable = ({ deletePatient, healthPlanDetails, id }) => {
     <ActionButton>
       <Link
         to={{
-          pathname: `/AdminReassignPatientToNHIS/${id}`,
+          pathname: `/AdminRequestSecondaryService/${id}`,
           state: { ...healthPlanDetails, id },
         }}
         className="btn btn-sm btn-block"
       >
         <span className="btn-icon icofont-server mr-2" />
-        Reassign to healthplan
+        Request secondary service
       </Link>
       <button
         onClick={() => deletePatient(id)}

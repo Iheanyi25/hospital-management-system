@@ -21,3 +21,4 @@ export * from "./EditDrugBatch";
 export * from "./UpdateDrugMedicationStatus";
 export * from "./RejectAppointment";
 export * from "./CreateNursingReport";
+export * from "./CreateAnteNatalRecord";
