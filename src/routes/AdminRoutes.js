@@ -122,6 +122,7 @@ import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 import RegisterAntenatal from "../Pages/Nurse/NatalCare/Antenatal/RegisterAntenatal";
 import ManageAnteNatal from "../Pages/Nurse/NatalCare/Antenatal/ManageAntenatal";
 import ViewAntenatalRecords from "../Pages/Nurse/NatalCare/Antenatal/ViewAntenatalRecords";
+import RegisterPostNatal from "../Pages/Nurse/NatalCare/Postnatal/RegisterPostNatal";
 
 export default function AdminRoutes() {
   return (
@@ -508,6 +509,7 @@ export default function AdminRoutes() {
           <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
           <Route exact path="/AdminManageAnteNatal" component={ManageAnteNatal} />
           <Route exact path="/AdminViewAntenatalRecords/:id" component={ViewAntenatalRecords} />
+          <Route exact path="/AdminRegisterPostNatal" component={RegisterPostNatal} />
 
           <Route
             exact

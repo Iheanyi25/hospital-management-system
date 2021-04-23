@@ -7,7 +7,7 @@ export default function NatalHealth() {
     <div>
       <NatalHealthSection />
       <AnteNatal pathname={pathname} />
-      {/* <PostNatal pathname={pathname} /> */}
+      <PostNatal pathname={pathname} />
     </div>
   );
 }
@@ -78,52 +78,52 @@ const AnteNatal = ({ pathname }) => {
   );
 };
 
-// const PostNatal = ({ pathname }) => {
-//   return (
-//     <div className="collapse" id="menuNatalHealth">
-//       <li className="menu-item">
-//         <div
-//           className="cursor item-link panel-heading collapsed  "
-//           data-toggle="collapse"
-//           data-target="#submenuHMO"
-//         >
-//           <span className="link-icon icofont-hospital" />{" "}
-//           <span className="link-text">PostNatal</span>{" "}
-//         </div>
-//       </li>
-//       <ul
-//         className="collapse submenu-ul"
-//         id="submenuHMO"
-//         aria-expanded="false"
-//         data-parent="#accordion"
-//       >
-//         <li className="menu-item font-weight-normal">
-//           <Link to="/AdminCreateHMO" className="item-link">
-//             <span
-//               className={
-//                 pathname === "/AdminCreateHMO"
-//                   ? "link-text text-primary"
-//                   : "link-text"
-//               }
-//             >
-//               Register PostNatal
-//             </span>
-//           </Link>
-//         </li>
-//         <li className="menu-item font-weight-normal">
-//           <Link className="item-link" to="/AdminManageHMO">
-//             <span
-//               className={
-//                 pathname === "/AdminManageHMO"
-//                   ? "link-text text-primary"
-//                   : "link-text"
-//               }
-//             >
-//               Manage PostNatal
-//             </span>
-//           </Link>
-//         </li>
-//       </ul>
-//     </div>
-//   );
-// };
+const PostNatal = ({ pathname }) => {
+  return (
+    <div className="collapse" id="menuNatalHealth">
+      <li className="menu-item">
+        <div
+          className="cursor item-link panel-heading collapsed  "
+          data-toggle="collapse"
+          data-target="#submenuHMO"
+        >
+          <span className="link-icon icofont-hospital" />{" "}
+          <span className="link-text">Postnatal</span>{" "}
+        </div>
+      </li>
+      <ul
+        className="collapse submenu-ul"
+        id="submenuHMO"
+        aria-expanded="false"
+        data-parent="#accordion"
+      >
+        <li className="menu-item font-weight-normal">
+          <Link to="/AdminRegisterPostNatal" className="item-link">
+            <span
+              className={
+                pathname === "/AdminRegisterPostNatal"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Register Postnatal
+            </span>
+          </Link>
+        </li>
+        {/* <li className="menu-item font-weight-normal">
+          <Link className="item-link" to="/AdminManageHMO">
+            <span
+              className={
+                pathname === "/AdminManageHMO"
+                  ? "link-text text-primary"
+                  : "link-text"
+              }
+            >
+              Manage PostNatal
+            </span>
+          </Link>
+        </li> */}
+      </ul>
+    </div>
+  );
+};
