@@ -111,7 +111,7 @@ import AddDrugToNHIS from "../Pages/HealthInsurance/NHIS/AddDrugToNHIS";
 import AddServiceToNHIS from "../Pages/HealthInsurance/NHIS/AddServiceToNHIS";
 import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
-import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
+import RequestSecondaryService from "../Pages/HealthInsurance/NHIS/RequestSecondaryService";
 
 // nursing reports
 import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
@@ -480,8 +480,8 @@ export default function AdminRoutes() {
           />
           <Route
             exact
-            path="/AdminReassignPatientToNHIS/:id"
-            component={ReassignPatientToPlan}
+            path="/AdminRequestSecondaryService/:id"
+            component={RequestSecondaryService}
           />
           <Route exact path="/AdminCreateHMO" component={CreateHMO} />
           <Route exact path="/AdminManageHMO" component={ManageHMO} />
