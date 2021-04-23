@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { observer } from "mobx-react";
-import RecordForm from "./AntenatalComponents/RecordForm";
+import RecordForm from "./antenatal-components/RecordForm";
 
 const RegisterAntenatal = observer(() => {
   return (

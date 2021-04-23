@@ -119,9 +119,9 @@ import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingRepo
 import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 // AnteNatal
-import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
-import ManageAnteNatal from "../Pages/NatalHealth/AnteNatal/ManageAntenatal";
-import ViewAntenatalRecords from "../Pages/NatalHealth/AnteNatal/ViewAntenatalRecords";
+import RegisterAntenatal from "../Pages/Nurse/NatalCare/Antenatal/RegisterAntenatal";
+import ManageAnteNatal from "../Pages/Nurse/NatalCare/Antenatal/ManageAntenatal";
+import ViewAntenatalRecords from "../Pages/Nurse/NatalCare/Antenatal/ViewAntenatalRecords";
 
 export default function AdminRoutes() {
   return (

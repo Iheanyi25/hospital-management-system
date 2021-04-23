@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getAntenatalsUrl } from "../../../api/URLs";
-import { PageLoader, Table } from "../../../Components";
-import ActionButton from "../../../Components/DataTable/ActionButton";
-import TableSize from "../../../Components/DataTable/TableSize";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getAntenatalsUrl } from "../../../../api/URLs";
+import { PageLoader, Table } from "../../../../Components";
+import ActionButton from "../../../../Components/DataTable/ActionButton";
+import TableSize from "../../../../Components/DataTable/TableSize";
 
 const ManageAnteNatal = () => {
   const [pageNumber, setPageNumber] = useState(1);

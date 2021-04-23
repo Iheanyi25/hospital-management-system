@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import Select from "react-select";
-import { fetchConfig } from "../../../../api/fetchConfig";
-import { fetchWrapper, useRequest } from "../../../../api/fetcher";
-import { createAntenatalUrl, getPatientsUrl } from "../../../../api/URLs";
-import { notification } from "../../../../utils/notification";
+import { fetchConfig } from "../../../../../api/fetchConfig";
+import { fetchWrapper, useRequest } from "../../../../../api/fetcher";
+import { createAntenatalUrl, getPatientsUrl } from "../../../../../api/URLs";
+import { notification } from "../../../../../utils/notification";
 
 const RecordForm = () => {
   const { push } = useHistory();

@@ -1,13 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useContext } from "react";
 import { useParams } from "react-router";
-import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
-import { getAntenatalRecordsForAntenatalUrl } from "../../../api/URLs";
-import { CreateAnteNatalRecord } from "../../../Components";
-import NoDataState from "../../../Components/EmptyState/NoDataState";
-import { UserContext } from "../../../mobx/UserState";
-import formatDate from "../../../utils/formatDate";
+import { CreateAnteNatalRecord } from "../../../../Components";
+import { fetchConfig } from "../../../../api/fetchConfig";
+import { useRequest } from "../../../../api/fetcher";
+import { getAntenatalRecordsForAntenatalUrl } from "../../../../api/URLs";
+import NoDataState from "../../../../Components/EmptyState/NoDataState";
+import { UserContext } from "../../../../mobx/UserState";
+import formatDate from "../../../../utils/formatDate";
 
 const ViewAntenatalRecords = observer(() => {
   const { id: antenatalId } = useParams();
