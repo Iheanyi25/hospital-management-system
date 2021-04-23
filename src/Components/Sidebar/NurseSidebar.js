@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Admission from "./common-sidebar-components/Admission";
+import NursingReport from "./common-sidebar-components/NursingReports";
 import Profile from "./common-sidebar-components/Profile";
 import MyOffice from "./nurse-sidebar-components/MyOffice";
 
@@ -26,8 +27,9 @@ const NurseSidebar = () => {
             <nav className="main-menu-wrap">
               <ul className="menu-ul">
                 <MyOffice />
-               <Admission admissionUrl="NurseManageAdmissions"/>
-                <Profile profileUrl="NurseProfile"/>
+                <Admission admissionUrl="NurseManageAdmissions" />
+                <NursingReport nursingReportUrl="/NurseManageNursingReports" />
+                <Profile profileUrl="NurseProfile" />
               </ul>
             </nav>
           </div>
@@ -46,7 +48,6 @@ const NurseSidebar = () => {
               FAQ &amp; Support
             </Link>
           </div>
-         
         </div>
       </div>
       {/* end Vertical navbar */}

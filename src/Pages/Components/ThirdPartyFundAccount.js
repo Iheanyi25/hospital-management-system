@@ -9,6 +9,7 @@ import { getAccountUrl, thirdPartyFundAccountUrl } from "../../api/URLs";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { PageLoader } from "../../Components";
+import { notification } from "../../utils/notification";
 
 const ThirdPartyFundAccount = ({ match }) => {
   const [details, setDetails] = useState({});
@@ -32,21 +33,28 @@ const ThirdPartyFundAccount = ({ match }) => {
       [e.target.name]: e.target.value,
     });
   };
-  const paidSuccessfully = (referencce, modeOfPayment) => {
+  const paidSuccessfully = async (referencce, modeOfPayment) => {
     const payload = {
       ...details,
       accountNumber,
       paymentMethod: modeOfPayment,
       transactionReference: referencce,
     };
-    const thirdPartyFundAccount = thirdPartyFundAccountUrl();
-    const thirdPartyFundAccountConfig = fetchConfig({
-      url: thirdPartyFundAccount,
-      method: "post",
-      data: payload,
-    });
-    const res = fetchWrapper(thirdPartyFundAccountConfig);
-    console.log(res);
+    try {
+      const thirdPartyFundAccount = thirdPartyFundAccountUrl();
+      const thirdPartyFundAccountConfig = fetchConfig({
+        url: thirdPartyFundAccount,
+        method: "post",
+        data: payload,
+      });
+      const res = await fetchWrapper(thirdPartyFundAccountConfig);
+      console.log(res, 545);
+      if (res.status === 200) {
+        notification.success({ message: res.data.message });
+      }
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
+    }
     console.log(payload);
   };
   return !data ? (
@@ -101,6 +109,15 @@ const ThirdPartyFundAccount = ({ match }) => {
                   />
                 </div>
                 <div className="form-group">
+                  <label>Depositor's email</label>
+                  <input
+                    className="form-control"
+                    name="email"
+                    type="email"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
                   <label>Amount(NGN) to fund</label>
                   <input
                     className="form-control"
@@ -125,14 +142,14 @@ const ThirdPartyFundAccount = ({ match }) => {
                 <div className="row">
                   <PayWithPaystack
                     paymentDetails={{
-                      email: "a@email.com",
+                      email: details.email || "hms@email.com",
                       amount: details.amount,
                     }}
                     paidSuccessfully={paidSuccessfully}
                   />
                   <PayWithFlutter
                     paymentDetails={{
-                      email: "a@email.com",
+                      email: details.email || "hms@email.com",
                       amount: details.amount,
                     }}
                     paidSuccessfully={paidSuccessfully}
@@ -142,7 +159,7 @@ const ThirdPartyFundAccount = ({ match }) => {
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-8 auth-background d-flex flex-column align-items-start justify-content-between p-5">
+        <div className="col-12 col-md-8 third-background d-flex flex-column align-items-start justify-content-between p-5">
           <img src={logoMakeshift} alt="logo" />
           <h1 className="text-white">Hospital Management Solution</h1>
         </div>

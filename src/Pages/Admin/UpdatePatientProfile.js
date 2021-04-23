@@ -90,8 +90,8 @@ function UpdatePatientProfile(props) {
         disabilities: data.disabilities,
         patientId: id,
       });
-      const isValid = validatePhoneNumber(data.patient?.phoneNumber)
-      setIsValidPhoneSate(isValid)
+      const isValid = validatePhoneNumber(data.patient?.phoneNumber);
+      setIsValidPhoneSate(isValid);
       await getRegistrationStatus();
     },
     [getRegistrationStatus]
@@ -111,7 +111,7 @@ function UpdatePatientProfile(props) {
       [name]: value,
     }));
     if (name === "phoneNumber") {
-      const isValid = validatePhoneNumber(e.target.value)
+      const isValid = validatePhoneNumber(e.target.value);
       setIsValidPhoneSate(isValid);
     }
   };
@@ -180,6 +180,7 @@ function UpdatePatientProfile(props) {
         notification.error({ message: error?.response?.data?.message });
       }
     } else {
+      notification.error({ message: "Enter valid phone number" });
       setIsValidPhoneSate(true);
     }
   };
@@ -233,7 +234,7 @@ function UpdatePatientProfile(props) {
     patientId,
   } = state;
 
-  console.log(IsValidPhone,999)
+  console.log(IsValidPhone, 999);
   return (
     <>
       <PageLoader />
@@ -394,11 +395,12 @@ function UpdatePatientProfile(props) {
                       <div className="form-group">
                         <label>Phone Number</label>{" "}
                         <input
-                          required
                           className="form-control"
-                          type="text" 
-                          pattern="\d*" 
-                          maxLength={phoneNumber && phoneNumber[0] === "0" ? 11 : 14}
+                          type="text"
+                          pattern="\d*"
+                          maxLength={
+                            phoneNumber && phoneNumber[0] === "0" ? 11 : 14
+                          }
                           placeholder="Phone Number"
                           value={phoneNumber}
                           onChange={(e) => handleChange("phoneNumber", e)}
@@ -412,7 +414,6 @@ function UpdatePatientProfile(props) {
                       <div className="form-group">
                         <label>Email Address</label>{" "}
                         <input
-                          required
                           className="form-control"
                           type="email"
                           placeholder="Email Address"
@@ -423,7 +424,6 @@ function UpdatePatientProfile(props) {
                       <div className="form-group">
                         <label>Address</label>{" "}
                         <textarea
-                          required
                           className="form-control"
                           placeholder="Address"
                           rows={3}

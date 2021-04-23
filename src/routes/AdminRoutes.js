@@ -113,6 +113,11 @@ import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
 import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
 
+// nursing reports
+import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
+import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
+import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
+
 // AnteNatal
 import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
 
@@ -495,7 +500,9 @@ export default function AdminRoutes() {
           />
           <Route exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
           <Route exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
-
+          <Route exact path="/AdminUpdateNursingReport/:id" component={UpdateNursingReport} />
+          <Route exact path="/AdminManageNursingReports" component={ManageNursingReports} />
+          <Route exact path="/AdminViewNursingReport/:id" component={ViewNursingReport} />
           <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
 
           <Route
