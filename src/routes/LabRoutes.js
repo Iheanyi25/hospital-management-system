@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { LabLayout } from "../Components/Layout";
 import Dashboard from "../Pages/Lab/Dashboard";
 import CreateService from "../Pages/Admin/Util_Services/CreateService";
@@ -17,65 +17,66 @@ import ViewLabProfile from "../Pages/Lab/ViewLabProfile";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ManageServiceRequests from "../Components/Admissions/MangeServiceRequests";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 export default function LabRoutes() {
   return (
     <BrowserRouter basename="lab">
       <LabLayout>
         <Switch>
-          <Route exact path="/LabDashboard" component={Dashboard} />
-          <Route exact path="/LabProfile" component={ViewLabProfile} />
-          <Route exact path="/LabCreateService" component={CreateService} />
-          <Route exact path="/LabManageServices" component={ManageServices} />
-          <Route exact path="/LabEditService/:id" component={EditService} />
-          <Route exact path="/LabServiceCategory" component={ServiceCategory} />
-          <Route
+          <RouteWithErrorBoundary exact path="/LabDashboard" component={Dashboard} />
+          <RouteWithErrorBoundary exact path="/LabProfile" component={ViewLabProfile} />
+          <RouteWithErrorBoundary exact path="/LabCreateService" component={CreateService} />
+          <RouteWithErrorBoundary exact path="/LabManageServices" component={ManageServices} />
+          <RouteWithErrorBoundary exact path="/LabEditService/:id" component={EditService} />
+          <RouteWithErrorBoundary exact path="/LabServiceCategory" component={ServiceCategory} />
+          <RouteWithErrorBoundary
             exact
             path="/LabManageServiceCategory"
             component={ManageServiceCategory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabEditServiceCategory/:id"
             component={EditServiceCategory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabServiceRequests"
             component={CreateServiceRequest}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabManageServiceRequests"
             component={ManageServiceRequest}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabServiceRequestContents/:invoiceId"
             component={ServiceRequestContents}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabUploadServiceRequestResult/:serviceRequestId"
             component={ServiceRequestResultUpload}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabViewLabResults/:id"
             component={ViewLabResults}
           />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          <RouteWithErrorBoundary
             exact
             path="/LabManageAdmissions"
             component={ManageAdmissions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/LabManageAdmissionServiceRequest/:id"
             component={ManageServiceRequests}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/LabDashboard" />}

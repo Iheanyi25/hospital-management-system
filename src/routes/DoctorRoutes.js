@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { DoctorLayout } from "../Components/Layout";
 import DoctorDashboard from "../Pages/Doctor/Dashboard";
 import DoctorPatientsList from "../Pages/Doctor/Patients";
@@ -19,83 +19,84 @@ import MyPatients from "../Pages/Doctor/MyPatients";
 import PreConsultationHistory from "../Pages/Components/PreConsultationHistory";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 export default function DoctorRoutes() {
   return (
     <BrowserRouter basename="doctor">
       <DoctorLayout>
         <Switch>
-          <Route exact path="/DoctorDashboard" component={DoctorDashboard} />
-          <Route
+          <RouteWithErrorBoundary exact path="/DoctorDashboard" component={DoctorDashboard} />
+          <RouteWithErrorBoundary
             exact
             path="/DoctorPatientsList"
             component={DoctorPatientsList}
           />
-          <Route exact path="/myPatients" component={MyPatients} />
-          <Route
+          <RouteWithErrorBoundary exact path="/myPatients" component={MyPatients} />
+          <RouteWithErrorBoundary
             exact
             path="/DoctorConsultations"
             component={DoctorConsultations}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/DoctorAppointments"
             component={DoctorAppointments}
           />
-          <Route exact path="/DoctorClarking" component={DoctorClarking} />
-          <Route
+          <RouteWithErrorBoundary exact path="/DoctorClarking" component={DoctorClarking} />
+          <RouteWithErrorBoundary
             exact
             path="/DoctorPatientMedicalHistory"
             component={DoctorPatientMedicalHistory}
           />
-          <Route exact path="/DoctorProfile" component={ViewDoctorProfile} />
-          <Route
+          <RouteWithErrorBoundary exact path="/DoctorProfile" component={ViewDoctorProfile} />
+          <RouteWithErrorBoundary
             exact
             path="/DoctorPatientProfile/:id"
             component={ViewPatientProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/DoctorClarkingHistory/:id"
             component={ViewClarkingHistory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/DoctorPreConsultationHistory/:id"
             component={ViewPreConsultationHistory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/DoctorServiceRequests/:id"
             component={ViewServiceRequests}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminServiceRequests"
             component={CreateServiceRequest}
           />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          <RouteWithErrorBoundary
             exact
             path="/ViewClarkingHistory"
             component={ClarkingHistory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ViewPreConsultationHistory"
             component={PreConsultationHistory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/DoctorManageAdmissions"
             component={ManageAdmissions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/DoctorWardRoundNotes/:id"
             component={WardRoundNotes}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/DoctorDashboard" />}

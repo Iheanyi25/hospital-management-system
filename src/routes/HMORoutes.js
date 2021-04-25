@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { HMOLayout } from "../Components/Layout";
 import { UserContext } from "../mobx/UserState";
 import Dashboard from "../Pages/HealthInsurance/HMO/Dashboard";
@@ -24,6 +24,7 @@ import EditUserSubGroup from "../Pages/HealthInsurance/HMO/EditUserSubGroup";
 import AddUserToSubGroup from "../Pages/HealthInsurance/HMO/AddUserToSubGroup";
 import EditServiceInPlan from "../Pages/HealthInsurance/HMO/EditServiceInPlan";
 import ManagePatientsInSubGroup from "../Pages/HealthInsurance/HMO/ManagePatientsInSubGroup";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 export default function HMORoutes() {
   const { setHMOId, user } = useContext(UserContext);
@@ -35,73 +36,73 @@ export default function HMORoutes() {
     <BrowserRouter basename="HMOAdmin">
       <HMOLayout>
         <Switch>
-          <Route exact path="/Dashboard" component={Dashboard} />
-          <Route exact path="/HMOProfile" component={ViewHMOProfile} />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route exact path="/CreateHealthPlan" component={CreateHealthPlan} />
-          <Route exact path="/EditHealthPlan" component={EditHealthPlan} />
-          <Route
+          <RouteWithErrorBoundary exact path="/Dashboard" component={Dashboard} />
+          <RouteWithErrorBoundary exact path="/HMOProfile" component={ViewHMOProfile} />
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          <RouteWithErrorBoundary exact path="/CreateHealthPlan" component={CreateHealthPlan} />
+          <RouteWithErrorBoundary exact path="/EditHealthPlan" component={EditHealthPlan} />
+          <RouteWithErrorBoundary
             exact
             path="/ManageHealthPlans"
             component={ManageHealthPlans}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ManageHealthPlanPatients/:id"
             component={ManagePatientsInPlan}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ManageHealthPlanDrugs/:id"
             component={ManageDrugsInPlan}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ManageHealthPlanServices/:id"
             component={ManageServicesInPlan}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/EditServiceInPlan/:id"
             component={EditServiceInPlan}
           />
-          <Route exact path="/ManageUserGroups" component={ManageUserGroups} />
-          <Route exact path="/AddUserToPlan/:id" component={AddUserToPlan} />
-          <Route exact path="/EditDrugInPlan/:id" component={EditDrugInPlan} />
-          <Route exact path="/AddDrugToPlan/:id" component={AddDrugToPlan} />
-          <Route
+          <RouteWithErrorBoundary exact path="/ManageUserGroups" component={ManageUserGroups} />
+          <RouteWithErrorBoundary exact path="/AddUserToPlan/:id" component={AddUserToPlan} />
+          <RouteWithErrorBoundary exact path="/EditDrugInPlan/:id" component={EditDrugInPlan} />
+          <RouteWithErrorBoundary exact path="/AddDrugToPlan/:id" component={AddDrugToPlan} />
+          <RouteWithErrorBoundary
             exact
             path="/AddServiceToPlan/:id"
             component={AddServiceToPlan}
           />
-          <Route exact path="/CreateUserGroup" component={CreateUserGroup} />
-          <Route exact path="/EditUserGroup/:id" component={EditUserGroup} />
-          <Route
+          <RouteWithErrorBoundary exact path="/CreateUserGroup" component={CreateUserGroup} />
+          <RouteWithErrorBoundary exact path="/EditUserGroup/:id" component={EditUserGroup} />
+          <RouteWithErrorBoundary
             exact
             path="/ManageUserSubGroups/:id"
             component={ManageUserSubGroups}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/CreateUserSubGroup/:id"
             component={CreateUserSubGroup}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/EditUserSubGroup/:id"
             component={EditUserSubGroup}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ManagePatientsInSubGroup/:id"
             component={ManagePatientsInSubGroup}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AddUserToSubGroup/:id"
             component={AddUserToSubGroup}
           />
-          <Route exact path="*" render={() => <Redirect to="/Dashboard" />} />
+          <RouteWithErrorBoundary exact path="*" render={() => <Redirect to="/Dashboard" />} />
         </Switch>
       </HMOLayout>
     </BrowserRouter>

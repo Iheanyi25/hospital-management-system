@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
@@ -115,390 +115,391 @@ import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatient
 
 // AnteNatal
 import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 export default function AdminRoutes() {
   return (
     <BrowserRouter basename="admin">
       <AdminLayout>
         <Switch>
-          <Route exact path="/AdminDashboard" component={AdminDashboard} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminDashboard" component={AdminDashboard} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminUpdatePatientProfile/:id"
             component={AdminUpdatePatientProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminPreConsultation/:id"
             component={AdminPreConsultation}
           />
-          <Route exact path="/AdminAllPatients" component={ViewAllPatients} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminAllPatients" component={ViewAllPatients} />
+          <RouteWithErrorBoundary
             exact
             path="/ViewPatientsInAccount/:id"
             component={ViewPatientsInAccount}
           />
-          <Route exact path="/AdminAllDoctors" component={AdminAllDoctors} />
-          <Route exact path="/AdminAllNurses" component={AdminAllNurses} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminAllDoctors" component={AdminAllDoctors} />
+          <RouteWithErrorBoundary exact path="/AdminAllNurses" component={AdminAllNurses} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminAllPharmacists"
             component={AdminAllPharmacists}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAllAccountants"
             component={AdminAllAccountants}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAllLabTechnicians"
             component={AdminAllLabTechnicians}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAllWardPersonnel"
             component={AdminAllWardPersonnel}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminWardRoundNotes/:id"
             component={AdminWardRoundNotes}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminBookAppointment"
             component={AdminBookAppointment}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAppointments"
             component={AdminAppointments}
           />
-          <Route exact path="/AdminProfile" component={ViewAdminProfile} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminProfile" component={ViewAdminProfile} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminDoctorAppointments/:doctorId"
             component={AdminDoctorAppointments}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminBookConsultation"
             component={AdminBookConsultation}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminConsultations"
             component={AdminConsultationQueue}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminDoctorConsultations/:doctorId"
             component={AdminDoctorConsultationQueue}
           />
-          <Route exact path="/AdminCreateService" component={CreateService} />
-          <Route exact path="/AdminEditService/:id" component={EditService} />
-          <Route exact path="/AdminManageServices" component={ManageServices} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminCreateService" component={CreateService} />
+          <RouteWithErrorBoundary exact path="/AdminEditService/:id" component={EditService} />
+          <RouteWithErrorBoundary exact path="/AdminManageServices" component={ManageServices} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewServiceRequestContents/:invoiceId"
             component={ServiceRequestContents}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminUploadServiceRequestResult/:serviceRequestId"
             component={ServiceRequestResultUpload}
           />
 
-          <Route exact path="/DoctorClarking" component={DoctorClarking} />
-          <Route exact path="/ViewClarkingHistory" component={ClarkingHist} />
+          <RouteWithErrorBoundary exact path="/DoctorClarking" component={DoctorClarking} />
+          <RouteWithErrorBoundary exact path="/ViewClarkingHistory" component={ClarkingHist} />
 
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminServiceCategory"
             component={ServiceCategory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminEditServiceCategory/:id"
             component={EditServiceCategory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageServiceCategory"
             component={ManageServiceCategory}
           />
-          <Route exact path="/AdminCreateWard" component={CreateWard} />
-          <Route exact path="/AdminEditWard/:id" component={EditWard} />
-          <Route exact path="/AdminManageWards" component={ManageWards} />
-          <Route exact path="/AdminManageBeds/:id" component={ManageBeds} />
-          <Route exact path="/AdminAssignWard/:id" component={AssignWard} />
-          <Route exact path="/AdminAssignBed/:id" component={AssignBed} />
-          <Route exact path="/DoctorProfile/:id" component={DoctorsProfile} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminCreateWard" component={CreateWard} />
+          <RouteWithErrorBoundary exact path="/AdminEditWard/:id" component={EditWard} />
+          <RouteWithErrorBoundary exact path="/AdminManageWards" component={ManageWards} />
+          <RouteWithErrorBoundary exact path="/AdminManageBeds/:id" component={ManageBeds} />
+          <RouteWithErrorBoundary exact path="/AdminAssignWard/:id" component={AssignWard} />
+          <RouteWithErrorBoundary exact path="/AdminAssignBed/:id" component={AssignBed} />
+          <RouteWithErrorBoundary exact path="/DoctorProfile/:id" component={DoctorsProfile} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminCreateHealthPlan"
             component={CreateHealthPlan}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminEditHealthPlan/:id"
             component={EditHealthPlan}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageHealthPlans"
             component={ManageHealthPlans}
           />
-          <Route exact path="/AdminAddPatients" component={AddPatient} />
-          <Route exact path="/AdminSelectFamily" component={SelectFamily} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminAddPatients" component={AddPatient} />
+          <RouteWithErrorBoundary exact path="/AdminSelectFamily" component={SelectFamily} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageServiceRequests"
             component={ManageServiceRequest}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminServiceRequests"
             component={CreateServiceRequest}
           />
-          <Route exact path="/AdminManageAccounts" component={ManageAccounts} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminManageAccounts" component={ManageAccounts} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminPatientRegistration/:id"
             component={PatientRegistration}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminFundAccount/:id"
             component={AdminFundAccount}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminPaymentForService/:id"
             component={PaymentForService}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminPatientProfile/:id"
             component={ViewPatientProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewLabResults/:id"
             component={ViewLabResults}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewPreConsultationHistory/:id"
             component={ViewPreConsultationHistory}
           />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminAllTransactions"
             component={AllTransactions}
           />
-          <Route exact path="/AdminDrugReport" component={DrugReport} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminDrugReport" component={DrugReport} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminServiceRequestReport"
             component={ServiceRequestReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminRegistrationReport"
             component={RegistrationReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminExpiredDrugsReport"
             component={ExpiredDrugsReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAllAccountTransactions"
             component={AllAccountTransactions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewClarkingHistory/:id"
             component={ViewClarkingHistory}
           />
-          <Route exact path="/AdminRegisterDrug" component={RegisterDrug} />
-          <Route exact path="/AdminViewDrugs" component={ViewDrugs} />
-          <Route exact path="/AdminViewDrug/:id" component={ViewDrug} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminRegisterDrug" component={RegisterDrug} />
+          <RouteWithErrorBoundary exact path="/AdminViewDrugs" component={ViewDrugs} />
+          <RouteWithErrorBoundary exact path="/AdminViewDrug/:id" component={ViewDrug} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminManagePrescriptions"
             component={ManagePrescriptions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminDrugPrescription/:id"
             component={DrugPrescription}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManagePrescriptionInvoice"
             component={ManagePrescriptionInvoice}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminPaymentForPrescription/:id"
             component={PaymentForPrescription}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewAccountantProfile/:id"
             component={ViewAccountantProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewPharmacistProfile/:id"
             component={ViewPharmacyProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewLabProfile/:id"
             component={ViewLabProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewNurseProfile/:id"
             component={ViewNurseProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewWardPersonnelProfile/:id"
             component={ViewWardPersonnelProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewPatientHealthHistory/:id"
             component={ViewPatientHealthHistory}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewReferredPatients"
             component={ReferredPatients}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageAdmissions"
             component={ManageAdmissions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageAdmissionPrescriptions/:id"
             component={ManageAdmissionPrescriptions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdmissionPrescribeDrug/:id"
             component={AdmissionPrescribeDrug}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageAdmissionInvoices/:id"
             component={ManageAdmissionInvoices}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminCreateAdmissionServiceRequest/:id"
             component={AdmissionCreateServiceRequest}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageAdmissionServiceRequest/:id"
             component={ManageServiceRequests}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminUploadAdmissionsServiceRequestResult/:id"
             component={UploadServiceRequestResult}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminViewAdmissionsServiceRequestResults/:id"
             component={ViewServiceRequestResults}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminPaymentForAdmissionInvoices/:id"
             component={PaymentForAdmissionInvoices}
           />
 
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageSurgeries"
             component={ManageSurgeries}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminSurgicalOperationNotes/:id"
             component={SurgicalOperationNotes}
           />
-          <Route exact path="/AdminCreateNHIS" component={CreateNHIS} />
-          <Route exact path="/AdminManageNHIS" component={ManageNHIS} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminCreateNHIS" component={CreateNHIS} />
+          <RouteWithErrorBoundary exact path="/AdminManageNHIS" component={ManageNHIS} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageNHISPatients/:id"
             component={ManagePatientsInNHIS}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageNHISDrugs/:id"
             component={ManageDrugsInNHIS}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminManageNHISServices/:id"
             component={ManageServicesInNHIS}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAddUserToNHIS/:id"
             component={AddUserToNHIS}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAddDrugToNHIS/:id"
             component={AddDrugToNHIS}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminAddServiceToNHIS/:id"
             component={AddServiceToNHIS}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminReassignPatientToNHIS/:id"
             component={ReassignPatientToPlan}
           />
-          <Route exact path="/AdminCreateHMO" component={CreateHMO} />
-          <Route exact path="/AdminManageHMO" component={ManageHMO} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AdminCreateHMO" component={CreateHMO} />
+          <RouteWithErrorBoundary exact path="/AdminManageHMO" component={ManageHMO} />
+          <RouteWithErrorBoundary
             exact
             path="/AdminHMOPatientInvoiceReport"
             component={PatientInvoiceReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminHMODrugInvoiceReport"
             component={DrugInvoiceReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AdminHMOServiceInvoiceReport"
             component={ServiceInvoiceReport}
           />
-          <Route exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
-          <Route exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
+          <RouteWithErrorBoundary exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
+          <RouteWithErrorBoundary exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
 
-          <Route exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
+          <RouteWithErrorBoundary exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
 
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/AdminDashboard" />}

@@ -104,7 +104,7 @@ export default function ProfileInfoForm({details, handleChange, handleSubmit, Is
 					type="text"
 					onChange={handleChange}
 					placeholder="Country"
-					value={country}
+					value={country.uio.ioo}
 				/>
 			</div>
 			<div className="col" />
