@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Redirect, Switch } from "react-router-dom";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 import AdminDashboard from "../Pages/Admin/Dashboard";
 import AdminUpdatePatientProfile from "../Pages/Admin/UpdatePatientProfile";
 import AdminPreConsultation from "../Pages/Admin/PreConsultation";
@@ -111,11 +112,18 @@ import AddDrugToNHIS from "../Pages/HealthInsurance/NHIS/AddDrugToNHIS";
 import AddServiceToNHIS from "../Pages/HealthInsurance/NHIS/AddServiceToNHIS";
 import CreateHMO from "../Pages/HealthInsurance/HMO/CreateHMO";
 import ManageHMO from "../Pages/HealthInsurance/HMO/ManageHMO";
-import ReassignPatientToPlan from "../Pages/HealthInsurance/NHIS/ReassignPatientsToPlan";
+import RequestSecondaryService from "../Pages/HealthInsurance/NHIS/RequestSecondaryService";
+
+// nursing reports
+import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
+import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
+import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 // AnteNatal
-import RegisterAntenatal from "../Pages/NatalHealth/AnteNatal/RegisterAntenatal";
-import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
+import RegisterAntenatal from "../Pages/Nurse/NatalCare/Antenatal/RegisterAntenatal";
+import ManageAnteNatal from "../Pages/Nurse/NatalCare/Antenatal/ManageAntenatal";
+import ViewAntenatalRecords from "../Pages/Nurse/NatalCare/Antenatal/ViewAntenatalRecords";
+import RegisterPostNatal from "../Pages/Nurse/NatalCare/Postnatal/RegisterPostNatal";
 
 export default function AdminRoutes() {
   return (
@@ -474,8 +482,8 @@ export default function AdminRoutes() {
           />
           <RouteWithErrorBoundary
             exact
-            path="/AdminReassignPatientToNHIS/:id"
-            component={ReassignPatientToPlan}
+            path="/AdminRequestSecondaryService/:id"
+            component={RequestSecondaryService}
           />
           <RouteWithErrorBoundary exact path="/AdminCreateHMO" component={CreateHMO} />
           <RouteWithErrorBoundary exact path="/AdminManageHMO" component={ManageHMO} />
@@ -494,10 +502,16 @@ export default function AdminRoutes() {
             path="/AdminHMOServiceInvoiceReport"
             component={ServiceInvoiceReport}
           />
+          <RouteWithErrorBoundary exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
           <RouteWithErrorBoundary exact path="/AdminPrimaryNHISReports" component={PrimaryNHISReports} />
           <RouteWithErrorBoundary exact path="/AdminSecondaryNHISReports" component={SecondaryNHISReports} />
-
+          <RouteWithErrorBoundary exact path="/AdminUpdateNursingReport/:id" component={UpdateNursingReport} />
+          <RouteWithErrorBoundary exact path="/AdminManageNursingReports" component={ManageNursingReports} />
+          <RouteWithErrorBoundary exact path="/AdminViewNursingReport/:id" component={ViewNursingReport} />
           <RouteWithErrorBoundary exact path="/AdminRegisterAnteNatal" component={RegisterAntenatal} />
+          <RouteWithErrorBoundary exact path="/AdminManageAnteNatal" component={ManageAnteNatal} />
+          <RouteWithErrorBoundary exact path="/AdminViewAntenatalRecords/:id" component={ViewAntenatalRecords} />
+          <RouteWithErrorBoundary exact path="/AdminRegisterPostNatal" component={RegisterPostNatal} />
 
           <RouteWithErrorBoundary
             exact

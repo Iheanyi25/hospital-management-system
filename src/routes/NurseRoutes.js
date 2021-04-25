@@ -14,6 +14,9 @@ import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
 import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
+import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
+import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
+import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 export default function NurseRoutes() {
   return (
@@ -45,6 +48,7 @@ export default function NurseRoutes() {
             path="/NurseAppointments"
             component={Appointments}
           />
+          <RouteWithErrorBoundary exact path="/NurseAppointments" component={Appointments} />
           <RouteWithErrorBoundary
             exact
             path="/NursePatientProfile/:id"
@@ -59,6 +63,21 @@ export default function NurseRoutes() {
             exact
             path="/NurseWardRoundNotes/:id"
             component={WardRoundNotes}
+          />
+          <RouteWithErrorBoundary
+            exact
+            path="/NurseUpdateNursingReport/:id"
+            component={UpdateNursingReport}
+          />
+          <RouteWithErrorBoundary
+            exact
+            path="/NurseManageNursingReports"
+            component={ManageNursingReports}
+          />
+          <RouteWithErrorBoundary
+            exact
+            path="/NurseViewNursingReport/:id"
+            component={ViewNursingReport}
           />
           <RouteWithErrorBoundary
             exact

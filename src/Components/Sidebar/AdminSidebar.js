@@ -4,6 +4,7 @@ import Admission from "./admin-sidebar-components/Admission";
 import HealthInsurance from "./admin-sidebar-components/HealthInsurance";
 import NatalHealth, {  } from "./admin-sidebar-components/NatalHealth";
 import MyOffice from "./admin-sidebar-components/MyOffice";
+import NursingReport from "./common-sidebar-components/NursingReports";
 import Pharmacy from "./admin-sidebar-components/Pharmacy";
 import Reports from "./admin-sidebar-components/Reports";
 import Surgery from "./admin-sidebar-components/Surgery";
@@ -48,6 +49,7 @@ class AdminSidebar extends React.Component {
                   <Surgery />
                   <NatalHealth/>
                   <HealthInsurance />
+                  <NursingReport nursingReportUrl="/AdminManageNursingReports" />
                 </ul>
               </nav>
             </div>
