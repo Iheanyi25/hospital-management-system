@@ -50,7 +50,7 @@ class LabResults extends React.Component {
     return (
       <>
         <div className="card-body">
-          <h4 className="text-center mb-4">Result of Lab services</h4>
+          <h4 className="text-center mb-4">Result of Lab Services</h4>
           <div id="accordion" className="mb-3">
             {this.state.serviceRequestResults.length === 0 ? (
               <NoDataState />

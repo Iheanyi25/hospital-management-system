@@ -23,7 +23,7 @@ export default function AdminDashboardSummary() {
                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-doctor"></div>
               </div>
               <div className="col col-7">
-                <h6 className="mt-0 mb-1">My Doctors</h6>
+                <h6 className="mt-0 mb-1">Doctors</h6>
                 <div className="count text-primary fs-20">
                   {systemCount?.doctorCount}
                 </div>
@@ -40,7 +40,7 @@ export default function AdminDashboardSummary() {
                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-wheelchair"></div>
               </div>
               <div className="col col-7">
-                <h6 className="mt-0 mb-1">My Patients</h6>
+                <h6 className="mt-0 mb-1">Patients</h6>
                 <div className="count text-primary fs-20">
                   {systemCount?.patientCount}
                 </div>
@@ -74,7 +74,7 @@ export default function AdminDashboardSummary() {
                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-users"></div>
               </div>
               <div className="col col-7">
-                <h6 className="mt-0 mb-1 text-nowrap">All Users</h6>
+                <h6 className="mt-0 mb-1 text-nowrap">Users</h6>
                 <div className="count text-primary fs-20">
                   {systemCount?.userCount}
                 </div>
@@ -91,7 +91,7 @@ export default function AdminDashboardSummary() {
                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-search-user"></div>
               </div>
               <div className="col col-7">
-                <h6 className="mt-0 mb-1 text-nowrap">Total Service Request</h6>
+                <h6 className="mt-0 mb-1 text-nowrap">Service Requests</h6>
                 <div className="count text-primary fs-20">
                   {systemCount?.serviceRequestCount}
                 </div>
@@ -108,7 +108,7 @@ export default function AdminDashboardSummary() {
                 <div className="icon p-0 fs-48 text-primary opacity-50 icofont-pills"></div>
               </div>
               <div className="col col-7">
-                <h6 className="mt-0 mb-1 text-nowrap">Total Drugs</h6>
+                <h6 className="mt-0 mb-1 text-nowrap">Drugs</h6>
                 <div className="count text-primary fs-20">
                   {systemCount?.drugCount}
                 </div>

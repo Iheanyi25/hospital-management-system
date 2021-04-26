@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 
 import { AccountantLayout } from "../Components/Layout";
 import AccountantDashboard from "../Pages/Accountant/Dashboard";
@@ -26,120 +26,121 @@ import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import ManageAdmissionInvoices from "../Components/Admissions/ManageAdmissionInvoices";
 import PaymentForAdmissionInvoices from "../Components/Admissions/PaymentForAdmissionInvoices";
 import ViewPatientsInAccount from "../Pages/Admin/ViewPatientsInAccount";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 export default function AccountantRoutes() {
   return (
     <BrowserRouter basename="accountant">
       <AccountantLayout>
         <Switch>
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantDashboard"
             component={AccountantDashboard}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantProfile"
             component={ViewAccountantProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountFundAccount/:id"
             component={AccountFundAccount}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantManageAccounts"
             component={ManageAccounts}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ViewPatientsInAccount/:id"
             component={ViewPatientsInAccount}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountManageServiceRequest"
             component={ManageServiceRequest}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountServiceRequestContents/:invoiceId"
             component={ServiceRequestContents}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountPaymentForService/:id"
             component={PaymentForService}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountRegistrationInvoice"
             component={RegistrationInvoice}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountPatientRegistration/:id"
             component={PatientRegistration}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountManagePrescriptionInvoice"
             component={ManagePrescriptionInvoice}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/ChangePassword"
             component={ViewChangePassword}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountPaymentForPrescription/:id"
             component={PaymentForPrescription}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantAllTransactions"
             component={AllTransactions}
           />
-          <Route exact path="/AccountantDrugReport" component={DrugReport} />
-          <Route
+          <RouteWithErrorBoundary exact path="/AccountantDrugReport" component={DrugReport} />
+          <RouteWithErrorBoundary
             exact
             path="/AccountantServiceRequestReport"
             component={ServiceRequestReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantRegistrationReport"
             component={RegistrationReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantExpiredDrugsReport"
             component={ExpiredDrugsReport}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantAllAccountTransactions"
             component={AllAccountTransactions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantManageAdmissions"
             component={ManageAdmissions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantManageAdmissionInvoices/:id"
             component={ManageAdmissionInvoices}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/AccountantPaymentForAdmissionInvoices/:id"
             component={PaymentForAdmissionInvoices}
           />
 
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/AccountantDashboard" />}

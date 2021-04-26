@@ -22,7 +22,7 @@ const NatalHealthSection = () => {
         aria-expanded="false"
         aria-controls="collapseNatalHealth"
       >
-        <span className="group-title">Natal Health</span>
+        <span className="group-title">Natal Care</span>
       </div>
     </li>
   );
@@ -38,7 +38,7 @@ const AnteNatal = ({ pathname }) => {
           data-target="#submenuAnteNatal"
         >
           <span className="link-icon icofont-hospital" />{" "}
-          <span className="link-text">AnteNatal</span>{" "}
+          <span className="link-text">Antenatal</span>{" "}
         </div>
       </li>
       <ul
@@ -56,20 +56,20 @@ const AnteNatal = ({ pathname }) => {
                   : "link-text"
               }
             >
-              Register for AnteNatal
+              Register for Antenatal
             </span>
           </Link>
         </li>
         <li className="menu-item font-weight-normal">
-          <Link className="item-link" to="/AdminManageNHIS">
+          <Link className="item-link" to="/AdminManageAnteNatal">
             <span
               className={
-                pathname === "/AdminManageNHIS"
+                pathname === "/AdminManageAnteNatal"
                   ? "link-text text-primary"
                   : "link-text"
               }
             >
-              Manage AnteNatal
+              Manage Antenatal
             </span>
           </Link>
         </li>
@@ -88,7 +88,7 @@ const PostNatal = ({ pathname }) => {
           data-target="#submenuHMO"
         >
           <span className="link-icon icofont-hospital" />{" "}
-          <span className="link-text">PostNatal</span>{" "}
+          <span className="link-text">Postnatal</span>{" "}
         </div>
       </li>
       <ul
@@ -98,19 +98,19 @@ const PostNatal = ({ pathname }) => {
         data-parent="#accordion"
       >
         <li className="menu-item font-weight-normal">
-          <Link to="/AdminCreateHMO" className="item-link">
+          <Link to="/AdminRegisterPostNatal" className="item-link">
             <span
               className={
-                pathname === "/AdminCreateHMO"
+                pathname === "/AdminRegisterPostNatal"
                   ? "link-text text-primary"
                   : "link-text"
               }
             >
-              Register PostNatal
+              Register Postnatal
             </span>
           </Link>
         </li>
-        <li className="menu-item font-weight-normal">
+        {/* <li className="menu-item font-weight-normal">
           <Link className="item-link" to="/AdminManageHMO">
             <span
               className={
@@ -122,7 +122,7 @@ const PostNatal = ({ pathname }) => {
               Manage PostNatal
             </span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchConfig } from "../../api/fetchConfig";
 import { fetchWrapper, useRequest } from "../../api/fetcher";
 import { getAllActiveHealthPlansUrl, postDrugPricesUrl } from "../../api/URLs";
+import { notification } from "../../utils/notification";
+import { isNotEmptyString, isValidPositiveInteger } from "../../utils/validationUtils";
 
 const $ = window.$;
 
@@ -13,6 +15,20 @@ const CreateHealthPlanPrice = ({ drugId, mutate }) => {
     pricePerContainer: "",
     pricePerCarton: "",
   });
+  const [emptyField, setEmptyField] = useState(true);
+  useEffect(() => {
+    const { pricePerUnit, pricePerContainer, pricePerCarton, healthPlanId } = payload;
+    if (
+      isNotEmptyString(healthPlanId) &&
+      isValidPositiveInteger(pricePerUnit) &&
+      isValidPositiveInteger(pricePerContainer) &&
+      isValidPositiveInteger(pricePerCarton)
+    ) {
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
+  }, [payload]);
   const getHealthPlansUrl = getAllActiveHealthPlansUrl(1, 200);
   const getHealthPlanConfig = fetchConfig({
     url: getHealthPlansUrl,
@@ -21,7 +37,7 @@ const CreateHealthPlanPrice = ({ drugId, mutate }) => {
   const { data } = useRequest(getHealthPlanConfig, {
     revalidateOnFocus: false,
   });
-console.log(data,"data");
+  console.log(data, "data");
   const healthplans = data?.plans;
   console.log(healthplans, "dewjke");
 
@@ -45,10 +61,16 @@ console.log(data,"data");
       console.log(res);
       if (res.status === 200) {
         $("#create-healthplan-price").modal("hide");
+        notification.success({ message: res.data.message });
         mutate();
+        setPayload({
+          pricePerCarton: "",
+          pricePerContainer: "",
+          pricePerUnit: "",
+        });
       }
     } catch (error) {
-      console.log(error);
+      notification.error({ message: error?.response?.data.message });
     }
   };
   return (
@@ -88,6 +110,7 @@ console.log(data,"data");
                   type="number"
                   tabIndex={-98}
                   name="pricePerUnit"
+                  value={payload?.pricePerUnit}
                   onChange={handleChange}
                 />
               </div>
@@ -98,6 +121,7 @@ console.log(data,"data");
                   type="number"
                   tabIndex={-98}
                   name="pricePerContainer"
+                  value={payload?.pricePerContainer}
                   onChange={handleChange}
                 />
               </div>
@@ -108,14 +132,21 @@ console.log(data,"data");
                   type="number"
                   tabIndex={-98}
                   name="pricePerCarton"
+                  value={payload?.pricePerCarton}
                   onChange={handleChange}
                 />
               </div>
-              <div className="col"></div>
-              <div className="col mx-0 text-right">
-                <button type="submit" className="btn btn-primary">
-                  Create Price
-                </button>
+              <div className="row">
+                <div className="col"></div>
+                <div className="col text-right">
+                  <button
+                    type="submit"
+                    disabled={emptyField ? true : false}
+                    className="btn btn-primary"
+                  >
+                    Create
+                  </button>
+                </div>
               </div>
             </form>
           </div>

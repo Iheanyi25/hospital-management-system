@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { NurseLayout } from "../Components/Layout";
 import Dashboard from "../Pages/Nurse/Dashboard";
 import ViewNurseProfile from "../Pages/Nurse/ViewNurseProfile";
@@ -13,53 +13,73 @@ import Appointments from "../Pages/Admin/Appointments";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import ViewPatientProfile from "../Pages/Components/ViewPatientProfile";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
+import UpdateNursingReport from "../Pages/Admin/NursingReport/UpdateNursingReport";
+import ManageNursingReports from "../Pages/Admin/NursingReport/ManageNursingReports";
+import ViewNursingReport from "../Pages/Admin/NursingReport/ViewNursingReport";
 
 export default function NurseRoutes() {
   return (
     <BrowserRouter basename="nurse">
       <NurseLayout>
         <Switch>
-          <Route exact path="/NurseDashboard" component={Dashboard} />
-          <Route exact path="/NurseProfile" component={ViewNurseProfile} />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route
+          <RouteWithErrorBoundary exact path="/NurseDashboard" component={Dashboard} />
+          <RouteWithErrorBoundary exact path="/NurseProfile" component={ViewNurseProfile} />
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          <RouteWithErrorBoundary
             exact
             path="/NurseBookConsultation"
             component={BookConsultation}
           />
-          <Route exact path="/NurseConsultations" component={Consultations} />
-          <Route exact path="/ViewClarkingHistory" component={ClarkingHist} />
-          <Route
+          <RouteWithErrorBoundary exact path="/NurseConsultations" component={Consultations} />
+          <RouteWithErrorBoundary exact path="/ViewClarkingHistory" component={ClarkingHist} />
+          <RouteWithErrorBoundary
             exact
             path="/NursePreConsultation/:id"
             component={PreConsultation}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/NurseBookAppointment"
             component={BookAppointment}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/NurseAppointments"
             component={Appointments}
           />
-          <Route
+          <RouteWithErrorBoundary exact path="/NurseAppointments" component={Appointments} />
+          <RouteWithErrorBoundary
             exact
             path="/NursePatientProfile/:id"
             component={ViewPatientProfile}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/NurseManageAdmissions"
             component={ManageAdmissions}
           />
-           <Route
+           <RouteWithErrorBoundary
             exact
             path="/NurseWardRoundNotes/:id"
             component={WardRoundNotes}
           />
-          <Route
+          <RouteWithErrorBoundary
+            exact
+            path="/NurseUpdateNursingReport/:id"
+            component={UpdateNursingReport}
+          />
+          <RouteWithErrorBoundary
+            exact
+            path="/NurseManageNursingReports"
+            component={ManageNursingReports}
+          />
+          <RouteWithErrorBoundary
+            exact
+            path="/NurseViewNursingReport/:id"
+            component={ViewNursingReport}
+          />
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/NurseDashboard" />}

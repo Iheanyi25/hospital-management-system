@@ -195,3 +195,6 @@ body {
     transform:         rotate(90deg);
   }
   
+  .natal-style h6 {
+    margin-bottom: 8px;
+  }

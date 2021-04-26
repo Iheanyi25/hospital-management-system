@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import * as Sentry from "@sentry/react";
 import AppRouter from "./ApplicationRoute";
 import "./App.css";
 import { UserProvider } from "./mobx/UserState";
@@ -6,6 +7,7 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import useNetwork from "./custom-hooks/useNetwork";
 import { notification } from "./utils/notification";
+
 
 function App() {
   //use this prevent online message from showing, only after the user has gone offline atleast once
@@ -36,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default Sentry.withProfiler(App);

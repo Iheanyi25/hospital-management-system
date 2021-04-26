@@ -99,11 +99,6 @@ const PatientTableAction = ({ patient }) => {
       iconClass: "btn-icon icon sli-user mr-2",
     },
     {
-      text: " Go for Pre-Consultation",
-      path: `/AdminPreConsultation/${patient.id}`,
-      iconClass: "btn-icon icofont-ui-edit  mr-2",
-    },
-    {
       text: "Pre-Consultation History",
       path: `/AdminViewPreConsultationHistory/${patient.id}`,
       iconClass: "btn-icon icofont-stethoscope-alt mr-2",

@@ -12,7 +12,12 @@
   width: 100%;
 
 }
-
+.third-background {
+  height: 100%;
+  background: url("../../../assets/img/login-updated.png");
+  background-size: cover;
+  overflow-y: scroll;
+}
 .auth-background .row {
   /* margin-top: 10%; */
   min-height: 100vh;
