@@ -52,8 +52,8 @@ const AppointmentsAccepted = () => {
     tableData = data.appointments.map((appointment, index) => {
       return {
         "#": ++index,
-        Patient: `${appointment.patient?.lastName} ${appointment.patient?.firstName}`,
-        Doctor: `${appointment.doctor?.lastName} ${appointment.doctor?.firstName}`,
+        Patient: ` ${appointment.patient?.firstName} ${appointment.patient?.lastName}`,
+        Doctor: `${appointment.doctor?.firstName} ${appointment.doctor?.lastName}`,
         "Appointment Date": formatDate(appointment?.appointmentDate),
         "Appointment Time": formatTime(appointment?.appointmentDate),
         Title: appointment?.appointmentTitle,
