@@ -10,6 +10,7 @@ import EmptyState from "../../../../../Components/EmptyState/EmptyUploadState";
 import { CreateHealthPlanPrice } from "../../../../../Components/Modals/CreateHealthPlanPrice";
 import { EditHealthPlanPrice } from "../../../../../Components/Modals/EditHealthPlanPrice";
 import formatAmount from "../../../../../utils/formatAmount";
+import { notification } from "../../../../../utils/notification";
 
 const HealthPlanPrice = ({ drugId, drugType }) => {
   const [healthPlanPrice, setHealthPlanPrice] = useState({});
@@ -34,11 +35,11 @@ const HealthPlanPrice = ({ drugId, drugType }) => {
     try {
       let res = await fetchWrapper(deleteDrugPricesConfig);
       if (res.status) {
-        console.log(res);
+        notification.success({ message: res.data.message });
         mutate();
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      notification.error({ message: error?.response?.data.message });
     }
     console.log(data);
   };
