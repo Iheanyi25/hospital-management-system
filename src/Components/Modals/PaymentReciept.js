@@ -43,6 +43,104 @@ const PaymentReciept = ({ costingDetails }) => {
           <div className="modal-body">
             <div className="container">
               <div className="row">
+                <div className="col">
+                  <div className="logo-wrap">
+                    <img
+                      src="../../assets/img/logo.svg"
+                      width={147}
+                      height={33}
+                      className="logo-img"
+                      alt="Hello"
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <h5>Invoice</h5>
+                  <p className="">Invoice number:</p>
+                  <p></p>
+                  <p>Date: </p>
+                  <p className="">{formatDate(Date.now())}</p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <p className="">Bill to:</p>
+                  <p>Patients Name</p>
+                  <p>957 North Street</p>
+                  <p className="">Enugu</p>
+                  <p>Nigeria</p>
+                </div>
+                <div className="col">
+                  <p className="">Bill from:</p>
+                  <p>Hospitals Name</p>
+                  <p>957 South Street</p>
+                  <p className="">Enugu</p>
+                  <p>Nigeria</p>
+                </div>
+              </div>
+              <div className="row">
+                  <div className="col">
+                      <p>Item</p>
+                  </div>
+                  <div className="col">
+                      <p>Cost</p>
+                      <p>QTY</p>
+                      <p>Price Paid</p>
+                  </div>
+              </div>
+              <div className="col">
+                  <p>Athesunate</p>
+                  <p>paracetamol</p>
+              </div>
+              <div className="col">
+                  <div className="row">
+                      <div className="col">
+                        <p>&#8358; 99</p>
+                        <p>&#8358; 220</p>
+                      </div>
+                      <div className="col">
+                          <p>1</p>
+                          <p>2</p>
+                      </div>
+                      <div className="col">
+                        <p>&#8358; 99</p>
+                        <p>&#8358; 22</p>
+                      </div>
+                  </div>
+                  <hr/>
+                    <div className="row">
+                        <div className="col-6">
+                            <p>Subtotal</p>
+                            <p>VAT</p>
+                        </div>
+                            <p>HMO discount</p>
+                        <div className="col-6">
+                            <p>&#8358; 99</p>
+                            <p>&#8358; 220</p>
+                            <p>&#8358; 220</p>                        
+                        </div>
+                    </div>
+                    <hr/>
+                    <div className="row">
+                        <div className="col-6">
+                           <p>Invoice Total</p> 
+                        </div>
+                        <div className="col-6">
+                            <p>&#8358; 120 NGN</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p>Payments method</p>
+                    <p>&#8358; 220 payment from POS</p>
+                    <button className="btn text-light btn-primary">Generate Invoice</button>
+                </div>
+                <span className="">Need help? <a href="">help@laviemedic.com</a></span>
+            </div>
+            </div>
+          {/* <div className="modal-body">
+            <div className="container">
+              <div className="row">
                 <div className="col-3">
                   <h6 className="m-0">Patient Name</h6>
                   <p className="m-0">{`${patient?.firstName} ${patient?.lastName}`}</p>
@@ -87,7 +185,7 @@ const PaymentReciept = ({ costingDetails }) => {
               </div>
             </div>
             <hr />
-            {/* <div> */}
+            {/* <div>
             <div className="container">
               {costingDetails?.map((detail, index) => (
                 <div key={index}>
@@ -100,7 +198,7 @@ const PaymentReciept = ({ costingDetails }) => {
                       {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
                     </p>
                     <p className="col-2 m-0">&#8358; {detail?.priceTotal}</p>
-                    {/* </div> */}
+                    {/* </div>
                   </div>
                   <hr />
                 </div>
@@ -123,7 +221,7 @@ const PaymentReciept = ({ costingDetails }) => {
                 <p className="col-3 m-0"> &#8358; {formatAmount(totalPrice)}</p>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="modal-footer bg-white">
             <div className="actions ">
               <button type="button" className="btn text-light btn-primary">
