@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import PatientDashboard from "../Pages/Patient/Dashboard";
 import PatientAppointments from "../Pages/Patient/Appointments";
 import PatientConsultations from "../Pages/Patient/Consultations";
@@ -17,6 +17,7 @@ import MyDoctors from '../Pages/Patient/MyDoctors';
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import ThirdPartyFunding from '../Pages/Patient/ThirdPartyFunding';
 import ViewHealthHistory from '../Pages/Patient/ViewHealthHistory';
+import RouteWithErrorBoundary from '../Components/RouteWithErrorBoundary';
 
 export default function PatientRoutes() {
     return (
@@ -24,26 +25,26 @@ export default function PatientRoutes() {
             <PatientLayout>
                 <Switch>
 
-                    <Route exact path="/PatientDashboard" component={PatientDashboard} />
-                    <Route exact path="/PatientAppointments" component={PatientAppointments} />
-                    <Route exact path="/PatientConsultations" component={PatientConsultations} />
-                    <Route exact path="/PatientDoctorList" component={PatientDoctorList} />
-                    <Route exact path="/PatientAccount" component={PatientAccount} />
-                    <Route exact path="/PatientFundAccount" component={PatientFundAccount} />
-                    <Route exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
-                    <Route exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
-                    <Route exact path="/ViewDoctorProfile/:id" component={ViewDoctorProfile} />
+                    <RouteWithErrorBoundary exact path="/PatientDashboard" component={PatientDashboard} />
+                    <RouteWithErrorBoundary exact path="/PatientAppointments" component={PatientAppointments} />
+                    <RouteWithErrorBoundary exact path="/PatientConsultations" component={PatientConsultations} />
+                    <RouteWithErrorBoundary exact path="/PatientDoctorList" component={PatientDoctorList} />
+                    <RouteWithErrorBoundary exact path="/PatientAccount" component={PatientAccount} />
+                    <RouteWithErrorBoundary exact path="/PatientFundAccount" component={PatientFundAccount} />
+                    <RouteWithErrorBoundary exact path="/PatientBookAppointment/:doctorId" component={PatientBookAppointment} />
+                    <RouteWithErrorBoundary exact path="/PatientBookConsultation/:doctorId" component={PatientBookConsultation} />
+                    <RouteWithErrorBoundary exact path="/ViewDoctorProfile/:id" component={ViewDoctorProfile} />
 
-                    <Route exact path="/MyDoctors" component={MyDoctors} />
-                    <Route exact path="/ChangePassword" component={ViewChangePassword} />
-                    <Route exact path="/ThirdPartyFunding" component={ThirdPartyFunding} />
-                    <Route exact path="/PatientProfile" component={ViewPatientProfile} />
-                    <Route exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
-                    <Route exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />
+                    <RouteWithErrorBoundary exact path="/MyDoctors" component={MyDoctors} />
+                    <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+                    <RouteWithErrorBoundary exact path="/ThirdPartyFunding" component={ThirdPartyFunding} />
+                    <RouteWithErrorBoundary exact path="/PatientProfile" component={ViewPatientProfile} />
+                    <RouteWithErrorBoundary exact path="/PatientPreConsultationHistory" component={ViewPreConsultationHistory} />
+                    <RouteWithErrorBoundary exact path="/PatientClarkingHistory" component={ViewClarkingHistory} />
 
-                    <Route exact path="/PatientHealthHistory" component={ViewHealthHistory} />
+                    <RouteWithErrorBoundary exact path="/PatientHealthHistory" component={ViewHealthHistory} />
 
-                    <Route exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
+                    <RouteWithErrorBoundary exact path="*" render={() => <Redirect to="/PatientDashboard" />} />
 
                 </Switch>
             </PatientLayout>

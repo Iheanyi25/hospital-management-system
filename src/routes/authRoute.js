@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { AuthLayout } from "../Components/Layout";
 import ViewResetPassword from "../Pages/Components/ViewResetPassword";
 import ViewResetPasswordFromMail from "../Pages/Components/ViewResetPasswordFromMail";
 import Login from "../Pages/Login/Login";
 import { Page404 } from "../Components/Page404/Page404"
 import ThirdPartyFundAccount from "../Pages/Components/ThirdPartyFundAccount";
-
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 const AuthRoute = () => {
 
@@ -14,30 +14,30 @@ const AuthRoute = () => {
         <Router>
             <AuthLayout>
                 <Switch>
-                    <Route
+                    <RouteWithErrorBoundary
                         exact
                         path={"/"}
                         component={Login}
                     />
 
-                    <Route
+                    <RouteWithErrorBoundary
                         exact
                         path="/ResetPasswordRedirect"
                         component={ViewResetPassword}
                     />
 
-                    <Route
+                    <RouteWithErrorBoundary
                         exact
                         path="/ResetPassword"
                         component={ViewResetPasswordFromMail}
                     />
-                    <Route
+                    <RouteWithErrorBoundary
                         exact
                         path="/common/ThirdPartyFundAccount/:id"
                         component={ThirdPartyFundAccount}
                     />
 
-                    <Route
+                    <RouteWithErrorBoundary
                         exact
                         path="*"
                         component={Page404}

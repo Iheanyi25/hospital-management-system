@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import PharmacyDashboard from "../Pages/Pharmacy/Dashboard";
 import { PharmacyLayout } from "../Components/Layout";
 import ViewPharmacyProfile from "../Pages/Pharmacy/ViewPharmacyProfile";
@@ -10,6 +10,7 @@ import ManagePrescriptions from "../Pages/Admin/Pharmacy/ManagePrescriptions";
 import DrugPrescription from "../Pages/Admin/Pharmacy/DrugPrescription";
 import ManagePrescriptionInvioice from "../Pages/Admin/Pharmacy/ManagePrescriptionInvioice";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 // import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 // import ManageAdmissionPrescriptions from "../Components/Admissions/Prescriptions/ManagePrescriptions";
 
@@ -18,47 +19,47 @@ export default function PharmacyRoutes() {
     <BrowserRouter basename="pharmacy">
       <PharmacyLayout>
         <Switch>
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/PharmacyDashboard"
             component={PharmacyDashboard}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/PharmacyProfile"
             component={ViewPharmacyProfile}
           />
 
-          <Route exact path="/PharmacyRegisterDrug" component={RegisterDrug} />
-          <Route exact path="/PharmacyViewDrugs" component={ViewDrugs} />
-          <Route exact path="/PharmacyViewDrug/:id" component={ViewDrug} />
-          <Route
+          <RouteWithErrorBoundary exact path="/PharmacyRegisterDrug" component={RegisterDrug} />
+          <RouteWithErrorBoundary exact path="/PharmacyViewDrugs" component={ViewDrugs} />
+          <RouteWithErrorBoundary exact path="/PharmacyViewDrug/:id" component={ViewDrug} />
+          <RouteWithErrorBoundary
             exact
             path="/PharmacyManagePrescriptions"
             component={ManagePrescriptions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/PharmacyManagePrescriptionInvoice"
             component={ManagePrescriptionInvioice}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/PharmacyDrugPrescription/:id"
             component={DrugPrescription}
           />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          {/* <Route
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          {/* <RouteWithErrorBoundary
             exact
             path="/PharmacyManageAdmissions"
             component={ManageAdmissions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/PharmacyManageAdmissionPrescriptions/:id"
             component={ManageAdmissionPrescriptions}
           /> */}
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/PharmacyDashboard" />}
