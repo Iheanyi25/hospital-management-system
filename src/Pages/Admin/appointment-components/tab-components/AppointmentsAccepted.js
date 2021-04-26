@@ -133,7 +133,7 @@ export const AppointmentsAcceptedActionTable = observer(
           </button>
         </ActionButton>
         <ReAssign
-          idType="consultationId"
+          idType="appointmentId"
           route={"ReassignAppointment"}
           reRun={mutate}
           id={appointment.id}
