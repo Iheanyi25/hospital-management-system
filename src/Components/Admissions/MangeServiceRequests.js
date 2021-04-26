@@ -95,7 +95,7 @@ const ManageServiceRequests = observer(() => {
         <div className="main-content-wrap">
           <header className="page-header justify-content-between d-flex align-items-center mb-2">
             <h4 className="page-title" style={{ textTransform: "capitalize" }}>
-              erjkrfekjrf
+              Lab Services
             </h4>
           </header>
           <div className="page-content">
@@ -103,7 +103,7 @@ const ManageServiceRequests = observer(() => {
               size={
                 data ? formatAmount(invoice?.serviceRequests.length ?? 0) : 0
               }
-              heading="No of Services"
+              heading="No. of Services"
             />
           </div>
           <div className="page-content">

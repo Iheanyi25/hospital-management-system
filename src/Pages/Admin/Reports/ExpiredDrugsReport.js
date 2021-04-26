@@ -75,7 +75,7 @@ const ExpiredDrugsReport = () => {
               <h3 className="page-title"> Drug expiry date report</h3>
             </header>
             <p className="ml-3">
-              Select the date range to see the data from that timeline
+              Select the date to see the data of the expired drugs
             </p>
             <div className="col col-md-12">
               <div className="card border-light p-4">

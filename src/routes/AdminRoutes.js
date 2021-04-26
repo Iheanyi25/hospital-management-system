@@ -302,6 +302,11 @@ export default function AdminRoutes() {
             path="/AdminViewPreConsultationHistory/:id"
             component={ViewPreConsultationHistory}
           />
+          <RouteWithErrorBoundary
+            exact
+            path="/ViewPreConsultationHistory"
+            component={ViewPreConsultationHistory}
+          />
           <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
           <RouteWithErrorBoundary
             exact
