@@ -4,15 +4,15 @@ import remove from "../../../../../../assets/img/remove.svg";
 import view from "../../../../../../assets/img/view.svg";
 import { fetchWrapper, useRequest } from "../../../../../../api/fetcher";
 import { fetchConfig } from "../../../../../../api/fetchConfig";
-import { getAllDrugsUrl, deleteDrugUrl } from "../../../../../../api/URLs";
+import { getDrugsByPowderUrl, deleteDrugUrl } from "../../../../../../api/URLs";
 import { notification } from "../../../../../../utils/notification";
 import { PageLoader, Table } from "../../../../../../Components";
 import ActionButton from "../../../../../../Components/DataTable/ActionButton";
 
-const AllDrugs = ({ userType }) => {
+const Powder = ({ userType }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const getAllDrugs = getAllDrugsUrl(pageNumber, pageSize);
+  const getAllDrugs = getDrugsByPowderUrl(pageNumber, pageSize);
   const getAllDrugsConfig = fetchConfig({ url: getAllDrugs, method: "get" });
   const { data, error, mutate } = useRequest(getAllDrugsConfig, {
     revalidateOnFocus: false,
@@ -51,7 +51,7 @@ const AllDrugs = ({ userType }) => {
           : "N/A",
         Manufacturer: drug?.manufacturer ?? "N/A",
         Actions: (
-          <AllDrugsTableAction
+          <TableAction
             drug={drug}
             userType={userType}
             deleteDrug={deleteDrug}
@@ -67,8 +67,8 @@ const AllDrugs = ({ userType }) => {
       {data && (
         <Table
           content={dataTable}
-          tableID={"allDrugs" + data.drugs.length}
-          key={"allDrugs" + data.drugs.length}
+          tableID={"powder" + data.drugs.length}
+          key={"powder" + data.drugs.length}
           paginationDetails={data.paginationDetails}
           setPageNumber={setPageNumber}
           pageNumber={pageNumber}
@@ -80,7 +80,7 @@ const AllDrugs = ({ userType }) => {
   );
 };
 
-const AllDrugsTableAction = ({ drug, userType, deleteDrug }) => {
+const TableAction = ({ drug, userType, deleteDrug }) => {
   return (
     <ActionButton>
       <Link
@@ -108,4 +108,4 @@ const AllDrugsTableAction = ({ drug, userType, deleteDrug }) => {
   );
 };
 
-export { AllDrugs };
+export { Powder };
