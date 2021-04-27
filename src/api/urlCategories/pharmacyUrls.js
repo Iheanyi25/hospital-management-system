@@ -43,6 +43,10 @@ export const getDrugsByTabletUrl = (pageNumber, pageSize) =>
   `/Pharmacy/GetDrugsByTablet?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDrugsBySyrupUrl = (pageNumber, pageSize) =>
   `/Pharmacy/GetDrugsBySyrup?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDrugsByInhalerUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsByInhaler?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDrugsByPowderUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsByPowder?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAllDrugsByDrugTypeUrl = (drugType, pageNumber, pageSize) =>
   `/Pharmacy/GetDrugsByDrugType?drugType=${drugType}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDrugUrl = (drugId) => `/Pharmacy/GetDrug/${drugId}`;

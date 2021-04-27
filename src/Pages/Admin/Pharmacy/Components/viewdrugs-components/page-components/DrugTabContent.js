@@ -1,6 +1,5 @@
 import React from "react";
-import { AllDrugs, DrugsByDrugType, Tablets } from "../drug-categories";
-import { Liquid } from "../drug-categories/Liquid";
+import { AllDrugs, Tablets, Liquid, Powder, Inhaler } from "../drug-categories";
 
 const DrugTabContent = ({ userType }) => {
   return (
@@ -35,11 +34,7 @@ const DrugTabContent = ({ userType }) => {
         role="tabpanel"
         aria-labelledby="pills-inhaler-tab"
       >
-        <DrugsByDrugType
-          drugType="inhalers"
-          userType={userType}
-          category="inhalersDrugs"
-        />
+        <Inhaler userType={userType} />
       </div>
       <div
         className="tab-pane fade"
@@ -47,11 +42,7 @@ const DrugTabContent = ({ userType }) => {
         role="tabpanel"
         aria-labelledby="pills-powder-tab"
       >
-        <DrugsByDrugType
-          drugType="powder"
-          userType={userType}
-          category="powderDrugs"
-        />
+        <Powder userType={userType} />
       </div>
     </div>
   );
