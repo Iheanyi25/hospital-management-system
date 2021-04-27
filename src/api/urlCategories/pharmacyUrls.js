@@ -1,4 +1,8 @@
 // Pharmacy - Drug Costing
+export const getPharmacyDashboardUrl = () => `/Pharmacy/Dashboard`;
+
+
+// Pharmacy - Drug Costing
 export const costDrugUrl = () => `/Pharmacy/CostDrugs`;
 
 // Pharmacy - Drug Invoicing and Payments

@@ -97,13 +97,9 @@ class ViewDrugs extends React.Component {
                 inhalerCount={inhalerDrugs.length}
               />
               <div className="page-content">
-                <div className="card mb-0">
-                  <div className="card-body">
-                    <div>
-                      <DrugTabHeader />
-                      <DrugTabContent userType={userType} />
-                    </div>
-                  </div>
+                <div>
+                  <DrugTabHeader />
+                  <DrugTabContent userType={userType} />
                 </div>
               </div>
             </div>
