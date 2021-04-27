@@ -1,5 +1,5 @@
 import React from "react";
-import { AllDrugs, DrugsByDrugType } from "../drug-categories";
+import { AllDrugs, DrugsByDrugType, Tablets } from "../drug-categories";
 
 const DrugTabContent = ({ userType }) => {
   return (
@@ -10,7 +10,7 @@ const DrugTabContent = ({ userType }) => {
         role="tabpanel"
         aria-labelledby="pills-all-tab"
       >
-        <AllDrugs userType={userType} category="allDrugs" />
+        <AllDrugs userType={userType} />
       </div>
       <div
         className="tab-pane fade"
@@ -18,11 +18,7 @@ const DrugTabContent = ({ userType }) => {
         role="tabpanel"
         aria-labelledby="pills-tabs-tab"
       >
-        <DrugsByDrugType
-          drugType="tabs"
-          userType={userType}
-          category="tabDrugs"
-        />
+        <Tablets userType={userType} />
       </div>
       <div
         className="tab-pane fade"
