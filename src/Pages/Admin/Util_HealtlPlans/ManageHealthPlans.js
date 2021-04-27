@@ -32,6 +32,7 @@ const ManageHealthPlans = () => {
         data: { id },
       });
       const res = await fetchWrapper(disableHealthPlansConfig);
+      console.log(21212, res);
       if (res.status === 200) {
         mutate();
         notification.success({ message: res.data.message });
