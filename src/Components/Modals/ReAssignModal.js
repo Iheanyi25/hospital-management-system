@@ -87,7 +87,7 @@ class ReAssign extends React.Component {
         allDoctors.push({ value: doctorId, label: `${firstName} ${lastName}` });
       });
     }
-    
+
     return (
       <>
         <div
@@ -100,7 +100,11 @@ class ReAssign extends React.Component {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header p-5">
-                <h5 className="modal-title">Assign to a doctor</h5>
+                <h5 className="modal-title">
+                  {this.props.reassign
+                    ? "Ressign to a doctor"
+                    : "Assign to a doctor"}
+                </h5>
               </div>
               <div className="modal-body p-5">
                 <form>

@@ -144,7 +144,7 @@ export const ConsultationsWithDoctorsActionTable = observer(
             data-target={`#reassign-patient-${consultation.id}`}
           >
             <span className="mr-3 btn-icon icofont-stethoscope-alt" />
-            Assign to Doctor
+            Reassign to Doctor
           </button>
           <button
             className="btn btn-sm btn-block"
@@ -159,6 +159,7 @@ export const ConsultationsWithDoctorsActionTable = observer(
           route={"ReassignAppointment"}
           reRun={mutate}
           id={consultation.id}
+          reassign
         />
       </div>
     );
