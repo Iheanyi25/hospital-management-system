@@ -60,13 +60,7 @@ class ViewDrugs extends React.Component {
     const {
       user: { userType },
     } = content;
-    const {
-      tabDrugs,
-      liquidDrugs,
-      inhalerDrugs,
-      powderDrugs,
-      loading,
-    } = this.state;
+    const { loading } = this.state;
     return (
       <>
         {loading ? (
@@ -90,12 +84,7 @@ class ViewDrugs extends React.Component {
                   Register Drug
                 </Link>
               </header>
-              <DrugSummary
-                tabCount={tabDrugs.length}
-                powderCount={powderDrugs.length}
-                liquidCount={liquidDrugs.length}
-                inhalerCount={inhalerDrugs.length}
-              />
+              <DrugSummary />
               <div className="page-content">
                 <div>
                   <DrugTabHeader />
