@@ -1,4 +1,8 @@
 // Pharmacy - Drug Costing
+export const getPharmacyDashboardUrl = () => `/Pharmacy/Dashboard`;
+
+
+// Pharmacy - Drug Costing
 export const costDrugUrl = () => `/Pharmacy/CostDrugs`;
 
 // Pharmacy - Drug Invoicing and Payments
@@ -35,6 +39,14 @@ export const deleteDrugPricesUrl = () => `/Pharmacy/DeleteDrugPrice`;
 // Pharmacy - Manage Drugs
 export const getAllDrugsUrl = (pageNumber, pageSize) =>
   `/Pharmacy/GetAllDrugs?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDrugsByTabletUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsByTablet?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDrugsBySyrupUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsBySyrup?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDrugsByInhalerUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsByInhaler?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+export const getDrugsByPowderUrl = (pageNumber, pageSize) =>
+  `/Pharmacy/GetDrugsByPowder?PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getAllDrugsByDrugTypeUrl = (drugType, pageNumber, pageSize) =>
   `/Pharmacy/GetDrugsByDrugType?drugType=${drugType}&PageNumber=${pageNumber}&PageSize=${pageSize}`;
 export const getDrugUrl = (drugId) => `/Pharmacy/GetDrug/${drugId}`;
