@@ -51,9 +51,9 @@ const ConsultationsOnOpenList = () => {
     tableData = data.consultations.map((consultation, index) => {
       return {
         "#": ++index,
-        Patient: `${consultation.patient?.lastName} ${consultation.patient?.firstName}`,
-        Doctor: `${consultation.doctor?.lastName || "unassigned"} ${
-          consultation.doctor?.firstName || ""
+        Patient: `${consultation.patient?.firstName} ${consultation.patient?.lastName}`,
+        Doctor: ` ${consultation.doctor?.firstName || "Unassigned"}${
+          consultation.doctor?.lastName || ""
         } `,
         "Consultation Date": formatDate(consultation?.dateOfConsultation),
         "Consultation Time": formatTme(consultation?.dateOfConsultation),

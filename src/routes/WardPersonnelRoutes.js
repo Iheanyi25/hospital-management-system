@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import Dashboard from "../Pages/WardPersonnel/Dashboard";
 import ViewWardPersonnelProfile from "../Pages/WardPersonnel/ViewWardPersonnelProfile";
 import ViewChangePassword from "../Pages/Components/ViewChangePassword";
@@ -12,36 +12,37 @@ import AssignBed from "../Components/Admissions/Wards/AssignBed";
 import { WardPersonnelLayout } from "../Components/Layout";
 import ReferredPatients from "../Components/Admissions/ReferredPatients";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
+import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
 
 export default function WardPersonnelRoutes() {
   return (
     <BrowserRouter basename="ward">
       <WardPersonnelLayout>
         <Switch>
-          <Route exact path="/WardDashboard" component={Dashboard} />
-          <Route
+          <RouteWithErrorBoundary exact path="/WardDashboard" component={Dashboard} />
+          <RouteWithErrorBoundary
             exact
             path="/WardProfile"
             component={ViewWardPersonnelProfile}
           />
-          <Route exact path="/ChangePassword" component={ViewChangePassword} />
-          <Route exact path="/WardCreateWard" component={CreateWard} />
-          <Route exact path="/WardEditWard/:id" component={EditWard} />
-          <Route exact path="/WardManageWards" component={ManageWards} />
-          <Route exact path="/WardManageBeds/:id" component={ManageBeds} />
-          <Route exact path="/WardAssignWard/:id" component={AssignWard} />
-          <Route exact path="/WardAssignBed/:id" component={AssignBed} />
-          <Route
+          <RouteWithErrorBoundary exact path="/ChangePassword" component={ViewChangePassword} />
+          <RouteWithErrorBoundary exact path="/WardCreateWard" component={CreateWard} />
+          <RouteWithErrorBoundary exact path="/WardEditWard/:id" component={EditWard} />
+          <RouteWithErrorBoundary exact path="/WardManageWards" component={ManageWards} />
+          <RouteWithErrorBoundary exact path="/WardManageBeds/:id" component={ManageBeds} />
+          <RouteWithErrorBoundary exact path="/WardAssignWard/:id" component={AssignWard} />
+          <RouteWithErrorBoundary exact path="/WardAssignBed/:id" component={AssignBed} />
+          <RouteWithErrorBoundary
             exact
             path="/WardViewReferredPatients"
             component={ReferredPatients}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="/WardManageAdmissions"
             component={ManageAdmissions}
           />
-          <Route
+          <RouteWithErrorBoundary
             exact
             path="*"
             render={() => <Redirect to="/WardDashboard" />}

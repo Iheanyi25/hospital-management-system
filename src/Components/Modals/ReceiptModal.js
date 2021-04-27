@@ -1,5 +1,6 @@
-import React, { useRef } from 'react'
-import { useReactToPrint } from 'react-to-print';
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 
 const pageStyle = `
   @page {
@@ -21,12 +22,12 @@ const pageStyle = `
     }
   }
 `;
-export default function ReceiptModal ({children, modalId }) {
-  const componentRef = useRef()
+export default function ReceiptModal({ children, modalId }) {
+  const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    pageStyle
-  })
+    pageStyle,
+  });
   return (
     <div
       className="modal fade"
@@ -37,18 +38,25 @@ export default function ReceiptModal ({children, modalId }) {
     >
       <div className="modal-dialog modal-lg modal-dialog-centered">
         <div className="modal-content">
-          <div className="modal-header">
+          <div className="modal-header p-0"></div>
+          <div className="modal-body p-0">
+            <div ref={componentRef}>{children}</div>
           </div>
-          <div className="modal-body">
-            <div ref={componentRef}>
-              {children}
-            </div>
-          </div>
-          <div className="modal-footer bg-white">
-            <div className="actions ">
-              <button type="button" className="btn text-light btn-primary" onClick={handlePrint}>
-                Print
-              </button>
+          <div className="bg-light py-3 mt-5 px-5">
+            {/* <div className="actions "> */}
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="">
+                Need help? <Link to="#">help@lLinkviemedic.com</Link>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="btn text-light btn-primary"
+                  onClick={handlePrint}
+                >
+                  Print
+                </button>
+              </div>
             </div>
             {/* </div> */}
           </div>
@@ -56,6 +64,4 @@ export default function ReceiptModal ({children, modalId }) {
       </div>
     </div>
   );
-};
-
-
+}

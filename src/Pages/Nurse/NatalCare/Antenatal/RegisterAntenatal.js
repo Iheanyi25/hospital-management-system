@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { observer } from "mobx-react";
-import RecordForm from "./AntenatalComponents/RecordForm";
+import RecordForm from "./antenatal-components/RecordForm";
 
 const RegisterAntenatal = observer(() => {
   return (
@@ -14,14 +14,7 @@ const RegisterAntenatal = observer(() => {
             <h4 className="page-title">Antenatal</h4>
           </header>
           <div className="page-content">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-6"></div>
-                <div className="col-md-6">
-                  <RecordForm />
-                </div>
-              </div>
-            </div>
+            <RecordForm />
           </div>
         </div>
       </main>
