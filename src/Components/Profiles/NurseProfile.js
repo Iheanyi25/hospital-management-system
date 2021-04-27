@@ -17,6 +17,7 @@ function NurseProfile({ nurseId }) {
     revalidateOnFocus: false,
   });
   if (error) return <div>failed to load</div>;
+  console.log(data,999)
   return (
     <Fragment>
       {!data ? (
@@ -30,7 +31,7 @@ function NurseProfile({ nurseId }) {
             <div className="page-content">
               <Bio bioDetails={data.nurse} user="nurse" image={LabImage} />
               <ContactDetail
-                otherDetails={data}
+                otherDetails={data.nurse}
                 primaryDetails={data.nurse}
                 userId={data.nurse.nurseId}
                 mutate={mutate}
