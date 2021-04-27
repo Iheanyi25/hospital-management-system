@@ -12,7 +12,6 @@ export default function DoctorPatientList({
   let dataTable = [];
   if (patients) {
     dataTable = patients.map((patient, index) => {
-      console.log(patient, 111);
       return {
         "#": ++index,
         Photo: (
@@ -24,9 +23,13 @@ export default function DoctorPatientList({
             className="rounded-500"
           />
         ),
-        "Patient Name": `${patient.firstName} ${patient.lastName}`,
-        Email: <a href={"mailto:" + patient.email}>{patient.email}</a>,
-        Phone: patient.phoneNumber || "Not available",
+        "Patient Name": `${patient.patient.firstName} ${patient.patient.lastName}`,
+        Email: (
+          <a href={"mailto:" + patient.patient.email}>
+            {patient.patient.email}
+          </a>
+        ),
+        Phone: patient.patient.phoneNumber || "Not available",
         Actions:
           patientListId === "my-patient" ? (
             <MyPatientListTableAction patient={patient} />
