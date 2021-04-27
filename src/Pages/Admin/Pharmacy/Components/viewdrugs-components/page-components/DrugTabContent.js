@@ -2,28 +2,6 @@ import React from "react";
 import { AllDrugs, DrugsByDrugType } from "../drug-categories";
 
 const DrugTabContent = ({ userType }) => {
-    // const tabContent = [
-    //     {
-    //         drugType: "all",
-    //         id: "pills-all"
-    //     },
-    //     {
-    //         drugType: "tabs",
-    //         id: "pills-tab"
-    //     },
-    //     {
-    //         drugType: "liquid",
-    //         id: "pills-liquid"
-    //     },
-    //     {
-    //         drugType: "inhalers",
-    //         id: "pills-inhaler"
-    //     },
-    //     {
-    //         drugType: "powder",
-    //         id: "pills-powder"
-    //     },
-    // ]
   return (
     <div className="tab-content" id="pills-tabContent">
       <div

@@ -9,7 +9,7 @@ import { notification } from "../../../../../../utils/notification";
 import { PageLoader, Table } from "../../../../../../Components";
 import ActionButton from "../../../../../../Components/DataTable/ActionButton";
 
-const AllDrugs = ({ userType, category }) => {
+const AllDrugs = ({ userType }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const getAllDrugs = getAllDrugsUrl(pageNumber, pageSize);
@@ -40,14 +40,15 @@ const AllDrugs = ({ userType, category }) => {
         "#": ++index,
         "Drug Name": drug?.name ?? "N/A",
         "Generic Name": drug?.genericName ?? "N/A",
-        Type: (
-          <div
-            className="text-muted text-nowrap"
-            style={{ textTransform: "capitalize" }}
-          >
-            {drug?.drugType ?? "N/A"}
-          </div>
-        ),
+        Type: drug?.isTablet
+          ? "Tablet"
+          : drug?.isLiquid
+          ? "Liquid"
+          : drug?.isInhaler
+          ? "Inhaler"
+          : drug?.isPowder
+          ? "Powder"
+          : "N/A",
         Manufacturer: drug?.manufacturer ?? "N/A",
         Actions: (
           <AllDrugsTableAction
@@ -66,8 +67,8 @@ const AllDrugs = ({ userType, category }) => {
       {data && (
         <Table
           content={dataTable}
-          tableID={category + data.drugs.length}
-          key={category + data.drugs.length}
+          tableID={"allDrugs" + data.drugs.length}
+          key={"allDrugs" + data.drugs.length}
           paginationDetails={data.paginationDetails}
           setPageNumber={setPageNumber}
           pageNumber={pageNumber}
