@@ -1,5 +1,6 @@
 import React from "react";
 import { AllDrugs, DrugsByDrugType, Tablets } from "../drug-categories";
+import { Liquid } from "../drug-categories/Liquid";
 
 const DrugTabContent = ({ userType }) => {
   return (
@@ -26,11 +27,7 @@ const DrugTabContent = ({ userType }) => {
         role="tabpanel"
         aria-labelledby="pills-liquid-tab"
       >
-        <DrugsByDrugType
-          drugType="liquid"
-          userType={userType}
-          category="liquidDrugs"
-        />
+        <Liquid userType={userType} />
       </div>
       <div
         className="tab-pane fade"
