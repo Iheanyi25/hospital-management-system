@@ -40,6 +40,7 @@ const ManagePrescriptionInvoice = observer(({ isDashboard }) => {
   );
   console.log(data, 37623);
   const fetchDrugsInAnInvoice = async (invoiceNumber) => {
+    setIsFetchingDrugs(true);
     const invoicesUrl = getDrugsInAnInvoice(invoiceNumber);
     const getDrugsInAnInvoiceConfig = fetchConfig({
       url: invoicesUrl,
@@ -48,7 +49,6 @@ const ManagePrescriptionInvoice = observer(({ isDashboard }) => {
     const response = await fetchWrapper(getDrugsInAnInvoiceConfig);
     setDrugs(response?.data?.drugsInInvoice);
     setIsFetchingDrugs(false);
-    // this.setState({ drugs: response?.data?.drugsInInvoice || [], isFetchingDrugs: false });
   };
 
   const markInvoiceAsDispensed = async (id) => {
