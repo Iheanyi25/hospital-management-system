@@ -91,7 +91,7 @@ console.log(costingDetails,"tdtdy");
           </div>
           <div className="container px-5 py-4">
             {costingDetails?.map((detail, index) => (
-              <div key={index}>
+              <div key={index} className="container">
                 <div className="row">
                   <div className="col-6">
                     <h6 className="my-2">{detail?.drugName}</h6>
@@ -127,7 +127,7 @@ console.log(costingDetails,"tdtdy");
               <div className="col-6"></div>
               <div className="col-6">
                 <div className="row">
-                  <span className="border border-4 border-dark mb-2 w-100"></span>
+                  <span className="border border-4 border-dark m-2 w-100"></span>
                   <div className="col-6">
                     <p>Subtotal</p>
                   </div>
@@ -148,7 +148,7 @@ console.log(costingDetails,"tdtdy");
             </div>
           </div>
           <div className="container px-5">
-            <div className="row">
+            qww2<div className="row">
               <div className="col-6"></div>
               <div className="col-6">
                 <div className="row">
