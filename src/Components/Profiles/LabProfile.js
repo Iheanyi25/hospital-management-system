@@ -27,9 +27,9 @@ function LabProfile({ labId }) {
 						<div className="page-content">
 							<Bio bioDetails={data.labAttendant} user="lab" image={LabImage} />
 							<ContactDetail
-								otherDetails={data}
+								otherDetails={data.labAttendant}
 								primaryDetails={data.labAttendant}
-								userId={data.labId}
+								userId={data.labAttendant.labAttendantId}
 								mutate={mutate}
 							/>
 						</div>

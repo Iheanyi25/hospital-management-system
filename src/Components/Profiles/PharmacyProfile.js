@@ -26,7 +26,7 @@ function PharmacyProfile({ pharmacyId }) {
 						<div className="page-content">
 							<Bio bioDetails={data.pharmacist} image={PharmacistImage} />
 							<ContactDetail
-								otherDetails={data}
+								otherDetails={data.pharmacist}
 								primaryDetails={data.pharmacist}
 								userId={data.pharmacist.pharmacistId}
 								mutate={mutate}

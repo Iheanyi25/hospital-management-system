@@ -80,12 +80,15 @@ class RegisterDrug extends React.Component {
       name,
       genericName,
       manufacturer,
-      drugType,
       quantityPerContainer,
       containersPerCarton,
       costPricePerContainer,
       measurment,
       expiryDate,
+      isTablet: drugType === "tabs",
+      isLiquid: drugType === "liquid",
+      isInhaler: drugType === "inhalers",
+      isPowder: drugType === "powder",
     };
     const drugUrl = postDrugUrl();
     const postdrugConfig = fetchConfig({
@@ -93,6 +96,7 @@ class RegisterDrug extends React.Component {
       method: "post",
       data: payload,
     });
+    console.log(postdrugConfig,666)
     try {
       let res = await fetchWrapper(postdrugConfig);
       const nextRoute =
