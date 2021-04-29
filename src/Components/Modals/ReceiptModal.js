@@ -23,6 +23,7 @@ const pageStyle = `
   }
 `;
 export default function ReceiptModal({ children, modalId }) {
+  console.log(children, "hh");
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
