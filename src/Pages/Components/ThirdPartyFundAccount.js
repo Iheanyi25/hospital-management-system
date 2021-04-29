@@ -55,7 +55,6 @@ const ThirdPartyFundAccount = ({ match }) => {
     } catch (error) {
       notification.error({ message: error?.response?.data.message });
     }
-    console.log(payload);
   };
   return !data ? (
     <PageLoader />
@@ -75,7 +74,7 @@ const ThirdPartyFundAccount = ({ match }) => {
                       width: "48px",
                       borderRadius: "50%",
                     }}
-                    // alt="user"
+                    alt="user"
                   />
                 </div>
                 <div className="form-group">
