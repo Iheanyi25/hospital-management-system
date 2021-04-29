@@ -6,9 +6,9 @@ import formatDate from "../../../utils/formatDate";
 import paid from "../../../assets/img/paid.svg";
 import notpaid from "../../../assets/img/notpaid.svg";
 import incomplete from "../../../assets/img/incomplete.svg";
-import { getAllServiceRequestInvoiceUrl } from "../../../api/URLs";
+import { getAllServiceRequestInvoiceUrl, getServicesInAnInvoiceUrl } from "../../../api/URLs";
 import { fetchConfig } from "../../../api/fetchConfig";
-import { useRequest } from "../../../api/fetcher";
+import { fetchWrapper, useRequest } from "../../../api/fetcher";
 import { UserContext } from "../../../mobx/UserState";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
@@ -18,7 +18,8 @@ import { ServiceReciept } from "../../../Components/Modals/ServiceReciept";
 import ReceiptModal from "../../../Components/Modals/ReceiptModal";
 
 const ManageServiceRequest = observer(() => {
-  const [invoiceId, setInvoiceId] = useState("");
+  const [isFetchingServices, setIsFetchingServices] = useState(false);
+  const [services, setServices] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const {
@@ -36,7 +37,18 @@ const ManageServiceRequest = observer(() => {
   const { data, error } = useRequest(getAllServiceRequestInvoiceConfig, {
     revalidateOnFocus: false,
   });
-
+  const fetchServicesInAnInvocice = async (invoiceId) => {
+    console.log(439545, "Hii");
+    setIsFetchingServices(true);
+    const getServicesInAnInvoice = getServicesInAnInvoiceUrl(invoiceId, 1, 200);
+    const getServiceInvoiceConfig = fetchConfig({
+      url: getServicesInAnInvoice,
+      method: "get",
+    });
+    const res = await fetchWrapper(getServiceInvoiceConfig);
+    setServices(res?.data?.serviceRequests);
+    setIsFetchingServices(false);
+  };
   let dataTable = [];
   if (data) {
     dataTable = data.serviceInvoices.map((serviceInvoice, index) => {
@@ -76,7 +88,7 @@ const ManageServiceRequest = observer(() => {
           <ServiceInvoiceTableAction
             serviceInvoice={serviceInvoice}
             user={user}
-            setInvoiceId={setInvoiceId}
+            fetchServicesInAnInvocice={fetchServicesInAnInvocice}
           />
         ),
       };
@@ -120,16 +132,21 @@ const ManageServiceRequest = observer(() => {
           </div>
         </div>
       </main>
-      <ReceiptModal
-        modalId="showInvoice"
-        children={<ServiceReciept invoiceId={invoiceId} />}
-      />
-      {/* </ReceiptModal> */}
+      <ReceiptModal modalId="showInvoice">
+        <ServiceReciept
+          services={services}
+          isFetchingServices={isFetchingServices}
+        />
+      </ReceiptModal>
     </Fragment>
   );
 });
 
-const ServiceInvoiceTableAction = ({ serviceInvoice, user, setInvoiceId }) => {
+const ServiceInvoiceTableAction = ({
+  serviceInvoice,
+  user,
+  fetchServicesInAnInvocice,
+}) => {
   const { userType } = user;
   return (
     <ActionButton>
@@ -181,7 +198,7 @@ const ServiceInvoiceTableAction = ({ serviceInvoice, user, setInvoiceId }) => {
           data-toggle="modal"
           data-target="#showInvoice"
           className="btn btn-sm btn-block"
-          onClick={() => setInvoiceId(serviceInvoice.id)}
+          onClick={() => fetchServicesInAnInvocice(serviceInvoice.id)}
         >
           <span className="btn-icon icofont-server mr-2" />
           View Reciept
