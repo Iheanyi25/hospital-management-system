@@ -139,7 +139,7 @@ const ManageAdmissions = observer(() => {
           <div className="page-content">
             <TableSize
               size={data?.admissions.length}
-              heading="No of Patients admitted"
+              heading="No. of Patients admitted"
               icon=""
             />
           </div>

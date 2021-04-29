@@ -67,7 +67,7 @@ const AdministerDrugMedications = observer(({ admissionId, admissionInvoiceId, d
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-body">
-              <h5 className="text-center">Observation Chart</h5>
+              <h5 className="text-center">Administer Drug</h5>
               <form className="p-5" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Number of Cartons</label>
