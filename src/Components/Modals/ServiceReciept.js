@@ -17,7 +17,14 @@ const ServiceReciept = ({ invoiceId }) => {
   return (
     <div>
       {data ? (
-        <ServiceInvoiceBody service={data?.serviceRequests} />
+        <>
+          <ReceiptHeader
+            invoiceNumber={
+              data?.serviceRequests[0]?.serviceInvoice?.invoiceNumber
+            }
+          />
+          <ServiceInvoiceBody service={data?.serviceRequests} />
+        </>
       ) : (
         <Loader />
       )}
@@ -37,7 +44,7 @@ const Loader = () => {
   );
 };
 
-const ServiceInvoiceBody = ({ service, generateInvoice }) => {
+const ServiceInvoiceBody = ({ service }) => {
   console.log(service, 57757);
   const totalPrice = service?.reduce(
     (amount, newAmount) => amount + newAmount.cost,
@@ -51,148 +58,119 @@ const ServiceInvoiceBody = ({ service, generateInvoice }) => {
       service[0]?.serviceInvoice?.amountToBePaidByPatient
     }`;
   return (
-    <div
-      className="modal fade"
-      id="showInvoice"
-      tabIndex={-1}
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-lg modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header"></div>
-          <div className="modal-body p-0">
-            <ReceiptHeader
-              invoiceNumber={service[0]?.serviceInvoice?.invoiceNumber}
-            />
-            <div className="container">
-              <div className="row py-4 px-5">
-                <div className="col-6">
-                  <h6 className="mb-0">Bill to:</h6>
-                  <p className="mb-0">
-                    {service &&
-                      `${service[0]?.serviceInvoice?.patient?.firstName} ${service[0]?.serviceInvoice?.patient?.lastName}`}
-                  </p>
-                  <p className="mb-0">957 North Street</p>
-                  <p className="mb-0">Enugu</p>
-                  <p>Nigeria</p>
-                </div>
-                <div className="col-6">
-                  <h6 className="mb-0">Bill from:</h6>
-                  <p className="mb-0">Hospitals Name</p>
-                  <p className="mb-0">957 South Street</p>
-                  <p className="mb-0">Enugu</p>
-                  <p>Nigeria</p>
-                </div>
-              </div>
+    <div className="modal-body p-0">
+      <div className="container">
+        <div className="row py-4 px-5">
+          <div className="col-6">
+            <h6 className="mb-0">Bill to:</h6>
+            <p className="mb-0">
+              {service &&
+                `${service[0]?.serviceInvoice?.patient?.firstName} ${service[0]?.serviceInvoice?.patient?.lastName}`}
+            </p>
+            <p className="mb-0">957 North Street</p>
+            <p className="mb-0">Enugu</p>
+            <p>Nigeria</p>
+          </div>
+          <div className="col-6">
+            <h6 className="mb-0">Bill from:</h6>
+            <p className="mb-0">Hospitals Name</p>
+            <p className="mb-0">957 South Street</p>
+            <p className="mb-0">Enugu</p>
+            <p>Nigeria</p>
+          </div>
+        </div>
+      </div>
+      <div className="bg-light">
+        <div className="container">
+          <div className="row px-5">
+            <div className="col-6">
+              <h6 className="my-3">Item</h6>
             </div>
-            <div className="bg-light">
-              <div className="container">
-                <div className="row px-5">
-                  <div className="col-6">
-                    <h6 className="my-3">Item</h6>
-                  </div>
 
-                  <div className="col-3">
-                    <h6 className="my-3">Cost</h6>
-                  </div>
-                  <div className="col-3 px-0 text-right">
-                    <h6 className="my-3 px-0">Price Paid</h6>
-                  </div>
-                </div>
-              </div>
+            <div className="col-3">
+              <h6 className="my-3">Cost</h6>
             </div>
-            <div className="container px-5 py-4">
-              {service?.map((services, index) => (
-                <div key={index}>
-                  <div className="row">
-                    <div className="col-6">
-                      <h6 className="my-2">{services?.service?.name}</h6>
-                    </div>
-                    <div className="col-6">
-                      <div className="row">
-                        <div className="col-6">
-                          <p>&#8358; {services?.service?.cost}</p>
-                        </div>
-                        <div className="col-6">
-                          <p className="text-right">&#8358; {services.cost}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="col-3 px-0 text-right">
+              <h6 className="my-3 px-0">Price Paid</h6>
             </div>
-            <div className="container">
-              <div className="row px-5">
-                <div className="col-6"></div>
-                <div className="col-6">
-                  <div className="row">
-                    <span className="border border-4 border-dark mb-2 w-100"></span>
-                    <div className="col-6">
-                      <p>Subtotal</p>
-                    </div>
-                    <div className="col-6 text-right">
-                      <p>
-                        &#8358;{" "}
-                        {service &&
-                          `${formatAmount(
-                            service[0]?.serviceInvoice?.amountTotal
-                          )}`}
-                      </p>
-                    </div>
+          </div>
+        </div>
+      </div>
+      <div className="container px-5 py-4">
+        {service?.map((services, index) => (
+          <div key={index}>
+            <div className="row">
+              <div className="col-6">
+                <h6 className="my-2">{services?.service?.name}</h6>
+              </div>
+              <div className="col-6">
+                <div className="row">
+                  <div className="col-6">
+                    <p>&#8358; {services?.service?.cost}</p>
                   </div>
-                  <div className="row">
-                    <div className="col-6">
-                      <p>Insurance discount</p>
-                    </div>
-                    <div className="col-6 text-right">
-                      <p>&#8358; - {userInsurance}</p>
-                    </div>
-                    <span className="border border-4 border-dark m-2 w-100"></span>
+                  <div className="col-6">
+                    <p className="text-right">&#8358; {services.cost}</p>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="container px-5">
-              <div className="row">
-                <div className="col-6"></div>
-                <div className="col-6">
-                  <div className="row">
-                    <div className="col-6">
-                      <p>Invoice Total</p>
-                    </div>
-                    <div className="col-6 text-right">
-                      {formatAmount(totalPrice)} NGN
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p className="mb-0">Payments method</p>
-                <p>
-                  &#8358;{" "}
-                  {`${
-                    service &&
-                    `${formatAmount(totalPrice)} payment by ${
-                      service[0]?.serviceInvoice.paymentMethod
-                    }`
-                  }`}
-                </p>
               </div>
             </div>
           </div>
-          {/* <div className="modal-footer bg-white">
-            <div className="actions ">
-              <button
-                type="button"
-                className="btn text-light btn-primary"
-                onClick={generateInvoice}
-              >
-                Generate Invoice
-              </button>
+        ))}
+      </div>
+      <div className="container">
+        <div className="row px-5">
+          <div className="col-6"></div>
+          <div className="col-6">
+            <div className="row">
+              <span className="border border-4 border-dark mb-2 w-100"></span>
+              <div className="col-6">
+                <p>Subtotal</p>
+              </div>
+              <div className="col-6 text-right">
+                <p>
+                  &#8358;{" "}
+                  {service &&
+                    `${formatAmount(service[0]?.serviceInvoice?.amountTotal)}`}
+                </p>
+              </div>
             </div>
-          </div> */}
+            <div className="row">
+              <div className="col-6">
+                <p>Insurance discount</p>
+              </div>
+              <div className="col-6 text-right">
+                <p>&#8358; - {userInsurance}</p>
+              </div>
+              <span className="border border-4 border-dark m-2 w-100"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container px-5">
+        <div className="row">
+          <div className="col-6"></div>
+          <div className="col-6">
+            <div className="row">
+              <div className="col-6">
+                <p>Invoice Total</p>
+              </div>
+              <div className="col-6 text-right">
+                {formatAmount(totalPrice)} NGN
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p className="mb-0">Payments method</p>
+          <p>
+            &#8358;{" "}
+            {`${
+              service &&
+              `${formatAmount(totalPrice)} payment by ${
+                service[0]?.serviceInvoice.paymentMethod
+              }`
+            }`}
+          </p>
         </div>
       </div>
     </div>
