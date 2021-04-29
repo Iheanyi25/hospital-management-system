@@ -38,7 +38,6 @@ const ManageServiceRequest = observer(() => {
     revalidateOnFocus: false,
   });
   const fetchServicesInAnInvocice = async (invoiceId) => {
-    console.log(439545, "Hii");
     setIsFetchingServices(true);
     const getServicesInAnInvoice = getServicesInAnInvoiceUrl(invoiceId, 1, 200);
     const getServiceInvoiceConfig = fetchConfig({

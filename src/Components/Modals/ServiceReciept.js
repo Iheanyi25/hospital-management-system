@@ -2,8 +2,7 @@ import React from "react";
 import formatAmount from "../../utils/formatAmount";
 import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
 
-const ServiceReciept = ({ services, isFetchingServices }) => {
-  console.log(isFetchingServices,4343);
+const ServiceReciept = ({ services, isFetchingServices }) => {s
   return (
     <div>
       {isFetchingServices ? (
@@ -33,7 +32,6 @@ const Loader = () => {
 };
 
 const ServiceInvoiceBody = ({ service }) => {
-  console.log(service, 57757);
   const totalPrice = service?.reduce(
     (amount, newAmount) => amount + newAmount.cost,
     0
