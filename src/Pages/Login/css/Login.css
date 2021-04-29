@@ -18,6 +18,10 @@
   background-size: cover;
   overflow-y: scroll;
 }
+.scroll-property{
+  overflow-y: auto;
+  height: 100vh;
+}
 .auth-background .row {
   /* margin-top: 10%; */
   min-height: 100vh;

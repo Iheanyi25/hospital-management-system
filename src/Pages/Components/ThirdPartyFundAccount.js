@@ -64,7 +64,7 @@ const ThirdPartyFundAccount = ({ match }) => {
       <div className="row h-100">
         <div className="col-12 col-md-4 d-flex align-items-center justify-content-center">
           <div className="card border-light" style={{ width: "29rem" }}>
-            <div className="card-body">
+            <div className="card-body scroll-property">
               <form className="mb-4 p-5">
                 <h4 className="text-center">Fund patient’s account</h4>
                 <div className="text-center mb-4 mt-4">
@@ -75,7 +75,7 @@ const ThirdPartyFundAccount = ({ match }) => {
                       width: "48px",
                       borderRadius: "50%",
                     }}
-                    alt="user"
+                    // alt="user"
                   />
                 </div>
                 <div className="form-group">
