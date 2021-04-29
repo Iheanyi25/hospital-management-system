@@ -22,7 +22,7 @@ export function validatePhoneNumber(phoneNum) {
 }
 
 export function formatPhoneNumber(phoneNumber) {
-   if(phoneNumber.slice(0,3) === "234"){
+   if(phoneNumber?.slice(0,3) === "234"){
        return `+${phoneNumber}`
    }
    return phoneNumber;

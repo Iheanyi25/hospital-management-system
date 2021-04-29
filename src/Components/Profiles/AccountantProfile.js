@@ -35,7 +35,7 @@ function AccountantProfile({ AccountantId }) {
                 image={AccountantImage}
               />
               <ContactDetail
-                otherDetails={data}
+                otherDetails={data.accountant}
                 primaryDetails={data.accountant}
                 userId={data.accountant.accountantId}
                 mutate={mutate}

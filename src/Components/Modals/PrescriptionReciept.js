@@ -8,20 +8,19 @@ const PrescriptionReciept = ({ costingDetails, isFetchingDrugs }) => {
     0
   );
 
-  const doctor = costingDetails[0]?.clerking?.doctor;
-  const patient = costingDetails[0]?.clerking?.patient;
-
   return (
     <div>
       {isFetchingDrugs ? (
         <Loader />
       ) : (
         <>
-          <ReceiptHeader patient={patient} />
+          <ReceiptHeader
+            invoiceNumber={
+              costingDetails[0]?.drugDispensingInvoice?.invoiceNumber
+            }
+          />
           <PrescriptionReceiptBody
-            doctor={doctor}
             totalPrice={totalPrice}
-            // costPrice={costPrice}
             costingDetails={costingDetails}
           />
         </>
@@ -42,23 +41,12 @@ const Loader = () => {
   );
 };
 
-const PrescriptionReceiptBody = ({
-  doctor,
-  costPrice,
-  totalPrice,
-  costingDetails,
-}) => {
+const PrescriptionReceiptBody = ({ totalPrice, costingDetails }) => {
   console.log(costingDetails, 22223);
   const patient = costingDetails[0]?.drugDispensingInvoice?.clerking?.patient;
   const userInsurance =
     costingDetails[0]?.drugDispensingInvoice?.amountTotal -
     costingDetails[0]?.drugDispensingInvoice?.amountToBePaidByPatient;
-  console.log(
-    userInsurance,
-    111,
-    costingDetails[0]?.drugDispensingInvoice.amountTotal,
-    "i don taya"
-  );
   return (
     <div>
       <div className="modal-body p-0">
@@ -114,10 +102,8 @@ const PrescriptionReceiptBody = ({
                     <div className="col-6">
                       <p>
                         {" "}
-                        {`${Number(detail?.numberOfUnits) ?? 0} packs, `}{" "}
-                        {`${
-                          Number(detail?.numberOfContainers) ?? 0
-                        }  tablets, `}
+                        {`${Number(detail?.numberOfUnits) ?? 0} tablets, `}{" "}
+                        {`${Number(detail?.numberOfContainers) ?? 0}  packs, `}
                         {`${Number(detail?.numberOfCartons) ?? 0}  cartons`}
                       </p>
                     </div>
@@ -142,7 +128,12 @@ const PrescriptionReceiptBody = ({
                   <p>Subtotal</p>
                 </div>
                 <div className="col-6 text-right">
-                  <p>&#8358; {formatAmount(costingDetails[0]?.drugDispensingInvoice.amountTotal)}</p>
+                  <p>
+                    &#8358;{" "}
+                    {formatAmount(
+                      costingDetails[0]?.drugDispensingInvoice.amountTotal
+                    )}
+                  </p>
                 </div>
               </div>
               <div className="row">
@@ -168,14 +159,17 @@ const PrescriptionReceiptBody = ({
                 <div className="col-6 text-right">
                   {formatAmount(totalPrice)} NGN
                 </div>
-                {/* <div className="col-3">
-                    <p>&#8358; </p> */}
               </div>
             </div>
           </div>
           <div>
-            <p className="mb-0">Payments method</p>
-            <p>&#8358; {` ${formatAmount(totalPrice)} payment by ${costingDetails[0]?.drugDispensingInvoice.paymentMethod}`}</p>
+            <p className="mb-0">Payment method</p>
+            <p>
+              &#8358;{" "}
+              {` ${formatAmount(totalPrice)} payment by ${
+                costingDetails[0]?.drugDispensingInvoice.paymentMethod
+              }`}
+            </p>
           </div>
         </div>
       </div>

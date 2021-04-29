@@ -41,7 +41,6 @@ export default function EditInfo({
     country: otherDetails.country || "",
   });
   const [IsValidPhone, setIsValidPhoneState] = useState(Boolean(primaryDetails.phoneNumber));
-
   const handleChange = (e) => {
     e.persist();
     setDetails((state) => ({ ...state, [e.target.name]: e.target.value }));
@@ -52,7 +51,6 @@ export default function EditInfo({
   };
 
   const { userId, dateOfBirth, gender, ...contactInfo } = details;
-console.log(userId, "user Id");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const allowSubmission =
@@ -136,8 +134,8 @@ const getUrls = {
     basic: updatePharmacistBasicInfoUrl(),
     contact: updatePharmacistContactDetailsUrl(),
   },
-  lab: {
-    id: "labId",
+  labattendant: {
+    id: "LabId",
     basic: updateLabTechnicianBasicInfoUrl(),
     contact: updateLabTechnicianContactDetailsUrl(),
   },

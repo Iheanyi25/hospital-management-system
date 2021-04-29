@@ -1,11 +1,11 @@
 import React from "react";
-import formatDate from "../../utils/formatDate";
 import { getServicesInAnInvoiceUrl } from "../../api/URLs";
 import formatAmount from "../../utils/formatAmount";
 import { fetchConfig } from "../../api/fetchConfig";
 import { useRequest } from "../../api/fetcher";
+import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
 
-const ServiceInvoice = ({ isFetchingDrugs, invoiceId }) => {
+const ServiceReciept = ({ invoiceId }) => {
   const getServicesInAnInvoice = getServicesInAnInvoiceUrl(invoiceId, 1, 200);
   const getServiceInvoiceConfig = fetchConfig({
     url: getServicesInAnInvoice,
@@ -16,20 +16,16 @@ const ServiceInvoice = ({ isFetchingDrugs, invoiceId }) => {
   });
   return (
     <div>
-      {isFetchingDrugs ? (
-        <Loader />
+      {data ? (
+        <ServiceInvoiceBody service={data?.serviceRequests} />
       ) : (
-        <>
-          <ServiceInvoiceBody
-            service={data?.serviceRequests}
-          />
-        </>
+        <Loader />
       )}
     </div>
   );
 };
 
-export { ServiceInvoice };
+export { ServiceReciept };
 
 const Loader = () => {
   return (
@@ -41,13 +37,7 @@ const Loader = () => {
   );
 };
 
-const ServiceInvoiceBody = ({
-  service,
-  costingDetails,
-  doctor,
-  patient,
-  generateInvoice,
-}) => {
+const ServiceInvoiceBody = ({ service, generateInvoice }) => {
   console.log(service, 57757);
   const totalPrice = service?.reduce(
     (amount, newAmount) => amount + newAmount.cost,
@@ -72,30 +62,9 @@ const ServiceInvoiceBody = ({
         <div className="modal-content">
           <div className="modal-header"></div>
           <div className="modal-body p-0">
-            <div className="bg-light p-5">
-              <div className="container">
-                <div className="row align-items-baseline">
-                  <div className="col">
-                    <div className="logo-wrap">
-                      <img
-                        src="../../assets/img/logo.svg"
-                        width={147}
-                        height={33}
-                        className="logo-img"
-                        alt="Hello"
-                      />
-                    </div>
-                  </div>
-                  <div className="col">
-                    <h3>Invoice</h3>
-                    <h6 className="mb-0">Invoice number:</h6>
-                    <p>12345668</p>
-                    <h6 className="mb-0">Date: </h6>
-                    <p className="">{formatDate(Date.now())}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ReceiptHeader
+              invoiceNumber={service[0]?.serviceInvoice?.invoiceNumber}
+            />
             <div className="container">
               <div className="row py-4 px-5">
                 <div className="col-6">
@@ -203,14 +172,17 @@ const ServiceInvoiceBody = ({
                 <p className="mb-0">Payments method</p>
                 <p>
                   &#8358;{" "}
-                  {`${service && `${formatAmount(totalPrice)} payment by ${
-                    service[0]?.serviceInvoice.paymentMethod
-                  }`}`}
+                  {`${
+                    service &&
+                    `${formatAmount(totalPrice)} payment by ${
+                      service[0]?.serviceInvoice.paymentMethod
+                    }`
+                  }`}
                 </p>
               </div>
             </div>
           </div>
-          <div className="modal-footer bg-white">
+          {/* <div className="modal-footer bg-white">
             <div className="actions ">
               <button
                 type="button"
@@ -220,7 +192,7 @@ const ServiceInvoiceBody = ({
                 Generate Invoice
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

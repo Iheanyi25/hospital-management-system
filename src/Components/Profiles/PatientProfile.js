@@ -26,11 +26,9 @@ class PatientProfile extends React.Component {
 
   fetchPatientDetails = async () => {
     try {
-      console.log(this.props.patientId);
       const getPatient = getPatientUrl(this.props.patientId);
       const getPatientConfig = fetchConfig({ url: getPatient, method: "get" });
       const { data } = await fetchWrapper(getPatientConfig);
-
       this.setState({
         patientDetails: data.patient,
         loading: false,

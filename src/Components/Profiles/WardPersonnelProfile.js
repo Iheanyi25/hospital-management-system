@@ -34,7 +34,7 @@ function WardPersonnelProfile({ wardPersonnelId }) {
                 image={LabImage}
               />
               <ContactDetail
-                otherDetails={data}
+                otherDetails={data.wardPersonnel}
                 primaryDetails={data.wardPersonnel}
                 userId={data.wardPersonnel.wardPersonnelId}
                 mutate={mutate}
