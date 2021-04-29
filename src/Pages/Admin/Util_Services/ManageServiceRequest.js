@@ -15,7 +15,7 @@ import { toJS } from "mobx";
 import TableSize from "../../../Components/DataTable/TableSize";
 import ActionButton from "../../../Components/DataTable/ActionButton";
 import { ServiceReciept } from "../../../Components/Modals/ServiceReciept";
-// import ReceiptModal from "../../../Components/Modals/ReceiptModal";
+import ReceiptModal from "../../../Components/Modals/ReceiptModal";
 
 const ManageServiceRequest = observer(() => {
   const [invoiceId, setInvoiceId] = useState("");
@@ -120,7 +120,11 @@ const ManageServiceRequest = observer(() => {
           </div>
         </div>
       </main>
-      <ServiceReciept invoiceId={invoiceId} />
+      <ReceiptModal
+        modalId="showInvoice"
+        children={<ServiceReciept invoiceId={invoiceId} />}
+      />
+      {/* </ReceiptModal> */}
     </Fragment>
   );
 });
