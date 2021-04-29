@@ -14,8 +14,11 @@ import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import TableSize from "../../../Components/DataTable/TableSize";
 import ActionButton from "../../../Components/DataTable/ActionButton";
+import { ServiceInvoice } from "../../../Components/Modals/ServiceInvoice";
+// import ReceiptModal from "../../../Components/Modals/ReceiptModal";
 
 const ManageServiceRequest = observer(() => {
+  const [invoiceId, setInvoiceId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const {
@@ -73,6 +76,7 @@ const ManageServiceRequest = observer(() => {
           <ServiceInvoiceTableAction
             serviceInvoice={serviceInvoice}
             user={user}
+            setInvoiceId={setInvoiceId}
           />
         ),
       };
@@ -116,11 +120,12 @@ const ManageServiceRequest = observer(() => {
           </div>
         </div>
       </main>
+      <ServiceInvoice invoiceId={invoiceId} />
     </Fragment>
   );
 });
 
-const ServiceInvoiceTableAction = ({ serviceInvoice, user }) => {
+const ServiceInvoiceTableAction = ({ serviceInvoice, user, setInvoiceId }) => {
   const { userType } = user;
   return (
     <ActionButton>
@@ -167,6 +172,15 @@ const ServiceInvoiceTableAction = ({ serviceInvoice, user }) => {
         <span className="btn-icon icofont-server mr-2" />
         View Content
       </NavLink>
+      <button
+        data-toggle="modal"
+        data-target="#showInvoice"
+        className="btn btn-sm btn-block"
+        onClick={() => setInvoiceId(serviceInvoice.id)}
+      >
+        <span className="btn-icon icofont-server mr-2" />
+        View Reciept
+      </button>
     </ActionButton>
   );
 };

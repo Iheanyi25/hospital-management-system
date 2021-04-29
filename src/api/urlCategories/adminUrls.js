@@ -119,4 +119,3 @@ export const postPayPatientRegistrationFeeWithAccountUrl = () =>
 // Admin - Manage Admission
 export const getAdmissionsWithoutBedUrl = (pageNumber, pageSize) =>
   `/Admission/GetAdmissionsWithoutBed?PageNumber=${pageNumber}&PageSize=${pageSize}`;
-
