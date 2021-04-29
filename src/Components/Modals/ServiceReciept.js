@@ -1,32 +1,19 @@
 import React from "react";
-import { getServicesInAnInvoiceUrl } from "../../api/URLs";
 import formatAmount from "../../utils/formatAmount";
-import { fetchConfig } from "../../api/fetchConfig";
-import { useRequest } from "../../api/fetcher";
 import ReceiptHeader from "../../Pages/Admin/RecieptHeader";
 
-const ServiceReciept = ({ invoiceId }) => {
-  const getServicesInAnInvoice = getServicesInAnInvoiceUrl(invoiceId, 1, 200);
-  const getServiceInvoiceConfig = fetchConfig({
-    url: getServicesInAnInvoice,
-    method: "get",
-  });
-  const { data } = useRequest(getServiceInvoiceConfig, {
-    revalidateOnFocus: false,
-  });
+const ServiceReciept = ({ services, isFetchingServices }) => {s
   return (
     <div>
-      {data ? (
+      {isFetchingServices ? (
+        <Loader />
+      ) : (
         <>
           <ReceiptHeader
-            invoiceNumber={
-              data?.serviceRequests[0]?.serviceInvoice?.invoiceNumber
-            }
+            invoiceNumber={services[0]?.serviceInvoice?.invoiceNumber}
           />
-          <ServiceInvoiceBody service={data?.serviceRequests} />
+          <ServiceInvoiceBody service={services} />
         </>
-      ) : (
-        <Loader />
       )}
     </div>
   );
@@ -45,7 +32,6 @@ const Loader = () => {
 };
 
 const ServiceInvoiceBody = ({ service }) => {
-  console.log(service, 57757);
   const totalPrice = service?.reduce(
     (amount, newAmount) => amount + newAmount.cost,
     0
