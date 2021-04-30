@@ -31,7 +31,7 @@ const RejectAppointment = ({ appointmentId, refresh, doctorId }) => {
           url: getUpdate,
           method: "get",
         });
-        await mutate(getUpdateConfig);
+        await mutate(JSON.stringify(getUpdateConfig));
         await refresh();
         $("#reject-appointment").modal("hide");
       }
