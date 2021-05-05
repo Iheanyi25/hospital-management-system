@@ -23,13 +23,13 @@ export default function DoctorPatientList({
             className="rounded-500"
           />
         ),
-        "Patient Name": `${patient.patient.firstName} ${patient.patient.lastName}`,
+        "Patient Name": `${patient.firstName} ${patient.lastName}`,
         Email: (
-          <a href={"mailto:" + patient.patient.email}>
-            {patient.patient.email}
+          <a href={"mailto:" + patient.email}>
+            {patient.email}
           </a>
         ),
-        Phone: patient.patient.phoneNumber || "Not available",
+        Phone: patient.phoneNumber || "Not available",
         Actions:
           patientListId === "my-patient" ? (
             <MyPatientListTableAction patient={patient} />

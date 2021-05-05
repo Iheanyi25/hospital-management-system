@@ -52,7 +52,7 @@ function PendingAppointmentsTableContainer({ doctorId }) {
           url: getUpdate,
           method: "get",
         });
-        await mutate(getUpdateConfig);
+        mutate(JSON.stringify(getUpdateConfig));
         console.log(mutate, 3333);
         await refresh();
       }
