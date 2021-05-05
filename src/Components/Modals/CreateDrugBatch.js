@@ -61,7 +61,7 @@ const CreateDrugBatch = ({ drugId, mutate }) => {
             <h5 className="text-center">Add New Batch</h5>
             <form className="p-5" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Quantity in stock</label>
+                <label>Quantity</label>
                 <input
                   className="form-control"
                   type="number"
