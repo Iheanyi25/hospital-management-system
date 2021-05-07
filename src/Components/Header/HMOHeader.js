@@ -79,7 +79,7 @@ const HMOHeader = () => {
               <div className="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
                 <ul className="list">
                   <li>
-                    <Link to="/PharmacyProfile" className="align-items-center">
+                    <Link to="/HMOProfile" className="align-items-center">
                       <span className="icon icofont-ui-user" /> User profile
                     </Link>
                   </li>
