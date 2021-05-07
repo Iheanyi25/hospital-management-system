@@ -27,9 +27,9 @@ function HMOProfile({ hmoId }) {
 						<div className="page-content">
 							<Bio bioDetails={data.hmoAdmin} user="hmoAdmin" image={LabImage} />
 							<ContactDetail
-								otherDetails={data}
+								otherDetails={data.hmoAdmin}
 								primaryDetails={data.hmoAdmin}
-								userId={data.hmoAdmin}
+								userId={data.hmoAdmin.hmoAdminId}
 								mutate={mutate}
 							/>
 						</div>
