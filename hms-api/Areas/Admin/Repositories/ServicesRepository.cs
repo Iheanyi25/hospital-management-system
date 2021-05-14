@@ -191,13 +191,25 @@ namespace HMS.Areas.Admin.Repositories
                                          Amount = HMOHealthPlanServicePrice.Price,
                                          PaymentStatus = "Awaiting HMO Payment",
                                          ServiceInvoiceId = invoiceId,
-                                         AppointmentId = serviceRequest.Id
-                                     });
+                                         AppointmentId = serviceRequest.Id,
+                                         PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name
+                                 });
 
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                    new ServiceRequest
+                                    {
+                                        ServiceId = serviceRequest.ServiceId[i],
+                                        Amount = service.Cost,
+                                        PaymentStatus = "Not Paid",
+                                        ServiceInvoiceId = invoiceId,
+                                        AppointmentId = serviceRequest.Id,
+                                        PriceCalculationFormular =  "Default Price"
+
+                                    });
+
                             }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
@@ -213,12 +225,23 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = HMOHealthPlanServicePrice.Price,
                                         PaymentStatus = "Awaiting HMO Payment",
                                         ServiceInvoiceId = invoiceId,
-                                        AppointmentId = serviceRequest.Id
+                                        AppointmentId = serviceRequest.Id,
+                                        PriceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name
+
                                     });
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       AppointmentId = serviceRequest.Id,
+                                       PriceCalculationFormular = "Default Price"
+                                   });
                             }
                         }
 
@@ -235,15 +258,40 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = service.Cost * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100,
                                         PaymentStatus = "Not Paid",
                                         ServiceInvoiceId = invoiceId,
-                                        AppointmentId = serviceRequest.Id
-                                    });
+                                        AppointmentId = serviceRequest.Id,
+                                        PriceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name
+                            });
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       AppointmentId = serviceRequest.Id,
+                                       PriceCalculationFormular = "Default Price"
+                                   
+                                   });
                             }
                         }
+                        else
+                        {
+                            await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       AppointmentId = serviceRequest.Id,
+                                       PriceCalculationFormular = "Default Price"
+                                   });
+                        }
                     }
+                    
                 }
                 else if (serviceRequest.IdType.ToLower() == "consultation")
                 {
@@ -263,13 +311,24 @@ namespace HMS.Areas.Admin.Repositories
                                          Amount = HMOHealthPlanServicePrice.Price,
                                          PaymentStatus = "Awaiting HMO Payment",
                                          ServiceInvoiceId = invoiceId,
-                                         ConsultationId = serviceRequest.Id
+                                         ConsultationId = serviceRequest.Id,
+                                         PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name
+
                                      });
 
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       ConsultationId = serviceRequest.Id,
+                                       PriceCalculationFormular = "Default Price"
+                                   });
                             }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
@@ -285,12 +344,24 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = HMOHealthPlanServicePrice.Price,
                                         PaymentStatus = "Awaiting HMO Payment",
                                         ServiceInvoiceId = invoiceId,
-                                        ConsultationId = serviceRequest.Id
+                                        ConsultationId = serviceRequest.Id,
+                                        PriceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name
+
                                     });
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                    new ServiceRequest
+                                    {
+                                        ServiceId = serviceRequest.ServiceId[i],
+                                        Amount = service.Cost,
+                                        PaymentStatus = "Not Paid",
+                                        ServiceInvoiceId = invoiceId,
+                                        ConsultationId = serviceRequest.Id,
+                                        PriceCalculationFormular = "Default Price",
+
+                                    });
                             }
                         }
 
@@ -307,13 +378,37 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = service.Cost * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100,
                                         PaymentStatus = "Not Paid",
                                         ServiceInvoiceId = invoiceId,
-                                        ConsultationId = serviceRequest.Id
+                                        ConsultationId = serviceRequest.Id,
+                                        PriceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name
+
                                     });
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       ConsultationId = serviceRequest.Id,
+                                       PriceCalculationFormular = "Default Price"
+                                   });
                             }
+                        }
+                        else
+                        {
+                            await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       ConsultationId = serviceRequest.Id,
+                                       PriceCalculationFormular = "Default Price"
+                                   });
                         }
                     }
                 }
@@ -321,6 +416,7 @@ namespace HMS.Areas.Admin.Repositories
                 {
                     for (int i = 0; i < serviceRequest.ServiceId.Count; i++)
                     {
+                        var service = _applicationDbContext.Services.Find(serviceRequest.ServiceId[i]);
                         if (HMOHealthPlanPatient != null)
                         {
                             var HMOHealthPlanServicePrice = await _applicationDbContext.HMOHealthPlanServicePrices.Where(p => p.HMOHealthPlanId == HMOHealthPlanPatient.HMOHealthPlanId && p.ServiceId == serviceRequest.ServiceId[i]).FirstOrDefaultAsync();
@@ -334,13 +430,23 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = HMOHealthPlanServicePrice.Price,
                                         PaymentStatus = "Awaiting HMO Payment",
                                         ServiceInvoiceId = invoiceId,
-                                        
+                                        PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name
+
                                     });
 
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       PriceCalculationFormular = "Default Price"
+
+                                   });
                             }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
@@ -356,12 +462,23 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = HMOHealthPlanServicePrice.Price,
                                         PaymentStatus = "Awaiting HMO Payment",
                                         ServiceInvoiceId = invoiceId,
-                                        ConsultationId = serviceRequest.Id
+                                        PriceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name
+
+
                                     });
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       PriceCalculationFormular = "Default Price"
+
+                                   });
                             }
                         }
 
@@ -371,7 +488,7 @@ namespace HMS.Areas.Admin.Repositories
 
                             if (NHISService != null)
                             {
-                                var service = _applicationDbContext.Services.Find(serviceRequest.ServiceId[i]);
+                                //var service = _applicationDbContext.Services.Find(serviceRequest.ServiceId[i]);
                                 await _applicationDbContext.ServiceRequests.AddAsync(
                                     new ServiceRequest
                                     {
@@ -379,12 +496,36 @@ namespace HMS.Areas.Admin.Repositories
                                         Amount = service.Cost * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100,
                                         PaymentStatus = "Not Paid",
                                         ServiceInvoiceId = invoiceId,
+                                        PriceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name
+
                                     });
                             }
                             else
                             {
-                                return false;
+                                await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       PriceCalculationFormular = "Default Price"
+
+                                   });
                             }
+                        }
+                        else
+                        {
+                            await _applicationDbContext.ServiceRequests.AddAsync(
+                                   new ServiceRequest
+                                   {
+                                       ServiceId = serviceRequest.ServiceId[i],
+                                       Amount = service.Cost,
+                                       PaymentStatus = "Not Paid",
+                                       ServiceInvoiceId = invoiceId,
+                                       PriceCalculationFormular = "Default Price"
+
+                                   });
                         }
                     }
                 }
@@ -447,12 +588,15 @@ namespace HMS.Areas.Admin.Repositories
                         {
                             priceTotal = HMOHealthPlanServicePrice.Price;
                             AmountToBePaidByPatient = 0;
-                            priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+                           
                         }
                         else
                         {
-                            return "-1";
+                            priceTotal = service.Cost;
+                            AmountToBePaidByPatient = service.Cost;
+                           
                         }
+                        priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
                     }
                     else if (HMOHealthPlanSubGroupPatient != null)
                     {
@@ -462,27 +606,30 @@ namespace HMS.Areas.Admin.Repositories
                         {
                             priceTotal = HMOHealthPlanServicePrice.Price;
                             AmountToBePaidByPatient = 0;
-                            priceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name;
+                            
                         }
                         else
                         {
-                            return "-1";
+                            priceTotal = service.Cost;
+                            AmountToBePaidByPatient = service.Cost;
+                            
                         }
+                        priceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name;
                     }
                     else if (NHISHealthPlanPatient != null)
                     {
                        var NHISService = await _applicationDbContext.NHISHealthPlanServices.Where(p => p.NHISHealthPlanId == NHISHealthPlanPatient.NHISHealthPlanId && p.ServiceId == service.Id).FirstOrDefaultAsync();
                         if (NHISService != null)
-                        {
-
+                        { 
                             priceTotal = service.Cost;
                             AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
-                            priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
                         }
                         else
                         {
-                            return "-1";
+                            priceTotal = service.Cost;
+                            AmountToBePaidByPatient = service.Cost;
                         }
+                        priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
                     }
 
                     else
@@ -507,7 +654,8 @@ namespace HMS.Areas.Admin.Repositories
                         AmountToBePaidByPatient = amountDue,
                         AmountToBePaidByHMO = HMOAmount,
                         PaymentStatus = "Awaiting HMO Payment",
-                        PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name,
+                        PaymentMethod = "HMO",
+                        PriceCalculationFormular = priceCalculationFormular,
                         GeneratedBy = serviceRequest.GeneratedBy,
                         PatientId = serviceRequest.PatientId
                     };
@@ -526,6 +674,7 @@ namespace HMS.Areas.Admin.Repositories
                         AmountToBePaidByPatient = amountDue,
                         AmountToBePaidByHMO = HMOAmount,
                         PaymentStatus = "NOT PAID",
+                        PriceCalculationFormular = priceCalculationFormular,
                         GeneratedBy = serviceRequest.GeneratedBy,
                         PatientId = serviceRequest.PatientId
                     };
@@ -863,7 +1012,7 @@ namespace HMS.Areas.Admin.Repositories
 
         public async Task<ServiceRequest> GetServiceRequest(string serviceRequestId) => await _applicationDbContext.ServiceRequests.Where(s => s.Id == serviceRequestId).Include(s => s.ServiceInvoice).Include(s => s.Service).ThenInclude(s => s.ServiceCategory).FirstOrDefaultAsync();
 
-        public async Task<int> GetServiceRequestCount() => await _applicationDbContext.ServiceRequests.Where(s => s.Status == "Awaiting Result").CountAsync();
+        public async Task<int> GetServiceRequestCount() => await _applicationDbContext.ServiceRequests.CountAsync();
       
         public async Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResults(string serviceRequestId)
         {
@@ -974,6 +1123,15 @@ namespace HMS.Areas.Admin.Repositories
                 return PagedList<ServiceRequestDtoForView>.ToPagedList(servicesRequestsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
             }
             return null;
+        }
+
+        public IEnumerable<string> GetServiceRequestResultFiles(string serviceRequestId)
+        {
+            var folderName = Path.Combine("wwwroot", "Images");
+            var pathToRead = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            var photos = Directory.EnumerateFiles(pathToRead).Select(fullPath => Path.Combine(folderName, Path.GetFileName(fullPath))); 
+            var serviceRequestResultsFiles = _applicationDbContext.ServiceRequestResultImages.Include(s => s.ServiceRequestResult).Where(s => s.ServiceRequestResult.ServiceRequestId == serviceRequestId).ToList();
+            return photos;   
         }
     }
 }

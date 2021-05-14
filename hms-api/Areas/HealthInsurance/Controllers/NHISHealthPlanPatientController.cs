@@ -175,20 +175,13 @@ namespace HMS.Areas.HealthInsurance.Controllers
             });
         }
 
-        [Route("UpdatePatientNHISHealthPlan")]
+        [Route("RequestSecondaryService")]
         [HttpPost]
         public async Task<IActionResult> UpdatePatientNHISHealthPlan(NHISHealthPlanPatientDtoForUpdate nHISHealthPlanPatient)
         {
             if (nHISHealthPlanPatient == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
-            }
-
-            var NHISHealthPlan = await _NHISHealthPlan.GetNHISHealthPlan(nHISHealthPlanPatient.NHISHealthPlanId);
-
-            if (NHISHealthPlan == null)
-            {
-                return BadRequest(new { response = "301", message = "Invalid NHISHealthPlanId" });
             }
 
             var patient = await _patient.GetPatientByIdAsync(nHISHealthPlanPatient.PatientId);
@@ -204,8 +197,6 @@ namespace HMS.Areas.HealthInsurance.Controllers
             {
                 return BadRequest(new { response = "301", message = "Invalid ServiceId" });
             }
-
-
 
             var ServiceRequestToCreate = _mapper.Map<NHISSecondaryHealthplanPatientService>(nHISHealthPlanPatient);
 

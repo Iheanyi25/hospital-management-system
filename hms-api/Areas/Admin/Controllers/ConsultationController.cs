@@ -193,7 +193,7 @@ namespace HMS.Areas.Admin.Controllers
                         var result = await _consultation.AssignDoctorToPatient(myPatient);
                         if (result)
                         {
-                            return Ok(new { message = "Consultation Successfully Booked" });
+                            return Ok(new { message = "Patient Reassigned To Doctor" });
                         }
                         else
                         {
@@ -202,7 +202,7 @@ namespace HMS.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return Ok(new { message = "Consultation Successfully Booked" });
+                        return Ok(new { message = "Patient Reassigned To Doctor" });
                     }
                 }
             }

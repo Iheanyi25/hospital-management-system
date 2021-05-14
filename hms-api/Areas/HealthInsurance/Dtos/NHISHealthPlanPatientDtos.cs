@@ -12,7 +12,6 @@ namespace HMS.Areas.HealthInsurance.Dtos
     public class NHISHealthPlanPatientDtoForUpdate
     {
         public string PatientId { get; set; }
-        public string NHISHealthPlanId { get; set; }
         public string AuthorizationCode { get; set; }
         public string ServiceId { get; set; }
     }
@@ -25,8 +24,6 @@ namespace HMS.Areas.HealthInsurance.Dtos
     {
         public string PatientId { get; set; }
         public ApplicationUser Patient { get; set; }
-        public string NHISHealthPlanId { get; set; }
-        public NHISHealthPlan NHISHealthPlan { get; set; }
         public string ServiceId { get; set; }
         public Service Service { get; set; }
         public string AuthorizationCode { get; set; }

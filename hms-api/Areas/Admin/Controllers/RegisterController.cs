@@ -565,8 +565,6 @@ namespace HMS.Areas.Admin.Controllers
                             response = 400,
                             message = "The specified user role does not exist in our system"
                         });
-
-
                     }
 
                 }

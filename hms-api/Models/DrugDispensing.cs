@@ -26,17 +26,11 @@ namespace HMS.Models
         public int NumberOfCartons { get; set; }
         public int NumberOfContainers { get; set; }
         public int NumberOfUnits { get; set; }
-
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal TotalCartonPrice { get; set; }
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal TotalContainerPrice { get; set; }
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal TotalUnitPrice { get; set; }
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal PriceTotal { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal AmountToBePaidByPatient { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal TotalPrice { get; set; }
         public string PriceCalculationFormular { get; set; }
-        public string ClerkingId { get; set; }
-        public DoctorClerking Clerking { get; set; }
+        
     }
 }
