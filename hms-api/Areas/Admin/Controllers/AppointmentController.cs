@@ -264,6 +264,17 @@ namespace HMS.Areas.Admin.Controllers
             //check if this guy has a profile already
             var appointment = await _appointmentRepo.GetAppointment(Appointment.AppointmentId);
             var doctor = await _userRepo.GetUserByIdAsync(Appointment.DoctorId);
+
+            if (appointment == null)
+            {
+                return BadRequest(new { message = "Invalid AppointmentId" });
+            }
+
+            if (doctor == null)
+            {
+                return BadRequest(new { message = "Invalid DoctorId" });
+            }
+
             var doctorPatient = await _appointmentRepo.CheckDoctorInMyPatients(Appointment.DoctorId, appointment.PatientId);
             // Validate patient is not null---has no profile yet
             if (appointment != null && doctor != null)
@@ -294,7 +305,7 @@ namespace HMS.Areas.Admin.Controllers
                         var result = await _appointmentRepo.AssignDoctorToPatient(myPatient);
                         if (result)
                         {
-                            return Ok(new { message = "Appointment Successfully reassigned" });
+                            return Ok(new { message = "Appointment successfully reassigned" });
                         }
                         else
                         {
@@ -303,7 +314,7 @@ namespace HMS.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return Ok(new { message = "Appointment Successfully reassigned" });
+                        return Ok(new { message = "Appointment successfully reassigned" });
                     }
                     
                 }  

@@ -10,7 +10,10 @@ namespace HMS.Areas.Pharmacy
         public string GenericName { get; set; }
         public string Manufacturer { get; set; }
         public string Measurment { get; set; }
-        public string DrugType { get; set; }
+        public bool IsTablet { get; set; }
+        public bool IsLiquid { get; set; }
+        public bool IsInhaler { get; set; }
+        public bool IsPowder { get; set; }
         public decimal CostPricePerContainer { get; set; }
         public int QuantityPerContainer { get; set; }
         public int ContainersPerCarton { get; set; }

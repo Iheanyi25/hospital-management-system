@@ -1,6 +1,5 @@
 ﻿using HMS.Models;
-
-
+using System;
 
 namespace HMS.Areas.Patient.Dtos
 {
@@ -21,6 +20,11 @@ namespace HMS.Areas.Patient.Dtos
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
+        public string BloodGroup { get; set; }
+        public string GenoType { get; set; }
+        public string Allergies { get; set; }
+        public string Disabilities { get; set; }
+        public Boolean Diabetic { get; set; }
         public string UserType { get; set; }
         public Account Account { get; set; }
         public HealthPlan HealthPlan { get; set; }

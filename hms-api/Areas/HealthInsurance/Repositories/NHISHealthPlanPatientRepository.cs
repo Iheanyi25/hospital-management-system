@@ -127,7 +127,7 @@ namespace HMS.Areas.HealthInsurance.Repositories
 
         public PagedList<NHISSecondaryHealthplanPatientServiceDtoForView> GetPatientSecondaryNHISServices(PaginationParameter paginationParameter)
         {
-            var services = _applicationDbContext.NHISSecondaryHealthplanPatientServices.Include(h => h.Patient).Include(h => h.Service).ThenInclude(h => h.ServiceCategory).Include(h => h.NHISHealthPlan).OrderByDescending(h => h.DateCreated).ToList();
+            var services = _applicationDbContext.NHISSecondaryHealthplanPatientServices.Include(h => h.Patient).Include(h => h.Service).ThenInclude(h => h.ServiceCategory).OrderByDescending(h => h.DateCreated).ToList();
             var servicesToReturn = _mapper.Map<IEnumerable<NHISSecondaryHealthplanPatientServiceDtoForView>>(services);
             return PagedList<NHISSecondaryHealthplanPatientServiceDtoForView>.ToPagedList(servicesToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }

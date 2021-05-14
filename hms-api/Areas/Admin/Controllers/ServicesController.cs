@@ -20,7 +20,6 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IServices _serviceRepo;
         private readonly IServiceRequest _serviceRequest;
         private readonly IMapper _mapper;
-        private readonly IPatientProfile _patientRepo;
         private readonly IAdmissionServiceRequest _admissionService;
         private readonly INHISHealthPlanService _NHISService;
         private readonly IHMOHealthPlanServicePrice _HMOService;
@@ -31,7 +30,6 @@ namespace HMS.Areas.Admin.Controllers
             _serviceRepo = serviceRepo;
             _serviceRequest = serviceRequest;
             _mapper = mapper;
-            _patientRepo = patientRepo;
             _admissionService = admissionService;
             _HMOService = HMOService;
             _NHISService = NHISService;

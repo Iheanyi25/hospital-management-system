@@ -9,6 +9,7 @@ using HMS.Models;
 using HMS.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HMS.Areas.Admin.Controllers
 {
@@ -82,7 +83,7 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new
                 {
                     response = "301",
-                    message = "Request service failed, check if service is in patients health plan"
+                    message = "Request service failed"
                 });
 
             return Ok(new { message="Service Request submitted successfully"});
@@ -422,7 +423,7 @@ namespace HMS.Areas.Admin.Controllers
         //[HttpGet("GetServiceRequestResults/{ServiceRequestId}")]
         //public async Task<IActionResult> GetServiceRequestResults(string ServiceRequestId)
         //{
-            
+
         //    if (ServiceRequestId == null)
         //    {
         //        return BadRequest(new { message = "Service Request Id Not Passed" });
@@ -436,9 +437,30 @@ namespace HMS.Areas.Admin.Controllers
         //    });
         //}
 
+        // GET api/values  
+        [HttpGet("test")]
+        public IActionResult Get()
+        {
+            Byte[] b;
+
+            
+            b = System.IO.File.ReadAllBytes("wwwroot\\Images\\bmiist-logo1.jpg");
+            
+           
+            return File(b, "image/jpeg");
+        }
+
         [HttpGet("GetServiceRequestResults/{ServiceRequestId}")]
         public async Task<IActionResult> GetServiceRequestResults(string ServiceRequestId, [FromQuery] PaginationParameter paginationParameter)
         {
+            byte[] b = new byte[10];
+
+            //var folderName = Path.Combine("Resources", "Images");
+            //var pathToRead = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            //var photos = Directory.EnumerateFiles(pathToRead).Select(fullPath => Path.Combine(folderName, Path.GetFileName(fullPath)));
+            ////return Ok(new { photos });
+
+
             if (ServiceRequestId == null)
             {
                 return BadRequest(new { message = "Service Request Id Not Passed" });
@@ -452,7 +474,13 @@ namespace HMS.Areas.Admin.Controllers
             }
 
             var serviceRequestResults = _serviceRepo.GetServiceRequestResultsPagination(ServiceRequestId, paginationParameter);
-
+            var serviceRequestResultImages = _serviceRepo.GetServiceRequestResultFiles(ServiceRequestId);
+            var images = serviceRequestResultImages.ToList();
+            for (int i = 0; i < images.Count; i++)
+            {
+                b = System.IO.File.ReadAllBytes(images[i]);
+            }
+           
             var paginationDetails = new
             {
                 serviceRequestResults.TotalCount,
@@ -468,7 +496,9 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new
             {
+                b,
                 serviceRequestResults,
+                serviceRequestResultImages,
                 paginationDetails,
                 message = "Service Request Results Fetched"
             });

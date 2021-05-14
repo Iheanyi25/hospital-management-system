@@ -83,6 +83,10 @@ namespace HMS.Database
 
         /*----------register Nurse models here---------*/
         public DbSet<NurseProfile> NurseProfiles { get; set; }
+        public DbSet<NurseReport> NurseReports { get; set; }
+        public DbSet<Antenatal> Antenatals { get; set; }
+        public DbSet<AntenatalRecord> AntenatalRecords { get; set; }
+        public DbSet<Postnatal> Postnatals { get; set; }
 
         /*----------register patient models here---------*/
 

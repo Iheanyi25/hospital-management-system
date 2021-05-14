@@ -41,7 +41,9 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> UpdateServiceRequest(ServiceRequest ServiceRequest);
         Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResults(string serviceRequestId);
         PagedList<ServiceRequestResultDtoForView> GetServiceRequestResultsPagination(string serviceRequestId, PaginationParameter paginationParameter);
-        Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResultsForPatient(string patientId);
+        //Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResultFiles(string patientId);
         PagedList<ServiceRequestResultDtoForView> GetServiceRequestResultsForPatientPagination(string patientId, PaginationParameter paginationParameter);
+        //Task<IEnumerable<string>> GetServiceRequestResultFiles(string serviceRequestId);
+        IEnumerable<string> GetServiceRequestResultFiles(string serviceRequestId);
     }
 }
