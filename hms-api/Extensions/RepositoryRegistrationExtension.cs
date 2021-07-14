@@ -21,6 +21,7 @@ using HMS.Areas.Interfaces.Nurse;
 using HMS.Areas.NHIS.Repositories;
 using HMS.Areas.HealthInsurance.Repositories;
 using HMS.Areas.HealthInsurance.Interfaces;
+using HMS.Areas.Nurse.Interfaces;
 
 namespace HMS.Extensions
 {
@@ -98,6 +99,9 @@ namespace HMS.Extensions
 
             /*----Adding of nurse repo*/
             services.AddTransient<INurse, NurseRepository>();
+            services.AddTransient<INurseReport, ReportRepository>();
+            services.AddTransient<IAntenatal, AntenatalRepository>();
+            services.AddTransient<IPostnatal, PostnatalRepository>();
            
 
             //Adding patient repo

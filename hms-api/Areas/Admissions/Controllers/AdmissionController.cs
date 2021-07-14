@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HMS.Areas.Admissions.Dtos;
+﻿using HMS.Areas.Admissions.Dtos;
 using HMS.Areas.Admissions.Interfaces;
 using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
@@ -18,46 +17,72 @@ namespace HMS.Areas.Admissions.Controllers
         private readonly IAdmission _admission;
         private readonly IBed _bed;
         private readonly IPatientProfile _patient;
-        private readonly IMapper _mapper;
         private readonly IWard _ward;
         private readonly IAdmissionInvoice _admissionInvoice;
    
 
-        public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient, IMapper mapper)
+        public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient)
         {
             _admission = admission;
             _admissionInvoice = admissionInvoice;
             _patient = patient;
             _bed = bed;
             _ward = ward;
-            _mapper = mapper;
+        }
 
+        [Route("GetAdmissionsWithoutBedCount")]
+        [HttpGet]
+        public async Task<IActionResult> GetAdmittedPatientsWithoutBedCount()
+        {
+
+            var referredPatientsCounts = _admission.GetAdmissionsWithoutBedCount();
+
+          
+
+
+          
+            return Ok(new
+            {
+                referredPatientsCounts,
+                message = "Referred Patients Count"
+            });
         }
 
         [Route("GetAdmissionDays")]
         [HttpPost]
         public async Task<IActionResult> DischargePatient(string AdmissionId)
         {
-
             if (AdmissionId == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
             }
             var admission = await _admission.GetAdmission(AdmissionId);
+            var daysAdmitted = -1;
+            if (admission.IsDischarged == false)
+            {
+                var todaysDate = DateTime.Now;
+                var admissionDate = admission.DateOfAdmission;
+
+                var days = todaysDate - admissionDate;
+                daysAdmitted = days.Days;
+
+
+                return Ok(new
+                {
+                    daysAdmitted,
+                    message = "Days Admitted Returned"
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    daysAdmitted,
+                    message = "Days Admitted Returned"
+                });
+            }
 
            
-            var todaysDate = DateTime.Now;
-            var admissionDate = admission.DateOfAdmission;
-            
-            var days = todaysDate - admissionDate;
-            var daysAdmitted = days.Days;
-            
-
-            return Ok(new
-            {
-                daysAdmitted,
-                message = "Days Admitted Returned"
-            });
         }
 
 
@@ -227,6 +252,7 @@ namespace HMS.Areas.Admissions.Controllers
                 var res = await _admission.UpdateAdmission(admission);
                 var res1 = await _bed.UpdateBed(bed);
                 var wardAvailable = await _ward.CheckWardAvailability(bed.WardId);
+               
                 if (wardAvailable == false)
                 {
                     var ward = await _ward.GetBedsWard(bed.Id);
@@ -269,7 +295,7 @@ namespace HMS.Areas.Admissions.Controllers
             return Ok(new
             {
                 admission,
-                message = "Assigned BedSpace To Patient"
+                message = "Assigned Patient To Bedspace"
             });
         }
 

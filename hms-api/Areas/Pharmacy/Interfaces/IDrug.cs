@@ -11,9 +11,16 @@ namespace HMS.Areas.Pharmacy.Interfaces
     public interface IDrug
     {
         Task<int> GetDrugCount();
+        Task<int> GetTabletCount();
+        Task<int> GetSyrupCount();
+        Task<int> GetInhalerCount();
+        Task<int> GetPowderCount();
         Task<IEnumerable<Drug>> GetDrugs();
         PagedList<Drug> GetDrugsPagination(PaginationParameter paginationParameter);
-        PagedList<Drug> GetDrugsByDrugType(string drugType, PaginationParameter paginationParameter);
+        PagedList<Drug> GetDrugsByTablet(PaginationParameter paginationParameter);
+        PagedList<Drug> GetDrugsBySyrup(PaginationParameter paginationParameter);
+        PagedList<Drug> GetDrugsByInhaler(PaginationParameter paginationParameter);
+        PagedList<Drug> GetDrugsByPowder(PaginationParameter paginationParameter);
        
         Task<IEnumerable<DrugBatch>> GetExpiredDrugs(DateTime date);
         Task<IEnumerable<Drug>> SearchDrugs(string searchString);

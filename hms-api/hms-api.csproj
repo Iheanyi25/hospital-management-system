@@ -39,12 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Pharmacy\Controllers\DashboardController.cs" />
-    <Compile Remove="Migrations\20210331121231_ModifiedAdmissionInvoice.cs" />
-    <Compile Remove="Migrations\20210331121231_ModifiedAdmissionInvoice.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\Images\.gitkeep" />
   </ItemGroup>
 
@@ -76,7 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Areas\Pharmacy\Controllers\DashboardController.cs" />
     <None Include="wwwroot\Images\.gitkeep" />
   </ItemGroup>
 

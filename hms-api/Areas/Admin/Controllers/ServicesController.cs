@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HMS.Areas.Admin.Dtos;
 using HMS.Areas.Admin.Interfaces;
+using HMS.Areas.Admissions.Interfaces;
+using HMS.Areas.HealthInsurance.Interfaces;
 using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
 using HMS.Services.Helpers;
@@ -18,14 +20,19 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IServices _serviceRepo;
         private readonly IServiceRequest _serviceRequest;
         private readonly IMapper _mapper;
-        private readonly IPatientProfile _patientRepo;
+        private readonly IAdmissionServiceRequest _admissionService;
+        private readonly INHISHealthPlanService _NHISService;
+        private readonly IHMOHealthPlanServicePrice _HMOService;
 
-        public ServicesController(IServices serviceRepo, IServiceRequest serviceRequest, IMapper mapper, IPatientProfile patientRepo)
+
+        public ServicesController(IServices serviceRepo, IServiceRequest serviceRequest, IMapper mapper, IPatientProfile patientRepo, IAdmissionServiceRequest admissionService, INHISHealthPlanService NHISService, IHMOHealthPlanServicePrice HMOService)
         {
             _serviceRepo = serviceRepo;
             _serviceRequest = serviceRequest;
             _mapper = mapper;
-            _patientRepo = patientRepo;
+            _admissionService = admissionService;
+            _HMOService = HMOService;
+            _NHISService = NHISService;
         }
 
         //[HttpGet("GetAllServices")]
@@ -151,7 +158,26 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new { message = "Service Has Requests Tied To It and Cannot Be Deleted" });
             }
 
-           
+            var admissionServiceRequest = await _admissionService.GetAdmissionServiceRequestByServiceAsync(serviceDtoForDelete.Id);
+
+            if (admissionServiceRequest.Any())
+            {
+                return BadRequest(new { message = "Service has service request(s) in an admission tied to it and cannot be deleted" });
+            }
+
+            var NHISService = await _NHISService.GetHealthPlanServicesByService(serviceDtoForDelete.Id);
+
+            if (NHISService.Any())
+            {
+                return BadRequest(new { message = "Service is tied to an NHIS Healthplan and cannot be deleted" });
+            }
+
+            var HMOService = await _HMOService.GetServicePricesByService(serviceDtoForDelete.Id);
+
+            if (HMOService.Any())
+            {
+                return BadRequest(new { message = "Service is tied to a HMO healthplan and cannot be deleted" });
+            }
 
             var res = await _serviceRepo.DeleteService(service);
             if (!res)

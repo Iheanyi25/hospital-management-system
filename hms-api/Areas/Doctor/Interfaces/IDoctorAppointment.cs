@@ -14,6 +14,7 @@ namespace HMS.Areas.Doctor.Interfaces
         PagedList<AppointmentDtoForView> GetAppointmentsPending(string DoctorId, PaginationParameter paginationParameter);
         PagedList<AppointmentDtoForView> GetAppointmentsCompleted(string DoctorId, PaginationParameter paginationParameter);
         PagedList<AppointmentDtoForView> GetAppointmentsAccepted(string DoctorId, PaginationParameter paginationParameter);
+        PagedList<AppointmentDtoForView> GetAppointmentsRejected(string DoctorId, PaginationParameter paginationParameter);
         Task<int> AcceptAppointment(Appointment appointment);
         Task<int> RejectAppointment(Appointment appointment);
         Task<int> CancelAppointment(Appointment appointment);

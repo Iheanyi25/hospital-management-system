@@ -73,6 +73,8 @@ namespace HMS.Areas.Doctor.Repositories
        
         public async Task<DoctorClerking> GetDoctorClerkingByAppointmentOrConsultation(string Id) => await  _applicationDbContext.DoctorClerkings.Include(c => c.Doctor).Where(c => c.ConsultationId == Id ||  c.AppointmentId == Id).FirstOrDefaultAsync();
         public async Task<IEnumerable<DoctorClerking>> GetClerkings() => await _applicationDbContext.DoctorClerkings.Include(c => c.Doctor).Include(c => c.Patient).ToListAsync();
+        public async Task<IEnumerable<DoctorClerking>> GetPrescriptions() => await _applicationDbContext.DoctorClerkings.Include(c => c.Doctor).Include(c => c.Patient).Where(c => c.Prescription != null).ToListAsync();
+
         public async Task<DoctorClerking> GetClerking(string ClerkingId) => await _applicationDbContext.DoctorClerkings.Where(c => c.Id == ClerkingId).Include(c => c.Doctor).Include(c =>c.Patient).FirstOrDefaultAsync();
         public async Task<IEnumerable<DoctorClerking>> GetDoctorClerkingByPatient(string PatientId) => await _applicationDbContext.DoctorClerkings.Where(c => c.Appointment.PatientId == PatientId || c.Consultation.PatientId == PatientId).Include(c => c.Doctor).OrderByDescending(a => a.DateOfClerking).ToListAsync();
         public async Task<DoctorClerking> GetDoctorClerkingByAppointment(string AppointmentId) => await _applicationDbContext.DoctorClerkings.Where(c => c.AppointmentId == AppointmentId).Include(c => c.Appointment.Doctor).FirstOrDefaultAsync();

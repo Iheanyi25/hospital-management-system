@@ -4,6 +4,7 @@ using AutoMapper;
 using HMS.Areas.Admissions.Dtos;
 using HMS.Areas.Admissions.Interfaces;
 using HMS.Areas.Patient.Interfaces;
+using HMS.Models;
 using HMS.Services.Helpers;
 using HMS.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -67,8 +68,22 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetInvoiceForAdmission(string AdmissionId)
         {
-            var admissionInvoice = await _admissionInvoice.GetAdmissionInvoiceByAdmissionId(AdmissionId);
+            var admissionInvoice = new AdmissionInvoice();
+            admissionInvoice = await _admissionInvoice.GetAdmissionInvoiceByAdmissionId(AdmissionId);
 
+            if (admissionInvoice == null)
+            {
+                var admissionInvoiceToCreate = new AdmissionInvoice()
+                {
+                    AdmissionId = AdmissionId,
+                };
+
+                await _admissionInvoice.CreateAdmissionInvoice(admissionInvoiceToCreate);
+
+                admissionInvoice = await _admissionInvoice.GetAdmissionInvoiceByAdmissionId(admissionInvoiceToCreate.AdmissionId);
+
+            }
+            
             return Ok(new
             {
                 admissionInvoice,

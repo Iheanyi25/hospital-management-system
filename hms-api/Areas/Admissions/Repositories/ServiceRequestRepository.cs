@@ -34,14 +34,10 @@ namespace HMS.Areas.Admissions.Repositories
         }
 
         public async Task<AdmissionServiceRequest> GetServiceRequest(string serviceRequestId) => await _applicationDbContext.AdmissionServiceRequests.Where(s => s.Id == serviceRequestId).Include(s => s.AdmissionInvoice).Include(s => s.Service).ThenInclude(s => s.ServiceCategory).FirstOrDefaultAsync();
+        public async Task<IEnumerable<AdmissionServiceRequest>> GetAdmissionServiceRequestByServiceAsync(string ServiceId) => await _applicationDbContext.AdmissionServiceRequests.Where(s => s.ServiceId == ServiceId).ToListAsync();
 
 
-       
 
-        
-
-        
-       
         public PagedList<AdmissionServiceRequestDtoForView> GetAdmissionServiceRequests(string InvoiceId, PaginationParameter paginationParameter)
         {
             var serviceRequests = _applicationDbContext.AdmissionServiceRequests.Include(a => a.AdmissionInvoice.Admission.Patient).Include(a => a.Service).ThenInclude(s => s.ServiceCategory).Where(a => a.AdmissionInvoiceId == InvoiceId).ToList();

@@ -3,7 +3,6 @@ using AutoMapper;
 using HMS.Areas.Admin.Interfaces;
 using HMS.Areas.Doctor.Dtos;
 using HMS.Areas.Doctor.Interfaces;
-using HMS.Models;
 using HMS.Services.Helpers;
 using HMS.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,6 @@ namespace HMS.Areas.Doctor.Controllers
         private readonly IDoctorAppointment _appointment;
         private readonly IConsultation _consultation;
         private readonly ISurgery _surgery;
-        private readonly IMapper _mapper;
         private readonly IUser _user;
 
 
@@ -29,7 +27,6 @@ namespace HMS.Areas.Doctor.Controllers
             _consultation = consultation;
             _surgery = surgery;
             _user = user;
-            _mapper = mapper;
         }
 
         [HttpGet("GetSurgery")]

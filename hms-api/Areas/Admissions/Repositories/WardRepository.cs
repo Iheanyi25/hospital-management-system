@@ -111,7 +111,7 @@ namespace HMS.Areas.Admissions.Repositories
             }
             catch (Exception ex)
             {
-                throw ex;
+                return false;
             }
         }
 

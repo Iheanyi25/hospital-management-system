@@ -339,9 +339,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-#Migrations Folder
-.Migrations/
-
 # exclude everything
 wwwroot/Images/*
 

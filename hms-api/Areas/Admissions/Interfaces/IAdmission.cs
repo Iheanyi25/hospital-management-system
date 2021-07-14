@@ -13,5 +13,6 @@ namespace HMS.Areas.Admissions.Interfaces
         PagedList<AdmissionDtoForView> GetAdmissionsWithBed(PaginationParameter paginationParameter);
         PagedList<AdmissionDtoForView> GetAdmissionsWithBed(PaginationParameter paginationParameter, string WardId);
         PagedList<AdmissionDtoForView> GetAdmissionsWithoutBed(PaginationParameter paginationParameter);
+        Task<int> GetAdmissionsWithoutBedCount();
     }
 }

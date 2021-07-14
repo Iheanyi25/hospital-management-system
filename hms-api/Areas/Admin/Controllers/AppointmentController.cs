@@ -22,15 +22,35 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IUser _userRepo;
         private readonly IAppointment _appointmentRepo;
         private readonly IDoctorClerking _clerking;
-
-        public AppointmentController(IMapper mapper, IAppointment appointment, IUser userRepo, IDoctorClerking clerking)
+        private readonly IRegister _registration;
+        public AppointmentController(IMapper mapper, IAppointment appointment, IUser userRepo, IDoctorClerking clerking, IRegister registration)
         {
             _userRepo = userRepo;
             _appointmentRepo = appointment;
             _mapper = mapper;
             _clerking = clerking;
+            _registration = registration;
         }
 
+        [Route("GetAppointmentCounts")]
+        [HttpGet]
+        public async Task<IActionResult> GetSystemCount()
+        {
+
+            var pendingAppoinmentsCount = await _appointmentRepo.GetDoctorsPendingAppointmentsCount();
+            var completedAppoinmentsCount = await _appointmentRepo.GetDoctorsCompletedAppointmentsCount();
+            var rejectedAppointmentCount = await _appointmentRepo.GetDoctorsRejectedAppointmentsCount();
+            var acceptedAppointmentCount = await _appointmentRepo.GetDoctorsAcceptedAppointmentsCount();
+
+            return Ok(new
+            {
+                pendingAppoinmentsCount,
+                completedAppoinmentsCount,
+                rejectedAppointmentCount,
+                acceptedAppointmentCount,
+                message = "Appointment Counts"
+            });
+        }
 
         [Route("GetDoctorAppointments")]
         [HttpGet]
@@ -140,6 +160,33 @@ namespace HMS.Areas.Admin.Controllers
             });
         }
 
+        [Route("GetAppointmentsRejected")]
+        [HttpGet]
+        public async Task<IActionResult> GetAppointmentsRejected([FromQuery] PaginationParameter paginationParameter)
+        {
+            var appointments = _appointmentRepo.GetAppointmentsRejected(paginationParameter);
+
+            var paginationDetails = new
+            {
+                appointments.TotalCount,
+                appointments.PageSize,
+                appointments.CurrentPage,
+                appointments.TotalPages,
+                appointments.HasNext,
+                appointments.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                appointments,
+                paginationDetails,
+                message = "Appointments Returned"
+            });
+        }
+
         [Route("BookAppointment")]
         [HttpPost]
         public async Task<IActionResult> BookAppointment(BookAppointmentDto appointment)
@@ -152,6 +199,15 @@ namespace HMS.Areas.Admin.Controllers
             if (patient != null && doctor != null)
             {
                 //if its avaliable now book it
+                var registrationInvoice = await _registration.GetPatientRegistrationInvoice(appointment.PatientId);
+              
+
+                if (registrationInvoice.PaymentStatus != "Paid")
+                {
+                    return BadRequest(new { response = 301, message = "Patient is yet to pay for registration" });
+                }
+
+
                 var doctorAppointment = _mapper.Map<Appointment>(appointment);
           
                 var res = await _appointmentRepo.BookAppointment(doctorAppointment);
@@ -208,6 +264,17 @@ namespace HMS.Areas.Admin.Controllers
             //check if this guy has a profile already
             var appointment = await _appointmentRepo.GetAppointment(Appointment.AppointmentId);
             var doctor = await _userRepo.GetUserByIdAsync(Appointment.DoctorId);
+
+            if (appointment == null)
+            {
+                return BadRequest(new { message = "Invalid AppointmentId" });
+            }
+
+            if (doctor == null)
+            {
+                return BadRequest(new { message = "Invalid DoctorId" });
+            }
+
             var doctorPatient = await _appointmentRepo.CheckDoctorInMyPatients(Appointment.DoctorId, appointment.PatientId);
             // Validate patient is not null---has no profile yet
             if (appointment != null && doctor != null)
@@ -238,7 +305,7 @@ namespace HMS.Areas.Admin.Controllers
                         var result = await _appointmentRepo.AssignDoctorToPatient(myPatient);
                         if (result)
                         {
-                            return Ok(new { message = "Appointment Successfully reassigned" });
+                            return Ok(new { message = "Appointment successfully reassigned" });
                         }
                         else
                         {
@@ -247,7 +314,7 @@ namespace HMS.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return Ok(new { message = "Appointment Successfully reassigned" });
+                        return Ok(new { message = "Appointment successfully reassigned" });
                     }
                     
                 }  

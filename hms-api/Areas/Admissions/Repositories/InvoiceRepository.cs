@@ -51,7 +51,7 @@ namespace HMS.Areas.Admissions.Repositories
                 if (HMOHealthPlanPatient != null)
                 {
                     priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
-                    
+                    AdmissionInvoice.PaymentMethod = "HMO";
                 }
                 else if (HMOHealthPlanSubGroupPatient != null)
                 {
@@ -71,6 +71,8 @@ namespace HMS.Areas.Admissions.Repositories
                 }
 
                 AdmissionInvoice.PriceCalculationFormula = priceCalculationFormular;
+
+                
                 _applicationDbContext.AdmissionInvoices.Add(AdmissionInvoice);
                 await _applicationDbContext.SaveChangesAsync();
 
@@ -82,8 +84,43 @@ namespace HMS.Areas.Admissions.Repositories
             }
         }
 
-      
-        public async Task<AdmissionInvoice> GetAdmissionInvoiceByAdmissionId(string AdmissionId) => await _applicationDbContext.AdmissionInvoices.Where(a => a.AdmissionId == AdmissionId).FirstOrDefaultAsync();
+
+        public async Task<AdmissionInvoice> GetAdmissionInvoiceByAdmissionId(string AdmissionId) 
+        {
+            var admission = await _applicationDbContext.Admissions.Where(a => a.Id == AdmissionId).FirstOrDefaultAsync();
+            var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == admission.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
+            var healthplanId = PatientProfile.Account.HealthPlanId;
+
+            //get the drug price based on the health plan above
+            var HMOHealthPlanPatient = await _applicationDbContext.HMOHealthPlanPatients.Include(h => h.HMOHealthPlan).ThenInclude(h => h.HMO).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
+            var HMOHealthPlanSubGroupPatient = await _applicationDbContext.HMOSubUserGroupPatients.Include(d => d.HMOSubUserGroup).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
+            var NHISHealthPlanPatient = await _applicationDbContext.NHISHealthPlanPatients.Where(p => p.PatientId == PatientProfile.PatientId).Include(n => n.NHISHealthPlan).ThenInclude(h => h.HealthPlan).FirstOrDefaultAsync();
+            string priceCalculationFormular = "";
+
+            if (HMOHealthPlanPatient != null)
+            {
+                priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+
+            }
+            else if (HMOHealthPlanSubGroupPatient != null)
+            {
+                priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+            }
+            else if (NHISHealthPlanPatient != null)
+            {
+                priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
+            }
+            else if (healthplanId != null)
+            {
+                priceCalculationFormular = PatientProfile.Account.HealthPlan.Name;
+            }
+            else
+            {
+                priceCalculationFormular = "Default Price";
+            }
+            var invoice = await _applicationDbContext.AdmissionInvoices.Where(a => a.AdmissionId == AdmissionId && a.PriceCalculationFormula == priceCalculationFormular).FirstOrDefaultAsync();
+            return invoice;
+        }  
 
 
       
@@ -259,6 +296,15 @@ namespace HMS.Areas.Admissions.Repositories
                         AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                         priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
                     }
+                    else
+                    {
+                        totalUnitPrice = drug.DefaultPricePerUnit * AdmissionRequest.NumberOfUnits;
+                        totalContainerPrice = drug.DefaultPricePerContainer * AdmissionRequest.NumberOfContainers;
+                        totalCartonPrice = drug.DefaultPricePerCarton * AdmissionRequest.NumberOfCartons;
+                        AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                        priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                        priceCalculationFormular = "Default Price";
+                    }
                 }
                 else if (HMOHealthPlanSubGroupPatient != null)
                 {
@@ -273,6 +319,15 @@ namespace HMS.Areas.Admissions.Repositories
                         AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                         priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
                     }
+                    else
+                    {
+                        totalUnitPrice = drug.DefaultPricePerUnit * AdmissionRequest.NumberOfUnits;
+                        totalContainerPrice = drug.DefaultPricePerContainer * AdmissionRequest.NumberOfContainers;
+                        totalCartonPrice = drug.DefaultPricePerCarton * AdmissionRequest.NumberOfCartons;
+                        AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                        priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                        priceCalculationFormular = "Default Price";
+                    }
                 }
                 else if (NHISHealthPlanPatient != null)
                 {
@@ -286,6 +341,15 @@ namespace HMS.Areas.Admissions.Repositories
                         priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                         AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
                         priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
+                    }
+                    else
+                    {
+                        totalUnitPrice = drug.DefaultPricePerUnit * AdmissionRequest.NumberOfUnits;
+                        totalContainerPrice = drug.DefaultPricePerContainer * AdmissionRequest.NumberOfContainers;
+                        totalCartonPrice = drug.DefaultPricePerCarton * AdmissionRequest.NumberOfCartons;
+                        AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                        priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                        priceCalculationFormular = "Default Price";
                     }
                 }
                 else if (drugPrice != null)
@@ -380,7 +444,7 @@ namespace HMS.Areas.Admissions.Repositories
            
                 decimal servicePricing = 0;
 
-
+                string priceCalculationFormular = "";
 
                 var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == AdmissionInvoice.Admission.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
                 var healthplanId = PatientProfile.Account.HealthPlanId;
@@ -414,7 +478,14 @@ namespace HMS.Areas.Admissions.Repositories
 
                         priceTotal = HMOHealthPlanServicePrice.Price;
                         AmountToBePaidByPatient = 0;
-                       
+                        priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+
+                    }
+                    else
+                    {
+                        priceTotal = service.Cost;
+                        AmountToBePaidByPatient = service.Cost;
+                        priceCalculationFormular = "Default Price";
                     }
                 }
                 else if (HMOHealthPlanSubGroupPatient != null)
@@ -425,7 +496,14 @@ namespace HMS.Areas.Admissions.Repositories
                     {
                         priceTotal = HMOHealthPlanServicePrice.Price;
                         AmountToBePaidByPatient = 0;
-                        
+                        priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+
+                    }
+                    else
+                    {
+                        priceTotal = service.Cost;
+                        AmountToBePaidByPatient = service.Cost;
+                        priceCalculationFormular = "Default Price";
                     }
                 }
                 else if (NHISHealthPlanPatient != null)
@@ -436,6 +514,13 @@ namespace HMS.Areas.Admissions.Repositories
                     {
                         priceTotal = service.Cost;
                         AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
+                        priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
+                    }
+                    else
+                    {
+                        priceTotal = service.Cost;
+                        AmountToBePaidByPatient = service.Cost;
+                        priceCalculationFormular = "Default Price";
                     }
                 }
                
@@ -443,9 +528,8 @@ namespace HMS.Areas.Admissions.Repositories
                 {
                     priceTotal = service.Cost;
                     AmountToBePaidByPatient = service.Cost;
+                    priceCalculationFormular = "Default Price";
                 }
-
-
 
                 if (HMOHealthPlanPatient != null)
                 {

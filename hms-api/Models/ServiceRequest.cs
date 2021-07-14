@@ -28,6 +28,6 @@ namespace HMS.Models
         public virtual Appointment Appointment { get; set; }
         public string ConsultationId { get; set; }
         public virtual Consultation Consultation { get; set; }
-
+        public string PriceCalculationFormular { get; set; }
     }
 }

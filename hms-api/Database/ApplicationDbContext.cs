@@ -78,10 +78,15 @@ namespace HMS.Database
         public DbSet<NHISHealthPlanDrug> NHISHealthPlanDrugs { get; set; }
         public DbSet<NHISHealthPlanPatient> NHISHealthPlanPatients { get; set; }
         public DbSet<NHISHealthPlanService> NHISHealthPlanServices { get; set; }
+        public DbSet<NHISSecondaryHealthplanPatientService> NHISSecondaryHealthplanPatientServices { get; set; }
 
 
         /*----------register Nurse models here---------*/
         public DbSet<NurseProfile> NurseProfiles { get; set; }
+        public DbSet<NurseReport> NurseReports { get; set; }
+        public DbSet<Antenatal> Antenatals { get; set; }
+        public DbSet<AntenatalRecord> AntenatalRecords { get; set; }
+        public DbSet<Postnatal> Postnatals { get; set; }
 
         /*----------register patient models here---------*/
 

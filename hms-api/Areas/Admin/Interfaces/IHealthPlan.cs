@@ -11,7 +11,7 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> InsertHealthPlan(HealthPlan plan);
         Task<bool> UpdateHealthPlan(HealthPlan plan);
         Task<bool> DeleteHealthPlan(HealthPlan plan);
-        Task<IEnumerable<HealthPlan>> GetAllHealthPlan();
+        Task<IEnumerable<HealthPlan>> GetAllHealthPlans();
         PagedList<HealthPlanDtoForView> GetHealthPlansPagination(PaginationParameter paginationParameter);
         Task<HealthPlan> GetHealthPlanByIdAsync(string id);
     }
