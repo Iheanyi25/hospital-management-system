@@ -20,12 +20,15 @@ import PreConsultationHistory from "../Pages/Components/PreConsultationHistory";
 import ManageAdmissions from "../Components/Admissions/ManageAdmissions";
 import WardRoundNotes from "../Components/Admissions/WardRoundNotes";
 import RouteWithErrorBoundary from "../Components/RouteWithErrorBoundary";
+import Chat from '../Components/Chat/Chat';
+
 
 export default function DoctorRoutes() {
   return (
     <BrowserRouter basename="doctor">
       <DoctorLayout>
         <Switch>
+        <Chat path="/DoctorChat" component={Chat} />
           <RouteWithErrorBoundary exact path="/DoctorDashboard" component={DoctorDashboard} />
           <RouteWithErrorBoundary
             exact

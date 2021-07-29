@@ -11,6 +11,7 @@ export default function DoctorPatientList({
 }) {
   let dataTable = [];
   if (patients) {
+
     dataTable = patients.map((patient, index) => {
       return {
         "#": ++index,
@@ -92,7 +93,14 @@ const PatientListTableAction = ({ patient }) => {
       text: "Patient Profile",
       title: "Patient Profile",
     },
+    {
+      icon: "icofont-ui-edit",
+      pathname: "/DoctorChat",
+      text: "Chat",
+      title: "Chat",
+    },
   ];
+  
   return (
     <div>
       <ActionButton>
