@@ -107,7 +107,15 @@ const MyDoctorsActionButton = ({ doctor }) => {
         >
           <span className="btn-icon icofont-ui-edit  mr-2" /> View Profile
         </NavLink>
+        <NavLink
+          to={`/DoctorChat`}
+          className="btn btn-sm btn-block"
+        >
+          <span className="btn-icon icofont-ui-edit  mr-2" /> Chat
+        </NavLink>
+        
       </div>
+      
     </div>
   );
 };

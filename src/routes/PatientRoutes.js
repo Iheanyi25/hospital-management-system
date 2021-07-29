@@ -18,13 +18,14 @@ import ViewChangePassword from "../Pages/Components/ViewChangePassword";
 import ThirdPartyFunding from '../Pages/Patient/ThirdPartyFunding';
 import ViewHealthHistory from '../Pages/Patient/ViewHealthHistory';
 import RouteWithErrorBoundary from '../Components/RouteWithErrorBoundary';
+import Chat from '../Components/Chat/Chat';
 
 export default function PatientRoutes() {
     return (
         <BrowserRouter basename="patient">
             <PatientLayout>
                 <Switch>
-
+                <Chat path="/DoctorChat" component={Chat} />
                     <RouteWithErrorBoundary exact path="/PatientDashboard" component={PatientDashboard} />
                     <RouteWithErrorBoundary exact path="/PatientAppointments" component={PatientAppointments} />
                     <RouteWithErrorBoundary exact path="/PatientConsultations" component={PatientConsultations} />
