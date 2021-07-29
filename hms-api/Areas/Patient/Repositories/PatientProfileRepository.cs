@@ -41,7 +41,7 @@ namespace HMS.Areas.Patient.Repositories
 
         }
 
-        public async Task<object> GetPatientsByDoctorAsync(string DoctorId) => await _applicationDbContext.MyPatients.Include(p => p.Patient).Where(p => p.DoctorId == DoctorId).OrderBy(p => p.Patient.FirstName).ToListAsync();
+       
         public async Task<PatientProfile> GetPatientByIdAsync(string patientId) => await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == patientId).Include(p => p.Patient).Include(p => p.File).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
       
         public async Task<PatientProfile> GetPatientByProfileIdAsync(string patientId)
@@ -344,6 +344,13 @@ namespace HMS.Areas.Patient.Repositories
             var patient = await _applicationDbContext.PatientProfiles.Where(d => d.PatientId == PatientId).Include(a => a.Patient).Include(a => a.Account).ThenInclude(a => a.HealthPlan).FirstOrDefaultAsync();
             var patientToReturn = _mapper.Map<PatientDtoForView>(patient);
             return patientToReturn;
+        }
+
+        public async Task<object> GetPatientsByDoctorAsync(string DoctorId) 
+        {
+            var patients = await _applicationDbContext.MyPatients.Include(p => p.Patient).Where(p => p.DoctorId == DoctorId).OrderBy(p => p.Patient.FirstName).ToListAsync();
+            var patientsToReturn = _mapper.Map<IEnumerable<PatientDtoForView>>(patients);
+            return patientsToReturn;
         }
     }
 }

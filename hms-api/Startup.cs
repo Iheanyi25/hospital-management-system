@@ -10,6 +10,7 @@ using AutoMapper;
 using System;
 using HMS.Services.Helpers;
 using HMS.Models;
+using HMS.Services.Repositories;
 
 namespace HMS
 {
@@ -34,10 +35,31 @@ namespace HMS
             //add cors
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
-                builder.AllowAnyOrigin()
+                //builder.AllowAnyOrigin()
+                builder.WithOrigins("http://localhost:3000")
+                        .AllowCredentials()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+             services.AddCors(options =>
+            {
+                options.AddPolicy("ClientPermission", policy =>
+                {
+                    policy.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:3000")
+                        .AllowCredentials();
+                });
+            });
+
+            //services.AddCors(options => options.AddPolicy("ClientPermission", policy =>
+            //{
+            //    policy.AllowAnyHeader()
+            //        .AllowAnyMethod()
+            //        .WithOrigins("http://localhost:3000")
+            //        .AllowCredentials();
+            //}));
 
             //services.AddControllers();
             services.AddControllers(o=> {
@@ -63,7 +85,7 @@ namespace HMS
             services.AddSingleton(emailConfiguration);
             /*----Adding of repo*/
             services.AddRepositoryServices();
-
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,10 +120,11 @@ namespace HMS
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SignalRHub>("/signalRHub");
+              
             });
 
             app.InitializeDB();
-
         }
     }
 }

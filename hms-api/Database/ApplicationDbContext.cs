@@ -16,6 +16,8 @@ namespace HMS.Database
 
         /*----------register the models here---------*/
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         /*----------register Admission models here---------*/
         public DbSet<Admission> Admissions { get; set; }

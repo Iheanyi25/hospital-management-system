@@ -56,8 +56,12 @@ namespace HMS.Areas.Doctor.Repositories
             return doctorToReturn;
         }
 
-        public async Task<object> GetDoctorsByPatient(string PatientId) => await _applicationDbContext.MyPatients.Include(d => d.Doctor).Where(d => d.PatientId == PatientId).OrderBy(d => d.Doctor.FirstName).ToListAsync();
-      
+        public async Task<object> GetDoctorsByPatient(string PatientId) 
+        {
+            var doctors = await _applicationDbContext.MyPatients.Include(d => d.Doctor).Where(d => d.PatientId == PatientId).OrderBy(d => d.Doctor.FirstName).ToListAsync();
+            var doctorsToReturn = _mapper.Map<IEnumerable<DoctorDtoForView>>(doctors);
+            return doctorsToReturn;
+        }
 
         public async Task<DoctorProfile> GetDoctorAsync(string DoctorId)
         {
