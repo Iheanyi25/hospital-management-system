@@ -11,5 +11,7 @@ namespace HMS.Services.Interfaces
         Task<int> GetUserCount();
         Task<ApplicationUser> GetUserByIdAsync(string Id);
         Task<ApplicationUser> GetUserByEmailAsync(string email);
+        Task<IEnumerable<ApplicationUser>> GetUsersExceptLoggedInUser(string UserId);
+       
     }
 }

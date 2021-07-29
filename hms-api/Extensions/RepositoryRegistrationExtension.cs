@@ -45,6 +45,8 @@ namespace HMS.Extensions
             services.AddTransient<IAppointment, AppointmentRepository>();
             services.AddTransient<IServiceCategory, ServiceCategoryRepository>();
             services.AddTransient<IServices, ServicesRepository>();
+            services.AddTransient<IChat, ChatRepository>();
+            services.AddTransient<INotification, NotificationRepository>();
             
             
             services.AddTransient<IAccount, AccountRepository>();
