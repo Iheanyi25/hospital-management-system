@@ -2614,6 +2614,27 @@ namespace HMS.Migrations
                     b.ToTable("Surgeries");
                 });
 
+            modelBuilder.Entity("HMS.Models.TextSuggestion", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TextSuggestions");
+                });
+
             modelBuilder.Entity("HMS.Models.Transactions", b =>
                 {
                     b.Property<string>("Id")
@@ -3572,6 +3593,13 @@ namespace HMS.Migrations
                     b.HasOne("HMS.Models.ApplicationUser", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId");
+                });
+
+            modelBuilder.Entity("HMS.Models.TextSuggestion", b =>
+                {
+                    b.HasOne("HMS.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HMS.Models.Transactions", b =>
