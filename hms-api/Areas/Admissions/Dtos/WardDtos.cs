@@ -27,7 +27,6 @@ namespace HMS.Areas.Admissions.Dtos
     public class WardDtoForDelete
     {
         public string Id { get; set; }
-       
     }
 
     public class WardDtoForView
