@@ -32,7 +32,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                     return false;
                 }
                
-
                 _applicationDbContext.DrugBatches.Add(DrugBatch);
                 await _applicationDbContext.SaveChangesAsync();
 
@@ -52,7 +51,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                 {
                     return false;
                 }
-
 
                 _applicationDbContext.DrugBatches.Remove(DrugBatch);
                 await _applicationDbContext.SaveChangesAsync();
@@ -79,7 +77,6 @@ namespace HMS.Areas.Pharmacy.Repositories
             return PagedList<DrugBatchDtoForView>.ToPagedList(drugBatchesToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
-
         public async Task<bool> UpdateDrugBatch(DrugBatch DrugBatch)
         {
             try
@@ -88,7 +85,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                 {
                     return false;
                 }
-
 
                 _applicationDbContext.DrugBatches.Update(DrugBatch);
                 await _applicationDbContext.SaveChangesAsync();

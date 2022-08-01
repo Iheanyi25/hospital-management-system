@@ -1,6 +1,4 @@
-﻿
-
-namespace HMS.Areas.Admin.Dtos
+﻿namespace HMS.Areas.Admin.Dtos
 {
     public class AdminProfileDtoForView
     {

@@ -12,13 +12,10 @@ namespace HMS.Areas.Admissions.Interfaces
         Task<bool> CreateDrugMedication(AdmissionDrugMedication admission);
         Task<bool> UpdateDrugMedication(AdmissionDrugMedication admission);
         Task<bool> AdministerDrugMedication(AdmissionDrugDispensing admission);
-        
-
         PagedList<ServiceMedicationDtoForView> GetServiceMedications(string AdmissionId, PaginationParameter paginationParameter);
         Task<AdmissionServiceMedication> GetServiceMedication(string AdmissionMedicationId);
         Task<bool> CreateServiceMedication(AdmissionServiceMedication AdmissionRequest);
         Task<bool> UpdateServiceMedication(AdmissionServiceMedication admission);
         Task<bool> AdministerServiceMedication(AdmissionServiceRequest admission);
-
     }
 }

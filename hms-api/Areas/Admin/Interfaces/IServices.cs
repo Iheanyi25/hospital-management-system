@@ -8,7 +8,6 @@ namespace HMS.Areas.Admin.Interfaces
 {
     public interface IServices
     {
-
         Task<IEnumerable<ServiceDtoForView>> GetAllServices();
         PagedList<ServiceDtoForView> GetServicesPagnation(PaginationParameter paginationParameter);
         Task<Service> GetServiceByIdAsync(string id);
@@ -18,9 +17,7 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> CreateServiceRequest(ServiceRequestDtoForCreate serviceRequest, string invoiceId);
         Task<bool> CheckIfServicesExist(List<string> serviceIds);
         Task<int> GetServiceCount();
-
         Task<IEnumerable<Service>> GetServiceByCategoryAsync(string ServiceCategoryId);
-
         Task<string> GenerateInvoiceForServiceRequest(ServiceRequestDtoForCreate serviceRequest);
         PagedList<ServiceInvoiceDtoForView> GetServiceInvoicesPagination(PaginationParameter paginationParameter);
         Task<IEnumerable<ServiceInvoiceDtoForView>> GetServiceInvoices();

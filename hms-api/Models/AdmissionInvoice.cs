@@ -56,6 +56,5 @@ namespace HMS.Models
             string formatedAccountNumber = "HMS" + str_build.ToString();
             return formatedAccountNumber;
         }
-
     }
 }

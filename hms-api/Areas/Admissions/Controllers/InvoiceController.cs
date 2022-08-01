@@ -81,7 +81,6 @@ namespace HMS.Areas.Admissions.Controllers
                 await _admissionInvoice.CreateAdmissionInvoice(admissionInvoiceToCreate);
 
                 admissionInvoice = await _admissionInvoice.GetAdmissionInvoiceByAdmissionId(admissionInvoiceToCreate.AdmissionId);
-
             }
             
             return Ok(new
@@ -129,16 +128,12 @@ namespace HMS.Areas.Admissions.Controllers
                 {
                     return BadRequest(new { response = "301", message = "Amount Paid Will Be Greater Than Amount Due If Payment Is Completed" });
                 }
-               
             }
             catch (Exception e)
             {
-
                 return BadRequest(new { message = e.Message.ToString() }); ;
             }
-
         }
-
 
         [Route("PayForAdmissionWithAccount")]
         [HttpPost]

@@ -9,7 +9,10 @@ namespace HMS.Services.Profiles
         public TransactionsProfile()
         {
             CreateMap<TransactionsDtoForView, Transactions>();
-            CreateMap<Transactions, TransactionsDtoForView>();
+
+
+            CreateMap<Transactions, TransactionsDtoForView>()
+               .ForMember(dest => dest.FileNumber, opt => opt.MapFrom(src => src.Patient.FileNumber));
         }
 
     }

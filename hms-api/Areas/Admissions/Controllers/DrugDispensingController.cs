@@ -2,7 +2,6 @@
 using AutoMapper;
 using HMS.Areas.Admissions.Dtos;
 using HMS.Areas.Admissions.Interfaces;
-using HMS.Areas.Patient.Interfaces;
 using HMS.Areas.Pharmacy.Interfaces;
 using HMS.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +54,6 @@ namespace HMS.Areas.Admissions.Controllers
                         response = "301",
                         message = "One or more Drugs Passed is/are invalid"
                     });
-
             }
             return Ok(new { message = "Admission Request submitted successfully" });
         }

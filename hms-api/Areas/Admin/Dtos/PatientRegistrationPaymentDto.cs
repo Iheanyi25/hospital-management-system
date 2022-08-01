@@ -27,5 +27,4 @@ namespace HMS.Areas.Admin.Dtos
         public string PatientId { get; set; }
         public string InitiatorId { get; set; }
     }
-
 }

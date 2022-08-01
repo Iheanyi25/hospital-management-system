@@ -33,10 +33,8 @@ namespace HMS.Areas.Admin.Repositories
             _account = account;
         }
 
-
         public async Task<File> CreateFile(string accountId)
         {
-
             if (accountId != null)
             {
                 var fileNumber = "HMS-1";
@@ -68,13 +66,10 @@ namespace HMS.Areas.Admin.Repositories
             }
 
             return null;
-
         }
-
 
         public async Task<string> RegisterPatient(ApplicationUser patient, File file, Account account)
         {
-
             var newApplicationUser = new ApplicationUser()
             {
                 FirstName = patient.FirstName,
@@ -106,7 +101,6 @@ namespace HMS.Areas.Admin.Repositories
                     FullName = $"{newApplicationUser.FirstName} {newApplicationUser.LastName}",
                 };
 
-
                 _applicationDbContext.PatientProfiles.Add(profile);
                 await _applicationDbContext.SaveChangesAsync();
 
@@ -120,7 +114,6 @@ namespace HMS.Areas.Admin.Repositories
             }
 
             return errorMessage;
-
         }
 
         public async Task<DtoForPatientRegistrationInvoice> GetPatientRegistrationInvoice(string patientId)
@@ -139,8 +132,6 @@ namespace HMS.Areas.Admin.Repositories
             var initiator = await _applicationDbContext.ApplicationUsers.Where(a => a.Id == paymentDetails.InitiatorId).FirstOrDefaultAsync();
             if (initiator != null)
             {
-
-
                 if (patient != null)
                 {
                     if (invoice != null)
@@ -157,12 +148,11 @@ namespace HMS.Areas.Admin.Repositories
                         invoiceToUpdate.TransactionReference = paymentDetails.transactionReference;
 
                         _applicationDbContext.RegistrationInvoices.Update(invoiceToUpdate);
-
-                       
+                                               
                         var res = await _applicationDbContext.SaveChangesAsync();
                         if (res == 1)
                         {
-                            await _transaction.LogTransactionAsync(invoice.Amount, transactionType, invoiceType, invoice.Id, paymentDetails.PaymentMethod, transactionDate, patient.PatientId, paymentDetails.InitiatorId);
+                            await _transaction.LogTransactionAsync(invoice.Amount, transactionType, invoiceType, invoice.Id, paymentDetails.PaymentMethod, transactionDate, patient.PatientId, paymentDetails.InitiatorId, patient.Id);
                             return 0;
                         }
                         return 2;
@@ -183,11 +173,9 @@ namespace HMS.Areas.Admin.Repositories
            
             string paymentMethod = null;
 
-
             DateTime transactionDate = DateTime.Now;
             var patient = await _applicationDbContext.PatientProfiles.Include(p => p.Account).Where(p => p.PatientId == paymentDetails.PatientId).FirstOrDefaultAsync();
-            
-            
+                        
             if (patient != null)
             {
                 var invoice = await _applicationDbContext.RegistrationInvoices.Where(i => i.InvoiceNumber == paymentDetails.InvoiceNumber && i.PatientId == patient.PatientId).FirstOrDefaultAsync();
@@ -208,11 +196,8 @@ namespace HMS.Areas.Admin.Repositories
                         invoiceToUpdate.PaymentStatus = "Paid";
                         invoiceToUpdate.TransactionReference = paymentDetails.transactionReference;
 
-                        _applicationDbContext.RegistrationInvoices.Update(invoiceToUpdate);
-
-                   
-
-                        
+                        _applicationDbContext.RegistrationInvoices.Update(invoiceToUpdate);               
+                                                
                         var account = await _applicationDbContext.Accounts.FirstOrDefaultAsync(s => s.Id == patient.AccountId);
                         var previousAccountBalance = account.AccountBalance;
                         account.AccountBalance -= paymentDetails.Amount;
@@ -230,12 +215,11 @@ namespace HMS.Areas.Admin.Repositories
 
                         var accountInvoice = await _account.CreateAccountInvoice(accountInvoiceToCreate);
 
-
                         var res = await _applicationDbContext.SaveChangesAsync();
                         if (res == 0)
                         {
-                            await _transaction.LogTransactionAsync(invoice.Amount, transactionType, invoiceType, invoice.Id, paymentDetails.PaymentMethod, transactionDate, patient.PatientId, paymentDetails.InitiatorId);
-                            await _transaction.LogAccountTransactionAsync(invoice.Amount, accountTransactionType, accountInvoiceType, accountInvoice.Id, paymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, paymentDetails.InitiatorId);
+                            await _transaction.LogTransactionAsync(invoice.Amount, transactionType, invoiceType, invoice.Id, paymentDetails.PaymentMethod, transactionDate, patient.PatientId, paymentDetails.InitiatorId, patient.Id);
+                            await _transaction.LogAccountTransactionAsync(invoice.Amount, accountTransactionType, accountInvoiceType, accountInvoice.Id, paymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, paymentDetails.InitiatorId, patient.Id);
                             return 0;
                         }
                         return 2;

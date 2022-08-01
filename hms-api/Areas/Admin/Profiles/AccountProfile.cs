@@ -30,6 +30,5 @@ namespace HMS.Areas.Admin.Profiles
             CreateMap<AccountDtoForDelete, Account>();
             CreateMap<Account, AccountDtoForDelete>();
         }
-           
     }
 }

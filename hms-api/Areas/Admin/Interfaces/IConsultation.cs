@@ -3,10 +3,6 @@ using HMS.Areas.Doctor.Dtos;
 using HMS.Models;
 using HMS.Services.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HMS.Areas.Admin.Interfaces
@@ -35,7 +31,6 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> ReassignPatientToNewDoctor(Consultation consultation, JsonPatchDocument<ConsultationDtoForUpdate> Consultation);
         Task<int> GetDoctorsPendingConsultationCount(string doctorId);
         Task<int> GetDoctorsCompletedConsultationCount(string doctorId);
-       
         Task<int> GetPatientPendingConsultationCount(string patientId);
         Task<int> GetPatientCompletedConsultationCount(string patientId);
     }

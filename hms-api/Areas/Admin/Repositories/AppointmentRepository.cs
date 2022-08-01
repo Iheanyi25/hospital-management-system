@@ -88,7 +88,6 @@ namespace HMS.Areas.Admin.Repositories
             return doctorCompletedAppointmentsCount;
         }
 
-
         public async Task<int> GetDoctorsRejectedAppointmentsCount(string doctorId) => await _applicationDbContext.DoctorAppointments.Where(a => a.IsRejected == true && a.DoctorId == doctorId).CountAsync();
         public async Task<int> GetDoctorsRejectedAppointmentsCount() => await _applicationDbContext.DoctorAppointments.Where(a => a.IsRejected == true).CountAsync();
         public async Task<int> GetDoctorsAcceptedAppointmentsCount(string doctorId) => await _applicationDbContext.DoctorAppointments.Where(a => a.IsAccepted == true && a.DoctorId == doctorId).CountAsync();
@@ -175,6 +174,5 @@ namespace HMS.Areas.Admin.Repositories
         }
 
         public async Task<int> GetDoctorsCompletedAppointmentsCount() => await _applicationDbContext.DoctorAppointments.Where(a => a.IsCompleted == true).CountAsync();
-          
     }
 }

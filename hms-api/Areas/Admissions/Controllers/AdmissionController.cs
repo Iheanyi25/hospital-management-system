@@ -19,7 +19,6 @@ namespace HMS.Areas.Admissions.Controllers
         private readonly IPatientProfile _patient;
         private readonly IWard _ward;
         private readonly IAdmissionInvoice _admissionInvoice;
-   
 
         public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient)
         {
@@ -34,13 +33,8 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAdmittedPatientsWithoutBedCount()
         {
-
-            var referredPatientsCounts = _admission.GetAdmissionsWithoutBedCount();
-
-          
-
-
-          
+            var referredPatientsCounts = _admission.GetAdmissionsWithoutBedCount();       
+                      
             return Ok(new
             {
                 referredPatientsCounts,
@@ -66,7 +60,6 @@ namespace HMS.Areas.Admissions.Controllers
                 var days = todaysDate - admissionDate;
                 daysAdmitted = days.Days;
 
-
                 return Ok(new
                 {
                     daysAdmitted,
@@ -81,10 +74,7 @@ namespace HMS.Areas.Admissions.Controllers
                     message = "Days Admitted Returned"
                 });
             }
-
-           
         }
-
 
         [Route("GetAdmissionsWithBed")]
         [HttpGet]
@@ -107,7 +97,6 @@ namespace HMS.Areas.Admissions.Controllers
                     admissions.HasNext,
                     admissions.HasPrevious
                 };
-
 
                 //This is optional
                 Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
@@ -133,7 +122,6 @@ namespace HMS.Areas.Admissions.Controllers
                     admissions.HasPrevious
                 };
 
-
                 //This is optional
                 Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
 
@@ -144,14 +132,12 @@ namespace HMS.Areas.Admissions.Controllers
                     message = "Admissions Fetched"
                 });
             }
-           
         }
 
         [Route("GetAdmissionsWithoutBed")]
         [HttpGet]
         public async Task<IActionResult> GetAdmittedPatientsWithoutBed([FromQuery] PaginationParameter paginationParameter)
         {
-
             var admissions = _admission.GetAdmissionsWithoutBed(paginationParameter);
 
             var paginationDetails = new
@@ -163,7 +149,6 @@ namespace HMS.Areas.Admissions.Controllers
                 admissions.HasNext,
                 admissions.HasPrevious
             };
-
 
             //This is optional
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
@@ -180,7 +165,6 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAdmittedPatient(string AdmissionId)
         {
-            
             if (AdmissionId == "")
             {
                 return BadRequest();
@@ -195,7 +179,6 @@ namespace HMS.Areas.Admissions.Controllers
 
             return Ok(new { admission, mwessage = "Admission returned" });
         }
-
 
         [Route("AssignPatientToBedspace")]
         [HttpPost]
@@ -238,7 +221,6 @@ namespace HMS.Areas.Admissions.Controllers
                     AdmissionId = admission.Id,
                 };
 
-
                 var admissionInvoiceId = await _admissionInvoice.CreateAdmissionInvoice(admissionInvoiceToCreate);
 
                 if (string.IsNullOrEmpty(admissionInvoiceId))
@@ -265,9 +247,7 @@ namespace HMS.Areas.Admissions.Controllers
                 }
             }
             else
-            {
-                
-                
+            {                
                 var occupiedBed = admission.Bed;
                 occupiedBed.IsAvailable = true;
                 var res1 = await _bed.UpdateBed(occupiedBed);
@@ -288,10 +268,8 @@ namespace HMS.Areas.Admissions.Controllers
                 {
                     return BadRequest(new { response = "301", message = "Failed To Assign Patient a Bed Space" });
                 }
-
             }
             
-
             return Ok(new
             {
                 admission,
@@ -299,12 +277,10 @@ namespace HMS.Areas.Admissions.Controllers
             });
         }
 
-
         [Route("DischargePatient")]
         [HttpPost]
         public async Task<IActionResult> DischargePatient(AdmissionDtoForDischarge Admission)
-        {
-           
+        {  
             if (Admission == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
@@ -333,7 +309,6 @@ namespace HMS.Areas.Admissions.Controllers
             var ward = await _ward.GetBedsWard(bed.Id);
             ward.IsAvailable = true;
             await _ward.UpdateWard(ward);
-
 
             if (!admissionUpdated)
             {

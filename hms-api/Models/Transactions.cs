@@ -24,10 +24,12 @@ namespace HMS.Models
         public Account BenefactorAccount { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal BenefactorAccountPreviousBalance { get; set; }
+        public string PatientId { get; set; }
         public string BenefactorId { get; set; }
         public ApplicationUser Benefactor { get; set; }
         public string InitiatorId { get; set; }
         public ApplicationUser Initiator { get; set; }
+        public virtual PatientProfile Patient { get; set; }
         public string DepositorsName { get; set; }
     }
 }

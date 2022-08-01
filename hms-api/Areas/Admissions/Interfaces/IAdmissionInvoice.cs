@@ -14,6 +14,5 @@ namespace HMS.Areas.Admissions.Interfaces
         Task<bool> CheckIfAmountPaidIsCorrect(AdmissionPaymentDto admissionPayment);
         Task<bool> PayForAdmission(AdmissionPaymentDto admissionPayment);
         Task<bool> PayForAdmissionWithAccount(AdmissionPaymentDto admissionPayment);
-
     }
 }

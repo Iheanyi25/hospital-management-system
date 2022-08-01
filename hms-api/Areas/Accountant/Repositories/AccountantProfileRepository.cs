@@ -73,7 +73,6 @@ namespace HMS.Areas.Accountant.Repositories
             }
             else
             {
-
                 User.FirstName = AccountProfile.FirstName;
                 User.LastName = AccountProfile.LastName;
                 User.OtherNames = AccountProfile.OtherNames;
@@ -160,7 +159,6 @@ namespace HMS.Areas.Accountant.Repositories
                         // Save changes in database
                         await _applicationDbContext.SaveChangesAsync();
                         return true;
-
                     }
                     else
                     {
@@ -171,7 +169,6 @@ namespace HMS.Areas.Accountant.Repositories
                 {
                     return false;
                 }
-
             }
             else
             {

@@ -24,7 +24,6 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IRegister _registration;
 
 
-
         public ConsultationController(IConsultation consultation, IMapper mapper, IUser userRepo, IDoctorClerking clerking, IRegister registration)
         {
             _consultation = consultation;
@@ -91,7 +90,6 @@ namespace HMS.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> BookConsultation([FromBody] BookConsultation consultation)
         {
-            
             if (consultation == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
@@ -112,13 +110,8 @@ namespace HMS.Areas.Admin.Controllers
             {
                 return BadRequest(new { response = 301, message = "Invalid Patient Id" });
             }
-
-            
+                        
             var consultationToBook = _mapper.Map<Consultation>(consultation);
-
-
-
-
 
             var res = await _consultation.BookConsultation(consultationToBook);
             if (!res)
@@ -155,7 +148,6 @@ namespace HMS.Areas.Admin.Controllers
             }
         }
 
-
         [Route("ReassignPatientToAnotherDoctor")]
         [HttpPost]
         public async Task<IActionResult> ReassignAppointment(ReassignConsultationDto Consultation)
@@ -167,7 +159,6 @@ namespace HMS.Areas.Admin.Controllers
             // Validate patient is not null---has no profile yet
             if (consultation != null && doctor != null)
             {
-               
                 //if its avaliable now book it
                 var doctorConsultation = _mapper.Map<Consultation>(consultation);
                 doctorConsultation.DoctorId = Consultation.DoctorId;
@@ -250,7 +241,6 @@ namespace HMS.Areas.Admin.Controllers
                 message = "Consultations Fetched"
             });
         }
-
 
         [Route("GetPatientConsultationsOnOpenList")]
         [HttpGet]
@@ -427,9 +417,7 @@ namespace HMS.Areas.Admin.Controllers
                     message = "There was an error contact the administrator"
                 });
             }
-        }
-
-       
+        }      
 
         [Route("DeleteConsultation")]
         [HttpPost]
@@ -454,6 +442,5 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new { message = "Consultation Successfully Deleted" });
         }
-
     }
 }

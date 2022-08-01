@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HMS.Areas.Admin.Dtos;
 using HMS.Areas.Admin.Interfaces;
+using HMS.Areas.Patient.Dtos;
+using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
 using HMS.Services.Helpers;
 using HMS.Services.Interfaces;
@@ -19,13 +21,15 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly IUser _user;
         private readonly ITransactionLog _transaction;
+        private readonly IPatientProfile _patientRepository;
 
-        public AccountController(IAccount account, IUser user, IMapper mapper, ITransactionLog transaction)
+        public AccountController(IAccount account, IUser user, IMapper mapper, ITransactionLog transaction, IPatientProfile patientRepository)
         {
             _accountRepo = account;
             _mapper = mapper;
             _user = user;
             _transaction = transaction;
+            _patientRepository = patientRepository;
         }
 
         [HttpGet("GetAccount/{Id}")]
@@ -64,11 +68,9 @@ namespace HMS.Areas.Admin.Controllers
             return Ok(new { account, mwessage = "Account returned" });
         }
 
-
         [HttpGet("Account/GetAllAccounts")]
         public async Task<IActionResult> AllAccounts([FromQuery] PaginationParameter paginationParameter)
         {
-
             var accounts = _accountRepo.GetAccountsPagination(paginationParameter);
 
             var paginationDetails = new
@@ -95,7 +97,6 @@ namespace HMS.Areas.Admin.Controllers
         [HttpGet("GetPatientsInAccount")]
         public async Task<IActionResult> GetPatientsInAccount([FromQuery] PaginationParameter paginationParameter, string AccountId)
         {
-
             var patients = _accountRepo.GetPatientsInAccount(paginationParameter, AccountId);
 
             var paginationDetails = new
@@ -165,8 +166,6 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new { message = "Invalid post attempt" });
             }
 
-
-
             var Account = await _accountRepo.GetAccountByIdAsync(account.AccountId);
             var Initiator = await _user.GetUserByIdAsync(account.InitiatorId);
             
@@ -193,7 +192,6 @@ namespace HMS.Areas.Admin.Controllers
                 AccountId = account.AccountId,
             };
 
-
             var accountInvoice = await _accountRepo.CreateAccountInvoice(accountInvoiceToCreate);
 
             if (accountInvoice == null)
@@ -208,7 +206,9 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new { response = "301", message = "Failed To Fund Account" });
             }
 
-            await _transaction.LogAccountTransactionAsync(account.Amount, transactionType, invoiceType, accountInvoice.Id, account.PaymentMethod, transactionDate, Account.Id, previousAccountBalance, account.InitiatorId);
+            PatientDtoForView patient = await _patientRepository.GetPatientByAccountId(account.AccountId);
+
+            await _transaction.LogAccountTransactionAsync(account.Amount, transactionType, invoiceType, accountInvoice.Id, account.PaymentMethod, transactionDate, Account.Id, previousAccountBalance, account.InitiatorId, patient.Id);
         
             return Ok(new
             {
@@ -251,6 +251,7 @@ namespace HMS.Areas.Admin.Controllers
                 AccountId = Account.Id,
             };
 
+            PatientDtoForView patient = await _patientRepository.GetPatientByAccountId(Account.Id);
 
             var accountInvoice = await _accountRepo.CreateAccountInvoice(accountInvoiceToCreate);
 
@@ -266,7 +267,7 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new { response = "301", message = "Failed To Fund Account" });
             }
 
-            await _transaction.LogLinkPaymentTransaction(account.Amount, transactionType, invoiceType, accountInvoiceToCreate.Id, account.PaymentMethod, transactionDate, Account.Id, previousAccountBalance, account.Initiator);
+            await _transaction.LogLinkPaymentTransaction(account.Amount, transactionType, invoiceType, accountInvoiceToCreate.Id, account.PaymentMethod, transactionDate, Account.Id, previousAccountBalance, account.Initiator, patient.Id);
 
             return Ok(new
             {
@@ -340,5 +341,4 @@ namespace HMS.Areas.Admin.Controllers
             return Ok(new { account, message = "Account Deleted" });
         }
     }
-
 }

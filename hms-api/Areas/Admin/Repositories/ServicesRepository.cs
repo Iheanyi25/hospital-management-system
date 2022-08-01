@@ -33,7 +33,6 @@ namespace HMS.Areas.Admin.Repositories
             _transaction = transaction;
         }
 
-
         public async Task<IEnumerable<ServiceDtoForView>> GetAllServices()
         {
             var services = await _applicationDbContext.Services.Include(s=>s.ServiceCategory).OrderBy(s => s.Name).ToListAsync();
@@ -56,7 +55,6 @@ namespace HMS.Areas.Admin.Repositories
         }
 
         public async Task<IEnumerable<Service>> GetServiceByCategoryAsync(string ServiceCategoryId) => await _applicationDbContext.Services.Where(s => s.ServiceCategoryId == ServiceCategoryId).OrderBy(s => s.Name).ToListAsync();
-      
 
         public async Task<bool> CreateService(Service service)
         {
@@ -130,29 +128,19 @@ namespace HMS.Areas.Admin.Repositories
 
         public async Task<int> GetServiceCount()
         {
-
             var servicesCount = await _applicationDbContext.Services.CountAsync();
             return servicesCount;
-               
         }
-
-
-
 
         public async Task<bool> CreateServiceRequest(ServiceRequestDtoForCreate serviceRequest, string invoiceId)
         {
             try
-            {
-                
+            {   
                 decimal priceTotal = 0;
                 decimal AmountToBePaidByPatient = 0;
                 decimal AmountToBePaidByHMO = 0;
                 string priceCalculationFormular = "";
-
                 
-
-
-
                 var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == serviceRequest.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
                 var healthplanId = PatientProfile.Account.HealthPlanId;
 
@@ -161,13 +149,9 @@ namespace HMS.Areas.Admin.Repositories
                 var HMOHealthPlanSubGroupPatient = await _applicationDbContext.HMOSubUserGroupPatients.Include(d => d.HMOSubUserGroup).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
                 var NHISHealthPlanPatient = await _applicationDbContext.NHISHealthPlanPatients.Where(p => p.PatientId == PatientProfile.PatientId).Include(n => n.NHISHealthPlan).FirstOrDefaultAsync();
 
-
-
-
                 decimal totalServicePricing = 0;
                 decimal amountDue = 0;
                 decimal HMOAmount = 0;
-
 
                 if (serviceRequest == null || string.IsNullOrEmpty(invoiceId))
                     return false;
@@ -185,16 +169,15 @@ namespace HMS.Areas.Admin.Repositories
                             if (HMOHealthPlanServicePrice != null)
                             {
                                 await _applicationDbContext.ServiceRequests.AddAsync(
-                                     new ServiceRequest
-                                     {
+                                    new ServiceRequest
+                                    {
                                          ServiceId = serviceRequest.ServiceId[i],
                                          Amount = HMOHealthPlanServicePrice.Price,
                                          PaymentStatus = "Awaiting HMO Payment",
                                          ServiceInvoiceId = invoiceId,
                                          AppointmentId = serviceRequest.Id,
                                          PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name
-                                 });
-
+                                    });
                             }
                             else
                             {
@@ -207,9 +190,7 @@ namespace HMS.Areas.Admin.Repositories
                                         ServiceInvoiceId = invoiceId,
                                         AppointmentId = serviceRequest.Id,
                                         PriceCalculationFormular =  "Default Price"
-
                                     });
-
                             }
                         }
                         else if (HMOHealthPlanSubGroupPatient != null)
@@ -227,7 +208,6 @@ namespace HMS.Areas.Admin.Repositories
                                         ServiceInvoiceId = invoiceId,
                                         AppointmentId = serviceRequest.Id,
                                         PriceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name
-
                                     });
                             }
                             else
@@ -260,7 +240,7 @@ namespace HMS.Areas.Admin.Repositories
                                         ServiceInvoiceId = invoiceId,
                                         AppointmentId = serviceRequest.Id,
                                         PriceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name
-                            });
+                                    });
                             }
                             else
                             {
@@ -315,7 +295,6 @@ namespace HMS.Areas.Admin.Repositories
                                          PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name
 
                                      });
-
                             }
                             else
                             {
@@ -433,7 +412,6 @@ namespace HMS.Areas.Admin.Repositories
                                         PriceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name
 
                                     });
-
                             }
                             else
                             {
@@ -463,8 +441,6 @@ namespace HMS.Areas.Admin.Repositories
                                         PaymentStatus = "Awaiting HMO Payment",
                                         ServiceInvoiceId = invoiceId,
                                         PriceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name
-
-
                                     });
                             }
                             else
@@ -477,11 +453,9 @@ namespace HMS.Areas.Admin.Repositories
                                        PaymentStatus = "Not Paid",
                                        ServiceInvoiceId = invoiceId,
                                        PriceCalculationFormular = "Default Price"
-
                                    });
                             }
                         }
-
                         else if (NHISHealthPlanPatient != null)
                         {
                             var NHISService = await _applicationDbContext.NHISHealthPlanServices.Where(p => p.NHISHealthPlanId == NHISHealthPlanPatient.NHISHealthPlanId && p.ServiceId == serviceRequest.ServiceId[i]).FirstOrDefaultAsync();
@@ -540,19 +514,14 @@ namespace HMS.Areas.Admin.Repositories
             }
         }
 
-      
-
         public async Task<string> GenerateInvoiceForServiceRequest(ServiceRequestDtoForCreate serviceRequest)
         {
             try
             {
                 if (serviceRequest == null)
-                    return null;
-                
-               
+                    return null;              
                 
                 List<Service> services = new List<Service>();
-
 
                 //grab the patient complete details
                 var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == serviceRequest.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
@@ -573,11 +542,7 @@ namespace HMS.Areas.Admin.Repositories
 
                 foreach (var serviceId in serviceRequest.ServiceId)
                 {
-                    
-
-
                     var service = _applicationDbContext.Services.Find(serviceId);
-
 
                     //get the drug price based on the health plan patient belongs to above
                     if (HMOHealthPlanPatient != null)
@@ -588,13 +553,11 @@ namespace HMS.Areas.Admin.Repositories
                         {
                             priceTotal = HMOHealthPlanServicePrice.Price;
                             AmountToBePaidByPatient = 0;
-                           
                         }
                         else
                         {
                             priceTotal = service.Cost;
                             AmountToBePaidByPatient = service.Cost;
-                           
                         }
                         priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
                     }
@@ -606,13 +569,11 @@ namespace HMS.Areas.Admin.Repositories
                         {
                             priceTotal = HMOHealthPlanServicePrice.Price;
                             AmountToBePaidByPatient = 0;
-                            
                         }
                         else
                         {
                             priceTotal = service.Cost;
                             AmountToBePaidByPatient = service.Cost;
-                            
                         }
                         priceCalculationFormular = HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanSubGroupPatient.HMOSubUserGroup.HMOHealthPlan.Name;
                     }
@@ -642,12 +603,10 @@ namespace HMS.Areas.Admin.Repositories
 
                     amountDue += AmountToBePaidByPatient;
                     HMOAmount += priceTotal;
-
                 }
 
                 if (HMOHealthPlanPatient != null)
                 {
-
                     var serviceInvoice = new ServiceInvoice()
                     {
                         AmountTotal = totalServicePricing,
@@ -664,10 +623,8 @@ namespace HMS.Areas.Admin.Repositories
                     await _applicationDbContext.SaveChangesAsync();
                     return serviceInvoice.Id;
                 }
-
                 else
                 {
-
                     var serviceInvoice = new ServiceInvoice()
                     {
                         AmountTotal = totalServicePricing,
@@ -682,7 +639,6 @@ namespace HMS.Areas.Admin.Repositories
                     await _applicationDbContext.ServiceInvoices.AddAsync(serviceInvoice);
                     await _applicationDbContext.SaveChangesAsync();
                     return serviceInvoice.Id;
-
                 }   
             }
             catch (Exception ex)
@@ -698,7 +654,6 @@ namespace HMS.Areas.Admin.Repositories
             var serviceInvoiceToReturn = _mapper.Map<IEnumerable<ServiceInvoiceDtoForView>>(invoices);
 
             return PagedList<ServiceInvoiceDtoForView>.ToPagedList(serviceInvoiceToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
-            
         }
 
         //without pagination
@@ -707,7 +662,6 @@ namespace HMS.Areas.Admin.Repositories
             var invoices = await _applicationDbContext.ServiceInvoices.Include(a => a.ServiceRequests).Include(p => p.Patient).OrderBy(s => s.DateGenerated).ToListAsync();
 
             return  _mapper.Map<IEnumerable<ServiceInvoiceDtoForView>>(invoices);
-
         }
 
         public async Task<IEnumerable<dynamic>> GetServiceRequestInAnInvoice(string invoiceId)
@@ -756,10 +710,7 @@ namespace HMS.Areas.Admin.Repositories
             var invoices = await _applicationDbContext.ServiceInvoices.Where(a => a.PatientId == patientId).Include(p => p.ServiceRequests).OrderByDescending(c => c.DateGenerated).ToListAsync();
 
             return _mapper.Map<IEnumerable<ServiceInvoiceDtoForView>>(invoices);
-
-
         }
-
 
         public async Task<bool> CheckIfServiceRequestIdExist(List<string> serviceRequestId)
         {
@@ -769,7 +720,6 @@ namespace HMS.Areas.Admin.Repositories
             var idNotInServiceRequests = serviceRequestId.Where(x => _applicationDbContext.ServiceRequests.Any(y => y.Id == x));
             return idNotInServiceRequests.Any();
         }
-
 
         public async Task<bool> CheckIfAmountPaidIsCorrect(ServiceRequestPaymentDto services)
         {
@@ -809,14 +759,13 @@ namespace HMS.Areas.Admin.Repositories
                serviceInvoiceId = ServiceRequest.ServiceInvoiceId;
                servicesPaid++;
                 _applicationDbContext.ServiceRequests.Update(ServiceRequest);
-              
             });
 
             //log transactions
             services.ServiceRequestId.ForEach(serviceRequestId =>
             {
                 var ServiceRequest =  _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
-                 _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, ServiceRequest.ServiceInvoiceId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId);
+                 _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, ServiceRequest.ServiceInvoiceId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId, patient.Id);
 
             });
 
@@ -890,7 +839,6 @@ namespace HMS.Areas.Admin.Repositories
                 _applicationDbContext.AccountInvoices.Add(accountInvoiceToCreate);
 
                 accountInvoiceId = accountInvoiceToCreate.Id;
-
             });
 
             var account = await _applicationDbContext.Accounts.FirstOrDefaultAsync(s => s.Id == patient.AccountId);
@@ -918,18 +866,12 @@ namespace HMS.Areas.Admin.Repositories
             services.ServiceRequestId.ForEach(serviceRequestId =>
             {
                 var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
-                _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, serviceRequestId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId);
-                _transaction.LogAccountTransaction(ServiceRequest.Amount, accountTransactionType, accountInvoiceType, accountInvoiceId, accountPaymentMethod, transactionDate, patient.Account.Id, services.InitiatorId);
+                _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, serviceRequestId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId, patient.Id);
+                _transaction.LogAccountTransaction(ServiceRequest.Amount, accountTransactionType, accountInvoiceType, accountInvoiceId, accountPaymentMethod, transactionDate, patient.Account.Id, services.InitiatorId, patient.Id);
             });
 
-
             //now check of all the servies in this invoice was paid for
-
-
-           
-
             return true;
-
         }
 
         public async Task<ServiceRequestResult> UploadServiceRequestResult(ServiceRequestResult serviceRequestResult)
@@ -949,14 +891,12 @@ namespace HMS.Areas.Admin.Repositories
 
         public async Task<bool> UploadServiceRequestResultImage(ServiceUploadResultDto serviceRequestUploadResultDto, string serviceRequestResultId)
         {
-           
             try
             {
                 if (serviceRequestUploadResultDto != null)
                 {
                     for (int i = 0; i < serviceRequestUploadResultDto.Images.Count; i++)
                     {
-
                         var rootPath = _webHostEnvironment.ContentRootPath;
                         var folderToSaveIn = "wwwroot/Images/";
                         var pathToSave = Path.Combine(rootPath, folderToSaveIn);
@@ -971,12 +911,10 @@ namespace HMS.Areas.Admin.Repositories
                         {
                             if (serviceRequestUploadResultDto.Images != null)
                             {
-                                
                                 using (var fileStream = new FileStream(Path.Combine(pathToSave, serviceRequestUploadResultDto.Images[i].FileName), FileMode.Create, FileAccess.Write))
                                 {
                                    await serviceRequestUploadResultDto.Images[i].CopyToAsync(fileStream);
                                     absoluteFilePath = fileStream.Name;
-                                    
                                 }
 
                                 // Upload image(s)
@@ -1002,7 +940,6 @@ namespace HMS.Areas.Admin.Repositories
                 {
                     return false;
                 }
-                       
             }
             catch (Exception ex)
             {
@@ -1016,7 +953,6 @@ namespace HMS.Areas.Admin.Repositories
       
         public async Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResults(string serviceRequestId)
         {
-
             var serviceRequestResults = await _applicationDbContext.ServiceRequestResults
                 .Where(s => s.ServiceRequestId == serviceRequestId).Include(s=>s.ServiceRequestResultImages).Include(s => s.ServiceRequest).ThenInclude(s => s.Service).ThenInclude(s => s.ServiceCategory).OrderBy(s => s.Result).ToListAsync();
 
@@ -1093,7 +1029,6 @@ namespace HMS.Areas.Admin.Repositories
 
             var serviceRequestResultsToReturn = _mapper.Map<IEnumerable<ServiceRequestResultDtoForView>>(serviceRequestResults);
             return PagedList<ServiceRequestResultDtoForView>.ToPagedList(serviceRequestResultsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
-
         }
 
         public PagedList<ServiceRequestResultDtoForView> GetServiceRequestResultsForPatientPagination(string patientId, PaginationParameter paginationParameter)

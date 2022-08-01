@@ -40,8 +40,7 @@ namespace HMS.Areas.Patient.Repositories
             return patients;
 
         }
-
-       
+               
         public async Task<PatientProfile> GetPatientByIdAsync(string patientId) => await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == patientId).Include(p => p.Patient).Include(p => p.File).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
       
         public async Task<PatientProfile> GetPatientByProfileIdAsync(string patientId)
@@ -49,7 +48,6 @@ namespace HMS.Areas.Patient.Repositories
             var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.Id == patientId).Include(p => p.Patient).FirstOrDefaultAsync();
             return  PatientProfile;
         }
-
 
         public async Task<bool> EditPatientProfilePictureAsync(PatientProfilePictureViewModel PatientProfile)
         {
@@ -59,8 +57,6 @@ namespace HMS.Areas.Patient.Repositories
 
                 if (PatientProfile != null)
                 {
-
-
                     var rootPath = _webHostEnvironment.ContentRootPath;
                     var folderToSaveIn = "wwwroot/Images/";
                     var pathToSave = Path.Combine(rootPath, folderToSaveIn);
@@ -80,7 +76,6 @@ namespace HMS.Areas.Patient.Repositories
                                 absoluteFilePath = fileStream.Name;
                             }
 
-
                             if (patient != null)
                             {
                                 patient.Image = Path.GetRelativePath(rootPath, absoluteFilePath);
@@ -92,8 +87,6 @@ namespace HMS.Areas.Patient.Repositories
                             {
                                 return false;
                             }
-
-
                         }
                         else
                         {
@@ -107,7 +100,6 @@ namespace HMS.Areas.Patient.Repositories
                 {
                     return false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -213,7 +205,6 @@ namespace HMS.Areas.Patient.Repositories
                     Disabilities = patientProfile.Disabilities,
                     Diabetic = patientProfile.Diabetic,
                     PatientId = patientProfile.PatientId
-
                 };
 
                 _applicationDbContext.PatientProfiles.Add(profile);
@@ -223,7 +214,6 @@ namespace HMS.Areas.Patient.Repositories
             }
             else
             {
-
                 Patient.BloodGroup = patientProfile.BloodGroup;
                 Patient.GenoType = patientProfile.GenoType;
                 Patient.Allergies = patientProfile.Allergies;
@@ -239,9 +229,7 @@ namespace HMS.Areas.Patient.Repositories
         public async Task<dynamic> GetPatientAppointmentByIdAsync(string patientId)
         {
             var apponintments = await _applicationDbContext.DoctorAppointments.Where(p => p.PatientId == patientId)
-                                        .Select(x => new  {patient = x.Patient, apponintment = x}).FirstAsync();
-
-           
+                                        .Select(x => new  {patient = x.Patient, apponintment = x}).FirstAsync();          
 
             return apponintments;
         }
@@ -350,6 +338,13 @@ namespace HMS.Areas.Patient.Repositories
         {
             var patients = await _applicationDbContext.MyPatients.Include(p => p.Patient).Where(p => p.DoctorId == DoctorId).OrderBy(p => p.Patient.FirstName).ToListAsync();
             var patientsToReturn = _mapper.Map<IEnumerable<PatientDtoForView>>(patients);
+            return patientsToReturn;
+        }
+
+        public async Task<PatientDtoForView> GetPatientByAccountId(string AccountId)
+        {
+            PatientProfile patient = await _applicationDbContext.PatientProfiles.Where(p => p.AccountId == AccountId).FirstOrDefaultAsync();
+            var patientsToReturn = _mapper.Map<PatientDtoForView>(patient);
             return patientsToReturn;
         }
     }

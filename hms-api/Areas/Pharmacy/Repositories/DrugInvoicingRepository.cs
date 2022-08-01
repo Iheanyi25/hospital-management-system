@@ -26,7 +26,6 @@ namespace HMS.Areas.Pharmacy.Repositories
             _transaction = transaction;
             _drugBatch = drugBatch;
             _account = account;
-        
         }
 
         public async Task<bool> CheckIfDrugsExist(List<Drugs> drugs)
@@ -52,9 +51,7 @@ namespace HMS.Areas.Pharmacy.Repositories
                 string priceCalculationFormular = "";
 
                 if (drugInvoicing == null)
-                    return null;
-
-             
+                    return null;            
 
                 var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == drugInvoicing.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
                 var healthplanId = PatientProfile.Account.HealthPlanId;
@@ -64,14 +61,10 @@ namespace HMS.Areas.Pharmacy.Repositories
                 var HMOHealthPlanSubGroupPatient = await _applicationDbContext.HMOSubUserGroupPatients.Include(d => d.HMOSubUserGroup).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
                 var NHISHealthPlanPatient = await _applicationDbContext.NHISHealthPlanPatients.Where(p => p.PatientId == PatientProfile.PatientId).Include(n => n.NHISHealthPlan).FirstOrDefaultAsync();
 
-
-
-
                 decimal totalDrugPricing = 0;
                 decimal amountDue = 0;
                 decimal HMOAmount = 0;
-                
-               
+                               
                 foreach (var _drug in drugInvoicing.Drugs)
                 {
                     //Check if the drug is in stock
@@ -84,8 +77,7 @@ namespace HMS.Areas.Pharmacy.Repositories
                     {
                         return "1";
                     }
-
-                    
+                                        
                     if (HMOHealthPlanPatient != null)
                     {
                        var HMOHealthPlanDrugPrice = await _applicationDbContext.HMOHealthPlanDrugPrices.Where(p => p.HMOHealthPlanId == HMOHealthPlanPatient.HMOHealthPlanId && p.DrugId == drug.Id).FirstOrDefaultAsync();
@@ -98,9 +90,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                             priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             
-
-
-
                             drugBatch.QuantityInStock -= quantityOfDrugs;
 
                             await _drugBatch.UpdateDrugBatch(drugBatch);
@@ -131,8 +120,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                             priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                            
-
-
                             drugBatch.QuantityInStock -= _drug.numberOfCartons * drug.ContainersPerCarton * drug.QuantityPerContainer + _drug.numberOfContainers * drug.QuantityPerContainer + _drug.numberOfUnits;
 
                             await _drugBatch.UpdateDrugBatch(drugBatch);
@@ -162,7 +149,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                             totalCartonPrice = drug.DefaultPricePerCarton * _drug.numberOfCartons;
                             priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
-                            
                         }
                         else
                         {
@@ -187,7 +173,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                             totalCartonPrice = drugPrice.PricePerCarton * _drug.numberOfCartons;
                             priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
-                            
                         }
                         else
                         {
@@ -213,10 +198,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                         priceCalculationFormular = "Default Price";
                     }
 
-
-
-
-
                     if (String.IsNullOrEmpty(_drug.numberOfUnits.ToString()))
                     {
                         _drug.numberOfUnits = 0;
@@ -231,12 +212,7 @@ namespace HMS.Areas.Pharmacy.Repositories
                     {
                         _drug.numberOfCartons = 0;
                     }
-
                     
-
-                    
-                    
-
                     totalDrugPricing += priceTotal;
                     amountDue += AmountToBePaidByPatient;
                     HMOAmount += AmountToBePaidByHMO;
@@ -244,7 +220,6 @@ namespace HMS.Areas.Pharmacy.Repositories
 
                 if (HMOHealthPlanPatient != null)
                 {
-                   
                     var drugInvoice = new DrugDispensingInvoice()
                     {
                         AmountTotal = totalDrugPricing,
@@ -282,9 +257,6 @@ namespace HMS.Areas.Pharmacy.Repositories
 
                     return drugDispensingInvoice.Id;
                 }
-
-                
-
             }
             catch (Exception ex)
             {
@@ -296,7 +268,6 @@ namespace HMS.Areas.Pharmacy.Repositories
         {
             try
             {
-               
                 string priceCalculationFormular = "";
                 decimal totalUnitPrice = 0;
                 decimal totalContainerPrice = 0;
@@ -320,12 +291,10 @@ namespace HMS.Areas.Pharmacy.Repositories
 
                 foreach (var _drug in drugInvoicingDto.Drugs)
                 {
-                 
                     //Check if the drug is in stock
                     var drug = _applicationDbContext.Drugs.Find(_drug.drugId);
                     var quantityOfDrugs = _drug.numberOfCartons * drug.ContainersPerCarton * drug.QuantityPerContainer + _drug.numberOfContainers * drug.QuantityPerContainer + _drug.numberOfUnits;
                     var drugPrice = await _applicationDbContext.DrugPrices.Where(p => p.HealthPlanId == healthplanId && p.DrugId == drug.Id).FirstOrDefaultAsync();
-
 
                     //get the drug price based on the health plan patient belongs to above
                     if (HMOHealthPlanPatient != null)
@@ -427,10 +396,7 @@ namespace HMS.Areas.Pharmacy.Repositories
                         totalPrice = totalUnitPrice + totalContainerPrice + totalCartonPrice;
                         AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                         priceCalculationFormular = "Default Price";
-
                     }
-
-
 
                     if (HMOHealthPlanPatient != null)
                     {
@@ -461,8 +427,6 @@ namespace HMS.Areas.Pharmacy.Repositories
                         drugList.Add(drugsListed);
                         drugInvoice = HMOdrugDispensing.DrugDispensingInvoice;
                     }
-
-
                     else
                     {
                         DrugDispensing drugDispensing = new DrugDispensing
@@ -478,7 +442,6 @@ namespace HMS.Areas.Pharmacy.Repositories
 
                             PaymentStatus = "Not Paid",
                             DrugDispensingInvoiceId = invoiceId,
-                            
                         };
                         await _applicationDbContext.DrugDispensings.AddAsync(drugDispensing);
                         await _applicationDbContext.SaveChangesAsync();
@@ -492,12 +455,8 @@ namespace HMS.Areas.Pharmacy.Repositories
                         drugList.Add(drugsListed);
                         drugInvoice = drugDispensing.DrugDispensingInvoice;
                     }
-                    //save drugs to dispensing
-                   
-
-                   
+                    //save drugs to dispensing                   
                 }
-
                 var drugInvoiceList= new
                 {
                     drugs = drugList,
@@ -541,8 +500,7 @@ namespace HMS.Areas.Pharmacy.Repositories
         {
             if (string.IsNullOrEmpty(AdmissionInvoiceId))
                 return false;
-
-         
+                     
             var drugDispensed = _applicationDbContext.DrugDispensingInvoices.Where(i => i.InvoiceNumber == AdmissionInvoiceId).FirstOrDefault();
             if(drugDispensed != null)
             {
@@ -552,20 +510,16 @@ namespace HMS.Areas.Pharmacy.Repositories
                     return false;
                          
                 }
-
                 return true;
             }
             else
             {
                 return false;
-            }   
-                
-           
+            }
         }
 
         public async Task<bool> PayForDrugs(DrugInvoicingPaymentDto drugPayment)
         {
-
             var drugInvoice = await _applicationDbContext.DrugDispensingInvoices.Where(i => i.InvoiceNumber == drugPayment.InvoiceNumber).FirstOrDefaultAsync();
             var drugsDispensed = await _applicationDbContext.DrugDispensings.Include(d => d.Drug).Where(d => d.DrugDispensingInvoiceId == drugInvoice.Id).ToListAsync();
             var patient = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == drugPayment.PatientId).FirstOrDefaultAsync();
@@ -603,13 +557,12 @@ namespace HMS.Areas.Pharmacy.Repositories
  
             await _applicationDbContext.SaveChangesAsync();
 
-            await _transaction.LogTransactionAsync(drugPayment.TotalAmount, transactionType, invoiceType, DrugDispensingInvoice.Id, drugPayment.PaymentMethod, transactionDate, patient.Patient.Id, drugPayment.InitiatorId);
+            await _transaction.LogTransactionAsync(drugPayment.TotalAmount, transactionType, invoiceType, DrugDispensingInvoice.Id, drugPayment.PaymentMethod, transactionDate, patient.Patient.Id, drugPayment.InitiatorId, patient.Id);
             return true;
         }
 
         public async Task<bool> PayForDrugsWithAccount(DrugInvoicingPaymentDto drugPayment)
         {
-
             string transactionType = "Credit";
             string accountTransactionType = "Debit";
             string accountInvoiceType = "Account";
@@ -648,12 +601,10 @@ namespace HMS.Areas.Pharmacy.Repositories
             DrugDispensingInvoice.PaymentMethod = drugPayment.PaymentMethod;
             DrugDispensingInvoice.PaymentReference = drugPayment.TransactionReference;
             DrugDispensingInvoice.DatePaid = DateTime.Now;
-         
 
             var account = await _applicationDbContext.Accounts.FirstOrDefaultAsync(s => s.Id == patient.AccountId);
             var previousAccountBalance = account.AccountBalance;
             account.AccountBalance -= drugPayment.TotalAmount;
-           
 
             var accountInvoiceToCreate = new AccountInvoice();
 
@@ -668,8 +619,8 @@ namespace HMS.Areas.Pharmacy.Repositories
 
             var accountInvoice = await _account.CreateAccountInvoice(accountInvoiceToCreate);
 
-            await _transaction.LogTransactionAsync(drugPayment.TotalAmount, transactionType, invoiceType,  drugInvoice.Id, drugPayment.PaymentMethod, transactionDate, patient.Patient.Id, drugPayment.InitiatorId);
-            await _transaction.LogAccountTransactionAsync(drugPayment.TotalAmount, accountTransactionType, accountInvoiceType, accountInvoice.Id, paymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, drugPayment.InitiatorId);
+            await _transaction.LogTransactionAsync(drugPayment.TotalAmount, transactionType, invoiceType,  drugInvoice.Id, drugPayment.PaymentMethod, transactionDate, patient.Patient.Id, drugPayment.InitiatorId, patient.Id);
+            await _transaction.LogAccountTransactionAsync(drugPayment.TotalAmount, accountTransactionType, accountInvoiceType, accountInvoice.Id, paymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, drugPayment.InitiatorId, patient.Id);
             await _applicationDbContext.SaveChangesAsync();
 
             return true;

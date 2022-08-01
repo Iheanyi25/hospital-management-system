@@ -1,4 +1,6 @@
-﻿using HMS.Areas.Accountant.Interfaces;
+﻿using AutoMapper;
+using HMS.Areas.Accountant.Dtos;
+using HMS.Areas.Accountant.Interfaces;
 using HMS.Areas.Accountant.ViewModels;
 using HMS.Areas.HealthInsurance.Interfaces;
 using HMS.Areas.Patient.Interfaces;
@@ -19,34 +21,206 @@ namespace HMS.Areas.Accountant.Repositories
         private readonly IHMO _HMO;
         private readonly IPatientProfile _patient;
         private readonly IDrug _drug;
-        public ReportsRepository(ApplicationDbContext applicationDbContext, IHMO HMO, IPatientProfile patient, IDrug drug)
+        private readonly IMapper _mapper;
+        public ReportsRepository(ApplicationDbContext applicationDbContext, IHMO HMO, IPatientProfile patient, IDrug drug, IMapper mapper)
         {
             _applicationDbContext = applicationDbContext;
             _HMO = HMO;
             _patient = patient;
             _drug = drug;
-            
+            _mapper = mapper;
         }
         
-        public async Task<IEnumerable<Transactions>> GetTransactions(DateTime startDate, DateTime endDate) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate).OrderBy(t => t.InvoiceType).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactions(DateTime startDate, DateTime endDate, string PaymentMethod) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.PaymentMethod == PaymentMethod).OrderBy(t => t.InvoiceType).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Drug").OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate, string PaymentMethod) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Drug" && t.PaymentMethod == PaymentMethod).OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request").OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request" && t.PaymentMethod == PaymentMethod).OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Registration").OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate, string PaymentMethod) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Registration" && t.PaymentMethod == PaymentMethod).OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.BenefactorAccount).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <=endDate && t.InvoiceType == "Account").OrderByDescending(t => t.TrasactionDate).ToListAsync();
-        public async Task<IEnumerable<Transactions>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate, string TransactionType) => await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.BenefactorAccount).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.TransactionType == TransactionType && t.InvoiceType == "Account").OrderByDescending(t => t.TrasactionDate).ToListAsync();
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactions(DateTime startDate, DateTime endDate)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor)
+                .Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate).OrderBy(t => t.InvoiceType).ToListAsync();
 
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                DrugDispensingInvoice drugInvoince = _applicationDbContext.DrugDispensingInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (drugInvoince != null)
+                {
+                    transaction.TransactionReference = drugInvoince.PaymentReference;
+                }
+                AccountInvoice accountInvoince = _applicationDbContext.AccountInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (accountInvoince != null)
+                {
+                    transaction.TransactionReference = accountInvoince.TransactionReference;
+                }
+                RegistrationInvoice registrationInvoince = _applicationDbContext.RegistrationInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (registrationInvoince != null)
+                {
+                    transaction.TransactionReference = registrationInvoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactions(DateTime startDate, DateTime endDate, string PaymentMethod)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient)
+                .Where(t => t.PaymentMethod == PaymentMethod).OrderBy(t => t.InvoiceType).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                DrugDispensingInvoice drugInvoince = _applicationDbContext.DrugDispensingInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (drugInvoince != null)
+                {
+                    transaction.TransactionReference = drugInvoince.PaymentReference;
+                }
+                AccountInvoice accountInvoince = _applicationDbContext.AccountInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (accountInvoince != null)
+                {
+                    transaction.TransactionReference = accountInvoince.TransactionReference;
+                }
+                RegistrationInvoice registrationInvoince = _applicationDbContext.RegistrationInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (registrationInvoince != null)
+                {
+                    transaction.TransactionReference = registrationInvoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate) 
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor)
+                .Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Drug")
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                DrugDispensingInvoice drugInvoince = _applicationDbContext.DrugDispensingInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (drugInvoince != null)
+                {
+                    transaction.TransactionReference = drugInvoince.PaymentReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate, string PaymentMethod)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient)
+                .Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Drug" && t.PaymentMethod == PaymentMethod)
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                DrugDispensingInvoice drugInvoince = _applicationDbContext.DrugDispensingInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (drugInvoince != null)
+                {
+                    transaction.TransactionReference = drugInvoince.PaymentReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+
+        public async Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate)
+        {
+            return await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor)
+                .Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request")
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod)
+        {
+            return await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient)
+                .Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request" && t.PaymentMethod == PaymentMethod).OrderByDescending(t => t.TrasactionDate).ToListAsync();
+        }
+
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Registration")
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                var invoince = _applicationDbContext.RegistrationInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (invoince != null)
+                {
+                    transaction.TransactionReference = invoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate, string PaymentMethod)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Registration" && t.PaymentMethod == PaymentMethod)
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);          
+                        
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                RegistrationInvoice invoince = _applicationDbContext.RegistrationInvoices.Where(i =>i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (invoince != null)
+                {
+                    transaction.TransactionReference = invoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.BenefactorAccount).Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Account")
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                AccountInvoice accountInvoince = _applicationDbContext.AccountInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (accountInvoince != null)
+                {
+                    transaction.TransactionReference = accountInvoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
+
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate, string TransactionType)
+        {
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.BenefactorAccount).Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.TransactionType == TransactionType && t.InvoiceType == "Account")
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                AccountInvoice accountInvoince = _applicationDbContext.AccountInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (accountInvoince != null)
+                {
+                    transaction.TransactionReference = accountInvoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
+        }
         public async Task<object> GetPatientInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId)
         {
             var HMO = await _HMO.GetHMO(HMOId);
             var drugInvoices = await _applicationDbContext.DrugDispensings.Include(d => d.Drug).Include(p => p.DrugDispensingInvoice).ThenInclude(p => p.Patient).Where(i => i.DrugDispensingInvoice.DateGenerated >= startDate && i.DrugDispensingInvoice.DateGenerated <= endDate && i.PriceCalculationFormular.Contains(HMO.Name)).ToListAsync();
             var serviceInvoices = await _applicationDbContext.ServiceRequests.Include(s => s.Service).Include(s => s.ServiceInvoice).ThenInclude(p => p.Patient).Where(i => i.ServiceInvoice.DateGenerated >= startDate && i.ServiceInvoice.DateGenerated <= endDate && i.ServiceInvoice.PriceCalculationFormular.Contains(HMO.Name)).ToListAsync();
             //var admissionInvoices = await _applicationDbContext.AdmissionInvoices.Include(p => p.Admission.Patient).Where(i => i.PriceCalculationFormular.Contains("HMO")).ToListAsync();
-
-
 
             var HMOInvoices = new HMOInvoiceViewModel
             {
@@ -56,7 +230,6 @@ namespace HMS.Areas.Accountant.Repositories
             return HMOInvoices;
         }
         
-
         public async Task<object> GetPatientInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId, string PatientId)
         {
             var HMO = await _HMO.GetHMO(HMOId);
@@ -64,8 +237,6 @@ namespace HMS.Areas.Accountant.Repositories
             var drugInvoices = await _applicationDbContext.DrugDispensings.Include(d => d.Drug).Include(p => p.DrugDispensingInvoice).ThenInclude(p => p.Patient).Where(i => i.DrugDispensingInvoice.DateGenerated >= startDate && i.DrugDispensingInvoice.DateGenerated <= endDate && i.PriceCalculationFormular.Contains(HMO.Name) && i.DrugDispensingInvoice.PatientId == PatientId).ToListAsync();
             var serviceInvoices = await _applicationDbContext.ServiceRequests.Include(s => s.Service).Include(s => s.ServiceInvoice).ThenInclude(p => p.Patient).Where(i => i.ServiceInvoice.DateGenerated >= startDate && i.ServiceInvoice.DateGenerated <= endDate && i.ServiceInvoice.PriceCalculationFormular.Contains(HMO.Name) && i.ServiceInvoice.PatientId == PatientId).ToListAsync();
             //var admissionInvoices = await _applicationDbContext.AdmissionInvoices.Include(p => p.Admission.Patient).Where(i => i.PriceCalculationFormular.Contains("HMO")).ToListAsync();
-
-
 
             var HMOInvoices = new HMOInvoiceViewModel
             {
@@ -82,7 +253,6 @@ namespace HMS.Areas.Accountant.Repositories
             //var admissionInvoices = await _applicationDbContext.AdmissionInvoices.Include(p => p.Admission.Patient).Where(i => i.PriceCalculationFormular.Contains("HMO")).ToListAsync();
             return drugInvoices;
         }
-
 
         public async Task<object> GetDrugInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId, string DrugId)
         {
@@ -102,7 +272,6 @@ namespace HMS.Areas.Accountant.Repositories
             //var admissionInvoices = await _applicationDbContext.AdmissionInvoices.Include(p => p.Admission.Patient).Where(i => i.PriceCalculationFormular.Contains("HMO")).ToListAsync();
             return serviceInvoices;
         }
-
 
         public async Task<object> GetServiceInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId, string ServiceId)
         {

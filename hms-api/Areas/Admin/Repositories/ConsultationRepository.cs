@@ -55,12 +55,10 @@ namespace HMS.Areas.Admin.Repositories
             return consultations;
         }
 
-
         public async Task<int> CancelPatientConsultationAsync(string consultationId)
         {
             //check if the patient is in queue today
             var Consultation = await _applicationDbContext.Consultations.FirstOrDefaultAsync(d => d.Id == consultationId);
-
 
             if (Consultation == null)
             {
@@ -87,7 +85,6 @@ namespace HMS.Areas.Admin.Repositories
         {
             //check if the patient is in queue today
             var Consultation = await _applicationDbContext.Consultations.FirstOrDefaultAsync(d => d.Id == clerking.Id);
-
 
             if (Consultation == null)
             {
@@ -161,17 +158,13 @@ namespace HMS.Areas.Admin.Repositories
         }
 
         public async Task<Consultation> GetConsultationById(string Id) => await _applicationDbContext.Consultations.FirstOrDefaultAsync(d => d.Id == Id);
-           
-
+        
         public async Task<bool> ReassignPatientToNewDoctor(Consultation consultation, JsonPatchDocument<ConsultationDtoForUpdate> Consultation)
         {
             try
             {
-
-
                 if (consultation != null)
                 {
-
                     var consultationToUpdate = _mapper.Map<ConsultationDtoForUpdate>(consultation);
 
                     Consultation.ApplyTo(consultationToUpdate);
@@ -188,7 +181,6 @@ namespace HMS.Areas.Admin.Repositories
 
                     return true;
                 }
-
             }
             catch (Exception ex)
             {
@@ -286,9 +278,6 @@ namespace HMS.Areas.Admin.Repositories
             var consultations = _applicationDbContext.Consultations.Where(a => a.IsCompleted == true).Include(a => a.Patient).Include(a => a.Doctor).OrderByDescending(c => c.DateOfConsultation).ToList();
             var consultationsToReturn = _mapper.Map<IEnumerable<ConsultationDtoForView>>(consultations);
             return PagedList<ConsultationDtoForView>.ToPagedList(consultationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
-        }
-
-       
-     
+        }     
     }
 }
