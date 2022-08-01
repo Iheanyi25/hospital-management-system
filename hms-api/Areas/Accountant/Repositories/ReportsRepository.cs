@@ -62,7 +62,7 @@ namespace HMS.Areas.Accountant.Repositories
         public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactions(DateTime startDate, DateTime endDate, string PaymentMethod)
         {
             IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient)
-                .Where(t => t.PaymentMethod == PaymentMethod).OrderBy(t => t.InvoiceType).ToListAsync();
+                .Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.PaymentMethod == PaymentMethod).OrderBy(t => t.InvoiceType).ToListAsync();
 
             IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
 
