@@ -19,12 +19,10 @@ namespace HMS.Areas.Admin.Controllers
         }
 
 
-
         [Route("GetAdmin")]
         [HttpGet]
         public async Task<IActionResult> GetAdmin(string AdminId)
         {
-
             var admin = await _adminProfile.GetAdmin(AdminId);
             if (admin != null)
             {
@@ -41,7 +39,6 @@ namespace HMS.Areas.Admin.Controllers
                     message = "Invalid Admin Id"
                 });
             }
-
         }
 
         //[Route("GetAdmins")]
@@ -61,7 +58,6 @@ namespace HMS.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAdmins([FromQuery] PaginationParameter paginationParameter)
         {
-
             var admins = _adminProfile.GetAdminsPagnation(paginationParameter);
 
             var paginationDetails = new
@@ -166,6 +162,5 @@ namespace HMS.Areas.Admin.Controllers
                 });
             }
         }
-
     }
 }

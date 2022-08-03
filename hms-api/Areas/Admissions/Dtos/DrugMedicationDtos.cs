@@ -17,9 +17,7 @@ namespace HMS.Areas.Admissions.Dtos
         public string AdmissionId { get; set; }
         public Admission Admission { get; set; }
         public string InitiatorId { get; set; }
-        public ApplicationUser Initiator { get; set; }
-        
-        
+        public ApplicationUser Initiator { get; set; }   
     }
 
     public class DrugMedicationDtoForCreate
@@ -50,5 +48,4 @@ namespace HMS.Areas.Admissions.Dtos
         public string InitiatorId { get; set; }
         public string AdmissionId { get; set; }        
     }
-
 }

@@ -23,6 +23,9 @@ namespace HMS.Areas.Admin.Dtos
         public string Email { get; set; }
 
         [Required]
+        public string DateOfBirth { get; set; }
+
+        [Required]
         public string HealthPlanId { get; set; }
 
         //this is optional for personal accounts

@@ -12,6 +12,5 @@ namespace HMS.Areas.Accountant.Interfaces
         Task<bool> EditAccountantBasicInfo(EditAccountantBasicInfoViewModel AccountProfile);
         Task<bool> EditAccountantContactDetails(EditAccountantContactDetailsViewModel AccountProfile);
         Task<bool> EditAccountProfilePictureAsync(AccountProfilePictureViewModel AccountProfile);
-      
     }
 }

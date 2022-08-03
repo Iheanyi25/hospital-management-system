@@ -14,7 +14,7 @@ namespace HMS.Areas.Admissions.Dtos
         public DateTime DateOfDischarge { get; set; }
    
         public bool IsDischarged { get; set; }
-
+        public string FileNumber { get; set; }
 
         public string PatientId { get; set; }
         public ApplicationUser Patient { get; set; }

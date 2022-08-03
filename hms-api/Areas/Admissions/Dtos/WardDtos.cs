@@ -1,8 +1,5 @@
 ﻿using HMS.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HMS.Areas.Admissions.Dtos
 {
@@ -53,5 +50,4 @@ namespace HMS.Areas.Admissions.Dtos
         public string Name { get; set; }
         public string WardId { get; set; }
     }
-
 }

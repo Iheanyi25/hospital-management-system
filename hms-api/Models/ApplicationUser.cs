@@ -13,6 +13,6 @@ namespace HMS.Models
         public string ProfileImageUrl { get; set; }
 
         public string UserType { get; set; }
-
+        public virtual PatientProfile Patient {get; set;}
     }
 }

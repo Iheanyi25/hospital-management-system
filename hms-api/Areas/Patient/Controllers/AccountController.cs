@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HMS.Areas.Admin.Dtos;
@@ -65,7 +63,6 @@ namespace HMS.Areas.Patient.Controllers
                 AccountId = patient.Account.Id,
             };
 
-
             var accountInvoice = await _accountRepo.CreateAccountInvoice(accountInvoiceToCreate);
 
             if (accountInvoice == null)
@@ -79,7 +76,7 @@ namespace HMS.Areas.Patient.Controllers
                 return BadRequest(new { response = "301", message = "Failed To Fund Account" });
             }
 
-            await _transaction.LogAccountTransactionAsync(account.Amount, transactionType, invoiceType, accountInvoiceToCreate.Id, account.PaymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, account.InitiatorId);
+            await _transaction.LogAccountTransactionAsync(account.Amount, transactionType, invoiceType, accountInvoiceToCreate.Id, account.PaymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, account.InitiatorId, patient.Id);
 
             return Ok(new
             {

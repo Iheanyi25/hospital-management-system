@@ -36,7 +36,6 @@ namespace HMS.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSystemCount()
         {
-
             var pendingAppoinmentsCount = await _appointmentRepo.GetDoctorsPendingAppointmentsCount();
             var completedAppoinmentsCount = await _appointmentRepo.GetDoctorsCompletedAppointmentsCount();
             var rejectedAppointmentCount = await _appointmentRepo.GetDoctorsRejectedAppointmentsCount();
@@ -201,12 +200,10 @@ namespace HMS.Areas.Admin.Controllers
                 //if its avaliable now book it
                 var registrationInvoice = await _registration.GetPatientRegistrationInvoice(appointment.PatientId);
               
-
                 if (registrationInvoice.PaymentStatus != "Paid")
                 {
                     return BadRequest(new { response = 301, message = "Patient is yet to pay for registration" });
                 }
-
 
                 var doctorAppointment = _mapper.Map<Appointment>(appointment);
           
@@ -244,7 +241,6 @@ namespace HMS.Areas.Admin.Controllers
                     {
                         return Ok(new { message = "Appointment Successfully Booked" });
                     }
-
                 }
             }
             else
@@ -279,7 +275,6 @@ namespace HMS.Areas.Admin.Controllers
             // Validate patient is not null---has no profile yet
             if (appointment != null && doctor != null)
             {
-               
                 //if its avaliable now book it
                 var doctorAppointment = _mapper.Map<Appointment>(appointment);
                 doctorAppointment.DoctorId = Appointment.DoctorId;
@@ -315,8 +310,7 @@ namespace HMS.Areas.Admin.Controllers
                     else
                     {
                         return Ok(new { message = "Appointment successfully reassigned" });
-                    }
-                    
+                    } 
                 }  
             }
             else
@@ -352,7 +346,5 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new { message = "Appointment Successfully Deleted" });
         }
-
     }
-
 }

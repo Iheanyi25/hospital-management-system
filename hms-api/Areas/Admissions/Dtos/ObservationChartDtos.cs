@@ -1,6 +1,4 @@
-﻿
-
-namespace HMS.Areas.Admissions.Dtos
+﻿namespace HMS.Areas.Admissions.Dtos
 {
     public class ObservationChartDtoForUpdate
     {
@@ -12,6 +10,5 @@ namespace HMS.Areas.Admissions.Dtos
         public string Temperature { get; set; }
         public string Remarks { get; set; }
         public string InitiatorId { get; set; }
-        
     }
 }

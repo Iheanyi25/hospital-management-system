@@ -73,7 +73,6 @@ namespace HMS.Areas.Admissions.Repositories
             }
             else
             {
-
                 User.FirstName = WardPersonnel.FirstName;
                 User.LastName = WardPersonnel.LastName;
                 User.OtherNames = WardPersonnel.OtherNames;
@@ -169,7 +168,6 @@ namespace HMS.Areas.Admissions.Repositories
                 {
                     return false;
                 }
-
             }
             else
             {

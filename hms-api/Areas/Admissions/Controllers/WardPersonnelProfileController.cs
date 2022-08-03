@@ -42,14 +42,12 @@ namespace HMS.Areas.Admissions.Controllers
                 paginationDetails,
                 message = "Ward Personnels Returned"
             });
-
         }
 
         [Route("GetWardPersonnel")]
         [HttpGet]
         public async Task<IActionResult> GetNurse(string WardPersonnelId)
         {
-
             var wardPersonnel = await _wardPersonnel.GetWardPersonnel(WardPersonnelId);
             if (wardPersonnel != null)
             {
@@ -66,7 +64,6 @@ namespace HMS.Areas.Admissions.Controllers
                     message = "Invalid Ward Personnel Id"
                 });
             }
-
         }
 
 

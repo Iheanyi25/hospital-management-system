@@ -23,6 +23,7 @@ namespace HMS.Areas.Patient.Interfaces
         Task<dynamic> GetPatientAppointmentByIdAsync(string patientId);
         IEnumerable<PatientDtoForView> SearchPatient(string searchParam);
         Task<PatientProfile> GetPatientByProfileIdAsync(string patientId);
+        Task<PatientDtoForView> GetPatientByAccountId(string AccountId);
       //  Task<dynamic> GetPatientAppointmentByIdAsync(string patientId);
 
     }

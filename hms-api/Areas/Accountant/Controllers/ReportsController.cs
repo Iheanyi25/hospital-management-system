@@ -44,7 +44,6 @@ namespace HMS.Areas.Accountant.Controllers
 
                 return Ok(new { transactions, message = "Report returned" });
             }
-           
         }
 
         [Route("GetTransactionsForAccount")]
@@ -66,15 +65,12 @@ namespace HMS.Areas.Accountant.Controllers
                 var transactions = await _reports.GetTransactionsForAccounts(Transactions.StartDate, Transactions.EndDate, Transactions.TransactionType);
                 return Ok(new { transactions, message = "Report returned" });
             }
-
         }
-
 
         [Route("GetTransactionsForDrugs")]
         [HttpPost]
         public async Task<IActionResult> GetTransactionsForDrugs(TransactionsDtoForView Transactions)
         {
-           
             if (Transactions == null)
             {
                 return BadRequest();
@@ -91,9 +87,7 @@ namespace HMS.Areas.Accountant.Controllers
                 return Ok(new { drugTransactions, message = "Report returned" });
             }
            
-        }
-
-       
+        }     
 
         [Route("GetTransactionsForServiceRequests")]
         [HttpPost]
@@ -113,11 +107,8 @@ namespace HMS.Areas.Accountant.Controllers
             {
                 var serviceRequestTransactions = await _reports.GetTransactionsForServiceRequests(Transactions.StartDate, Transactions.EndDate, Transactions.PaymentMethod);
                 return Ok(new { serviceRequestTransactions, message = "Report returned" });
-            }
-           
-        }
-
-        
+            }  
+        }       
 
         [Route("GetTransactionsForRegistration")]
         [HttpPost]
@@ -138,7 +129,6 @@ namespace HMS.Areas.Accountant.Controllers
                 var registrationTransactions = await _reports.GetTransactionsForRegistration(Transactions.StartDate, Transactions.EndDate, Transactions.PaymentMethod);
                 return Ok(new { registrationTransactions, message = "Report returned" });
             }
-            
         }
 
         [Route("GetPatientInvoicesForHMO")]
@@ -160,7 +150,6 @@ namespace HMS.Areas.Accountant.Controllers
                 var patientInvoices = await _reports.GetPatientInvoicesForHMO(Transactions.StartDate, Transactions.EndDate, Transactions.HMOId, Transactions.PatientId);
                 return Ok(new { patientInvoices, message = "Report returned" });
             }
-
         }
 
         [Route("GetDrugInvoicesForHMO")]
@@ -182,7 +171,6 @@ namespace HMS.Areas.Accountant.Controllers
                 var drugInvoices = await _reports.GetDrugInvoicesForHMO(Transactions.StartDate, Transactions.EndDate, Transactions.HMOId, Transactions.DrugId);
                 return Ok(new { drugInvoices, message = "Report returned" });
             }
-
         }
 
         [Route("GetServiceInvoicesForHMO")]
@@ -204,7 +192,6 @@ namespace HMS.Areas.Accountant.Controllers
                 var serviceInvoices = await _reports.GetServiceInvoicesForHMO(Transactions.StartDate, Transactions.EndDate, Transactions.HMOId, Transactions.ServiceId);
                 return Ok(new { serviceInvoices, message = "Report returned" });
             }
-
         }
 
         [Route("GetReportForExpiryDateofDrugs")]

@@ -44,10 +44,7 @@ namespace HMS.Areas.Admin.Repositories
             {
                 throw ex;
             }
-        }
-
-   
-
+        }         
 
         public async Task<bool> CreateAccount(Account account)
         {
@@ -114,9 +111,7 @@ namespace HMS.Areas.Admin.Repositories
             {
                 throw ex;
             }
-        }
-
-        
+        }       
 
         public PagedList<AccountDtoForView> GetAccountsPagination(PaginationParameter paginationParameter)
         {

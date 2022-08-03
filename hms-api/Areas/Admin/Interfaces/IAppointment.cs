@@ -19,7 +19,6 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> AssignDoctorToPatient(MyPatient patient);
         Task<bool> DeleteAppointment(Appointment appointment);
         Task<MyPatient> CheckDoctorInMyPatients(string DoctorId, string PatientId);
-        
         Task<int> GetDoctorsRejectedAppointmentsCount(string doctorId);
         Task<int> GetDoctorsRejectedAppointmentsCount();
         Task<int> GetDoctorsPendingAppointmentsCount();
@@ -28,7 +27,6 @@ namespace HMS.Areas.Admin.Interfaces
         Task<int> GetDoctorsCompletedAppointmentsCount();
         Task<int> GetDoctorsAcceptedAppointmentsCount();
         Task<int> GetDoctorsAcceptedAppointmentsCount(string doctorId);
-       
     }
 }
 

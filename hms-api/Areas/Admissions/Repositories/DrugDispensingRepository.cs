@@ -21,7 +21,6 @@ namespace HMS.Areas.Admissions.Repositories
             _mapper = mapper;
         }
       
-
         public PagedList<AdmissionDrugDispensingDtoForView> GetAdmissionDrugDispensing(string InvoiceId, PaginationParameter paginationParameter)
         {
             var drugDispensing = _applicationDbContext.AdmissionDrugDispensings.Where(a => a.AdmissionInvoiceId == InvoiceId).Include(a => a.Drug).OrderByDescending(a => a.DateDispensed).ToList();
