@@ -17,7 +17,6 @@ namespace HMS.Areas.Admin.Interfaces
         Task<IEnumerable<ServiceDtoForView>> GetAllServicesInAServiceCategory(string serviceCategoryId);
         PagedList<ServiceDtoForView> GetAllServicesInAServiceCategoryPagination(string serviceCategoryId, PaginationParameter paginationParameter);
         Task<int> ServiceCategoryCount();
-
     }
 }
 

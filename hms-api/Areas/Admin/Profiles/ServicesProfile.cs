@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using HMS.Areas.Admin.Dtos;
 using HMS.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HMS.Areas.Admin.Profiles
 {
@@ -55,7 +52,5 @@ namespace HMS.Areas.Admin.Profiles
                 .ForMember(dest => dest.Cost, opt => opt.MapFrom(src => src.Amount))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.PaymentStatus));
         }
-            
-
     }
 }

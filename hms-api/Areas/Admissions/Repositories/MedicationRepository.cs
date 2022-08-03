@@ -112,9 +112,7 @@ namespace HMS.Areas.Admissions.Repositories
             {
                 throw ex;
             }
-        }
-
-        
+        }       
 
         public PagedList<ServiceMedicationDtoForView> GetServiceMedications(string AdmissionId, PaginationParameter paginationParameter)
         {
@@ -125,7 +123,6 @@ namespace HMS.Areas.Admissions.Repositories
 
         public async Task<AdmissionServiceMedication> GetServiceMedication(string AdmissionMedicationId) => await _applicationDbContext.AdmissionServiceMedications.Where(a => a.Id == AdmissionMedicationId).Include(a => a.Admission).Include(a => a.Service).Include(a => a.Initiator).FirstOrDefaultAsync();
         
-
         public async Task<bool> UpdateServiceMedication(AdmissionServiceMedication admission)
         {
             try

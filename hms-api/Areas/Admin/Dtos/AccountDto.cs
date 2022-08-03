@@ -64,5 +64,4 @@ namespace HMS.Areas.Admin.Dtos
     {
         public string Id { get; set; }
     }
-
 }

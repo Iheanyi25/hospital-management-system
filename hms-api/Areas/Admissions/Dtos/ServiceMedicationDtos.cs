@@ -5,7 +5,6 @@ namespace HMS.Areas.Admissions.Dtos
 {
     public class ServiceMedicationDtoForCreate
     {
-
         public string ServiceId { get; set; }
         public string AdministrationInstruction { get; set; }
         public string Dosage { get; set; }

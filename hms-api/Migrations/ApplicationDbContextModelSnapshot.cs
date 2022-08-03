@@ -736,6 +736,32 @@ namespace HMS.Migrations
                     b.ToTable("Beds");
                 });
 
+            modelBuilder.Entity("HMS.Models.ChatMessage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ToUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ToUserId");
+
+                    b.ToTable("ChatMessages");
+                });
+
             modelBuilder.Entity("HMS.Models.Consultation", b =>
                 {
                     b.Property<string>("Id")
@@ -1803,6 +1829,30 @@ namespace HMS.Migrations
                     b.ToTable("NHISSecondaryHealthplanPatientServices");
                 });
 
+            modelBuilder.Entity("HMS.Models.Notification", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("HMS.Models.NurseProfile", b =>
                 {
                     b.Property<string>("Id")
@@ -2564,6 +2614,27 @@ namespace HMS.Migrations
                     b.ToTable("Surgeries");
                 });
 
+            modelBuilder.Entity("HMS.Models.TextSuggestion", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TextSuggestions");
+                });
+
             modelBuilder.Entity("HMS.Models.Transactions", b =>
                 {
                     b.Property<string>("Id")
@@ -2596,6 +2667,9 @@ namespace HMS.Migrations
                     b.Property<string>("InvoiceType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(max)");
 
@@ -2614,6 +2688,8 @@ namespace HMS.Migrations
                     b.HasIndex("BenefactorId");
 
                     b.HasIndex("InitiatorId");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Transactions");
                 });
@@ -3089,6 +3165,17 @@ namespace HMS.Migrations
                         .HasForeignKey("WardId");
                 });
 
+            modelBuilder.Entity("HMS.Models.ChatMessage", b =>
+                {
+                    b.HasOne("HMS.Models.ApplicationUser", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("FromUserId");
+
+                    b.HasOne("HMS.Models.ApplicationUser", "ToUser")
+                        .WithMany()
+                        .HasForeignKey("ToUserId");
+                });
+
             modelBuilder.Entity("HMS.Models.Consultation", b =>
                 {
                     b.HasOne("HMS.Models.ApplicationUser", "Doctor")
@@ -3364,6 +3451,13 @@ namespace HMS.Migrations
                         .HasForeignKey("ServiceId");
                 });
 
+            modelBuilder.Entity("HMS.Models.Notification", b =>
+                {
+                    b.HasOne("HMS.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("HMS.Models.NurseProfile", b =>
                 {
                     b.HasOne("HMS.Models.ApplicationUser", "Nurse")
@@ -3506,6 +3600,13 @@ namespace HMS.Migrations
                         .HasForeignKey("PatientId");
                 });
 
+            modelBuilder.Entity("HMS.Models.TextSuggestion", b =>
+                {
+                    b.HasOne("HMS.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("HMS.Models.Transactions", b =>
                 {
                     b.HasOne("HMS.Models.Account", "BenefactorAccount")
@@ -3523,6 +3624,10 @@ namespace HMS.Migrations
                     b.HasOne("HMS.Models.ApplicationUser", "Initiator")
                         .WithMany()
                         .HasForeignKey("InitiatorId");
+
+                    b.HasOne("HMS.Models.PatientProfile", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("HMS.Models.WardPersonnelProfile", b =>

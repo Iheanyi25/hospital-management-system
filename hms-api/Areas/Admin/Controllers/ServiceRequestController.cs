@@ -88,9 +88,7 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new { message="Service Request submitted successfully"});
         }
-
-
-        
+                
         [HttpGet("GetAllServiceRequestInvoice")]
         public async Task<IActionResult> GetAllServiceInvoiceWithPagination([FromQuery] PaginationParameter paginationParameter)
         {
@@ -129,7 +127,6 @@ namespace HMS.Areas.Admin.Controllers
         //        message = "List of invoice fetched"
         //    });
         //}
-
 
         [HttpGet("GetServicesInAnInvoice/{invoiceId}")]
         public async Task<IActionResult> GetServiceRequestInAnInvoice(string invoiceId, [FromQuery] PaginationParameter paginationParameter)
@@ -188,10 +185,7 @@ namespace HMS.Areas.Admin.Controllers
             };
 
             //This is optional
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
-
-        
-
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));                  
 
             if (!patientInvoices.Any())
                 return Ok(new
@@ -325,10 +319,8 @@ namespace HMS.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-
                 return BadRequest(new { message = e.Message.ToString() }); ;
-            }
-            
+            }   
         }
 
         [HttpPost("PayForServicesWithAccount")]
@@ -364,9 +356,7 @@ namespace HMS.Areas.Admin.Controllers
                 {
                     response = "301",
                     message = "The Amount Paid and the services paid for does not match"
-                });
-
-            
+                });           
 
             //pay for services
             var result = await _serviceRepo.PayForServicesWithAccount(services);

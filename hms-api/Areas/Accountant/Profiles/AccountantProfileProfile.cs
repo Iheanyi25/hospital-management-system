@@ -8,7 +8,6 @@ namespace HMS.Areas.Accountant.Profiles
     {
         public AccountantProfileProfile()
         {
-
             CreateMap<AccountantProfile, AccountantDtoForView>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Accountant.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Accountant.LastName))

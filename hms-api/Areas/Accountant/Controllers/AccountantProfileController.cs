@@ -18,12 +18,10 @@ namespace HMS.Areas.Accountant.Controllers
         }
 
 
-
         [Route("GetAccountant")]
         [HttpGet]
         public async Task<IActionResult> GetAccountant(string AccountantId)
         {
-
             var accountant = await _accountProfile.GetAccountant(AccountantId);
             if (accountant != null)
             {
@@ -40,7 +38,6 @@ namespace HMS.Areas.Accountant.Controllers
                     message = "Invalid Accountant Id"
                 });
             }
-
         }
 
         [Route("GetAccountants")]
@@ -53,7 +50,6 @@ namespace HMS.Areas.Accountant.Controllers
             {
                 accountants
             });
-
         }
 
         [HttpPost]
@@ -137,6 +133,5 @@ namespace HMS.Areas.Accountant.Controllers
                 });
             }
         }
-
     }
 }

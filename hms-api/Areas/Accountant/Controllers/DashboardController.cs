@@ -16,11 +16,9 @@ namespace HMS.Areas.Accountant.Controllers
 
         public DashboardController(IRegistrationInvoice registrationInvoice, IServiceRequestInvoice serviceRequestInvoice, IDrugInvoicing drugInvoicing)
         {
-
             _registrationInvoice = registrationInvoice;
             _serviceRequestInvoice = serviceRequestInvoice;
             _drugInvoicing = drugInvoicing;
-
         }
 
         [Route("Dashboard")]

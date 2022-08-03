@@ -24,7 +24,6 @@ namespace HMS.Areas.Admin.Controllers
         private readonly INHISHealthPlanService _NHISService;
         private readonly IHMOHealthPlanServicePrice _HMOService;
 
-
         public ServicesController(IServices serviceRepo, IServiceRequest serviceRequest, IMapper mapper, IPatientProfile patientRepo, IAdmissionServiceRequest admissionService, INHISHealthPlanService NHISService, IHMOHealthPlanServicePrice HMOService)
         {
             _serviceRepo = serviceRepo;
@@ -68,7 +67,6 @@ namespace HMS.Areas.Admin.Controllers
                 paginationDetails,
                 message = "Services Fetched"
             });
-
         }
 
         [HttpGet("GetService/{Id}")]
@@ -87,8 +85,6 @@ namespace HMS.Areas.Admin.Controllers
             }
 
             return Ok(new { res, mwessage = "Service returned" });
-
-
         }
 
 
@@ -187,7 +183,5 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new { service, message = "Service Deleted" });
         }
-
-       
     }
 }

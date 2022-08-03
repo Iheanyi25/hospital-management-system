@@ -16,7 +16,6 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IHealthPlan _healthPlan;
         private readonly IMapper _mapper;
 
-
         public HealthPlanController(IHealthPlan healthPlan, IMapper mapper, IConsultation consultation)
         {
             _healthPlan = healthPlan;
@@ -39,8 +38,7 @@ namespace HMS.Areas.Admin.Controllers
             {
                 return BadRequest(new { response = "301", message = "Health Plan failed to create" });
             }
-
-           
+                      
             return CreatedAtRoute("HealthPlan", healthPlan);
         }
 
@@ -49,7 +47,6 @@ namespace HMS.Areas.Admin.Controllers
         {
             var plans = await _healthPlan.GetAllHealthPlans();
             return Ok(new { plans, message = "HealthPlans Fetched" });
-
         }
 
         [HttpGet("GetAllHealthPlans", Name = "HealthPlan")]
@@ -77,7 +74,6 @@ namespace HMS.Areas.Admin.Controllers
                 message = "Healthplans Fetched"
             });
         }
-
 
         [HttpGet("GetAHealthPlan/{Id}")]
         public async Task<IActionResult> GetHealthPlan(string Id)
@@ -159,6 +155,5 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new { healthPlan, message = "Health Plan Enabled" });
         }
-
     }
 }

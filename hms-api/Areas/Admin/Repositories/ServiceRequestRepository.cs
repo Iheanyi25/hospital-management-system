@@ -14,12 +14,9 @@ namespace HMS.Areas.Admin.Repositories
     {
         private readonly ApplicationDbContext _applicationDbContext;
        
-
         public ServiceRequestRepository(ApplicationDbContext applicationDbContext)
         {
-            
             _applicationDbContext = applicationDbContext;
-           
         }
 
         public async Task<IEnumerable<ServiceRequest>> GetServiceRequestByServiceAsync(string ServiceId) => await _applicationDbContext.ServiceRequests.Where(s => s.ServiceId == ServiceId).ToListAsync();

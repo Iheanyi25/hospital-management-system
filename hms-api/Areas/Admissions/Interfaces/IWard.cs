@@ -1,7 +1,6 @@
 ﻿using HMS.Areas.Admissions.Dtos;
 using HMS.Models;
 using HMS.Services.Helpers;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HMS.Areas.Admissions.Interfaces
@@ -17,6 +16,5 @@ namespace HMS.Areas.Admissions.Interfaces
         PagedList<BedDtoForView> GetBedsInWardPagnation(PaginationParameter paginationParameter, string WardId);
         Task<bool> CheckWardAvailability(string WardId);
         Task<Ward> GetBedsWard(string BedId);
-
     }
 }

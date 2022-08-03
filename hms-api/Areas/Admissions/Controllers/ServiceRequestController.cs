@@ -31,9 +31,7 @@ namespace HMS.Areas.Admissions.Controllers
             _admissionInvoice = admissionInvoice;
             _patient = patient;
             _admissionServiceRequest = admissionServiceRequest;
-        }
-
-       
+        }      
 
         //[Route("RequestServices")]
         //[HttpPost]
@@ -91,7 +89,6 @@ namespace HMS.Areas.Admissions.Controllers
         //}
 
 
-
         [HttpGet("GetServiceRequestsInAnInvoice")]
         public async Task<IActionResult> GetServiceRequestInAnInvoice(string AdmissionInvoiceId, [FromQuery] PaginationParameter paginationParameter)
         {
@@ -117,8 +114,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Service Requests Fetched"
             });
         }
-
-
 
         [HttpGet("GetAdmissionServiceRequest/{AdmissionServiceRequestId}")]
         public async Task<IActionResult> GetAdmissionServiceRequest(string AdmissionServiceRequestId)
@@ -176,8 +171,7 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Result Uploaded Successfully"
             });
         }
-
-       
+               
 
         [HttpGet("GetServiceRequestResults/{ServiceRequestId}")]
         public async Task<IActionResult> GetServiceRequestResults(string ServiceRequestId, [FromQuery] PaginationParameter paginationParameter)

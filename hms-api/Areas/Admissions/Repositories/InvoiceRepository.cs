@@ -19,7 +19,6 @@ namespace HMS.Areas.Admissions.Repositories
         private readonly IAccount _account;
         private readonly IDrugBatch _drugBatch;
 
-
         public InvoiceRepository(ApplicationDbContext applicationDbContext, ITransactionLog transaction, IDrugBatch drugBatch, IAccount account)
         {
             _applicationDbContext = applicationDbContext;
@@ -32,7 +31,6 @@ namespace HMS.Areas.Admissions.Repositories
         {
             try
             {
-
                 if (AdmissionInvoice == null)
                 {
                     return "";
@@ -71,8 +69,7 @@ namespace HMS.Areas.Admissions.Repositories
                 }
 
                 AdmissionInvoice.PriceCalculationFormula = priceCalculationFormular;
-
-                
+                                
                 _applicationDbContext.AdmissionInvoices.Add(AdmissionInvoice);
                 await _applicationDbContext.SaveChangesAsync();
 
@@ -83,7 +80,6 @@ namespace HMS.Areas.Admissions.Repositories
                 throw ex;
             }
         }
-
 
         public async Task<AdmissionInvoice> GetAdmissionInvoiceByAdmissionId(string AdmissionId) 
         {
@@ -120,12 +116,8 @@ namespace HMS.Areas.Admissions.Repositories
             }
             var invoice = await _applicationDbContext.AdmissionInvoices.Where(a => a.AdmissionId == AdmissionId && a.PriceCalculationFormula == priceCalculationFormular).FirstOrDefaultAsync();
             return invoice;
-        }  
-
-
+        }       
       
-      
-
         public async Task<bool> CheckIfAmountPaidIsCorrect(AdmissionPaymentDto admissionPayment)
         {
             var AdmissionInvoice = await _applicationDbContext.AdmissionInvoices.FirstOrDefaultAsync(s => s.AdmissionId == admissionPayment.AdmissionId);
@@ -136,10 +128,8 @@ namespace HMS.Areas.Admissions.Repositories
             return true;
         }
 
-
         public async Task<bool> PayForAdmission(AdmissionPaymentDto admissionPayment)
         {
-
             var drugInvoice = await _applicationDbContext.AdmissionInvoices.Where(i => i.AdmissionId == admissionPayment.AdmissionId).FirstOrDefaultAsync();
             var admission = await _applicationDbContext.Admissions.Where(a => a.Id == admissionPayment.AdmissionId).FirstOrDefaultAsync();
             var patient = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == admission.PatientId).FirstOrDefaultAsync();
@@ -154,7 +144,6 @@ namespace HMS.Areas.Admissions.Repositories
             AdmissionInvoice.TransactionReference = admissionPayment.TransactionReference;
             AdmissionInvoice.DatePaid = DateTime.Now;
 
-
             if (AdmissionInvoice.AmountPaid >= AdmissionInvoice.Amount)
             {
                 AdmissionInvoice.PaymentStatus = "PAID";
@@ -166,7 +155,7 @@ namespace HMS.Areas.Admissions.Repositories
 
             await _applicationDbContext.SaveChangesAsync();
 
-            await _transaction.LogAdmissionTransactionAsync(admissionPayment.Amount, transactionType, invoiceType, AdmissionInvoice.Id, admissionPayment.PaymentMethod, transactionDate, admissionPayment.AdmissionId, admissionPayment.InitiatorId);
+            await _transaction.LogAdmissionTransactionAsync(admissionPayment.Amount, transactionType, invoiceType, AdmissionInvoice.Id, admissionPayment.PaymentMethod, transactionDate, admissionPayment.AdmissionId, admissionPayment.InitiatorId, patient.Id);
             return true;
         }
 
@@ -205,11 +194,9 @@ namespace HMS.Areas.Admissions.Repositories
                 AdmissionInvoice.PaymentStatus = "INCOMPLETE";
             }
 
-
             var account = await _applicationDbContext.Accounts.FirstOrDefaultAsync(s => s.Id == patient.AccountId);
             var previousAccountBalance = account.AccountBalance;
             account.AccountBalance -= admissionPayment.Amount;
-
 
             var accountInvoiceToCreate = new AccountInvoice();
 
@@ -224,8 +211,8 @@ namespace HMS.Areas.Admissions.Repositories
 
             var accountInvoice = await _account.CreateAccountInvoice(accountInvoiceToCreate);
 
-            await _transaction.LogAdmissionTransactionAsync(admissionPayment.Amount, transactionType, invoiceType, AdmissionInvoice.Id, admissionPayment.PaymentMethod, transactionDate, admissionPayment.AdmissionId, admissionPayment.InitiatorId);
-            await _transaction.LogAccountTransactionAsync(admissionPayment.Amount, accountTransactionType, accountInvoiceType, accountInvoice.Id, paymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, admissionPayment.InitiatorId);
+            await _transaction.LogAdmissionTransactionAsync(admissionPayment.Amount, transactionType, invoiceType, AdmissionInvoice.Id, admissionPayment.PaymentMethod, transactionDate, admissionPayment.AdmissionId, admissionPayment.InitiatorId, patient.Id);
+            await _transaction.LogAccountTransactionAsync(admissionPayment.Amount, accountTransactionType, accountInvoiceType, accountInvoice.Id, paymentMethod, transactionDate, patient.Account.Id, previousAccountBalance, admissionPayment.InitiatorId, patient.Id);
             await _applicationDbContext.SaveChangesAsync();
 
             return true;
@@ -246,28 +233,16 @@ namespace HMS.Areas.Admissions.Repositories
                 decimal AmountToBePaidByHMO = 0;
                 string priceCalculationFormular = "";
 
-
-
-
                 var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == AdmissionInvoice.Admission.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
                 var healthplanId = PatientProfile.Account.HealthPlanId;
-
 
                 var HMOHealthPlanPatient = await _applicationDbContext.HMOHealthPlanPatients.Include(h => h.HMOHealthPlan).ThenInclude(h => h.HMO).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
                 var HMOHealthPlanSubGroupPatient = await _applicationDbContext.HMOSubUserGroupPatients.Include(d => d.HMOSubUserGroup).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
                 var NHISHealthPlanPatient = await _applicationDbContext.NHISHealthPlanPatients.Where(p => p.PatientId == PatientProfile.PatientId).Include(n => n.NHISHealthPlan).FirstOrDefaultAsync();
 
-
-
-
                 decimal totalDrugPricing = 0;
                 decimal amountDue = 0;
                 decimal HMOAmount = 0;
-
-
-
-
-
 
                 //Check if the drug is in stock
                 var drug = _applicationDbContext.Drugs.Find(AdmissionRequest.DrugId);
@@ -354,7 +329,6 @@ namespace HMS.Areas.Admissions.Repositories
                 }
                 else if (drugPrice != null)
                 {
-
                     totalUnitPrice = drugPrice.PricePerUnit * AdmissionRequest.NumberOfUnits;
                     totalContainerPrice = drugPrice.PricePerContainer * AdmissionRequest.NumberOfContainers;
                     totalCartonPrice = drugPrice.PricePerCarton * AdmissionRequest.NumberOfCartons;
@@ -370,11 +344,7 @@ namespace HMS.Areas.Admissions.Repositories
                     AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                     priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                     priceCalculationFormular = "Default Price";
-                }
-                
-
-
-
+                }                
 
                 if (String.IsNullOrEmpty(AdmissionRequest.NumberOfUnits.ToString()))
                 {
@@ -402,8 +372,6 @@ namespace HMS.Areas.Admissions.Repositories
                     AdmissionInvoice.AmountToBePaidByPatient += amountDue;
                     AdmissionInvoice.PaymentStatus = "Awaiting HMO Payment";
 
-
-
                     _applicationDbContext.AdmissionInvoices.Update(AdmissionInvoice);
                     await _applicationDbContext.SaveChangesAsync();
 
@@ -415,8 +383,6 @@ namespace HMS.Areas.Admissions.Repositories
                     AdmissionInvoice.AmountToBePaidByHMO += HMOAmount;
                     AdmissionInvoice.AmountToBePaidByPatient += amountDue;
                     AdmissionInvoice.PaymentStatus = "Not Paid";
-
-
 
                     _applicationDbContext.AdmissionInvoices.Update(AdmissionInvoice);
                     await _applicationDbContext.SaveChangesAsync();
@@ -433,8 +399,7 @@ namespace HMS.Areas.Admissions.Repositories
         public async Task<string> UpdateAdmissionInvoice(ServiceMedicationDtoForAdminister AdmissionRequest, AdmissionInvoice AdmissionInvoice)
         {
             try
-            {
-                
+            {   
                 if (AdmissionRequest == null)
                     return null;
 
@@ -449,22 +414,12 @@ namespace HMS.Areas.Admissions.Repositories
                 var PatientProfile = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == AdmissionInvoice.Admission.PatientId).Include(p => p.Account).ThenInclude(p => p.HealthPlan).FirstOrDefaultAsync();
                 var healthplanId = PatientProfile.Account.HealthPlanId;
 
-
                 var HMOHealthPlanPatient = await _applicationDbContext.HMOHealthPlanPatients.Include(h => h.HMOHealthPlan).ThenInclude(h => h.HMO).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
                 var HMOHealthPlanSubGroupPatient = await _applicationDbContext.HMOSubUserGroupPatients.Include(d => d.HMOSubUserGroup).Where(p => p.PatientId == PatientProfile.PatientId).FirstOrDefaultAsync();
                 var NHISHealthPlanPatient = await _applicationDbContext.NHISHealthPlanPatients.Where(p => p.PatientId == PatientProfile.PatientId).Include(n => n.NHISHealthPlan).FirstOrDefaultAsync();
-
-
-
-
-                
+                                
                 decimal amountDue = 0;
                 decimal HMOAmount = 0;
-
-
-
-
-
 
                 //Check if the drug is in stock
                 var service = _applicationDbContext.Services.Find(AdmissionRequest.ServiceId);
@@ -479,7 +434,6 @@ namespace HMS.Areas.Admissions.Repositories
                         priceTotal = HMOHealthPlanServicePrice.Price;
                         AmountToBePaidByPatient = 0;
                         priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
-
                     }
                     else
                     {
@@ -497,7 +451,6 @@ namespace HMS.Areas.Admissions.Repositories
                         priceTotal = HMOHealthPlanServicePrice.Price;
                         AmountToBePaidByPatient = 0;
                         priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
-
                     }
                     else
                     {
@@ -523,7 +476,6 @@ namespace HMS.Areas.Admissions.Repositories
                         priceCalculationFormular = "Default Price";
                     }
                 }
-               
                 else
                 {
                     priceTotal = service.Cost;
@@ -538,8 +490,6 @@ namespace HMS.Areas.Admissions.Repositories
                     AdmissionInvoice.AmountToBePaidByPatient += amountDue;
                     AdmissionInvoice.PaymentStatus = "Awaiting HMO Payment";
 
-
-
                     _applicationDbContext.AdmissionInvoices.Update(AdmissionInvoice);
                     await _applicationDbContext.SaveChangesAsync();
 
@@ -551,8 +501,6 @@ namespace HMS.Areas.Admissions.Repositories
                     AdmissionInvoice.AmountToBePaidByHMO += HMOAmount;
                     AdmissionInvoice.AmountToBePaidByPatient += amountDue;
                     AdmissionInvoice.PaymentStatus = "Not Paid";
-
-
 
                     _applicationDbContext.AdmissionInvoices.Update(AdmissionInvoice);
                     await _applicationDbContext.SaveChangesAsync();

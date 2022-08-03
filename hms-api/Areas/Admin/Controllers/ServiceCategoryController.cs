@@ -212,6 +212,5 @@ namespace HMS.Areas.Admin.Controllers
                 message = "Services Fetched"
             });
         }
-
     }
 }

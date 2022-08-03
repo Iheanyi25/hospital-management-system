@@ -28,7 +28,6 @@ namespace HMS.Areas.Admin.Repositories
         {
             try
             {
-               
                 var plan =await  _applicationDbContext.HealthPlans.Where(h => h.Id == id).FirstAsync();
 
                 return plan;

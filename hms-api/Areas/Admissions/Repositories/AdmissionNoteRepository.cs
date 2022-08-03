@@ -42,12 +42,12 @@ namespace HMS.Areas.Admissions.Repositories
             }
         }
 
-        public async Task<AdmissionNote> GetAdmissionNote(string AdmissionNoteId) => await _applicationDbContext.AdmissionNotes.Where(p => p.Id == AdmissionNoteId).Include(a => a.Admission).ThenInclude(a => a.Patient).Include(a => a.Doctor).FirstOrDefaultAsync();
+        public async Task<AdmissionNote> GetAdmissionNote(string AdmissionNoteId) => await _applicationDbContext.AdmissionNotes.Where(p => p.Id == AdmissionNoteId).Include(a => a.Admission).ThenInclude(a => a.Patient).ThenInclude(p => p.Patient).Include(a => a.Doctor).FirstOrDefaultAsync();
      
 
         public PagedList<AdmissionNoteDtoForView> GetAdmissionNotes(string AdmissionId, PaginationParameter paginationParameter)
         {
-            var admissionNotes = _applicationDbContext.AdmissionNotes.Where(p => p.AdmissionId == AdmissionId).Include(a => a.Admission).ThenInclude(a => a.Patient).Include(a => a.Doctor).OrderByDescending(a => a.DateGenerated).ToList();
+            var admissionNotes = _applicationDbContext.AdmissionNotes.Where(p => p.AdmissionId == AdmissionId).Include(a => a.Admission).ThenInclude(a => a.Patient).ThenInclude(p => p.Patient).Include(a => a.Doctor).OrderByDescending(a => a.DateGenerated).ToList();
             var admissionNotesToReturn = _mapper.Map<IEnumerable<AdmissionNoteDtoForView>>(admissionNotes);
             return PagedList<AdmissionNoteDtoForView>.ToPagedList(admissionNotesToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }

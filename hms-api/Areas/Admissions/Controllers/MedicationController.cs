@@ -39,7 +39,6 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMedications([FromQuery] PaginationParameter paginationParameter, string AdmissionId)
         {
-
             var medications = _medication.GetDrugMedications(AdmissionId, paginationParameter);
 
             var paginationDetails = new
@@ -52,7 +51,6 @@ namespace HMS.Areas.Admissions.Controllers
                 medications.HasPrevious
             };
 
-
             //This is optional
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
 
@@ -63,7 +61,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Admissions Fetched"
             });
         }
-
 
         [Route("CreateDrugMedication")]
         [HttpPost]
@@ -87,7 +84,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Medication created successfully"
             });
         }
-
 
         [Route("UpdateDrugMedicationStatus")]
         [HttpPost]
@@ -113,7 +109,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Medication created successfully"
             });
         }
-
 
         [Route("AdministerDrugMedication")]
         [HttpPost]
@@ -174,7 +169,6 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetServiceMedications([FromQuery] PaginationParameter paginationParameter, string AdmissionId)
         {
-
             var medications = _medication.GetServiceMedications(AdmissionId, paginationParameter);
 
             var paginationDetails = new
@@ -186,7 +180,6 @@ namespace HMS.Areas.Admissions.Controllers
                 medications.HasNext,
                 medications.HasPrevious
             };
-
 
             //This is optional
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
@@ -248,7 +241,6 @@ namespace HMS.Areas.Admissions.Controllers
             });
         }
 
-
         [Route("AdministerServiceMedication")]
         [HttpPost]
         public async Task<IActionResult> AdministerServiceMedication([FromBody] ServiceMedicationDtoForAdminister Medication)
@@ -288,7 +280,6 @@ namespace HMS.Areas.Admissions.Controllers
             {
                 return BadRequest(new { response = "301", message = "Medication failed to Administer" });
             }
-
 
             return Ok(new
             {

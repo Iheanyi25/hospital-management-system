@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace HMS.Areas.Admin.Dtos
 {
-   
     public class BookAppointmentDto
     {
         public DateTime AppointmentDate { get; set; }

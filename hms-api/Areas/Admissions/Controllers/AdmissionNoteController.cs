@@ -43,7 +43,6 @@ namespace HMS.Areas.Admissions.Controllers
             return Ok(new { admissionNote, message = "Admission Note returned" });
         }
 
-
         [Route("GetAdmissionNotesForAdmission")]
         [HttpGet]
         public async Task<IActionResult> GetAdmissionNotesForAdmission(string AdmissionId, [FromQuery] PaginationParameter paginationParameter)
@@ -54,7 +53,6 @@ namespace HMS.Areas.Admissions.Controllers
             {
                 return BadRequest(new { message = "An Admission with this Id was not found" });
             }
-
 
             var admissionNotes = _admissionNote.GetAdmissionNotes(AdmissionId, paginationParameter);
 
@@ -78,8 +76,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Admission Note Returned"
             });
         }
-
-
 
         [Route("CreateAdmissionNote")]
         [HttpPost]

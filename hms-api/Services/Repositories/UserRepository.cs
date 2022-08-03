@@ -28,5 +28,6 @@ namespace HMS.Services.Repositories
         public async Task<ApplicationUser> GetUserByIdAsync(string Id) =>
               await _applicationDbcontext.ApplicationUsers.FirstOrDefaultAsync(d => d.Id == Id);
 
+        public async Task<IEnumerable<ApplicationUser>> GetUsersExceptLoggedInUser(string UserId) => await _applicationDbcontext.ApplicationUsers.Where(u => u.Id != UserId).ToListAsync();
     }
 }
