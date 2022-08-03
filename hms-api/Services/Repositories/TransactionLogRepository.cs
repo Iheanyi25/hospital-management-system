@@ -38,7 +38,7 @@ namespace HMS.Services.Repositories
 
             .ToListAsync();
         
-        public async Task<bool> LogLinkPaymentTransaction(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAccountId, decimal BenefactorAccountPreviousBalance, string Initiator)
+        public async Task<bool> LogLinkPaymentTransaction(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAccountId, decimal BenefactorAccountPreviousBalance, string Initiator, string patientId)
         {
             try
             {
@@ -54,7 +54,8 @@ namespace HMS.Services.Repositories
                         TrasactionDate = transactionDate,
                         BenefactorAccountId = BenefactorAccountId,
                         BenefactorAccountPreviousBalance = BenefactorAccountPreviousBalance,
-                        DepositorsName = Initiator
+                        DepositorsName = Initiator,
+                        PatientId = patientId
                     };
 
                     _applicationDbContext.Transactions.Add(transaction);
@@ -71,7 +72,7 @@ namespace HMS.Services.Repositories
             }
         }
 
-        public async Task<bool> LogTransactionAsync(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorId, string InitiatorId)
+        public async Task<bool> LogTransactionAsync(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorId, string InitiatorId, string patientId)
         {
             try
             {
@@ -86,7 +87,8 @@ namespace HMS.Services.Repositories
                         PaymentMethod = PaymentMethod,
                         TrasactionDate = transactionDate,
                         BenefactorId = BenefactorId,
-                        InitiatorId = InitiatorId
+                        InitiatorId = InitiatorId,
+                        PatientId = patientId
                     };
 
                     _applicationDbContext.Transactions.Add(transaction);
@@ -104,7 +106,7 @@ namespace HMS.Services.Repositories
         }
 
         
-        public bool LogTransaction(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorId, string InitiatorId)
+        public bool LogTransaction(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorId, string InitiatorId, string patientId)
             {
                 try
                 {
@@ -119,7 +121,8 @@ namespace HMS.Services.Repositories
                             PaymentMethod = PaymentMethod,
                             TrasactionDate = transactionDate,
                             BenefactorId = BenefactorId,
-                            InitiatorId = InitiatorId
+                            InitiatorId = InitiatorId,
+                            PatientId = patientId
                         };
 
                         _applicationDbContext.Transactions.Add(transaction);
@@ -136,7 +139,7 @@ namespace HMS.Services.Repositories
                 }
          }
 
-        public bool LogAccountTransaction(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAccountId, string InitiatorId)
+        public bool LogAccountTransaction(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAccountId, string InitiatorId, string patientId)
         {
             try
             {
@@ -151,7 +154,8 @@ namespace HMS.Services.Repositories
                         PaymentMethod = PaymentMethod,
                         TrasactionDate = transactionDate,
                         BenefactorAccountId = BenefactorAccountId,
-                        InitiatorId = InitiatorId
+                        InitiatorId = InitiatorId,
+                        PatientId = patientId
                     };
 
                     _applicationDbContext.Transactions.Add(transaction);
@@ -168,7 +172,7 @@ namespace HMS.Services.Repositories
             }
         }
 
-        public async Task<bool> LogAccountTransactionAsync(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAccountId, decimal previousAccountBalance, string InitiatorId)
+        public async Task<bool> LogAccountTransactionAsync(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAccountId, decimal previousAccountBalance, string InitiatorId, string patientId)
         {
             try
             {
@@ -184,7 +188,8 @@ namespace HMS.Services.Repositories
                         TrasactionDate = transactionDate,
                         BenefactorAccountId = BenefactorAccountId,
                         BenefactorAccountPreviousBalance = previousAccountBalance,
-                        InitiatorId = InitiatorId
+                        InitiatorId = InitiatorId,
+                        PatientId = patientId
                     };
 
                     _applicationDbContext.Transactions.Add(transaction);
@@ -203,19 +208,19 @@ namespace HMS.Services.Repositories
 
         public PagedList<TransactionsDtoForView> GetAccountTransactions(string AccountId, PaginationParameter paginationParameter)
         {
-            var transactions = _applicationDbContext.Transactions.Where(t => t.BenefactorAccountId == AccountId).Include(t => t.Benefactor).OrderBy(a => a.TrasactionDate).ToList();
+            var transactions = _applicationDbContext.Transactions.Where(t => t.BenefactorAccountId == AccountId).Include(t => t.Benefactor).Include(t => t.Initiator).Include(p => p.Patient).OrderBy(a => a.TrasactionDate).ToList();
             var transactionsToReturn = _mapper.Map<IEnumerable<TransactionsDtoForView>>(transactions);
             return PagedList<TransactionsDtoForView>.ToPagedList(transactionsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
         public PagedList<TransactionsDtoForView> GetAdmissionTransactions(string AdmissionId, PaginationParameter paginationParameter)
         {
-            var transactions = _applicationDbContext.Transactions.Where(t => t.BenefactorAdmissionId == AdmissionId).Include(t => t.BenefactorAdmission).Include(t => t.Initiator).OrderBy(a => a.TrasactionDate).ToList();
+            var transactions = _applicationDbContext.Transactions.Where(t => t.BenefactorAdmissionId == AdmissionId).Include(t => t.BenefactorAdmission).Include(t => t.Initiator).Include(p => p.Patient).OrderBy(a => a.TrasactionDate).ToList();
             var transactionsToReturn = _mapper.Map<IEnumerable<TransactionsDtoForView>>(transactions);
             return PagedList<TransactionsDtoForView>.ToPagedList(transactionsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
-        public async Task<bool> LogAdmissionTransactionAsync(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAdmissionId, string InitiatorId)
+        public async Task<bool> LogAdmissionTransactionAsync(decimal amount, string transactionType, string invoiceType, string invoiceId, string PaymentMethod, DateTime transactionDate, string BenefactorAdmissionId, string InitiatorId, string patientId)
         {
             try
             {
@@ -230,7 +235,8 @@ namespace HMS.Services.Repositories
                         PaymentMethod = PaymentMethod,
                         TrasactionDate = transactionDate,
                         BenefactorAdmissionId = BenefactorAdmissionId,
-                        InitiatorId = InitiatorId
+                        InitiatorId = InitiatorId,
+                        PatientId = patientId
                     };
 
                     _applicationDbContext.Transactions.Add(transaction);
@@ -247,7 +253,5 @@ namespace HMS.Services.Repositories
             }
         }
     }
-
-    
 }
 

@@ -90,21 +90,11 @@ namespace HMS.Areas.Pharmacy.Controllers
             });
         }
 
-        [Route("GetDrugsByDrugType")]
+        [Route("GetDrugsByTablet")]
         [HttpGet]
-        public async Task<IActionResult> GetDrugsByDrugType(string drugType,[FromQuery] PaginationParameter paginationParameter)
+        public async Task<IActionResult> GetTabletDrugs([FromQuery] PaginationParameter paginationParameter)
         {
-            if (string.IsNullOrEmpty(drugType))
-            {
-                return BadRequest(new
-                {
-                    response = "400",
-                    message = "Parameter DrugType is required"
-                });
-
-            }
-
-            var drugs = _drug.GetDrugsByDrugType(drugType, paginationParameter);
+            var drugs = _drug.GetDrugsByTablet(paginationParameter);
 
             var paginationDetails = new
             {
@@ -127,6 +117,86 @@ namespace HMS.Areas.Pharmacy.Controllers
             });
         }
 
+        [Route("GetDrugsBySyrup")]
+        [HttpGet]
+        public async Task<IActionResult> GetSyrupDrugs([FromQuery] PaginationParameter paginationParameter)
+        {
+            var drugs = _drug.GetDrugsBySyrup(paginationParameter);
+
+            var paginationDetails = new
+            {
+                drugs.TotalCount,
+                drugs.PageSize,
+                drugs.CurrentPage,
+                drugs.TotalPages,
+                drugs.HasNext,
+                drugs.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                drugs,
+                paginationDetails,
+                message = "Drugs Fetched"
+            });
+        }
+
+        [Route("GetDrugsByInhaler")]
+        [HttpGet]
+        public async Task<IActionResult> GetInhalerDrugs([FromQuery] PaginationParameter paginationParameter)
+        {
+            var drugs = _drug.GetDrugsByInhaler(paginationParameter);
+
+            var paginationDetails = new
+            {
+                drugs.TotalCount,
+                drugs.PageSize,
+                drugs.CurrentPage,
+                drugs.TotalPages,
+                drugs.HasNext,
+                drugs.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                drugs,
+                paginationDetails,
+                message = "Drugs Fetched"
+            });
+        }
+
+        [Route("GetDrugsByPowder")]
+        [HttpGet]
+        public async Task<IActionResult> GetPowderDrugs([FromQuery] PaginationParameter paginationParameter)
+        {
+            var drugs = _drug.GetDrugsByPowder(paginationParameter);
+
+            var paginationDetails = new
+            {
+                drugs.TotalCount,
+                drugs.PageSize,
+                drugs.CurrentPage,
+                drugs.TotalPages,
+                drugs.HasNext,
+                drugs.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                drugs,
+                paginationDetails,
+                message = "Drugs Fetched"
+            });
+        }
 
         [Route("SearchDrugs")]
         [HttpGet]

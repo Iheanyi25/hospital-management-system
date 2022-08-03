@@ -40,15 +40,12 @@ namespace HMS.Areas.Admissions.Controllers
             }
 
             return Ok(new { res, mwessage = "Ward returned" });
-        }
-
-        
+        }       
 
         [HttpGet("Ward/GetAllWards")]
         public async Task<IActionResult> GetWards([FromQuery] PaginationParameter paginationParameter)
         {
             var wards = _ward.GetWardsPagnation(paginationParameter);
-
 
             var paginationDetails = new
             {
@@ -69,9 +66,7 @@ namespace HMS.Areas.Admissions.Controllers
                 paginationDetails,
                 message = "Wards Fetched"
             });
-
         }
-
 
         [HttpPost("Ward/CreateWard", Name = "Ward")]
         public async Task<IActionResult> CreateWard(WardDtoForCreate ward)
@@ -95,7 +90,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Ward created successfully"
             });
         }
-
 
         [HttpPost("Ward/CreateBed", Name = "Bed")]
         public async Task<IActionResult> CreateBed(BedDtoForCreate bed)
@@ -156,7 +150,7 @@ namespace HMS.Areas.Admissions.Controllers
             var res = await _ward.DeleteWard(wardToDelete);
             if (!res)
             {
-                return BadRequest(new { response = "301", message = "Ward failed to delete" });
+                return BadRequest(new { response = "301", message = "This Ward Has Beds and Cannnot Be Deleted Until Empty" });
             }
 
             return Ok(new { ward, message = "Ward Deleted" });
@@ -199,7 +193,6 @@ namespace HMS.Areas.Admissions.Controllers
                 paginationDetails,
                 message = "Wards Fetched"
             });
-
         }
     }
 }

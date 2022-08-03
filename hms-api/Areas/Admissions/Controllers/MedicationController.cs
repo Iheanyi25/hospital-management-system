@@ -21,12 +21,14 @@ namespace HMS.Areas.Admissions.Controllers
         private readonly IAdmissionInvoice _admissionInvoice;
         private readonly IDrug _drug;
         private readonly IServices _service;
+        private readonly IDrugBatch _drugBatch;
 
-        public MedicationController(IMedication medication, IAdmission admission, IMapper mapper, IAdmissionInvoice admissionInvoice, IDrug drug, IServices service)
+        public MedicationController(IMedication medication, IAdmission admission, IMapper mapper, IAdmissionInvoice admissionInvoice, IDrug drug, IDrugBatch drugBatch, IServices service)
         {
             _admission = admission;
             _admissionInvoice = admissionInvoice;
             _drug = drug;
+            _drugBatch = drugBatch;
             _service = service;
             _medication = medication;
             _mapper = mapper;
@@ -37,7 +39,6 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMedications([FromQuery] PaginationParameter paginationParameter, string AdmissionId)
         {
-
             var medications = _medication.GetDrugMedications(AdmissionId, paginationParameter);
 
             var paginationDetails = new
@@ -50,7 +51,6 @@ namespace HMS.Areas.Admissions.Controllers
                 medications.HasPrevious
             };
 
-
             //This is optional
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
 
@@ -62,7 +62,6 @@ namespace HMS.Areas.Admissions.Controllers
             });
         }
 
-
         [Route("CreateDrugMedication")]
         [HttpPost]
         public async Task<IActionResult> CreateMedication([FromBody] DrugMedicationDtoForCreate Medication)
@@ -73,7 +72,6 @@ namespace HMS.Areas.Admissions.Controllers
             }
 
             var medicationToCreate = _mapper.Map<AdmissionDrugMedication>(Medication);
-
             var medication = await _medication.CreateDrugMedication(medicationToCreate);
             if (!medication)
             {
@@ -86,7 +84,6 @@ namespace HMS.Areas.Admissions.Controllers
                 message = "Medication created successfully"
             });
         }
-
 
         [Route("UpdateDrugMedicationStatus")]
         [HttpPost]
@@ -113,7 +110,6 @@ namespace HMS.Areas.Admissions.Controllers
             });
         }
 
-
         [Route("AdministerDrugMedication")]
         [HttpPost]
         public async Task<IActionResult> AdministerMedication([FromBody] DrugMedicationDtoForAdminister Medication)
@@ -133,10 +129,6 @@ namespace HMS.Areas.Admissions.Controllers
                 return BadRequest(new { response = "301", message = "Invalid Admission Id passed" });
             }
 
-            if (admissionInvoice == null)
-            {
-                return BadRequest(new { response = "301", message = "No Invoice For This Admission" });
-            }
             var drug = await _drug.GetDrug(Medication.DrugId);
 
             if (drug == null)
@@ -147,9 +139,9 @@ namespace HMS.Areas.Admissions.Controllers
             var invoiceId = await _admissionInvoice.UpdateAdmissionInvoice(Medication, admissionInvoice);
             if (invoiceId == "1")
             {
-                return BadRequest(new { response = "301", message = "Out of Stock For This Drug" });
+                return BadRequest(new { response = "301", message = "Out of Stock" });
             }
-                
+
             var medicationToAdminister = _mapper.Map<AdmissionDrugDispensing>(Medication);
             medicationToAdminister.AdmissionInvoiceId = invoiceId;
             var medication = await _medication.AdministerDrugMedication(medicationToAdminister);
@@ -158,7 +150,13 @@ namespace HMS.Areas.Admissions.Controllers
                 return BadRequest(new { response = "301", message = "Medication failed to Administer" });
             }
 
-            
+            var drugQuantity = Medication.NumberOfCartons * drug.ContainersPerCarton * drug.QuantityPerContainer + Medication.NumberOfContainers * drug.QuantityPerContainer + Medication.NumberOfUnits;
+            var drugBatch = await _drugBatch.GetDrugBatchByDrug(drug.Id, drugQuantity);
+
+            drugBatch.QuantityInStock -= drugQuantity;
+
+            await _drugBatch.UpdateDrugBatch(drugBatch);
+
             return Ok(new
             {
                 medicationToAdminister,
@@ -171,7 +169,6 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetServiceMedications([FromQuery] PaginationParameter paginationParameter, string AdmissionId)
         {
-
             var medications = _medication.GetServiceMedications(AdmissionId, paginationParameter);
 
             var paginationDetails = new
@@ -183,7 +180,6 @@ namespace HMS.Areas.Admissions.Controllers
                 medications.HasNext,
                 medications.HasPrevious
             };
-
 
             //This is optional
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
@@ -245,7 +241,6 @@ namespace HMS.Areas.Admissions.Controllers
             });
         }
 
-
         [Route("AdministerServiceMedication")]
         [HttpPost]
         public async Task<IActionResult> AdministerServiceMedication([FromBody] ServiceMedicationDtoForAdminister Medication)
@@ -265,10 +260,6 @@ namespace HMS.Areas.Admissions.Controllers
                 return BadRequest(new { response = "301", message = "Invalid Admission Id passed" });
             }
 
-            if (admissionInvoice == null)
-            {
-                return BadRequest(new { response = "301", message = "No Invoice For This Admission" });
-            }
             var service = await _service.GetServiceByIdAsync(Medication.ServiceId);
 
             if (service == null)
@@ -289,7 +280,6 @@ namespace HMS.Areas.Admissions.Controllers
             {
                 return BadRequest(new { response = "301", message = "Medication failed to Administer" });
             }
-
 
             return Ok(new
             {

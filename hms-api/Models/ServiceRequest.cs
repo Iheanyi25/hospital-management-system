@@ -10,7 +10,6 @@ namespace HMS.Models
             Id = Guid.NewGuid().ToString();
             PaymentStatus = "NOT PAID";
             Status = "UNDONE";
-
         }
         public string Id { get; set; }
 
@@ -28,6 +27,6 @@ namespace HMS.Models
         public virtual Appointment Appointment { get; set; }
         public string ConsultationId { get; set; }
         public virtual Consultation Consultation { get; set; }
-
+        public string PriceCalculationFormular { get; set; }
     }
 }

@@ -9,13 +9,15 @@ namespace HMS.Models
         {
             Id = Guid.NewGuid().ToString();
             Status = "UNDONE";
-
+            DateDispensed = DateTime.Now;
         }
+
         public string Id { get; set; }
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
         public string Status { get; set; }
+        public DateTime DateDispensed { get; set; }
         public string AdmissionInvoiceId { get; set; }
         public AdmissionInvoice AdmissionInvoice { get; set; }
 

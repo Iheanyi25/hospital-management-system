@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using HMS.Areas.Admissions.Dtos;
 using HMS.Areas.Admissions.Interfaces;
-using HMS.Areas.Patient.Interfaces;
 using HMS.Areas.Pharmacy.Interfaces;
 using HMS.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -16,23 +14,15 @@ namespace HMS.Areas.Admissions.Controllers
     public class DrugDispensingController : Controller
     {
        
-        private readonly IMapper _mapper;
         private readonly IAdmission _admission;
-        private readonly IAdmissionInvoice _admissionInvoice;
         private readonly IAdmissionDrugDispensing _admissionDrugDispensing;
         private readonly IDrugInvoicing _drugInvoicing;
-        private readonly IDrug _drug;
-        private readonly IPatientProfile _patient;
 
 
-        public DrugDispensingController(IMapper mapper, IAdmission admission, IAdmissionInvoice admissionInvoice, IAdmissionDrugDispensing admissionDrugDispensing, IDrug drug, IDrugInvoicing drugInvoicing, IPatientProfile patient)
+        public DrugDispensingController(IMapper mapper, IAdmission admission, IAdmissionInvoice admissionInvoice, IAdmissionDrugDispensing admissionDrugDispensing,  IDrugInvoicing drugInvoicing)
         {
-            _mapper = mapper;
             _admission = admission;
-            _drug = drug;
-            _admissionInvoice = admissionInvoice;
             _drugInvoicing = drugInvoicing;
-            _patient = patient;
             _admissionDrugDispensing = admissionDrugDispensing;
         }
 
@@ -46,7 +36,7 @@ namespace HMS.Areas.Admissions.Controllers
 
             //check if the admission exists
             var admission = await _admission.GetAdmission(AdmissionRequest.AdmissionId);
-            var admissionInvoice = await _admissionInvoice.GetAdmissionInvoiceByAdmissionId(AdmissionRequest.AdmissionId);
+
             if (admission == null)
                 return BadRequest(new
                 {
@@ -64,7 +54,6 @@ namespace HMS.Areas.Admissions.Controllers
                         response = "301",
                         message = "One or more Drugs Passed is/are invalid"
                     });
-
             }
             return Ok(new { message = "Admission Request submitted successfully" });
         }

@@ -42,6 +42,8 @@ namespace HMS.Areas.Pharmacy.Repositories
                 decimal totalCartonPrice = 0;
                 decimal priceTotal = 0;
                 decimal AmountToBePaidByPatient = 0;
+                decimal AmountTotal = 0;
+                decimal PatientAmount = 0;
                 decimal AmountToBePaidByHMO = 0;
                 string priceCalculationFormular = "";
 
@@ -87,6 +89,15 @@ namespace HMS.Areas.Pharmacy.Repositories
                             AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
                         }
+                        else
+                        {
+                            totalUnitPrice = drug.DefaultPricePerUnit * _drug.numberOfUnits;
+                            totalContainerPrice = drug.DefaultPricePerContainer * _drug.numberOfContainers;
+                            totalCartonPrice = drug.DefaultPricePerCarton * _drug.numberOfCartons;
+                            AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceCalculationFormular = "Default Price";
+                        }
                     }
                     else if (HMOHealthPlanSubGroupPatient != null)
                     {
@@ -100,6 +111,15 @@ namespace HMS.Areas.Pharmacy.Repositories
                             priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             AmountToBePaidByHMO = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             priceCalculationFormular = HMOHealthPlanPatient.HMOHealthPlan.HMO.Name + " " + HMOHealthPlanPatient.HMOHealthPlan.Name;
+                        }
+                        else
+                        {
+                            totalUnitPrice = drug.DefaultPricePerUnit * _drug.numberOfUnits;
+                            totalContainerPrice = drug.DefaultPricePerContainer * _drug.numberOfContainers;
+                            totalCartonPrice = drug.DefaultPricePerCarton * _drug.numberOfCartons;
+                            AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceCalculationFormular = "Default Price";
                         }
                     }
                     else if (NHISHealthPlanPatient != null)
@@ -115,6 +135,15 @@ namespace HMS.Areas.Pharmacy.Repositories
                             AmountToBePaidByPatient = priceTotal * NHISHealthPlanPatient.NHISHealthPlan.Percentage / 100;
                             priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
                         }
+                        else
+                        {
+                            totalUnitPrice = drug.DefaultPricePerUnit * _drug.numberOfUnits;
+                            totalContainerPrice = drug.DefaultPricePerContainer * _drug.numberOfContainers;
+                            totalCartonPrice = drug.DefaultPricePerCarton * _drug.numberOfCartons;
+                            AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceCalculationFormular = "Default Price";
+                        }
                     }
                     else if (drugPrice != null)
                     {
@@ -126,6 +155,15 @@ namespace HMS.Areas.Pharmacy.Repositories
                             priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
                             priceCalculationFormular = drugPrice.HealthPlan.Name;
+                        }
+                        else
+                        {
+                            totalUnitPrice = drug.DefaultPricePerUnit * _drug.numberOfUnits;
+                            totalContainerPrice = drug.DefaultPricePerContainer * _drug.numberOfContainers;
+                            totalCartonPrice = drug.DefaultPricePerCarton * _drug.numberOfCartons;
+                            AmountToBePaidByPatient = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceTotal = totalCartonPrice + totalContainerPrice + totalUnitPrice;
+                            priceCalculationFormular = "Default Price";
                         }
                     }
                     else
@@ -152,14 +190,14 @@ namespace HMS.Areas.Pharmacy.Repositories
                     {
                         _drug.numberOfCartons = 0;
                     }
-
-                    
+                    AmountTotal += priceTotal;
+                    PatientAmount += AmountToBePaidByPatient;
                     var price = new
                     {
                         drugName = drug.Name,
                         drugMeasurement = drug.Measurment,
                         drugManufacturer = drug.Manufacturer,
-                        drugType = drug.DrugType,
+                        //drugType = drug.DrugType,
                         drugGenericName = drug.GenericName,
 
                         numberOfCartons = _drug.numberOfCartons,
@@ -167,16 +205,21 @@ namespace HMS.Areas.Pharmacy.Repositories
                         numberOfUnits = _drug.numberOfUnits,
 
                         totalUnitPrice = totalUnitPrice,
-                        totalContainerPrice =totalContainerPrice,
+                        totalContainerPrice = totalContainerPrice,
                         totalCartonPrice = totalCartonPrice,
 
                         priceTotal = priceTotal,
+                        AmountToBePaidByPatient,
+                        AmountTotal,
+                        PatientAmount,
                         priceCalculationFormular = priceCalculationFormular
 
                     };
                    
 
                     drugPricing.Add(price);
+
+                  
                 }
 
                 return drugPricing;

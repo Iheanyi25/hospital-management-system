@@ -9,6 +9,10 @@ namespace HMS.Models
         public Drug()
         {
             Id = Guid.NewGuid().ToString();
+            IsTablet = false;
+            IsLiquid = false;
+            IsInhaler = false;
+            IsPowder = false;
         }
 
         public string Id { get; set; }
@@ -17,7 +21,10 @@ namespace HMS.Models
         public string GenericName { get; set; }
         public string Manufacturer { get; set; }
         public string Measurment { get; set; }
-        public string DrugType { get; set; }
+        public bool IsTablet { get; set; }
+        public bool IsLiquid { get; set; }
+        public bool IsInhaler { get; set; }
+        public bool IsPowder { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal CostPricePerContainer { get; set; }

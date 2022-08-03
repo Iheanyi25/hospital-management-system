@@ -30,7 +30,6 @@ namespace HMS.Areas.Admin.Repositories
             _mapper = mapper;
         }
 
-
         public async Task<object> GetAdmin(string AdminId)
         {
             var admin = await _applicationDbContext.AdminProfiles.Where(a => a.AdminId == AdminId).Include(a => a.Admin).FirstOrDefaultAsync();
@@ -75,7 +74,6 @@ namespace HMS.Areas.Admin.Repositories
             }
             else
             {
-
                 User.FirstName = AdminProfile.FirstName;
                 User.LastName = AdminProfile.LastName;
                 User.OtherNames = AdminProfile.OtherNames;
@@ -162,7 +160,6 @@ namespace HMS.Areas.Admin.Repositories
                         // Save changes in database
                         await _applicationDbContext.SaveChangesAsync();
                         return true;
-
                     }
                     else
                     {
@@ -173,7 +170,6 @@ namespace HMS.Areas.Admin.Repositories
                 {
                     return false;
                 }
-
             }
             else
             {

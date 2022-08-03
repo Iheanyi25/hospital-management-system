@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace HMS.Areas.Admissions.Dtos
 {
     public class AdmissionPaymentDto
@@ -13,5 +12,4 @@ namespace HMS.Areas.Admissions.Dtos
         public string TransactionReference { get; set; }
         public string InitiatorId { get; set; }
     }
-
 }

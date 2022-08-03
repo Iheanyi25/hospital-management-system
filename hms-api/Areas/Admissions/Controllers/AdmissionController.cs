@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HMS.Areas.Admissions.Dtos;
+﻿using HMS.Areas.Admissions.Dtos;
 using HMS.Areas.Admissions.Interfaces;
 using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
@@ -18,48 +17,64 @@ namespace HMS.Areas.Admissions.Controllers
         private readonly IAdmission _admission;
         private readonly IBed _bed;
         private readonly IPatientProfile _patient;
-        private readonly IMapper _mapper;
         private readonly IWard _ward;
         private readonly IAdmissionInvoice _admissionInvoice;
-   
 
-        public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient, IMapper mapper)
+        public AdmissionController(IAdmission admission, IAdmissionInvoice admissionInvoice, IBed bed, IWard ward, IPatientProfile patient)
         {
             _admission = admission;
             _admissionInvoice = admissionInvoice;
             _patient = patient;
             _bed = bed;
             _ward = ward;
-            _mapper = mapper;
+        }
 
+        [Route("GetAdmissionsWithoutBedCount")]
+        [HttpGet]
+        public async Task<IActionResult> GetAdmittedPatientsWithoutBedCount()
+        {
+            var referredPatientsCounts = _admission.GetAdmissionsWithoutBedCount();       
+                      
+            return Ok(new
+            {
+                referredPatientsCounts,
+                message = "Referred Patients Count"
+            });
         }
 
         [Route("GetAdmissionDays")]
         [HttpPost]
         public async Task<IActionResult> DischargePatient(string AdmissionId)
         {
-
             if (AdmissionId == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
             }
             var admission = await _admission.GetAdmission(AdmissionId);
-
-           
-            var todaysDate = DateTime.Now;
-            var admissionDate = admission.DateOfAdmission;
-            
-            var days = todaysDate - admissionDate;
-            var daysAdmitted = days.Days;
-            
-
-            return Ok(new
+            var daysAdmitted = -1;
+            if (admission.IsDischarged == false)
             {
-                daysAdmitted,
-                message = "Days Admitted Returned"
-            });
-        }
+                var todaysDate = DateTime.Now;
+                var admissionDate = admission.DateOfAdmission;
 
+                var days = todaysDate - admissionDate;
+                daysAdmitted = days.Days;
+
+                return Ok(new
+                {
+                    daysAdmitted,
+                    message = "Days Admitted Returned"
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    daysAdmitted,
+                    message = "Days Admitted Returned"
+                });
+            }
+        }
 
         [Route("GetAdmissionsWithBed")]
         [HttpGet]
@@ -82,7 +97,6 @@ namespace HMS.Areas.Admissions.Controllers
                     admissions.HasNext,
                     admissions.HasPrevious
                 };
-
 
                 //This is optional
                 Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
@@ -108,7 +122,6 @@ namespace HMS.Areas.Admissions.Controllers
                     admissions.HasPrevious
                 };
 
-
                 //This is optional
                 Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
 
@@ -119,14 +132,12 @@ namespace HMS.Areas.Admissions.Controllers
                     message = "Admissions Fetched"
                 });
             }
-           
         }
 
         [Route("GetAdmissionsWithoutBed")]
         [HttpGet]
         public async Task<IActionResult> GetAdmittedPatientsWithoutBed([FromQuery] PaginationParameter paginationParameter)
         {
-
             var admissions = _admission.GetAdmissionsWithoutBed(paginationParameter);
 
             var paginationDetails = new
@@ -138,7 +149,6 @@ namespace HMS.Areas.Admissions.Controllers
                 admissions.HasNext,
                 admissions.HasPrevious
             };
-
 
             //This is optional
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
@@ -155,7 +165,6 @@ namespace HMS.Areas.Admissions.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAdmittedPatient(string AdmissionId)
         {
-            
             if (AdmissionId == "")
             {
                 return BadRequest();
@@ -170,7 +179,6 @@ namespace HMS.Areas.Admissions.Controllers
 
             return Ok(new { admission, mwessage = "Admission returned" });
         }
-
 
         [Route("AssignPatientToBedspace")]
         [HttpPost]
@@ -213,7 +221,6 @@ namespace HMS.Areas.Admissions.Controllers
                     AdmissionId = admission.Id,
                 };
 
-
                 var admissionInvoiceId = await _admissionInvoice.CreateAdmissionInvoice(admissionInvoiceToCreate);
 
                 if (string.IsNullOrEmpty(admissionInvoiceId))
@@ -227,6 +234,7 @@ namespace HMS.Areas.Admissions.Controllers
                 var res = await _admission.UpdateAdmission(admission);
                 var res1 = await _bed.UpdateBed(bed);
                 var wardAvailable = await _ward.CheckWardAvailability(bed.WardId);
+               
                 if (wardAvailable == false)
                 {
                     var ward = await _ward.GetBedsWard(bed.Id);
@@ -239,9 +247,7 @@ namespace HMS.Areas.Admissions.Controllers
                 }
             }
             else
-            {
-                
-                
+            {                
                 var occupiedBed = admission.Bed;
                 occupiedBed.IsAvailable = true;
                 var res1 = await _bed.UpdateBed(occupiedBed);
@@ -262,23 +268,19 @@ namespace HMS.Areas.Admissions.Controllers
                 {
                     return BadRequest(new { response = "301", message = "Failed To Assign Patient a Bed Space" });
                 }
-
             }
             
-
             return Ok(new
             {
                 admission,
-                message = "Assigned BedSpace To Patient"
+                message = "Assigned Patient To Bedspace"
             });
         }
-
 
         [Route("DischargePatient")]
         [HttpPost]
         public async Task<IActionResult> DischargePatient(AdmissionDtoForDischarge Admission)
-        {
-           
+        {  
             if (Admission == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
@@ -307,7 +309,6 @@ namespace HMS.Areas.Admissions.Controllers
             var ward = await _ward.GetBedsWard(bed.Id);
             ward.IsAvailable = true;
             await _ward.UpdateWard(ward);
-
 
             if (!admissionUpdated)
             {

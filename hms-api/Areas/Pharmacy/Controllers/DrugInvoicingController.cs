@@ -27,7 +27,7 @@ namespace HMS.Areas.Pharmacy.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPrescriptions()
         {
-            var clerkings = await _clerking.GetClerkings();
+            var clerkings = await _clerking.GetPrescriptions();
 
             var prescriptions = clerkings
              .Select(p => new

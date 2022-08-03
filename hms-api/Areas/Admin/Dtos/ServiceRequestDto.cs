@@ -20,7 +20,6 @@ namespace HMS.Areas.Admin.Dtos
         public string PatientId { get; set; }
         public string InvoiceNumber { get; set; }
         public DateTime DateGenerated { get; set; }
-
     }
 
     public class ServiceRequestDtoForCreate
@@ -62,7 +61,6 @@ namespace HMS.Areas.Admin.Dtos
         public string PaymentMethod { get; set; }
         public string TransactionReference { get; set; }
         public string InitiatorId { get; set; }
-       
     }
 
     public class ServiceUploadResultDto

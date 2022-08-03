@@ -8,7 +8,6 @@ namespace HMS.Areas.Admin.Interfaces
 {
     public interface IServices
     {
-
         Task<IEnumerable<ServiceDtoForView>> GetAllServices();
         PagedList<ServiceDtoForView> GetServicesPagnation(PaginationParameter paginationParameter);
         Task<Service> GetServiceByIdAsync(string id);
@@ -18,9 +17,7 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> CreateServiceRequest(ServiceRequestDtoForCreate serviceRequest, string invoiceId);
         Task<bool> CheckIfServicesExist(List<string> serviceIds);
         Task<int> GetServiceCount();
-
         Task<IEnumerable<Service>> GetServiceByCategoryAsync(string ServiceCategoryId);
-
         Task<string> GenerateInvoiceForServiceRequest(ServiceRequestDtoForCreate serviceRequest);
         PagedList<ServiceInvoiceDtoForView> GetServiceInvoicesPagination(PaginationParameter paginationParameter);
         Task<IEnumerable<ServiceInvoiceDtoForView>> GetServiceInvoices();
@@ -41,7 +38,9 @@ namespace HMS.Areas.Admin.Interfaces
         Task<bool> UpdateServiceRequest(ServiceRequest ServiceRequest);
         Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResults(string serviceRequestId);
         PagedList<ServiceRequestResultDtoForView> GetServiceRequestResultsPagination(string serviceRequestId, PaginationParameter paginationParameter);
-        Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResultsForPatient(string patientId);
+        //Task<IEnumerable<ServiceRequestResult>> GetServiceRequestResultFiles(string patientId);
         PagedList<ServiceRequestResultDtoForView> GetServiceRequestResultsForPatientPagination(string patientId, PaginationParameter paginationParameter);
+        //Task<IEnumerable<string>> GetServiceRequestResultFiles(string serviceRequestId);
+        IEnumerable<string> GetServiceRequestResultFiles(string serviceRequestId);
     }
 }

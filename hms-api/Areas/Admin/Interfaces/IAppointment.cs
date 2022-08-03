@@ -12,16 +12,21 @@ namespace HMS.Areas.Admin.Interfaces
         Task<dynamic> GetDoctorsAppointment();
         PagedList<AppointmentDtoForView> GetAppointmentsPagination(PaginationParameter paginationParameter);
         PagedList<AppointmentDtoForView> GetAppointmentsAccepted(PaginationParameter paginationParameter);
+        PagedList<AppointmentDtoForView> GetAppointmentsRejected(PaginationParameter paginationParameter);
         PagedList<AppointmentDtoForView> GetAppointmentsPending(PaginationParameter paginationParameter);
         PagedList<AppointmentDtoForView> GetAppointmentsCompleted(PaginationParameter paginationParameter);
         Task<bool> BookAppointment(Appointment appointment);
         Task<bool> AssignDoctorToPatient(MyPatient patient);
         Task<bool> DeleteAppointment(Appointment appointment);
         Task<MyPatient> CheckDoctorInMyPatients(string DoctorId, string PatientId);
+        Task<int> GetDoctorsRejectedAppointmentsCount(string doctorId);
+        Task<int> GetDoctorsRejectedAppointmentsCount();
         Task<int> GetDoctorsPendingAppointmentsCount();
         Task<int> GetDoctorsPendingAppointmentsCount(string doctorId);
         Task<int> GetDoctorsCompletedAppointmentsCount(string doctorId);
-       
+        Task<int> GetDoctorsCompletedAppointmentsCount();
+        Task<int> GetDoctorsAcceptedAppointmentsCount();
+        Task<int> GetDoctorsAcceptedAppointmentsCount(string doctorId);
     }
 }
 

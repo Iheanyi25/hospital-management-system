@@ -1,4 +1,5 @@
-﻿using HMS.Models;
+﻿using HMS.Areas.Accountant.Dtos;
+using HMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +9,16 @@ namespace HMS.Areas.Accountant.Interfaces
 {
     public interface IReports
     {
-        Task<IEnumerable<Transactions>> GetTransactions(DateTime startDate, DateTime endDate);
-        Task<IEnumerable<Transactions>> GetTransactions(DateTime startDate, DateTime endDate, string PaymentMethod);
-        Task<IEnumerable<Transactions>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate);
-        Task<IEnumerable<Transactions>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate, string TransactionType);
-        Task<IEnumerable<Transactions>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate, string PaymentMethod);
-        Task<IEnumerable<Transactions>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactions(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactions(DateTime startDate, DateTime endDate, string PaymentMethod);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate, string TransactionType);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate, string PaymentMethod);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate);
         Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate);
         Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod);
-        Task<IEnumerable<Transactions>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate);
-        Task<IEnumerable<Transactions>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate, string PaymentMethod);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate, string PaymentMethod);
         Task<object> GetPatientInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId);
         Task<object> GetPatientInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId, string PatientId);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HMS.Areas.Admin.Interfaces;
 using HMS.Areas.Patient.Interfaces;
 using HMS.Models;
 using HMS.Services.Helpers;
@@ -19,12 +20,14 @@ namespace HMS.Areas.Patient.Controllers
         private readonly IUser _userRepo;
         private readonly IPatientAppointment _appointment;
         private readonly IPatientProfile _patient;
-        public PatientAppointmentController(IUser userRepo, IPatientAppointment appointment, IPatientProfile patient)
+        private readonly IRegister _registration;
+        public PatientAppointmentController(IUser userRepo, IPatientAppointment appointment, IPatientProfile patient, IRegister registration)
         {
             
             _appointment = appointment;
             _patient = patient;
             _userRepo = userRepo;
+            _registration = registration;
 
         }
 
@@ -139,6 +142,15 @@ namespace HMS.Areas.Patient.Controllers
             var doctor = await _userRepo.GetUserByIdAsync(appointment.DoctorId);
             if (patient != null && doctor != null)
             {
+
+                var registrationInvoice = await _registration.GetPatientRegistrationInvoice(appointment.PatientId);
+
+
+                if (registrationInvoice.PaymentStatus != "Paid")
+                {
+                    return BadRequest(new { response = 301, message = "You are yet to pay for registration" });
+                }
+
                 var myPatient = new MyPatient();
 
                 myPatient = new MyPatient()
@@ -147,9 +159,11 @@ namespace HMS.Areas.Patient.Controllers
                     PatientId = appointment.PatientId,
                     DateCreated = DateTime.Now
                 };
-                var result = await _appointment.AssignDoctorToPatient(myPatient);
+                
+                await _appointment.AssignDoctorToPatient(myPatient);
+
                 await _appointment.BookAppointment(appointment);
-                //if its avaliable now book it
+                
                 
 
                 return Ok(new

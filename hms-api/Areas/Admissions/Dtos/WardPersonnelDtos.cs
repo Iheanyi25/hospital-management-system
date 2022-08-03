@@ -1,5 +1,4 @@
-﻿using HMS.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace HMS.Areas.Admissions.Dtos
@@ -16,6 +15,7 @@ namespace HMS.Areas.Admissions.Dtos
         public string UserType { get; set; }
         public string ProfileImageUrl { get; set; }
         public string Gender { get; set; }
+        public string DateOfBirth { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
         public string City { get; set; }

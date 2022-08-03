@@ -21,15 +21,16 @@ namespace HMS.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly IUser _userRepo;
         private readonly IDoctorClerking _clerking;
-      
+        private readonly IRegister _registration;
 
 
-        public ConsultationController(IConsultation consultation, IMapper mapper, IUser userRepo, IDoctorClerking clerking)
+        public ConsultationController(IConsultation consultation, IMapper mapper, IUser userRepo, IDoctorClerking clerking, IRegister registration)
         {
             _consultation = consultation;
             _mapper = mapper;
             _userRepo = userRepo;
             _clerking = clerking;
+            _registration = registration;
         }
 
         [Route("GetPatientConsultationCount")]
@@ -89,26 +90,28 @@ namespace HMS.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> BookConsultation([FromBody] BookConsultation consultation)
         {
-            
             if (consultation == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
             }
 
             var patient = await _userRepo.GetUserByIdAsync(consultation.PatientId);
+            
+            var registrationInvoice = await _registration.GetPatientRegistrationInvoice(consultation.PatientId);
+           
+            if (registrationInvoice.PaymentStatus != "Paid")
+            {
+                return BadRequest(new { response = 301, message = "Patient is yet to pay for registration" });
+            }
+
             var doctor = await _userRepo.GetUserByIdAsync(consultation.DoctorId);
             var doctorPatient = await _consultation.CheckDoctorInMyPatients(consultation.DoctorId, consultation.PatientId);
             if (patient == null)
             {
                 return BadRequest(new { response = 301, message = "Invalid Patient Id" });
             }
-
-            
+                        
             var consultationToBook = _mapper.Map<Consultation>(consultation);
-
-
-
-
 
             var res = await _consultation.BookConsultation(consultationToBook);
             if (!res)
@@ -145,7 +148,6 @@ namespace HMS.Areas.Admin.Controllers
             }
         }
 
-
         [Route("ReassignPatientToAnotherDoctor")]
         [HttpPost]
         public async Task<IActionResult> ReassignAppointment(ReassignConsultationDto Consultation)
@@ -157,7 +159,6 @@ namespace HMS.Areas.Admin.Controllers
             // Validate patient is not null---has no profile yet
             if (consultation != null && doctor != null)
             {
-               
                 //if its avaliable now book it
                 var doctorConsultation = _mapper.Map<Consultation>(consultation);
                 doctorConsultation.DoctorId = Consultation.DoctorId;
@@ -183,7 +184,7 @@ namespace HMS.Areas.Admin.Controllers
                         var result = await _consultation.AssignDoctorToPatient(myPatient);
                         if (result)
                         {
-                            return Ok(new { message = "Consultation Successfully Booked" });
+                            return Ok(new { message = "Patient Reassigned To Doctor" });
                         }
                         else
                         {
@@ -192,7 +193,7 @@ namespace HMS.Areas.Admin.Controllers
                     }
                     else
                     {
-                        return Ok(new { message = "Consultation Successfully Booked" });
+                        return Ok(new { message = "Patient Reassigned To Doctor" });
                     }
                 }
             }
@@ -240,7 +241,6 @@ namespace HMS.Areas.Admin.Controllers
                 message = "Consultations Fetched"
             });
         }
-
 
         [Route("GetPatientConsultationsOnOpenList")]
         [HttpGet]
@@ -417,9 +417,7 @@ namespace HMS.Areas.Admin.Controllers
                     message = "There was an error contact the administrator"
                 });
             }
-        }
-
-       
+        }      
 
         [Route("DeleteConsultation")]
         [HttpPost]
@@ -444,6 +442,5 @@ namespace HMS.Areas.Admin.Controllers
 
             return Ok(new { message = "Consultation Successfully Deleted" });
         }
-
     }
 }

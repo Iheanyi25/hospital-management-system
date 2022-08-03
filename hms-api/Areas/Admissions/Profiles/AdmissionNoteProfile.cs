@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using HMS.Areas.Admissions.Dtos;
 using HMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HMS.Areas.Admissions.Profiles
 {
@@ -12,7 +8,10 @@ namespace HMS.Areas.Admissions.Profiles
     {
         public AdmissionNoteProfile()
         {
-            CreateMap<AdmissionNote, AdmissionNoteDtoForView>().ReverseMap();
+            CreateMap<AdmissionNote, AdmissionNoteDtoForView>()
+                .ForMember(dest => dest.FileNumber, opt => opt.MapFrom(src => src.Admission.Patient.Patient))
+                .ReverseMap();
+
             CreateMap<AdmissionNote, AdmissionNoteDtoForCreate>().ReverseMap();
         }
     }

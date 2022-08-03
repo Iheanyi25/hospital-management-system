@@ -47,7 +47,7 @@ namespace HMS.Areas.Patient.Repositories
 
         public async Task<int> GetCompletedAppointmentsCount(string patientId) => await _applicationDbContext.DoctorAppointments.Where(c => c.PatientId == patientId && c.IsCompleted == true).CountAsync();
 
-        public async Task<int> GetPendingAppointmentsCount(string patientId) => await _applicationDbContext.DoctorAppointments.Where(c => c.PatientId == patientId && c.IsCompleted == false).CountAsync();
+        public async Task<int> GetPendingAppointmentsCount(string patientId) => await _applicationDbContext.DoctorAppointments.Where(c => c.PatientId == patientId && c.IsPending == true).CountAsync();
 
         public async Task<int> CancelAppointment(string appointmentId)
         {
@@ -90,6 +90,11 @@ namespace HMS.Areas.Patient.Repositories
         {
             try
             {
+                var res = await _applicationDbContext.MyPatients.Where(p => p.DoctorId == patient.DoctorId && p.PatientId == patient.PatientId).FirstOrDefaultAsync();
+                if (res != null)
+                {
+                    return false;
+                }
                 _applicationDbContext.MyPatients.Add(patient);
 
                 await _applicationDbContext.SaveChangesAsync();

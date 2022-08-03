@@ -1,8 +1,6 @@
 ﻿using HMS.Areas.Admin.Interfaces;
 using HMS.Database;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +13,6 @@ namespace HMS.Areas.Admin.Repositories
         public RegistrationInvoiceRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-           
         }
 
         public async Task<int> GetPaidRegistrationInvoicesCount()
@@ -29,6 +26,5 @@ namespace HMS.Areas.Admin.Repositories
             var unPaidRegInvoice = await _applicationDbContext.RegistrationInvoices.Where(a => a.PaymentStatus == "Paid").CountAsync();
             return unPaidRegInvoice;
         }
-
     }
 }

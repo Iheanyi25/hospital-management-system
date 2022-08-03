@@ -12,8 +12,14 @@ namespace HMS.Areas.Admissions.Profiles
     {
         public AdmissionProfile()
         {
-            CreateMap<Admission, AdmissionDtoForView>().ReverseMap();
+            CreateMap<Admission, AdmissionDtoForView>()
+                .ForMember(dest => dest.FileNumber, opt => opt.MapFrom(src => src.Patient.Patient.FileNumber))
+                .ReverseMap();
+
+
             CreateMap<Admission, AdmissionDtoForBedAssignment>().ReverseMap();
+
+
             CreateMap<Admission, AdmissionDtoForDischarge>().ReverseMap();
         }
     }

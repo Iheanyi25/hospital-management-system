@@ -21,6 +21,7 @@ using HMS.Areas.Interfaces.Nurse;
 using HMS.Areas.NHIS.Repositories;
 using HMS.Areas.HealthInsurance.Repositories;
 using HMS.Areas.HealthInsurance.Interfaces;
+using HMS.Areas.Nurse.Interfaces;
 
 namespace HMS.Extensions
 {
@@ -44,6 +45,8 @@ namespace HMS.Extensions
             services.AddTransient<IAppointment, AppointmentRepository>();
             services.AddTransient<IServiceCategory, ServiceCategoryRepository>();
             services.AddTransient<IServices, ServicesRepository>();
+            services.AddTransient<IChat, ChatRepository>();
+            services.AddTransient<INotification, NotificationRepository>();
             
             
             services.AddTransient<IAccount, AccountRepository>();
@@ -98,6 +101,9 @@ namespace HMS.Extensions
 
             /*----Adding of nurse repo*/
             services.AddTransient<INurse, NurseRepository>();
+            services.AddTransient<INurseReport, ReportRepository>();
+            services.AddTransient<IAntenatal, AntenatalRepository>();
+            services.AddTransient<IPostnatal, PostnatalRepository>();
            
 
             //Adding patient repo
@@ -124,6 +130,7 @@ namespace HMS.Extensions
             /* --- Adding common Repo */
             services.AddTransient<IUser, UserRepository>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<ITextSuggestion, TextSuggestionRepository>();
         }
     }
 }

@@ -58,7 +58,6 @@ namespace HMS.Areas.Admin.Controllers
             return response;
         }
 
-
         [HttpPost]
         [Route("RegisterPatient")]
         public async Task<IActionResult> OnBoardPatient(DtoForPatientRegistration patientToRegister)
@@ -100,7 +99,6 @@ namespace HMS.Areas.Admin.Controllers
                     }
                 }
 
-
                 //proceed to create file and patient account
                 var fileCreated = await _registerRepo.CreateFile(patientToRegister.AccountId);
 
@@ -122,10 +120,9 @@ namespace HMS.Areas.Admin.Controllers
                 patient = await _user.GetUserByIdAsync(response);
                 patientProfile = await _patientRepository.GetPatientByIdAsync(response);
                 var amount = patientProfile.Account.HealthPlan.Cost;
+                patientProfile.DateOfBirth = patientToRegister.DateOfBirth;
                 var res = _mapper.Map<RegistrationInvoice>(patientToRegister);
                 registrationInvoice = await _registerRepo.GenerateRegistrationInvoice(amount, patientProfile.Account.HealthPlan.Id, patientToRegister.InvoiceGeneratedBy, patientProfile.PatientId);
-
-
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(patient);
                 var encodedToken = Encoding.UTF8.GetBytes(token);
@@ -171,8 +168,6 @@ namespace HMS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-               
-
                 var encodedToken = WebEncoders.Base64UrlDecode(email.AuthenticationToken);
                 var token = Encoding.UTF8.GetString(encodedToken);
                 var user = await _user.GetUserByEmailAsync(email.Email);
@@ -199,7 +194,6 @@ namespace HMS.Areas.Admin.Controllers
             {
                 return BadRequest(new { message = "Incomplete details" });
             }
-
         }
 
         [HttpGet]
@@ -223,7 +217,6 @@ namespace HMS.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -242,7 +235,7 @@ namespace HMS.Areas.Admin.Controllers
                 var res = await _registerRepo.PayRegistrationFee(paymentDetails);
                 if (res == 0)
                 {
-                    return Ok(new { paymentDetails, mwessage = "Payment Succesful" });
+                    return Ok(new { paymentDetails, message = "Payment successful" });
                 }
                 if (res == 1)
                 {
@@ -268,11 +261,9 @@ namespace HMS.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
-
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -317,11 +308,9 @@ namespace HMS.Areas.Admin.Controllers
                 {
                     return NotFound();
                 }
-
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -351,7 +340,6 @@ namespace HMS.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { error = ex.Message });
-
             }
         }
 
@@ -404,7 +392,6 @@ namespace HMS.Areas.Admin.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-
 
         [NonAction]
         private async Task<Object> RegisterUserAsync(RegisterViewModel registerDetails)
@@ -544,8 +531,6 @@ namespace HMS.Areas.Admin.Controllers
                                 newApplicationUser.UserType,
                                 message = "User Successfully Created. An Email Has been sent to the Email Address"
                             });
-
-
                         }
 
                         else
@@ -556,7 +541,6 @@ namespace HMS.Areas.Admin.Controllers
                                 message = "User Could not be created"
                             });
                         }
-
                     }
                     else
                     {
@@ -565,10 +549,7 @@ namespace HMS.Areas.Admin.Controllers
                             response = 400,
                             message = "The specified user role does not exist in our system"
                         });
-
-
                     }
-
                 }
                 else
                 {

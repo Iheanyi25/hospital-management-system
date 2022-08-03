@@ -59,8 +59,7 @@ namespace HMS.Areas.Admissions.Repositories
             }
             return false;
         }
-       
-        
+               
         public async Task<Ward> GetWardByIdAsync(string id)
         {
             try
@@ -111,7 +110,7 @@ namespace HMS.Areas.Admissions.Repositories
             }
             catch (Exception ex)
             {
-                throw ex;
+                return false;
             }
         }
 

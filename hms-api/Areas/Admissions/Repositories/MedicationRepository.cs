@@ -112,20 +112,17 @@ namespace HMS.Areas.Admissions.Repositories
             {
                 throw ex;
             }
-        }
-
-        
+        }       
 
         public PagedList<ServiceMedicationDtoForView> GetServiceMedications(string AdmissionId, PaginationParameter paginationParameter)
         {
-            var medications = _applicationDbContext.AdmissionServiceMedications.Where(a => a.AdmissionId == AdmissionId).Include(a => a.Admission).Include(a => a.Service).Include(a => a.Initiator).OrderBy(a => a.StartDate).ToList();
+            var medications = _applicationDbContext.AdmissionServiceMedications.Where(a => a.AdmissionId == AdmissionId).Include(a => a.Admission).Include(a => a.Service).ThenInclude(a => a.ServiceCategory).Include(a => a.Initiator).OrderBy(a => a.StartDate).ToList();
             var medicationsToReturn = _mapper.Map<IEnumerable<ServiceMedicationDtoForView>>(medications);
             return PagedList<ServiceMedicationDtoForView>.ToPagedList(medicationsToReturn.AsQueryable(), paginationParameter.PageNumber, paginationParameter.PageSize);
         }
 
         public async Task<AdmissionServiceMedication> GetServiceMedication(string AdmissionMedicationId) => await _applicationDbContext.AdmissionServiceMedications.Where(a => a.Id == AdmissionMedicationId).Include(a => a.Admission).Include(a => a.Service).Include(a => a.Initiator).FirstOrDefaultAsync();
         
-
         public async Task<bool> UpdateServiceMedication(AdmissionServiceMedication admission)
         {
             try

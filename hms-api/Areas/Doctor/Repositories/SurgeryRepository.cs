@@ -23,26 +23,7 @@ namespace HMS.Areas.Doctor.Repositories
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateSurgery(Surgery surgery)
-        {
-            try
-            {
-                if (surgery == null)
-                {
-                    return false;
-                }
-
-                _applicationDbContext.Surgeries.Add(surgery);
-                await _applicationDbContext.SaveChangesAsync();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+        
         public async Task<bool> CreateSurgery(string Id, string IdType, string InitiatorId, string PatientId, string ReferralNote, DateTime DateOfSurgery, DateTime TimeOfSurgery)
         {
             try
@@ -96,6 +77,7 @@ namespace HMS.Areas.Doctor.Repositories
            
                 newSurgery = new Surgery()
                 {
+                    InitiatorId = InitiatorId,
                     ReferralNote = ReferralNote,
                     DoctorId = InitiatorId,
                     PatientId = PatientId,

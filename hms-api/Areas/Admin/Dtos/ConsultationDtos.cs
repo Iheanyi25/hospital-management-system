@@ -46,7 +46,6 @@ namespace HMS.Areas.Admin.Dtos
 
     public class ConsultationDtoForDelete
     {
-        public string ConsultationId { get; set; }
-       
+        public string ConsultationId { get; set; }  
     }
 }

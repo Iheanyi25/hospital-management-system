@@ -1,10 +1,7 @@
-﻿using HMS.Areas.Admin.Interfaces;
-using HMS.Areas.Admissions.Interfaces;
+﻿using HMS.Areas.Admissions.Interfaces;
 using HMS.Database;
 using HMS.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HMS.Areas.Admin.Repositories
@@ -17,7 +14,6 @@ namespace HMS.Areas.Admin.Repositories
         public BedRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-        
         }
 
         public async Task<bool> CreateBed(Bed bed)

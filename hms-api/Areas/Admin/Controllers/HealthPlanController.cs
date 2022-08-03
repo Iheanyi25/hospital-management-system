@@ -15,14 +15,11 @@ namespace HMS.Areas.Admin.Controllers
     {
         private readonly IHealthPlan _healthPlan;
         private readonly IMapper _mapper;
-        private readonly IConsultation _consultation;
-
 
         public HealthPlanController(IHealthPlan healthPlan, IMapper mapper, IConsultation consultation)
         {
             _healthPlan = healthPlan;
             _mapper = mapper;
-            _consultation = consultation;
         }
 
 
@@ -41,18 +38,16 @@ namespace HMS.Areas.Admin.Controllers
             {
                 return BadRequest(new { response = "301", message = "Health Plan failed to create" });
             }
-
-           
+                      
             return CreatedAtRoute("HealthPlan", healthPlan);
         }
 
-        //[HttpGet("GetAllHealthPlans", Name = "HealthPlan")]
-        //public async Task<IActionResult> AllHealthPlan()
-        //{
-        //    var plans = await _healthPlan.GetAllHealthPlan();
-        //    return Ok(new { plans, message = "HealthPlans Fetched" });
-
-        //}
+        [HttpGet("GetAllActiveHealthPlans")]
+        public async Task<IActionResult> AllHealthPlan()
+        {
+            var plans = await _healthPlan.GetAllHealthPlans();
+            return Ok(new { plans, message = "HealthPlans Fetched" });
+        }
 
         [HttpGet("GetAllHealthPlans", Name = "HealthPlan")]
         public async Task<IActionResult> AllHealthPlan([FromQuery] PaginationParameter paginationParameter)
@@ -79,7 +74,6 @@ namespace HMS.Areas.Admin.Controllers
                 message = "Healthplans Fetched"
             });
         }
-
 
         [HttpGet("GetAHealthPlan/{Id}")]
         public async Task<IActionResult> GetHealthPlan(string Id)
@@ -142,5 +136,24 @@ namespace HMS.Areas.Admin.Controllers
             return Ok(new { healthPlan, message = "Health Plan Disabled" });
         }
 
+        [HttpPost("EnanbleHealthPlan")]
+        public async Task<IActionResult> EnableHealthplan(HealthPlanDtoForDelete HealthPlan)
+        {
+            if (HealthPlan == null)
+            {
+                return BadRequest(new { message = "Invalid post attempt" });
+            }
+            var healthPlan = await _healthPlan.GetHealthPlanByIdAsync(HealthPlan.Id);
+            healthPlan.Status = true;
+
+            var res = await _healthPlan.UpdateHealthPlan(healthPlan);
+
+            if (!res)
+            {
+                return BadRequest(new { response = "301", message = "Failed To Enable Healthplan" });
+            }
+
+            return Ok(new { healthPlan, message = "Health Plan Enabled" });
+        }
     }
 }

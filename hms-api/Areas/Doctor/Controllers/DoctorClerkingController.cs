@@ -24,8 +24,9 @@ namespace HMS.Areas.Doctor.Controllers
         private readonly IEmailSender _emailSender;
         private readonly IAdmission _admission;
         private readonly IAdmissionInvoice _admissionInvoice;
+        private readonly IUser _user;
 
-        public DoctorClerkingController(IDoctorClerking clerking, IDoctorAppointment appointment, IConsultation consultation, IPatientProfile patient, IPatientPreConsultation patientPreConsultation, IEmailSender emailSender, IAdmission admission, IAdmissionInvoice admissionInvoice)
+        public DoctorClerkingController(IDoctorClerking clerking, IUser user, IDoctorAppointment appointment, IConsultation consultation, IPatientProfile patient, IPatientPreConsultation patientPreConsultation, IEmailSender emailSender, IAdmission admission, IAdmissionInvoice admissionInvoice)
         {
             _clerking = clerking;
             _appointment = appointment;
@@ -35,6 +36,7 @@ namespace HMS.Areas.Doctor.Controllers
             _emailSender = emailSender;
             _admission = admission;
             _admissionInvoice = admissionInvoice;
+            _user = user;
         }
 
         [Route("GetClerkings")]
@@ -178,11 +180,15 @@ namespace HMS.Areas.Doctor.Controllers
 
             var consultation = await _consultation.GetConsultationById(Id);
             var appointment = await _appointment.GetAppointment(Id);
+            var Initiator = await _user.GetUserByIdAsync(UserId);
             if (clerking == null || Id == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
             }
-
+            if (Initiator == null)
+            {
+                return BadRequest(new { message = "Invalid InitiatorId" });
+            }
             if (consultation == null && appointment == null)
             {
                 return BadRequest(new { message = "Invalid post attempt" });
@@ -222,8 +228,12 @@ namespace HMS.Areas.Doctor.Controllers
             var consultation = await _consultation.GetConsultationById(Clerking.Id);
             var appointment = await _appointment.GetAppointment(Clerking.Id);
             var clerking = await _clerking.GetDoctorClerkingByAppointmentOrConsultation(Clerking.Id);
-            
-            
+            var Initiator = await _user.GetUserByIdAsync(Clerking.InitiatorId);
+
+            if (Initiator == null)
+            {
+                return BadRequest(new { message = "Invalid InitiatorId" });
+            }
 
             if (consultation == null && appointment == null)
             {
