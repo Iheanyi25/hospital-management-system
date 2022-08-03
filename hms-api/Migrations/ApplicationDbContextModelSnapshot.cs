@@ -2106,7 +2106,9 @@ namespace HMS.Migrations
 
                     b.HasIndex("FileId");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("PatientId")
+                        .IsUnique()
+                        .HasFilter("[PatientId] IS NOT NULL");
 
                     b.ToTable("PatientProfiles");
                 });
@@ -3501,8 +3503,8 @@ namespace HMS.Migrations
                         .HasForeignKey("FileId");
 
                     b.HasOne("HMS.Models.ApplicationUser", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId");
+                        .WithOne("Patient")
+                        .HasForeignKey("HMS.Models.PatientProfile", "PatientId");
                 });
 
             modelBuilder.Entity("HMS.Models.PharmacyProfile", b =>

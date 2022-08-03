@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HMS.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigration_UU : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,7 +62,10 @@ namespace HMS.Migrations
                     GenericName = table.Column<string>(nullable: true),
                     Manufacturer = table.Column<string>(nullable: true),
                     Measurment = table.Column<string>(nullable: true),
-                    DrugType = table.Column<string>(nullable: true),
+                    IsTablet = table.Column<bool>(nullable: false),
+                    IsLiquid = table.Column<bool>(nullable: false),
+                    IsInhaler = table.Column<bool>(nullable: false),
+                    IsPowder = table.Column<bool>(nullable: false),
                     CostPricePerContainer = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     QuantityPerContainer = table.Column<int>(nullable: false),
                     ContainersPerCarton = table.Column<int>(nullable: false),
@@ -205,6 +208,30 @@ namespace HMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Antenatals",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    PatientId = table.Column<string>(nullable: true),
+                    FirstTimePregnancy = table.Column<bool>(nullable: false),
+                    PreviousSurgeries = table.Column<string>(nullable: true),
+                    NumberOfDeadChildren = table.Column<string>(nullable: true),
+                    NumberOfLivingChildren = table.Column<string>(nullable: true),
+                    CauseOfDeath = table.Column<string>(nullable: true),
+                    LastPregnancyComplication = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Antenatals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Antenatals_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -287,6 +314,33 @@ namespace HMS.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChatMessages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    FromUserId = table.Column<string>(nullable: true),
+                    ToUserId = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatMessages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatMessages_AspNetUsers_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChatMessages_AspNetUsers_ToUserId",
+                        column: x => x.ToUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -446,6 +500,27 @@ namespace HMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Message = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    IsRead = table.Column<bool>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notifications_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "NurseProfiles",
                 columns: table => new
                 {
@@ -467,6 +542,35 @@ namespace HMS.Migrations
                     table.PrimaryKey("PK_NurseProfiles", x => x.Id);
                     table.ForeignKey(
                         name: "FK_NurseProfiles_AspNetUsers_NurseId",
+                        column: x => x.NurseId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NurseReports",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Shift = table.Column<string>(nullable: true),
+                    NursingAssessment = table.Column<string>(nullable: true),
+                    NursingDiagnosis = table.Column<string>(nullable: true),
+                    NursingObjectives = table.Column<string>(nullable: true),
+                    NursingActions = table.Column<string>(nullable: true),
+                    NursingEvaluation = table.Column<string>(nullable: true),
+                    ReportDescription = table.Column<string>(nullable: true),
+                    NANDAReport = table.Column<string>(nullable: true),
+                    DailyReport = table.Column<string>(nullable: true),
+                    DateOfShift = table.Column<DateTime>(nullable: false),
+                    TimeOfShift = table.Column<DateTime>(nullable: false),
+                    NurseId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NurseReports", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NurseReports_AspNetUsers_NurseId",
                         column: x => x.NurseId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -529,6 +633,37 @@ namespace HMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Postnatals",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    DeliveryDate = table.Column<DateTime>(nullable: false),
+                    DeliveryTime = table.Column<DateTime>(nullable: false),
+                    DeliveryMethod = table.Column<string>(nullable: true),
+                    DeliveryNote = table.Column<string>(nullable: true),
+                    DurationOfLabour = table.Column<string>(nullable: true),
+                    Placenta = table.Column<string>(nullable: true),
+                    Oxytocin = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    ApgarScoreAtOneMinute = table.Column<string>(nullable: true),
+                    ApgarScoreAtFiveMinutes = table.Column<string>(nullable: true),
+                    Height = table.Column<string>(nullable: true),
+                    Weight = table.Column<string>(nullable: true),
+                    Remarks = table.Column<string>(nullable: true),
+                    DeliveredById = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Postnatals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Postnatals_AspNetUsers_DeliveredById",
+                        column: x => x.DeliveredById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServiceInvoices",
                 columns: table => new
                 {
@@ -552,6 +687,26 @@ namespace HMS.Migrations
                     table.ForeignKey(
                         name: "FK_ServiceInvoices_AspNetUsers_PatientId",
                         column: x => x.PatientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TextSuggestions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TextSuggestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TextSuggestions_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -777,6 +932,44 @@ namespace HMS.Migrations
                         name: "FK_Beds_Wards_WardId",
                         column: x => x.WardId,
                         principalTable: "Wards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AntenatalRecords",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    FundalHeight = table.Column<string>(nullable: true),
+                    Present = table.Column<string>(nullable: true),
+                    LIE = table.Column<string>(nullable: true),
+                    FeotalHeartRate = table.Column<string>(nullable: true),
+                    UrineAIBumin = table.Column<string>(nullable: true),
+                    UrineSugar = table.Column<string>(nullable: true),
+                    BloodPressure = table.Column<string>(nullable: true),
+                    Weight = table.Column<string>(nullable: true),
+                    HB = table.Column<string>(nullable: true),
+                    Odema = table.Column<string>(nullable: true),
+                    Remarks = table.Column<string>(nullable: true),
+                    AntenatalId = table.Column<string>(nullable: true),
+                    InitiatorId = table.Column<string>(nullable: true),
+                    DateOfReturn = table.Column<DateTime>(nullable: false),
+                    DateGenerated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AntenatalRecords", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AntenatalRecords_Antenatals_AntenatalId",
+                        column: x => x.AntenatalId,
+                        principalTable: "Antenatals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AntenatalRecords_AspNetUsers_InitiatorId",
+                        column: x => x.InitiatorId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1209,7 +1402,6 @@ namespace HMS.Migrations
                     Id = table.Column<string>(nullable: false),
                     PatientId = table.Column<string>(nullable: true),
                     NHISHealthPlanId = table.Column<string>(nullable: true),
-                    AuthorizationCode = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -1256,6 +1448,34 @@ namespace HMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NHISSecondaryHealthplanPatientServices",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    PatientId = table.Column<string>(nullable: true),
+                    ServiceId = table.Column<string>(nullable: true),
+                    AuthorizationCode = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NHISSecondaryHealthplanPatientServices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NHISSecondaryHealthplanPatientServices_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_NHISSecondaryHealthplanPatientServices_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServiceRequests",
                 columns: table => new
                 {
@@ -1266,7 +1486,8 @@ namespace HMS.Migrations
                     ServiceInvoiceId = table.Column<string>(nullable: true),
                     ServiceId = table.Column<string>(nullable: true),
                     AppointmentId = table.Column<string>(nullable: true),
-                    ConsultationId = table.Column<string>(nullable: true)
+                    ConsultationId = table.Column<string>(nullable: true),
+                    PriceCalculationFormular = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1752,6 +1973,38 @@ namespace HMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DrugDispensings",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    PaymentStatus = table.Column<string>(nullable: true),
+                    DrugDispensingInvoiceId = table.Column<string>(nullable: true),
+                    DrugId = table.Column<string>(nullable: true),
+                    NumberOfCartons = table.Column<int>(nullable: false),
+                    NumberOfContainers = table.Column<int>(nullable: false),
+                    NumberOfUnits = table.Column<int>(nullable: false),
+                    AmountToBePaidByPatient = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PriceCalculationFormular = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DrugDispensings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DrugDispensings_DrugDispensingInvoices_DrugDispensingInvoiceId",
+                        column: x => x.DrugDispensingInvoiceId,
+                        principalTable: "DrugDispensingInvoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DrugDispensings_Drugs_DrugId",
+                        column: x => x.DrugId,
+                        principalTable: "Drugs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -1765,6 +2018,7 @@ namespace HMS.Migrations
                     BenefactorAdmissionId = table.Column<string>(nullable: true),
                     BenefactorAccountId = table.Column<string>(nullable: true),
                     BenefactorAccountPreviousBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PatientId = table.Column<string>(nullable: true),
                     BenefactorId = table.Column<string>(nullable: true),
                     InitiatorId = table.Column<string>(nullable: true),
                     DepositorsName = table.Column<string>(nullable: true)
@@ -1796,45 +2050,10 @@ namespace HMS.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DrugDispensings",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    PaymentStatus = table.Column<string>(nullable: true),
-                    DrugDispensingInvoiceId = table.Column<string>(nullable: true),
-                    DrugId = table.Column<string>(nullable: true),
-                    NumberOfCartons = table.Column<int>(nullable: false),
-                    NumberOfContainers = table.Column<int>(nullable: false),
-                    NumberOfUnits = table.Column<int>(nullable: false),
-                    TotalCartonPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    TotalContainerPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    TotalUnitPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    PriceTotal = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    PriceCalculationFormular = table.Column<string>(nullable: true),
-                    ClerkingId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DrugDispensings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DrugDispensings_DoctorClerkings_ClerkingId",
-                        column: x => x.ClerkingId,
-                        principalTable: "DoctorClerkings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DrugDispensings_DrugDispensingInvoices_DrugDispensingInvoiceId",
-                        column: x => x.DrugDispensingInvoiceId,
-                        principalTable: "DrugDispensingInvoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DrugDispensings_Drugs_DrugId",
-                        column: x => x.DrugId,
-                        principalTable: "Drugs",
+                        name: "FK_Transactions_PatientProfiles_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "PatientProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1928,6 +2147,7 @@ namespace HMS.Migrations
                     Id = table.Column<string>(nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Status = table.Column<string>(nullable: true),
+                    DateDispensed = table.Column<DateTime>(nullable: false),
                     AdmissionInvoiceId = table.Column<string>(nullable: true),
                     ServiceId = table.Column<string>(nullable: true)
                 },
@@ -2109,6 +2329,21 @@ namespace HMS.Migrations
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AntenatalRecords_AntenatalId",
+                table: "AntenatalRecords",
+                column: "AntenatalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AntenatalRecords_InitiatorId",
+                table: "AntenatalRecords",
+                column: "InitiatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Antenatals_PatientId",
+                table: "Antenatals",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -2151,6 +2386,16 @@ namespace HMS.Migrations
                 name: "IX_Beds_WardId",
                 table: "Beds",
                 column: "WardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatMessages_FromUserId",
+                table: "ChatMessages",
+                column: "FromUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatMessages_ToUserId",
+                table: "ChatMessages",
+                column: "ToUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Consultations_DoctorId",
@@ -2236,11 +2481,6 @@ namespace HMS.Migrations
                 name: "IX_DrugDispensingInvoices_PatientId",
                 table: "DrugDispensingInvoices",
                 column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DrugDispensings_ClerkingId",
-                table: "DrugDispensings",
-                column: "ClerkingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DrugDispensings_DrugDispensingInvoiceId",
@@ -2393,8 +2633,28 @@ namespace HMS.Migrations
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_NHISSecondaryHealthplanPatientServices_PatientId",
+                table: "NHISSecondaryHealthplanPatientServices",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NHISSecondaryHealthplanPatientServices_ServiceId",
+                table: "NHISSecondaryHealthplanPatientServices",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_UserId",
+                table: "Notifications",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_NurseProfiles_NurseId",
                 table: "NurseProfiles",
+                column: "NurseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NurseReports_NurseId",
+                table: "NurseReports",
                 column: "NurseId");
 
             migrationBuilder.CreateIndex(
@@ -2425,12 +2685,19 @@ namespace HMS.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PatientProfiles_PatientId",
                 table: "PatientProfiles",
-                column: "PatientId");
+                column: "PatientId",
+                unique: true,
+                filter: "[PatientId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyProfiles_PharmacistId",
                 table: "PharmacyProfiles",
                 column: "PharmacistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Postnatals_DeliveredById",
+                table: "Postnatals",
+                column: "DeliveredById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RegistrationInvoices_HealthPlanId",
@@ -2508,6 +2775,11 @@ namespace HMS.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TextSuggestions_UserId",
+                table: "TextSuggestions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_BenefactorAccountId",
                 table: "Transactions",
                 column: "BenefactorAccountId");
@@ -2526,6 +2798,11 @@ namespace HMS.Migrations
                 name: "IX_Transactions_InitiatorId",
                 table: "Transactions",
                 column: "InitiatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_PatientId",
+                table: "Transactions",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WardPersonnelProfiles_WardPersonnelId",
@@ -2563,6 +2840,9 @@ namespace HMS.Migrations
                 name: "AdmissionServiceRequestResultImages");
 
             migrationBuilder.DropTable(
+                name: "AntenatalRecords");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -2576,6 +2856,9 @@ namespace HMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ChatMessages");
 
             migrationBuilder.DropTable(
                 name: "DoctorEducations");
@@ -2632,7 +2915,16 @@ namespace HMS.Migrations
                 name: "NHISHealthPlanServices");
 
             migrationBuilder.DropTable(
+                name: "NHISSecondaryHealthplanPatientServices");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
                 name: "NurseProfiles");
+
+            migrationBuilder.DropTable(
+                name: "NurseReports");
 
             migrationBuilder.DropTable(
                 name: "ObservationCharts");
@@ -2641,10 +2933,10 @@ namespace HMS.Migrations
                 name: "PatientPreConsultation");
 
             migrationBuilder.DropTable(
-                name: "PatientProfiles");
+                name: "PharmacyProfiles");
 
             migrationBuilder.DropTable(
-                name: "PharmacyProfiles");
+                name: "Postnatals");
 
             migrationBuilder.DropTable(
                 name: "RegistrationInvoices");
@@ -2656,6 +2948,9 @@ namespace HMS.Migrations
                 name: "Surgeries");
 
             migrationBuilder.DropTable(
+                name: "TextSuggestions");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
@@ -2663,6 +2958,9 @@ namespace HMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "AdmissionServiceRequestResults");
+
+            migrationBuilder.DropTable(
+                name: "Antenatals");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -2683,10 +2981,10 @@ namespace HMS.Migrations
                 name: "NHISHealthPlans");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "ServiceRequestResults");
 
             migrationBuilder.DropTable(
-                name: "ServiceRequestResults");
+                name: "PatientProfiles");
 
             migrationBuilder.DropTable(
                 name: "AdmissionServiceRequests");
@@ -2701,10 +2999,10 @@ namespace HMS.Migrations
                 name: "HMOUserGroups");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "ServiceRequests");
 
             migrationBuilder.DropTable(
-                name: "ServiceRequests");
+                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "AdmissionInvoices");
@@ -2725,13 +3023,16 @@ namespace HMS.Migrations
                 name: "ServiceInvoices");
 
             migrationBuilder.DropTable(
+                name: "Accounts");
+
+            migrationBuilder.DropTable(
                 name: "Admissions");
 
             migrationBuilder.DropTable(
-                name: "HealthPlans");
+                name: "ServiceCategories");
 
             migrationBuilder.DropTable(
-                name: "ServiceCategories");
+                name: "HealthPlans");
 
             migrationBuilder.DropTable(
                 name: "Beds");
