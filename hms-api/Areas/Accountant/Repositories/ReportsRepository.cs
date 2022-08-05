@@ -55,6 +55,11 @@ namespace HMS.Areas.Accountant.Repositories
                 {
                     transaction.TransactionReference = registrationInvoince.TransactionReference;
                 }
+                ServiceInvoice serviceInvoince = _applicationDbContext.ServiceInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (serviceInvoince != null)
+                {
+                    transaction.TransactionReference = serviceInvoince.TransactionReference;
+                }
             }
 
             return mappedTransactions;
@@ -82,6 +87,11 @@ namespace HMS.Areas.Accountant.Repositories
                 if (registrationInvoince != null)
                 {
                     transaction.TransactionReference = registrationInvoince.TransactionReference;
+                }
+                ServiceInvoice serviceInvoince = _applicationDbContext.ServiceInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (serviceInvoince != null)
+                {
+                    transaction.TransactionReference = serviceInvoince.TransactionReference;
                 }
             }
 
@@ -127,17 +137,44 @@ namespace HMS.Areas.Accountant.Repositories
             return mappedTransactions;
         }
 
-        public async Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate)
         {
-            return await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor)
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor)
                 .Include(p => p.Patient).Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request")
                 .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                ServiceInvoice serviceInvoince = _applicationDbContext.ServiceInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (serviceInvoince != null)
+                {
+                    transaction.TransactionReference = serviceInvoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
         }
 
-        public async Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod)
+        public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod)
         {
-            return await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient)
-                .Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request" && t.PaymentMethod == PaymentMethod).OrderByDescending(t => t.TrasactionDate).ToListAsync();
+            IList<Transactions> transactions = await _applicationDbContext.Transactions.Include(t => t.Initiator).Include(t => t.Benefactor).Include(p => p.Patient)
+                .Where(t => t.TrasactionDate >= startDate && t.TrasactionDate <= endDate && t.InvoiceType == "Service Request" && t.PaymentMethod == PaymentMethod)
+                .OrderByDescending(t => t.TrasactionDate).ToListAsync();
+
+            IEnumerable<TransactionInvoiceResponseDto> mappedTransactions = _mapper.Map<IEnumerable<TransactionInvoiceResponseDto>>(transactions);
+
+            foreach (TransactionInvoiceResponseDto transaction in mappedTransactions)
+            {
+                ServiceInvoice serviceInvoince = _applicationDbContext.ServiceInvoices.Where(i => i.Id == transaction.InvoiceId).FirstOrDefault();
+                if (serviceInvoince != null)
+                {
+                    transaction.TransactionReference = serviceInvoince.TransactionReference;
+                }
+            }
+
+            return mappedTransactions;
         }
 
         public async Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate)

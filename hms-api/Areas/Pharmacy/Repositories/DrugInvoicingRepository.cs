@@ -548,7 +548,7 @@ namespace HMS.Areas.Pharmacy.Repositories
                     await  _applicationDbContext.SaveChangesAsync();
             }
            
-            //mark the invoice imself as paid
+            //mark the invoice itself as paid
             var DrugDispensingInvoice = await _applicationDbContext.DrugDispensingInvoices.FirstOrDefaultAsync(s => s.InvoiceNumber == drugPayment.InvoiceNumber);
             DrugDispensingInvoice.PaymentStatus = "PAID";
             DrugDispensingInvoice.PaymentMethod = drugPayment.PaymentMethod;

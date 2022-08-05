@@ -15,8 +15,8 @@ namespace HMS.Areas.Accountant.Interfaces
         Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForAccounts(DateTime startDate, DateTime endDate, string TransactionType);
         Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate, string PaymentMethod);
         Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForDrugs(DateTime startDate, DateTime endDate);
-        Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate);
-        Task<IEnumerable<Transactions>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForServiceRequests(DateTime startDate, DateTime endDate, string PaymentMethod);
         Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate);
         Task<IEnumerable<TransactionInvoiceResponseDto>> GetTransactionsForRegistration(DateTime startDate, DateTime endDate, string PaymentMethod);
         Task<object> GetPatientInvoicesForHMO(DateTime startDate, DateTime endDate, string HMOId);

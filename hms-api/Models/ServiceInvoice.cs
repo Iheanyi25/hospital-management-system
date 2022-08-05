@@ -23,20 +23,15 @@ namespace HMS.Models
         public decimal AmountToBePaidByHMO { get; set; }
         public string PriceCalculationFormular { get; set; }
         public string PaymentStatus { get; set; }
-
+        public string TransactionReference { get; set; }
         public string Description { get; set; }
         public string GeneratedBy { get; set; }
-
         public string PaymentMethod { get; set; }
-
         public string InvoiceNumber { get; set; }
-
         public DateTime DatePaid { get; set; }
         public DateTime DateGenerated { get; set; }
-
         public string PatientId { get; set; }
         public virtual ApplicationUser Patient { get; set; }
-
         public virtual ICollection<ServiceRequest> ServiceRequests { get; set; }
 
         public string GenerateInvoiceNumber()

@@ -19,6 +19,7 @@ namespace HMS.Areas.Admin.Dtos
         public string PaymentStatus { get; set; }
         public string PatientId { get; set; }
         public string InvoiceNumber { get; set; }
+        public string TransactionReference { get; set; }
         public DateTime DateGenerated { get; set; }
     }
 
@@ -26,7 +27,7 @@ namespace HMS.Areas.Admin.Dtos
     {
         public string PatientId { get; set; }
         public List<string> ServiceId { get; set; }
-        
+        public string TransactionReference { get; set; }
         public string GeneratedBy { get; set; }
 
         //this Id can either be Appointment or Consultation Id
