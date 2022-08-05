@@ -160,8 +160,7 @@ namespace HMS.Areas.Admin.Repositories
                     for (int i = 0; i < serviceRequest.ServiceId.Count; i++)
                     {
                        var service = _applicationDbContext.Services.Find(serviceRequest.ServiceId[i]);
-                       
-                        
+                                               
                         if (HMOHealthPlanPatient != null)
                         {
                             var HMOHealthPlanServicePrice = await _applicationDbContext.HMOHealthPlanServicePrices.Where(p => p.HMOHealthPlanId == HMOHealthPlanPatient.HMOHealthPlanId && p.ServiceId == serviceRequest.ServiceId[i]).FirstOrDefaultAsync();
@@ -224,7 +223,6 @@ namespace HMS.Areas.Admin.Repositories
                                    });
                             }
                         }
-
                         else if (NHISHealthPlanPatient != null)
                         {
                             var NHISDrug = await _applicationDbContext.NHISHealthPlanServices.Where(p => p.NHISHealthPlanId == NHISHealthPlanPatient.NHISHealthPlanId && p.ServiceId == serviceRequest.ServiceId[i]).FirstOrDefaultAsync();
@@ -339,11 +337,9 @@ namespace HMS.Areas.Admin.Repositories
                                         ServiceInvoiceId = invoiceId,
                                         ConsultationId = serviceRequest.Id,
                                         PriceCalculationFormular = "Default Price",
-
                                     });
                             }
                         }
-
                         else if (NHISHealthPlanPatient != null)
                         {
                             var NHISDrug = await _applicationDbContext.NHISHealthPlanServices.Where(p => p.NHISHealthPlanId == NHISHealthPlanPatient.NHISHealthPlanId && p.ServiceId == serviceRequest.ServiceId[i]).FirstOrDefaultAsync();
@@ -423,7 +419,6 @@ namespace HMS.Areas.Admin.Repositories
                                        PaymentStatus = "Not Paid",
                                        ServiceInvoiceId = invoiceId,
                                        PriceCalculationFormular = "Default Price"
-
                                    });
                             }
                         }
@@ -592,7 +587,6 @@ namespace HMS.Areas.Admin.Repositories
                         }
                         priceCalculationFormular = NHISHealthPlanPatient.NHISHealthPlan.HealthPlan.Name + " " + NHISHealthPlanPatient.NHISHealthPlan.Name;
                     }
-
                     else
                     {
                         priceTotal = service.Cost;
@@ -616,7 +610,8 @@ namespace HMS.Areas.Admin.Repositories
                         PaymentMethod = "HMO",
                         PriceCalculationFormular = priceCalculationFormular,
                         GeneratedBy = serviceRequest.GeneratedBy,
-                        PatientId = serviceRequest.PatientId
+                        PatientId = serviceRequest.PatientId,
+                        TransactionReference = serviceRequest.TransactionReference
                     };
 
                     await _applicationDbContext.ServiceInvoices.AddAsync(serviceInvoice);
@@ -633,7 +628,8 @@ namespace HMS.Areas.Admin.Repositories
                         PaymentStatus = "NOT PAID",
                         PriceCalculationFormular = priceCalculationFormular,
                         GeneratedBy = serviceRequest.GeneratedBy,
-                        PatientId = serviceRequest.PatientId
+                        PatientId = serviceRequest.PatientId,
+                        TransactionReference = serviceRequest.TransactionReference
                     };
 
                     await _applicationDbContext.ServiceInvoices.AddAsync(serviceInvoice);
@@ -680,7 +676,7 @@ namespace HMS.Areas.Admin.Repositories
                     serviceCategoryName = p.Service.ServiceCategory.Name,
                     patientFirstName = p.ServiceInvoice.Patient.FirstName,
                     patientLastName = p.ServiceInvoice.Patient.LastName,
-
+                    p.ServiceInvoice.TransactionReference
                 })
                 .OrderBy(c => c.PaymentStatus)
                 .ToListAsync();
@@ -732,7 +728,6 @@ namespace HMS.Areas.Admin.Repositories
             {
                 var service =  _applicationDbContext.ServiceRequests.Where(i => i.Id == serviceRequestId).FirstOrDefault();
                 amountTotal += service.Amount;
-
             });
 
             if(amountTotal != services.TotalAmount)
@@ -750,7 +745,9 @@ namespace HMS.Areas.Admin.Repositories
             string transactionType = "Credit";
             string invoiceType = "Service Request";
             DateTime transactionDate = DateTime.Now;
+
             var patient = await _applicationDbContext.PatientProfiles.Where(p => p.PatientId == services.PatientId).FirstOrDefaultAsync();
+
             services.ServiceRequestId.ForEach( serviceRequestId =>
             {
                var ServiceRequest =  _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
@@ -765,8 +762,7 @@ namespace HMS.Areas.Admin.Repositories
             services.ServiceRequestId.ForEach(serviceRequestId =>
             {
                 var ServiceRequest =  _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
-                 _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, ServiceRequest.ServiceInvoiceId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId, patient.Id);
-
+                _transaction.LogTransaction(ServiceRequest.Amount, transactionType, invoiceType, ServiceRequest.ServiceInvoiceId, services.PaymentMethod, transactionDate, patient.Patient.Id, services.InitiatorId, patient.Id);
             });
 
             await _applicationDbContext.SaveChangesAsync();
@@ -811,10 +807,12 @@ namespace HMS.Areas.Admin.Repositories
                 var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);
                 totalAmount += ServiceRequest.Amount;
             });
+
             if (patient.Account.AccountBalance < totalAmount)
             {
                 return false;
             }
+
             services.ServiceRequestId.ForEach(serviceRequestId =>
             {
                 var ServiceRequest = _applicationDbContext.ServiceRequests.FirstOrDefault(s => s.Id == serviceRequestId);

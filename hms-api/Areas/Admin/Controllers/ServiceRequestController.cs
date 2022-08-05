@@ -52,8 +52,7 @@ namespace HMS.Areas.Admin.Controllers
             {
                 return BadRequest(new { response = 301, message = "Patient is yet to pay for registration" });
             }
-
-           
+                       
             serviceRequest.PatientId = patient.PatientId;
             //check if all service id passed exist
             var servicesCheck = await _serviceRepo.CheckIfServicesExist(serviceRequest.ServiceId);
