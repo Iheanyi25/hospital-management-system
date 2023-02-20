@@ -36,7 +36,6 @@ namespace HMS
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
                 builder.AllowAnyOrigin()
-                        .AllowCredentials()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
