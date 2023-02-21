@@ -67,6 +67,7 @@
 
   <ItemGroup>
     <Folder Include="Database\Seeders\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <ItemGroup>
