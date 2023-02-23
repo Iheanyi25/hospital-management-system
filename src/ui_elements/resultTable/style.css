@@ -1,37 +1,48 @@
 .result-table-th {
-	border: 1px;
-	border-collapse: collapse;
-    table-layout: auto;
-	width: 100%;
+  border: 1px;
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
 }
 
 .result-table-th thead {
-	background-color: var(--primary);
+  background-color: var(--primary);
 }
 
 .result-table-th thead td {
-	color: var(--white-color);
-	font-size: 0.64rem;
+  color: var(--white-color);
+  font-size: 0.64rem;
+}
+
+.course-fields {
+  max-height: 200px;
+  min-height: 200px;
+}
+
+.course-fields-name {
+  max-width: 241px !important;
+  max-height: 241px !important;
+  width: 241px !important;
 }
 
 .result-table-th tbody td {
-	font-size: 0.64rem;
+  font-size: 0.64rem;
 }
 
 .result-table-th tr {
-	border: 1px solid var(--border-stoke) !important;
+  border: 1px solid var(--border-stoke) !important;
 }
 
 .result-table-th td {
-	border: 1px solid var(--border-stoke) !important;
-	padding: 10px;
+  border: 1px solid var(--border-stoke) !important;
+  padding: 5px;
 }
 
 .vertical-td {
-	writing-mode: vertical-rl;
-	text-orientation: mixed;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 .td-align-center {
-	text-align: center;
+  text-align: center;
 }
