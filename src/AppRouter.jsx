@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import ViewResultSheet from "./pages/resultSheet/viewResultSheet";
+import ViewResultSheet from "./pages/ResultSheet/viewResultSheet";
 import { MainRouter } from "./routers/mainRouter";
 
 const AppRouter = () => {
