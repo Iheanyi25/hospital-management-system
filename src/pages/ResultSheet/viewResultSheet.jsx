@@ -81,7 +81,7 @@ const ViewResultSheet = () => {
   );
 
   const getStudentData = () => {
-    return compositeSheet?.data?.studentCourses?.map((student) => {
+    return compositeSheet?.data?.studentCourses?.map((student, i) => {
       const registerCourses = {};
 
       student?.registeredCourses.forEach((registeredCourse) => {
@@ -105,6 +105,7 @@ const ViewResultSheet = () => {
       });
 
       return {
+        id: i + 1,
         name: student?.fullName,
         regNo: student?.registrationNumber,
         cumulativeSemesterDataResponse: student?.cumulativeSemesterDataResponse,

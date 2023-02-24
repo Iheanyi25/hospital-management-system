@@ -141,9 +141,9 @@ export const ResultTable = ({
         </tr>
       </thead>
       <tbody>
-        {students.map((students, i) => (
-          <tr>
-            <td>{i + 1}</td>
+        {students.map((students) => (
+          <tr key={students.id}>
+            <td>{students.id}</td>
             <td className="course-fields-name">
               {students.name}
               <br /> {students.regNo}
