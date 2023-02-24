@@ -3,6 +3,10 @@
   border-collapse: collapse;
   table-layout: auto;
   width: 100%;
+  -webkit-print-color-adjust: exact;
+  -moz-print-color-adjust: exact;
+  -ms-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .result-table-th thead {
@@ -39,8 +43,9 @@
 }
 
 .vertical-td {
-  writing-mode: vertical-rl;
+  writing-mode: vertical-lr;
   text-orientation: mixed;
+  transform: rotate(180deg);
 }
 
 .td-align-center {
