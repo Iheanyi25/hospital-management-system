@@ -150,27 +150,45 @@ export const ResultTable = ({
             </td>
             {students?.subjects?.map((stud) => (
               <>
-                <td>{stud.grade}</td>
-                <td>{stud.gradePoint}</td>
+                <td className="td-align-center">{stud.grade}</td>
+                <td className="td-align-center">{stud.gradePoint}</td>
               </>
             ))}
-            <td>{students?.cumulativeSemesterDataResponse?.creditPoint}</td>
-            <td>{students?.cumulativeSemesterDataResponse?.creditUnit}</td>
-            <td>
-              {Math.floor(students?.cumulativeSemesterDataResponse?.gradePointAverage)}
+            <td className="td-align-center">{students?.cumulativeSemesterDataResponse?.creditUnit}</td>
+            <td className="td-align-center">
+              {Math.floor(
+                students?.cumulativeSemesterDataResponse?.creditPoint
+              )}
+            </td>
+            <td className="td-align-center">
+              {Math.floor(
+                students?.cumulativeSemesterDataResponse?.gradePointAverage
+              )}
             </td>
             {semester !== "FIRST SEMESTER" && (
               <>
-                <td>{students?.previousSemesterDataResponse?.creditPoint}</td>
-                <td>{students?.previousSemesterDataResponse?.creditUnit}</td>
-                <td>
-                  {Math.floor(students?.previousSemesterDataResponse?.gradePointAverage)}
+                <td className="td-align-center">{students?.previousSemesterDataResponse?.creditUnit}</td>
+                <td className="td-align-center">
+                  {Math.floor(
+                    students?.previousSemesterDataResponse?.creditPoint
+                  )}
+                </td>
+                <td className="td-align-center">
+                  {Math.floor(
+                    students?.previousSemesterDataResponse?.gradePointAverage
+                  )}
                 </td>
               </>
             )}
-            <td>{students?.currentSemesterDataResponse?.creditPoint}</td>
-            <td>{students?.currentSemesterDataResponse?.creditUnit}</td>
-            <td>{Math.floor(students?.currentSemesterDataResponse?.gradePointAverage)}</td>
+            <td className="td-align-center">{students?.currentSemesterDataResponse?.creditUnit}</td>
+            <td className="td-align-center">
+              {Math.floor(students?.currentSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {Math.floor(
+                students?.currentSemesterDataResponse?.gradePointAverage
+              )}
+            </td>
           </tr>
         ))}
       </tbody>
