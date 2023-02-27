@@ -157,14 +157,14 @@ export const ResultTable = ({
               </>
             ))}
             <td className="td-align-center">
-              {students?.cumulativeSemesterDataResponse?.creditUnit}
+              {students?.currentSemesterDataResponse?.creditUnit}
             </td>
             <td className="td-align-center">
-              {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
+              {roundUp(students?.currentSemesterDataResponse?.creditPoint)}
             </td>
             <td className="td-align-center">
               {roundUp(
-                students?.cumulativeSemesterDataResponse?.gradePointAverage
+                students?.currentSemesterDataResponse?.gradePointAverage
               )}
             </td>
             {semester !== "FIRST SEMESTER" && (
@@ -183,14 +183,14 @@ export const ResultTable = ({
               </>
             )}
             <td className="td-align-center">
-              {students?.currentSemesterDataResponse?.creditUnit}
+              {students?.cumulativeSemesterDataResponse?.creditUnit}
             </td>
             <td className="td-align-center">
-              {roundUp(students?.currentSemesterDataResponse?.creditPoint)}
+              {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
             </td>
             <td className="td-align-center">
               {roundUp(
-                students?.currentSemesterDataResponse?.gradePointAverage
+                students?.cumulativeSemesterDataResponse?.gradePointAverage
               )}
             </td>
           </tr>
