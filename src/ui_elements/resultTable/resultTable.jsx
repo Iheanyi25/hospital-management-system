@@ -60,6 +60,8 @@ export const ResultTable = ({
     },
   ],
 }) => {
+  const roundUp = (num) => Math.round(num * 100) / 100;
+
   return (
     <table className="result-table-th">
       <thead>
@@ -154,38 +156,40 @@ export const ResultTable = ({
                 <td className="td-align-center">{stud.gradePoint}</td>
               </>
             ))}
-            <td className="td-align-center">{students?.cumulativeSemesterDataResponse?.creditUnit}</td>
             <td className="td-align-center">
-              {Math.floor(
-                students?.cumulativeSemesterDataResponse?.creditPoint
-              )}
+              {students?.cumulativeSemesterDataResponse?.creditUnit}
             </td>
             <td className="td-align-center">
-              {Math.floor(
+              {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(
                 students?.cumulativeSemesterDataResponse?.gradePointAverage
               )}
             </td>
             {semester !== "FIRST SEMESTER" && (
               <>
-                <td className="td-align-center">{students?.previousSemesterDataResponse?.creditUnit}</td>
                 <td className="td-align-center">
-                  {Math.floor(
-                    students?.previousSemesterDataResponse?.creditPoint
-                  )}
+                  {students?.previousSemesterDataResponse?.creditUnit}
                 </td>
                 <td className="td-align-center">
-                  {Math.floor(
+                  {roundUp(students?.previousSemesterDataResponse?.creditPoint)}
+                </td>
+                <td className="td-align-center">
+                  {roundUp(
                     students?.previousSemesterDataResponse?.gradePointAverage
                   )}
                 </td>
               </>
             )}
-            <td className="td-align-center">{students?.currentSemesterDataResponse?.creditUnit}</td>
             <td className="td-align-center">
-              {Math.floor(students?.currentSemesterDataResponse?.creditPoint)}
+              {students?.currentSemesterDataResponse?.creditUnit}
             </td>
             <td className="td-align-center">
-              {Math.floor(
+              {roundUp(students?.currentSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(
                 students?.currentSemesterDataResponse?.gradePointAverage
               )}
             </td>
