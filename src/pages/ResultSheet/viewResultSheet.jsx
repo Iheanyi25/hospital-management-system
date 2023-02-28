@@ -18,8 +18,6 @@ import { ResultSheet } from "./component/resultSheet";
 
 const pageStyle = `
   @page {
-    // size: 80mm 50mm;
-    // margin-top: 10rem;
     margin-left: 3rem;
     size: landscape;
     page-break-before: always;
@@ -129,7 +127,7 @@ const ViewResultSheet = () => {
 
   useEffect(() => {
     if (compositeSheet?.success && makeRequest && !isLoadingCompositeSheet) {
-      setData(sliceIntoChunks(getStudentData(), 23));
+      setData(sliceIntoChunks(getStudentData(), 3));
       setTimeout(() => {
         handlePrint();
       }, 1000);
