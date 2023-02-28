@@ -135,10 +135,9 @@ export const ResultTable = ({
           <td>SN</td>
           <td>STUDENT NAME AND REG NO</td>
           {subjects?.map((_, i) => (
-            <>
-              <td className="td-align-center">GR</td>
-              <td className="td-align-center">GP</td>
-            </>
+            <td colSpan="2" className="td-align-center">
+              GR/GP
+            </td>
           ))}
         </tr>
       </thead>
@@ -151,10 +150,11 @@ export const ResultTable = ({
               <br /> {students.regNo}
             </td>
             {students?.subjects?.map((stud) => (
-              <>
-                <td className="td-align-center">{stud.grade}</td>
-                <td className="td-align-center">{stud.gradePoint}</td>
-              </>
+              <td colSpan="2" className="text-right">
+                {stud.grade}
+                <br />
+                {stud.gradePoint}
+              </td>
             ))}
             <td className="td-align-center">
               {students?.currentSemesterDataResponse?.creditUnit}
