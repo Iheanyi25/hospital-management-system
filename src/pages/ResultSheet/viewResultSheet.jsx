@@ -127,7 +127,7 @@ const ViewResultSheet = () => {
 
   useEffect(() => {
     if (compositeSheet?.success && makeRequest && !isLoadingCompositeSheet) {
-      setData(sliceIntoChunks(getStudentData(), 3));
+      setData(sliceIntoChunks(getStudentData(), getStudentData().length));
       setTimeout(() => {
         handlePrint();
       }, 1000);
