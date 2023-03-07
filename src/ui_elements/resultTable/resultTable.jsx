@@ -62,6 +62,8 @@ export const ResultTable = ({
 }) => {
   const roundUp = (num) => Math.round(num * 100) / 100;
 
+  const roundUpTo1 = (num) => Math.round(num * 10) / 10;
+
   return (
     <table className="result-table-th">
       <thead>
@@ -94,7 +96,7 @@ export const ResultTable = ({
           <td>CREDIT UNIT</td>
           {subjects?.map((cred, i) => (
             <td className="td-align-center" colSpan="2" key={i}>
-              {cred?.courseUnit}
+              {roundUpTo1(cred?.courseUnit).toFixed(1)}
             </td>
           ))}
 
@@ -136,13 +138,13 @@ export const ResultTable = ({
           <td>STUDENT NAME AND REG NO</td>
           {subjects?.map((_, i) => (
             <td colSpan="2" className="td-align-center">
-              GR/GP
+              GR/CP
             </td>
           ))}
         </tr>
       </thead>
       <tbody>
-        {students.map((students) => (
+        {students?.map((students) => (
           <tr key={students.id}>
             <td>{students.id}</td>
             <td className="course-fields-name">
@@ -157,7 +159,9 @@ export const ResultTable = ({
               </td>
             ))}
             <td className="td-align-center">
-              {students?.currentSemesterDataResponse?.creditUnit}
+              {roundUpTo1(
+                students?.currentSemesterDataResponse?.creditUnit
+              ).toFixed(1)}
             </td>
             <td className="td-align-center">
               {roundUp(students?.currentSemesterDataResponse?.creditPoint)}
@@ -170,7 +174,9 @@ export const ResultTable = ({
             {semester !== "FIRST SEMESTER" && (
               <>
                 <td className="td-align-center">
-                  {students?.previousSemesterDataResponse?.creditUnit}
+                  {roundUpTo1(
+                    students?.previousSemesterDataResponse?.creditUnit
+                  ).toFixed(1)}
                 </td>
                 <td className="td-align-center">
                   {roundUp(students?.previousSemesterDataResponse?.creditPoint)}
@@ -183,7 +189,7 @@ export const ResultTable = ({
               </>
             )}
             <td className="td-align-center">
-              {students?.cumulativeSemesterDataResponse?.creditUnit}
+              {roundUpTo1(students?.cumulativeSemesterDataResponse?.creditUnit).toFixed(1)}
             </td>
             <td className="td-align-center">
               {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
