@@ -18,8 +18,6 @@ import { ResultSheet } from "./component/resultSheet";
 
 const pageStyle = `
   @page {
-    // size: 80mm 50mm;
-    // margin-top: 10rem;
     margin-left: 3rem;
     size: landscape;
     page-break-before: always;
@@ -81,7 +79,7 @@ const ViewResultSheet = () => {
   );
 
   const getStudentData = () => {
-    return compositeSheet?.data?.studentCourses?.map((student) => {
+    return compositeSheet?.data?.studentCourses?.map((student, i) => {
       const registerCourses = {};
 
       student?.registeredCourses.forEach((registeredCourse) => {
@@ -105,6 +103,7 @@ const ViewResultSheet = () => {
       });
 
       return {
+        id: i + 1,
         name: student?.fullName,
         regNo: student?.registrationNumber,
         cumulativeSemesterDataResponse: student?.cumulativeSemesterDataResponse,
@@ -128,10 +127,10 @@ const ViewResultSheet = () => {
 
   useEffect(() => {
     if (compositeSheet?.success && makeRequest && !isLoadingCompositeSheet) {
-      setData(sliceIntoChunks(getStudentData(), 6));
+      setData(sliceIntoChunks(getStudentData(), getStudentData().length));
       setTimeout(() => {
-				handlePrint();
-			}, 1000);
+        handlePrint();
+      }, 1000);
     }
     if (errorCompositeSheet && makeRequest && !isLoadingCompositeSheet) {
       setMakeRequest(false);
@@ -182,7 +181,9 @@ const ViewResultSheet = () => {
     data: levels,
     isLoading: isLoadingLevels,
     error: errorLevels,
-  } = useApiGet(getLevelUrl());
+  } = useApiGet(getLevelUrl(watchData?.StudentType?.value), {
+    enabled: !!watchData?.StudentType?.value,
+  });
 
   const {
     data: semester,
@@ -204,12 +205,7 @@ const ViewResultSheet = () => {
 
   const allSemester = formatSelectItems(semester?.data, "name", "id");
 
-  if (
-    isLoadingSessions ||
-    isLoadingStudentType ||
-    isLoadingLevels ||
-    isLoadingSemester
-  )
+  if (isLoadingSessions || isLoadingStudentType || isLoadingSemester)
     return <Spinner />;
 
   if (
@@ -253,6 +249,7 @@ const ViewResultSheet = () => {
               customClass="ml-2"
               onClick={handleSubmit(handleCompositeSubmit)}
               loading={isLoadingCompositeSheet}
+              disabled={isLoadingDepartment || isLoadingLevels}
             />
           </div>
         }
@@ -364,35 +361,48 @@ const ViewResultSheet = () => {
               </div>
             )}
 
-            <div>
-              <div className="row">
-                <div className="col-lg-3  d-flex align-items-center">
-                  <label className="font-weight-bold" htmlFor="student_type">
-                    Level
-                  </label>
-                </div>
-                <div className="col-lg-9">
-                  <Controller
-                    name="Level"
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <SMSelect
-                        {...field}
-                        placeholder="Select a Level"
-                        //   onChange={onStudentTypeChange}
-                        options={allLevels}
-                        searchable={true}
-                        id="Level"
-                        isError={!!errors.Level}
-                      />
-                    )}
-                  />
+            {allLevels.length > 0 && (
+              <div>
+                <div className="row">
+                  <div className="col-lg-3  d-flex align-items-center">
+                    <label className="font-weight-bold">Level</label>
+                  </div>
+                  <div className="col-lg-9">
+                    <Controller
+                      name="Level"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <SMSelect
+                          {...field}
+                          placeholder="Select a Level"
+                          //   onChange={onStudentTypeChange}
+                          options={allLevels}
+                          searchable={true}
+                          id="Level"
+                          isError={!!errors.Level}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {isLoadingLevels && (
+              <div>
+                <div className="row">
+                  <div className="col-lg-3  d-flex align-items-center">
+                    <label className="font-weight-bold">Levels</label>
+                  </div>
+                  <div className="col-lg-9">
+                    <Spinner />
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div>
               <div className="row">

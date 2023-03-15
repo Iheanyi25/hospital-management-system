@@ -60,6 +60,10 @@ export const ResultTable = ({
     },
   ],
 }) => {
+  const roundUp = (num) => Math.round(num * 100) / 100;
+
+  const roundUpTo1 = (num) => Math.round(num * 10) / 10;
+
   return (
     <table className="result-table-th">
       <thead>
@@ -92,7 +96,7 @@ export const ResultTable = ({
           <td>CREDIT UNIT</td>
           {subjects?.map((cred, i) => (
             <td className="td-align-center" colSpan="2" key={i}>
-              {cred?.courseUnit}
+              {roundUpTo1(cred?.courseUnit).toFixed(1)}
             </td>
           ))}
 
@@ -133,44 +137,68 @@ export const ResultTable = ({
           <td>SN</td>
           <td>STUDENT NAME AND REG NO</td>
           {subjects?.map((_, i) => (
-            <>
-              <td className="td-align-center">GR</td>
-              <td className="td-align-center">GP</td>
-            </>
+            <td colSpan="2" className="td-align-center">
+              GR/CP
+            </td>
           ))}
         </tr>
       </thead>
       <tbody>
-        {students.map((students, i) => (
-          <tr>
-            <td>{i + 1}</td>
+        {students?.map((students) => (
+          <tr key={students.id}>
+            <td>{students.id}</td>
             <td className="course-fields-name">
               {students.name}
               <br /> {students.regNo}
             </td>
             {students?.subjects?.map((stud) => (
-              <>
-                <td>{stud.grade}</td>
-                <td>{stud.gradePoint}</td>
-              </>
+              <td colSpan="2" className="text-right">
+                {stud.grade}
+                <br />
+                {stud.gradePoint}
+              </td>
             ))}
-            <td>{students?.cumulativeSemesterDataResponse?.creditPoint}</td>
-            <td>{students?.cumulativeSemesterDataResponse?.creditUnit}</td>
-            <td>
-              {Math.floor(students?.cumulativeSemesterDataResponse?.gradePointAverage)}
+            <td className="td-align-center">
+              {roundUpTo1(
+                students?.currentSemesterDataResponse?.creditUnit
+              ).toFixed(1)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(students?.currentSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(
+                students?.currentSemesterDataResponse?.gradePointAverage
+              )}
             </td>
             {semester !== "FIRST SEMESTER" && (
               <>
-                <td>{students?.previousSemesterDataResponse?.creditPoint}</td>
-                <td>{students?.previousSemesterDataResponse?.creditUnit}</td>
-                <td>
-                  {Math.floor(students?.previousSemesterDataResponse?.gradePointAverage)}
+                <td className="td-align-center">
+                  {roundUpTo1(
+                    students?.previousSemesterDataResponse?.creditUnit
+                  ).toFixed(1)}
+                </td>
+                <td className="td-align-center">
+                  {roundUp(students?.previousSemesterDataResponse?.creditPoint)}
+                </td>
+                <td className="td-align-center">
+                  {roundUp(
+                    students?.previousSemesterDataResponse?.gradePointAverage
+                  )}
                 </td>
               </>
             )}
-            <td>{students?.currentSemesterDataResponse?.creditPoint}</td>
-            <td>{students?.currentSemesterDataResponse?.creditUnit}</td>
-            <td>{Math.floor(students?.currentSemesterDataResponse?.gradePointAverage)}</td>
+            <td className="td-align-center">
+              {roundUpTo1(students?.cumulativeSemesterDataResponse?.creditUnit).toFixed(1)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(
+                students?.cumulativeSemesterDataResponse?.gradePointAverage
+              )}
+            </td>
           </tr>
         ))}
       </tbody>
