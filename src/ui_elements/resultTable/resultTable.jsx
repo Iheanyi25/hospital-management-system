@@ -82,11 +82,10 @@ export const ResultTable = ({
             CURRENT SEMESTER
           </td>
 
-          {semester !== "FIRST SEMESTER" && (
-            <td colSpan="3" rowSpan="1" className="td-align-center">
-              PREVIOUS SEMESTER
-            </td>
-          )}
+          <td colSpan="3" rowSpan="1" className="td-align-center">
+            PREVIOUS SEMESTER
+          </td>
+
           <td colSpan="3" rowSpan="1" className="td-align-center">
             CUMULATIVE
           </td>
@@ -110,19 +109,16 @@ export const ResultTable = ({
             GRADE POINT AVERAGE
           </td>
 
-          {semester !== "FIRST SEMESTER" && (
-            <>
-              <td rowSpan="2" className="vertical-td">
-                TOTAL CREDIT UNITS
-              </td>
-              <td rowSpan="2" className="vertical-td">
-                TOTAL CREDIT POINT
-              </td>
-              <td rowSpan="2" className="vertical-td">
-                GRADE POINT AVERAGE
-              </td>
-            </>
-          )}
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT UNITS
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT POINT
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            GRADE POINT AVERAGE
+          </td>
+
           <td rowSpan="2" className="vertical-td">
             TOTAL CREDIT UNITS
           </td>
@@ -171,7 +167,7 @@ export const ResultTable = ({
                 students?.currentSemesterDataResponse?.gradePointAverage
               )}
             </td>
-            {semester !== "FIRST SEMESTER" && (
+            {students?.previousSemesterDataResponse && (
               <>
                 <td className="td-align-center">
                   {roundUpTo1(
@@ -189,7 +185,9 @@ export const ResultTable = ({
               </>
             )}
             <td className="td-align-center">
-              {roundUpTo1(students?.cumulativeSemesterDataResponse?.creditUnit).toFixed(1)}
+              {roundUpTo1(
+                students?.cumulativeSemesterDataResponse?.creditUnit
+              ).toFixed(1)}
             </td>
             <td className="td-align-center">
               {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
