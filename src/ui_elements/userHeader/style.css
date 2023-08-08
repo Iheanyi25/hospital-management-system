@@ -1,0 +1,14 @@
+.verified {
+	background: #79f2c0;
+	color: #155457;
+	font-family: CircularStd;
+	font-size: 1rem;
+	font-weight: 450;
+}
+.unverified {
+	background: #fff0b3;
+	color: #253858;
+	font-family: CircularStd;
+	font-size: 1rem;
+	font-weight: 450;
+}

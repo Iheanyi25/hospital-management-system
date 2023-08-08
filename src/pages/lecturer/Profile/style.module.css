@@ -1,0 +1,63 @@
+.container label {
+	font-weight: 500;
+}
+.profile_img {
+	height: 96px;
+	width: 96px;
+	border-radius: 50%;
+}
+
+.profile_img > img {
+	height: inherit;
+	width: inherit;
+	border-radius: 50%;
+}
+
+.upload_button {
+	margin-left: 20px;
+	margin-bottom: 38px;
+}
+
+.sub_header {
+	font-size: 1.14rem;
+	line-height: 20px;
+}
+
+.key_comes_tabs {
+	position: sticky;
+	top: 40px;
+}
+
+.key_comes_sticky {
+	position: absolute;
+	transform: translateX(-50%);
+	left: 75px;
+	width: 100%;
+}
+
+.signature_text_style {
+	color: var(--primary);
+	cursor: pointer;
+}
+
+.ailment_container {
+	border-radius: 4px;
+	padding: 9.5px 12px;
+}
+
+.profile_img span {
+	font-size: 2.86rem;
+}
+
+.input {
+	display: none;
+}
+
+@media (max-width: 1200px) {
+	.key_comes_sticky {
+		position: relative;
+		top: 0;
+		left: 0;
+		transform: none;
+	}
+}

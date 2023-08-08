@@ -1,0 +1,17 @@
+.rse-more-button {
+	outline: none;
+	border: none;
+	padding: 8px 6px 8px 6px;
+	width: 36px;
+	height: 40px;
+	background: var(--disabled);
+	border-radius: 4px;
+}
+
+.rse-more-button:focus {
+	background: #253858;
+}
+
+.rse-more-button:focus .aui-icon:before {
+	color: white;
+}

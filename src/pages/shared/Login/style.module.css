@@ -1,0 +1,65 @@
+.login_label {
+	font-size: 1rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 16px;
+}
+.login_inner_wrapper {
+	background: url("https://smcore.blob.core.windows.net/logos/fupre_grid_image.png");
+	background-color: var(--dark-green);
+	background-position: right top;
+}
+.login_img {
+	height: 100vh;
+	width: 100%;
+	object-fit: cover;
+}
+
+.link_class {
+	font-size: 1rem;
+	background-color: transparent;
+	color: var(--primary);
+	font-weight: 450;
+	text-decoration: none !important;
+}
+
+.link_class:hover {
+	text-decoration: underline !important;
+}
+
+.link_class_forgot {
+	font-size: 1rem;
+	background-color: transparent;
+	color: var(--text-color);
+	font-weight: 450;
+	text-decoration: none !important;
+}
+
+.login_content h3 {
+	font-weight: bold;
+	font-size: 1.71rem;
+	line-height: 32px;
+	margin-bottom: 10px;
+}
+.login_content p {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 20px;
+	margin: 0;
+}
+@media screen and (max-width: 769px) {
+	.login_inner_wrapper {
+		display: none;
+	}
+	.login_content {
+		height: 100vh;
+		width: 100vw;
+	}
+	.login_img-wrapper {
+		width: 100%;
+	}
+	.login_row {
+		margin: 0px;
+	}
+}

@@ -1,0 +1,48 @@
+.landingBadgeContainer {
+	width: fit-content;
+	display: flex;
+	padding: 6px 8px;
+}
+
+.landingBadgeContainer p {
+	font-size: 0.86rem;
+	font-weight: 700;
+	margin-left: 8px;
+	text-transform: uppercase;
+}
+
+.prospectiveStudent {
+	background-color: var(--light-yellow-custom);
+}
+
+.prospectiveStudent p {
+	color: var(--orange-custom);
+}
+
+.undergraduate {
+	background-color: var(--light-green);
+}
+.undergraduate p {
+	color: var(--secondary);
+}
+
+.bursaryPayments {
+	background-color: var(--disabled-tint);
+}
+.bursaryPayments p {
+	color: var(--primary);
+}
+
+.allStudents {
+	background-color: var(--purple-custom)!important;
+}
+.allStudents p {
+	color: var(--purple-text-color);
+}
+
+.allStaff {
+	background-color: var(--light-blue);
+}
+.allStaff p {
+	color: var(--primary);
+}

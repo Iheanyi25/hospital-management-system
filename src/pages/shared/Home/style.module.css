@@ -1,0 +1,189 @@
+.banner_container {
+	width: 100%;
+	margin-top: 0px;
+	padding-bottom: 48px;
+}
+
+.banner_wrapper {
+	height: fit-content;
+}
+
+.banner_text h1 {
+	color: var(--white-color);
+	line-height: 1.36rem;
+	margin-bottom: 20px;
+}
+
+.banner_text p {
+	color: var(--white-color);
+	font-weight: 300;
+	line-height: 20px;
+}
+
+.banner_content {
+	position: relative;
+	height: 900px;
+	background: url("https://smcore.blob.core.windows.net/logos/ccu_bg.png");
+	background-size: cover !important;
+	background-position: top;
+}
+
+.banner_image_container {
+	height: 100%;
+	mix-blend-mode: normal;
+}
+
+.programs_wrapper {
+	background-color: var(--neutral-10);
+	padding: 82.5px 0px;
+}
+
+.program_container {
+	max-width: 1128px;
+	width: calc(100% - 40px);
+	padding: 0px 20px;
+	margin: 82.5px auto;
+	flex-wrap: wrap;
+}
+
+.program_card {
+	width: 100%;
+	margin-bottom: 24px;
+}
+.programs_title h3 {
+	font-size: 1.71rem;
+}
+
+.programs_title p {
+	font-size: 1.14rem;
+	margin-top: 20px;
+	line-height: 24px;
+}
+
+.landing_container {
+	padding-bottom: 40px;
+	border-bottom: 1px solid var(--neutral-border);
+	padding-top: 40px;
+}
+
+.landing_container:first-of-type {
+	padding-top: 0px;
+}
+
+.landing_container:last-of-type {
+	border-bottom: 0px;
+}
+
+.landing_header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.landing_title {
+	margin-top: 24px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.landing_title h3 {
+	color: var(--alt-text-color-tint);
+	font-weight: 700;
+	font-size: 1.36rem;
+}
+
+.landing_title p {
+	color: #7a869a;
+	font-size: 1rem;
+}
+
+.landing_modal_info {
+	margin-top: 8px;
+	font-size: 1.14rem;
+	line-height: 24px;
+	color: var(--light-text-color-2);
+}
+
+.landing_modal_info_name {
+	color: var(--alt-text-color-tint);
+	font-weight: 700;
+	margin-top: 24px;
+	font-size: 1.14rem;
+}
+
+.modal_header {
+	display: flex;
+	align-items: center;
+	justify-content: right;
+}
+
+.close_button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	margin-bottom: 24px;
+}
+
+.additionModalStyles {
+	padding: 14px 24px 40px 24px !important;
+}
+
+.message_body span {
+	color: var(--white-color);
+}
+.banner_text {
+	padding-top: 70%;
+	max-width: 1128px;
+	width: calc(100% - 40px);
+	margin: auto;
+}
+
+@media (min-width: 768px) {
+	.banner_text {
+		padding-top: 320px;
+		max-width: 1128px;
+		width: calc(100% - 40px);
+		margin: auto;
+	}
+	.banner_text > * {
+		margin-bottom: 30px;
+	}
+
+	.banner_text h1 {
+		width: 70%;
+		font-size: 4.29rem;
+		line-height: 70px;
+	}
+
+	.banner_text p {
+		width: 55%;
+		font-size: 1.29rem;
+	}
+	.program_card {
+		width: 49%;
+	}
+}
+
+@media (min-width: 1200px) {
+	.banner_text {
+		padding-top: 320px;
+		max-width: 1128px;
+		width: calc(100% - 40px);
+		margin: auto;
+	}
+
+	.banner_text h1 {
+		width: 70%;
+		font-size: 4.29rem;
+		line-height: 70px;
+	}
+
+	.banner_text p {
+		width: 55%;
+		font-size: 1.29rem;
+	}
+
+	.program_card {
+		width: 32%;
+	}
+}

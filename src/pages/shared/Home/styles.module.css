@@ -1,0 +1,153 @@
+.container {
+	background: url("https://smcore.blob.core.windows.net/logos/fupre_grid_image.png")
+		center;
+	background-color: var(--dark-green);
+	min-height: 100vh;
+}
+
+.sectionsContainer {
+	max-width: 1280px;
+	padding: 20px;
+	padding-top: 80px;
+	margin: 0 auto;
+}
+
+.sectionsContainer section:nth-of-type(1) > * {
+	margin-bottom: 20px;
+}
+
+.notice {
+	display: inline-block;
+	background-color: var(--transparent-white);
+	color: var(--white-color);
+	padding: 5px 15px 5px 12px;
+	border-radius: 100px;
+	animation: tilt-shaking 0.35s infinite;
+	animation-iteration-count: 7;
+	font-size: 0.75rem;
+}
+
+.notice span {
+	display: inline-block;
+	border-radius: 100px;
+	background-color: var(--light-red);
+	padding: 5px 10px;
+	margin-right: 10px;
+	font-size: 0.75rem;
+}
+
+.sectionsContainer section:nth-of-type(1) h1 {
+	color: var(--white-color);
+	line-height: 1.36rem;
+}
+
+.sectionsContainer section:nth-of-type(1) p {
+	color: var(--white-color);
+	font-weight: 300;
+	line-height: 20px;
+}
+
+.cardsContainer {
+	margin-top: 20px;
+}
+
+.card {
+	display: inline-block;
+	background: var(--white-color);
+	border-radius: 6px;
+	padding: 40px;
+}
+
+.card > * {
+	margin-bottom: 15px;
+}
+
+.card p {
+	color: var(--text-neutral);
+}
+
+.cardLinks {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 30px;
+}
+
+.cardLinks a {
+	text-decoration: none;
+	color: var(--text-teal);
+	font-weight: 500;
+}
+
+.cardLinks a:hover {
+	text-decoration: underline;
+	color: var(--text-teal);
+}
+
+@keyframes tilt-shaking {
+	0% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	25% {
+		transform: translate(5px, 5px) rotate(5deg);
+	}
+	50% {
+		transform: translate(0, 0) rotate(0eg);
+	}
+	75% {
+		transform: translate(-5px, 5px) rotate(-5deg);
+	}
+	100% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+}
+
+@media (min-width: 768px) {
+	.notice,
+	.notice span {
+		font-size: 1rem;
+	}
+
+	.sectionsContainer {
+		padding: 40px;
+		padding-top: 130px;
+	}
+
+	.sectionsContainer section:nth-of-type(1) > * {
+		margin-bottom: 30px;
+	}
+
+	.sectionsContainer section:nth-of-type(1) h1 {
+		line-height: 63px;
+	}
+
+	.sectionsContainer section:nth-of-type(1) p {
+		line-height: 25px;
+	}
+
+	.cardsContainer {
+		margin-top: 60px;
+	}
+
+	.card {
+		padding: 50px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.sectionsContainer {
+		padding: 50px;
+		padding-top: 160px;
+	}
+
+	.sectionsContainer section:nth-of-type(1) h1 {
+		width: 70%;
+		font-size: 4.29rem;
+		line-height: 70px;
+	}
+
+	.sectionsContainer section:nth-of-type(1) p {
+		width: 55%;
+		font-size: 1.29rem;
+	}
+}

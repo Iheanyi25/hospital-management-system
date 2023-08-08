@@ -1,0 +1,9 @@
+
+.invoice_form_img_container {
+	height: 96px;
+}
+
+.invoice_form_img_container img {
+	width: 70%;
+	height: 100%;
+}

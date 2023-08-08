@@ -1,0 +1,30 @@
+.pg_card_container {
+	width: 100%;
+	padding: 29.33px;
+	background: var(--white-color);
+	border-radius: 6px;
+}
+
+.pg_card_title {
+	margin-top: 24.33px;
+	font-size: 1.36rem;
+	font-weight: 700;
+	line-height: 24px;
+	color: var(--alt-text-color-tint);
+}
+
+.pg_card_info {
+	margin-top: 12px;
+	font-size: 1rem;
+	line-height: 20.02px;
+	color: var(--light-text-color-2);
+	margin-bottom: 31px;
+}
+
+.landing_card_link {
+	color: var(--primary);
+	font-size: 1rem;
+	cursor: pointer;
+	text-decoration: none;
+	display: block;
+}

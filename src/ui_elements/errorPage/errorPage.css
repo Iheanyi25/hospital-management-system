@@ -1,0 +1,54 @@
+h3 {
+	font-size: 5.25rem;
+}
+.error_img_size {
+	width: 25em;
+	height: 25em;
+	max-width: 30em;
+	max-height: 30em;
+	animation: float 6s ease-in-out infinite;
+}
+.description {
+	max-width: 39rem;
+	max-height: 3.5rem;
+	min-height: 1.5rem;
+	min-width: 1.5rem;
+}
+.error_page_title {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 3.75rem;
+	line-height: 4.5rem;
+}
+
+.error_page_text {
+	font-weight: 400;
+	font-size: 1.18rem;
+	line-height: 1.75rem;
+	color: var(--gray500);
+}
+.text-box {
+	min-height: 4.3rem;
+	width: 100%;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(-3.25rem);
+	}
+	50% {
+		transform: translatey(-1.25rem);
+	}
+	100% {
+		transform: translatey(-3.25rem);
+	}
+}
+@media only screen and (min-width: 768px) {
+	.error_page_text {
+		font-size: 0.9rem;
+	}
+	.error_img_size {
+		width: 20em;
+		height: 20em;
+	}
+}

@@ -1,0 +1,55 @@
+.title {
+	font-size: 1.14rem;
+	color: var(--text-color);
+	padding: 0;
+	margin: 0;
+	margin-bottom: 31px;
+}
+
+.legend {
+	display: flex;
+	align-items: center;
+	margin-top: 16px;
+}
+
+.legend span {
+	width: 12.8px;
+	height: 12.8px;
+	/* background-color: var(--primary); */
+}
+
+
+.legend p {
+	margin-left: 12px;
+	margin-bottom: 0px;
+}
+
+.legends_container {
+	margin-left: 100px;
+}
+
+.custom_tabs {
+	display: flex;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.custom_tabs p {
+	margin-left: 28px;
+	position: relative;
+	cursor: pointer;
+	padding-bottom: 4px;
+}
+
+.custom_tabs p:first-of-type {
+	margin-left: 0px;
+}
+
+.custom_tabs_active {
+	border-bottom: 3px solid var(--primary);
+	color: var(--primary);
+}
+
+.session_dropdown {
+	width: 130px;
+}

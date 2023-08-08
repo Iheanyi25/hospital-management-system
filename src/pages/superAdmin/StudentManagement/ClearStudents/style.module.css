@@ -1,0 +1,26 @@
+.page_content {
+	display: flex;
+	justify-content: center;
+	margin-top: 74px;
+}
+.form {
+	display: flex;
+	justify-content: center;
+	padding: 5% 100px 0 100px;
+}
+
+.form_content label {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 16px;
+}
+
+.profile_img span {
+	font-size: 120px;
+}
+
+.profile_img img {
+	width: 100%;
+	height: 100%;
+}

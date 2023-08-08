@@ -1,0 +1,58 @@
+.bedSpacesContainer {
+	flex-wrap: wrap;
+}
+
+.bedSpaceHolder {
+	width: 18%;
+	margin: 0px calc(1.15% - 2px);
+}
+.bedDetails {
+    max-width: 640px;
+	background-color: var(--neutral-20);
+	padding: 10px 24px;
+}
+
+.bedDetails p:first-of-type {
+    font-size: 1.14rem;
+}
+
+.bedDetails p:last-of-type {
+    font-size: 0.93rem;
+}
+
+.markerBox {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.markerDescription {
+    color: var(--light-text-color-3);
+}
+
+@media (max-width: 1000px) {
+	.bedSpaceHolder {
+		width: 23%;
+		margin-top: 20px;
+	}
+}
+
+@media (max-width: 800px) {
+	.bedSpaceHolder {
+		width: 31.33%;
+	}
+}
+
+@media (max-width: 500px) {
+	.bedSpaceHolder {
+		width: 48%;
+	}
+}
+
+@media (max-width: 350px) {
+    .bedSpaceHolder {
+		width: 98%;
+        margin: 0px auto;
+        margin-top: 20px;
+	}
+}
