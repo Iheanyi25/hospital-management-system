@@ -11,6 +11,10 @@ import { loginUrl } from "../../../api/urls";
 import AuthPageWrapper from "../AuthPageWrapper";
 import useAuthAction from "../../../custom-hooks/useAuthAction";
 import { SCHOOL_DETAILS, USER_TYPES } from "../../../utils/constants";
+import Curve1 from "../../../assets/images/Ellipse1.png"
+import Curve2 from "../../../assets/images/Ellipse2.png"
+// import Curve3 from "../../../assets/images/Ellipse1.png"
+
 
 export const LoginSchema = yup.object().shape({
 	userName: yup.string().required("please input your username"),
@@ -82,9 +86,7 @@ const Login = () => {
 	};
 	return (
 		<div className={`${styles.login_row} mx-0 row w-100`}>
-			<div
-				className={`${styles.login_inner_wrapper} col-12 col-md-12 col-lg-4 px-0`}
-			/>
+
 			<form
 				className={`${styles.login_content} col-12 col-md-12 col-lg-8 d-flex justify-content-center align-items-center`}
 				onSubmit={handleSubmit(onSubmit)}
@@ -166,6 +168,18 @@ const Login = () => {
 					</div>
 				</AuthPageWrapper>
 			</form>
+			<div
+				className={`${styles.login_inner_wrapper} col-12 col-md-12 col-lg-4 px-0`}
+			>
+				<div className={`${styles.curve_section1}`}>
+					<img src={Curve1} alt="curve" />
+					<img src={Curve2} alt="curve" />
+				</div>
+				<div className={`${styles.curve_section2}`}>
+					<img src={Curve1} alt="curve" />
+					<img src={Curve2} alt="curve" />
+				</div>
+			</div>
 		</div>
 	);
 };

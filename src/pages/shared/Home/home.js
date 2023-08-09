@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useApiGet } from "../../../api/apiCall";
-import {
-	getAllApplicationTypesUnpaginatedUrl,
-	getRecentNoticessUrl
-} from "../../../api/urls";
-import { GlobalMenu, MessageBox, PageLoader } from "../../../ui_elements";
+import { getRecentNoticessUrl } from "../../../api/urls";
+import { Footer, GlobalMenu, MessageBox } from "../../../ui_elements";
 import { LandingModal } from "./containers";
 import DOMPurify from "dompurify";
 
@@ -13,7 +10,6 @@ import styles from "./styles.module.css";
 
 const Home = () => {
 	const [message, setMessage] = useState(true);
-	const [currentApplication, setCurrentApplication] = useState("");
 	const [modal, setModal] = useState(false);
 	const handleCurrentLink = (linkObject) => {
 		if (linkObject?.applicationMode === "1") {
@@ -74,30 +70,6 @@ const Home = () => {
 			setModal(true);
 		}
 	}, [isFetched]);
-
-	const {
-		data: applications,
-		isLoading,
-		error
-	} = useApiGet(getAllApplicationTypesUnpaginatedUrl());
-
-	const random = (array) => {
-		if (array?.length > 0) {
-			const arrayIndex = Math.floor(Math.random(3.32) * array.length);
-			return array[arrayIndex];
-		}
-	};
-
-	useEffect(() => {
-		setCurrentApplication(
-			random(applications?.data?.filter((item) => item.active))
-		);
-	}, [applications?.data]);
-
-	if (isLoading) return <PageLoader />;
-	if (error)
-		return "An error has occurred: " + error?.response?.data?.message;
-
 	return (
 		<>
 			{!data?.data || data?.data.length === 0 ? null : (
@@ -108,8 +80,8 @@ const Home = () => {
 				/>
 			)}
 			{!data?.data ||
-			data?.data?.length === 0 ||
-			message === false ? null : (
+				data?.data?.length === 0 ||
+				message === false ? null : (
 				<MessageBox
 					openModal={() => setModal(true)}
 					closeMessage={setMessage}
@@ -133,27 +105,22 @@ const Home = () => {
 			<GlobalMenu isLanding={"unAuthenticated"} />
 			<main className={`${styles.container}`}>
 				<div className={styles.sectionsContainer}>
-					<section>
-						{currentApplication ? (
-							<div className={styles.notice}>
-								<span>Notice</span>
-								{`${currentApplication.name} is now open!`}
-							</div>
-						) : (
-							<></>
-						)}
+					<section className={`${styles.sectionTextContainer} pb-5`}>
+						{/* <div className={styles.notice}>
+							<span>Notice</span>
+							Post UTME application is now open!
+						</div> */}
 						<h1>
-							Federal University of <br /> Petroleum Resources,
-							Effurun
+							Welcome To Akwa Ibom State <br/> Polytechnic Portal.
 						</h1>
-						<p>
+						<p className="pb-5">
 							Offering you the best educational experience through
-							a variety of programmes and learning resources. See
-							more below.
+							a variety of programmes
+							<br /> and learning resources. See more below.
 						</p>
 					</section>
 					<section className={`${styles.cardsContainer} row`}>
-						<div className="col-md-4 col-12 mt-3">
+						<div className="col-md-6 col-12 mt-3">
 							<div className={styles.card}>
 								<h4>Sub-degree Programme</h4>
 								<p>
@@ -176,7 +143,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-md-4 col-12 mt-3">
+						<div className="col-md-6 col-12 mt-3">
 							<div className={styles.card}>
 								<h4>Post UTME</h4>
 								<p>
@@ -199,7 +166,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-md-4 col-12 mt-3">
+						{/* <div className="col-md-6 col-12 mt-3">
 							<div className={styles.card}>
 								<h4>Post Graduate</h4>
 								<p>
@@ -225,7 +192,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-md-4 col-12 mt-3">
+						<div className="col-md-6 col-12 mt-3">
 							<div className={styles.card}>
 								<h4>Centre for Safety Education</h4>
 								<p>
@@ -248,7 +215,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-md-4 col-12 mt-3">
+						<div className="col-md-6 col-12 mt-3">
 							<div className={styles.card}>
 								<h4>Direct Entry</h4>
 								<p>
@@ -270,9 +237,10 @@ const Home = () => {
 									</Link>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</section>
 				</div>
+				<Footer />
 			</main>
 		</>
 	);

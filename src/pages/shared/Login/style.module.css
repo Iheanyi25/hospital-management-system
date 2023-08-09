@@ -5,9 +5,10 @@
 	line-height: 16px;
 }
 .login_inner_wrapper {
-	background: url("https://smcore.blob.core.windows.net/logos/fupre_grid_image.png");
-	background-color: var(--dark-green);
+	background-color: var(--primary);
 	background-position: right top;
+	height: 100vh;
+	position: relative;
 }
 .login_img {
 	height: 100vh;
@@ -22,6 +23,37 @@
 	font-weight: 450;
 	text-decoration: none !important;
 }
+
+.curve_section1{
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}	
+.curve_section1 img:last-child {
+	position: absolute;
+	top: 0;
+	left: 150px;
+}
+.curve_section2{
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}	
+
+.curve_section2 img:first-child {
+	position: absolute;
+	transform: scaleY(-1) scaleX(-1);
+	bottom: 0;
+	right:0;
+}
+.curve_section2 img:last-child {
+	position: absolute;
+	bottom: 0;
+	left:140px;
+}
+
 
 .link_class:hover {
 	text-decoration: underline !important;
