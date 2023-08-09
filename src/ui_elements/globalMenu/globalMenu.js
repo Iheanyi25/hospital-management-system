@@ -7,7 +7,7 @@ import "./globalMenu.css";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { Button } from "../button/Button";
-import { TENECE_SUPPORT_URL } from "../../utils/constants";
+// import { TENECE_SUPPORT_URL } from "../../utils/constants";
 import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
 import ChristmasLogo from "../../assets/images/christmasLogo.png";
 
