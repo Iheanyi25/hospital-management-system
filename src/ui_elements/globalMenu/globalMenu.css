@@ -18,18 +18,15 @@
 	border: none;
 }
 
-.red-current-module {
-	border-left: 1px solid #c1c7d0;
-	padding-left: 16px;
-}
 
 .red-global-logo {
-	margin: 0 16px;
-	width: 200px;
+	width: 250px;
 }
 
 .red-global-logo img {
-	width: 100%;
+	width: 50px;
+	height: 50px;
+	object-fit: contain;
 }
 
 .red-global-logo img:nth-child(1) {
@@ -149,6 +146,7 @@
 .global-landing-page-link-container {
 	display: flex;
 	align-items: center;
+	margin-left: -200px;
 }
 
 .cancel-button {
@@ -165,7 +163,7 @@
 	background-color: transparent;
 	margin-right: 16px !important;
 	font-size: 1rem;
-	color: #7A869A;
+	color: var(--text-color);
 	cursor: pointer;
 }
 
@@ -179,6 +177,12 @@
 
 .retract-navigation {
 	top: 0%!important;
+}
+
+@media (max-width:768px){
+	.global-landing-page-link-container {
+		margin-left: 0px;
+	}
 }
 
 @media(max-width: 834px) {
