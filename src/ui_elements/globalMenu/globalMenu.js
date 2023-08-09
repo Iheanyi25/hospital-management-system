@@ -87,12 +87,12 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-
+{/* 
 						<a href={TENECE_SUPPORT_URL}>
 							<button className="global-landing-page-links">
 								Support
 							</button>
-						</a>
+						</a> */}
 					</div>
 				) : (
 					<div className="red-current-module">{title}</div>
