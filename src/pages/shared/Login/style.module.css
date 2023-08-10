@@ -9,6 +9,23 @@
 	background-position: right top;
 	height: 100vh;
 	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.login_inner_wrapper h5 {
+	font-size: 3vw;
+	color: white;
+	line-height: 1;
+}
+.login_inner_wrapper p {
+	margin-top:1rem ;
+	font-size: 18px;
+	color: white;
+	line-height: 1;
+}
+.login_text{
+	width: 80% !important;
 }
 .login_img {
 	height: 100vh;
