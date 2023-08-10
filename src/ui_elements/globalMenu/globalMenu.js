@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../assets/images/sideLogo.png";
+import logo from "../../assets/images/logo.png";
 import globalMenuIcon from "../../assets/svgs/globalMenuIcon.svg";
 import cancel from "../../assets/svgs/cancel.svg";
 import Avatar from "react-avatar";
@@ -7,13 +7,13 @@ import "./globalMenu.css";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { Button } from "../button/Button";
-import { TENECE_SUPPORT_URL } from "../../utils/constants";
+// import { TENECE_SUPPORT_URL } from "../../utils/constants";
 import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
 import ChristmasLogo from "../../assets/images/christmasLogo.png";
 
 const GlobalMenu = ({
 	title = "Components",
-	openSide = () => {},
+	openSide = () => { },
 	setSignOutModal,
 	userName,
 	isLanding
@@ -23,18 +23,22 @@ const GlobalMenu = ({
 
 	const linkOptions = [
 		{
-			name: "Home",
+			name: "Check Admission No",
 			route: "/"
+		},
+		{
+			name: "Application Form",
+			route: "/prospective_students"
+		},
+		{
+			name: "E learning",
+			route: "/prospective_students"
 		}
-		// {
-		// 	name: "Check Admission Status",
-		// 	route: "/prospective_students"
-		// }
 	];
 
 	return (
 		<section className="red-global-menu">
-			<div className="d-flex align-items-center">
+			<div className={`d-flex align-items-center`}>
 				{isLanding !== "unAuthenticated" ? (
 					<button className="red-hamburger-menu" onClick={openSide}>
 						<img src={globalMenuIcon} alt="open side menu" />
@@ -54,17 +58,18 @@ const GlobalMenu = ({
 							<img src={ChristmasLogo} alt="akwapoly logo" />
 						</>
 					) : (
-						<>
-							<img src={logo} alt="akwapoly logo" />
-							<img src={logo} alt="akwapoly logo" />
-						</>
+						<div className={`d-flex align-items-center gap-2 logo`} onClick={() => push("/")}>
+						<img src={logo} alt="akwapoly logo" />
+							<h5>Akwa Ibom State Polytechnic, Ikot Osurua</h5>
+						</div>
 					)}
 				</div>
+			</div>
+			<div className="w-100 d-flex justify-content-center">
 				{isLanding === "unAuthenticated" ? (
 					<div
-						className={`red-current-module global-landing-page-link-container ${
-							menu && `retract-navigation`
-						}`}
+						className={`global-landing-page-link-container ${menu && `retract-navigation`
+							}`}
 					>
 						<button
 							onClick={() => setMenu(false)}
@@ -82,12 +87,12 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-
+{/* 
 						<a href={TENECE_SUPPORT_URL}>
 							<button className="global-landing-page-links">
 								Support
 							</button>
-						</a>
+						</a> */}
 					</div>
 				) : (
 					<div className="red-current-module">{title}</div>
