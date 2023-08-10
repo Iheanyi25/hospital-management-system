@@ -175,6 +175,10 @@ const Login = () => {
 					<img src={Curve1} alt="curve" />
 					<img src={Curve2} alt="curve" />
 				</div>
+				<div className={`${styles.login_text}`}>
+					<h5>Ready to Leave a Lasting Impact? </h5>
+					<p>Sign in to begin your journey towards intellectual freedom</p>
+				</div>
 				<div className={`${styles.curve_section2}`}>
 					<img src={Curve1} alt="curve" />
 					<img src={Curve2} alt="curve" />
