@@ -50,13 +50,13 @@ const GlobalMenu = ({
 				<div className="red-global-logo">
 					{checkIfChristmasPeriod() ? (
 						<>
-							<img src={ChristmasLogo} alt="fupre logo" />
-							<img src={ChristmasLogo} alt="fupre logo" />
+							<img src={ChristmasLogo} alt="akwapoly logo" />
+							<img src={ChristmasLogo} alt="akwapoly logo" />
 						</>
 					) : (
 						<>
-							<img src={logo} alt="fupre logo" />
-							<img src={logo} alt="fupre logo" />
+							<img src={logo} alt="akwapoly logo" />
+							<img src={logo} alt="akwapoly logo" />
 						</>
 					)}
 				</div>

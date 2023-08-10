@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
 	return (
 		<div className="bg-dark text-white shadow-sm py-3 pl-3">
-			<h4>FUPRE</h4>
+			<h4>AKWA POLY</h4>
 		</div>
 	);
 };

@@ -27,7 +27,7 @@ const SenateResultSection = ({ data, info }) => {
 	return (
 		<>
 			<p className={`text-center ${styles.senate_result_section_header}`}>
-				FUPRE Result Sheet [Senate Format]
+				AKWA POLY Result Sheet [Senate Format]
 			</p>
 			<div className={`mt-3 ${styles.senate_small_header}`}>
 				<img src={bigLogo} alt="" />

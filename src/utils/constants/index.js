@@ -10,10 +10,10 @@ export const SEMESTERS = [
 ];
 
 export const SCHOOL_DETAILS = {
-	name: "Federal University of Petroleum Resources Effurun",
-	location: "Effurun",
-	pmb: "P.M.B 1221, Effurun, Delta State, Nigeria",
-	shortForm: "FUPRE"
+	name: "Akwa Ibom State Polytechnic",
+	location: "Ikot Ekpene",
+	pmb: "225B Aba Rd, New GRA 500101, Ikot Ekpene, Rivers",
+	shortForm: "AKWA POLY"
 };
 
 export const PAYMENTTYPES = [
