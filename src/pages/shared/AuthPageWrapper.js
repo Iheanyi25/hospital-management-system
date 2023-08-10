@@ -23,7 +23,7 @@ export default function AuthPageWrapper({ children }) {
 				<div className={`mt-5 pt-2 ${styles.logo}`}>
 					{checkIfChristmasPeriod() ? (
 						<>
-							<img src={christmasLogo} alt="fupre logo" />
+							<img src={christmasLogo} alt="akwapoly logo" />
 						</>
 					) : (
 						<>

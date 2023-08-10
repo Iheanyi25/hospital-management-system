@@ -1,8 +1,8 @@
-# School Manager FUPRE 
+# School Manager akwapoly 
 ***
 ## Overview
 `Description`
-This is the repository of the Federal **Univeristy of Petroleum Resources, Effurun** 
+This is the repository of the **Akwa Ibom State Polytechnic, Ikot Ekpene** 
 
 ### Workflow guide (Adding feature and fixing bugs)
 
