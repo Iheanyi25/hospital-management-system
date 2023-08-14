@@ -24,8 +24,6 @@
 }
 
 .red-global-logo img {
-	width: 50px;
-	height: 50px;
 	object-fit: contain;
 }
 
@@ -176,10 +174,10 @@
 }
 
 .retract-navigation {
-	top: 0%!important;
+	top: 0% !important;
 }
 
-@media (max-width:768px){
+@media (max-width:768px) {
 	.global-landing-page-link-container {
 		margin-left: 0px;
 	}
