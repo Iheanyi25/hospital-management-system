@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/sideLogo.png";
 import globalMenuIcon from "../../assets/svgs/globalMenuIcon.svg";
 import cancel from "../../assets/svgs/cancel.svg";
 import Avatar from "react-avatar";
@@ -59,8 +59,7 @@ const GlobalMenu = ({
 						</>
 					) : (
 						<div className={`d-flex align-items-center gap-2 logo`} onClick={() => push("/")}>
-						<img src={logo} alt="akwapoly logo" />
-							<h5>Akwa Ibom State Polytechnic, Ikot Osurua</h5>
+							<img src={logo} alt="akwapoly logo" />
 						</div>
 					)}
 				</div>
@@ -87,7 +86,7 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-{/* 
+						{/* 
 						<a href={TENECE_SUPPORT_URL}>
 							<button className="global-landing-page-links">
 								Support
