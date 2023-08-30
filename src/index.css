@@ -34,17 +34,23 @@ html {
 	margin: 0;
 }
 
+
 * {
-	scrollbar-color: transparent;
-	scrollbar-width: thin;
+	scrollbar-color: #a5adba transparent !important;
+	scrollbar-width: thin !important;
 }
 
 *::-webkit-scrollbar {
-	width: 7px;
+	max-width: 7px;
+}
+
+*::-webkit-scrollbar:vertical {
+	height: 7px;
+	max-width: 7px;
 }
 
 *::-webkit-scrollbar-thumb {
-	background-color: transparent;
+	background-color: #a5adba;
 	border-radius: 2.5px;
 	height: 50px;
 }
@@ -52,6 +58,19 @@ html {
 *::-webkit-scrollbar-track {
 	background: transparent;
 	border-bottom-right-radius: 16px;
+	display: none;
+}
+
+*::-webkit-scrollbar-thumb:vertical {
+	height: 7px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	height: auto;
+}
+
+*::-webkit-scrollbar-thumb {
+	transition: height 0.2s;
 }
 
 :root {
@@ -188,6 +207,7 @@ button.clickable {
 	html {
 		font-size: 14px;
 	}
+
 	body {
 		font-size: 14px;
 	}
@@ -217,6 +237,7 @@ button.clickable {
 .u-success {
 	color: var(--secondary);
 }
+
 .u-alt-text-color {
 	color: var(--alt-text-color);
 }
@@ -224,6 +245,7 @@ button.clickable {
 .css-zzezwn-ButtonBase {
 	background-color: var(--primary) !important;
 }
+
 .text-bold {
 	font-weight: bold !important;
 }
@@ -241,6 +263,7 @@ button.clickable {
 	object-fit: cover;
 	object-position: top;
 }
+
 .css-127ggxn-TabListWithMode [role="tab"]:hover {
 	color: var(--primary-hover) !important;
 }
@@ -251,7 +274,7 @@ button.clickable {
 }
 
 .text-primary {
-	color: var(--primary)!important;
+	color: var(--primary) !important;
 }
 
 /* Bootstrap print responsiveness */
