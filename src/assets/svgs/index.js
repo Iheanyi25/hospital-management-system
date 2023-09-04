@@ -13,7 +13,7 @@ import { ReactComponent as Bin } from "./bin.svg";
 import { ReactComponent as ChevronDown } from "./chevron-down.svg";
 import { ReactComponent as ChevronDownFilled } from "./chevron-down-filled.svg";
 import { ReactComponent as RedCancel } from "./redCancel.svg";
-import { ReactComponent as LoaderLogo } from "./fupre.svg";
+import { ReactComponent as LoaderLogo } from "./loaderLogo.svg";
 import { ReactComponent as ErrorPageIcon } from "./errorPageIcon.svg";
 import { ReactComponent as UnauthorisedIcon } from "./unauthorised.svg";
 import { ReactComponent as ChristmasLogo } from "./christmasLogo.svg";
