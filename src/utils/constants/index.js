@@ -13,7 +13,7 @@ export const SCHOOL_DETAILS = {
 	name: "Akwa Ibom State Polytechnic",
 	location: "Ikot Ekpene",
 	pmb: "225B Aba Rd, New GRA 500101, Ikot Ekpene, Rivers",
-	shortForm: "AKWA POLY"
+	shortForm: "AKWAPOLY"
 };
 
 export const PAYMENTTYPES = [
