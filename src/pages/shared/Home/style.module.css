@@ -60,10 +60,33 @@
 	line-height: 24px;
 }
 
+.modal_wrapper {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #ccc;
+	background: #fff;
+	overflow: auto;
+	border-radius: 4px;
+	outline: none;
+	padding: 0px;
+	max-width: 90%;
+	width: fit-content;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.landing_wrapper {
+	max-height: 600px;
+	overflow-y: scroll;
+	padding-top: 20px;
+}
+
 .landing_container {
-	padding-bottom: 40px;
+	padding: 10px 24px 40px;
 	border-bottom: 1px solid var(--neutral-border);
-	padding-top: 40px;
 }
 
 .landing_container:first-of-type {
@@ -114,14 +137,29 @@
 .modal_header {
 	display: flex;
 	align-items: center;
-	justify-content: right;
+	justify-content: space-between;
+	padding: 16px 24px;
+	height: 56px;
+	border-radius: 1px 1px 0px 0px;
+	border-bottom: 2px solid #d6dee9;
+}
+
+.modal_title {
+	color: #091e42;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 24px;
 }
 
 .close_button {
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
-	margin-bottom: 24px;
+}
+
+.close_button img {
+	width: 20px;
+	height: 20px;
 }
 
 .additionModalStyles {
@@ -185,5 +223,11 @@
 
 	.program_card {
 		width: 32%;
+	}
+}
+
+@media (max-width: 768px) {
+	.modal_title {
+		font-size: 19px;
 	}
 }
