@@ -145,7 +145,7 @@ export const ResultTable = ({
             <td>{students.id}</td>
             <td className="course-fields-name">
               {students.name}
-              <br /> {students.regNo}
+              <br /> {students?.regNo}
             </td>
             {students?.subjects?.map((stud) => (
               <td colSpan="2" className="text-right">

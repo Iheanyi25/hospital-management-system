@@ -9,12 +9,8 @@
   print-color-adjust: exact;
 }
 
-.result-table-th thead {
-  background-color: var(--primary);
-}
 
 .result-table-th thead td {
-  color: var(--white-color);
   font-size: 0.64rem;
 }
 
@@ -47,6 +43,7 @@
   text-orientation: mixed;
   transform: rotate(180deg);
 }
+
 
 .td-align-center {
   text-align: center;
