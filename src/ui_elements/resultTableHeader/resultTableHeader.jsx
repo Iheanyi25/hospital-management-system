@@ -15,10 +15,6 @@ export const ResultTableHeader = ({ details }) => {
 				<div className={styles.headerGrid}>
 					<div>
 						<div className={styles.gridItem}>
-							<span>FORM:</span>
-							<span>{'-'}</span>
-						</div>
-						<div className={styles.gridItem}>
 							<span>SESSION:</span>
 							<span>{details?.session}</span>
 						</div>
@@ -26,13 +22,14 @@ export const ResultTableHeader = ({ details }) => {
 							<span>DEPARTMENT:</span>
 							<span>{details?.department}</span>
 						</div>
-					</div>
-
-					<div>
 						<div className={styles.gridItem}>
 							<span>SEMESTER:</span>
 							<span>{details?.semester}</span>
 						</div>
+					</div>
+
+					<div>
+						
 						<div className={styles.gridItem}>
 							<span>PROGRAMME:</span>
 							<span>{details?.programme}</span>
