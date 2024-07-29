@@ -5,34 +5,45 @@ import styles from "./styles.module.css";
 export const ResultTableHeader = ({ details }) => {
 	return (
 		<div className={styles.container}>
-			<header>
-				<img src={logo} alt="logo" />
-				<h1>akwa ibom state polytechnic, ikot osurua</h1>
-			</header>
-			<div>
-				<h2>{details?.faculty}</h2>
-				<h2>semester examination result</h2>
-			</div>
-			<div className={styles.headerGrid}>
-				<div className={styles.gridItem}>
-					<span>department</span>
-					<span>{details?.department}</span>
+			<div className={styles.header}>
+				<img src={logo} alt="School Logo" className={styles.logo} />
+				<div className={styles.schoolInfo}>
+					<h1>AKWA IBOM STATE POLYTECHNIC, IKOT OSURUA</h1>
+					<h2>SCHOOL OF {details?.faculty}</h2>
+					<h3>{details?.semester} EXAMINATION RESULT</h3>
 				</div>
-				<div className={styles.gridItem}>
-					<span>semester</span>
-					<span>{details?.semester}</span>
-				</div>
-				<div className={styles.gridItem}>
-					<span>date</span>
-					<span>{details?.date}</span>
-				</div>
-				<div className={styles.gridItem}>
-					<span>programme</span>
-					<span>{details?.programme}</span>
-				</div>
-				<div className={styles.gridItem}>
-					<span>session</span>
-					<span>{details?.session}</span>
+				<div className={styles.headerGrid}>
+					<div>
+						<div className={styles.gridItem}>
+							<span>FORM:</span>
+							<span>{'-'}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>SESSION:</span>
+							<span>{details?.session}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>DEPARTMENT:</span>
+							<span>{details?.department}</span>
+						</div>
+					</div>
+
+					<div>
+						<div className={styles.gridItem}>
+							<span>SEMESTER:</span>
+							<span>{details?.semester}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>PROGRAMME:</span>
+							<span>{details?.programme}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>DATE:</span>
+							<span>{details?.date}</span>
+						</div>
+					</div>
+
+
 				</div>
 			</div>
 		</div>
