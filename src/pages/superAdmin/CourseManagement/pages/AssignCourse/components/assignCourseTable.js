@@ -50,7 +50,7 @@ export const AssignCourseTable = ({
 			},
 			{
 				Header: "Unit load",
-				accessor: "courseUnit"
+				accessor: "unitLoad"
 			},
 			{
 				Header: "Status",

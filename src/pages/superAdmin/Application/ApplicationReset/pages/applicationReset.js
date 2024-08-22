@@ -131,7 +131,7 @@ const ApplicationReset = () => {
 						user={{
 							fullName:
 								data?.data?.studentData?.fullName.toUpperCase(),
-							passPort: data?.data?.passportUrl
+							passPort: data?.data?.passport
 						}}
 					/>
 					<div className="border py-2 d-flex justify-content-end">

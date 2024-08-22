@@ -42,3 +42,11 @@ export const addCoursesUrl = () => `${baseUrl}/add-or-drop-courses/add-courses`;
 export const cloneCourseAssignmentUrl = () => `${baseUrl}/clone-course-assignment`;
 export const dropCourseUrl = (courseId) =>
 	`${baseUrl}/add-or-drop-courses/drop-courses/${courseId}`;
+export const downloadStudentUnitLoadSampleUrl = () =>
+	`${baseUrl}/download-student-unit-load-sample-sheet`;
+export const downloadUserUploadTemplate = () =>
+	`${baseUrl}/user-upload-sample-sheet`;
+export const toggleCourseStatusUrl = (courseId) =>
+	`${baseUrl}/toggle-course-status/${courseId}`;
+export const uploadBulkStudentUnitLoadUrl = () =>
+	`${baseUrl}/upload-students-unit-load`;

@@ -32,3 +32,18 @@ export const lecturersApiOptions = async (query) => {
 		users: data?.data.items
 	});
 };
+
+export const lecturersAssignmentApiOptions = async (query) => {
+	const data = await getSearchRequest({
+		queryKey: getLecturersUrl({
+			searchTerm: query,
+			pageSize: PAGESIZE.sm
+		})
+	});
+	return formatUserSearch({
+		identification: "email",
+		value: "userId",
+		fullName: "fullName",
+		users: data?.data.items
+	});
+};

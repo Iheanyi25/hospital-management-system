@@ -18,9 +18,9 @@ export const MedicalHistory = ({ data }) => {
 	const [selectedAilMents, setSelectedAilMents] = useState(data);
 
 	const updateAilments = (title) => {
-		if (selectedAilMents.includes(title))
+		if (selectedAilMents?.includes(title))
 			setSelectedAilMents((prev) =>
-				prev.filter((item) => item !== title)
+				prev?.filter((item) => item !== title)
 			);
 		else setSelectedAilMents((prev) => [...prev, title]);
 	};
@@ -104,12 +104,12 @@ export const MedicalHistory = ({ data }) => {
 											label={ailment.label}
 											labelClassName="ml-3"
 											id={ailment.value}
-											checked={selectedAilMents.includes(
-												String(ailment.value)
+											checked={selectedAilMents?.includes(
+												String(ailment?.value)
 											)}
 											onSelect={(e) =>
 												updateAilments(
-													String(ailment.value)
+													String(ailment?.value)
 												)
 											}
 										/>

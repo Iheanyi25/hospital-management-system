@@ -1,0 +1,252 @@
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useApiBlob, useApiGet } from "../../../../../../../api/apiCall";
+import {
+	// getApplicationTypesUrl,
+	getAllSessionsUrl,
+	getApplicationReportsUrl,
+	getAllDepartmentsWithoutValuesUrl,
+	downloadApplicationReportUrl,
+	getOLevelVerificationStatusUrl
+} from "../../../../../../../api/urls";
+import { Spinner } from "../../../../../../../ui_elements";
+import { formatSelectItems } from "../../../../../../../utils/formatSelectItems";
+import { Form, Table } from "./components";
+import styles from "./style.module.css";
+import { PAGESIZE, SEARCH_DELAY } from "../../../../../../../utils/constants";
+import { useDebouncedCallback } from "use-debounce";
+import { findValueAndLabel } from "../../../../../../../utils/findValueAndLabel";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Schema } from "./components/schema";
+
+const ApplicationReports = () => {
+	const pageSize = PAGESIZE.sm;
+	const [searchTerm, setSearchTerm] = useState("");
+	const [applicationType, setApplicationType] = useState(null);
+
+	const debouncedSearch = useDebouncedCallback(
+		(value) => {
+			setSearchTerm(value);
+		},
+		// delay in ms
+		SEARCH_DELAY.sm
+	);
+	const [pageNumber, setPageNumber] = useState(1);
+	const [filter, setFilter] = useState({
+		applicationTypeId: "",
+		sessionId: "",
+		dateFrom: "",
+		dateTo: ""
+	});
+	const [dateFrom, setDateFrom] = useState("");
+
+	const [downloadFile, setDownloadFile] = useState(false);
+
+	const {
+		control,
+		handleSubmit,
+		register,
+		setValue,
+		watch,
+		formState: { errors }
+	} = useForm({
+		resolver: yupResolver(Schema),
+		context: {
+			isDateToRequired: !!dateFrom
+		}
+	});
+
+	const watchData = watch({
+		applicationTypeId: "applicationTypeId",
+		jupebOptionId: "jupebOptionId"
+	});
+
+	useEffect(() => {
+		setValue("jupebOptionId", null);
+		setValue("subjectCombinationId", null);
+	}, [watchData.applicationTypeId, setValue]);
+
+	// const {
+	// 	data: applicatiionData,
+	// 	isLoading: applicationTypesLoading,
+	// 	error: applicationError
+	// } = useApiGet(getApplicationTypesUrl());
+
+	const {
+		data: sessions,
+		isLoading: sessionsLoading,
+		error: sessionsError
+	} = useApiGet(getAllSessionsUrl(), {
+		refetchOnWindowFocus: false
+	});
+
+	const {
+		data: status,
+		isLoading: statusLoading,
+		error: statusError
+	} = useApiGet(getOLevelVerificationStatusUrl(), {
+		refetchOnWindowFocus: false
+	});
+
+	const {
+		data: departments,
+		isLoading: departmentLoading,
+		error: departmentError
+	} = useApiGet(getAllDepartmentsWithoutValuesUrl(), {
+		refetchOnWindowFocus: false
+	});
+
+	const allSessions = [...formatSelectItems(sessions?.data, "session", "id")];
+	const allStatus = [...formatSelectItems(status?.data, "name", "id")];
+
+	const allApplicationTypes = [
+		{
+			value: 1,
+			label: "POST UTME APPLICATION"
+		},
+		{
+			value: 4,
+			label: "Direct Entry Application"
+		},
+		{
+			value: 5,
+			label: "Admission Shopping Application"
+		}
+	];
+
+	const allDepartments = formatSelectItems(departments?.data, "name", "id");
+
+	const sessionName = findValueAndLabel(
+		filter?.sessionId,
+		allSessions
+	)?.label;
+	const allApplicationTypeName = findValueAndLabel(
+		filter?.applicationTypeId,
+		allApplicationTypes
+	)?.label;
+	const {
+		data: applications,
+		isLoading: isLoadingApplications,
+		isFetching: isFetchingApplications,
+		error: applicationsError
+	} = useApiGet(
+		getApplicationReportsUrl({
+			...filter,
+			pageSize,
+			pageNumber,
+			searchTerm
+		}),
+		{
+			enabled: !!filter.applicationTypeId,
+			keepPreviousData: true
+		}
+	);
+	const outputTitle = `${allApplicationTypeName} Payment Report for ${sessionName} session`;
+	const {
+		data: file,
+		isLoading: fileLoading,
+		error: fileError
+	} = useApiBlob(downloadApplicationReportUrl(filter), {
+		enabled: downloadFile,
+		refetchOnWindowFocus: false
+	});
+	const downloadXLSFile = useCallback(async () => {
+		setDownloadFile(true);
+		if (fileError || !file?.data) {
+			const errorFlag = window.AJS.flag({
+				type: "error",
+				title: `Failed To Download `,
+				body: `Couldn't download class list`
+			});
+			setTimeout(() => {
+				errorFlag.close();
+			}, 5000);
+		} else {
+			// file file actions.
+			const url = URL.createObjectURL(new Blob([file.data]));
+			const link = document.createElement("a");
+			link.href = url;
+			link.setAttribute("download", `${outputTitle}.xlsx`);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			setDownloadFile(false);
+		}
+	}, [file, outputTitle, fileError]);
+
+	useEffect(() => {
+		if (file && downloadFile) {
+			downloadXLSFile();
+		}
+	}, [file, downloadFile, downloadXLSFile]);
+
+	useEffect(() => {
+		const subscription = watch(({ dateFrom }) => {
+			setDateFrom(dateFrom);
+		});
+		return () => subscription.unsubscribe();
+	}, [watch]);
+
+	if (
+		// applicationTypesLoading ||
+		sessionsLoading ||
+		departmentLoading ||
+		statusLoading
+	)
+		return <Spinner />
+	if (
+		// applicationError ||
+		sessionsError ||
+		applicationsError ||
+		departmentError ||
+		statusError
+	)
+		return "An error has occurred: " + applicationsError?.message;
+
+	return (
+		<section>
+			<div className={styles.page_content}>
+				<Form
+					allSessions={allSessions}
+					allStatus={allStatus}
+					allApplicationTypes={allApplicationTypes}
+					allDepartments={allDepartments}
+					setFilter={setFilter}
+					filter={filter}
+					control={control}
+					setValue={setValue}
+					handleSubmit={handleSubmit}
+					setApplicationType={setApplicationType}
+					register={register}
+					dateFrom={dateFrom}
+					isLoadingApplications={isLoadingApplications}
+					errors={errors}
+				/>
+			</div>
+			<div className="w-100">
+				<Table
+					data={
+						applications?.data?.applicationReportResponse?.items ||
+						[]
+					}
+					loading={isFetchingApplications}
+					debouncedSearch={debouncedSearch}
+					hasPerformedQuery={!!filter.applicationTypeId}
+					setPageNumber={setPageNumber}
+					fileLoading={fileLoading}
+					setDownloadFile={setDownloadFile}
+					applicationType={applicationType}
+					paginationProps={
+						applications?.data?.applicationReportResponse
+							?.metaData || {}
+					}
+					pageNumber={pageNumber}
+					pageSize={pageSize}
+					filter={filter}
+				/>
+			</div>
+		</section>
+	);
+};
+
+export default ApplicationReports;

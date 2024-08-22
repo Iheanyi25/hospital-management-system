@@ -62,6 +62,7 @@ export const EditRoomModal = ({
 		return () => subscription.unsubscribe();
 	}, [watch]);
 	const onSubmit = (data) => {
+		const levelIdArray = data?.levelId?.slice(0, -1);
 		const requestDet = {
 			url: updateHostelRoomUrl(currentData?.id),
 			data: {
@@ -70,7 +71,7 @@ export const EditRoomModal = ({
 				hostelRoomCategoryId: data?.hostelRoomCategoryId?.value,
 				price: data?.price,
 				groupSelectionId: data?.groupSelectionId.value,
-				levelId: data?.levelId.map((levelId) => levelId.value)
+				levelId: levelIdArray?.map((levelId) => levelId?.value)
 			}
 		};
 		mutate(requestDet, {

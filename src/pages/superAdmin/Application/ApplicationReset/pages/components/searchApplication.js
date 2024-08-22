@@ -56,7 +56,7 @@ export const SearchApplication = ({
 				footerStyle="d-flex justify-content-end"
 			>
 				<section className="p-4">
-					<div className="row">
+					<div className="row gy-3">
 						<div className="col-md-6">
 							<div className="row">
 								<div className="col-lg-3 d-flex align-items-center">

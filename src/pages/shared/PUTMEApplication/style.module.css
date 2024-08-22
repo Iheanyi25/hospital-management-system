@@ -65,10 +65,12 @@
 	font-weight: 700;
 	font-size: 1.14rem;
 	line-height: 24px;
+	text-align: left !important;
 }
 
 .preview_container h5 {
 	color: var(--gray);
+	text-align: left !important;
 }
 
 .preview_container h6 {
@@ -77,6 +79,7 @@
 	font-size: 1rem;
 	line-height: 16px;
 	text-transform: none;
+	text-align: left !important;
 }
 
 .preview_container p {
@@ -84,6 +87,50 @@
 	font-size: 0.86rem;
 	line-height: 24px;
 	text-transform: uppercase;
+	text-align: left !important;
+}
+
+.info_container {
+	max-width: 100px;
+	width: 100%;
+}
+
+.outer_container main {
+	width: 50%;
+	column-gap: 20px;
+}
+
+.info_value {
+	flex: 1;
+}
+
+.right_side {
+	margin-top: 35px;
+}
+
+.info_value p {
+	font-size: 0.86rem;
+}
+
+.table_container {
+	width: 100%;
+}
+
+.table_container td,
+.table_container th {
+	border: 1px solid #ddd;
+	padding: 16px 24px;
+}
+
+.table_container th {
+	color: #999;
+}
+
+@media print {
+	.preview_container p {
+		margin-top: -4px;
+		padding-top: 0px;
+	}
 }
 
 .cancel {
@@ -100,14 +147,14 @@
 }
 
 .putme_form_container {
-	max-width: 796px;
-	margin: auto;
+	max-width: 937px;
+	margin: 0px auto;
 }
 
 .putme_form_title p {
 	font-size: 1rem;
-	line-height: 20px;
-	margin-bottom: 40px;
+	line-height: 10px;
+	margin-bottom: 20px;
 }
 .putme_card_align {
 	padding: 0 !important;

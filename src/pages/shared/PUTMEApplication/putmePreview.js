@@ -4,32 +4,26 @@ import styles from "./style.module.css";
 
 const PUTMEPreview = ({ componentRef, details }) => {
 	const {
-		putmePersonalInfoResponse,
-		putmeProgrammeInfoResponse,
-		putmeOlevelResponse,
+		personalInfoResponse,
+		programmeInfoResponse,
+		olevelResponse,
 		regNumber,
 		passport
 	} = details ?? {};
-	const subjectAndGrade = putmeOlevelResponse?.map((item) =>
+	const subjectAndGrade = olevelResponse?.map((item) =>
 		Object?.entries(item?.subjectGrade)
 	);
 
 	return (
 		<ApplicationPreviewWrapper
 			userDetails={{
-				name: `${putmePersonalInfoResponse?.surname} ${putmePersonalInfoResponse?.firstname} `,
+				name: `${personalInfoResponse?.surname} ${personalInfoResponse?.firstname} `,
 				passport
 			}}
 			previewHeader={`${
-				putmePersonalInfoResponse?.session ?? ""
+				personalInfoResponse?.session ?? ""
 			} PUTME APPLICATION SLIP`}
 			footerStyle={" justify-content-center"}
-			footerContent={
-				<div className="text-bold text-uppercase">
-					<span className="text-danger">IMPORTANT:</span> YOU WILL BE
-					CONTACTED VIA SMS AND EMAIL FOR YOUR SCREENING DATE
-				</div>
-			}
 			componentRef={componentRef}
 		>
 			<div
@@ -38,64 +32,64 @@ const PUTMEPreview = ({ componentRef, details }) => {
 			>
 				<section className="row align-items-center mt-3">
 					<h4 className="mb-2">Personal Information</h4>
-					<div className="row align-items-center justify-content-between">
+					<div className="row justify-content-between">
 						<div className="col-12 col-md-6 my-2">
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Fullname</h6>
-								<p className="col-4">{`${putmePersonalInfoResponse?.surname} ${putmePersonalInfoResponse?.firstname} ${putmePersonalInfoResponse?.middlename}`}</p>
+								<p className="col-4">{`${personalInfoResponse?.surname} ${personalInfoResponse?.firstname} ${personalInfoResponse?.middlename}`}</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Gender</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.gender}
+									{personalInfoResponse?.gender}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Date of birth</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.dateOfBirth
+									{personalInfoResponse?.dateOfBirth
 										? formatDateFromAPI(
-												putmePersonalInfoResponse?.dateOfBirth
+												personalInfoResponse?.dateOfBirth
 										  )
 										: "N/A"}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">State of origin</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.state}
+									{personalInfoResponse?.state}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Address</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.contactAddress}
+									{personalInfoResponse?.contactAddress}
 								</p>
 							</div>
 						</div>
 						<div className="col-12 col-md-6 my-2">
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Email address</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.email}
+									{personalInfoResponse?.email}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Mobile phone</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.mobileNumber}
+									{personalInfoResponse?.mobileNumber}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Country of Origin</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.country}
+									{personalInfoResponse?.country}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">LGA of origin</h6>
 								<p className="col-4">
-									{putmePersonalInfoResponse?.lga}
+									{personalInfoResponse?.lga}
 								</p>
 							</div>
 						</div>
@@ -103,54 +97,54 @@ const PUTMEPreview = ({ componentRef, details }) => {
 				</section>
 				<section className="row align-items-center mt-3">
 					<h4 className="mb-2">JAMB Details</h4>
-					<div className="row align-items-center justify-content-between">
+					<div className="row justify-content-between">
 						<div className="col-12 col-md-6 my-2">
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Faculty</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.faculty}
+									{programmeInfoResponse?.faculty}
 								</p>
 							</div>
-							<div className="d-flex align-items-center gap-3 my-3">
+							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Department</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.department}
+									{programmeInfoResponse?.department}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">JAMB Score</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.utmeScore}
+									{programmeInfoResponse?.utmeScore}
 								</p>
 							</div>
-							<div className="d-flex  align-items-center gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">JAMB Reg No</h6>
 								<p className="col-4">{regNumber}</p>
 							</div>
 						</div>
 						<div className="col-12 col-md-6 my-2">
-							<div className="d-flex align-items-center  gap-3 my-3">
+							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">First Subject</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.firstSubject}
+									{programmeInfoResponse?.firstSubject}
 								</p>
 							</div>
-							<div className="d-flex align-items-center gap-3 my-3">
+							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Second Subject</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.secondSubject}
+									{programmeInfoResponse?.secondSubject}
 								</p>
 							</div>
-							<div className="d-flex align-items-center gap-3 my-3">
+							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Third Subject</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.thirdSubject}
+									{programmeInfoResponse?.thirdSubject}
 								</p>
 							</div>
-							<div className="d-flex align-items-center gap-3 my-3">
+							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Fourth Subject</h6>
 								<p className="col-4">
-									{putmeProgrammeInfoResponse?.fourthSubject}
+									{programmeInfoResponse?.fourthSubject}
 								</p>
 							</div>
 						</div>
@@ -158,9 +152,9 @@ const PUTMEPreview = ({ componentRef, details }) => {
 				</section>
 				<section className="row align-items-center mt-3">
 					<h4 className="mb-2">O-Level Result</h4>
-					<div className="row align-items-center justify-content-between">
-						{putmeOlevelResponse &&
-							putmeOlevelResponse?.map((item, index) => (
+					<div className="row justify-content-between">
+						{olevelResponse &&
+							olevelResponse?.map((item, index) => (
 								<div
 									className="col-12 col-md-6 my-2"
 									key={index}
@@ -170,32 +164,32 @@ const PUTMEPreview = ({ componentRef, details }) => {
 											? "First Sitting"
 											: "Second Sitting"}
 									</h5>
-									<div className="d-flex align-items-center gap-3 my-3">
+									<div className="d-flex gap-3 my-3">
 										<h6 className="col-4">Exam Type</h6>
 										<p className="col-4">
-											{item?.olevelType}
+											{item?.examinationType}
 										</p>
 									</div>
-									<div className="d-flex align-items-center gap-3 my-3">
+									<div className="d-flex  gap-3 my-3">
 										<h6 className="col-4">Exam Number</h6>
 										<p className="col-4">
 											{item?.examNumber}
 										</p>
 									</div>
-									<div className="d-flex align-items-center gap-3 my-3">
+									<div className="d-flex  gap-3 my-3">
 										<h6 className="col-4">Exam Year</h6>
 										<p className="col-4">
 											{item?.examYear}
 										</p>
 									</div>
-									<div className="d-flex align-items-center gap-3 my-3">
+									<div className="d-flex  gap-3 my-3">
 										<h6 className="col-4">Exam Center</h6>
 										<p className="col-4">
 											{item?.examCenter}
 										</p>
 									</div>
-									<div className="row align-items-center  my-4">
-										<div className="d-flex align-items-center gap-3 my-3">
+									<div className="row my-4">
+										<div className="d-flex gap-3 my-3">
 											<h5 className="col-4">Subject</h5>
 											<h5 className="col-4">Grade</h5>
 										</div>
@@ -204,7 +198,7 @@ const PUTMEPreview = ({ componentRef, details }) => {
 												(item, index) => (
 													<div
 														key={index}
-														className="d-flex align-items-center gap-3 my-2"
+														className="d-flex gap-3 my-2"
 													>
 														<p className="col-4">
 															{item?.[0]}

@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../../assets/images/logo.png";
+import Logo from "../../../assets/images/sideLogo.png";
 import Avatar from "react-avatar";
 import PersonalInfoPrintOut from "./components/PersonalInfoPrintOut";
 import SponsorAndNokDetailsPrintout from "./components/SponsorAndNokDetailsPrintout";
@@ -11,10 +11,11 @@ const { name } = SCHOOL_DETAILS;
 
 export default function ProfilePrintOut({ userData }) {
 	const {
-		studentPersonalData,
-		studentProgrammeDetail,
-		studentNextOfKin,
-		studentSponsor
+		personalData,
+		programmeDetail,
+		nextOfKin,
+		sponsor,
+		medicalRecords
 	} = userData;
 	const date = new Date();
 	return (
@@ -25,30 +26,30 @@ export default function ProfilePrintOut({ userData }) {
 			<div className={styles.avatar_container}>
 				<Avatar
 					className="info-avatar"
-					name={`${studentPersonalData.lastname} ${studentPersonalData.firstname}`}
+					name={`${personalData?.lastname} ${personalData?.firstname}`}
 					size="225"
-					src={studentPersonalData.passport}
+					src={personalData?.passport}
 					round={false}
 					maxInitials={2}
 					color="#00875a"
 				/>
 			</div>
 
-			<PersonalInfoPrintOut personalData={studentPersonalData} />
+			<PersonalInfoPrintOut personalData={personalData} />
 			<SponsorAndNokDetailsPrintout
-				studentNextOfKin={studentNextOfKin}
-				studentSponsor={studentSponsor}
-				sponsorNextOfKin={{ ...studentNextOfKin, ...studentSponsor }}
+				studentNextOfKin={nextOfKin}
+				studentSponsor={sponsor}
+				sponsorNextOfKin={{ ...nextOfKin, ...sponsor }}
 			/>
 			<ProgrammeDetailsPrintout
-				programmeDetail={studentProgrammeDetail}
+				programmeDetail={programmeDetail}
+				personalData={personalData}
 			/>
-			<MedicalHistoryPrintout
-				medicalRecords={studentPersonalData?.medicalRecords}
-			/>
-
+			{medicalRecords && (
+				<MedicalHistoryPrintout medicalRecords={medicalRecords} />
+			)}
 			<footer className={styles.print_out_footer}>
-			{`Copyright ©️ ${date.getFullYear()} ${name}. Powered by
+				{`Copyright ©️ ${date.getFullYear()} ${name}. Powered by
 				Tenece Professional Services`}
 			</footer>
 		</div>

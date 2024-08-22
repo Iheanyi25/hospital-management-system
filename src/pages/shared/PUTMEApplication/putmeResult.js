@@ -1,4 +1,5 @@
 import logo from "../../../assets/images/sideLogo.png";
+import { SCHOOL_DETAILS } from "../../../utils/constants";
 import { shortDate } from "../../../utils/formatDate";
 import { UserCard } from "./PutmeApplicationDetails/components";
 import styles from "./style.module.css";
@@ -7,29 +8,39 @@ export const PutmeResult = ({ componentRef, details }) => {
 	const applicationDetails = [
 		{
 			title: "Full Name",
-			value: `${details?.putmePersonalInfoResponse?.surname ?? ""} ${
-				details?.putmePersonalInfoResponse?.firstname ?? ""
-			} ${details?.putmePersonalInfoResponse?.middlename ?? ""},`
+			value: `${details?.postUtmeResponse?.fullName ?? ""}`
 		},
+		{ title: "Jamb No", value: details?.postUtmeResponse?.jambNumber },
+		{ title: "Sex", value: details?.personalInfoResponse?.gender },
 		{
-			title: "Applicant ID",
-			value: details?.putmePersonalInfoResponse?.applicationNo
-		},
-		{ title: "Registration Number", value: details?.regNumber },
-		{
-			title: "Email Address",
-			value: details?.putmePersonalInfoResponse?.email
-		},
-		{
-			title: "1st Choice Course of Study",
-			value: details?.putmeProgrammeInfoResponse?.department
+			title: "Department",
+			value: details?.postUtmeResponse?.department
 		},
 		{
 			title: "Date of Birth",
-			value: shortDate(details?.putmePersonalInfoResponse?.dateOfBirth)
+			value: shortDate(details?.personalInfoResponse?.dateOfBirth)
+		},
+		{
+			title: "UTME Subjects",
+			value: `${details?.programmeInfoResponse?.firstSubject}, ${details?.programmeInfoResponse?.secondSubject}, ${details?.programmeInfoResponse?.thirdSubject}, ${details?.programmeInfoResponse?.fourthSubject}; `
+		},
+		{
+			title: "UTME Score",
+			value: details?.postUtmeResponse?.utmeScore
+		},
+		{
+			title: "O'Level Score",
+			value: details?.postUtmeResponse?.oLevelScore
+		},
+		{
+			title: "PUTME Score",
+			value: details?.postUtmeResponse?.finalUtmeScore
+		},
+		{
+			title: "Aggregate",
+			value: details?.postUtmeResponse?.aggregate
 		}
 	];
-	const totalUtmeScore = 60;
 	return (
 		<div className={styles.putme_form_container} ref={componentRef}>
 			<div className="d-flex justify-content-center align-items-center shared_img_container">
@@ -38,46 +49,21 @@ export const PutmeResult = ({ componentRef, details }) => {
 			<div
 				className={`d-flex flex-column align-items-center ${styles.putme_form_title}`}
 			>
-				<p className="text-uppercase">
-					P.M.B 1221, Effurun, Delta State, Nigeria.
-				</p>
+				<p className="text-uppercase">{SCHOOL_DETAILS.pmb}</p>
 				<h3 className="text-uppercase">POST UTME RESULT SLIP</h3>
 			</div>
 			<UserCard
 				details={applicationDetails}
 				user={{
-					fullName: `${details?.surname ?? ""} ${
-						details?.firstname ?? ""
-					} ${details?.middlename ?? ""},`.toUpperCase(),
+					fullName: `${
+						details?.personalInfoResponse?.surname ?? ""
+					} ${details?.personalInfoResponse?.firstname ?? ""} ${
+						details?.personalInfoResponse?.middlename ?? ""
+					},`.toUpperCase(),
 					passport: details?.passport
 				}}
 				noLogo
 			/>
-			<div
-				className={`${styles.putme_form_body} d-flex justify-content-center mt-5`}
-			>
-				<div className="d-flex justify-content-center">
-					<div className="">
-						<div className="d-flex justify-content-between">
-							<h2 className="mr-4">POST UTME SCORE:</h2>
-							<h2>
-								{`${details?.putmeProgrammeInfoResponse?.putmeScore}/${totalUtmeScore}`}
-							</h2>
-						</div>
-						<div className="d-flex justify-content-between">
-							<h2 className="mr-4">PERCENTAGE (%):</h2>
-							<h2>
-								{(
-									(details?.putmeProgrammeInfoResponse
-										?.putmeScore /
-										totalUtmeScore) *
-									100
-								).toFixed(2)}
-							</h2>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 };

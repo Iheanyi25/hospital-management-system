@@ -91,7 +91,7 @@ export const ViewSchoolFeesForm = ({
 										render={({ field }) => (
 											<SMSelect
 												{...field}
-												placeholder="Select Faculty"
+												placeholder="Select faculty"
 												options={allFaculties}
 												id="facultyId"
 												searchable={false}

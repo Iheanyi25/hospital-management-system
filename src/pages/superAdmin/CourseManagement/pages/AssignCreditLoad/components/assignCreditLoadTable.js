@@ -13,7 +13,7 @@ export const AssignCreditLoadTable = ({
 				Header: "Full name",
 				accessor: "fullName",
 				Cell: ({ cell: { row } }) => (
-					<>{row.original.fullName.toUpperCase() || "NONE"}</>
+					<>{row.original.fullName?.toUpperCase() || "NONE"}</>
 				)
 			},
 			{
@@ -58,7 +58,7 @@ export const AssignCreditLoadTable = ({
 		<div>
 			<TMTable
 				columns={columns}
-				data={data}
+				data={[{...data}]}
 				title="Manage Unit Load"
 				loading={loading}
 			/>

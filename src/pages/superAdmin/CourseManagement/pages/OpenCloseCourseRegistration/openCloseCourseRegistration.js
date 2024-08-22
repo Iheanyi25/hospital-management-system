@@ -64,9 +64,10 @@ const OpenCloseCourseRegistration = () => {
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const allLevels = formatSelectItems(levels?.data, "code", "id");
+
 	const toggleCourseRegOpening = ({
 		isOpen,
-		studentModeOfEntryId,
+		modeOfEntryId,
 		semesterId,
 		id
 	}) => {
@@ -77,7 +78,7 @@ const OpenCloseCourseRegistration = () => {
 				sessionId: courseReg?.data?.sessionId,
 				levelId: courseReg?.data?.levelId,
 				studentTypeId: courseReg?.data?.studentTypeId,
-				studentModeOfEntryId,
+				modeOfEntryId,
 				semesterId
 			}
 		};

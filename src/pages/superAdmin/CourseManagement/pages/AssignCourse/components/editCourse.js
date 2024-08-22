@@ -1,6 +1,7 @@
 import styles from "../style.module.css";
 import {
 	Button,
+	Checkbox,
 	SMSelect,
 	Spinner,
 	TextField
@@ -17,6 +18,7 @@ import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useQueryClient } from "react-query";
+import { useState } from "react";
 
 const UploadSchema = yup.object().shape({
 	courseUnit: yup.mixed().required("please select unit load"),
@@ -24,14 +26,15 @@ const UploadSchema = yup.object().shape({
 });
 
 export const EditCourse = ({ data, currentFilterState, closeModal }) => {
+	const [active, setActive] = useState(data.cbtCourse);
 	const {
 		course,
 		courseCode,
 		id,
 		courseTypeId,
 		courseType,
-		courseUnit,
-		courseUnitName
+		unitLoad,
+		unitLoadId
 	} = data;
 	const { data: courseTypes, isLoading, error } = useApiGet(getCourseTypes());
 	const { data: unitLoads, isLoading: isLoadingUnitLoads } = useApiGet(
@@ -44,7 +47,7 @@ export const EditCourse = ({ data, currentFilterState, closeModal }) => {
 	} = useForm({
 		defaultValues: {
 			courseTypeId: { value: courseTypeId, label: courseType },
-			courseUnit: { value: courseUnit, label: courseUnitName }
+			courseUnit: { value: unitLoadId, label: unitLoad }
 		},
 		resolver: yupResolver(UploadSchema)
 	});
@@ -57,8 +60,9 @@ export const EditCourse = ({ data, currentFilterState, closeModal }) => {
 		const requestDet = {
 			url: editCourseAssignedToDeptsUrl(id),
 			data: {
-				courseUnit: courseUnit.value,
-				courseTypeId: courseTypeId.value
+				UnitLoadId: courseUnit.value,
+				courseTypeId: courseTypeId.value,
+				CbtCourse: active
 			}
 		};
 		mutate(requestDet, {
@@ -91,7 +95,8 @@ export const EditCourse = ({ data, currentFilterState, closeModal }) => {
 		});
 	};
 	if (isLoading || isLoadingUnitLoads) return <Spinner />;
-	if (error) return "An error has occurred: " + error?.response?.data?.message;
+	if (error)
+		return "An error has occurred: " + error?.response?.data?.message;
 	return (
 		<form
 			className={`${styles.form_content} w-100 mt-5`}
@@ -179,7 +184,13 @@ export const EditCourse = ({ data, currentFilterState, closeModal }) => {
 					/>
 				</div>
 			</div>
-			<div className="d-flex justify-content-end">
+			<div className="d-flex justify-content-between">
+				<Checkbox
+					label={"Is CBT Course"}
+					labelClassName="ml-3"
+					checked={active ? true : false}
+					onSelect={() => setActive(!active)}
+				/>
 				<Button
 					data-cy="update_course"
 					label="Update"

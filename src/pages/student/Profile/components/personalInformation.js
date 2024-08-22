@@ -7,7 +7,7 @@ import {
 	CompulsoryIndicator
 } from "../../../../ui_elements";
 import { useHistory } from "react-router";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useApiPatch } from "../../../../api/apiCall";
 import {
 	getStudentProfileUrl,
@@ -17,46 +17,66 @@ import { useQueryClient } from "react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PersonalInformationSchema } from "./profileSchema";
 import { formatDateFromAPI } from "../../../../utils/formatDate";
-import { trimItem } from "../../../../utils/trimItem";
+import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
 
-
-export const PersonalInformation = ({ data, allEyeColors }) => {
+export const PersonalInformation = ({
+	data,
+	allBloodGroups,
+	allGenotypes,
+	allReligions,
+	allLGAs
+}) => {
 	const { replace } = useHistory();
 	const { mutate, isLoading } = useApiPatch();
 	const queryClient = useQueryClient();
-
-
 	const {
+		control,
 		register,
 		formState: { errors },
-		handleSubmit,
-		control
+		handleSubmit
 	} = useForm({
 		defaultValues: {
 			PermanentAddress: data?.permanentAddress.toUpperCase(),
 			ContactAddress: data?.contactAddress.toUpperCase(),
-			EyeColorId: (data?.eyeColorId && data?.eyeColor) ? { value: data?.eyeColorId, label: data?.eyeColor } : null,			Height: data?.height || null,
-			Weight: data?.weight || null
-
+			MobileNumber: data?.mobileNumber,
+			BloodGroupId: {
+				value: data?.bloodGroupId,
+				label: data?.bloodGroup
+			},
+			GenoTypeId: { value: data?.genoTypeId, label: data.genoType },
+			ReligionId: { value: data?.religionId, label: data.religion }
 		},
 		resolver: yupResolver(PersonalInformationSchema)
 	});
+
 	const onSubmit = async (values) => {
-		const formatValue = {
-			...values,
-			EyeColorId: values?.EyeColorId?.value,
-		}
-		const data = [];
-		Object.keys(formatValue).map((item) => 
-			data.push({
-				op: "replace",
-				path: `/${item}`,
-				value: trimItem(formatValue[item])
-			})
-		);
+		const requestData = [];
+		const { ReligionId, GenoTypeId, BloodGroupId, ...editedValues } =
+			values;
+		const newObj = {
+			...editedValues,
+			ReligionId: ReligionId.value,
+			GenoTypeId: GenoTypeId.value,
+			BloodGroupId: BloodGroupId.value
+		};
+		Object.keys(newObj).forEach((item) => {
+			if (typeof values[item] === "object") {
+				requestData.push({
+					op: "replace",
+					path: `/${item}`,
+					value: values[item]?.value
+				});
+			} else {
+				requestData.push({
+					op: "replace",
+					path: `/${item}`,
+					value: newObj[item]
+				});
+			}
+		});
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode: false }),
-			data
+			data: requestData
 		};
 		mutate(requestBody, {
 			onSuccess: () => {
@@ -85,6 +105,7 @@ export const PersonalInformation = ({ data, allEyeColors }) => {
 			}
 		});
 	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -177,9 +198,7 @@ export const PersonalInformation = ({ data, allEyeColors }) => {
 							<TextField
 								type="date"
 								name="DateOfBirth"
-								value={formatDateFromAPI(
-									data?.dateOfBirth
-								)}
+								value={formatDateFromAPI(data?.dateOfBirth)}
 								disabled
 							/>
 						</div>
@@ -225,13 +244,23 @@ export const PersonalInformation = ({ data, allEyeColors }) => {
 							<label>LGA Of Origin</label>
 						</div>
 						<div className="col-lg-9">
-							<SMSelect
-								placeholder="Choose Local Government"
-								searchable={true}
-								name="State"
-								register={register}
-								value={{ label: data?.lga ?? "N/A" }}
-								disabled
+							<Controller
+								name="lgaId"
+								control={control}
+								defaultValue={findValueAndLabel(
+									data?.lgaId,
+									allLGAs
+								)}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										placeholder="Choose Local Government"
+										searchable={true}
+										name="lgaId"
+										options={allLGAs}
+										register={register}
+									/>
+								)}
 							/>
 						</div>
 					</div>
@@ -308,9 +337,14 @@ export const PersonalInformation = ({ data, allEyeColors }) => {
 								className="w-100"
 								placeholder="Enter phone number"
 								type="text"
-								name="MobileNo"
-								value={data?.mobileNumber}
-								disabled
+								name="MobileNumber"
+								register={register}
+								error={errors.MobileNumber}
+								errorText={
+									errors.MobileNumber &&
+									errors.MobileNumber.message
+								}
+								//disabled
 							/>
 						</div>
 					</div>
@@ -344,126 +378,81 @@ export const PersonalInformation = ({ data, allEyeColors }) => {
 							<label>Blood Group</label>
 						</div>
 						<div className="col-lg-9">
-							<SMSelect
-								placeholder="Choose blood group"
-								name="BloodGroupId"
-								register={register}
-								value={{ label: data?.bloodGroup ?? "N/A" }}
-								disabled
-							/>
-						</div>
-					</div>
-				</div>
-
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label>Eye Color</label>
-						</div>
-						<div className="col-lg-9">
 							<Controller
-								name="EyeColorId"
+								name="BloodGroupId"
 								control={control}
-								rules={{ required: true }}
-								render={({ field: { value, onChange } }) => (
+								render={({ field }) => (
 									<SMSelect
-										value={value}
-										onChange={onChange}
-										placeholder="Select your eye color"
-										searchable={true}
-										id="eyeColorId"
-										options={allEyeColors}
-										isError={!!errors?.EyeColorId}
+										{...field}
+										id="BloodGroupId"
+										placeholder="Choose blood group"
+										options={allBloodGroups}
+										searchable={false}
+										isError={!!errors.BloodGroupId}
 										errorText={
-											errors?.EyeColorId &&
-											errors?.EyeColorId.message
+											errors.BloodGroupId &&
+											errors.BloodGroupId.message
 										}
-										disabled={!!data?.eyeColor}
+										disabled={data.bloodGroupId !== 0}
 									/>
 								)}
 							/>
 						</div>
-
 					</div>
 				</div>
-
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
 						<div className="col-lg-3  d-flex align-items-center">
 							<label>Genotype</label>
 						</div>
 						<div className="col-lg-9">
-							<SMSelect
-								placeholder="Choose blood group"
+							<Controller
 								name="GenoTypeId"
-								register={register}
-								value={{ label: data?.genoType ?? "N/A" }}
-								disabled
+								control={control}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										id="GenoTypeId"
+										placeholder="Choose a genotype"
+										options={allGenotypes}
+										searchable={false}
+										isError={!!errors.GenoTypeId}
+										errorText={
+											errors.GenoTypeId &&
+											errors.GenoTypeId.message
+										}
+										disabled={data.genoTypeId !== 0}
+									/>
+								)}
 							/>
 						</div>
 					</div>
 				</div>
-
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label>Height</label>
-						</div>
-						<div className="d-flex col-lg-9">
-							<TextField
-								className="w-100"
-								placeholder="Enter Your Height in meters (m)"
-								type="text"
-								name="Height"
-								register={register}
-								required
-								error={errors.Height}
-								errorText={
-									errors.Height &&
-									errors.Height.message
-								}
-
-							/>
-						</div>
-					</div>
-				</div>
-
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label>Weight</label>
-						</div>
-						<div className="d-flex col-lg-9">
-							<TextField
-								className="w-100"
-								placeholder="Enter Your Weight in Kilograms (kg)"
-								type="text"
-								name="Weight"
-								register={register}
-								required
-								error={errors.Weight}
-								errorText={
-									errors.Weight &&
-									errors.Weight.message
-								}
-
-							/>
-						</div>
-					</div>
-				</div>
-
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
 						<div className="col-lg-3  d-flex align-items-center">
 							<label>Religion</label>
 						</div>
 						<div className="col-lg-9">
-							<SMSelect
-								placeholder="Choose Religion"
-								name="Religion"
-								register={register}
-								value={{ label: data?.religion ?? "N/A" }}
-								disabled
+							<Controller
+								name="ReligionId"
+								control={control}
+								rules={{ required: true }}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										searchable={false}
+										placeholder="Choose a religion"
+										id="ReligionId"
+										options={allReligions}
+										isError={!!errors.religion}
+										errorText={
+											errors.ReligionId &&
+											errors.ReligionId.message
+										}
+										disabled={data.religionId !== 0}
+									/>
+								)}
 							/>
 						</div>
 					</div>

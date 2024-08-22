@@ -64,4 +64,53 @@ export const USER_ROLE_HOLDER = `${SCHOOL_DETAILS.shortForm}userRole`;
 export const USER_NAME_HOLDER = `${SCHOOL_DETAILS.shortForm}userName`;
 export const BIRTHDAY_STATE_HOLDER = `${SCHOOL_DETAILS.shortForm}birthday`;
 export const STUDENT_TYPE_HOLDER = `${SCHOOL_DETAILS.shortForm}studentType`;
+export const REFRESH_TOKEN_HOLDER = `${SCHOOL_DETAILS.shortForm}refreshToken`;
 export const USER_TYPES = ["lecturer", "student", "official"];
+
+export const EXTERNAL_STUDENT_PAYMENT_DETAILS = {
+	paymentPurpose: "External",
+	paymentType: "Full"
+};
+
+export const STUDENT_TYPES = {
+	UNDERGRADUATE: 1,
+	JUPEB: 8,
+	Diploma: 3,
+	POSTGRADUATE: 2,
+	Sandwich: 9,
+	"Sandwich Diploma": 10,
+	INTER_UNIVERSITY_TRANSFER: 2
+};
+
+export const APPLICATION_ID = {
+	UTME: 8,
+	JUPEB: 5,
+	DIRECT_ENTRY: 33,
+	PG: 7,
+	SUPPLEMENTARY: 15,
+	PRE_DEGREE: 10,
+	CCE: 16,
+	STAFF_REQUEST: 16,
+	FOUR_YEAR_SANDWICH: 17,
+	FIVE_YEAR_SANDWICH: 9,
+	INTER_UNIVERSITY_TRANSFER: 2,
+	DIPLOMA: 1,
+	SANDWICH_PROGRAMME: 17,
+	PUTME_SLIP: 24
+};
+
+export const CertificateTypeIds = {
+	NCE: 3,
+	ACE: 9,
+	TC: 10
+};
+
+export const POST_GRADUATE_DETAILS = {
+	deputyRegister: "MRS. ANTHONIA AMADI",
+	correspondence:
+		"Provost, College of Postgraduate Studies, University of Nigeria, Nsukka.",
+	correspondenceEmail: "dean.spgsunn@unn.edu.ng",
+	provost: "PROF. OBIOMA U. NJOKU",
+	provostEmail: "obioma.njoku@unn.edu.ng"
+};
+

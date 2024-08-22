@@ -10,6 +10,7 @@ import {
 import { useApiPut } from "../../../../../api/apiCall";
 import { useQueryClient } from "react-query";
 import { findValueAndLabel } from "../../../../../utils/findValueAndLabel";
+import { useEffect, useState } from "react";
 
 export const EditApplication = ({
 	data,
@@ -17,16 +18,26 @@ export const EditApplication = ({
 	allSessions,
 	allServiceTypes,
 	allStudentTypes,
-	allPaymentPurpose,
+	allDepartments,
+	allActivationStatuses,
 	closeModal
 }) => {
 	const { id } = data;
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
+	const [watchData, setWatchData] = useState({
+		groupSelectionId: data?.groupSelectionId ?? ""
+	});
+
+	const isChooseSelectionRquired =
+		watchData.groupSelectionId === 2 || watchData.groupSelectionId === 3;
 	const {
 		register,
 		handleSubmit,
 		control,
+		setValue,
+		clearErrors,
+		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		defaultValues: {
@@ -35,7 +46,6 @@ export const EditApplication = ({
 			amount: data?.amount,
 			teneceCommission: data?.teneceCommission,
 			sessionId: findValueAndLabel(data?.sessionId, allSessions),
-			paymentType: { value: data?.paymentType, label: data?.paymentType },
 			studentTypeId: findValueAndLabel(
 				data?.studentTypeId,
 				allStudentTypes
@@ -43,6 +53,13 @@ export const EditApplication = ({
 			serviceTypeId: findValueAndLabel(
 				data?.serviceTypeId,
 				allServiceTypes
+			),
+			departmentId: data?.departmentId?.map((departmentId) =>
+				findValueAndLabel(departmentId, allDepartments)
+			),
+			groupSelectionId: findValueAndLabel(
+				data?.groupSelectionId,
+				allActivationStatuses
 			)
 		},
 		resolver: yupResolver(UploadSchema)
@@ -55,10 +72,13 @@ export const EditApplication = ({
 				code: data.code.toUpperCase(),
 				amount: data.amount,
 				teneceCommission: data.teneceCommission,
-				paymentType: data.paymentType.label,
 				sessionId: data.sessionId.value,
 				studentTypeId: data.studentTypeId.value,
-				serviceTypeId: data.serviceTypeId.value
+				serviceTypeId: data.serviceTypeId.value,
+				groupSelectionId: data?.groupSelectionId.value,
+				departmentId: data?.departmentId?.map(
+					(departmentId) => departmentId?.value
+				)
 			}
 		};
 		mutate(requestDet, {
@@ -90,7 +110,21 @@ export const EditApplication = ({
 			}
 		});
 	};
-	console.log(allPaymentPurpose, "data");
+	const onGroupChange = (value) => {
+		setWatchData({ groupSelectionId: value.value });
+		setValue("groupSelectionId", value);
+		setValue("departmentId", null);
+		clearErrors("groupSelectionId");
+	};
+	useEffect(() => {
+		const subscription = watch(({ groupSelectionId }) => {
+			setWatchData((state) => ({
+				groupSelectionId:
+					groupSelectionId?.value ?? state.groupSelectionId
+			}));
+		});
+		return () => subscription.unsubscribe();
+	}, [watch]);
 	return (
 		<form
 			className={`${styles.form_content} w-100 mt-5`}
@@ -138,7 +172,7 @@ export const EditApplication = ({
 					<TextField
 						id="amount"
 						placeholder="Enter amount"
-						type="number"
+						type="text"
 						name="amount"
 						register={register}
 						error={errors.amount}
@@ -155,7 +189,7 @@ export const EditApplication = ({
 					<TextField
 						id="teneceCommission"
 						placeholder="Enter commission"
-						type="number"
+						type="text"
 						name="teneceCommission"
 						register={register}
 						error={errors.teneceCommission}
@@ -189,35 +223,6 @@ export const EditApplication = ({
 								isError={!!errors.sessionId}
 								errorText={
 									errors.sessionId && errors.sessionId.message
-								}
-							/>
-						)}
-					/>
-				</div>
-			</div>
-			<div className="row mb-4">
-				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="paymentType">Payment Type</label>
-				</div>
-				<div className="col-lg-9">
-					<Controller
-						name="paymentType"
-						control={control}
-						rules={{
-							required: true
-						}}
-						render={({ field }) => (
-							<SMSelect
-								{...field}
-								id="paymentType"
-								options={allPaymentPurpose}
-								placeholder="Select Payment Type"
-								is
-								searchable={false}
-								isError={!!errors.paymentType}
-								errorText={
-									errors.paymentType &&
-									errors.paymentType.message
 								}
 							/>
 						)}
@@ -282,6 +287,65 @@ export const EditApplication = ({
 					/>
 				</div>
 			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="groupSelectionId">Department Action</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="groupSelectionId"
+						control={control}
+						rules={{
+							required: true
+						}}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								id={"groupSelectionId"}
+								options={allActivationStatuses}
+								onChange={onGroupChange}
+								placeholder="Select action"
+								isError={!!errors.groupSelectionId}
+								errorText={
+									errors.groupSelectionId &&
+									errors.groupSelectionId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			{isChooseSelectionRquired && (
+				<div className="row mb-4">
+					<div className="col-lg-3 d-flex align-items-center">
+						<label htmlFor="departmentId">Specify Exception</label>
+					</div>
+					<div className="col-lg-9">
+						<Controller
+							name="departmentId"
+							control={control}
+							rules={{
+								required: true
+							}}
+							render={({ field }) => (
+								<SMSelect
+									{...field}
+									id="departmentId"
+									options={allDepartments}
+									placeholder="Select Department"
+									isMulti
+									searchable={true}
+									isError={!!errors.departmentId}
+									errorText={
+										errors.departmentId &&
+										errors.departmentId.message
+									}
+								/>
+							)}
+						/>
+					</div>
+				</div>
+			)}
 			<div className="d-flex justify-content-end">
 				<Button
 					data-cy="edit_course"

@@ -3,107 +3,121 @@ import { INITIAL_DATE } from "../../utils/constants";
 
 export const jupebApplicationsInitialState = (data) => {
 	return {
-		Id: data.id,
-		passport: { passport: data?.passport },
-		Lastname: data.lastname,
-		Firstname: data.firstname,
-		Middlename: data.middlename,
-		SessionId: data.sessionId,
-		StudentTypeId: data.studentTypeId,
-		Session: data.session,
-		...(data?.genderId && {
+		Id: data?.id,
+		passport: { passport: data?.basicInformation?.passport },
+		Lastname: data?.basicInformation?.lastname,
+		Firstname: data?.basicInformation?.firstname,
+		Middlename: data?.basicInformation?.middlename,
+		Maidenname: data?.basicInformation?.maidenName,
+		SessionId: data?.basicInformation?.sessionId,
+		StudentTypeId: data?.basicInformation?.studentTypeId,
+		Session: data?.basicInformation?.session,
+		...(data?.basicInformation?.titleId && {
+			TitleId: {
+				value: data?.basicInformation?.titleId,
+				label: data?.basicInformation?.title
+			}
+		}),
+		...(data?.basicInformation?.genderId && {
 			GenderId: {
-				value: data?.genderId,
-				label: data?.gender
+				value: data?.basicInformation?.genderId,
+				label: data?.basicInformation?.gender
 			}
 		}),
-		...(data?.bloodGroupId && {
-			BloodGroupId: {
-				value: data?.bloodGroupId,
-				label: data?.bloodGroup
-			}
-		}),
-		...(data?.genoTypeId && {
-			GenoTypeId: {
-				value: data?.genoTypeId,
-				label: data?.genoType
-			}
-		}),
-		DateOfBirth: data.dateOfBirth === INITIAL_DATE ? "" : data?.dateOfBirth,
-		...(data?.countryId && {
+		DateOfBirth:
+			data?.basicInformation?.dateOfBirth === INITIAL_DATE
+				? ""
+				: data?.basicInformation?.dateOfBirth,
+		...(data?.basicInformation?.countryId && {
 			CountryId: {
-				value: data?.countryId,
-				label: data?.country
+				value: data?.basicInformation?.countryId,
+				label: data?.basicInformation?.country
 			}
 		}),
-		...(data?.stateId && {
+		...(data?.basicInformation?.stateId && {
 			StateId: {
-				value: data?.stateId,
-				label: data?.state
+				value: data?.basicInformation?.stateId,
+				label: data?.basicInformation?.state
 			}
 		}),
-		...(data?.lgaId && {
+		...(data?.basicInformation?.lgaId && {
 			LgaId: {
-				value: data?.lgaId,
-				label: data?.lga
+				value: data?.basicInformation?.lgaId,
+				label: data?.basicInformation?.lga
 			}
 		}),
-		Town: data.town,
-		MobileNumber: data.mobileNumber,
-		PermanentAddress: data.permanentAddress,
-		Email: data.email,
-		...(data?.religionId && {
+		MobileNumber: data?.basicInformation?.mobileNumber,
+		PermanentAddress: data?.basicInformation?.permanentAddress,
+		Email: data?.basicInformation?.email,
+		Disability: data?.basicInformation?.disability,
+		HasDisability: data?.basicInformation?.disability ? "Yes" : "No",
+		...(data?.basicInformation?.religionId && {
 			ReligionId: {
-				value: data?.religionId,
-				label: data.religion
+				value: data?.basicInformation?.religionId,
+				label: data?.basicInformation?.religion
 			}
 		}),
-		...(data?.jupebOptionId && {
+		...(data?.basicInformation?.jupebOptionId && {
 			DepartmentId: {
-				value: data?.jupebOptionId,
-				label: data?.jupebOption
+				value: data?.basicInformation?.jupebOptionId,
+				label: data?.basicInformation?.jupebOption
 			}
 		}),
-		...(data?.jupebOptionSubjectId && {
+		...(data?.basicInformation?.jupebOptionSubjectId && {
 			JupebOptionSubjectId: {
-				value: data?.jupebOptionSubjectId,
-				label: data.jupebOptionSubjectName
+				value: data?.basicInformation?.jupebOptionSubjectId,
+				label: data?.basicInformation.jupebOptionSubject
 			}
 		}),
-		...(data?.facultyId && {
+		...(data?.basicInformation?.facultyId && {
 			ChoiceSchoolId: {
-				value: data?.facultyId,
-				label: data?.faculty
+				value: data?.basicInformation?.facultyId,
+				label: data?.basicInformation?.faculty
 			}
 		}),
-		...(data?.departmentId && {
+		...(data?.basicInformation?.departmentId && {
 			ChoiceDepartmentId: {
-				value: data?.departmentId,
-				label: data?.department
+				value: data?.basicInformation?.departmentId,
+				label: data?.basicInformation?.department
 			}
 		}),
-		ApplicationNumber: data.applicationNumber,
-		Completed: data.completed,
-		...(data?.maritalStatus && {
+		ApplicationNumber: data?.basicInformation?.applicationNumber,
+		FormCompleted: data?.basicInformation?.formCompleted,
+		...(data?.basicInformation?.maritalStatus && {
 			MaritalStatusId: {
-				value: data?.maritalStatusId,
-				label: data?.maritalStatus
+				value: data?.basicInformation?.maritalStatusId,
+				label: data?.basicInformation?.maritalStatus
 			}
 		}),
-		RRR: data.rrr,
-		SponsorsFullname: data.nextOfKin.fullname,
-		SponsorsMobileNo: data.nextOfKin.mobileNumber,
-		...(data?.nextOfKin?.relationshipId && {
-			SponsorsRelationship: {
-				value: data?.nextOfKin?.relationshipId,
-				label: data?.nextOfKin?.relationship
-			}
-		}),
-		SponsorsEmail: data.nextOfKin.email,
-		SponsorsAddress: data.nextOfKin.address,
+		RRR: data?.basicInformation?.rrr,
+		sponsorAndReferee: {
+			sponsorFullName: data?.sponsor?.fullname,
+			sponsorAddress: data?.sponsor?.address,
+			sponsorMobileNo: data?.sponsor?.mobileNumber,
+			sponsorEmail: data?.sponsor?.email,
+			...(data?.sponsor?.relationship && {
+				sponsorRelationship: {
+					label: data?.sponsor?.relationship,
+					value: data?.sponsor?.relationshipId
+				}
+			}),
+			refereeFullName: data?.referee?.fullname,
+			refereeAddress: data?.referee?.address,
+			refereeMobileNo: data?.referee?.mobileNumber,
+			refereeEmail: data?.referee?.email
+		},
 		oLevelResult: {
-			sittings: data?.olevelInfo?.map((item) => ({
+			sittings: data?.olevelResponse?.map((item) => ({
 				...item,
+				resultPin: item?.resultPin,
+				resultPinSno: item?.resultSerialNumber,
+				examNumber: item?.examNumber,
+				examCentre: item?.examCenter,
+				oLevelType: {
+					value: item?.examinationTypeId,
+					label: item?.examinationType
+				},
+				examYear: { value: item?.examYear, label: item?.examYear },
 				subjects: [
 					...Object?.keys(item?.subjectGrade).map((key, index) => ({
 						subject: {
@@ -117,12 +131,6 @@ export const jupebApplicationsInitialState = (data) => {
 					}))
 				]
 			}))
-		},
-		institutionAttended: {
-			certificate: data?.institutionAttended?.certificate,
-			dateFrom: data?.institutionAttended?.dateFrom,
-			dateTo: data?.institutionAttended?.dateTo,
-			nameOfInstitution: data?.institutionAttended?.nameOfInstitution
 		}
 	};
 };

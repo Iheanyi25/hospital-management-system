@@ -6,9 +6,10 @@ import {
 	getAllHostelsUrl,
 	toggleHostelStatusUrl,
 	getGendersUrl,
-	getAllDepartmentsUrl,
 	deleteHostelUrl,
-	getGroupSelectionsUrl
+	getGroupSelectionsUrl,
+	getAllDepartmentsWithoutValuesUrl,
+	getAllCampusesUrl
 } from "../../../../api/urls";
 import {
 	PageTitle,
@@ -33,7 +34,7 @@ import numberFormatter from "../../../../utils/numberFormatter";
 
 const HanageHostels = () => {
 	const queryClient = useQueryClient();
-	const pageSize = PAGESIZE.sm;
+	const pageSize = PAGESIZE.xxl;
 	const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [addModal, setAddModal] = useState(false);
@@ -60,7 +61,10 @@ const HanageHostels = () => {
 		getGendersUrl()
 	);
 	const { data: departments, isLoading: isLoadingDepartments } = useApiGet(
-		getAllDepartmentsUrl()
+		getAllDepartmentsWithoutValuesUrl()
+	);
+	const { data: campuses, isLoading: isLoadingCampuses } = useApiGet(
+		getAllCampusesUrl()
 	);
 
 	const {
@@ -74,11 +78,8 @@ const HanageHostels = () => {
 		"name",
 		"id"
 	);
-	const allDepartments = formatSelectItems(
-		departments?.data,
-		"department",
-		"departmentId"
-	);
+	const allDepartments = formatSelectItems(departments?.data, "name", "id");
+	const allCampuses = formatSelectItems(campuses?.data, "name", "id");
 
 	// get current notice
 	const getCurrentNotice = (id, data) => {
@@ -104,8 +105,8 @@ const HanageHostels = () => {
 				setCurrentId(null);
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Notice Deletion Success!",
-					body: "Notice was deleted successfully"
+					title: "Hostel Deletion Success!",
+					body: "Hostel was deleted successfully"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -116,10 +117,10 @@ const HanageHostels = () => {
 				setCurrentId(null);
 				const errorFlag = window.AJS.flag({
 					type: "error",
-					title: "Notice Deletion Failed!",
+					title: "Hostel Deletion Failed!",
 					body:
 						response?.data?.message ||
-						`Notice wasn't deleted successfully`
+						`Hostel wasn't deleted successfully`
 				});
 				setTimeout(() => {
 					errorFlag.close();
@@ -193,10 +194,10 @@ const HanageHostels = () => {
 				accessor: "gender"
 			},
 			{
-				Header: "Location",
-				accessor: "location",
+				Header: "Campus",
+				accessor: "campus",
 				Cell: ({ cell: { row } }) => (
-					<div>{row.original.location || 0}</div>
+					<div>{row.original.campus || "-"}</div>
 				)
 			},
 			{
@@ -272,7 +273,8 @@ const HanageHostels = () => {
 		isLoading ||
 		isLoadingGenders ||
 		isLoadingDepartments ||
-		isLoadingHostelActivationStatus
+		isLoadingHostelActivationStatus ||
+		isLoadingCampuses
 	) {
 		return <Spinner />;
 	}
@@ -303,6 +305,7 @@ const HanageHostels = () => {
 					currentData={currentData}
 					allActivationStatuses={allActivationStatuses}
 					allDepartments={allDepartments}
+					allCampuses={allCampuses}
 					filter={getAllHostelsUrl({ pageSize, pageNumber })}
 				/>
 			</CenteredDialog>
@@ -317,9 +320,10 @@ const HanageHostels = () => {
 						/>
 					}
 				/>
-				<div className={styles.tableContainer}>
+				<div className={`${styles.tableContainer} 	`}>
 					<TMTable
 						setPageNumber={setPageNumber}
+						metaData={data?.data.metaData}
 						columns={columns}
 						data={data?.data.items || []}
 						title={`Hostel List (${

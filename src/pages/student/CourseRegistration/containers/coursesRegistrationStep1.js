@@ -43,7 +43,7 @@ const CoursesRegistrationStep1 = () => {
 	} = useApiGet(yearOfStudyUrl({ studentTypeId }));
 	const [academicYearDetails, setAcademicYearDetails] = useState({
 		sessionId: "",
-		semester: "",
+		semesterId: "",
 		yearOfStudyId: ""
 	});
 	const [makeRequest, setMakeRequest] = useState(false);
@@ -54,7 +54,7 @@ const CoursesRegistrationStep1 = () => {
 	} = useApiGet(
 		getCoursesForRegistrationUrl({
 			sessionId: academicYearDetails.sessionId,
-			semester: academicYearDetails.semester,
+			semester: academicYearDetails.semesterId,
 			yearOfStudyId: academicYearDetails.yearOfStudyId
 		}),
 		{
@@ -79,9 +79,7 @@ const CoursesRegistrationStep1 = () => {
 					pathname: "/course_registration/view",
 					state: {
 						...academicYearDetails,
-						levelId:
-							courseRegApprovalStatus.data.registrableCourses[0]
-								.levelId
+						levelId: courseRegApprovalStatus.data.levelId
 					}
 				});
 			} else {
@@ -119,7 +117,7 @@ const CoursesRegistrationStep1 = () => {
 	const onSubmit = (data) => {
 		setAcademicYearDetails({
 			sessionId: data.session.value,
-			semester: data.semester.value,
+			semesterId: data.semester.value,
 			yearOfStudyId: data.yearOfStudyId.value
 		});
 		setMakeRequest(true);

@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const UploadSchema = yup.object().shape({
-	name: yup.string().required("please input hostel name"),
+	name: yup.string().required("please input room name"),
 	price: yup
 		.mixed()
 		.required("please input amount")

@@ -9,25 +9,41 @@ import {
 	getAllApplicationTypesUrl
 } from "../../../../../api/urls";
 import { useQueryClient } from "react-query";
+import { useEffect, useState } from "react";
 
 export const AddApplication = ({
 	currentFilterState,
 	allSessions,
 	allServiceTypes,
 	allStudentTypes,
-	allPaymentPurpose,
+	currentData,
+	allDepartments,
+	allActivationStatuses,
 	closeModal
 }) => {
 	const { mutate, isLoading } = useApiPost();
 	const queryClient = useQueryClient();
+	const [watchData, setWatchData] = useState({
+		groupSelectionId: currentData?.groupSelectionId ?? ""
+	});
+
+	const isChooseSelectionRquired =
+		watchData.groupSelectionId === 2 || watchData.groupSelectionId === 3;
 	const {
 		register,
 		handleSubmit,
 		control,
+		setValue,
+		clearErrors,
+		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		resolver: yupResolver(UploadSchema)
+		resolver: yupResolver(UploadSchema),
+		context: {
+			isChooseSelectionRquired
+		}
 	});
+
 	const onSubmit = (data) => {
 		const requestDet = {
 			url: createApplicationTypeUrl(),
@@ -37,9 +53,12 @@ export const AddApplication = ({
 				amount: data.amount,
 				teneceCommission: data.teneceCommission,
 				sessionId: data.sessionId.value,
-				paymentType: data.paymentType.label,
 				studentTypeId: data.studentTypeId.value,
-				serviceTypeId: data.serviceTypeId.value
+				serviceTypeId: data.serviceTypeId.value,
+				groupSelectionId: data?.groupSelectionId.value,
+				departmentId: data?.departmentId?.map(
+					(departmentId) => departmentId?.value
+				)
 			}
 		};
 		mutate(requestDet, {
@@ -70,6 +89,23 @@ export const AddApplication = ({
 				}, 5000);
 			}
 		});
+	};
+
+	useEffect(() => {
+		const subscription = watch(({ groupSelectionId }) => {
+			setWatchData((state) => ({
+				groupSelectionId:
+					groupSelectionId?.value ?? state.groupSelectionId
+			}));
+		});
+		return () => subscription.unsubscribe();
+	}, [watch]);
+
+	const onGroupChange = (value) => {
+		setWatchData({ groupSelectionId: value.value });
+		setValue("groupSelectionId", value);
+		setValue("departmentId", null);
+		clearErrors("groupSelectionId");
 	};
 	return (
 		<form
@@ -118,7 +154,7 @@ export const AddApplication = ({
 					<TextField
 						id="amount"
 						placeholder="Enter amount"
-						type="number"
+						type="text"
 						name="amount"
 						register={register}
 						error={errors.amount}
@@ -135,7 +171,7 @@ export const AddApplication = ({
 					<TextField
 						id="teneceCommission"
 						placeholder="Enter commission"
-						type="number"
+						type="text"
 						name="teneceCommission"
 						register={register}
 						error={errors.teneceCommission}
@@ -169,35 +205,6 @@ export const AddApplication = ({
 								isError={!!errors.sessionId}
 								errorText={
 									errors.sessionId && errors.sessionId.message
-								}
-							/>
-						)}
-					/>
-				</div>
-			</div>
-			<div className="row mb-4">
-				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="paymentType">Payment Type</label>
-				</div>
-				<div className="col-lg-9">
-					<Controller
-						name="paymentType"
-						control={control}
-						rules={{
-							required: true
-						}}
-						render={({ field }) => (
-							<SMSelect
-								{...field}
-								id="paymentType"
-								options={allPaymentPurpose}
-								placeholder="Select Payment Type"
-								is
-								searchable={false}
-								isError={!!errors.paymentType}
-								errorText={
-									errors.paymentType &&
-									errors.paymentType.message
 								}
 							/>
 						)}
@@ -250,7 +257,6 @@ export const AddApplication = ({
 								id="serviceTypeId"
 								options={allServiceTypes}
 								placeholder="Select service type"
-								is
 								searchable={false}
 								isError={!!errors.serviceTypeId}
 								errorText={
@@ -262,6 +268,65 @@ export const AddApplication = ({
 					/>
 				</div>
 			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="groupSelectionId">Department Action</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="groupSelectionId"
+						control={control}
+						rules={{
+							required: true
+						}}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								id={"groupSelectionId"}
+								options={allActivationStatuses}
+								onChange={onGroupChange}
+								placeholder="Select action"
+								isError={!!errors.groupSelectionId}
+								errorText={
+									errors.groupSelectionId &&
+									errors.groupSelectionId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			{isChooseSelectionRquired && (
+				<div className="row mb-4">
+					<div className="col-lg-3 d-flex align-items-center">
+						<label htmlFor="departmentId">Specify Exception</label>
+					</div>
+					<div className="col-lg-9">
+						<Controller
+							name="departmentId"
+							control={control}
+							rules={{
+								required: true
+							}}
+							render={({ field }) => (
+								<SMSelect
+									{...field}
+									id="departmentId"
+									options={allDepartments}
+									placeholder="Select Department"
+									isMulti
+									searchable={true}
+									isError={!!errors.departmentId}
+									errorText={
+										errors.departmentId &&
+										errors.departmentId.message
+									}
+								/>
+							)}
+						/>
+					</div>
+				</div>
+			)}
 			<div className="d-flex justify-content-end">
 				<Button
 					data-cy="add_application"

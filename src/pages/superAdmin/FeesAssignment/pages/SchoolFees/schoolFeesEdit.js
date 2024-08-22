@@ -12,18 +12,21 @@ import {
 import { Bin } from "../../../../../assets/svgs";
 import {
 	getSchoolFeesAssignmentBreakdownUrl,
+	getSchoolFeesAssignmentsUrl,
 	updateSchoolFeesAssignmentBreakdownUrl
 } from "../../../../../api/urls";
 import { useApiGet, useApiPut } from "../../../../../api/apiCall";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { FEES_ASSIGNMENT } from "../../../../../store/constant";
+import { useQueryClient } from "react-query";
+import numberFormatter from "../../../../../utils/numberFormatter";
 
 const SchoolFeesEdit = () => {
 	const {
 		state: { id, name, departmentId, filter, searchParams }
 	} = useLocation();
-	const { push } = useHistory();
+	const { push, goBack } = useHistory();
 	const dispatch = useDispatch();
 	const updatedFeesAssignmentId = useSelector(
 		(state) => state.feesAssignment
@@ -38,8 +41,9 @@ const SchoolFeesEdit = () => {
 		refetchOnWindowFocus: false
 	});
 	const { mutate, isLoading } = useApiPut();
+	const queryClient = useQueryClient();
 
-	const [breakdowns, setBreakdowns] = useState([0]);
+	const [breakdowns, setBreakdowns] = useState([0, 1, 2, 3]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 
 	const crumbItems = [
@@ -77,24 +81,38 @@ const SchoolFeesEdit = () => {
 		if (Object.keys(errors)?.length >= 1) {
 			return;
 		}
+		const hasSchoolProgrammeId = filter?.SchoolProgrammeId
+			? { SchoolProgrammeId: filter?.SchoolProgrammeId }
+			: {};
+		const hasModeOfStudyId = filter?.ModeOfStudyId
+			? { ModeOfStudyId: filter?.ModeOfStudyId }
+			: {};
+		const hasProgrammeTypeId = filter?.ProgrammeTypeId
+			? { ProgrammeTypeId: filter?.ProgrammeTypeId }
+			: {};
 		const requestDet = {
 			url: updateSchoolFeesAssignmentBreakdownUrl(
 				updatedFeesAssignmentId || id
 			),
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
+				KSmartCommission: getValues()?.["amount"]?.[1] || 0,
+				HubblyCommission: getValues()?.["amount"]?.[2] || 0,
+				SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
+				PaymentChannelId: filter?.PaymentChannelId,
 				StudentTypeId: filter?.StudentTypeId,
-				SchoolProgrammeId: filter?.SchoolProgrammeId,
+				ModeOfEntryId: filter?.ModeOfEntryId,
+				...hasSchoolProgrammeId,
+				...hasModeOfStudyId,
+				...hasProgrammeTypeId,
+				IsStaff: filter?.IsStaff,
 				DepartmentId: breakdown?.data?.departmentId || departmentId,
 				LevelId: filter?.Level,
 				PaymentTypeId:
 					breakdown?.data?.paymentTypeId || filter.PaymentType,
 				StudentModeId:
 					breakdown?.data?.studentModeId || filter.StudentModeId,
-				StudentModeOfEntryId:
-					breakdown?.data?.studentModeOfEntryId ||
-					filter.StudentModeOfEntryId,
 				ServiceTypeId:
 					breakdown?.data?.serviceTypeId || filter.ServiceTypeId,
 				FeeBreakdown: Object.values(getValues()?.["amount"])
@@ -117,6 +135,9 @@ const SchoolFeesEdit = () => {
 					type: FEES_ASSIGNMENT,
 					payload: data?.data?.data
 				});
+				queryClient.invalidateQueries(
+					getSchoolFeesAssignmentsUrl(filter)
+				);
 				const successFlag = window.AJS.flag({
 					type: "success",
 					title: "School fees successfully edited!",
@@ -125,6 +146,7 @@ const SchoolFeesEdit = () => {
 				setTimeout(() => {
 					successFlag.close();
 				}, 5000);
+				goBack();
 			},
 			onError: ({ response }) => {
 				const errorFlag = window.AJS.flag({
@@ -167,6 +189,12 @@ const SchoolFeesEdit = () => {
 	useEffect(() => {
 		setValue(`amount.${0}`, breakdown?.data?.teneceCommission || 0);
 		setValue(`description.${0}`, "Tenece Commission");
+		setValue(`amount.${1}`, breakdown?.data?.kSmartCommission || 0);
+		setValue(`description.${1}`, "KSmart Commission");
+		setValue(`amount.${2}`, breakdown?.data?.hubblyCommission || 0);
+		setValue(`description.${2}`, "Hubbly Commission");
+		setValue(`amount.${3}`, breakdown?.data?.seamfixCommission || 0);
+		setValue(`description.${3}`, "Seamfix Commission");
 
 		if (breakdown?.data && breakdown?.data?.breakdown.length > 0) {
 			breakdown?.data?.breakdown?.map((_, index) => {
@@ -177,12 +205,13 @@ const SchoolFeesEdit = () => {
 					);
 					return null;
 				});
-				setBreakdowns((breakdowns) => [
-					...breakdowns,
-					breakdowns[breakdowns?.length - 1] + 1
-				]);
+
 				return null;
 			});
+			setBreakdowns((breakdowns) => [
+				...breakdowns,
+				breakdowns[breakdowns?.length - 1] + 1
+			]);
 		}
 	}, [breakdown, setValue, constants]);
 
@@ -192,7 +221,6 @@ const SchoolFeesEdit = () => {
 		return (
 			"An error has occurred: " + errorBreakdown?.response?.data?.message
 		);
-
 	return (
 		<div className={styles.container}>
 			<Breadcrumbs crumbs={crumbItems} />
@@ -202,16 +230,27 @@ const SchoolFeesEdit = () => {
 					<Jumbotron
 						headerText={`Fees Breakdown for ${name ? name : ""}`}
 						endText={`Total: ${
-							watchData?.amount?.length >= 1
-								? watchData?.amount?.reduce(
-										(previousValue, currentValue) => {
-											return (
-												Number(previousValue || 0) +
-												Number(currentValue || 0)
-											);
-										}
+							watchData?.amount?.length >= 5
+								? numberFormatter(
+										watchData?.amount
+											?.slice(4)
+											?.reduce(
+												(
+													previousValue,
+													currentValue
+												) => {
+													return (
+														Number(
+															previousValue || 0
+														) +
+														Number(
+															currentValue || 0
+														)
+													);
+												}
+											)
 								  )
-								: ""
+								: 0
 						}`}
 						footerContent={
 							<>
@@ -263,7 +302,7 @@ const SchoolFeesEdit = () => {
 												)
 											}
 											error={errors?.description?.[index]}
-											disabled={item === 0}
+											disabled={index < 4}
 										/>
 									</div>
 									<div className="col-md-5 d-flex align-items-center gap-2 gap-md-0">
@@ -284,11 +323,11 @@ const SchoolFeesEdit = () => {
 												})
 											}
 											min={0}
-											type="number"
+											type="text"
 											error={errors?.amount?.[index]}
 										/>
 									</div>
-									{index !== 0 ? (
+									{index > 3 ? (
 										<div className="col-md-1">
 											<button
 												className={styles.bin}

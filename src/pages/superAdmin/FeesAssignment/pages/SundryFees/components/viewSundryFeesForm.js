@@ -27,18 +27,20 @@ export const ViewSundryFeesForm = ({
 	searchTerm,
 	faculties,
 	allPaymentPurpose,
+	allStudentModesOfEntry
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			...state,
-			StudentTypeId: formData.StudentTypeId?.value,
-			StudentModeId: formData.StudentModeId?.value,
-			ServiceTypeId: formData.ServiceTypeId?.value,
-			SessionId: formData.session?.value,
-			Level: formData.Level?.value,
-			PaymentType: formData.PaymentType?.value,
-			PaymentPurpose: formData.PaymentPurpose?.value,
-			FacultyId: formData.FacultyId?.value,
+			StudentTypeId: formData.StudentTypeId.value,
+			StudentModeId: formData.StudentModeId.value,
+			ServiceTypeId: formData.ServiceTypeId.value,
+			SessionId: formData.session.value,
+			Level: formData.Level.value,
+			PaymentType: formData.PaymentType.value,
+			PaymentPurpose: formData.PaymentPurpose.value,
+			FacultyId: formData.FacultyId.value,
+			modeOfEntryId: formData.modeOfEntryId.value,
 			pageNumber,
 			pageSize,
 			searchTerm
@@ -141,9 +143,11 @@ export const ViewSundryFeesForm = ({
 												{...field}
 												placeholder="Select payment purpose"
 												options={allPaymentPurpose}
-												id="PaymentPurpose" 
-												searchable={false}
-												isError={!!errors.PaymentPurpose}
+												id="PaymentPurpose"
+												searchable={true}
+												isError={
+													!!errors.PaymentPurpose
+												}
 											/>
 										)}
 									/>
@@ -173,6 +177,37 @@ export const ViewSundryFeesForm = ({
 												id="StudentTypeId"
 												searchable={false}
 												isError={!!errors.StudentTypeId}
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className={`row mt-5`}>
+								<div className="col-lg-3  d-flex align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="modeOfEntryId"
+									>
+										Mode of Entry
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="modeOfEntryId"
+										control={control}
+										rules={{
+											required: true
+										}}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												placeholder="Select a Mode of Entry"
+												options={allStudentModesOfEntry}
+												id="modeOfEntryId"
+												searchable={false}
+												isError={!!errors.modeOfEntryId}
 											/>
 										)}
 									/>
@@ -229,7 +264,7 @@ export const ViewSundryFeesForm = ({
 												placeholder="Select Service Type"
 												options={allServiceTypes}
 												id="ServiceTypeId"
-												searchable={false}
+												searchable={true}
 												isError={!!errors.ServiceTypeId}
 											/>
 										)}

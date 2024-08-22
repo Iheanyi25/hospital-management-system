@@ -12,7 +12,10 @@ export const Table = ({
 	title,
 	toggleInvoiceActivation,
 	setEditData,
-	setEditOpen
+	setEditOpen,
+	metaData,
+	setPageNumber,
+	paginationProps
 }) => {
 	const columns = useMemo(
 		() => [
@@ -33,8 +36,13 @@ export const Table = ({
 				accessor: "paymentType"
 			},
 			{
+				Header: "Amount",
+				accessor: "amount"
+			},
+			{
 				Header: "Level",
-				accessor: "level"
+				accessor: "level",
+				Cell: ({ cell: { row } }) => <>{row.original.level ?? "-"}</>
 			},
 			{
 				Header: "Status",
@@ -56,7 +64,7 @@ export const Table = ({
 				Header: "Action",
 				accessor: "buttons",
 				Cell: ({ cell: { row } }) => {
-					const { rrr, active } = row.original;
+					const { invoiceCode, active } = row.original;
 					return (
 						<>
 							{!row.original.paymentStatus ? (
@@ -66,7 +74,7 @@ export const Table = ({
 									onChange={() =>
 										toggleInvoiceActivation({
 											active: !active,
-											rrr
+											invoiceCode
 										})
 									}
 									isDisabled={loading}
@@ -87,6 +95,7 @@ export const Table = ({
 								data-cy="edit_unit_load"
 								label="Edit"
 								buttonClass="standard"
+								disabled={!row.original.isEditable}
 								onClick={() => {
 									setEditData(row.original);
 									setEditOpen(true);
@@ -103,9 +112,12 @@ export const Table = ({
 	return (
 		<TMTable
 			columns={columns}
-			data={data?.data?.invoiceData || []}
+			data={data}
 			title={title}
 			loading={loading}
+			metaData={metaData}
+			setPageNumber={setPageNumber}
+			availablePages={paginationProps.totalPages}
 		/>
 	);
 };

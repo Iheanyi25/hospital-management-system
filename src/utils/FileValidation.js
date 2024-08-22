@@ -36,3 +36,16 @@ export function checkIfImagesAreCorrectType(files) {
 	}
 	return valid;
 }
+
+export function checkIfAdmissionListFilesAreTooBig(files, ) {
+	let valid = true;
+	if (files[0]) {
+		const file = files[0];
+		const sizeInMB = file.size / 1024 / 1024; // Convert size to megabytes
+		if (sizeInMB > 12) {
+			// Check if size exceeds 2MB
+			valid = false;
+		}
+	}
+	return valid;
+}

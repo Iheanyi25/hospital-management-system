@@ -1,21 +1,17 @@
- import { useState } from "react";
+import { useState } from "react";
 import { useApiGet } from "../../../../../api/apiCall";
-import {
-	getAllSessionsUrl,
-	getCSEApplicationTypesUrl
-} from "../../../../../api/urls";
+import { getAllSessionsUrl } from "../../../../../api/urls";
 import { Note, PaymentOptions, Spinner } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import { UserDetailsForm } from "../../components";
-import { JupebStudentForms } from "../../components";
+import { CCEStudentForms } from "../../components";
+import { useLocation, useHistory } from "react-router-dom";
 
-const GenerateCSEInvoice = () => {
+const GenerateCCEInvoice = () => {
 	const [userFormState, setUserFormState] = useState(false);
 	const [makeRequest, setMakeRequest] = useState(false);
 	const [userFormData, setUserFormData] = useState({});
 	const [jupebApplicationId, setJupebAplicationId] = useState("");
-	const { data: applicatiionData, isLoading: applicationTypesLoading } =
-		useApiGet(getCSEApplicationTypesUrl());
 
 	const { data: sessions, isLoading: sessionsLoading } = useApiGet(
 		getAllSessionsUrl(),
@@ -25,13 +21,16 @@ const GenerateCSEInvoice = () => {
 	);
 
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
-	const allApplicationTypes = formatSelectItems(
-		applicatiionData?.data,
-		"name",
-		"id"
-	);
 
-	if (sessionsLoading || applicationTypesLoading) return <Spinner />;
+	const location = useLocation();
+	const history = useHistory();
+
+	const { state } = location;
+	const { goBack } = history;
+
+	if (!location.state) goBack();
+
+	if (sessionsLoading) return <Spinner />;
 	return (
 		<>
 			{!userFormState && (
@@ -41,8 +40,7 @@ const GenerateCSEInvoice = () => {
 				`}
 				/>
 			)}
-			<JupebStudentForms
-				allApplicationTypes={allApplicationTypes}
+			<CCEStudentForms
 				setUserFormState={setUserFormState}
 				setUserFormData={setUserFormData}
 				userFormState={userFormState}
@@ -50,6 +48,7 @@ const GenerateCSEInvoice = () => {
 				setJupebAplicationId={setJupebAplicationId}
 				makeRequest={makeRequest}
 				setMakeRequest={setMakeRequest}
+				state={state}
 			/>
 			{userFormState && (
 				<UserDetailsForm
@@ -66,4 +65,4 @@ const GenerateCSEInvoice = () => {
 	);
 };
 
-export default GenerateCSEInvoice;
+export default GenerateCCEInvoice;

@@ -19,5 +19,5 @@ export const UploadSchema = yup.object().shape({
 				return Number(this.parent.Amount) >= Number(value);
 			}
 		),
-	ServiceTypeId: yup.mixed().required("please enter service types amount")
+	ServiceTypeId: yup.mixed().required("please select service type")
 });

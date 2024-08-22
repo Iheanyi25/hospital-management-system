@@ -11,23 +11,29 @@ import {
 	getAllStudetInvoicesUrl,
 	deactivatefeeinvoiceUrl,
 	getAllSessionsUrl,
-	getLevelForBorrowCoursesUrl
+	yearOfStudyUrl,
+	getSchoolFeesPaymentTypesUrl
 } from "../../../../../api/urls";
 import { useApiGet, useApiPut } from "../../../../../api/apiCall";
 import { useQueryClient } from "react-query";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import { SearchInvoice, Table } from "./components";
+import { PAGESIZE } from "../../../../../utils/constants";
 
 const InvoiceManagement = () => {
 	const [editData, setEditData] = useState({});
 	const [matricNo, setMatricNo] = useState("");
+	const [pageNumber, setPageNumber] = useState(1);
+	const [editOpen, setEditOpen] = useState(false);
 	const { mutate: toggle, isLoading: isPosting } = useApiPut();
 	const queryClient = useQueryClient();
+	const pageSize = PAGESIZE.xl;
 
-	const { data, isLoading, error } = useApiGet(
-		getAllStudetInvoicesUrl(matricNo),
+	const { data, isLoading, isFetching, error } = useApiGet(
+		getAllStudetInvoicesUrl({ userId: matricNo, pageSize, pageNumber }),
 		{
 			refetchOnWindowFocus: false,
+			keepPreviousData: true,
 			enabled: !!matricNo
 		}
 	);
@@ -44,15 +50,24 @@ const InvoiceManagement = () => {
 		isLoading: isLoadingLevels,
 		error: levelsError
 	} = useApiGet(
-		getLevelForBorrowCoursesUrl(data?.data?.studentData?.userId),
+		yearOfStudyUrl({
+			studentTypeId: data?.data?.studentData?.studentTypeId
+		}),
 		{
 			refetchOnWindowFocus: false,
 			enabled: !!data?.data?.studentData
 		}
 	);
+	const {
+		data: paymentTypes,
+		isLoading: isPaymentTypesLoading,
+		error: paymentTypesError
+	} = useApiGet(getSchoolFeesPaymentTypesUrl(), {
+		refetchOnWindowFocus: false
+	});
 	const allLevels = formatSelectItems(levels?.data, "name", "id");
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
-	const [editOpen, setEditOpen] = useState(false);
+	const allPaymentTypes = formatSelectItems(paymentTypes?.data, "name", "id");
 
 	const details = [
 		{
@@ -64,31 +79,30 @@ const InvoiceManagement = () => {
 		{ title: "Department", value: data?.data?.studentData?.department },
 		{
 			title: "Entry Mode",
-			value: data?.data?.studentData?.studentModeOfEntry
+			value: data?.data?.studentData?.modeOfEntry
 		},
 		{ title: "Level", value: data?.data?.studentData?.level }
 	];
 
 	const toggleInvoiceActivation = useCallback(
-		({ active, rrr }) => {
+		({ active, invoiceCode }) => {
 			const requestDet = {
 				url: deactivatefeeinvoiceUrl(),
 				data: {
 					active,
-					rrr
+					invoiceCode
 				}
 			};
 			toggle(requestDet, {
 				onSuccess: () => {
 					queryClient.invalidateQueries(
-						getAllStudetInvoicesUrl(matricNo)
+						getAllStudetInvoicesUrl({ userId: matricNo, pageSize, pageNumber })
 					);
 					const successFlag = window.AJS.flag({
 						type: "success",
 						title: "Invoice Action Success!",
-						body: `Invoice was ${
-							active ? "activated" : "deactivated"
-						} successfully!`
+						body: `Invoice was ${active ? "activated" : "deactivated"
+							} successfully!`
 					});
 					setTimeout(() => {
 						successFlag.close();
@@ -100,8 +114,7 @@ const InvoiceManagement = () => {
 						title: "Invoice Action Success!",
 						body:
 							response?.data?.message ||
-							`Invoice wasn't ${
-								active ? "activated" : "deactivated"
+							`Invoice wasn't ${active ? "activated" : "deactivated"
 							} successfully!`
 					});
 					setTimeout(() => {
@@ -110,11 +123,11 @@ const InvoiceManagement = () => {
 				}
 			});
 		},
-		[queryClient, toggle, matricNo]
+		[toggle, queryClient, matricNo, pageSize, pageNumber]
 	);
 
-	if (isLoadingSessions) return <Spinner />;
-	if (error || sessionsError || levelsError)
+	if (isLoadingSessions || isPaymentTypesLoading) return <Spinner />;
+	if (error || sessionsError || levelsError || paymentTypesError)
 		return (
 			"An error has occurred: " +
 			error?.response?.data?.messagese?.data?.message
@@ -135,6 +148,9 @@ const InvoiceManagement = () => {
 					data={editData}
 					allLevels={allLevels}
 					allSessions={allSessions}
+					allPaymentTypes={allPaymentTypes}
+					currentFilterState={{ userId: matricNo, pageSize, pageNumber }}
+					studentId={data?.data?.studentData?.studentId}
 					studentTypeId={data?.data?.studentData?.studentTypeId}
 					matricNo={matricNo}
 				/>
@@ -156,13 +172,18 @@ const InvoiceManagement = () => {
 					/>
 				)}
 				<Table
-					data={data}
+					data={data?.data?.invoiceData?.items || []}
 					emptyState={emptyState}
-					loading={isLoading || isPosting || isLoadingLevels}
+					loading={
+						isLoading || isFetching || isPosting || isLoadingLevels
+					}
 					title="Invoice"
 					toggleInvoiceActivation={toggleInvoiceActivation}
 					setEditData={setEditData}
+					setPageNumber={setPageNumber}
 					setEditOpen={setEditOpen}
+					metaData={data?.data?.invoiceData.metaData}
+					paginationProps={data?.data?.invoiceData?.metaData || {}}
 				/>
 			</div>
 		</section>

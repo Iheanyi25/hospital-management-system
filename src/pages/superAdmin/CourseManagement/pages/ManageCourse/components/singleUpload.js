@@ -24,7 +24,7 @@ export const SingleUpload = ({ setUploadModal, currentFilterState }) => {
 		const requestDet = {
 			url: postCourseSingUploadUrl(),
 			data: {
-				Title: data.Title.toUpperCase(),
+				Name: data.Title.toUpperCase(),
 				CourseCode: data.CourseCode.toUpperCase()
 			}
 		};

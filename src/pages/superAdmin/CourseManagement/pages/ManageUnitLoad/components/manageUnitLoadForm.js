@@ -16,6 +16,7 @@ export const ManageUnitLoadForm = ({
 	allFaculties,
 	allStudentModes,
 	allStudentTypes,
+	data,
 	setFilter,
 	handleSubmit,
 	allLevels,
@@ -29,10 +30,13 @@ export const ManageUnitLoadForm = ({
 		setFilter((state) => ({
 			...state,
 			facultyId: formData.facultyId.value,
-			studentModeOfEntryId: formData.studentModeOfEntryId.value,
+			modeOfEntryId: formData.modeOfEntryId.value,
 			studentTypeId: formData.studentTypeId.value,
-			semester: formData.semester.value,
-			yearOfStudyId: formData.yearOfStudyId.value
+			sessionId: formData.sessionId.value,
+			semesterId: formData.semester.value,
+			...(formData.yearOfStudyId && {
+				yearOfStudyId: formData.yearOfStudyId.value
+			})
 		}));
 	};
 	return (
@@ -146,14 +150,14 @@ export const ManageUnitLoadForm = ({
 								<div className="col-lg-3  d-flex align-items-center">
 									<label
 										className="font-weight-bold"
-										htmlFor="studentModeOfEntryId"
+										htmlFor="modeOfEntryId"
 									>
 										Mode of Entry
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="studentModeOfEntryId"
+										name="modeOfEntryId"
 										control={control}
 										rules={{
 											required: true
@@ -163,11 +167,9 @@ export const ManageUnitLoadForm = ({
 												{...field}
 												placeholder="Select a Mode of Entry"
 												options={allStudentModes}
-												id="studentModeOfEntryId"
+												id="modeOfEntryId"
 												searchable={false}
-												isError={
-													!!errors.studentModeOfEntryId
-												}
+												isError={!!errors.modeOfEntryId}
 											/>
 										)}
 									/>
@@ -199,6 +201,37 @@ export const ManageUnitLoadForm = ({
 												options={SEMESTERS}
 												searchable={false}
 												isError={!!errors.semester}
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="row mt-5">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="sessionId"
+									>
+										Session
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="sessionId"
+										control={control}
+										rules={{
+											required: true
+										}}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												id="sessionId"
+												options={allSessions}
+												placeholder="Select Academic Session"
+												searchable={false}
+												isError={!!errors.sessionId}
 											/>
 										)}
 									/>

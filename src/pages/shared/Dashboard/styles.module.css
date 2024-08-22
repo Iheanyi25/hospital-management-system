@@ -18,7 +18,6 @@
 	/* background-color: var(--primary); */
 }
 
-
 .legend p {
 	margin-left: 12px;
 	margin-bottom: 0px;
@@ -53,3 +52,5 @@
 .session_dropdown {
 	width: 130px;
 }
+
+

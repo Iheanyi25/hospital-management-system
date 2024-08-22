@@ -4,7 +4,7 @@ import { ExcelRenderer } from "react-excel-renderer";
 
 export const BulkUpload = ({
 	setUploadModal,
-	currentFilterState,
+	filter,
 	state,
 	allGenders,
 	allLevels,
@@ -55,7 +55,7 @@ export const BulkUpload = ({
 					submitData={submitData}
 					extractedData={extractedData}
 					setUploadModal={setUploadModal}
-					currentFilterState={currentFilterState}
+					filter={filter}
 				/>
 			)}
 		</div>

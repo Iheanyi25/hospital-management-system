@@ -52,7 +52,11 @@ const UserClaimManagement = () => {
 	const deleteClaim = () => {
 		const { claim } = editData;
 		const requestDet = {
-			url: deleteUserClaimUrl({ userId, claim })
+			url: deleteUserClaimUrl(),
+			data: {
+				userId,
+				claim
+			}
 		};
 		mutate(requestDet, {
 			onSuccess: () => {

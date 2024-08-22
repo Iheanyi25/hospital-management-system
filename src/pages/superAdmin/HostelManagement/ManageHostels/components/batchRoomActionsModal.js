@@ -14,13 +14,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useQueryClient } from "react-query";
 import { useEffect, useRef, useState } from "react";
 import { formatHostelRoomDisplay } from "../../../../../utils/formatHostelRoomDisplay";
-import { PAGESIZE } from "../../../../../utils/constants";
+import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
+import { useDebouncedCallback } from "use-debounce";
 
 export const BatchRoomActionsModal = ({
 	closeModal,
 	filter,
 	allActivationStatuses,
-	state
+	state,
+	rooms
 }) => {
 	const { mutate: callAction, isLoading: isAdding } = useApiPut();
 	const ref = useRef();
@@ -29,18 +31,28 @@ export const BatchRoomActionsModal = ({
 	const [watchData, setWatchData] = useState({
 		groupSelectionId: ""
 	});
+
 	const toggleRoomAction = (data) => {
 		const requestDet = {
 			url: bulkToggleHostelRoomsUrl(),
 			data: {
 				groupSelectionId: data?.groupSelectionId?.value,
 				hostelId: state?.id,
-				hostelRoomId: data?.hostelRoomId?.map(
-					(hostelRoomId) => hostelRoomId.value
-				),
+				hostelRoomId:
+					watchData.groupSelectionId === 2
+						? rooms?.filter((item) =>
+								data?.hostelRoomId?.some(
+									(obj2) => obj2.value !== item
+								)
+						  )
+						: data?.hostelRoomId?.map(
+								(hostelRoomId) => hostelRoomId.value
+						  ),
 				action: data?.action?.value
 			}
 		};
+
+
 		callAction(requestDet, {
 			onSuccess: () => {
 				queryClient.invalidateQueries(filter);
@@ -80,6 +92,7 @@ export const BatchRoomActionsModal = ({
 	} = useForm({
 		resolver: yupResolver(batchRoomSchema)
 	});
+
 	const apiOptions = async (query) => {
 		const data = await getSearchRequest({
 			queryKey: getAllHostelsRoomUrl({
@@ -88,12 +101,22 @@ export const BatchRoomActionsModal = ({
 				pageSize
 			})
 		});
+
 		return formatHostelRoomDisplay({
 			rooms: data.data.items,
 			name: "name",
 			value: "id"
 		});
 	};
+
+	
+	  // Create a debounced version of fetchStudents
+	  const debouncedFetchStudents = useDebouncedCallback(
+		apiOptions,
+		SEARCH_DELAY.sm
+	  );
+	
+
 	const handleFieldChange = (name, value) => {
 		setValue(name, value);
 		clearErrors(name);
@@ -190,7 +213,7 @@ export const BatchRoomActionsModal = ({
 									<AsyncMultiSelect
 										placeholder="Search for rooms"
 										id="hostelRoomId"
-										apiOptions={apiOptions}
+										apiOptions={debouncedFetchStudents}
 										isMulti={true}
 										isClearable
 										defaultOptions

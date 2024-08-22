@@ -59,7 +59,7 @@ export const LecturerTable = ({
 				Header: "Sex",
 				accessor: "gender",
 				Cell: ({ cell: { row } }) => (
-					<>{row?.original?.gender.split("")[0] || "-"}</>
+					<>{row?.original?.gender?.split("")[0] || "-"}</>
 				)
 			},
 			{

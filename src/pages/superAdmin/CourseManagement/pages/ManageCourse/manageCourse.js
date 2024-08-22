@@ -3,16 +3,18 @@ import {
 	CenteredDialog,
 	ConfirmationModal,
 	Search,
-	TMTable
+	TMTable,
+	ToggleElement
 } from "../../../../../ui_elements";
 import styles from "./style.module.css";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { EditCourse, UploadCourse } from "./components";
 import {
 	editUploadedCourseUrl,
-	getCoursesToManageUrl
+	getCoursesToManageUrl,
+	toggleCourseStatusUrl
 } from "../../../../../api/urls";
-import { useApiDelete, useApiGet } from "../../../../../api/apiCall";
+import { useApiDelete, useApiGet, useApiPut } from "../../../../../api/apiCall";
 import { useQueryClient } from "react-query";
 import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
@@ -43,6 +45,7 @@ const ManageCourse = () => {
 		}
 	);
 	const { mutate, isLoading: isDeleting } = useApiDelete();
+	const { mutate: toggle, isLoading: isPosting } = useApiPut();
 	const queryClient = useQueryClient();
 	const deleteCourse = () => {
 		const requestDet = {
@@ -77,6 +80,51 @@ const ManageCourse = () => {
 			}
 		});
 	};
+
+	const toggleCourseActivation = useCallback(
+		(id, active) => {
+			const requestDet = {
+				url: toggleCourseStatusUrl(id)
+			};
+			toggle(requestDet, {
+				onSuccess: () => {
+					queryClient.invalidateQueries(
+						getCoursesToManageUrl({
+							pageSize,
+							pageNumber,
+							searchTerm
+						})
+					);
+					const successFlag = window.AJS.flag({
+						type: "success",
+						title: "Course Action Success!",
+						body: `Course was ${
+							active ? "deactivated" : "activated"
+						} successfully!`
+					});
+					setTimeout(() => {
+						successFlag.close();
+					}, 5000);
+				},
+				onError: ({ response }) => {
+					const errorFlag = window.AJS.flag({
+						type: "error",
+						title: "Course Action Success!",
+						body:
+							response?.data?.message ||
+							`Course wasn't ${
+								active ? "deactivated" : "activated"
+							} successfully!`
+					});
+					setTimeout(() => {
+						errorFlag.close();
+					}, 5000);
+				}
+			});
+		},
+		[pageNumber, queryClient, searchTerm, toggle, pageSize]
+	);
+
 	const columns = useMemo(
 		() => [
 			{
@@ -96,7 +144,23 @@ const ManageCourse = () => {
 			},
 			{
 				Header: "Course title",
-				accessor: "title"
+				accessor: "name"
+			},
+			{
+				Header: "Status",
+				accessor: "active",
+				Cell: ({ cell: { row } }) => {
+					const { active, id } = row.original;
+					return (
+						<ToggleElement
+							id={`open-course-registration-${active}`}
+							checked={active}
+							label={active ? "Activated" : "Deactivated"}
+							onChange={() => toggleCourseActivation(id, active)}
+							isDisabled={isPosting}
+						/>
+					);
+				}
 			},
 			{
 				Header: "Action",
@@ -110,30 +174,20 @@ const ManageCourse = () => {
 							onClick={() => {
 								setEditData({
 									code: row.original.courseCode,
-									title: row.original.title,
+									title: row.original.name,
 									id: row.original.id
 								});
 								setEditOpen(true);
-							}}
-						/>
-						<Button
-							data-cy="delete_course"
-							label="Delete"
-							buttonClass="standard-danger"
-							onClick={() => {
-								setEditData({
-									id: row.original.id
-								});
-								setOpenDelete(true);
 							}}
 						/>
 					</div>
 				)
 			}
 		],
-		[pageSize, pageNumber]
+		[pageSize, pageNumber, isPosting, toggleCourseActivation]
 	);
-	if (error) return "An error has occurred: " + error?.response?.data?.message;
+	if (error)
+		return "An error has occurred: " + error?.response?.data?.message;
 	return (
 		<div className={styles.container}>
 			<CenteredDialog
@@ -191,7 +245,7 @@ const ManageCourse = () => {
 								/>
 							</div>
 						}
-						loading={isLoading || isFetching}
+						loading={isLoading || isFetching || isPosting}
 						setPageNumber={setPageNumber}
 						availablePages={data?.data?.metaData.totalPages}
 					/>

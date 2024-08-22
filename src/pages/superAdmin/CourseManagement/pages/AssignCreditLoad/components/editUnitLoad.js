@@ -79,7 +79,7 @@ export const EditUnitLoad = ({ data, currentFilterState, closeModal }) => {
 					<TextField
 						id="maximumUnit"
 						placeholder="Enter maximum unit"
-						type="number"
+						type="text"
 						name="maximumUnit"
 						register={register}
 						error={errors.maximumUnit}
@@ -98,7 +98,7 @@ export const EditUnitLoad = ({ data, currentFilterState, closeModal }) => {
 					<TextField
 						id="minimumUnit"
 						placeholder="Enter minimum unit"
-						type="number"
+						type="text"
 						name="minimumUnit"
 						register={register}
 						error={errors.minimumUnit}

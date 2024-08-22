@@ -18,9 +18,9 @@ export const CourseTable = ({ data, noCourseApprovalStatus }) => {
 					{data.map((data, index) => (
 						<tr key={index}>
 							<td>{data.courseCode}</td>
-							<td>{data.courseTitle}</td>
-							<td>{data.courseUnit}</td>
-							<td>{data.courseType.toUpperCase()}</td>
+							<td>{data.courseName}</td>
+							<td>{data.unitLoadId}</td>
+							<td>{data.courseType?.toUpperCase()}</td>
 							{!noCourseApprovalStatus && (
 								<td>{data.approved ? "True" : "False"}</td>
 							)}
@@ -41,6 +41,6 @@ export const CourseTable = ({ data, noCourseApprovalStatus }) => {
 
 const getTotalRegisteredCourseUnits = (data) => {
 	return data.reduce((acc, curr) => {
-		return acc + parseInt(curr.courseUnit);
+		return acc + parseInt(curr.unitLoadId);
 	}, 0);
 };

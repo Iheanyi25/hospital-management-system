@@ -13,13 +13,12 @@ import {
 	getGendersUrl,
 	getMaritalStatusesUrl,
 	getOLevelExamTypesUrl,
-	getOLevelSubjectsUrl,
 	getOlevelGradeUrl,
 	getYearsUrl,
-	getDepartmentsUrl,
-	getDepartmentOptionUrl,
 	getAllCountriesUrl,
-	getRelationshipsUrl
+	getRelationshipsUrl,
+	getPutmeSubjectsUrl,
+	getOLevelSubjectsUrl
 } from "../../../api/urls";
 
 import Avatar from "react-avatar";
@@ -31,6 +30,7 @@ import {
 	checkIfFilesAreTooBig,
 	checkIfImagesAreCorrectType
 } from "../../../utils/FileValidation";
+import { getFacultiesUrl } from "../../../api/urls";
 
 const PUTMEApplication = () => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
@@ -60,24 +60,6 @@ const PUTMEApplication = () => {
 			refetchOnWindowFocus: false
 		}
 	);
-	const { data: departments, isLoading: isLoadingDepartments } = useApiGet(
-		getDepartmentsUrl(putmeStoreData?.StudentTypeId),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-	const { data: departmentsOptions, isLoading: isLoadingDepartmentsOptions } =
-		useApiGet(
-			getDepartmentOptionUrl({
-				departmentId: putmeStoreData?.programmeInfo?.department?.value
-			}),
-			{
-				refetchOnWindowFocus: false,
-				enabled:
-					putmeStoreData?.programmeInfo?.department?.value !==
-					undefined
-			}
-		);
 	const { data: genders, isLoading: isLoadingGenders } = useApiGet(
 		getGendersUrl(),
 		{
@@ -99,7 +81,12 @@ const PUTMEApplication = () => {
 		}
 	);
 
-	const { data: oLevelSubjects, isLoading: isLoadingOLevelSubjects } =
+	const { data: putmeSubjects, isLoading: isLoadingPutmeSubjects } =
+		useApiGet(getPutmeSubjectsUrl(), {
+			refetchOnWindowFocus: false
+		});
+
+	const { data: olevelSubjects, isLoading: isLoadingOlevelSubjects } =
 		useApiGet(getOLevelSubjectsUrl(), {
 			refetchOnWindowFocus: false
 		});
@@ -118,6 +105,13 @@ const PUTMEApplication = () => {
 		}
 	);
 
+	const { data: faculties, isLoading: isLoadingFaculties } = useApiGet(
+		getFacultiesUrl(putmeStoreData?.StudentTypeId),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+
 	const {
 		data: countries,
 		isLoadingCountries,
@@ -128,16 +122,6 @@ const PUTMEApplication = () => {
 
 	const allStatuses = formatSelectItems(stauses?.data, "name", "id");
 	const allGenders = formatSelectItems(genders?.data, "name", "id");
-	const allDepartments = formatSelectItems(
-		departments?.data,
-		"department",
-		"departmentId"
-	);
-	const allDepartmentOptions = formatSelectItems(
-		departmentsOptions?.data,
-		"departmentOption",
-		"departmentOptionId"
-	);
 	const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
 	const allRelationships = formatSelectItems(
 		relationships?.data,
@@ -146,10 +130,19 @@ const PUTMEApplication = () => {
 	);
 
 	const allOlevelSubjects = formatSelectItems(
-		oLevelSubjects?.data,
+		olevelSubjects?.data,
 		"name",
 		"id"
 	);
+
+	const allPutmeSubjects = formatSelectItems(
+		putmeSubjects?.data,
+		"name",
+		"id"
+	);
+
+	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
+
 	const allOlevelGrades = formatSelectItems(oLevelGrades?.data, "name", "id");
 	const allExamYears = examYears?.data.map((year) => ({
 		value: year,
@@ -198,7 +191,7 @@ const PUTMEApplication = () => {
 				type: "error",
 				title: "Failed!",
 				body: !checkIfFilesAreTooBig(images)
-					? "File too Large."
+					? "File too Large. File should be less than 1MB"
 					: "Invalid file type. Try again"
 			});
 			setTimeout(() => {
@@ -210,15 +203,15 @@ const PUTMEApplication = () => {
 	if (
 		isLoading ||
 		loadingProgrammes ||
-		isLoadingDepartments ||
 		isLoadingGenders ||
 		isLoadingStatuses ||
 		isLoadingExamTypes ||
-		isLoadingOLevelSubjects ||
+		isLoadingPutmeSubjects ||
 		isLoadingOLevelGrades ||
 		isLoadingExamYears ||
-		isLoadingDepartmentsOptions ||
-		isLoadingCountries
+		isLoadingCountries ||
+		isLoadingFaculties ||
+		isLoadingOlevelSubjects
 	)
 		return <Spinner />;
 	if (error || countryError) return "An error has occurred: " + error.message;
@@ -276,15 +269,16 @@ const PUTMEApplication = () => {
 					<DisplayInformation
 						allRelationships={allRelationships}
 						allProgrammes={allProgrammes}
-						allDepartments={allDepartments}
-						allDepartmentOptions={allDepartmentOptions}
 						allGenders={allGenders}
 						allStatuses={allStatuses}
 						allOlevelGrades={allOlevelGrades}
 						allExamYears={allExamYears}
 						allOlevelSubjects={allOlevelSubjects}
+						allPutmeSubjects={allPutmeSubjects}
 						allExamTypes={allExamTypes}
 						allCountries={allCountries}
+						allFaculties={allFaculties}
+						fromJambState={state.fromJamb}
 					/>
 				</div>
 			</div>
@@ -295,15 +289,16 @@ const PUTMEApplication = () => {
 const DisplayInformation = memo(
 	({
 		allRelationships,
-		allDepartments,
 		allGenders,
 		allStatuses,
 		allOlevelGrades,
 		allExamYears,
 		allOlevelSubjects,
+		allPutmeSubjects,
 		allExamTypes,
-		allDepartmentOptions,
-		allCountries
+		allCountries,
+		allFaculties,
+		fromJambState
 	}) => {
 		const location = useLocation();
 		switch (location.hash) {
@@ -319,8 +314,9 @@ const DisplayInformation = memo(
 			case "#section_b":
 				return (
 					<ProgrammeDetails
-						allDepartments={allDepartments}
-						allDepartmentOptions={allDepartmentOptions}
+						allFaculties={allFaculties}
+						allPutmeSubjects={allPutmeSubjects}
+						fromJambState={fromJambState}
 					/>
 				);
 			case "#section_c":

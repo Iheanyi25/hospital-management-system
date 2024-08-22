@@ -5,8 +5,8 @@ import { staffRoutes } from "./staffRoutes";
 const LazyLecturerDashboard = lazy(() =>
 	import("../../pages/lecturer/Dashboard/dashboard")
 );
-const LazyLecturerProfile = lazy(() =>
-	import("../../pages/lecturer/Profile/profile")
+const LazyStaffProfile = lazy(() =>
+	import("../../pages/shared/Profile/profile")
 );
 const routesToRemove = ["Dashboard", "Profile"];
 export const lecturerRoutes = [
@@ -20,7 +20,7 @@ export const lecturerRoutes = [
 	},
 	{
 		path: "/profile",
-		component: LazyLecturerProfile,
+		component: LazyStaffProfile,
 		exact: true,
 		router: MainRouter,
 		title: "Profile"

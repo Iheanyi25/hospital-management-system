@@ -30,12 +30,12 @@ export default function MedicalHistoryPrintout({
 		<div className={styles.print_out__section}>
 			<div className={styles.grid_header}>Medical History</div>
 			<div className={styles.ailment_grid}>
-				{selectedAilMents.map((ailmentValue, index) => (
+				{selectedAilMents?.map((ailmentValue, index) => (
 					<div className={styles.ailments_items} key={index}>
 						<img src={CheckboxIcon} alt="checkbox icon" />
 						<div>{allAilmentsObj[ailmentValue]}</div>
 					</div>
-				))}
+				)) ?? []}
 			</div>
 		</div>
 	);

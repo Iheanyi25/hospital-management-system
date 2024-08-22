@@ -41,8 +41,8 @@ export const AddCategoryModal = ({
 				queryClient.invalidateQueries(filter);
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Notice Action Success!",
-					body: "Notice(s) added successfully"
+					title: "Category Action Success!",
+					body: "Category(s) added successfully"
 				});
 				closeModal();
 				setTimeout(() => {
@@ -52,10 +52,10 @@ export const AddCategoryModal = ({
 			onError: ({ response }) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
-					title: "Notice Action Failed!",
+					title: "Category Action Failed!",
 					body:
 						response?.data?.message ||
-						`Notice(s) not added successfully`
+						`Category(s) not added successfully`
 				});
 				closeModal();
 				setTimeout(() => {

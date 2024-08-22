@@ -26,7 +26,7 @@ import { PAGESIZE } from "../../../../../utils/constants";
 const pageStyle = `
   @page {
     // size: 80mm 50mm;
-    margin-top: 10rem;
+    margin-top: 3rem;
     margin-left: 3rem;
   }
 
@@ -132,8 +132,7 @@ const ViewResults = () => {
 		handlePrint,
 		downloadGradeSheet
 	]);
-
-	const title = `${data?.data?.code} for ${data?.data?.departmentName} ${
+	const title = `${data?.data?.code} for ${data?.data?.department} ${
 		data?.data?.departmentOption ? `(${data?.data?.departmentOption})` : ""
 	}`;
 	const downloadXLSFile = useCallback(async () => {
@@ -174,7 +173,7 @@ const ViewResults = () => {
 	}, [file, downloadFile, downloadXLSFile]);
 	const crumbItems = [
 		{
-			name: "Results & Class List",
+			name: "My Courses",
 			path: "/records"
 		},
 		{
@@ -193,7 +192,7 @@ const ViewResults = () => {
 	const scenario = {
 		title: "Upload results",
 		message:
-			"Download the scoresheet by clicking the button below. Fill in the results of your students and upload.",
+			"Download the score sheet by clicking the button below. Fill in the results of your students and upload.",
 		buttonGroup: (
 			<>
 				<Button
@@ -240,15 +239,17 @@ const ViewResults = () => {
 				Cell: ({ cell: { row } }) => <div>{row.original.ca || "-"}</div>
 			},
 			{
-				Header: "Lab",
-				accessor: "lab",
-				Cell: ({ cell: { row } }) => <div>{row.original.lab || "-"}</div>
-			},
-			{
 				Header: "Exam",
 				accessor: "exam",
 				Cell: ({ cell: { row } }) => (
 					<div>{row.original.exam || "-"}</div>
+				)
+			},
+			{
+				Header: "Lab",
+				accessor: "lab",
+				Cell: ({ cell: { row } }) => (
+					<div>{row.original.lab || "-"}</div>
 				)
 			},
 			{

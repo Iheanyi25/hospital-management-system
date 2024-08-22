@@ -14,6 +14,7 @@ export const Table = ({
 	fileLoading,
 	loading
 }) => {
+	console.log(paginationProps);
 	const columns = useMemo(
 		() => [
 			{

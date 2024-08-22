@@ -22,11 +22,12 @@ export const AddUser = ({
 	closeModal,
 	allStudentTypes,
 	allRoles,
+	allGenders,
+	allCampuses,
 	currentFilterState
 }) => {
 	const [studentTupeState, setStudentTupeState] = useState("");
 	const queryClient = useQueryClient();
-
 	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
 		getDepartmentsUrl(studentTupeState),
 		{
@@ -48,6 +49,14 @@ export const AddUser = ({
 		setValue,
 		formState: { errors, isSubmitting }
 	} = useForm({
+		defaultValues: {
+			UserRole: currentFilterState?.roleName
+				? {
+						label: currentFilterState.roleName,
+						value: currentFilterState.roleName
+				  }
+				: null
+		},
 		resolver: yupResolver(addUserSchema),
 		context: {
 			isLDepartment: allDepartments?.length > 0 ? true : false
@@ -69,14 +78,17 @@ export const AddUser = ({
 		const requestDet = {
 			url: createUserUrl(),
 			data: {
-				LastName: data?.Surname,
-				Firstname: data?.Firstname,
-				Middlename: data?.Middlename,
+				LastName: data?.Surname.trim(),
+				Firstname: data?.Firstname.trim(),
+				Middlename: data?.Middlename.trim(),
 				Username: data?.Username,
 				Email: data?.Email,
+				StaffNumber: data?.StaffNumber,
 				StudentTypeId: data?.StudentType?.value,
 				DepartmentId: data?.Department?.value,
-				PhoneNumber: data?.PhoneNumber,
+				MobileNumber: data?.PhoneNumber,
+				GenderId: data?.GenderId?.value,
+				CampusId: data?.CampusId?.value,
 				Role: data?.UserRole?.value
 			}
 		};
@@ -179,6 +191,70 @@ export const AddUser = ({
 			</div>
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="admission_batch">User Role</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="UserRole"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								placeholder="Select user role"
+								searchable={true}
+								id="UserRole"
+								{...field}
+								options={allRoles}
+								isError={!!errors.UserRole}
+								errorText={
+									errors.UserRole && errors.UserRole.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="admission_batch">Gender</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="GenderId"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								placeholder="Select a gender"
+								searchable={true}
+								id="GenderId"
+								{...field}
+								options={allGenders}
+								isError={!!errors.GenderId}
+								errorText={
+									errors.GenderId && errors.GenderId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="StaffNumber">Staff Number</label>
+				</div>
+				<div className="col-lg-9">
+					<TextField
+						name="StaffNumber"
+						placeholder="Enter staff number"
+						register={register}
+						error={errors.StaffNumber}
+						errorText={
+							errors.StaffNumber && errors.StaffNumber.message
+						}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
 					<label htmlFor="PhoneNumber">Phone Number</label>
 				</div>
 				<div className="d-flex col-lg-9">
@@ -223,6 +299,30 @@ export const AddUser = ({
 					/>
 				</div>
 			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="admission_batch">Campus</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="CampusId"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								placeholder="Select a campus"
+								searchable={true}
+								id="CampusId"
+								{...field}
+								options={allCampuses}
+								isError={!!errors.CampusId}
+								errorText={
+									errors.CampusId && errors.CampusId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
 			{isDepartmentLoading ? (
 				<div className="mb-4">
 					<Spinner />
@@ -256,30 +356,6 @@ export const AddUser = ({
 					</div>
 				)
 			)}
-			<div className="row mb-4">
-				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="admission_batch">User Role</label>
-				</div>
-				<div className="col-lg-9">
-					<Controller
-						name="UserRole"
-						control={control}
-						render={({ field }) => (
-							<SMSelect
-								placeholder="Select user role"
-								searchable={true}
-								id="UserRole"
-								{...field}
-								options={allRoles}
-								isError={!!errors.UserRole}
-								errorText={
-									errors.UserRole && errors.UserRole.message
-								}
-							/>
-						)}
-					/>
-				</div>
-			</div>
 			<div className="d-flex justify-content-end">
 				<Button
 					data-cy="update_rows"
