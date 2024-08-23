@@ -12,7 +12,10 @@ export const initialState = (data) => ({
 				label: data?.gender
 			}
 		}),
-		DateOfBirth: formatDateFromAPI(data?.dateOfBirth),
+		DateOfBirth:
+			data?.dateOfBirth === null
+				? ""
+				: formatDateFromAPI(data?.dateOfBirth),
 		...(data?.countryId && {
 			CountryId: {
 				value: data?.countryId,
@@ -44,10 +47,12 @@ export const initialState = (data) => ({
 			value: data?.departmentId,
 			label: data?.department
 		},
-		DepartmentOptionId: {
-			value: data?.departmentOptionId ?? "",
-			label: data?.departmentOption ?? "NONE"
-		},
+		...(data?.departmentOptionId && {
+			DepartmentOptionId: {
+				value: data?.departmentOptionId,
+				label: data?.departmentOption
+			}
+		}),
 		EntryYearId: {
 			value: data?.sessionId,
 			label: data?.session
@@ -56,24 +61,18 @@ export const initialState = (data) => ({
 			value: data?.studentTypeId,
 			label: data?.studentType
 		},
-		StudentModeOfEntryId: {
-			value: data?.studentModeOfEntryId,
-			label: data?.studentModeOfEntry
+		ModeOfEntryId: {
+			value: data?.modeOfEntryId,
+			label: data?.modeOfEntry
 		},
-		StudentModeOfStudyId: {
-			value: data?.studentModeOfEntryId,
-			label: data?.studentModeOfEntry
+		ModeOfStudyId: {
+			value: data?.modeOfEntryId,
+			label: data?.modeOfEntry
 		},
 		SessionId: {
 			value: data?.sessionId,
 			label: data?.session
-		},
-		...(data?.programmeId && {
-			ProgrammeId: {
-				value: data?.programmeId,
-				label: data?.programme
-			}
-		})
+		}
 	},
 	NextOfKin: {
 		Fullname: data?.nextOfKin?.fullname,
@@ -90,6 +89,8 @@ export const initialState = (data) => ({
 	StudentPassport: { Passport: data?.passport },
 	Sponsor: {},
 	MedicalRecords: [],
+	EducationalHistory: data?.educationHistory || [],
+	WorkHistory: data?.employment || [],
 	isPassportValid: !!data?.passport,
 	isPersonalDataValid: false,
 	isProgrammeDetailValid: false,

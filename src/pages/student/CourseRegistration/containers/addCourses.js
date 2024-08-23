@@ -30,6 +30,8 @@ export const AddCourses = ({
 	setOpen,
 	setCourses,
 	academicYearDetails,
+	courseBorrowingStatus,
+	courseRegData,
 	setSelectedCourses,
 	studentData,
 	adminCallback,
@@ -40,15 +42,16 @@ export const AddCourses = ({
 	isAdding
 }) => {
 	const [courseDetails, setCourseDetails] = useState({
-		levelId: "",
+		borrowLevelId: "",
 		departmentId: "",
 		departmentOptionId: ""
 	});
+
 	const [selectedAddOrDropCourses, setSelectedAddOrDropCourses] = useState(
 		[]
 	);
 	const [isSelecetd, setIsSelected] = useState({});
-	const { levelId, departmentId, departmentOptionId } = courseDetails;
+	const { borrowLevelId, departmentId, departmentOptionId } = courseDetails;
 	const [cookies] = useCookies([STUDENT_TYPE_HOLDER]);
 	const { [STUDENT_TYPE_HOLDER]: studentTypeId } = cookies;
 	const { data: levels, isLoading: isLoadingLevels } = useApiGet(
@@ -62,10 +65,21 @@ export const AddCourses = ({
 		control,
 		watch,
 		formState: { errors }
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			department: {
+				value: courseRegData?.departmentId,
+				label: courseRegData?.department
+			},
+			departmentOption: {
+				value: courseRegData?.departmentOptionId,
+				label: courseRegData?.departmentOption
+			}
+		}
+	});
 
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
-		useApiGet(getDepartmentOptionUrl({ departmentId: departmentId }), {
+		useApiGet(getDepartmentOptionUrl({ departmentId, studentTypeId }), {
 			enabled: !!departmentId
 		});
 
@@ -75,23 +89,29 @@ export const AddCourses = ({
 				? getRegistrableCoursesUrl({
 						sessionId: academicYearDetails?.sessionId,
 						matricNo: academicYearDetails?.matricNo,
-						levelId,
+						registerLevelId: academicYearDetails?.levelId,
+						borrowLevelId,
 						departmentId,
 						semester: academicYearDetails?.semester,
 						departmentOptionId,
 						StudentTypeId: studentData?.studentType,
-						StudentModeOfEntryId: studentData?.entryMode
+						modeOfEntryId: studentData?.entryMode
 				  })
 				: getBorrowCoursesUrl({
 						sessionId: academicYearDetails?.sessionId,
-						borrowLevelId: levelId,
-						registerLevelId: academicYearDetails?.yearOfStudyId,
+						registerLevelId: academicYearDetails?.levelId,
+						borrowLevelId,
 						departmentId,
-						semesterId: academicYearDetails?.semester,
+						semester: academicYearDetails?.semesterId,
 						departmentOptionId
 				  }),
 			{
-				enabled: !!levelId && !!departmentId
+				enabled:
+					!!borrowLevelId &&
+					!!departmentId &&
+					(departmentOption?.data?.length > 0
+						? !!departmentOptionId
+						: true)
 			}
 		);
 
@@ -101,7 +121,7 @@ export const AddCourses = ({
 				setCourseDetails((state) => ({
 					...state,
 					departmentOptionId: "",
-					levelId: "",
+					borrowLevelId: "",
 					departmentId: formFields.department?.value
 				}));
 			}
@@ -179,11 +199,11 @@ export const AddCourses = ({
 			},
 			{
 				Header: "Course Title",
-				accessor: "courseTitle"
+				accessor: "courseName"
 			},
 			{
 				Header: "Course Unit",
-				accessor: "courseUnit"
+				accessor: "unitLoadId"
 			},
 			{
 				Header: "Course Type",
@@ -211,7 +231,7 @@ export const AddCourses = ({
 			setIsOriginallySelected({ ...isOriginallySelected, ...isSelecetd });
 			const totalCreditUnitSelectedInitially =
 				selectedAddOrDropCourses.reduce(
-					(acc, course) => acc + course.courseUnit,
+					(acc, course) => acc + course.unitLoadId,
 					totalSelectedCreditUnit
 				);
 			setTotalSelectedCreditUnit(totalCreditUnitSelectedInitially);
@@ -222,12 +242,11 @@ export const AddCourses = ({
 	const onSubmitAddOrDropQuery = (data) => {
 		//set the course details son as to trigger another query for add and drop courses
 		setCourseDetails({
-			levelId: data.level.value,
+			borrowLevelId: data.level.value,
 			departmentId: data.department.value,
-			departmentOptionId:
-				departmentOption?.data?.length > 0
-					? data?.departmentOption?.value
-					: ""
+			...(data?.departmentOption && {
+				departmentOptionId: data?.departmentOption.value
+			})
 		});
 	};
 	return (
@@ -294,6 +313,9 @@ export const AddCourses = ({
 													options={allDepartments}
 													placeholder="Select Department"
 													searchable={true}
+													disabled={
+														!courseBorrowingStatus
+													}
 													isError={
 														!!errors.department
 													}
@@ -302,6 +324,49 @@ export const AddCourses = ({
 										/>
 									</div>
 								</>
+							)}
+						</div>
+						<div className="row  mt-5">
+							{isLoadingDepartmentOption ? (
+								<Spinner />
+							) : (
+								(departmentOption?.data?.length > 0 ||
+									courseRegData?.departmentOption) && (
+									<>
+										<div className="col-lg-3  d-flex align-items-center">
+											<label
+												className="font-weight-bold"
+												htmlFor="departmentOption"
+											>
+												Department Option
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<Controller
+												name="departmentOption"
+												control={control}
+												rules={{ required: true }}
+												render={({ field }) => (
+													<SMSelect
+														{...field}
+														id="departmentOption"
+														options={
+															allDepartmentOption
+														}
+														placeholder="Select Department Option"
+														searchable={false}
+														disabled={
+															!courseBorrowingStatus
+														}
+														isError={
+															!!errors.departmentOption
+														}
+													/>
+												)}
+											/>
+										</div>
+									</>
+								)
 							)}
 						</div>
 						<div className="row  mt-5">
@@ -337,44 +402,6 @@ export const AddCourses = ({
 								</>
 							)}
 						</div>
-						<div className="row  mt-5">
-							{isLoadingDepartmentOption ? (
-								<Spinner />
-							) : (
-								departmentOption?.data?.length > 0 && (
-									<>
-										<div className="col-lg-3  d-flex align-items-center">
-											<label
-												className="font-weight-bold"
-												htmlFor="departmentOption"
-											>
-												Department Option
-											</label>
-										</div>
-										<div className="col-lg-9">
-											<Controller
-												name="departmentOption"
-												control={control}
-												render={({ field }) => (
-													<SMSelect
-														{...field}
-														id="departmentOption"
-														options={
-															allDepartmentOption
-														}
-														placeholder="Select Department Option"
-														searchable={false}
-														isError={
-															!!errors.departmentOption
-														}
-													/>
-												)}
-											/>
-										</div>
-									</>
-								)
-							)}
-						</div>
 					</section>
 				</Jumbotron>
 			</form>
@@ -391,7 +418,7 @@ export const AddCourses = ({
 			) : (
 				// this additonal check is to prevent showing "No courses found" even when no query has been made
 				departmentId &&
-				levelId && (
+				borrowLevelId && (
 					<div className={styles.error_wrapper}>
 						<DefaultScreen
 							title="No Courses Found"

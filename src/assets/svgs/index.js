@@ -19,6 +19,7 @@ import { ReactComponent as UnauthorisedIcon } from "./unauthorised.svg";
 import { ReactComponent as ChristmasLogo } from "./christmasLogo.svg";
 import { ReactComponent as ChristmasLight } from "./christmasLight.svg";
 import { ReactComponent as EmptyState } from "./emptyState.svg";
+import { ReactComponent as ArrowUp } from "./arrow-up.svg";
 
 export {
 	Avatar,
@@ -41,5 +42,6 @@ export {
 	UnauthorisedIcon,
 	ChristmasLogo,
 	ChristmasLight,
-	EmptyState
+	EmptyState,
+	ArrowUp,
 };

@@ -1,124 +1,149 @@
 import { INITIAL_DATE } from "../../utils/constants";
-import { formatProfileInitalDate } from "../../utils/formatDate";
-import { DIRECT_ENTRY } from "../constant";
+import { formatDateFromAPI } from "../../utils/formatDate";
+import { CLEAR_APPLICATION_DATA, DIRECT_ENTRY } from "../constant";
 
 export const directEntryInitialState = (data) => ({
 	passport: {
-		passport: data?.basicInformation?.passport
+		passport: data?.passport
 	},
-	JambRegNumber: data?.basicInformation?.jambRegNumber,
-	...(data?.basicInformation?.studentTypeId && {
+	JambRegNumber: data?.regNumber,
+	...(data?.studentTypeId && {
 		StudentTypeId: {
-			label: data?.basicInformation?.studentType,
-			value: data?.basicInformation?.studentTypeId
+			label: data?.studentType,
+			value: data?.studentTypeId
 		}
 	}),
-	basicInformation: {
-		Id: data?.basicInformation?.id,
-		Surname: data?.basicInformation?.lastname,
-		Firstname: data?.basicInformation?.firstname,
-		Middlename: data?.basicInformation?.middlename,
-		MaidenName: data?.basicInformation?.maidenName,
-		...(data?.basicInformation?.dateofBirth && {
+	personalInfoResponse: {
+		Surname: data?.personalInfoResponse?.surname,
+		Firstname: data?.personalInfoResponse?.firstname,
+		Middlename: data?.personalInfoResponse?.middlename,
+		...(data?.personalInfoResponse?.dateOfBirth && {
 			DateofBirth:
-				data?.basicInformation?.dateofBirth === INITIAL_DATE
+				data?.personalInfoResponse?.dateOfBirth === INITIAL_DATE
 					? ""
-					: formatProfileInitalDate(
-							data?.basicInformation?.dateofBirth
-					  )
+					: formatDateFromAPI(data?.personalInfoResponse?.dateOfBirth)
 		}),
-		...(data?.basicInformation?.genderId && {
+		...(data?.personalInfoResponse?.genderId && {
 			GenderId: {
-				label: data?.basicInformation?.gender,
-				value: data?.basicInformation?.genderId
+				label: data?.personalInfoResponse?.gender,
+				value: data?.personalInfoResponse?.genderId
 			}
 		}),
-		...(data?.basicInformation?.sessionId && {
+		...(data?.personalInfoResponse?.sessionId && {
 			SessionId: {
-				label: data?.basicInformation?.sessionId,
-				value: data?.basicInformation?.sessionId
+				label: data?.personalInfoResponse?.sessionId,
+				value: data?.personalInfoResponse?.sessionId
 			}
 		}),
-		...(data?.basicInformation?.bloodGroupId && {
-			BloodGroupId: {
-				label: data?.basicInformation?.bloodGroup,
-				value: data?.basicInformation?.bloodGroupId
-			}
-		}),
-		...(data?.basicInformation?.genoTypeId && {
-			GenoTypeId: {
-				label: data?.basicInformation?.genoType,
-				value: data?.basicInformation?.genoTypeId
-			}
-		}),
-		...(data?.basicInformation?.country && {
+		...(data?.personalInfoResponse?.country && {
 			CountryId: {
-				label: data?.basicInformation?.country,
-				value: data?.basicInformation?.countryId
+				label: data?.personalInfoResponse?.country,
+				value: data?.personalInfoResponse?.countryId
 			}
 		}),
-		...(data?.basicInformation?.state && {
+		...(data?.personalInfoResponse?.state && {
 			StateId: {
-				label: data?.basicInformation?.state,
-				value: data?.basicInformation?.stateId
+				label: data?.personalInfoResponse?.state,
+				value: data?.personalInfoResponse?.stateId
 			}
 		}),
-		...(data?.basicInformation?.lga && {
+		...(data?.personalInfoResponse?.lga && {
 			LgaId: {
-				label: data?.basicInformation?.lga,
-				value: data?.basicInformation?.lgaId
+				label: data?.personalInfoResponse?.lga,
+				value: data?.personalInfoResponse?.lgaId
 			}
 		}),
-		Town: data?.basicInformation?.town,
-		PermanentAddress: data?.basicInformation?.permanentAddress,
-		Hobby: data?.basicInformation?.hobby,
-		MobileNo: data?.basicInformation?.mobileNumber,
-		Email: data?.basicInformation?.email,
-		Disability: data?.basicInformation?.disability ? "Yes" : "No",
-		...(data?.basicInformation?.religionId && {
-			ReligionId: {
-				label: data?.basicInformation?.religion,
-				value: data?.basicInformation?.religionId
+		PermanentAddress: data?.personalInfoResponse?.contactAddress,
+		MobileNo: data?.personalInfoResponse?.mobileNumber,
+		Email: data?.personalInfoResponse?.email
+	},
+	programmeInfo: {
+		...(data?.programmeInfoResponse?.departmentId && {
+			department: {
+				label: data?.programmeInfoResponse?.department,
+				value: data?.programmeInfoResponse?.departmentId
 			}
 		}),
-		...(data?.basicInformation?.departmentId && {
-			CourseId: {
-				label: data?.basicInformation?.department,
-				value: data?.basicInformation?.departmentId
+		...(data?.programmeInfoResponse?.certificateTypeId && {
+			certificateType: {
+				label: data?.programmeInfoResponse?.certificateType,
+				value: data?.programmeInfoResponse?.certificateTypeId
 			}
 		}),
-		SponsersFullname: data?.nextOfKin?.fullname,
-		SponsersAddress: data?.nextOfKin?.address,
-		SponsersMobileNo: data?.nextOfKin?.mobileNumber,
-		SponsersEmail: data?.nextOfKin?.email,
-		...(data?.nextOfKin?.relationshipId && {
-			SponsersRelationship: {
-				label: data?.nextOfKin?.relationship,
-				value: data?.nextOfKin?.relationshipId
+		...((data?.programmeInfoResponse?.directEntryGradeId ||
+			data?.programmeInfoResponse?.degreeCertificateId) && {
+			grade: {
+				label:
+					data?.programmeInfoResponse?.directEntryGrade ||
+					data?.programmeInfoResponse?.directEntryCertificate,
+				value:
+					data?.programmeInfoResponse?.directEntryGradeId ||
+					data?.programmeInfoResponse?.directEntryCertificateId
 			}
-		})
+		}),
+		...(data?.programmeInfoResponse?.directEntryProgrammeOLevel && {
+			aLevelSubjects: [
+				...Object?.keys(
+					data?.programmeInfoResponse?.directEntryProgrammeOLevel
+						?.subjectGrade
+				)?.map((key, index) => ({
+					subject: {
+						label: key?.toUpperCase(),
+						value: Object?.keys(
+							data?.programmeInfoResponse
+								?.directEntryProgrammeOLevel?.subjectGradeId
+						)?.[index]
+					},
+					grade: {
+						label: data?.programmeInfoResponse
+							?.directEntryProgrammeOLevel?.subjectGrade?.[key],
+						value: Object?.values(
+							data?.programmeInfoResponse
+								?.directEntryProgrammeOLevel?.subjectGradeId
+						)?.[index]
+					}
+				}))
+			]
+		}),
+		cgpa: data?.programmeInfoResponse?.cgpa,
+		previousSchool: data?.programmeInfoResponse?.previousSchool,
+		previousCourse: data?.programmeInfoResponse?.previousCourse
 	},
 	oLevelResult: {
-		sittings: data?.olevelInfo?.map((item) => ({
+		sittings: data?.olevelResponse?.map((item) => ({
 			...item,
+			resultPin: item?.resultPin,
+			resultPinSno: item?.resultSerialNumber,
+			examNumber: item?.examNumber,
+			examCentre: item?.examCenter,
+			oLevelType: {
+				value: item?.examinationTypeId,
+				label: item?.examinationType
+			},
+			examYear: { value: item?.examYear, label: item?.examYear },
 			subjects: [
 				...Object?.keys(item?.subjectGrade).map((key, index) => ({
 					subject: {
 						label: key?.toUpperCase(),
-						value: Object?.keys(item?.subjectGrade)?.[index]
+						value: Object?.keys(item?.subjectGradeId)?.[index]
 					},
 					grade: {
 						label: item?.subjectGrade?.[key],
-						value: Object?.values(item?.subjectGrade)?.[index]
+						value: Object?.values(item?.subjectGradeId)?.[index]
 					}
 				}))
 			]
 		}))
 	},
-	institutionAttended: {
-		institutionAttended: data?.institutionAttended
-			? [...data?.institutionAttended]
-			: []
+	uploadCertificate: {
+		birthCertificate: data?.directEntryCertificate?.birthCertificate,
+		lgaIdentification: data?.directEntryCertificate?.lgaIdentification,
+		testimonials: data?.directEntryCertificate?.testimonials,
+		firstSchoolLeaving:
+			data?.directEntryCertificate?.firstSchoolLeavingCertificate,
+		ondHndStatementOfResult:
+			data?.directEntryCertificate?.ondhndStatementOfResult,
+		olevelResult: data?.directEntryCertificate?.oLevelResult1
 	}
 });
 
@@ -128,6 +153,8 @@ export const directEntryReducer = (state = {}, action) => {
 			return Object.assign({}, state, {
 				...action.payload
 			});
+		case CLEAR_APPLICATION_DATA:
+			return {};
 		default:
 			return state;
 	}

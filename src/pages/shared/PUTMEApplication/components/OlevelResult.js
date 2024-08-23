@@ -107,7 +107,7 @@ export const OlevelResult = ({
 					ExamCenter: sitting?.examCentre,
 					ExamNumber: sitting?.examNumber,
 					ExamYear: sitting?.examYear?.value,
-					OLevelSubjectGrade: sitting?.subjects?.reduce(
+					SubjectGrade: sitting?.subjects?.reduce(
 						(total, subject) => ({
 							...total,
 							[subject?.subject?.value]: subject?.grade?.value
@@ -115,7 +115,7 @@ export const OlevelResult = ({
 						{}
 					),
 					ResultPin: sitting?.resultPin,
-					ResultPinSno: sitting?.resultPinSno
+					ResultSerialNumber: sitting?.resultPinSno
 				}))
 			}
 		};
@@ -197,277 +197,291 @@ export const OlevelResult = ({
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			{sittings.map((_, sittingIndex) => (
-				<Jumbotron
-					key={sittingIndex}
-					headerText={
-						sittingIndex === 0 ? (
-							<span>First Sitting</span>
-						) : (
-							<span>Second Sitting</span>
-						)
-					}
-					endText={
-						sittings.length > 1 ? (
-							<button
-								className="clickable"
-								type="button"
-								onClick={() =>
-									setHideSittingIndex((prevIndex) =>
-										prevIndex !== sittingIndex
-											? sittingIndex
-											: null
-									)
-								}
-							>
-								{sittingIndex !== hideSittingIndex ? (
-									<ChevronDownFilled
-										style={{ transform: "rotate(180deg)" }}
-									/>
-								) : (
-									<ChevronDownFilled />
-								)}
-							</button>
-						) : (
-							""
-						)
-					}
-					footerContent={
-						sittingIndex === sittings.length - 1 ? (
-							<Button
-								data-cy="submit_personal"
-								label="Submit"
-								buttonClass="primary"
-								type="submit"
-								loading={isFormLoading}
-							/>
-						) : (
-							""
-						)
-					}
-					footerStyle="d-flex justify-content-end"
-				>
-					{hideSittingIndex !== sittingIndex ? (
-						<>
-							<div
-								className="container-fluid px-4 my-4"
-								key={sittingIndex}
-							>
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.oLevelTypeid`}
-										>
-											O Level Type
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<Controller
-											name={`sittings.${sittingIndex}.oLevelType`}
-											control={control}
-											rules={{ required: true }}
-											render={({ field }) => (
-												<SMSelect
-													{...field}
-													placeholder="Select O Level Type"
-													searchable={true}
-													options={oLevelType}
-													isError={
-														errors?.sittings?.[
-															sittingIndex
-														]?.oLevelType
-													}
-													errorText={
-														errors?.sittings?.[
-															sittingIndex
-														]?.oLevelType &&
-														errors?.sittings?.[
-															sittingIndex
-														]?.oLevelType?.message
-													}
-													id={`sittings.${sittingIndex}.oLevelTypeid`}
-												/>
-											)}
+				<div key={sittingIndex}>
+					<Jumbotron
+						headerText={
+							sittingIndex === 0 ? (
+								<span>First Sitting</span>
+							) : (
+								<span>Second Sitting</span>
+							)
+						}
+						endText={
+							sittings.length > 1 ? (
+								<button
+									className="clickable"
+									type="button"
+									onClick={() =>
+										setHideSittingIndex((prevIndex) =>
+											prevIndex !== sittingIndex
+												? sittingIndex
+												: null
+										)
+									}
+								>
+									{sittingIndex !== hideSittingIndex ? (
+										<ChevronDownFilled
+											style={{
+												transform: "rotate(180deg)"
+											}}
 										/>
+									) : (
+										<ChevronDownFilled />
+									)}
+								</button>
+							) : (
+								""
+							)
+						}
+						footerContent={
+							sittingIndex === sittings.length - 1 ? (
+								<Button
+									data-cy="submit_personal"
+									label="Submit"
+									buttonClass="primary"
+									type="submit"
+									loading={isFormLoading}
+								/>
+							) : (
+								""
+							)
+						}
+						footerStyle="d-flex justify-content-end"
+					>
+						{hideSittingIndex !== sittingIndex ? (
+							<>
+								<div
+									className="container-fluid px-4 my-4"
+									key={sittingIndex}
+								>
+									<div className="row">
+										<div className="col-lg-3  d-flex align-items-center">
+											<label
+												htmlFor={`sittings.${sittingIndex}.oLevelTypeid`}
+											>
+												O Level Type
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<Controller
+												name={`sittings.${sittingIndex}.oLevelType`}
+												control={control}
+												rules={{ required: true }}
+												render={({ field }) => (
+													<SMSelect
+														{...field}
+														placeholder="Select O Level Type"
+														searchable={true}
+														options={oLevelType}
+														isError={
+															errors?.sittings?.[
+																sittingIndex
+															]?.oLevelType
+														}
+														errorText={
+															errors?.sittings?.[
+																sittingIndex
+															]?.oLevelType &&
+															errors?.sittings?.[
+																sittingIndex
+															]?.oLevelType
+																?.message
+														}
+														id={`sittings.${sittingIndex}.oLevelTypeid`}
+													/>
+												)}
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.examCentreid`}
-										>
-											Exam Center
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<TextField
-											autoComplete="off"
-											placeholder="Enter exam center"
-											className="w-100"
-											type="text"
-											id={`sittings.${sittingIndex}.examCentreid`}
-											name={`sittings.${sittingIndex}.examCentre`}
-											register={register}
-											required
-											error={
-												errors?.sittings?.[sittingIndex]
-													?.examCentre
-											}
-											errorText={
-												errors?.sittings?.[sittingIndex]
-													?.examCentre &&
-												errors?.sittings?.[sittingIndex]
-													?.examCentre?.message
-											}
-										/>
-									</div>
-								</div>
-							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.examNumberid`}
-										>
-											Exam No
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<TextField
-											autoComplete="off"
-											placeholder="Enter exam number"
-											className="w-100"
-											type="text"
-											id={`sittings.${sittingIndex}.examNumberid`}
-											name={`sittings.${sittingIndex}.examNumber`}
-											register={register}
-											required
-											error={
-												errors?.sittings?.[sittingIndex]
-													?.examNumber
-											}
-											errorText={
-												errors?.sittings?.[sittingIndex]
-													?.examNumber &&
-												errors?.sittings?.[sittingIndex]
-													?.examNumber?.message
-											}
-										/>
+								<div className="container-fluid px-4 my-4">
+									<div className="row">
+										<div className="col-lg-3  d-flex align-items-center">
+											<label
+												htmlFor={`sittings.${sittingIndex}.examCentreid`}
+											>
+												Exam Center
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<TextField
+												autoComplete="off"
+												placeholder="Enter exam center"
+												className="w-100"
+												type="text"
+												id={`sittings.${sittingIndex}.examCentreid`}
+												name={`sittings.${sittingIndex}.examCentre`}
+												register={register}
+												required
+												error={
+													errors?.sittings?.[
+														sittingIndex
+													]?.examCentre
+												}
+												errorText={
+													errors?.sittings?.[
+														sittingIndex
+													]?.examCentre &&
+													errors?.sittings?.[
+														sittingIndex
+													]?.examCentre?.message
+												}
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.examYearid`}
-										>
-											Exam Year
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<Controller
-											name={`sittings.${sittingIndex}.examYear`}
-											control={control}
-											rules={{ required: true }}
-											render={({ field }) => (
-												<SMSelect
-													{...field}
-													placeholder="Select exam year"
-													searchable={true}
-													options={examYears}
-													isError={
-														errors?.sittings?.[
-															sittingIndex
-														]?.examYear
-													}
-													errorText={
-														errors?.sittings?.[
-															sittingIndex
-														]?.examYear &&
-														errors?.sittings?.[
-															sittingIndex
-														]?.examYear?.message
-													}
-													id={`sittings.${sittingIndex}.examYearid`}
-												/>
-											)}
-										/>
+								<div className="container-fluid px-4 my-4">
+									<div className="row">
+										<div className="col-lg-3  d-flex align-items-center">
+											<label
+												htmlFor={`sittings.${sittingIndex}.examNumberid`}
+											>
+												Exam No
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<TextField
+												autoComplete="off"
+												placeholder="Enter exam number"
+												className="w-100"
+												type="text"
+												id={`sittings.${sittingIndex}.examNumberid`}
+												name={`sittings.${sittingIndex}.examNumber`}
+												register={register}
+												required
+												error={
+													errors?.sittings?.[
+														sittingIndex
+													]?.examNumber
+												}
+												errorText={
+													errors?.sittings?.[
+														sittingIndex
+													]?.examNumber &&
+													errors?.sittings?.[
+														sittingIndex
+													]?.examNumber?.message
+												}
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3 d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.resultPinid`}
-										>
-											O Level Card PIN
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<TextField
-											autoComplete="off"
-											placeholder="Enter O Level Card PIN"
-											className="w-100"
-											type="text"
-											id={`sittings.${sittingIndex}.resultPinid`}
-											name={`sittings.${sittingIndex}.resultPin`}
-											register={register}
-											required
-											error={
-												errors?.sittings?.[sittingIndex]
-													?.resultPin
-											}
-											errorText={
-												errors?.sittings?.[sittingIndex]
-													?.resultPin &&
-												errors?.sittings?.[sittingIndex]
-													?.resultPin?.message
-											}
-										/>
-									</div>
-								</div>
-							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3 d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.resultPinSnoid`}
-										>
-											O Level Card Serial Number
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<TextField
-											autoComplete="off"
-											placeholder="Enter O Level Card Serial Number"
-											className="w-100"
-											type="text"
-											id={`sittings.${sittingIndex}.resultPinSnoid`}
-											name={`sittings.${sittingIndex}.resultPinSno`}
-											register={register}
-											required
-											error={
-												errors?.sittings?.[sittingIndex]
-													?.resultPinSno
-											}
-											errorText={
-												errors?.sittings?.[sittingIndex]
-													?.resultPinSno &&
-												errors?.sittings?.[sittingIndex]
-													?.resultPinSno?.message
-											}
-										/>
+								<div className="container-fluid px-4 my-4">
+									<div className="row">
+										<div className="col-lg-3  d-flex align-items-center">
+											<label
+												htmlFor={`sittings.${sittingIndex}.examYearid`}
+											>
+												Exam Year
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<Controller
+												name={`sittings.${sittingIndex}.examYear`}
+												control={control}
+												rules={{ required: true }}
+												render={({ field }) => (
+													<SMSelect
+														{...field}
+														placeholder="Select exam year"
+														searchable={true}
+														options={examYears}
+														isError={
+															errors?.sittings?.[
+																sittingIndex
+															]?.examYear
+														}
+														errorText={
+															errors?.sittings?.[
+																sittingIndex
+															]?.examYear &&
+															errors?.sittings?.[
+																sittingIndex
+															]?.examYear?.message
+														}
+														id={`sittings.${sittingIndex}.examYearid`}
+													/>
+												)}
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className="border-top border-bottom px-4 py-3 jumbotron-header jumbo-header">
-								<span>Subject &amp; Results</span>
-							</div>
-							{subjectsAndResults.map((_, index) => (
-								<>
+								<div className="container-fluid px-4 my-4">
+									<div className="row">
+										<div className="col-lg-3 d-flex align-items-center">
+											<label
+												htmlFor={`sittings.${sittingIndex}.resultPinid`}
+											>
+												O Level Card PIN
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<TextField
+												autoComplete="off"
+												placeholder="Enter O Level Card PIN"
+												className="w-100"
+												type="text"
+												id={`sittings.${sittingIndex}.resultPinid`}
+												name={`sittings.${sittingIndex}.resultPin`}
+												register={register}
+												required
+												error={
+													errors?.sittings?.[
+														sittingIndex
+													]?.resultPin
+												}
+												errorText={
+													errors?.sittings?.[
+														sittingIndex
+													]?.resultPin &&
+													errors?.sittings?.[
+														sittingIndex
+													]?.resultPin?.message
+												}
+											/>
+										</div>
+									</div>
+								</div>
+								<div className="container-fluid px-4 my-4">
+									<div className="row">
+										<div className="col-lg-3 d-flex align-items-center">
+											<label
+												htmlFor={`sittings.${sittingIndex}.resultPinSnoid`}
+											>
+												O Level Card Serial Number
+											</label>
+										</div>
+										<div className="col-lg-9">
+											<TextField
+												autoComplete="off"
+												placeholder="Enter O Level Card Serial Number"
+												className="w-100"
+												type="text"
+												id={`sittings.${sittingIndex}.resultPinSnoid`}
+												name={`sittings.${sittingIndex}.resultPinSno`}
+												register={register}
+												required
+												error={
+													errors?.sittings?.[
+														sittingIndex
+													]?.resultPinSno
+												}
+												errorText={
+													errors?.sittings?.[
+														sittingIndex
+													]?.resultPinSno &&
+													errors?.sittings?.[
+														sittingIndex
+													]?.resultPinSno?.message
+												}
+											/>
+										</div>
+									</div>
+								</div>
+								<div className="border-top border-bottom px-4 py-3 jumbotron-header jumbo-header">
+									<span>Subject &amp; Results</span>
+								</div>
+								{subjectsAndResults.map((_, index) => (
 									<div
 										className="container-fluid px-4 my-4"
 										key={index}
@@ -609,38 +623,38 @@ export const OlevelResult = ({
 											</div>
 										</div>
 									</div>
-								</>
-							))}
-							<div className="border-top px-4 py-3 text-right">
-								{sittingIndex === sittings.length - 1 &&
-								!(sittings.length >= 2) ? (
-									<SecondaryLink
-										label="+ Click to add Second Sitting"
-										onClick={handleAddAnother}
-									/>
-								) : sittingIndex === 1 &&
-								  sittings.length >= 2 ? (
-									<SecondaryLink
-										linkType="danger-link"
-										label={
-											<>
-												<Bin className="mr-1 align-middle" />
-												<span>
-													Delete Second Sitting
-												</span>
-											</>
-										}
-										onClick={handleDeleteAddAnother}
-									/>
-								) : (
-									""
-								)}
-							</div>
-						</>
-					) : (
-						""
-					)}
-				</Jumbotron>
+								))}
+								<div className="border-top px-4 py-3 text-right">
+									{sittingIndex === sittings.length - 1 &&
+									!(sittings.length >= 2) ? (
+										<SecondaryLink
+											label="+ Click to add Second Sitting"
+											onClick={handleAddAnother}
+										/>
+									) : sittingIndex === 1 &&
+									  sittings.length >= 2 ? (
+										<SecondaryLink
+											linkType="danger-link"
+											label={
+												<>
+													<Bin className="mr-1 align-middle" />
+													<span>
+														Delete Second Sitting
+													</span>
+												</>
+											}
+											onClick={handleDeleteAddAnother}
+										/>
+									) : (
+										""
+									)}
+								</div>
+							</>
+						) : (
+							""
+						)}
+					</Jumbotron>
+				</div>
 			))}
 		</form>
 	);

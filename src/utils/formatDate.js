@@ -58,6 +58,40 @@ export const formatProfileInitalDate = (date) => {
 	}`;
 };
 
-export const formatStringToDate = (date) => date.split("/").reverse().join("-");
+export const formatStringToDate = (date, seperator = "/") =>
+	date.split(seperator).reverse().join("-");
 
 export const formatDateFromAPI = (date) => date.split("T")[0];
+
+export const getCurrentDate = () => {
+	const today = new Date();
+	const dd = String(today.getDate()).padStart(2, "0");
+	const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+	const yyyy = today.getFullYear();
+
+	return `${dd}/${mm}/${yyyy}`;
+};
+
+export function timeAgo(receivedDate) {
+	const currentTime = new Date();
+	const newRecieved = new Date(receivedDate);
+	const timeDifference = currentTime.getTime() - newRecieved.getTime();
+
+	let seconds = Math.floor(timeDifference / 1000);
+	let minutes = Math.floor(seconds / 60);
+	let hours = Math.floor(minutes / 60);
+	let days = Math.floor(hours / 24);
+	let weeks = Math.floor(days / 7);
+
+	if (weeks > 0) {
+		return weeks + " week(s) ago";
+	} else if (days > 0) {
+		return days + " day(s) ago";
+	} else if (hours > 0) {
+		return hours + " hour(s) ago";
+	} else if (minutes > 0) {
+		return minutes + " minute(s) ago";
+	} else {
+		return seconds + " second(s) ago";
+	}
+}

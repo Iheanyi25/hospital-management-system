@@ -1,14 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Avatar from "react-avatar";
-import {
-	Badge,
-	Button,
-	CenteredDialog,
-	Search,
-	TMTable,
-	ToggleElement
-} from "../../../../../ui_elements";
-import { ViewPassport } from "./viewPassport";
+import { Badge, Button, Search, TMTable } from "../../../../../ui_elements";
+import { useHistory } from "react-router-dom";
+import queryString from "query-string";
 
 export const Table = ({
 	data,
@@ -20,11 +14,11 @@ export const Table = ({
 	debouncedSearch,
 	hasPerformedQuery,
 	loading,
-	onSubmit,
+	title,
 	isPosting
 }) => {
-	const [editOpen, setEditOpen] = useState(false);
-	const [editData, setEditData] = useState({});
+	const history = useHistory();
+	const parsed = queryString.parse(window.location.search);
 	const columns = useMemo(
 		() => [
 			{
@@ -106,55 +100,54 @@ export const Table = ({
 				Header: "Action",
 				accessor: "buttons",
 				Cell: ({ cell: { row } }) => {
-					const { isCleared, hasPaidAcceptance, admissionListId } =
-						row.original;
+					const nextPageCrumbs = [
+						{
+							name: "Class List",
+							path: "/student_management/clear"
+						},
+						{
+							name: title ?? "",
+							back: true,
+							path: "/student_management/clear"
+							
+						},
+						{
+							name: `${row.original.lastname} ${row.original.firstname}`,
+							path: "/"
+						}
+					];
 					return (
 						<div>
-							<ToggleElement
-								id={`cleareance-status-${isCleared}`}
-								checked={isCleared}
-								onChange={() =>
-									onSubmit({
-										admissionListId
-									})
-								}
-								isDisabled={isPosting || !hasPaidAcceptance}
-							/>
 							<Button
 								data-cy="view_image"
 								label="View"
 								buttonClass="standard"
-								onClick={() => {
-									setEditData(row.original);
-									setEditOpen(true);
-								}}
+								onClick={() =>
+									history.push({
+										pathname:
+											"/student_management/clear/view",
+										state: {
+											data: row.original,
+											searchParams: parsed,
+											crumbs: nextPageCrumbs
+										}
+									})
+								}
 							/>
 						</div>
 					);
 				}
 			}
 		],
-		[pageNumber, pageSize, setEditOpen, setEditData, isPosting, onSubmit]
+		[pageNumber, pageSize, history, parsed, title]
 	);
 
 	return (
 		<div>
-			<CenteredDialog
-				modalId="open_image"
-				isOpen={editOpen}
-				closeModal={() => setEditOpen(false)}
-				width={288}
-				formTitle="Profile picture"
-			>
-				<ViewPassport
-					data={editData}
-					closeModal={() => setEditOpen(false)}
-				/>
-			</CenteredDialog>
 			<TMTable
 				columns={columns}
 				data={data}
-				title="Students records"
+				title={hasPerformedQuery ? title : "Students records"}
 				additonalTitleData={
 					<>
 						{hasPerformedQuery && (

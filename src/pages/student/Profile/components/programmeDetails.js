@@ -20,8 +20,9 @@ import {
 import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
 import { ProgrammeDetailsSchema } from "./profileSchema";
+import { STUDENT_TYPES } from "../../../../utils/constants";
 
-export const ProgrammeDetails = ({ data, allSessions }) => {
+export const ProgrammeDetails = ({ data, allSessions, allProgrammeTypes }) => {
 	const { replace } = useHistory();
 	const { mutate, isLoading } = useApiPatch();
 	const queryClient = useQueryClient();
@@ -37,7 +38,7 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 			refetchOnWindowFocus: false
 		}
 	);
-
+	const isPGStudent = data?.studentTypeId === STUDENT_TYPES.POSTGRADUATE;
 	const getCurrentSession = (session) => Number(session.split("-")[0]);
 
 	const graduationYears = useMemo(
@@ -59,22 +60,28 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 		handleSubmit
 	} = useForm({
 		defaultValues: {
-			GraduationYearId: findValueAndLabel(
-				data?.graduationYearId,
-				allSessions
-			)
+			GraduationYearId:
+				findValueAndLabel(data?.graduationYearId, allSessions) || "",
+			programmeTypeId:
+				findValueAndLabel(data?.programmeTypeId, allProgrammeTypes) ||
+				""
 		},
-		resolver: yupResolver(ProgrammeDetailsSchema)
+		resolver: yupResolver(ProgrammeDetailsSchema),
+		context: {
+			isProgrammeTypeRequired: isPGStudent
+		}
 	});
 	const onSubmit = (values) => {
 		const data = [];
-		Object.keys(values).map((item) =>
-			data.push({
-				op: "replace",
-				path: `/StudentProgrammeDetail/${item}`,
-				value: values[item].value
-			})
-		);
+		Object.keys(values).forEach((item) => {
+			if (isPGStudent && item === "programmeTypeId") {
+				data.push({
+					op: "replace",
+					path: `/StudentProgrammeDetail/${item}`,
+					value: values[item].value
+				});
+			}
+		});
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode: false }),
 			data
@@ -196,7 +203,7 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 							<div className="col-lg-9">
 								<SMSelect
 									placeholder="Select a programme"
-									searchable={false}
+									searchable={true}
 									value={{
 										label: data?.schoolProgramme ?? "N/A"
 									}}
@@ -249,7 +256,7 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 									placeholder="Select a mode"
 									searchable={false}
 									value={{
-										label: data?.studentModeOfEntry ?? "N/A"
+										label: data?.modeOfEntry ?? "N/A"
 									}}
 									disabled
 								/>
@@ -283,7 +290,7 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 									placeholder="Select a mode"
 									searchable={false}
 									value={{
-										label: data?.studentModeOfStudy ?? "N/A"
+										label: data?.modeOfStudy ?? "N/A"
 									}}
 									disabled
 								/>
@@ -334,6 +341,30 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 							</div>
 						</div>
 					</div>
+					{isPGStudent && (
+						<div className="container-fluid px-4 my-4">
+							<div className="row">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label>Programme Types</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="programmeTypeId"
+										control={control}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												placeholder="Select a programme type"
+												searchable={false}
+												options={allProgrammeTypes}
+												id="programmeTypeId"
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+					)}
 					<div className="container-fluid px-4 my-4">
 						<div className="row">
 							<div className="col-lg-3  d-flex align-items-center">
@@ -352,6 +383,7 @@ export const ProgrammeDetails = ({ data, allSessions }) => {
 											{...field}
 											placeholder="Select a level"
 											searchable={false}
+											disabled
 											options={allLevels}
 											isError={!!errors.LevelId}
 											errorText={

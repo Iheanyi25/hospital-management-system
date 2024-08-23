@@ -37,7 +37,7 @@ export const EditRolePro = ({
 		// error
 	} = useApiGet(
 		getRoleClaimsUrl({
-			request: name
+			role: name
 		}),
 		{
 			refetchOnWindowFocus: false,

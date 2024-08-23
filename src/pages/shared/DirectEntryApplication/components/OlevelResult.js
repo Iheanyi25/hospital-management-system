@@ -1,10 +1,10 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { Controller, useForm } from "react-hook-form";
 
 import { useDispatch, useSelector } from "react-redux";
 import { DIRECT_ENTRY } from "../../../../store/constant";
-import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
 import style from "../style.module.css";
 
 import {
@@ -16,7 +16,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { OlevelResultSchema } from "../directEntrySchema";
 import { Bin, RedCancel, ChevronDownFilled } from "../../../../assets/svgs";
-import { useApiPut } from "../../../../api/apiCall";
+import { useApiPost } from "../../../../api/apiCall";
 import { directEntryOLevelDetailsFormUrl } from "../../../../api/urls";
 
 export const OlevelResult = ({
@@ -29,16 +29,19 @@ export const OlevelResult = ({
 	const [subjectsAndResults] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 	const [hideSittingIndex, setHideSittingIndex] = useState(null);
 
-	const directEntryData = useSelector((state) => state.directEntryData);
-	const { oLevelResult } = useSelector((state) => state.directEntryData);
-
 	const directEntry = useSelector((state) => state.directEntryData);
+	const { oLevelResult } = directEntry;
 
 	const dispatch = useDispatch();
 
-	const { push } = useHistory();
+	const { replace } = useHistory();
+	const { state } = useLocation();
 
-	const { mutate, isLoading: isFormLoading } = useApiPut();
+	if (!state) {
+		replace("/direct_entry_login");
+	}
+
+	const { mutate, isLoading: isFormLoading } = useApiPost();
 
 	const {
 		register,
@@ -50,16 +53,10 @@ export const OlevelResult = ({
 	} = useForm({
 		defaultValues: {
 			sittings: oLevelResult?.sittings?.map((sitting) => ({
-				examinationType:
-					findValueAndLabel(sitting?.examinationTypeId, oLevelType) ||
-					sitting?.examinationType,
+				oLevelType: sitting?.oLevelType,
 				examNumber: sitting?.examNumber,
 				examCentre: sitting?.examCentre,
-				examYear:
-					findValueAndLabel(sitting?.examYear, examYears) ||
-					sitting?.examYear,
-				cardPin: sitting?.cardPin,
-				cardSerialNumber: sitting?.cardSerialNumber,
+				examYear: sitting?.examYear,
 				subjects: sitting?.subjects?.map((subject) => ({
 					subject: {
 						value: subject?.subject?.value,
@@ -98,16 +95,15 @@ export const OlevelResult = ({
 
 	const onSubmit = (oLevelResult) => {
 		const requestBody = {
-			url: directEntryOLevelDetailsFormUrl({
-				applicantId: directEntry.Id
-			}),
+			url: directEntryOLevelDetailsFormUrl(),
 			data: {
-				OLevel: oLevelResult?.sittings.map((sitting) => ({
-					ExaminationTypeId: sitting?.examinationType?.value,
+				ApplicantId: directEntry.Id,
+				OLevelInfo: oLevelResult?.sittings.map((sitting) => ({
+					ExaminationTypeId: sitting?.oLevelType?.value,
 					ExamCenter: sitting?.examCentre,
 					ExamNumber: sitting?.examNumber,
-					CardPin: sitting.cardPin,
-					CardSerialNumber: sitting.cardSerialNumber,
+					// ResultPin: sitting.resultPin,
+					// ResultSerialNumber: sitting.resultPinSno,
 					ExamYear: sitting?.examYear?.value,
 					SubjectGrade: sitting?.subjects?.reduce(
 						(total, subject) => ({
@@ -123,8 +119,8 @@ export const OlevelResult = ({
 			onSuccess: () => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Successfully completed your direct entry apllication",
-					body: ""
+					title: "Successfully entered olevel details",
+					body: "That would be all!!"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -132,13 +128,15 @@ export const OlevelResult = ({
 				dispatch({
 					type: DIRECT_ENTRY,
 					payload: {
-						...directEntryData,
+						...directEntry,
 						oLevelResult
 					}
 				});
-				push({
-					pathname: `/direct_entry_application/preview`,
-					state: { details: directEntryData.JambRegNumber }
+				replace({
+					pathname: "/direct_entry_application/preview",
+					state: {
+						details: directEntry?.JambRegNumber
+					}
 				});
 			},
 			onError: () => {
@@ -222,7 +220,7 @@ export const OlevelResult = ({
 						sittingIndex === sittings.length - 1 ? (
 							<Button
 								data-cy="submit_personal"
-								label="Next"
+								label="Submit"
 								buttonClass="primary"
 								type="submit"
 								loading={isFormLoading}
@@ -249,7 +247,7 @@ export const OlevelResult = ({
 									</div>
 									<div className="col-lg-9">
 										<Controller
-											name={`sittings.${sittingIndex}.examinationType`}
+											name={`sittings.${sittingIndex}.oLevelType`}
 											control={control}
 											rules={{ required: true }}
 											render={({ field }) => (
@@ -261,16 +259,15 @@ export const OlevelResult = ({
 													isError={
 														errors?.sittings?.[
 															sittingIndex
-														]?.examinationType
+														]?.oLevelType
 													}
 													errorText={
 														errors?.sittings?.[
 															sittingIndex
-														]?.examinationType &&
+														]?.oLevelType &&
 														errors?.sittings?.[
 															sittingIndex
-														]?.examinationType
-															?.message
+														]?.oLevelType?.message
 													}
 													id={`sittings.${sittingIndex}.examinationTypeid`}
 												/>
@@ -385,81 +382,12 @@ export const OlevelResult = ({
 									</div>
 								</div>
 							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.cardPin`}
-										>
-											O Level Card PIN
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<TextField
-											autoComplete="off"
-											placeholder="Enter card pin"
-											className="w-100"
-											type="text"
-											id={`sittings.${sittingIndex}.cardPin`}
-											name={`sittings.${sittingIndex}.cardPin`}
-											register={register}
-											required
-											error={
-												errors?.sittings?.[sittingIndex]
-													?.cardPin
-											}
-											errorText={
-												errors?.sittings?.[sittingIndex]
-													?.cardPin &&
-												errors?.sittings?.[sittingIndex]
-													?.cardPin?.message
-											}
-										/>
-									</div>
-								</div>
-							</div>
-							<div className="container-fluid px-4 my-4">
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
-										<label
-											htmlFor={`sittings.${sittingIndex}.cardSerialNumber`}
-										>
-											O Level Card Serial
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<TextField
-											autoComplete="off"
-											placeholder="Enter card serial number"
-											className="w-100"
-											type="text"
-											id={`sittings.${sittingIndex}.cardSerialNumber`}
-											name={`sittings.${sittingIndex}.cardSerialNumber`}
-											register={register}
-											required
-											error={
-												errors?.sittings?.[sittingIndex]
-													?.cardSerialNumber
-											}
-											errorText={
-												errors?.sittings?.[sittingIndex]
-													?.cardSerialNumber &&
-												errors?.sittings?.[sittingIndex]
-													?.cardSerialNumber?.message
-											}
-										/>
-									</div>
-								</div>
-							</div>
 							<div className="border-top border-bottom px-4 py-3 jumbotron-header jumbo-header">
 								<span>Subject &amp; Results</span>
 							</div>
 							{subjectsAndResults.map((_, index) => (
-								<>
-									<div
-										className="container-fluid px-4 my-4"
-										key={index}
-									>
+								<React.Fragment key={index}>
+									<div className="container-fluid px-4 my-4">
 										<div className="row">
 											<div className="col-lg-3 d-flex align-items-center">
 												<label
@@ -597,11 +525,11 @@ export const OlevelResult = ({
 											</div>
 										</div>
 									</div>
-								</>
+								</React.Fragment>
 							))}
 							<div className="border-top px-4 py-3 text-right">
 								{sittingIndex === sittings.length - 1 &&
-								!(sittings.length >= 2) ? (
+									!(sittings.length >= 2) ? (
 									<button
 										className="clickable"
 										type="button"
@@ -612,7 +540,7 @@ export const OlevelResult = ({
 										</span>
 									</button>
 								) : sittingIndex === 1 &&
-								  sittings.length >= 2 ? (
+									sittings.length >= 2 ? (
 									<button
 										className="clickable"
 										type="button"

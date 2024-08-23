@@ -27,35 +27,36 @@ export const SelectRecordsForm = ({
 	allLevels,
 	levels,
 	isLoadingLevels,
-	isLoadingCourses
+	isLoadingCourses,
+	handleCompositeSubmit
 }) => {
 	const { push } = useHistory();
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			...state,
-			departmentId: formData.departmentId.value,
+			departmentId: formData?.departmentId?.value,
 			//conditinally add departmentOptionId to filter object
 			...(allDepartmentOption.length > 0 && {
 				departmentOptionId: formData?.departmentOptionId?.value
 			}),
-			studentTypeId: formData.studentTypeId.value,
-			sessionId: formData.sessionId.value,
-			semesterId: formData.semesterId.value,
-			levelId: formData.levelId.value,
-			studentModeOfEntryId: formData.studentModeOfEntryId.value,
+			studentTypeId: formData?.studentTypeId?.value,
+			sessionId: formData?.sessionId?.value,
+			semesterId: formData?.semesterId?.value,
+			levelId: formData?.levelId?.value,
+			modeOfEntryId: formData?.modeOfEntryId?.value
 		}));
 		push({
 			search: new URLSearchParams({
-				departmentId: formData.departmentId.value,
+				departmentId: formData?.departmentId?.value,
 				//conditinally add departmentOptionId to filter object
 				...(allDepartmentOption.length > 0 && {
 					departmentOptionId: formData?.departmentOptionId?.value
 				}),
-				levelId: formData.levelId.value,
-				studentTypeId: formData.studentTypeId.value,
-				sessionId: formData.sessionId.value,
-				semesterId: formData.semesterId.value,
-				studentModeOfEntryId: formData.studentModeOfEntryId.value,
+				levelId: formData?.levelId?.value,
+				studentTypeId: formData?.studentTypeId?.value,
+				sessionId: formData?.sessionId?.value,
+				semesterId: formData?.semesterId?.value,
+				modeOfEntryId: formData?.modeOfEntryId?.value,
 				pageSize: filter.pageSize
 			}).toString()
 		});
@@ -73,21 +74,40 @@ export const SelectRecordsForm = ({
 				headerText="View Class list results"
 				borderClasses="border-bottom-0"
 				footerContent={
-					<Button
-						data-cy="view_res_data"
-						type="submit"
-						buttonClass="primary"
-						label="View results"
-						loading={isLoadingCourses}
-						disabled={isLoadingDepartmentOption || isLoadingLevels}
-					/>
+					<>
+						<Button
+							data-cy="view_res_data"
+							type="submit"
+							buttonClass="standard"
+							label="Print Composite Sheet"
+							loading={isLoadingCourses}
+							onClick={handleSubmit(handleCompositeSubmit)}
+							disabled={
+								isLoadingDepartmentOption || isLoadingLevels
+							}
+						/>
+						<Button
+							data-cy="view_res_data"
+							type="submit"
+							buttonClass="primary"
+							label="View results"
+							loading={isLoadingCourses}
+							disabled={
+								isLoadingDepartmentOption || isLoadingLevels
+							}
+						/>
+					</>
 				}
 				footerStyle="d-flex justify-content-end"
 			>
 				<section className="p-4">
 					<div className="row">
 						<div className="col-md-6">
-							<div className="row">
+							<div
+								className={`row ${
+									isDepartmentLoading ? "mb-5" : ""
+								}`}
+							>
 								<div className="col-lg-3  d-flex align-items-center">
 									<label
 										className="font-weight-bold"
@@ -118,7 +138,11 @@ export const SelectRecordsForm = ({
 								</div>
 							</div>
 						</div>
-
+						{isDepartmentLoading && (
+							<div className="col-md-6">
+								<Spinner />
+							</div>
+						)}
 						<div className="col-md-6">
 							<div className="row">
 								<div className="col-lg-3  d-flex align-items-center">
@@ -165,6 +189,9 @@ export const SelectRecordsForm = ({
 										<Controller
 											name="departmentOptionId"
 											control={control}
+											rules={{
+												required: true
+											}}
 											render={({ field }) => (
 												<SMSelect
 													{...field}
@@ -190,13 +217,7 @@ export const SelectRecordsForm = ({
 							</div>
 						)}
 						<div className="col-md-6">
-							<div
-								className={`row ${
-									(allDepartments.length > 0 ||
-										isDepartmentLoading) &&
-									"mt-5"
-								}`}
-							>
+							<div className={`row ${"mt-5"}`}>
 								<div className="col-lg-3  d-flex align-items-center">
 									<label
 										className="font-weight-bold"
@@ -306,14 +327,14 @@ export const SelectRecordsForm = ({
 								<div className="col-lg-3  d-flex align-items-center">
 									<label
 										className="font-weight-bold"
-										htmlFor="studentModeOfEntryId"
+										htmlFor="modeOfEntryId"
 									>
 										Mode of Entry
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="studentModeOfEntryId"
+										name="modeOfEntryId"
 										control={control}
 										rules={{
 											required: true
@@ -323,11 +344,9 @@ export const SelectRecordsForm = ({
 												{...field}
 												placeholder="Select student mode"
 												options={allStudentModes}
-												id="studentModeOfEntryId"
+												id="modeOfEntryId"
 												searchable={false}
-												isError={
-													!!errors.studentModeOfEntryId
-												}
+												isError={!!errors.modeOfEntryId}
 											/>
 										)}
 									/>

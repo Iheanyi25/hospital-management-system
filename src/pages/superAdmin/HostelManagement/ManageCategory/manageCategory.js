@@ -154,9 +154,7 @@ const CategoryManagement = () => {
 		setCurrentData({});
 	};
 
-	if (isLoading || noticesIsLoading) {
-		return <Spinner />;
-	}
+	if (isLoading || noticesIsLoading) return <Spinner />;
 
 	return (
 		<>

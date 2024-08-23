@@ -1,0 +1,106 @@
+.content {
+	margin-bottom: 68px;
+	width: 980px;
+	background-color: white;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+
+	min-height: 1384px;
+}
+
+.content p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.125rem;
+	line-height: 24px;
+	/* margin-bottom: 20px; */
+	text-align: justify;
+	color: #091e42;
+}
+
+.content span {
+	font-size: 1.14rem;
+	font-weight: 600;
+}
+
+.page_content {
+	padding: 24px 80px;
+}
+
+.page_content .passportColumn {
+	height: 200px;
+	width: 200px;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.page_content .passportColumn>img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.page_content>p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.14rem;
+	line-height: 24px;
+}
+
+.header>div:nth-child(2) {
+	background-color: var(--light-green);
+}
+
+.negative {
+	margin-top: -5px !important;
+}
+
+
+
+.body {
+	border-top: 1px solid #DFE1E5;
+	border-bottom: 1px solid #DFE1E5;
+}
+
+.body h6 {
+	font-size: 17px;
+	font-weight: 500;
+}
+
+.header img {
+	justify-self: center;
+	width: 659px;
+	margin-bottom: 26px;
+}
+
+.body img {
+	justify-self: center;
+	width: 151px;
+	height: 151px;
+	margin-bottom: 26px;
+	background-color: gray;
+}
+
+.body p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.125rem;
+	line-height: 24px !important;
+	/* margin-bottom: 20px; */
+	text-align: justify;
+	color: #091e42;
+}
+
+.header h4 {
+	font-style: normal;
+	font-weight: bold;
+	font-size: 1.36rem;
+	line-height: 24px;
+}
+
+.code {
+	padding: 23px 10px;
+	display: flex;
+	justify-content: center;
+}

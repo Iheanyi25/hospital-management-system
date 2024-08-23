@@ -7,7 +7,7 @@ import { useApiGet, useApiPost } from "../../../../../../api/apiCall";
 import {
 	createUserClaimsUrl,
 	getAllMenuClaimsUrl,
-	getMenuClaimsUrl
+	getUserClaimsUrl
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { useMemo } from "react";
@@ -51,7 +51,7 @@ export const AddUserClaim = ({ currentFilterState, closeModal, userId }) => {
 		mutate(requestDet, {
 			onSuccess: () => {
 				queryClient.invalidateQueries(
-					getMenuClaimsUrl(currentFilterState)
+					getUserClaimsUrl(currentFilterState)
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",

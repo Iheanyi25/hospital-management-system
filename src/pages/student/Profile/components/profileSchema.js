@@ -2,23 +2,11 @@ import * as yup from "yup";
 import {
 	checkForCorrectPhoneNumber,
 	checkIfValidFullName,
-	checkforValidName
 } from "../../../../utils/formValidations";
 
 export const PersonalInformationSchema = yup.object().shape({
 	PermanentAddress: yup.string().required("please input your address"),
-	ContactAddress: yup.string().required("please input your address"),
-	Height: yup
-		.string()
-		.nullable()
-		.required("please input your height")
-		.nullable(),
-	Weight: yup
-		.string()
-		.nullable()
-		.required("please input your weight")
-		.nullable(),
-	EyeColorId: yup.mixed().nullable().required("please select your eye color")
+	ContactAddress: yup.string().required("please input your address")
 });
 
 export const ProgrammeDetailsSchema = yup.object().shape({
@@ -34,11 +22,6 @@ export const SponsorDetailsSchema = yup.object().shape({
 			"test first & last name",
 			"enter both first and last name",
 			checkIfValidFullName
-		)
-		.test(
-			"text name",
-			"invalid name, check for trailing spaces",
-			checkforValidName
 		),
 	Address: yup.string().required("please input sponsor's address"),
 	MobileNumber: yup
@@ -54,7 +37,10 @@ export const SponsorDetailsSchema = yup.object().shape({
 		.string()
 		.required("email is required")
 		.email("invalid email address")
-		.nullable()
+		.nullable(),
+	BloodGroupId: yup.mixed().required("please select your blood group"),
+	GenoTypeId: yup.mixed().required("please select your genotype"),
+	ReligionId: yup.mixed().required("please select your religion")
 });
 
 export const NextOfKinDetailsSchema = yup.object().shape({
@@ -65,11 +51,6 @@ export const NextOfKinDetailsSchema = yup.object().shape({
 			"test first & last name",
 			"enter both first and last name",
 			checkIfValidFullName
-		)
-		.test(
-			"text name",
-			"invalid name, check for trailing spaces",
-			checkforValidName
 		),
 	Address: yup.string().required("please input next of kin's address"),
 	MobileNumber: yup
@@ -88,4 +69,30 @@ export const NextOfKinDetailsSchema = yup.object().shape({
 		.required("email is required")
 		.email("invalid email address")
 		.nullable()
+});
+
+export const educationalRecordsSchema = yup.object().shape({
+	educationalRecords: yup.array().of(
+		yup.object().shape({
+			school: yup.string().nullable(),
+			regNumber: yup.string().nullable(),
+			yearFrom: yup.string().nullable(),
+			yearTo: yup.string().nullable(),
+			certificate: yup
+				.string()
+				// .required("please input a qualification")
+				.nullable()
+		})
+	)
+});
+
+export const employmentHistorySchema = yup.object().shape({
+	workHistory: yup.array().of(
+		yup.object().shape({
+			employer: yup.string().nullable(),
+			from: yup.string().nullable(),
+			to: yup.string().nullable(),
+			reasonForLeaving: yup.string().nullable()
+		})
+	)
 });

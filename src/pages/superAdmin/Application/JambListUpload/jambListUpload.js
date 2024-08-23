@@ -49,14 +49,7 @@ const JambListUpload = () => {
 			},
 			{
 				Header: "Name",
-				accessor: `fullName`,
-				Cell: ({ cell: { row } }) => (
-					<div>
-						<span>{`${row?.original?.surname || ""} ${
-							row?.original?.firstname || ""
-						} ${row?.original?.middlename || ""}`}</span>
-					</div>
-				)
+				accessor: `fullname`,
 			},
 			{
 				Header: "Jamb Number",

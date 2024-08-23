@@ -4,6 +4,8 @@ const baseUrl = "Hostel";
 
 export const getAllHostelsUrl = (filter) =>
 	`${baseUrl}/all-hostels?${generateUrlParams(filter)}`;
+export const getAllArrearsHostelsUrl = (filter) =>
+	`${baseUrl}/all-arrears-hostels?${generateUrlParams(filter)}`;
 export const getAllHostelsRoomUrl = (filter) =>
 	`${baseUrl}/all-hostel-rooms?${generateUrlParams(filter)}`;
 export const createHostelsUrl = () => `${baseUrl}/create-hostel`;
@@ -41,3 +43,14 @@ export const createHostelBedUrl = () => `${baseUrl}/create-hostel-bed`;
 export const updateHostelBedUrl = (hostelBedId) =>
 	`${baseUrl}/update-hostel-bed?hostelBedId=${hostelBedId}`;
 export const assignHostelBedUrl = () => `${baseUrl}/assign-hostel-bed-to-user`;
+export const reassignHostelBedUrl = () => `${baseUrl}/reassign-user-bed`;
+export const getHostelReportsUrl = (filter) =>
+	`${baseUrl}/hostel-report?${generateUrlParams(filter)}`;
+export const downloadHostelReportsUrl = (filter) =>
+	`${baseUrl}/download-hostel-report?${generateUrlParams(filter)}`;
+export const getHostelSummaryReportsUrl = (filter) =>
+	`${baseUrl}/hostel-summary?${generateUrlParams(filter)}`;
+export const downloadHostelSummaryReportsUrl = () =>
+	`${baseUrl}/download-hostel-summary`;
+export const deactiveHostelReservationUrl = () =>
+	`${baseUrl}/deactivate-hostel-reservation`;

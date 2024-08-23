@@ -21,6 +21,7 @@ export const CreateHostelModal = ({
 	filter,
 	allDepartments,
 	allActivationStatuses,
+	allCampuses,
 	allGenders
 }) => {
 	const { mutate: callAction, isLoading: isAdding } = useApiPost();
@@ -37,11 +38,11 @@ export const CreateHostelModal = ({
 			url: createHostelsUrl(),
 			data: {
 				name: data?.name,
-				location: data?.location,
+				campusId: data?.campusId?.value,
 				genderId: data?.genderId.value,
 				groupSelectionId: data?.groupSelectionId.value,
 				departmentId: data?.departmentId?.map(
-					(departmentId) => departmentId.value
+					(departmentId) => departmentId?.value
 				)
 			}
 		};
@@ -81,9 +82,10 @@ export const CreateHostelModal = ({
 				name: data?.name,
 				location: data?.location,
 				genderId: data?.genderId.value,
+				campusId: data?.campusId?.value,
 				groupSelectionId: data?.groupSelectionId.value,
 				departmentId: data?.departmentId?.map(
-					(departmentId) => departmentId.value
+					(departmentId) => departmentId?.value
 				)
 			}
 		};
@@ -119,6 +121,7 @@ export const CreateHostelModal = ({
 
 	const isChooseSelectionRquired =
 		watchData.groupSelectionId === 2 || watchData.groupSelectionId === 3;
+
 	const {
 		control,
 		register,
@@ -128,7 +131,7 @@ export const CreateHostelModal = ({
 	} = useForm({
 		defaultValues: {
 			name: currentData?.name,
-			location: currentData?.location,
+			campusId: findValueAndLabel(currentData?.campusId, allCampuses),
 			departmentId: currentData?.departmentId?.map((departmentId) =>
 				findValueAndLabel(departmentId, allDepartments)
 			),
@@ -203,9 +206,7 @@ export const CreateHostelModal = ({
 				</div>
 				<div className="row mb-4">
 					<div className="col-lg-3 d-flex align-items-center">
-						<label htmlFor="groupSelectionId">
-							Select Departments
-						</label>
+						<label htmlFor="groupSelectionId">Select Action</label>
 					</div>
 					<div className="col-lg-9">
 						<Controller
@@ -265,19 +266,29 @@ export const CreateHostelModal = ({
 				)}
 				<div className="row mb-4">
 					<div className="col-lg-3 d-flex align-items-center">
-						<label htmlFor="location">Location</label>
+						<label htmlFor="campusId">Campus</label>
 					</div>
 					<div className="col-lg-9">
-						<TextField
-							placeholder="Enter a location"
-							id={"location"}
-							name={"location"}
-							register={register}
-							error={errors.location}
-							errorText={
-								errors.location && errors.location.message
-							}
-							required
+						<Controller
+							name="campusId"
+							control={control}
+							rules={{
+								required: true
+							}}
+							render={({ field }) => (
+								<SMSelect
+									{...field}
+									id="campusId"
+									options={allCampuses}
+									placeholder="Select a campus"
+									searchable={true}
+									isError={!!errors.campusId}
+									errorText={
+										errors.campusId &&
+										errors.campusId.message
+									}
+								/>
+							)}
 						/>
 					</div>
 				</div>

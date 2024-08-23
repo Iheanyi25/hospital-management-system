@@ -89,7 +89,8 @@ const SelectCourseRecords = () => {
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
 		useApiGet(
 			getDepartmentOptionUrl({
-				departmentId: watchData?.department
+				departmentId: watchData?.department,
+				studentTypeId: watchData?.studentType
 			}),
 			{
 				enabled: !!watchData?.department
@@ -138,8 +139,7 @@ const SelectCourseRecords = () => {
 		formState: { errors }
 	} = useForm({});
 	useEffect(() => {
-		const { departmentOptionId, levelId, sessionId, semesterId } =
-			filter;
+		const { departmentOptionId, levelId, sessionId, semesterId } = filter;
 		// setting this value from watch data to prevent the value resetting anytime the state is upadated
 		if (watchData.department) {
 			setValue(
@@ -153,10 +153,7 @@ const SelectCourseRecords = () => {
 				findValueAndLabel(departmentOptionId, allDepartmentOption)
 			);
 		if (levelId)
-			setValue(
-				"yearOfStudy",
-				findValueAndLabel(levelId, allLevels)
-			);
+			setValue("yearOfStudy", findValueAndLabel(levelId, allLevels));
 		if (watchData.studentType)
 			setValue(
 				"studentType",

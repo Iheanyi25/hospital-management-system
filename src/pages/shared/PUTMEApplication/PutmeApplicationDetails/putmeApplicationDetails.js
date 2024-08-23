@@ -6,10 +6,10 @@ const PUTMEApplicationDetails = () => {
 	const { replace } = useHistory();
 	const { state } = useLocation();
 	if (!state?.fromLogin) replace("/putme_login");
-	
+
 	return (
 		<div className={styles.container}>
-			<Title info={state?.details?.putmePersonalInfoResponse} />
+			<Title info={state?.details?.personalInfoResponse} />
 			<Cards details={state?.details} />
 		</div>
 	);

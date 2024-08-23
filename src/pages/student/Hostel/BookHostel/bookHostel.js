@@ -16,7 +16,7 @@ import numberFormatter from "../../../../utils/numberFormatter";
 const BookHostel = () => {
 	const { push } = useHistory();
 
-	const pageSize = PAGESIZE.sm;
+	const pageSize = PAGESIZE.lg;
 	const [pageNumber, setPageNumber] = useState(1);
 
 	const { data, isFetching, error } = useApiGet(

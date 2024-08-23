@@ -5,6 +5,7 @@ import { setAuthHeader } from "../api/apiCall";
 import { SAVE_IMPERSONATION_ITEMS, SAVE_MENU_ITEMS } from "../store/constant";
 import {
 	BIRTHDAY_STATE_HOLDER,
+	REFRESH_TOKEN_HOLDER,
 	STUDENT_TYPE_HOLDER,
 	TOKEN_HOLDER,
 	USER_NAME_HOLDER,
@@ -31,6 +32,7 @@ export default function useAuthAction() {
 		removeCookie(USER_NAME_HOLDER, { path: "/" });
 		removeCookie(BIRTHDAY_STATE_HOLDER, { path: "/" });
 		removeCookie(STUDENT_TYPE_HOLDER, { path: "/" });
+		removeCookie(REFRESH_TOKEN_HOLDER, { path: "/" });
 	}, [removeCookie, dispatch]);
 
 	const setLoginPrarms = (data) => {
@@ -42,6 +44,7 @@ export default function useAuthAction() {
 		const tokenExpirationDate = new Date(data?.data?.jwtToken?.expires);
 		const impersonatorUsername = data?.data?.impersonatorUsername;
 		const isImpersonating = data?.data?.isImpersonating;
+		const refreshToken = data?.data?.refreshToken;
 		if (data?.data?.menuItems?.length !== 0) {
 			dispatch({
 				type: SAVE_MENU_ITEMS,
@@ -60,24 +63,22 @@ export default function useAuthAction() {
 			//and the App is re-mounted
 			setCookie(TOKEN_HOLDER, token, {
 				path: "/",
-				expires: tokenExpirationDate
 			});
 			//manually being set to a student user now, since the api doesn't return the user type
 			setCookie(USER_ROLE_HOLDER, userRole, {
 				path: "/",
-				expires: tokenExpirationDate
 			});
 			setCookie(USER_NAME_HOLDER, userName, {
 				path: "/",
-				expires: tokenExpirationDate
 			});
 			setCookie(BIRTHDAY_STATE_HOLDER, birthday, {
 				path: "/",
-				expires: tokenExpirationDate
 			});
 			setCookie(STUDENT_TYPE_HOLDER, studentTypeId, {
 				path: "/",
-				expires: tokenExpirationDate
+			});
+			setCookie(REFRESH_TOKEN_HOLDER, refreshToken, {
+				path: "/",
 			});
 		} else {
 			const errorFlag = window.AJS.flag({

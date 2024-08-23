@@ -97,7 +97,7 @@ export const ListPreview = ({
 				<div className="container-fluid px-4 mt-3 mb-3">
 					<p>
 						Cross check and make sure there are no mistakes in the
-						courses, before you click complete upload
+						records, before you click complete upload
 					</p>
 					<div>
 						{extractedData?.rows ? (

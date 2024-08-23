@@ -10,125 +10,118 @@ export const putmeInitialState = (data) => ({
 	},
 	programmeInfo: {
 		regNo: data?.regNumber,
-		utmeScore: data?.putmeProgrammeInfoResponse?.utmeScore,
-		utmeResultSlip: data?.putmeProgrammeInfoResponse?.resultSlip,
+		utmeScore: data?.programmeInfoResponse?.utmeScore,
+		utmeResultSlip: data?.programmeInfoResponse?.resultSlip,
 		firstSubject: {
-			label: data?.putmeProgrammeInfoResponse?.firstSubject,
-			value: data?.putmeProgrammeInfoResponse?.firstSubjectId
+			label: data?.programmeInfoResponse?.firstSubject,
+			value: data?.programmeInfoResponse?.firstSubjectId
 		},
 		secondSubject: {
-			label: data?.putmeProgrammeInfoResponse?.secondSubject,
-			value: data?.putmeProgrammeInfoResponse?.secondSubjectId
+			label: data?.programmeInfoResponse?.secondSubject,
+			value: data?.programmeInfoResponse?.secondSubjectId
 		},
 		thirdSubject: {
-			label: data?.putmeProgrammeInfoResponse?.thirdSubject,
-			value: data?.putmeProgrammeInfoResponse?.thirdSubjectId
+			label: data?.programmeInfoResponse?.thirdSubject,
+			value: data?.programmeInfoResponse?.thirdSubjectId
 		},
 		fourthSubject: {
-			label: data?.putmeProgrammeInfoResponse?.fourthSubject,
-			value: data?.putmeProgrammeInfoResponse?.fourthSubjectId
+			label: data?.programmeInfoResponse?.fourthSubject,
+			value: data?.programmeInfoResponse?.fourthSubjectId
 		},
 		faculty: {
-			label: data?.putmeProgrammeInfoResponse?.faculty,
-			value: data?.putmeProgrammeInfoResponse?.facultyId
+			label: data?.programmeInfoResponse?.faculty,
+			value: data?.programmeInfoResponse?.facultyId
 		},
-		...(data?.putmeProgrammeInfoResponse?.alternativeDepartment && {
+		...(data?.programmeInfoResponse?.alternativeDepartment && {
 			altDepartment: {
-				label: data?.putmeProgrammeInfoResponse?.alternativeDepartment,
-				value: data?.putmeProgrammeInfoResponse?.altDepartmentId
+				label: data?.programmeInfoResponse?.alternativeDepartment,
+				value: data?.programmeInfoResponse?.altDepartmentId
 			}
 		}),
 		department: {
-			label: data?.putmeProgrammeInfoResponse?.department,
-			value: data?.putmeProgrammeInfoResponse?.departmentId
+			label: data?.programmeInfoResponse?.department,
+			value: data?.programmeInfoResponse?.departmentId
 		},
 		departmentOption: {
-			label: data?.putmeProgrammeInfoResponse?.departmentOption,
-			value: data?.putmeProgrammeInfoResponse?.departmentOptionId
+			label: data?.programmeInfoResponse?.departmentOption,
+			value: data?.programmeInfoResponse?.departmentOptionId
 		},
-		rrr: data?.putmeProgrammeInfoResponse?.rrr
+		rrr: data?.programmeInfoResponse?.rrr
 	},
 	personalInfo: {
-		firstName: data?.putmePersonalInfoResponse?.firstname,
-		middleName: data?.putmePersonalInfoResponse?.middlename,
-		surName: data?.putmePersonalInfoResponse?.surname,
-		...(data?.putmePersonalInfoResponse?.dateOfBirth && {
+		firstName: data?.personalInfoResponse?.firstname,
+		middleName: data?.personalInfoResponse?.middlename,
+		surName: data?.personalInfoResponse?.surname,
+		...(data?.personalInfoResponse?.dateOfBirth && {
 			dateOfBirth:
-				data?.putmePersonalInfoResponse?.dateOfBirth === INITIAL_DATE
+				data?.personalInfoResponse?.dateOfBirth === INITIAL_DATE
 					? ""
-					: formatDateFromAPI(
-							data?.putmePersonalInfoResponse?.dateOfBirth
-					  )
+					: formatDateFromAPI(data?.personalInfoResponse?.dateOfBirth)
 		}),
-		...(data?.putmePersonalInfoResponse?.gender && {
+		...(data?.personalInfoResponse?.gender && {
 			sex: {
-				label: data?.putmePersonalInfoResponse?.gender,
-				value: data?.putmePersonalInfoResponse?.genderId
+				label: data?.personalInfoResponse?.gender,
+				value: data?.personalInfoResponse?.genderId
 			}
 		}),
-		mobileNo: data?.putmePersonalInfoResponse?.mobileNumber,
-		email: data?.putmePersonalInfoResponse?.email,
-		disability: data?.putmePersonalInfoResponse?.disability,
-		hasDisability: data?.putmePersonalInfoResponse?.disability
-			? "Yes"
-			: "No",
-		...(data?.putmePersonalInfoResponse?.country && {
+		mobileNo: data?.personalInfoResponse?.mobileNumber,
+		email: data?.personalInfoResponse?.email,
+		disability: data?.personalInfoResponse?.disability,
+		hasDisability: data?.personalInfoResponse?.disability ? "Yes" : "No",
+		...(data?.personalInfoResponse?.country && {
 			country: {
-				label: data?.putmePersonalInfoResponse?.country,
-				value: data?.putmePersonalInfoResponse?.countryId
+				label: data?.personalInfoResponse?.country,
+				value: data?.personalInfoResponse?.countryId
 			}
 		}),
-		...(data?.putmePersonalInfoResponse?.state && {
+		...(data?.personalInfoResponse?.state && {
 			state: {
-				label: data?.putmePersonalInfoResponse?.state,
-				value: data?.putmePersonalInfoResponse?.stateId
+				label: data?.personalInfoResponse?.state,
+				value: data?.personalInfoResponse?.stateId
 			}
 		}),
-		...(data?.putmePersonalInfoResponse?.lga && {
+		...(data?.personalInfoResponse?.lga && {
 			lga: {
-				label: data?.putmePersonalInfoResponse?.lga,
-				value: data?.putmePersonalInfoResponse?.lgaId
+				label: data?.personalInfoResponse?.lga,
+				value: data?.personalInfoResponse?.lgaId
 			}
 		}),
-		homeTown: data?.putmePersonalInfoResponse?.homeTown,
-		contactAddress: data?.putmePersonalInfoResponse?.contactAddress,
-		sponsorFullName: data?.putmePersonalInfoResponse?.sponsorFullName,
-		sponsorAddress: data?.putmePersonalInfoResponse?.sponsorContactAddress,
-		sponsorMobileNo: data?.putmePersonalInfoResponse?.sponsorMobileNumber,
-		...(data?.putmePersonalInfoResponse?.sponsorRelationship && {
+		homeTown: data?.personalInfoResponse?.homeTown,
+		contactAddress: data?.personalInfoResponse?.contactAddress,
+		sponsorFullName: data?.personalInfoResponse?.sponsorFullName,
+		sponsorAddress: data?.personalInfoResponse?.sponsorContactAddress,
+		sponsorMobileNo: data?.personalInfoResponse?.sponsorMobileNumber,
+		...(data?.personalInfoResponse?.sponsorRelationship && {
 			sponsorRelationship: {
-				label: data?.putmePersonalInfoResponse?.sponsorRelationship,
-				value: data?.putmePersonalInfoResponse?.sponsorRelationshipId
+				label: data?.personalInfoResponse?.sponsorRelationship,
+				value: data?.personalInfoResponse?.sponsorRelationshipId
 			}
 		}),
-		rrr: data?.putmePersonalInfoResponse?.rrr
+		rrr: data?.personalInfoResponse?.rrr
 	},
 	oLevelResult: {
-		sittings: data?.putmeOlevelResponse?.map((item) => ({
+		sittings: data?.olevelResponse?.map((item) => ({
 			...item,
 			resultPin: item?.resultPin,
-			resultPinSno: item?.resultPinSno,
-			examNumber: item.examNumber,
-			examCentre: item.examCentre,
-			oLevelType: { value: item.oLevelTypeId, label: item.olevelType },
-			examYear: { value: item.examYear, label: item.examYear },
+			resultPinSno: item?.resultSerialNumber,
+			examNumber: item?.examNumber,
+			examCentre: item?.examCenter,
+			oLevelType: {
+				value: item?.examinationTypeId,
+				label: item?.examinationType
+			},
+			examYear: { value: item?.examYear, label: item?.examYear },
 			subjects: [
-				...Object?.keys(item?.oLevelSubjectGradeNames).map(
-					(key, index) => ({
-						subject: {
-							label: key?.toUpperCase(),
-							value: Object?.keys(item?.oLevelSubjectGrade)?.[
-								index
-							]
-						},
-						grade: {
-							label: item?.oLevelSubjectGradeNames?.[key],
-							value: Object?.values(item?.oLevelSubjectGrade)?.[
-								index
-							]
-						}
-					})
-				)
+				...Object?.keys(item?.subjectGrade).map((key, index) => ({
+					subject: {
+						label: key?.toUpperCase(),
+						value: Object?.keys(item?.subjectGradeId)?.[index]
+					},
+					grade: {
+						label: item?.subjectGrade?.[key],
+						value: Object?.values(item?.subjectGradeId)?.[index]
+					}
+				}))
 			]
 		}))
 	}

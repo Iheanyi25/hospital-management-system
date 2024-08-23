@@ -11,11 +11,13 @@ import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
 	EditUnitLoad,
 	AssignCreditLoadForm,
-	AssignCreditLoadTable
+	AssignCreditLoadTable,
+	UploadList
 } from "./components";
 
 const AssignCreditLoad = () => {
 	const [editOpen, setEditOpen] = useState(false);
+	const [uploadOpen, setUploadOpen] = useState(false);
 	const [editData, setEditData] = useState({});
 	const [filter, setFilter] = useState({
 		sessionId: "",
@@ -44,6 +46,7 @@ const AssignCreditLoad = () => {
 		control,
 		handleSubmit,
 		setValue,
+		getValues,
 		formState: { errors }
 	} = useForm();
 
@@ -70,6 +73,19 @@ const AssignCreditLoad = () => {
 	return (
 		<div className={styles.container}>
 			<CenteredDialog
+				modalId="upload_unit_load"
+				isOpen={uploadOpen}
+				closeModal={() => setUploadOpen(false)}
+				width={705}
+				formTitle="Edit unit load"
+			>
+				<UploadList
+					currentFilterState={filter}
+					getValues={getValues}
+					setUploadModal={() => setUploadOpen(false)}
+				/>
+			</CenteredDialog>
+			<CenteredDialog
 				modalId="edit_course"
 				isOpen={editOpen}
 				closeModal={() => setEditOpen(false)}
@@ -93,6 +109,8 @@ const AssignCreditLoad = () => {
 						setValue={setValue}
 						errors={errors}
 						allSessions={allSessions}
+						setUploadOpen={setUploadOpen}
+						getValues={getValues}
 						setFilter={setFilter}
 						handleSubmit={handleSubmit}
 						isLoadingUnitLoads={isLoadingAllowableUnitLoads}

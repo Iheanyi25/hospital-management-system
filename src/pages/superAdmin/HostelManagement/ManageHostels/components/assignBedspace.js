@@ -4,14 +4,14 @@ import { useQueryClient } from "react-query";
 import { AssignPersonnelCard } from "./assignPersonnelCard";
 import { useState } from "react";
 import { SearchStudent } from "./searchStudent";
-import { assignHostelBedUrl, getUserUrl } from "../../../../../api/urls";
+import { assignHostelBedUrl, getUsersUrl } from "../../../../../api/urls";
 
 export const AssignBedspace = ({ data, filter, closeModal }) => {
 	const [matricNo, setMatricNo] = useState("");
 	const queryClient = useQueryClient();
 
 	const { data: studentData, isLoading: isLoadingStudentData } = useApiGet(
-		getUserUrl({ userId: matricNo }),
+		getUsersUrl({ userId: matricNo }),
 		{
 			refetchOnWindowFocus: false,
 			enabled: !!matricNo
@@ -26,7 +26,7 @@ export const AssignBedspace = ({ data, filter, closeModal }) => {
 			url: assignHostelBedUrl(),
 			data: {
 				userId: matricNo,
-				sessionId: data.sessionId,
+				// sessionId: data.sessionId,
 				hostelBedId: data.id
 			}
 		};
@@ -48,8 +48,9 @@ export const AssignBedspace = ({ data, filter, closeModal }) => {
 			onError: ({ response }) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
-					title: "Assign Based Failed!",
-					body: response?.data?.message || `Bedspace wasn't assigned!`
+					title: "Assign Bedspace Failed!",
+					body:
+						response?.data?.message || `Bedspace wasn't assigned!`
 				});
 				setTimeout(() => {
 					errorFlag.close();
@@ -61,34 +62,31 @@ export const AssignBedspace = ({ data, filter, closeModal }) => {
 	const details = [
 		{
 			title: "Full Name",
-			value: studentData?.data?.student?.studentPersonalData?.fullname
+			value: studentData?.data?.fullName
 		},
 		{
 			title: "Email",
-			value: studentData?.data?.student?.studentPersonalData?.email
+			value: studentData?.data?.email
 		},
 		{
 			title: "Phone",
-			value: studentData?.data?.student?.studentPersonalData?.mobileNumber
+			value: studentData?.data?.mobileNumber
 		},
 		{
 			title: "Matric No",
-			value: studentData?.data?.student?.studentProgrammeDetail
-				?.matricNumber
+			value: studentData?.data?.regNumber
 		},
 		{
 			title: "Faculty",
-			value: studentData?.data?.student?.studentProgrammeDetail?.faculty
+			value: studentData?.data?.faculty
 		},
 		{
 			title: "Department",
-			value: studentData?.data?.student?.studentProgrammeDetail
-				?.department
+			value: studentData?.data?.department
 		},
 		{
 			title: "Entry Mode",
-			value: studentData?.data?.student?.studentProgrammeDetail
-				?.studentModeOfEntry
+			value: studentData?.data?.studentType
 		}
 	];
 
@@ -107,7 +105,8 @@ export const AssignBedspace = ({ data, filter, closeModal }) => {
 						noLogo={true}
 						details={details}
 						user={{
-							fullName: studentData?.data?.fullname
+							fullName: studentData?.data?.fullName,
+							passport: studentData?.data?.passport
 						}}
 					/>
 				</div>

@@ -1,0 +1,30 @@
+.container {
+	scroll-behavior: smooth;
+}
+
+.logo_container {
+	width: 100%;
+	height: 70px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1px solid #dfe1e6;
+}
+
+.logo_container img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+.logo_text {
+	width: 100%;
+	border-bottom: 1px solid #dfe1e6;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+
+.logo_text h2 {
+	font-size: 1.375rem;
+	color: #091e42;
+}

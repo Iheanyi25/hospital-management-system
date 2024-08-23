@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Modal from "react-modal";
 import {
 	PageTitle,
 	Button,
 	SideTabs,
 	CenteredDialog,
-	Spinner
+	Spinner,
+	ToggleElement
 } from "../../../ui_elements";
 import styles from "./style.module.css";
 import { useLocation } from "react-router";
@@ -20,17 +21,24 @@ import {
 import { parent } from "../../../ui_elements/layout/layout";
 import { useApiGet } from "../../../api/apiCall";
 import {
+	getAllLGAsUrl,
 	getAllSessionsUrl,
+	getBloodGroupsUrl,
+	getGenoTypesUrl,
+	getProgrammeTypesUrl,
 	getRelationshipsUrl,
+	getReligionsUrl,
 	getSponsorRelationshipsUrl,
 	getStudentProfileUrl
 } from "../../../api/urls";
 import Avatar from "react-avatar";
 import { formatSelectItems } from "../../../utils/formatSelectItems";
 import ProfilePrintOut from "./ProfilePrintOut";
-import { getEyeColorsUrl } from "../../../api/urlCategories/Enums";
-import SecurityFormPrintOut from "./SecurityFormPrintout";
-import { motion } from "framer-motion";
+import { EducationHistory } from "./components/educationalHistory";
+import { EmploymentHistory } from "./components/employmentHistory";
+import Documents from "./components/documents";
+import PgDocuments from "./components/pgDocuments";
+import { STUDENT_TYPES } from "../../../utils/constants";
 
 const pageStyle = `
   @page {
@@ -56,30 +64,97 @@ const pageStyle = `
 Modal.setAppElement("#root");
 const Profile = () => {
 	const [open, setOpen] = useState(false);
-	const { hash } = useLocation();
+	const { hash, state } = useLocation();
 	const componentRef = useRef();
-
-	const securityPrintRef = useRef();
 
 	const handlePrint = useReactToPrint({
 		content: () => componentRef.current,
 		pageStyle
 	});
 
-	const handleSecurityPrint = useReactToPrint({
-		content: () => securityPrintRef.current,
-		pageStyle
-	});
-
 	useEffect(() => {
 		parent.current?.scrollTo(0, 0);
 	}, [hash]);
-	const { data, isLoading, error, isFetching } = useApiGet(
+
+	const { data, isLoading, error } = useApiGet(
 		getStudentProfileUrl({ refCode: false }),
 		{
 			refetchOnWindowFocus: false
 		}
 	);
+
+	const postgraduate_object = useMemo(
+		() => [
+			{
+				linkName: `Educational History`,
+				hashName: "#section_e",
+				state
+			},
+			{
+				linkName: `Employment History`,
+				hashName: "#section_f",
+				state
+			},
+			{
+				linkName: `Medical History`,
+				hashName: "#section_g",
+				state
+			}
+		],
+		[state]
+	);
+
+	const otherStudents_object = useMemo(
+		() => [
+			{
+				linkName: `Medical History`,
+				hashName: "#section_e",
+				state
+			}
+		],
+		[state]
+	);
+
+	const navs = useMemo(
+		() => [
+			{
+				linkName: "Personal Information",
+				hashName: "#section_a",
+				state
+			},
+			{
+				linkName: "Sponsor's Details",
+				hashName: "#section_b",
+				state
+			},
+			{
+				linkName: "Next of Kin Details",
+				hashName: "#section_c",
+				state
+			},
+			{
+				linkName: `Programme Details`,
+				hashName: "#section_d",
+				state
+			},
+			...(data?.data?.programmeDetail?.studentTypeId ===
+			STUDENT_TYPES.POSTGRADUATE
+				? postgraduate_object
+				: otherStudents_object),
+			{
+				linkName: `Documents`,
+				hashName: "#section_i",
+				state
+			}
+		],
+		[
+			state,
+			otherStudents_object,
+			postgraduate_object,
+			data?.data?.programmeDetail?.studentTypeId
+		]
+	);
+
 	const {
 		data: relationships,
 		isLoading: relationshipsLoading,
@@ -102,13 +177,51 @@ const Profile = () => {
 		refetchOnWindowFocus: false
 	});
 	const {
-		data: eyeColors,
-		isLoading: isLoadingEyeColors,
-		error: eyeColorsError
-	} = useApiGet(getEyeColorsUrl(), {
+		data: programmeTypes,
+		isLoading: isLoadingProgrammeTypes,
+		error: programmeTypesError
+	} = useApiGet(getProgrammeTypesUrl(), {
 		refetchOnWindowFocus: false
 	});
+	const { data: bloodGroups, isLoading: loadingBloodGroups } = useApiGet(
+		getBloodGroupsUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+	const { data: genotypes, isLoading: loadingGenotypes } = useApiGet(
+		getGenoTypesUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+	const { data: religions, isLoading: loadingReligions } = useApiGet(
+		getReligionsUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
 
+	const { data: lgas, isFetching: isLoadingLGAs } = useApiGet(
+		getAllLGAsUrl({
+			stateId: data?.data?.personalData?.stateId,
+			countryId: data?.data?.personalData?.countryId
+		}),
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!(
+				data?.data?.personalData?.stateId &&
+				data?.data?.personalData?.countryId
+			)
+		}
+	);
+	const allLGAs = useMemo(
+		() => formatSelectItems(lgas?.data, "name", "id"),
+		[lgas]
+	);
+	const allBloodGroups = formatSelectItems(bloodGroups?.data, "name", "id");
+	const allGenotypes = formatSelectItems(genotypes?.data, "name", "id");
+	const allReligions = formatSelectItems(religions?.data, "name", "id");
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allSponsorRelationships = formatSelectItems(
 		sponsorRelationships?.data,
@@ -120,49 +233,31 @@ const Profile = () => {
 		"name",
 		"id"
 	);
-
-	const allEyeColors = formatSelectItems(eyeColors?.data, "name", "id");
-
+	const allProgrammeTypes = formatSelectItems(
+		programmeTypes?.data,
+		"name",
+		"id"
+	);
 	if (
 		isLoading ||
 		relationshipsLoading ||
 		isLoadingSponsorRelationships ||
 		isLoadingSessions ||
-		isLoadingEyeColors
+		isLoadingProgrammeTypes ||
+		loadingBloodGroups ||
+		loadingGenotypes ||
+		loadingReligions ||
+		isLoadingLGAs
 	)
 		return <Spinner />;
-
 	if (
 		error ||
 		relationshipsError ||
 		sponsorRelationshipsError ||
 		sessionsError ||
-		eyeColorsError
+		programmeTypesError
 	)
 		return "An error has occurred: " + error?.response?.data?.message;
-
-	const navs = [
-		{
-			linkName: "Personal Information",
-			hashName: "#section_a"
-		},
-		{
-			linkName: "Sponsor's Details",
-			hashName: "#section_b"
-		},
-		{
-			linkName: "Next of Kin Details",
-			hashName: "#section_c"
-		},
-		{
-			linkName: `Programme Details`,
-			hashName: "#section_d"
-		},
-		{
-			linkName: `Medical History`,
-			hashName: "#section_e"
-		}
-	];
 
 	return (
 		<div className={styles.container}>
@@ -196,9 +291,9 @@ const Profile = () => {
 			<div className="row mb-3 mx-0">
 				<div className="col-12 col-md-2 col-lg-2">
 					<Avatar
-						name={`${data?.data?.studentPersonalData?.lastname} ${data?.data?.studentPersonalData?.firstname}`?.toUpperCase()}
+						name={`${data?.data?.personalData?.lastname} ${data?.data?.personalData?.firstname}`?.toUpperCase()}
 						className={styles.profile_img}
-						src={data?.data?.studentPersonalData?.passport}
+						src={data?.data?.personalData?.passport}
 						size={100}
 						round={true}
 						maxInitials={2}
@@ -211,34 +306,34 @@ const Profile = () => {
 								<ProfilePrintOut userData={data.data} />
 							)}
 						</div>
-						<div ref={securityPrintRef}>
-							{data?.data && (
-								<SecurityFormPrintOut userData={data.data} />
-							)}
-						</div>
 					</div>
 					<PageTitle
-						title={`${data?.data?.studentPersonalData?.lastname} ${
-							data?.data?.studentPersonalData?.firstname
+						title={`${data?.data?.personalData?.lastname} ${
+							data?.data?.personalData?.firstname
 						} ${
-							data?.data?.studentPersonalData?.middlename ?? ""
+							data?.data?.personalData?.middlename ?? ""
 						}`?.toUpperCase()}
-						buttonGroup={[
-							<Button
-								data-cy="print_docs"
-								buttonClass={"secondary"}
-								label="Print Security Form"
-								onClick={handleSecurityPrint}
-								disabled={!data?.data?.canPrintSecurityForm}
-							/>,
+						buttonGroup={
 							<Button
 								data-cy="print_docs"
 								buttonClass="primary"
 								label="Print"
 								onClick={handlePrint}
 							/>
-						]}
+						}
 					/>
+					<div>
+						<ToggleElement
+							id={`toggle-staff`}
+							checked={data?.data?.personalData?.isStaff}
+							label={
+								data?.data?.personalData?.isStaff
+									? "Staff"
+									: "Not a staff"
+							}
+							isDisabled={true}
+						/>
+					</div>
 				</div>
 			</div>
 			<div className="row mx-0">
@@ -250,54 +345,44 @@ const Profile = () => {
 					</div>
 				</div>
 				<div className="col-12 col-md-10 col-lg-10">
-					{isFetching ? (
-						<motion.div
-							className="mt-5"
-							transition={{ type: "spring", stiffness: 100 }}
-							initial={{ visibility: "hidden", x: -25 }}
-							animate={{ visibility: "visible", x: 1 }}
-							style={{
-								filter: isFetching ? "blur(5px)" : "none"
-							}}
-						>
-							<DisplayInformation
-								studentPersonalData={
-									data?.data?.studentPersonalData
-								}
-								allRelationships={allRelationships}
-								allSponsorRelationships={
-									allSponsorRelationships
-								}
-								allEyeColors={allEyeColors}
-								studentSponsor={data?.data?.studentSponsor}
-								studentNextOfKin={data?.data?.studentNextOfKin}
-								studentProgrammeDetail={
-									data?.data?.studentProgrammeDetail
-								}
-								allSessions={allSessions}
-								medicalRecords={
-									data?.data?.studentPersonalData
-										?.medicalRecords
-								}
-							/>
-						</motion.div>
-					) : (
-						<DisplayInformation
-							studentPersonalData={
-								data?.data?.studentPersonalData
-							}
+					{data?.data?.programmeDetail?.studentTypeId ===
+					STUDENT_TYPES.POSTGRADUATE ? (
+						<PgDisplayInformation
+							education={data?.data?.educationHistory}
+							employment={data?.data?.employment}
+							studentPersonalData={data?.data?.personalData}
 							allRelationships={allRelationships}
 							allSponsorRelationships={allSponsorRelationships}
-							allEyeColors={allEyeColors}
-							studentSponsor={data?.data?.studentSponsor}
-							studentNextOfKin={data?.data?.studentNextOfKin}
-							studentProgrammeDetail={
-								data?.data?.studentProgrammeDetail
-							}
+							studentSponsor={data?.data?.sponsor}
+							studentNextOfKin={data?.data?.nextOfKin}
+							studentProgrammeDetail={data?.data?.programmeDetail}
 							allSessions={allSessions}
 							medicalRecords={
-								data?.data?.studentPersonalData?.medicalRecords
+								data?.data?.personalData?.medicalRecords
 							}
+							allProgrammeTypes={allProgrammeTypes}
+							allBloodGroups={allBloodGroups}
+							allGenotypes={allGenotypes}
+							allReligions={allReligions}
+							allLGAs={allLGAs}
+						/>
+					) : (
+						<DisplayInformation
+							studentPersonalData={data?.data?.personalData}
+							allRelationships={allRelationships}
+							allSponsorRelationships={allSponsorRelationships}
+							studentSponsor={data?.data?.sponsor}
+							studentNextOfKin={data?.data?.nextOfKin}
+							studentProgrammeDetail={data?.data?.programmeDetail}
+							allSessions={allSessions}
+							medicalRecords={
+								data?.data?.personalData?.medicalRecords
+							}
+							allProgrammeTypes={allProgrammeTypes}
+							allBloodGroups={allBloodGroups}
+							allGenotypes={allGenotypes}
+							allReligions={allReligions}
+							allLGAs={allLGAs}
 						/>
 					)}
 				</div>
@@ -315,8 +400,12 @@ const DisplayInformation = ({
 	studentNextOfKin,
 	studentProgrammeDetail,
 	allSessions,
-	allEyeColors,
-	medicalRecords
+	allProgrammeTypes,
+	medicalRecords,
+	allBloodGroups,
+	allGenotypes,
+	allLGAs,
+	allReligions
 }) => {
 	const location = useLocation();
 	switch (location.hash) {
@@ -324,7 +413,10 @@ const DisplayInformation = ({
 			return (
 				<PersonalInformation
 					data={studentPersonalData}
-					allEyeColors={allEyeColors}
+					allBloodGroups={allBloodGroups}
+					allGenotypes={allGenotypes}
+					allReligions={allReligions}
+					allLGAs={allLGAs}
 				/>
 			);
 		case "#section_b":
@@ -346,15 +438,108 @@ const DisplayInformation = ({
 				<ProgrammeDetails
 					data={studentProgrammeDetail}
 					allSessions={allSessions}
+					allProgrammeTypes={allProgrammeTypes}
+					allLGAs={allLGAs}
 				/>
 			);
 		case "#section_e":
-			return <MedicalHistory data={medicalRecords} />;
+			return <MedicalHistory data={medicalRecords || []} />;
+		case "#section_i":
+			return <Documents />;
 		default:
 			return (
 				<PersonalInformation
 					data={studentPersonalData}
-					allEyeColors={allEyeColors}
+					allBloodGroups={allBloodGroups}
+					allGenotypes={allGenotypes}
+					allReligions={allReligions}
+					allLGAs={allLGAs}
+				/>
+			);
+	}
+};
+
+const PgDisplayInformation = ({
+	studentPersonalData,
+	allRelationships,
+	allSponsorRelationships,
+	studentSponsor,
+	studentNextOfKin,
+	studentProgrammeDetail,
+	allSessions,
+	medicalRecords,
+	education,
+	employment,
+	allProgrammeTypes,
+	allBloodGroups,
+	allGenotypes,
+	allReligions,
+	allLGAs
+}) => {
+	const location = useLocation();
+	switch (location.hash) {
+		case "#section_a":
+			return (
+				<PersonalInformation
+					data={studentPersonalData}
+					allBloodGroups={allBloodGroups}
+					allGenotypes={allGenotypes}
+					allReligions={allReligions}
+					allLGAs={allLGAs}
+				/>
+			);
+		case "#section_b":
+			return (
+				<SponsorInformation
+					data={studentSponsor}
+					allSponsorRelationships={allSponsorRelationships}
+				/>
+			);
+		case "#section_c":
+			return (
+				<NextOfKinInformation
+					data={studentNextOfKin}
+					relationships={allRelationships}
+				/>
+			);
+		case "#section_d":
+			return (
+				<ProgrammeDetails
+					data={studentProgrammeDetail}
+					allSessions={allSessions}
+					allProgrammeTypes={allProgrammeTypes}
+				/>
+			);
+		case "#section_e":
+			return (
+				<EducationHistory
+					data={studentProgrammeDetail}
+					allSessions={allSessions}
+					education={education}
+				/>
+			);
+		case "#section_f":
+			return (
+				<EmploymentHistory
+					data={studentProgrammeDetail}
+					allSessions={allSessions}
+					employment={employment}
+				/>
+			);
+		case "#section_g":
+			return <MedicalHistory data={medicalRecords || []} />;
+
+		case "#section_i":
+			return <PgDocuments />;
+
+		default:
+			return (
+				<PersonalInformation
+					data={studentPersonalData}
+					allBloodGroups={allBloodGroups}
+					allGenotypes={allGenotypes}
+					allReligions={allReligions}
+					allLGAs={allLGAs}
 				/>
 			);
 	}

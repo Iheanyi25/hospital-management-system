@@ -6,7 +6,8 @@ import {
 	checkIfMinimumNumberOfSubjectIsSelected,
 	checkIfUserIsLessThanMaximumAge,
 	checkIfUserIsMoreThanMinimumAge,
-	checkIfValidFullName
+	checkIfValidFullName,
+	checkDuplicateSubjects
 } from "../../../utils/formValidations";
 
 export const personalDetailsSchema = yup.object().shape({
@@ -56,7 +57,6 @@ export const personalDetailsSchema = yup.object().shape({
 			return schema.default(null);
 		})
 		.nullable(),
-	homeTown: yup.string().required("please input home town").nullable(),
 	sponsorFullName: yup
 		.string()
 		.required("full name is required")
@@ -80,12 +80,6 @@ export const personalDetailsSchema = yup.object().shape({
 		.required("please select next of kin's relationship")
 });
 
-export const ProgrammeDetailsSchema = yup.object().shape({
-	altDepartment: yup
-		.mixed()
-		.required("please select an alternative department")
-});
-
 export const OlevelResultSchema = yup.object().shape({
 	sittings: yup
 		.array()
@@ -101,8 +95,8 @@ export const OlevelResultSchema = yup.object().shape({
 					.string()
 					.required("please input your exam number"),
 				examYear: yup.mixed().required("please input your exam year"),
-				resultPin: yup.string(),
-				resultPinSno: yup.string(),
+				resultPin: yup.string().required("please input value"),
+				resultPinSno: yup.string().required("please input value"),
 				subjects: yup
 					.array()
 					.of(
@@ -142,4 +136,50 @@ export const UploadCertificateSchema = yup.object().shape({
 			checkIfCertificateTypeHasCertificateUpload
 		)
 		.required("please select at least one certificate")
+});
+
+export const ProgrammeDetailsSchema = yup.object().shape({
+	department: yup.mixed().required("please select your department"),
+	faculty: yup.mixed().required("please select your faculty"),
+	regNo: yup.string().required("please enter your reg number").nullable(),
+	firstSubject: yup
+		.mixed()
+		.required("please select your first subject")
+		.test(
+			"is-duplicate",
+			"duplicate subject selected",
+			checkDuplicateSubjects("firstSubject")
+		),
+
+	secondSubject: yup
+		.mixed()
+		.required("please select your second subject")
+		.test(
+			"is-duplicate",
+			"duplicate subject selected",
+			checkDuplicateSubjects("secondSubject")
+		),
+
+	thirdSubject: yup
+		.mixed()
+		.required("please select your third subject")
+		.test(
+			"is-duplicate",
+			"duplicate subject selected",
+			checkDuplicateSubjects("thirdSubject")
+		),
+	fourthSubject: yup
+		.mixed()
+		.required("please select your fourth subject")
+		.test(
+			"is-duplicate",
+			"duplicate subject selected",
+			checkDuplicateSubjects("fourthSubject")
+		),
+	utmeScore: yup
+		.number()
+		.required("please enter your utme score")
+		.nullable()
+		.max(400, "utme score cannot be beyond 400")
+		.transform((value) => (Number.isNaN(value) ? null : value))
 });

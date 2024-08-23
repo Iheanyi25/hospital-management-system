@@ -33,8 +33,10 @@ const AppRoute = () => {
 	const otherStaffRoutes = {};
 
 	const generateUserBasedRoute = (userHolder, routeType, route) => {
-		userHolder.forEach((item) => {
-			route[item] = <MapRoutes routes={routeType} user={userRole} />;
+		userHolder.forEach((item, index) => {
+			route[item] = (
+				<MapRoutes key={index} routes={routeType} user={userRole} />
+			);
 		});
 	};
 

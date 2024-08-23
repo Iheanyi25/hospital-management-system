@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation, useHistory } from "react-router";
 import { useForm } from "react-hook-form";
-import { useApiGet, useApiPut } from "../../../../api/apiCall";
+import { useApiGet, useApiPost } from "../../../../api/apiCall";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { personalDetailsSchema } from "../directEntrySchema";
 import { useSelector } from "react-redux";
@@ -9,30 +9,29 @@ import { PersonalDetailsForm } from "./personalDetailsForm";
 import { getAllLGAsUrl, getAllStatesUrl } from "../../../../api/urls";
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
 
-export const PersonalDetails = ({
-	allGenders,
-	religions,
-	relationships,
-	departments,
-	bloodGroups,
-	genotypes,
-	allCountries
-}) => {
+export const PersonalDetails = ({ allGenders, allCountries }) => {
 	const directEntry = useSelector((state) => state.directEntryData);
 
-	const { basicInformation } = useSelector(
+	const { personalInfoResponse } = useSelector(
 		(state) => state.directEntryData
 	);
 
 	const { isPassportValid } = useSelector((state) => state.directEntryData);
-	const { mutate, isLoading: isFormLoading } = useApiPut();
+	const { mutate, isLoading: isFormLoading } = useApiPost();
 
 	const { replace } = useHistory();
 	const { state } = useLocation();
+
+	if (!state) {
+		replace("/direct_entry_login");
+	}
+
 	const [countryValue, setCountryValue] = useState(
-		directEntry?.CountryId?.value
+		directEntry?.personalInfoResponse?.CountryId?.value
 	);
-	const [stateValue, setStateValue] = useState(directEntry?.StateId?.value);
+	const [stateValue, setStateValue] = useState(
+		directEntry?.personalInfoResponse?.StateId?.value
+	);
 
 	const { data: statesData, isFetching: loadingStates } = useApiGet(
 		getAllStatesUrl(countryValue),
@@ -70,29 +69,30 @@ export const PersonalDetails = ({
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
-			Surname: basicInformation?.Surname,
-			Firstname: basicInformation?.Firstname,
-			Middlename: basicInformation?.Middlename,
-			GenderId: basicInformation?.GenderId,
-			DateofBirth: basicInformation?.DateofBirth?.split("T")[0],
-			BloodGroupId: basicInformation?.BloodGroupId,
-			GenoTypeId: basicInformation?.GenoTypeId,
-			CountryId: basicInformation?.CountryId,
-			StateId: basicInformation?.StateId,
-			LgaId: basicInformation?.LgaId,
-			Town: basicInformation?.Town,
-			PermanentAddress: basicInformation?.PermanentAddress,
-			MobileNo: basicInformation?.MobileNo,
-			Email: basicInformation?.Email,
-			Hobby: basicInformation?.Hobby,
-			ReligionId: basicInformation?.ReligionId,
-			Disability: basicInformation?.Disability === true ? "Yes" : "No",
-			CourseId: basicInformation?.CourseId,
-			SponsersFullname: basicInformation?.SponsersFullname,
-			SponsersEmail: basicInformation?.SponsersEmail,
-			SponsersAddress: basicInformation?.SponsersAddress,
-			SponsersMobileNo: basicInformation?.SponsersMobileNo,
-			SponsersRelationship: basicInformation?.SponsersRelationship
+			Surname: personalInfoResponse?.Surname,
+			Firstname: personalInfoResponse?.Firstname,
+			Middlename: personalInfoResponse?.Middlename,
+			GenderId: personalInfoResponse?.GenderId,
+			DateofBirth: personalInfoResponse?.DateofBirth,
+			BloodGroupId: personalInfoResponse?.BloodGroupId,
+			GenoTypeId: personalInfoResponse?.GenoTypeId,
+			CountryId: personalInfoResponse?.CountryId,
+			StateId: personalInfoResponse?.StateId,
+			LgaId: personalInfoResponse?.LgaId,
+			Town: personalInfoResponse?.Town,
+			PermanentAddress: personalInfoResponse?.PermanentAddress,
+			MobileNo: personalInfoResponse?.MobileNo,
+			Email: personalInfoResponse?.Email,
+			Hobby: personalInfoResponse?.Hobby,
+			ReligionId: personalInfoResponse?.ReligionId,
+			Disability:
+				personalInfoResponse?.Disability === true ? "Yes" : "No",
+			CourseId: personalInfoResponse?.CourseId,
+			SponsersFullname: personalInfoResponse?.SponsersFullname,
+			SponsersEmail: personalInfoResponse?.SponsersEmail,
+			SponsersAddress: personalInfoResponse?.SponsersAddress,
+			SponsersMobileNo: personalInfoResponse?.SponsersMobileNo,
+			SponsersRelationship: personalInfoResponse?.SponsersRelationship
 		},
 		resolver: yupResolver(personalDetailsSchema),
 		context: {
@@ -105,14 +105,6 @@ export const PersonalDetails = ({
 		Disability: "Disability",
 		middleName: "Middlename"
 	});
-
-	// useEffect(() => {
-	// 	setValue("StateId", directEntry?.StateId);
-	// }, [setValue, allStateData, directEntry?.StateId]);
-
-	// useEffect(() => {
-	// 	setValue("LgaId", directEntry?.LgaId);
-	// }, [setValue, directEntry?.LgaId, allLGA]);
 
 	useEffect(() => {
 		const subscription = watch(({ CountryId, StateId }) => {
@@ -149,15 +141,10 @@ export const PersonalDetails = ({
 			mutate={mutate}
 			isFormLoading={isFormLoading}
 			allGenders={allGenders}
-			bloodGroups={bloodGroups}
-			genotypes={genotypes}
 			countries={allCountries}
 			states={allStateData}
 			localGovernments={allLGA}
-			religions={religions}
 			watchData={watchData}
-			departments={departments}
-			relationships={relationships}
 			loadingStates={loadingStates}
 			loadingLga={loadingLga}
 			onCountryChange={onCountryChange}

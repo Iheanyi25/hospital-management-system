@@ -1,19 +1,26 @@
 import { generateUrlParams } from "../../utils/generateUrlParams";
-const baseUrl = "DirectEntry";
+const baseUrl = "DirectEntryApplication";
 
 export const directEntryLoadApplicationFormUrl = (jambRegNumber) =>
-	`${baseUrl}/verify-direct-entry-application-status/${jambRegNumber}`;
+	`${baseUrl}/load-direct-entry-application-form?regNumber=${jambRegNumber}`;
 
 export const postDirectEntryPersonalDetailsFormUrl = () =>
-	`${baseUrl}/add-or-update-direct-entry-application`;
+	`${baseUrl}/add-or-update-direct-entry-application-form-and-programme`;
 
-export const directEntryOLevelDetailsFormUrl = (filter) =>
-	`${baseUrl}/add-or-update-direct-entry-applicant-olevel?${generateUrlParams(
-		filter
-	)}`;
+export const directEntryProgrammeDetailsFormUrl = () =>
+	`${baseUrl}/add-or-update-direct-entry-programme?`;
 
-export const directEntryInstitutionAttendedUrl = () =>
-	`${baseUrl}/add-or-update-direct-entry-applicant-institution`;
+export const directEntryOLevelDetailsFormUrl = () =>
+	`${baseUrl}/add-or-update-direct-entry-application-olevel-details?`;
+
+export const directEntryUploadCertificateUrl = () =>
+	`${baseUrl}/add-or-update-direct-entry-application-certificates`;
 
 export const previewDirectEntryUrl = (jambRegNumber) =>
 	`${baseUrl}/application/${jambRegNumber}`;
+export const getDirectEntryListUrl = (filter) =>
+	`${baseUrl}/direct-entry-list?${generateUrlParams(filter)}`;
+export const uploadDirectEntryListUrl = () =>
+	`${baseUrl}/upload-direct-entry-list`;
+export const downloadDirectEntryListTemplateUrl = () =>
+	`${baseUrl}/download-direct-entry-sample-sheet`;

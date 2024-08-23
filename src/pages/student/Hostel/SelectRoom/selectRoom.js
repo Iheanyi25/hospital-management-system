@@ -20,7 +20,7 @@ const tabValues = {
 
 const SelectRoom = () => {
 	const [modifiedData, setModifiedData] = useState([]);
-	const pageSize = PAGESIZE.sm;
+	const pageSize = PAGESIZE.lg;
 	const [searchTerm, setSearchTerm] = useState("");
 	const [active, setActive] = useState("true");
 	const debouncedSearch = useDebouncedCallback(

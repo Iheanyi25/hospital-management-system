@@ -1,14 +1,17 @@
 import { Button, SMSelect, TextField } from "../../../../../../ui_elements";
-import { useApiPut } from "../../../../../../api/apiCall";
+import { useApiGet, useApiPost } from "../../../../../../api/apiCall";
 import { Controller, useForm } from "react-hook-form";
 import {
-	updateSundryFeesAssignmentsUrl,
+	bulkSundryFeesAssignmentsUrl,
 	getSundryFeesAssignmentsUrl
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UploadSchema } from "./uploadSchema";
 import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
+import { getDepartmentsUrl } from "../../../../../../api/urlCategories/Department";
+import { useMemo } from "react";
+import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
 
 export const EditSundryFees = ({
 	data,
@@ -20,15 +23,15 @@ export const EditSundryFees = ({
 	pageNumber
 }) => {
 	const {
-		id,
 		studentTypeId,
 		sessionId,
 		serviceTypeId,
 		paymentPurposeId,
 		paymentTypeId
 	} = data;
+
 	const queryClient = useQueryClient();
-	const { mutate, isLoading } = useApiPut();
+	const { mutate, isLoading } = useApiPost();
 	const {
 		control,
 		register,
@@ -43,23 +46,43 @@ export const EditSundryFees = ({
 			PaymentPurpose: findValueAndLabel(
 				paymentPurposeId,
 				allPaymentPurpose
-			),
+			)
 		},
 		resolver: yupResolver(UploadSchema)
 	});
+	const { data: departmentTypes, isLoading: isLoadingDepartmentTypes } =
+		useApiGet(getDepartmentsUrl(filter?.StudentTypeId, filter.FacultyId), {
+			refetchOnWindowFocus: false,
+			keepPreviousData: true
+		});
+
+	const allDepartmentTypes = useMemo(
+		() =>
+			formatSelectItems(
+				departmentTypes?.data,
+				"department",
+				"departmentId"
+			),
+		[departmentTypes]
+	);
 
 	const onSubmit = (data) => {
 		const requestDet = {
-			url: updateSundryFeesAssignmentsUrl(id),
+			url: bulkSundryFeesAssignmentsUrl(),
 			data: {
 				studentTypeId,
 				sessionId,
-				Amount: data.Amount,
-				TeneceCommission: data.TeneceCommission,
+				amount: data.Amount,
+				teneceCommission: data.TeneceCommission,
+				DepartmentId: data.DepartmentTypeId.map(
+					(department) => department.value
+				),
 				serviceTypeId: data.ServiceTypeId.value,
 				PaymentTypeId: data.PaymentType.value,
-				PaymentPurposeId: data.PaymentPurpose.value,
-				studentModeId:filter.StudentModeId
+				paymentPurposeId: filter.PaymentPurpose,
+				levelId: filter.Level,
+				modeOfEntryId: filter.modeOfEntryId,
+				studentModeId: filter.StudentModeId
 			}
 		};
 		mutate(requestDet, {
@@ -72,7 +95,9 @@ export const EditSundryFees = ({
 						FacultyId: filter.FacultyId,
 						LevelId: filter.Level,
 						StudentTypeId: filter.StudentTypeId,
+
 						StudentModeId: filter.StudentModeId,
+						modeOfEntryId: filter.modeOfEntryId,
 						pageNumber,
 						pageSize: filter.pageSize
 					})
@@ -155,6 +180,34 @@ export const EditSundryFees = ({
 			</div>
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex  align-items-center">
+					<label htmlFor="DepartmentTypeId">Department</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="DepartmentTypeId"
+						control={control}
+						rules={{ required: true }}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								placeholder="Select Department"
+								options={allDepartmentTypes}
+								id="DepartmentTypeId"
+								isMulti
+								loading={isLoadingDepartmentTypes}
+								searchable={false}
+								isError={!!errors.DepartmentTypeId}
+								errorText={
+									errors.DepartmentTypeId &&
+									errors.DepartmentTypeId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex  align-items-center">
 					<label htmlFor="ServiceTypeId">Service Type</label>
 				</div>
 				<div className="col-lg-9">
@@ -199,32 +252,6 @@ export const EditSundryFees = ({
 								errorText={
 									errors.PaymentType &&
 									errors.PaymentType.message
-								}
-							/>
-						)}
-					/>
-				</div>
-			</div>
-			<div className="row mb-4">
-				<div className="col-lg-3 d-flex  align-items-center">
-					<label htmlFor="ServiceTypeId">Payment Purpose</label>
-				</div>
-				<div className="col-lg-9">
-					<Controller
-						name="PaymentPurpose"
-						control={control}
-						rules={{ required: true }}
-						render={({ field }) => (
-							<SMSelect
-								{...field}
-								placeholder="Select Payment Purpose"
-								options={allPaymentPurpose}
-								id="ServiceTypeId"
-								searchable={false}
-								isError={!!errors.PaymentPurpose}
-								errorText={
-									errors.PaymentPurpose &&
-									errors.PaymentPurpose.message
 								}
 							/>
 						)}

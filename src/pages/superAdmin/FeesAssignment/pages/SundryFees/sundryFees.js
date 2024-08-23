@@ -10,7 +10,9 @@ import {
 	getServicesTypesUrl,
 	getStudentModesUrl,
 	getSundryFeesAssignmentsUrl,
-	getSundryPaymentPurposeUrl
+	getSundryPaymentPurposeUrl,
+	getStudentModeOfEntryUrl,
+
 } from "../../../../../api/urls";
 import { Button, Spinner, CenteredDialog } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
@@ -21,10 +23,11 @@ import {
 	EditSundryFees
 } from "./components";
 import ContainerStyles from "../../../CourseManagement/pages/AssignCourse/style.module.css";
+import { CloneSundryFeesAssignment } from "./components/cloneSundryFeesAssignment";
 
 const SundryFeesAssignment = () => {
 	const [editOpen, setEditOpen] = useState(false);
-
+	const [cloneOpen, setCloneOpen] = useState(false);
 	const [editData, setEditData] = useState({});
 	const [filter, setFilter] = useState({
 		SessionId: "",
@@ -35,6 +38,7 @@ const SundryFeesAssignment = () => {
 		StudentTypeId: "",
 		StudentModeId: "",
 		ServiceTypeId: "",
+		modeOfEntryId: "",
 		pageSize: PAGESIZE.sm
 	});
 	const [pageNumber, setPageNumber] = useState(1);
@@ -62,6 +66,7 @@ const SundryFeesAssignment = () => {
 		isLoading: isPaymentPurposeLoading,
 		error: paymentPurposeError
 	} = useApiGet(getSundryPaymentPurposeUrl());
+
 
 	const {
 		data: serviceTypes,
@@ -97,6 +102,12 @@ const SundryFeesAssignment = () => {
 		}
 	);
 	const {
+		data: studentModesOfEntry,
+		isLoading: isLoadingStudentModesOfEntry
+	} = useApiGet(getStudentModeOfEntryUrl(), {
+		refetchOnWindowFocus: false
+	});
+	const {
 		data: feesToAssign,
 		isLoading: isLoadingFeesToAssign,
 		isFetching: isFetchingFeesToAssign,
@@ -110,6 +121,7 @@ const SundryFeesAssignment = () => {
 			LevelId: filter.Level,
 			StudentTypeId: filter.StudentTypeId,
 			StudentModeId: filter.StudentModeId,
+			modeOfEntryId: filter.modeOfEntryId,
 			pageNumber,
 			pageSize: filter.pageSize
 		}),
@@ -151,9 +163,20 @@ const SundryFeesAssignment = () => {
 		() => formatSelectItems(levels?.data, "name", "id"),
 		[levels]
 	);
+	const allStudentModesOfEntry = useMemo(
+		() => formatSelectItems(studentModesOfEntry?.data, "name", "id"),
+		[studentModesOfEntry]
+	);
 
 	const columns = useMemo(
 		() => [
+			{
+				Header: "Department",
+				accessor: "department",
+				Cell: ({ cell: { row } }) => (
+					<div>{row.original.department || "-"}</div>
+				)
+			},
 			{
 				Header: "Amount",
 				accessor: "amount",
@@ -234,7 +257,8 @@ const SundryFeesAssignment = () => {
 		isLoadingServiceTypes ||
 		isLoadingStudentTypes ||
 		isLoadingStudentMode ||
-		isPaymentPurposeLoading
+		isPaymentPurposeLoading ||
+		isLoadingStudentModesOfEntry
 	)
 		return <Spinner />;
 	if (
@@ -268,6 +292,22 @@ const SundryFeesAssignment = () => {
 					allPaymentTypes={allPaymentTypes}
 				/>
 			</CenteredDialog>
+
+			<CenteredDialog
+				modalId="clone_sundry_fees"
+				isOpen={cloneOpen}
+				closeModal={() => setCloneOpen(false)}
+				width={705}
+				formTitle="Clone Sundry Fees Assignment"
+			>
+				<CloneSundryFeesAssignment
+					filter={filter}
+					allSessions={allSessions}
+					currentFilterState={{ ...filter }}
+					paymentPurposeId="Acceptance"
+					closeModal={() => setCloneOpen(false)}
+				/>
+			</CenteredDialog>
 			<div className={ContainerStyles.page_content}>
 				<ViewSundryFeesForm
 					allSessions={allSessions}
@@ -281,6 +321,7 @@ const SundryFeesAssignment = () => {
 					allLevels={allLevels}
 					allPaymentTypes={allPaymentTypes}
 					allStudentTypes={allStudentTypes}
+					allStudentModesOfEntry={allStudentModesOfEntry}
 					control={control}
 					handleSubmit={handleSubmit}
 					isLoadingFeesToAssign={isLoadingFeesToAssign}
@@ -293,12 +334,24 @@ const SundryFeesAssignment = () => {
 					isPaymentPurposeLoading
 				/>
 			</div>
+			<div className="d-flex justify-content-between align-items-center px-4 py-3 border">
+				<h4>Regular</h4>
+				<span className="d-flex">
+					<Button
+						data-cy="clone-sundry-fees"
+						type="button"
+						buttonClass="standard"
+						label="Clone sundry Fees Assignment"
+						onClick={() => setCloneOpen(true)}
+					/>
+				</span>
+			</div>
 			<SundryFeesTable
 				title={
 					feesToAssign?.data?.length !== 0 &&
 					watchData?.StudentTypeId?.label
 				}
-				data={feesToAssign?.data || []}
+				data={feesToAssign?.data?.items || []}
 				loading={isFetchingFeesToAssign}
 				setEditOpen={setEditOpen}
 				columns={columns}

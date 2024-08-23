@@ -16,7 +16,9 @@ export const AssignCreditLoadForm = ({
 	allSessions,
 	setFilter,
 	handleSubmit,
-	isLoadingUnitLoads
+	isLoadingUnitLoads,
+	setUploadOpen,
+	getValues
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -26,19 +28,42 @@ export const AssignCreditLoadForm = ({
 			matricNo: formData.matricNo.value
 		}));
 	};
+	const openBulkUpload = () => {
+		if (getValues()?.sessionId?.value && getValues()?.semesterId?.value) {
+			setUploadOpen(true);
+		} else {
+			const errorFlag = window.AJS.flag({
+				type: "error",
+				title: "Action Failed!",
+				body: `Please select a semester and session before you can proceed`
+			});
+			setTimeout(() => {
+				errorFlag.close();
+			}, 5000);
+		}
+	};
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
 				headerText="View Unit Load"
 				borderClasses="border-bottom-0"
 				footerContent={
-					<Button
-						data-cy="view_records"
-						type="submit"
-						buttonClass="primary"
-						label="View records"
-						loading={isLoadingUnitLoads}
-					/>
+					<>
+						<Button
+							data-cy="bulk_upload"
+							type="button"
+							buttonClass="standard"
+							label="Bulk Upload"
+							onClick={openBulkUpload}
+						/>
+						<Button
+							data-cy="view_records"
+							type="submit"
+							buttonClass="primary"
+							label="View records"
+							loading={isLoadingUnitLoads}
+						/>
+					</>
 				}
 				footerStyle="d-flex justify-content-end"
 			>

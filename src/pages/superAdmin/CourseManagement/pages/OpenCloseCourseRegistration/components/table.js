@@ -10,19 +10,14 @@ export const Table = ({ data, loading, onSubmit, isPosting }) => {
 			},
 			{
 				Header: "Mode of Entry",
-				accessor: "studentModeOfEntry"
+				accessor: "modeOfEntry"
 			},
 			{
 				Header: "Action",
 				accessor: "buttons",
 				Cell: ({ cell: { row } }) => {
-					const {
-						isOpen,
-						semester,
-						semesterId,
-						studentModeOfEntryId,
-						id
-					} = row.original;
+					const { isOpen, semester, semesterId, modeOfEntryId, id } =
+						row.original;
 					return (
 						<ToggleElement
 							id={`open-course-registration-${semester}`}
@@ -31,7 +26,7 @@ export const Table = ({ data, loading, onSubmit, isPosting }) => {
 							onChange={() =>
 								onSubmit({
 									isOpen: !isOpen ? true : false,
-									studentModeOfEntryId,
+									modeOfEntryId,
 									semesterId,
 									id
 								})

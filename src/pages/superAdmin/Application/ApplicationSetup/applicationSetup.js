@@ -13,17 +13,20 @@ import { EditApplication, AddApplication } from "./components";
 import {
 	deleteApplicationTypeUrl,
 	getAllApplicationTypesUrl,
+	getAllDepartmentsWithoutValuesUrl,
 	getAllServiceTypesUrl,
 	getAllSessionsUrl,
-	getPaymentPurposeUrl,
+	getGroupSelectionsUrl,
 	getStudentTypesUrl,
-	toggleApplicationStatusUrl
+	toggleApplicationStatusUrl,
+	toggleOpenCloseApplicationStatusUrl
 } from "../../../../api/urls";
 import { useApiDelete, useApiGet, useApiPut } from "../../../../api/apiCall";
 import { useQueryClient } from "react-query";
 import { PAGESIZE, SEARCH_DELAY } from "../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
+import numberFormatter from "../../../../utils/numberFormatter";
 
 const ApplicationSetup = () => {
 	const [open, setOpen] = useState(false);
@@ -53,8 +56,6 @@ const ApplicationSetup = () => {
 	const { data: sessions, isLoading: isLoadingSessions } = useApiGet(
 		getAllSessionsUrl()
 	);
-	const { data: paymentPurpose, isLoading: isLoadingPaymentPurpose } =
-		useApiGet(getPaymentPurposeUrl());
 	const { data: serviceTypes, isLoading: isLoadingServiceTypes } = useApiGet(
 		getAllServiceTypesUrl()
 	);
@@ -65,12 +66,22 @@ const ApplicationSetup = () => {
 		}
 	);
 
-	const allSessions = formatSelectItems(sessions?.data, "session", "id");
-	const allPaymentPurpose = formatSelectItems(
-		paymentPurpose?.data,
+	const { data: departments, isLoading: isLoadingDepartments } = useApiGet(
+		getAllDepartmentsWithoutValuesUrl()
+	);
+
+	const {
+		data: activationStatuses,
+		isLoading: isLoadingHostelActivationStatus
+	} = useApiGet(getGroupSelectionsUrl());
+
+	const allActivationStatuses = formatSelectItems(
+		activationStatuses?.data,
 		"name",
 		"id"
 	);
+	const allDepartments = formatSelectItems(departments?.data, "name", "id");
+	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allServiceTypes = formatSelectItems(serviceTypes?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const { mutate, isLoading: isDeleting } = useApiDelete();
@@ -152,6 +163,46 @@ const ApplicationSetup = () => {
 		},
 		[pageNumber, pageSize, searchTerm, queryClient, toggle]
 	);
+
+	const toggleOpenApplicationStatus = useCallback(
+		(id) => {
+			const requestDet = {
+				url: toggleOpenCloseApplicationStatusUrl(id)
+			};
+			toggle(requestDet, {
+				onSuccess: () => {
+					queryClient.invalidateQueries(
+						getAllApplicationTypesUrl({
+							pageSize,
+							pageNumber,
+							searchTerm
+						})
+					);
+					const successFlag = window.AJS.flag({
+						type: "success",
+						title: "Update Success!",
+						body: `Status updated successfully!`
+					});
+					setTimeout(() => {
+						successFlag.close();
+					}, 5000);
+				},
+				onError: ({ response }) => {
+					const errorFlag = window.AJS.flag({
+						type: "error",
+						title: "Update Failure!",
+						body:
+							response?.data?.message ||
+							`Status wasn't updated successfully!`
+					});
+					setTimeout(() => {
+						errorFlag.close();
+					}, 5000);
+				}
+			});
+		},
+		[pageNumber, pageSize, searchTerm, queryClient, toggle]
+	);
 	const columns = useMemo(
 		() => [
 			{
@@ -175,20 +226,28 @@ const ApplicationSetup = () => {
 			},
 			{
 				Header: "Amount",
-				accessor: "amount"
+				accessor: "amount",
+				Cell: ({ cell: { row } }) => (
+					<p>{numberFormatter(row.original.amount) || "-"}</p>
+				)
 			},
 			{
 				Header: "Commission",
-				accessor: "teneceCommission"
+				accessor: "teneceCommission",
+				Cell: ({ cell: { row } }) => (
+					<p>
+						{numberFormatter(row.original.teneceCommission) || "-"}
+					</p>
+				)
 			},
 			{
 				Header: "Status",
 				accessor: "activated",
 				Cell: ({ cell: { row } }) => {
 					return (
-						<>
+						<div className="d-flex justify-content-center gap-2">
 							<ToggleElement
-								id={`cleareance-status-${row.original.id}`}
+								id={`application-status-${row.original.id}`}
 								checked={row.original.active}
 								onChange={() =>
 									toggleClearanceStatus(row.original.id)
@@ -200,7 +259,18 @@ const ApplicationSetup = () => {
 								}
 								isDisabled={isPosting}
 							/>
-						</>
+							<ToggleElement
+								id={`application-open-status-${row.original.id}`}
+								checked={!row.original.closed}
+								onChange={() =>
+									toggleOpenApplicationStatus(row.original.id)
+								}
+								label={
+									!row.original.closed ? "Opened" : "Closed"
+								}
+								isDisabled={isPosting}
+							/>
+						</div>
 					);
 				}
 			},
@@ -233,13 +303,20 @@ const ApplicationSetup = () => {
 				)
 			}
 		],
-		[pageSize, pageNumber, toggleClearanceStatus, isPosting]
+		[
+			pageSize,
+			pageNumber,
+			toggleClearanceStatus,
+			toggleOpenApplicationStatus,
+			isPosting
+		]
 	);
 	if (
 		isLoadingSessions ||
 		isLoadingServiceTypes ||
-		isLoadingPaymentPurpose ||
-		isLoadingStudentTypes
+		isLoadingStudentTypes ||
+		isLoadingDepartments ||
+		isLoadingHostelActivationStatus
 	)
 		return <Spinner />;
 	if (error)
@@ -254,10 +331,11 @@ const ApplicationSetup = () => {
 			>
 				<AddApplication
 					allSessions={allSessions}
-					allPaymentPurpose={allPaymentPurpose}
 					allServiceTypes={allServiceTypes}
 					allStudentTypes={allStudentTypes}
 					closeModal={() => setOpen(false)}
+					allActivationStatuses={allActivationStatuses}
+					allDepartments={allDepartments}
 					currentFilterState={{ pageSize, pageNumber, searchTerm }}
 					setUploadModal={setOpen}
 				/>
@@ -272,9 +350,10 @@ const ApplicationSetup = () => {
 				<EditApplication
 					data={editData}
 					allSessions={allSessions}
-					allPaymentPurpose={allPaymentPurpose}
 					allServiceTypes={allServiceTypes}
 					allStudentTypes={allStudentTypes}
+					allActivationStatuses={allActivationStatuses}
+					allDepartments={allDepartments}
 					closeModal={() => setEditOpen(false)}
 					currentFilterState={{ pageSize, pageNumber, searchTerm }}
 				/>

@@ -1,6 +1,7 @@
 import styles from "../style.module.css";
 import {
 	Button,
+	ProfileContext,
 	SMSelect,
 	Spinner,
 	TextField
@@ -13,19 +14,34 @@ import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
 import {
 	editUserUrl,
 	getAllUsersUrl,
-	getDepartmentsUrl
+	getDepartmentsUrl,
+	getUserProfileUrl
 } from "../../../../../../api/urls";
 import { editUserSchema } from "./componentsSchema";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
+import { RedCancel } from "../../../../../../assets/svgs";
+import { useContext } from "react";
 
 export const EditUser = ({
 	data,
 	currentFilterState,
 	closeModal,
 	allStudentTypes,
+	allGenders,
+	allCampuses,
 	allRoles
 }) => {
+	const ref = useRef();
+	const profileData = useContext(ProfileContext);
+	const [shouldUpdateProfile, setShouldUpdateProfile] = useState(false);
+	const { data: user } = useApiGet(getUserProfileUrl(), {
+		refetchOnWindowFocus: false,
+		enabled: shouldUpdateProfile
+	});
+
+	user?.data && profileData?.setProfileData(user.data);
+
 	const [studentTupeState, setStudentTupeState] = useState(
 		data?.studentTypeId
 	);
@@ -36,6 +52,7 @@ export const EditUser = ({
 			enabled: !!studentTupeState
 		}
 	);
+
 	const allDepartments = formatSelectItems(
 		departments?.data,
 		"department",
@@ -54,7 +71,10 @@ export const EditUser = ({
 			Surname: data.lastName,
 			Firstname: data.firstName,
 			Middlename: data.middleName,
-			PhoneNumber: data.phoneNumber,
+			PhoneNumber: data.mobileNumber,
+			StaffNumber: data?.staffNumber,
+			CampusId: findValueAndLabel(data?.campusId, allCampuses),
+			Gender: findValueAndLabel(data?.genderId, allGenders),
 			Department: findValueAndLabel(data?.departmentId, allDepartments),
 			StudentType: findValueAndLabel(
 				data?.studentTypeId,
@@ -79,9 +99,12 @@ export const EditUser = ({
 				LastName: submitData?.Surname,
 				Firstname: submitData?.Firstname,
 				MiddleName: submitData?.Middlename ?? "",
-				PhoneNumber: submitData?.PhoneNumber,
+				MobileNumber: submitData?.PhoneNumber,
+				StaffNumber: submitData?.StaffNumber,
 				StudentTypeId: submitData?.StudentType?.value,
+				CampusId: submitData?.CampusId?.value,
 				DepartmentId: submitData?.Department?.value,
+				GenderId: submitData?.Gender?.value,
 				Role: submitData?.UserRole?.value
 			}
 		};
@@ -90,6 +113,8 @@ export const EditUser = ({
 				queryClient.invalidateQueries(
 					getAllUsersUrl(currentFilterState)
 				);
+
+				setShouldUpdateProfile(true);
 				closeModal();
 				const successFlag = window.AJS.flag({
 					type: "success",
@@ -209,6 +234,51 @@ export const EditUser = ({
 			</div>
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="StaffNumber">Staff Number</label>
+				</div>
+				<div className="col-lg-9">
+					<TextField
+						name="StaffNumber"
+						placeholder="Enter staff number"
+						register={register}
+						error={errors.StaffNumber}
+						errorText={
+							errors.StaffNumber && errors.StaffNumber.message
+						}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label
+						htmlFor="gender"
+						className={styles.admission_list_edit_label}
+					>
+						Gender
+					</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="Gender"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								placeholder="Select gender"
+								searchable={true}
+								id="Gender"
+								{...field}
+								options={allGenders}
+								isError={!!errors.Gender}
+								errorText={
+									errors.Gender && errors.Gender.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
 					<label htmlFor="PhoneNumber">Phone Number</label>
 				</div>
 				<div className="d-flex col-lg-9">
@@ -227,65 +297,6 @@ export const EditUser = ({
 					/>
 				</div>
 			</div>
-			<div className="row mb-4">
-				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="StudentType">Student Type</label>
-				</div>
-				<div className="col-lg-9">
-					<Controller
-						name="StudentType"
-						control={control}
-						render={({ field }) => (
-							<SMSelect
-								{...field}
-								placeholder="Select a student type"
-								options={allStudentTypes}
-								onChange={onChange}
-								searchable={true}
-								id="StudentType"
-							/>
-						)}
-					/>
-				</div>
-			</div>
-			{isDepartmentLoading ? (
-				<div className="mb-4">
-					<Spinner />
-				</div>
-			) : (
-				allDepartments?.length > 0 && (
-					<div className="row mb-4">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label
-								htmlFor="gender"
-								className={styles.admission_list_edit_label}
-							>
-								Department
-							</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="Department"
-								control={control}
-								render={({ field }) => (
-									<SMSelect
-										placeholder="Select department"
-										searchable={true}
-										id="Department"
-										{...field}
-										options={allDepartments}
-										isError={!!errors.Department}
-										errorText={
-											errors.Department &&
-											errors.Department.message
-										}
-									/>
-								)}
-							/>
-						</div>
-					</div>
-				)
-			)}
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
 					<label
@@ -315,6 +326,135 @@ export const EditUser = ({
 					/>
 				</div>
 			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="admission_batch">Campus</label>
+				</div>
+				<div className="col-lg-8">
+					<Controller
+						name="CampusId"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								placeholder="Select a campus"
+								searchable={true}
+								id="CampusId"
+								{...field}
+								options={allCampuses}
+								isError={!!errors.CampusId}
+								errorText={
+									errors.CampusId && errors.CampusId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+				<div className={`col-1 d-flex`}>
+					<span
+						className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
+						role="button"
+						onClick={() => {
+							ref?.current?.clearValue();
+							setValue("CampusId", null);
+						}}
+					>
+						<RedCancel className="align-middle" />
+					</span>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label htmlFor="StudentType">Student Type</label>
+				</div>
+				<div className="col-lg-8">
+					<Controller
+						name="StudentType"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								placeholder="Select a student type"
+								options={allStudentTypes}
+								onChange={onChange}
+								searchable={true}
+								id="StudentType"
+							/>
+						)}
+					/>
+				</div>
+				<div className={`col-1 d-flex`}>
+					<span
+						className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
+						role="button"
+						onClick={() => {
+							ref?.current?.clearValue();
+							setValue("StudentType", null);
+							setValue("Department", null);
+						}}
+					>
+						<RedCancel className="align-middle" />
+					</span>
+				</div>
+			</div>
+			{isDepartmentLoading ? (
+				<div className="mb-4">
+					<Spinner />
+				</div>
+			) : (
+				allDepartments?.length > 0 && (
+					<div className="row mb-4">
+						<div className="col-lg-3 d-flex align-items-center">
+							<label
+								htmlFor="gender"
+								className={styles.admission_list_edit_label}
+							>
+								Department
+							</label>
+						</div>
+						<div className="col-lg-8">
+							<Controller
+								name="Department"
+								control={control}
+								defaultValue={
+									data?.departmentId
+										? findValueAndLabel(
+												data?.departmentId,
+												allDepartments
+										  )
+										: null
+								}
+								render={({ field }) => (
+									<SMSelect
+										placeholder="Select department"
+										searchable={true}
+										id="Department"
+										{...field}
+										ref={ref}
+										options={allDepartments}
+										isError={!!errors.Department}
+										errorText={
+											errors.Department &&
+											errors.Department.message
+										}
+									/>
+								)}
+							/>
+						</div>
+						<div className={`col-1 d-flex`}>
+							<span
+								className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
+								role="button"
+								onClick={() => {
+									ref?.current?.clearValue();
+									setValue("Department", null);
+								}}
+							>
+								<RedCancel className="align-middle" />
+							</span>
+						</div>
+					</div>
+				)
+			)}
 			<div className="d-flex justify-content-end">
 				<Button
 					data-cy="update_rows"

@@ -1,0 +1,32 @@
+.success_container {
+	border: 2px dashed var(--success);
+	padding: 24px 24px;
+}
+
+.success_container div:nth-child(2) h2 {
+	font-style: normal;
+	font-weight: 600;
+	font-size: 1.36rem;
+	line-height: 24px;
+}
+
+.success_container div:nth-child(2) h4 {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 20px;
+	margin-bottom: 19px;
+}
+
+.success_container div:nth-child(2) p {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 24px;
+}
+
+.progress_bar {
+	height: 4px;
+	border-radius: 2px;
+	background: var(--success);
+}

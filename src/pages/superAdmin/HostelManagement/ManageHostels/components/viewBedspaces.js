@@ -5,8 +5,9 @@ import { useApiGet, useApiDelete } from "../../../../../api/apiCall";
 import {
 	deleteHostelBedUrl,
 	getHostelBedSpaceUrl,
-	getAllLevels,
-	getAllSessionsUrl
+	getAllSessionsUrl,
+	getGroupSelectionsUrl,
+	getStudentTypesUrl
 } from "../../../../../api/urls";
 import {
 	PageTitle,
@@ -24,15 +25,17 @@ import { CreateBedspaceModal } from ".";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import styles from "../style.module.css";
 import { useHistory, useLocation } from "react-router-dom";
+import { ReAssignBedspace } from "./reAssignBedspace";
 import { AssignBedspace } from "./assignBedspace";
 
 const ViewBedspaces = () => {
 	const queryClient = useQueryClient();
-	const pageSize = PAGESIZE.sm;
+	const pageSize = PAGESIZE.xxl;
 	const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [open, setOpen] = useState(false);
-	const [assign, setAssign] = useState(false);
+	const [openReAssign, setReAssign] = useState(false);
+	const [openAssignModal, setOpenAssignModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [currentId, setCurrentId] = useState(null);
 	const [currentData, setCurrentData] = useState({});
@@ -42,10 +45,10 @@ const ViewBedspaces = () => {
 	const { goBack } = useHistory();
 	const { state } = useLocation();
 
-	if (!state) goBack();
+	if (!state?.bedSpaceState) goBack();
 	const { data, isLoading, isFetching } = useApiGet(
 		getHostelBedSpaceUrl({
-			hostelRoomId: state?.id,
+			hostelRoomId: state?.bedSpaceState?.id,
 			pageSize,
 			pageNumber,
 			searchTerm
@@ -55,10 +58,6 @@ const ViewBedspaces = () => {
 		}
 	);
 
-	const { data: levels, isLoading: isLoadingLevels } = useApiGet(
-		getAllLevels()
-	);
-
 	const { data: sessions, isLoading: sessionLoading } = useApiGet(
 		getAllSessionsUrl(),
 		{
@@ -66,15 +65,29 @@ const ViewBedspaces = () => {
 		}
 	);
 
-	const allSessions = formatSelectItems(sessions?.data, "session", "id");
+	const {
+		data: activationStatuses,
+		isLoading: isLoadingHostelActivationStatus
+	} = useApiGet(getGroupSelectionsUrl());
 
-	const allLevels = formatSelectItems(
-		levels?.data,
-		["name", "studentType"],
+	const { data: studentTypes, isLoading: isLoadingStudentTypes } = useApiGet(
+		getStudentTypesUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+
+	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
+	const allActivationStatuses = formatSelectItems(
+		activationStatuses?.data,
+		"name",
 		"id"
 	);
 
+	const allSessions = formatSelectItems(sessions?.data, "session", "id");
+
 	const { mutate, isLoading: isDeleting } = useApiDelete();
+
 	const deleteBedSpace = () => {
 		const requestDet = {
 			url: deleteHostelBedUrl(currentData?.id)
@@ -84,7 +97,7 @@ const ViewBedspaces = () => {
 			onSuccess: () => {
 				queryClient.invalidateQueries(
 					getHostelBedSpaceUrl({
-						hostelRoomId: state?.id,
+						hostelRoomId: state?.bedSpaceState?.id,
 						pageSize,
 						pageNumber,
 						searchTerm
@@ -124,10 +137,15 @@ const ViewBedspaces = () => {
 	};
 
 	const getCurrentBedspace = (id, data, isAssign = false) => {
-		isAssign ? setAssign(true) : setOpen(true);
+		isAssign === "reassign"
+			? setReAssign(true)
+			: isAssign === "assign"
+			? setOpenAssignModal(true)
+			: setOpen(true);
 		setCurrentId(id);
 		setCurrentData(data);
 	};
+
 	const columns = useMemo(
 		() => [
 			{
@@ -164,7 +182,17 @@ const ViewBedspaces = () => {
 								getCurrentBedspace(
 									row?.original?.id,
 									row?.original,
-									true
+									"assign"
+								);
+							}
+						},
+						{
+							name: "Reassign",
+							onClick: () => {
+								getCurrentBedspace(
+									row?.original?.id,
+									row?.original,
+									"reassign"
 								);
 							}
 						},
@@ -197,7 +225,12 @@ const ViewBedspaces = () => {
 		[pageNumber, pageSize]
 	);
 
-	if (isLoading || isLoadingLevels || sessionLoading) {
+	if (
+		isLoading ||
+		sessionLoading ||
+		isLoadingStudentTypes ||
+		isLoadingHostelActivationStatus
+	) {
 		return <Spinner />;
 	}
 	const crumbItems = [
@@ -206,14 +239,16 @@ const ViewBedspaces = () => {
 			path: "/hostel_management/manage_hostel"
 		},
 		{
-			name: `${state?.roomName}`,
-			path: "/hostel_management/manage_hostel/view_hostel"
+			name: `${state?.bedSpaceState?.roomName}`,
+			path: "/hostel_management/manage_hostel/view_hostel",
+			state: { ...state, bedSpaceState: null }
 		},
 		{
-			name: `${state?.name}`,
-			path: "/hostel_management/manage_hostel/view_hostel"
+			name: `${state?.bedSpaceState?.name}`,
+			path: "/"
 		}
 	];
+
 	return (
 		<>
 			<ConfirmationModal
@@ -241,15 +276,16 @@ const ViewBedspaces = () => {
 				}
 			>
 				<CreateBedspaceModal
-					state={state}
+					allActivationStatuses={allActivationStatuses}
+					state={state?.bedSpaceState}
 					currentId={currentId}
 					setCurrentId={setCurrentId}
 					currentData={currentData}
+					allStudentTypes={allStudentTypes}
 					setUploadModal={setOpen}
-					allLevels={allLevels}
 					closeModal={() => setOpen(false)}
 					filter={getHostelBedSpaceUrl({
-						hostelRoomId: state?.id,
+						hostelRoomId: state?.bedSpaceState?.id,
 						pageSize,
 						pageNumber,
 						searchTerm
@@ -257,28 +293,47 @@ const ViewBedspaces = () => {
 				/>
 			</CenteredDialog>
 			<CenteredDialog
+				modalId="reassign_bedspace"
+				isOpen={openReAssign}
+				closeModal={() => setReAssign(false)}
+				formTitle={"Reassign Bedspace"}
+				width={1000}
+			>
+				<ReAssignBedspace
+					data={currentData}
+					filter={getHostelBedSpaceUrl({
+						hostelRoomId: state?.bedSpaceState?.id,
+						pageSize,
+						pageNumber,
+						searchTerm
+					})}
+					closeModal={() => setReAssign(false)}
+					allSessions={allSessions}
+				/>
+			</CenteredDialog>
+			<CenteredDialog
 				modalId="assign_bedspace"
-				isOpen={assign}
-				closeModal={() => setAssign(false)}
+				isOpen={openAssignModal}
+				closeModal={() => setOpenAssignModal(false)}
 				formTitle={"Assign Bedspace"}
 				width={1000}
 			>
 				<AssignBedspace
 					data={currentData}
 					filter={getHostelBedSpaceUrl({
-						hostelRoomId: state?.id,
+						hostelRoomId: state?.bedSpaceState?.id,
 						pageSize,
 						pageNumber,
 						searchTerm
 					})}
-					closeModal={() => setAssign(false)}
+					closeModal={() => setOpenAssignModal(false)}
 					allSessions={allSessions}
 				/>
 			</CenteredDialog>
 			<div>
 				<Breadcrumbs crumbs={crumbItems} />
 				<PageTitle
-					title={state?.name}
+					title={state?.bedSpaceState?.name}
 					buttonGroup={
 						<Button
 							onClick={openAddModal}

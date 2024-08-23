@@ -1,12 +1,10 @@
 import { useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { ApplicationPreviewWrapper } from "../ApplicationPreviewWrapper";
-import { hashItem } from "../../../utils/hashItem";
 import styles from "./style.module.css";
 import { directEntryLoadApplicationFormUrl } from "../../../api/urls";
 import { useApiGet } from "../../../api/apiCall";
 import { Spinner } from "../../../ui_elements";
-import { formatProfileInitalDate } from "../../../utils/formatDate";
 
 const DirectEntryPreview = () => {
 	const { push } = useHistory();
@@ -26,8 +24,13 @@ const DirectEntryPreview = () => {
 		}
 	);
 
-	const subjectAndGrade = data?.data?.olevelInfo?.map((item) =>
+	const subjectAndGrade = data?.data?.olevelResponse?.map((item) =>
 		Object?.entries(item?.subjectGrade)
+	);
+
+	const aLevelsubjectAndGrade = Object?.entries(
+		data?.data?.programmeInfoResponse?.directEntryProgrammeOLevel
+			?.subjectGrade || {}
 	);
 
 	if (isLoading) return <Spinner />;
@@ -36,197 +39,246 @@ const DirectEntryPreview = () => {
 
 	return (
 		<ApplicationPreviewWrapper
-			previewHeader={`${data?.data?.basicInformation?.session} Direct Entry Application Slip`}
+			previewHeader={`${data?.data?.personalInfoResponse?.session} Direct Entry Application Slip`}
 			userDetails={{
-				fullname: `${data?.data?.basicInformation?.lastname} ${data?.data?.basicInformation?.firstname} `,
-				passport: data?.data?.basicInformation?.passport
+				fullname: `${data?.data?.personalInfoResponse?.surname} ${data?.data?.personalInfoResponse?.firstname} `,
+				passport: data?.data?.passport
 			}}
 			componentRef={componentRef}
 		>
-			<div className={`${styles.preview_container} p-4`}>
-				<section className="row mt-3">
-					<h4 className="mb-2">Personal Information</h4>
-					<div className="row justify-content-between  px-4">
-						<div className="col-6 my-2">
-							<div className="row my-3">
-								<h6 className="col-2">Form No</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation
-										?.applicationNumber || "-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Surname</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.lastname ||
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Firstname</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.firstname ||
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Other Name</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.middlename ||
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Sex</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.gender ||
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Date of Birth</h6>
-								<p className="col-8">
-									{formatProfileInitalDate(
-										data?.data?.basicInformation
-											?.dateofBirth
-									) || ""}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Country</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.country ??
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Email Address</h6>
-								<p className="col-8">
-									{(data?.data?.basicInformation?.email &&
-										hashItem(
-											data?.data?.basicInformation?.email
-										)) ||
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Mobile Phone</h6>
-								<p className="col-8">
-									{(data?.data?.basicInformation
-										?.mobileNumber &&
-										hashItem(
-											data?.data?.basicInformation
+			<div
+				className={`${styles.preview_container} p-4 d-flex justify-content-center flex-column`}
+			>
+				<section className="row col-10 m-auto mb-5 mt-1">
+					<section className="mt-3 col-6">
+						<h4 className="mb-2">Personal Information</h4>
+						<div className="row justify-content-between  px-2">
+							<div className="col-10 my-2">
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Form No</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.applicationNumber || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Surname</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.surname || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Firstname</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.firstname || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Other Name</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.middlename || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Sex</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.gender || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Date of Birth</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.dateOfBirth || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Country</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.country ?? "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Email Address</h6>
+									<p className="col-8 text-left">
+										{(data?.data?.personalInfoResponse
+											?.email &&
+											data?.data?.personalInfoResponse
+												?.email
+										) ||
+											"-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Mobile Phone</h6>
+									<p className="col-8 text-left">
+										{(data?.data?.personalInfoResponse
+											?.mobileNumber &&
+											data?.data?.personalInfoResponse
 												?.mobileNumber
-										)) ||
-										"-"}
-								</p>
+										) ||
+											"-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Address</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.contactAddress || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">State of Origin</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.state || "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">LGA of Origin</h6>
+									<p className="col-8 text-left">
+										{data?.data?.personalInfoResponse
+											?.lga || "-"}
+									</p>
+								</div>
 							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Address</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation
-										?.permanentAddress || "-"}
-								</p>
+							{/* <div className="col-6 my-2"></div> */}
+						</div>
+					</section>
+					<section className="mt-3 col-6">
+						<h4 className="mb-2">Programme Details</h4>
+						<div className="row justify-content-between  px-2">
+							<div className="col-10 my-2">
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Department</h6>
+									<p className="col-8 text-left">
+										{data?.data?.programmeInfoResponse
+											?.department ?? "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Certificate Type</h6>
+									<p className="col-8 text-left">
+										{data?.data?.programmeInfoResponse
+											?.certificateType ?? "-"}
+									</p>
+								</div>
+								{(data?.data?.programmeInfoResponse
+									?.certificateType === "A Level" || data?.data?.programmeInfoResponse
+									?.certificateType === "JUPEB") ? (
+									<div className="row  my-4">
+										<h5 className="col-8 text-left p-0 m-0">
+												{data?.data?.programmeInfoResponse?.certificateType === "A Level" ? "A Level Result" : "JUPEB Result"}
+										</h5>
+										<div className="row my-3">
+											<h5 className="col-8 text-left p-0 m-0">
+												Subject
+											</h5>
+											<h5 className="col-3 p-0 m-0">
+												Grade
+											</h5>
+										</div>
+										{aLevelsubjectAndGrade &&
+											aLevelsubjectAndGrade?.map(
+												(item, index) => (
+													<div
+														key={index}
+														className="row my-2 "
+													>
+														<p className="col-8 text-left text-capitalize">
+															{item?.[0]}
+														</p>
+														<p className="col-2 t3xt-capitalize">
+															{item?.[1]}
+														</p>
+													</div>
+												)
+											)}
+									</div>
+								) : (
+									<div className="row my-3 align-items-baseline">
+										<h6 className="col-3">Grade</h6>
+										<p className="col-8 text-left">
+											{(data?.data?.programmeInfoResponse
+												?.directEntryGrade ||
+												data?.data
+													?.programmeInfoResponse
+													?.degreeCertificate) ??
+												"-"}
+										</p>
+									</div>
+								)}
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Previous School</h6>
+									<p className="col-8 text-left">
+										{data?.data?.programmeInfoResponse
+											?.previousSchool ?? "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">Previous Course</h6>
+									<p className="col-8 text-left">
+										{data?.data?.programmeInfoResponse
+											?.previousCourse ?? "-"}
+									</p>
+								</div>
+								<div className="row my-3 align-items-baseline">
+									<h6 className="col-3">CGPA</h6>
+									<p className="col-8 text-left">
+										{data?.data?.programmeInfoResponse
+											?.cgpa ?? "-"}
+									</p>
+								</div>
 							</div>
 						</div>
-						<div className="col-6 my-2">
-							<div className="row my-3">
-								<h6 className="col-2">State of Origin</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.state || "-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">LGA of Origin</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.lga || "-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Blood Group/Genotype</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.bloodGroup ||
-										"-"}
-									/
-									{data?.data?.basicInformation?.genoType ||
-										"-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Disability</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation
-										?.disability === false
-										? "No"
-										: "Yes" ?? "-"}
-								</p>
-							</div>
-							<div className="row my-3">
-								<h6 className="col-2">Hobby</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.hobby || "-"}
-								</p>
-							</div>
-						</div>
-					</div>
+					</section>
 				</section>
-				<section className="row mt-3">
-					<h4 className="mb-2">Course of Choice</h4>
-					<div className="row justify-content-between  px-4">
-						<div className="col-6 my-2">
-							<div className="row my-3">
-								<h6 className="col-2">Course</h6>
-								<p className="col-8">
-									{data?.data?.basicInformation?.department ||
-										"-"}
-								</p>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section className="row mt-3">
+				<section className="row col-10 m-auto mt-5">
 					<h4 className="mb-2">O-Level Result</h4>
 					<div className="row justify-content-between  px-4">
-						{data?.data?.olevelInfo &&
-							data?.data?.olevelInfo?.map((item, index) => (
+						{data?.data?.olevelResponse &&
+							data?.data?.olevelResponse?.map((item, index) => (
 								<div className="col-6 my-2" key={index}>
 									<h5>
 										{index === 0
 											? "First Sitting"
 											: "Second Sitting"}
 									</h5>
-									<div className="row my-3">
-										<h6 className="col-2">Exam Type</h6>
-										<p className="col-8">
+									<div className="row my-3 align-items-center">
+										<h6 className="col-3">Exam Type</h6>
+										<p className="col-8 text-left">
 											{item?.examinationType ?? "-"}
 										</p>
 									</div>
-									<div className="row my-3">
-										<h6 className="col-2">Exam Number</h6>
-										<p className="col-8">
+									<div className="row my-3 align-items-center">
+										<h6 className="col-3">Exam Number</h6>
+										<p className="col-8 text-left">
 											{item?.examNumber ?? "-"}
 										</p>
 									</div>
-									<div className="row my-3">
-										<h6 className="col-2">Exam Year</h6>
-										<p className="col-8">
+									<div className="row my-3 align-items-center">
+										<h6 className="col-3">Exam Year</h6>
+										<p className="col-8 text-left">
 											{item?.examYear ?? "-"}
 										</p>
 									</div>
-									<div className="row my-3">
-										<h6 className="col-2">Exam Center</h6>
-										<p className="col-8">
+									<div className="row my-3 align-items-center">
+										<h6 className="col-3">Exam Center</h6>
+										<p className="col-8 text-left">
 											{item?.examCenter ?? "-"}
 										</p>
 									</div>
-									<div className="row  my-4">
-										<div className="row my-3">
-											<h5 className="col-9 p-0 m-0">
+									<div className="row my-4">
+										<div className="row my-3 align-items-center">
+											<h5 className="col-8 text-left m-0">
 												Subject
 											</h5>
-											<h5 className="col-3 p-0 m-0">
-												Grade
-											</h5>
+											<h5 className="col-3 m-0">Grade</h5>
 										</div>
 										{subjectAndGrade &&
 											subjectAndGrade?.[index]?.map(
@@ -235,11 +287,11 @@ const DirectEntryPreview = () => {
 														key={index}
 														className="row my-2 "
 													>
-														<p className="col-9 text-capitalize">
-															{item?.[0]}
+														<p className="col-8 text-left text-capitalize">
+															{item?.[0].toLowerCase()}
 														</p>
-														<p className="col-3 text-capitalize">
-															{item?.[1]}
+														<p className="col-2 text-capitalize text-left">
+															{item?.[1].toLowerCase()}
 														</p>
 													</div>
 												)
@@ -247,37 +299,6 @@ const DirectEntryPreview = () => {
 									</div>
 								</div>
 							))}
-					</div>
-				</section>
-				<section className="row mt-3">
-					<h4 className="mb-2">Institution Attended</h4>
-					<div className="row justify-content-between  px-4">
-						{data?.data?.institutionAttended?.map((items) => (
-							<div className="row">
-								<div className="my-3 col-3">
-									<h6>Name and Location</h6>
-									<p>{items?.institution ?? "-"}</p>
-								</div>
-								<div className="my-3 col-3">
-									<h6>Field of Study</h6>
-									<p>{items?.fieldOfStudy ?? "-"}</p>
-								</div>
-								<div className="my-3 col-2">
-									<h6>From</h6>
-									<p>
-										{items?.dateFrom?.split("T")[0] ?? "-"}
-									</p>
-								</div>
-								<div className="my-3 col-2">
-									<h6>To</h6>
-									<p>{items?.dateTo?.split("T")[0] ?? "-"}</p>
-								</div>
-								<div className="my-3 col-2">
-									<h6>Certificate Obtained</h6>
-									<p>{items?.certificate ?? "-"}</p>
-								</div>
-							</div>
-						)) ?? []}
 					</div>
 				</section>
 			</div>

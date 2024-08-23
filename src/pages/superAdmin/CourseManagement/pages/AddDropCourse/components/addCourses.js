@@ -80,10 +80,15 @@ export const AddCourses = ({
 	);
 
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
-		useApiGet(getDepartmentOptionUrl({ departmentId: departmentId }), {
-			enabled: !!departmentId
-		});
-
+		useApiGet(
+			getDepartmentOptionUrl({
+				departmentId,
+				studentTypeId: watchData?.studentTypeId?.value
+			}),
+			{
+				enabled: !!departmentId
+			}
+		);
 	const { data: addOrDropCourses, isLoading: isLoadingAddOrDropCourses } =
 		useApiGet(
 			studentData
@@ -95,13 +100,13 @@ export const AddCourses = ({
 						semesterId: studentData?.semesterId,
 						departmentOptionId,
 						StudentTypeId: studentData?.studentTypeId,
-						StudentModeOfEntryId: studentData?.studentModeOfEntryId
+						modeOfEntryId: studentData?.modeOfEntryId
 				  })
 				: getBorrowCoursesUrl({
 						sessionId: academicYearDetails?.sessionId,
 						levelId,
 						departmentId,
-						semester: academicYearDetails?.semester,
+						semester: academicYearDetails?.semesterId,
 						departmentOptionId
 				  }),
 			{
@@ -173,7 +178,7 @@ export const AddCourses = ({
 		() => [
 			{
 				Header: "Register",
-				accessor: "register",
+				accessor: "registered",
 				Cell: ({ cell: { row } }) => {
 					return (
 						<div className="mx-3">
@@ -199,11 +204,11 @@ export const AddCourses = ({
 			},
 			{
 				Header: "Course Title",
-				accessor: "courseTitle"
+				accessor: "courseName"
 			},
 			{
 				Header: "Course Unit",
-				accessor: "courseUnit"
+				accessor: "unitLoad"
 			},
 			{
 				Header: "Course Type",
@@ -401,6 +406,7 @@ export const AddCourses = ({
 											<Controller
 												name="departmentOption"
 												control={control}
+												rules={{ required: true }}
 												render={({ field }) => (
 													<SMSelect
 														{...field}
@@ -461,10 +467,10 @@ export const AddCourses = ({
 				<div className="mt-5">
 					<Spinner />
 				</div>
-			) : addOrDropCourses?.data?.length > 0 ? (
+			) : addOrDropCourses?.data?.registerableCourses?.length > 0 ? (
 				<TMTable
 					columns={columns}
-					data={addOrDropCourses?.data}
+					data={addOrDropCourses?.data?.registerableCourses}
 					title={"Register Courses"}
 				/>
 			) : (

@@ -1,8 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useApiPost } from "../../../../../../api/apiCall";
-import { initiateImpersonationProcessUrl } from "../../../../../../api/urls";
-import useAuthAction from "../../../../../../custom-hooks/useAuthAction";
 import {
 	Badge,
 	ButtonDropdown,
@@ -12,9 +9,11 @@ import {
 	TMTable,
 	ToggleElement
 } from "../../../../../../ui_elements";
-
-import { AddUser } from "./addUser";
 import { EditUser } from "./editUser";
+import useAuthAction from "../../../../../../custom-hooks/useAuthAction";
+import { initiateImpersonationProcessUrl } from "../../../../../../api/urls";
+import { useApiPost } from "../../../../../../api/apiCall";
+import { UploadContainer } from "./uploadList";
 
 export const Table = ({
 	data,
@@ -33,11 +32,14 @@ export const Table = ({
 	loading,
 	onSubmit,
 	isPosting,
+	allGenders,
+	allCampuses,
+	metaData,
+	currentFilterState,
 	filter
 }) => {
 	const [editOpen, setEditOpen] = useState(false);
 	const [editData, setEditData] = useState({});
-	const { push } = useHistory();
 	const [openImpersonate, setOpenImpersonate] = useState(false);
 	const { mutate, isLoading } = useApiPost();
 	const { logout } = useAuthAction();
@@ -76,6 +78,9 @@ export const Table = ({
 			}
 		});
 	};
+
+	const { push } = useHistory();
+
 	const columns = useMemo(
 		() => [
 			{
@@ -111,11 +116,17 @@ export const Table = ({
 			},
 			{
 				Header: "Student Type",
-				accessor: "studentType"
+				accessor: "studentType",
+				Cell: ({ cell: { row } }) => (
+					<>{row.original.studentType || "-"}</>
+				)
 			},
 			{
 				Header: "Department",
-				accessor: "department"
+				accessor: "department",
+				Cell: ({ cell: { row } }) => (
+					<>{row.original.department || "-"}</>
+				)
 			},
 			{
 				Header: "Status",
@@ -134,7 +145,6 @@ export const Table = ({
 					);
 				}
 			},
-
 			{
 				Header: "Action",
 				accessor: "buttons",
@@ -149,8 +159,8 @@ export const Table = ({
 									state: {
 										userId: row?.original?.userId,
 										name: `${
-											row?.original?.surname ?? ""
-										} ${row?.original?.firstname ?? ""}`
+											row?.original?.lastName ?? ""
+										} ${row?.original?.firstName ?? ""}`
 									}
 								});
 							}
@@ -202,9 +212,9 @@ export const Table = ({
 			pageSize,
 			setEditOpen,
 			setEditData,
+			push,
 			isPosting,
-			onSubmit,
-			push
+			onSubmit
 		]
 	);
 
@@ -217,13 +227,16 @@ export const Table = ({
 				width={705}
 				formTitle="Add user"
 			>
-				<AddUser
+				<UploadContainer
 					allRoles={allRoles}
 					allDepartments={allDepartments}
+					allGenders={allGenders}
+					allCampuses={allCampuses}
 					allStudentTypes={allStudentTypes}
 					data={editData}
-					currentFilterState={{ ...filter, pageNumber, searchValue }}
 					closeModal={() => setAddOpen(false)}
+					currentFilterState={currentFilterState}
+					setUploadModal={setAddOpen}
 				/>
 			</CenteredDialog>
 			<CenteredDialog
@@ -236,9 +249,11 @@ export const Table = ({
 				<EditUser
 					allRoles={allRoles}
 					allDepartments={allDepartments}
+					allGenders={allGenders}
+					allCampuses={allCampuses}
 					allStudentTypes={allStudentTypes}
 					data={editData}
-					currentFilterState={{ ...filter, pageNumber, searchValue }}
+					currentFilterState={currentFilterState}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
@@ -261,7 +276,7 @@ export const Table = ({
 						{true && (
 							<div className="d-flex align-items-center">
 								<Search
-									placeholder="Search for student name or JAMB REG NO "
+									placeholder="Search for username or JAMB REG NO "
 									onChange={(e) => {
 										debouncedSearch(e.target.value);
 										setPageNumber(1);
@@ -274,6 +289,7 @@ export const Table = ({
 				availablePages={paginationProps.totalPages}
 				setPageNumber={setPageNumber}
 				hasPerformedQuery={hasPerformedQuery}
+				metaData={metaData}
 				searchParams={searchValue}
 				loading={loading || isPosting}
 			/>

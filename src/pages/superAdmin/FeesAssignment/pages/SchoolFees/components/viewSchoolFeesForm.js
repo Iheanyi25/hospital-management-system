@@ -6,6 +6,8 @@ import {
 	SMSelect,
 	Spinner
 } from "../../../../../../ui_elements";
+import { STUDENT_TYPES } from "../../../../../../utils/constants";
+import { fieldSetterAndClearer } from "../../../../../../utils/fieldSetterAndClearer";
 
 export const ViewSchoolFeesForm = ({
 	allFaculties,
@@ -15,7 +17,7 @@ export const ViewSchoolFeesForm = ({
 	allStudentTypes,
 	allServiceTypes,
 	allStudentModes,
-	allStudentModeOfEntry,
+	allStudentModeEntry,
 	control,
 	setFilter,
 	handleSubmit,
@@ -26,46 +28,73 @@ export const ViewSchoolFeesForm = ({
 	levels,
 	errors,
 	pageNumber,
-	watchData,
-	allProgrammes,
-	isLoadingSchoolProgrammes,
 	pageSize,
+	allProgrammes,
+	watchData,
+	allPaymentChannels,
+	isLoadingSchoolProgrammes,
+	allStudentModesOfStudy,
+	isLoadingStudentModesOfStudy,
+	isLoadingProgrammeTypes,
+	allProgrammeTypes,
+	allStaffStatus,
+	setValue,
 	searchTerm
 }) => {
 	const { push } = useHistory();
 	const onSubmit = (formData) => {
+		const hasSchoolProgrammeId = formData?.SchoolProgrammeId?.value
+			? { SchoolProgrammeId: formData?.SchoolProgrammeId?.value }
+			: {};
+		const hasProgrammeTypeId = formData?.ProgrammeTypeId?.value
+			? { ProgrammeTypeId: formData?.ProgrammeTypeId?.value }
+			: {};
+		const hasModeOfStudyId = formData?.ModeOfStudyId?.value
+			? { ModeOfStudyId: formData?.ModeOfStudyId?.value }
+			: {};
 		setFilter((state) => ({
 			...state,
-			StudentTypeId: formData.StudentTypeId?.value,
-			StudentModeId: formData.StudentModeId?.value,
-			StudentModeOfEntryId: formData.StudentModeOfEntryId?.value,
-			ServiceTypeId: formData.ServiceTypeId?.value,
-			SessionId: formData.session?.value,
-			Level: formData.Level?.value,
-			PaymentType: formData.PaymentType?.value,
-			FacultyId: formData.FacultyId?.value,
-			SchoolProgrammeId: formData.SchoolProgrammeId?.value,
+			StudentTypeId: formData.StudentTypeId.value,
+			StudentModeId: formData.StudentModeId.value,
+			IsStaff: formData.IsStaff.value,
+			ModeOfEntryId: formData.ModeOfEntryId.value,
+			ServiceTypeId: formData.ServiceTypeId.value,
+			SessionId: formData.session.value,
+			Level: formData.Level.value,
+			PaymentType: formData.PaymentType.value,
+			FacultyId: formData.FacultyId.value,
+			PaymentChannelId: formData.PaymentChannelId.value,
+			...hasSchoolProgrammeId,
+			...hasModeOfStudyId,
+			...hasProgrammeTypeId,
 			pageNumber,
 			pageSize,
 			searchTerm
 		}));
 		push({
 			search: new URLSearchParams({
-				StudentTypeId: formData.StudentTypeId?.value,
-				StudentModeId: formData.StudentModeId?.value,
-				StudentModeOfEntryId: formData.StudentModeOfEntryId?.value,
-				ServiceTypeId: formData.ServiceTypeId?.value,
-				SessionId: formData.session?.value,
-				Level: formData.Level?.value,
-				PaymentType: formData.PaymentType?.value,
-				FacultyId: formData.FacultyId?.value,
-				SchoolProgrammeId: formData.SchoolProgrammeId?.value,
+				StudentTypeId: formData.StudentTypeId.value,
+				StudentModeId: formData.StudentModeId.value,
+				ModeOfEntryId: formData.ModeOfEntryId.value,
+				ServiceTypeId: formData.ServiceTypeId.value,
+				IsStaff: formData.IsStaff.value,
+				SessionId: formData.session.value,
+				Level: formData.Level.value,
+				PaymentType: formData.PaymentType.value,
+				FacultyId: formData.FacultyId.value,
+				PaymentChannelId: formData.PaymentChannelId.value,
+				...hasSchoolProgrammeId,
+				...hasModeOfStudyId,
+				...hasProgrammeTypeId,
 				pageNumber,
 				pageSize,
 				searchTerm
 			}).toString()
 		});
 	};
+	const shouldShowProgramme =
+		Number(watchData.StudentTypeId) === STUDENT_TYPES.POSTGRADUATE;
+
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -161,11 +190,55 @@ export const ViewSchoolFeesForm = ({
 										render={({ field }) => (
 											<SMSelect
 												{...field}
-												placeholder="Select Student Type"
+												placeholder="Select Student type"
 												options={allStudentTypes}
 												id="StudentTypeId"
+												onChange={(value) =>
+													fieldSetterAndClearer({
+														value,
+														setterFunc: setValue,
+														setField:
+															"StudentTypeId",
+														clearFields: [
+															"FacultyId",
+															"SchoolProgrammeId",
+															"ProgrammeTypeId",
+															"ModeOfStudyId",
+															"Level"
+														]
+													})
+												}
 												searchable={false}
 												isError={!!errors.StudentTypeId}
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="col-md-6 mt-5">
+							<div className="row">
+								<div className="col-lg-3 d-flex  align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="IsStaff"
+									>
+										Staff Status
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="IsStaff"
+										control={control}
+										rules={{ required: true }}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												placeholder="Is the student a staff?"
+												options={allStaffStatus}
+												id="IsStaff"
+												searchable={false}
+												isError={!!errors.IsStaff}
 											/>
 										)}
 									/>
@@ -206,26 +279,24 @@ export const ViewSchoolFeesForm = ({
 								<div className="col-lg-3 d-flex  align-items-center">
 									<label
 										className="font-weight-bold"
-										htmlFor="StudentModeId"
+										htmlFor="ModeOfEntryId"
 									>
-										Student Mode Of Entry
+										Mode Of Entry
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="StudentModeOfEntryId"
+										name="ModeOfEntryId"
 										control={control}
 										rules={{ required: true }}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
-												placeholder="Select Student Mode"
-												options={allStudentModeOfEntry}
-												id="StudentModeOfEntryId"
+												placeholder="Select Student Mode of Entry"
+												options={allStudentModeEntry}
+												id="ModeOfEntryId"
 												searchable={false}
-												isError={
-													!!errors.StudentModeOfEntryId
-												}
+												isError={!!errors.ModeOfEntryId}
 											/>
 										)}
 									/>
@@ -253,7 +324,7 @@ export const ViewSchoolFeesForm = ({
 												placeholder="Select Service Type"
 												options={allServiceTypes}
 												id="ServiceTypeId"
-												searchable={false}
+												searchable={true}
 												isError={!!errors.ServiceTypeId}
 											/>
 										)}
@@ -285,7 +356,7 @@ export const ViewSchoolFeesForm = ({
 											render={({ field }) => (
 												<SMSelect
 													{...field}
-													placeholder="Select Faculty"
+													placeholder="Select faculty"
 													options={allFaculties}
 													id="FacultyId"
 													searchable={true}
@@ -333,38 +404,151 @@ export const ViewSchoolFeesForm = ({
 								</div>
 							</div>
 						)}
+						<div className="col-md-6">
+							<div className="row mt-5">
+								<div className="col-lg-3 d-flex align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="PaymentChannelId"
+									>
+										Payment Channel
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="PaymentChannelId"
+										control={control}
+										rules={{ required: true }}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												id="PaymentChannelId"
+												placeholder="Select payment channel"
+												options={allPaymentChannels}
+												searchable={true}
+												isError={
+													!!errors.PaymentChannelId
+												}
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
 						{isLoadingSchoolProgrammes && (
 							<div className="col-md-6">
 								<Spinner />
 							</div>
 						)}
-						{allProgrammes?.length > 0 &&
-							watchData.StudentTypeId === 4 && (
+						{allProgrammes?.length > 0 && shouldShowProgramme && (
+							<div className="col-md-6">
+								<div className="row mt-5">
+									<div className="col-lg-3 d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="SchoolProgrammeId"
+										>
+											Programmes
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="SchoolProgrammeId"
+											control={control}
+											rules={{ required: true }}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													id="SchoolProgrammeId"
+													placeholder="Select a programme"
+													options={allProgrammes}
+													searchable={true}
+													isError={
+														!!errors.SchoolProgrammeId
+													}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						)}
+						{isLoadingProgrammeTypes && (
+							<div className="col-md-6">
+								<Spinner />
+							</div>
+						)}
+						{allProgrammeTypes?.length > 0 && shouldShowProgramme && (
+							<div className="col-md-6">
+								<div className="row mt-5">
+									<div className="col-lg-3 d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="ProgrammeTypeId"
+										>
+											Programme Type
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="ProgrammeTypeId"
+											control={control}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													id="ProgrammeTypeId"
+													placeholder="Select a programme type"
+													options={allProgrammeTypes}
+													searchable={true}
+													isError={
+														!!errors.ProgrammeTypeId
+													}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						)}
+						{isLoadingStudentModesOfStudy && (
+							<div className="col-md-6">
+								<Spinner />
+							</div>
+						)}
+						{allStudentModesOfStudy?.length > 0 &&
+							shouldShowProgramme && (
 								<div className="col-md-6">
 									<div className="row mt-5">
 										<div className="col-lg-3 d-flex align-items-center">
 											<label
 												className="font-weight-bold"
-												htmlFor="SchoolProgrammeId"
+												htmlFor="ModeOfStudyId"
 											>
-												Programmes
+												Mode of Study
 											</label>
 										</div>
 										<div className="col-lg-9">
 											<Controller
-												name="SchoolProgrammeId"
+												name="ModeOfStudyId"
 												control={control}
 												rules={{ required: true }}
 												render={({ field }) => (
 													<SMSelect
 														{...field}
-														id="SchoolProgrammeId"
-														placeholder="Select a programme"
-														options={allProgrammes}
-														searchable={true}
-														isError={
-															!!errors.SchoolProgrammeId
+														placeholder="Select a mode of study"
+														searchable={false}
+														options={
+															allStudentModesOfStudy
 														}
+														isError={
+															!!errors.ModeOfStudyId
+														}
+														errorText={
+															errors.ModeOfStudyId &&
+															errors.ModeOfStudyId
+																.message
+														}
+														id="ModeOfStudyId"
 													/>
 												)}
 											/>

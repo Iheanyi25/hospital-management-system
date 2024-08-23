@@ -6,26 +6,23 @@ import { useLocation } from "react-router";
 import {
 	OlevelResult,
 	PersonalDetails,
-	InstitutionAttended
+	ProgrammeDetails,
 } from "./components";
 
 import { parent } from "../../../ui_elements/layout/layout";
 
 import { useApiGet } from "../../../api/apiCall";
 import {
-	getFacultiesUrl,
-	getRelationshipsUrl,
 	getGendersUrl,
-	getMaritalStatusesUrl,
 	getOLevelExamTypesUrl,
 	getOlevelGradeUrl,
 	getYearsUrl,
 	getDepartmentsUrl,
-	getBloodGroupsUrl,
-	getGenoTypesUrl,
-	getReligionsUrl,
 	getAllCountriesUrl,
-	getOLevelSubjectsUrl
+	getOLevelSubjectsUrl,
+	getDegreeCertificateGradeUrl,
+	getDirectEntryGradeUrl,
+	getDirectEntryCertificateTypes
 } from "../../../api/urls";
 
 import Avatar from "react-avatar";
@@ -39,9 +36,10 @@ import { DIRECT_ENTRY } from "../../../store/constant";
 import formatImageToBase64 from "../../../utils/formatImage";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
+
 const DirectEntryApplication = () => {
 	const directEntryData = useSelector((state) => state.directEntryData);
-	const { passport, basicInformation } = useSelector(
+	const { passport, personalInfoResponse } = useSelector(
 		(state) => state.directEntryData
 	);
 	const dispatch = useDispatch();
@@ -50,7 +48,10 @@ const DirectEntryApplication = () => {
 
 	const { hash, state } = useLocation();
 
+	console.log(state, "hjhjh")
+
 	const { push } = useHistory();
+
 
 	if (!state?.fromVerify) {
 		push("/direct_entry_login");
@@ -60,57 +61,15 @@ const DirectEntryApplication = () => {
 		parent.current?.scrollTo(0, 0);
 	}, [hash]);
 
-	const {
-		data: relationships,
-		isLoading,
-		error
-	} = useApiGet(getRelationshipsUrl(), {
-		refetchOnWindowFocus: false
-	});
-
-	// const { data: programmes, isLoading: loadingProgrammes } = useApiGet(
-	// 	getSchoolProgrammesUrl(),
-	// 	{
-	// 		refetchOnWindowFocus: false
-	// 	}
-	// );
-
-	const { data: faculties, isLoading: isLoadingFaculties } = useApiGet(
-		getFacultiesUrl(directEntryData?.StudentTypeId?.value),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-
-	const { data: bloodGroups, isLoading: isLoadingBloodGroups } = useApiGet(
-		getBloodGroupsUrl(),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-
-	const { data: genotype, isLoading: isLoadingGenoType } = useApiGet(
-		getGenoTypesUrl(),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-
 	const { data: departments, isLoading: isLoadingDepartments } = useApiGet(
 		getDepartmentsUrl(directEntryData?.StudentTypeId?.value),
 		{
 			refetchOnWindowFocus: false
 		}
 	);
+
 	const { data: genders, isLoading: isLoadingGenders } = useApiGet(
 		getGendersUrl(),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-
-	const { data: stauses, isLoading: isLoadingStatuses } = useApiGet(
-		getMaritalStatusesUrl(),
 		{
 			refetchOnWindowFocus: false
 		}
@@ -122,6 +81,21 @@ const DirectEntryApplication = () => {
 			refetchOnWindowFocus: false
 		}
 	);
+	const { data: certificateTypes, isLoading: isLoadingCertificateTypes } =
+		useApiGet(getDirectEntryCertificateTypes(), {
+			refetchOnWindowFocus: false
+		});
+	const {
+		data: degreeCertificateGrades,
+		isLoading: isLoadingDegreeCertificateGrades
+	} = useApiGet(getDegreeCertificateGradeUrl(), {
+		refetchOnWindowFocus: false
+	});
+
+	const { data: directEntryGrades, isLoading: isLoadingDirectEntryGrades } =
+		useApiGet(getDirectEntryGradeUrl(), {
+			refetchOnWindowFocus: false
+		});
 
 	const { data: oLevelSubjects, isLoading: isLoadingOLevelSubjects } =
 		useApiGet(getOLevelSubjectsUrl(), {
@@ -142,13 +116,6 @@ const DirectEntryApplication = () => {
 		}
 	);
 
-	const { data: religions, isLoading: loadingReligions } = useApiGet(
-		getReligionsUrl(),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-
 	const { data: countries, isLoading: loadingCountries } = useApiGet(
 		getAllCountriesUrl(),
 		{
@@ -157,24 +124,14 @@ const DirectEntryApplication = () => {
 	);
 
 	const allCountries = formatSelectItems(countries?.data, "name", "id");
-	const allReligions = formatSelectItems(religions?.data, "name", "id");
 
-	const allStatuses = formatSelectItems(stauses?.data, "name", "id");
 	const allGenders = formatSelectItems(genders?.data, "name", "id");
-	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
-	// const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
-	const allRelationships = formatSelectItems(
-		relationships?.data,
-		"name",
-		"id"
-	);
+
 	const allDepartments = formatSelectItems(
 		departments?.data,
 		"department",
 		"departmentId"
 	);
-	const allBloodGroups = formatSelectItems(bloodGroups?.data, "name", "id");
-	const allGenotype = formatSelectItems(genotype?.data, "name", "id");
 
 	const allOlevelSubjects = formatSelectItems(
 		oLevelSubjects?.data,
@@ -187,16 +144,32 @@ const DirectEntryApplication = () => {
 		label: year
 	}));
 	const allExamTypes = formatSelectItems(examTypes?.data, "name", "id");
+	const allCertificateTypes = formatSelectItems(
+		certificateTypes?.data,
+		"name",
+		"id"
+	);
+	const allDegreeCertificateGrades = formatSelectItems(
+		degreeCertificateGrades?.data,
+		"name",
+		"id"
+	);
+	const allDirectEntryGrades = formatSelectItems(
+		directEntryGrades?.data,
+		"name",
+		"id"
+	);
+
 
 	const navs = useMemo(
 		() => [
 			{
-				linkName: "Personal & Next of Kin",
+				linkName: "Personal",
 				hashName: "#section_a",
 				state
 			},
 			{
-				linkName: "Institutions Attended",
+				linkName: "Programme Details",
 				hashName: "#section_b",
 				state
 			},
@@ -204,7 +177,7 @@ const DirectEntryApplication = () => {
 				linkName: "O-Level Result",
 				hashName: "#section_c",
 				state
-			}
+			},
 		],
 		[state]
 	);
@@ -239,31 +212,25 @@ const DirectEntryApplication = () => {
 	};
 
 	if (
-		isLoading ||
-		// loadingProgrammes ||
-		isLoadingFaculties ||
 		isLoadingGenders ||
-		isLoadingStatuses ||
 		isLoadingExamTypes ||
 		isLoadingOLevelSubjects ||
 		isLoadingOLevelGrades ||
 		isLoadingExamYears ||
-		isLoadingBloodGroups ||
-		isLoadingGenoType ||
 		isLoadingDepartments ||
-		loadingReligions ||
-		loadingCountries
+		loadingCountries ||
+		isLoadingCertificateTypes ||
+		isLoadingDegreeCertificateGrades ||
+		isLoadingDirectEntryGrades
 	)
 		return <Spinner />;
-	if (error)
-		return "An error has occurred: " + error?.response?.data?.message;
-
+	
 	return (
 		<div className={styles.container} ref={ref}>
 			<div className="row mb-3 mx-5">
 				<div className="col-12 col-md-2 col-lg-2 d-flex align-items-end">
 					<Avatar
-						name={`${basicInformation?.Firstname} ${basicInformation?.Surname}`}
+						name={`${personalInfoResponse?.Firstname} ${personalInfoResponse?.Surname}`}
 						className={styles.profile_img}
 						src={passport?.passport}
 						size={100}
@@ -274,7 +241,7 @@ const DirectEntryApplication = () => {
 				<div className="col-12 col-md-10 col-lg-10">
 					<div className="">
 						<PageTitle
-							title={`${basicInformation?.Firstname} ${basicInformation?.Surname}`}
+							title={`${personalInfoResponse?.Firstname} ${personalInfoResponse?.Surname}`}
 						/>
 					</div>
 				</div>
@@ -308,20 +275,17 @@ const DirectEntryApplication = () => {
 				</div>
 				<div className="col-12 col-md-10 col-lg-10">
 					<DisplayInformation
-						allRelationships={allRelationships}
-						// allProgrammes={allProgrammes}
-						allFaculties={allFaculties}
 						allGenders={allGenders}
-						allStatuses={allStatuses}
 						allOlevelGrades={allOlevelGrades}
 						allExamYears={allExamYears}
 						allOlevelSubjects={allOlevelSubjects}
 						allExamTypes={allExamTypes}
 						allDepartments={allDepartments}
-						allBloodGroups={allBloodGroups}
-						allGenotype={allGenotype}
-						allReligions={allReligions}
 						allCountries={allCountries}
+						allCertificateTypes={allCertificateTypes}
+						allDegreeCertificateGrades={allDegreeCertificateGrades}
+						allDirectEntryGrades={allDirectEntryGrades}
+						fromDirectEntryState={state?.details?.appliedForDirectEntry}
 					/>
 				</div>
 			</div>
@@ -333,18 +297,17 @@ export default DirectEntryApplication;
 
 const DisplayInformation = memo(
 	({
-		allRelationships,
 		allDepartments,
-		allGenotype,
-		allBloodGroups,
 		allGenders,
-		allStatuses,
 		allOlevelGrades,
 		allExamYears,
 		allOlevelSubjects,
 		allExamTypes,
-		allReligions,
-		allCountries
+		allCountries,
+		allCertificateTypes,
+		allDegreeCertificateGrades,
+		allDirectEntryGrades,
+		fromDirectEntryState
 	}) => {
 		const location = useLocation();
 		switch (location.hash) {
@@ -352,17 +315,21 @@ const DisplayInformation = memo(
 				return (
 					<PersonalDetails
 						allGenders={allGenders}
-						allStatuses={allStatuses}
-						relationships={allRelationships}
-						departments={allDepartments}
-						bloodGroups={allBloodGroups}
-						genotypes={allGenotype}
-						religions={allReligions}
 						allCountries={allCountries}
 					/>
 				);
 			case "#section_b":
-				return <InstitutionAttended oLevelType={allExamTypes} />;
+				return (
+					<ProgrammeDetails
+						allDepartments={allDepartments}
+						allCertificateTypes={allCertificateTypes}
+						oLevelGrades={allOlevelGrades}
+						oLevelSubjects={allOlevelSubjects}
+						allDegreeCertificateGrades={allDegreeCertificateGrades}
+						allDirectEntryGrades={allDirectEntryGrades}
+						fromDirectEntryState={fromDirectEntryState}
+					/>
+				);
 			case "#section_c":
 				return (
 					<OlevelResult
@@ -372,17 +339,13 @@ const DisplayInformation = memo(
 						oLevelType={allExamTypes}
 					/>
 				);
+			// case "#section_d":
+			// 	return <UploadCertificate />;
 
 			default:
 				return (
 					<PersonalDetails
 						allGenders={allGenders}
-						allStatuses={allStatuses}
-						relationships={allRelationships}
-						departments={allDepartments}
-						bloodGroups={allBloodGroups}
-						genotypes={allGenotype}
-						religions={allReligions}
 						allCountries={allCountries}
 					/>
 				);

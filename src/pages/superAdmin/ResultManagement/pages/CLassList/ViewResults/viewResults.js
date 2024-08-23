@@ -9,9 +9,9 @@ import {
 	TMTable,
 	ResultPrintOut
 } from "../../../../../../ui_elements";
-import { EditStatus, GradeSummary } from "./components";
+import { EditStatus } from "./components";
 import { useMemo, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useApiGet } from "../../../../../../api/apiCall";
 import {
 	getGradeSheetUrl,
@@ -46,6 +46,11 @@ const ViewResultsUploaded = () => {
 	const [editOpen, setEditOpen] = useState(false);
 	const [downloadGradeSheet, setDownloadGradeSheet] = useState(false);
 	const { state } = useLocation();
+	const { goBack } = useHistory();
+
+	if (!state) {
+		goBack();
+	}
 
 	const [pageNumber, setPageNumber] = useState(1);
 	const ref = useRef();
@@ -110,7 +115,7 @@ const ViewResultsUploaded = () => {
 			refetchOnWindowFocus: false
 		}
 	);
-	
+
 	const crumbs = [
 		{
 			name: "Class list",
@@ -206,7 +211,6 @@ const ViewResultsUploaded = () => {
 			<div className="d-none">
 				<div ref={ref}>
 					<ResultPrintOut resultData={gradeSheet?.data} />
-					<GradeSummary resultData={data?.data}/>
 				</div>
 			</div>
 			<Breadcrumbs crumbs={crumbs} />

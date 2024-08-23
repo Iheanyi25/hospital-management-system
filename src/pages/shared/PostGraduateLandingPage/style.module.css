@@ -1,0 +1,83 @@
+.post_graduate_banner_container {
+	padding: 86px 20px;
+	/* background: url("../../../assets/images/lines.png"); */
+	background-color: var(--bg-green);
+	background-size: contain;
+	background-position: center;
+	min-height: 330px;
+}
+
+.post_graduate_banner_container h1 {
+	color: var(--white-color);
+	line-height: 69.12px;
+	max-width: 1000px;
+}
+
+.post_graduate_bottom_container {
+	max-width: 1280px;
+	width: 100%;
+	margin: 0px auto;
+	padding: 80px 20px;
+	flex-wrap: wrap;
+	row-gap: 30px;
+}
+
+.post_graduate_bottom_text_container {
+	max-width: 450px;
+	width: 100%;
+}
+
+.post_graduate_bottom_text_container p {
+	line-height: 34px;
+	text-align: left;
+}
+
+.post_graduate_bottom_text_container ul li:first-of-type {
+	margin-top: 0px;
+}
+
+.post_graduate_bottom_text_container ul li {
+	margin-top: 8px;
+	line-height: 22px;
+}
+
+.post_graduate_bottom_text_container ul li span {
+	color: var(--an-green);
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+}
+
+.post_graduate_bottom_text_container ul li span:hover {
+	color: var(--light-green-color);
+}
+
+.pg_banner_container {
+	width: 512px;
+}
+
+.pg_banner_container img {
+	width: 100%;
+}
+
+.home_footer {
+	box-shadow: 0px 2px 6px 0px var(--box_shadow);
+	padding: 16px;
+	bottom: 0;
+	position: relative;
+	width: 100%;
+}
+
+.fab {
+	background-color: var(--primary);
+	width: 2.7rem;
+	height: 2.7rem;
+	border-radius: 4px;
+	position: absolute;
+	right: 20px;
+	top: -50px;
+	transition: all 0.3s ease;
+}
+.fab:hover {
+	bottom: 5%;
+	cursor: pointer;
+}

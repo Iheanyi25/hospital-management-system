@@ -38,7 +38,6 @@ const CoursesRegistrationStep2 = () => {
 	const [allSelectedCourses, setSelectedCourses] = useState([]);
 	const [isSelecetd, setIsSelected] = useState({});
 	const [totalSelectedCreditUnit, setTotalSelectedCreditUnit] = useState(0);
-
 	const {
 		data: coursesForRegistration,
 		isLoading,
@@ -46,7 +45,7 @@ const CoursesRegistrationStep2 = () => {
 	} = useApiGet(
 		getCoursesForRegistrationUrl({
 			sessionId: location.state?.sessionId,
-			semester: location.state?.semester,
+			semester: location.state?.semesterId,
 			yearOfStudyId:
 				location.state?.yearOfStudyId || location.state?.levelId
 		}),
@@ -56,27 +55,29 @@ const CoursesRegistrationStep2 = () => {
 	);
 
 	useEffect(() => {
-		if (coursesForRegistration?.data?.registrableCourses) {
-			setCourses(coursesForRegistration.data.registrableCourses);
+		if (coursesForRegistration?.data?.registerableCourses) {
+			setCourses(coursesForRegistration.data.registerableCourses);
 			setSelectedCourses(
-				coursesForRegistration.data.registrableCourses.filter(
+				coursesForRegistration.data.registerableCourses.filter(
 					(course) => course.registered
 				)
 			);
 
 			//select all courses initially
 			const allSelectedInitially = {};
-			coursesForRegistration.data.registrableCourses.forEach((course) => {
-				allSelectedInitially[course.courseAssignedForDepartmentId] =
-					course.registered;
-			});
+			coursesForRegistration.data.registerableCourses.forEach(
+				(course) => {
+					allSelectedInitially[course.courseAssignedForDepartmentId] =
+						course.registered;
+				}
+			);
 			setIsSelected(allSelectedInitially);
 
 			//calculate total credit unit
 			const totalCreditUnitSelectedInitially =
-				coursesForRegistration.data.registrableCourses.reduce(
+				coursesForRegistration.data.registerableCourses.reduce(
 					(acc, course) =>
-						acc + (course.registered ? course.courseUnit : 0),
+						acc + (course.registered ? course.unitLoadId : 0),
 					0
 				);
 			setTotalSelectedCreditUnit(totalCreditUnitSelectedInitially);
@@ -101,7 +102,7 @@ const CoursesRegistrationStep2 = () => {
 					[courseAssignedForDepartmentId]: false
 				});
 				setTotalSelectedCreditUnit(
-					totalSelectedCreditUnit - course.courseUnit
+					totalSelectedCreditUnit - course.unitLoadId
 				);
 			} else {
 				setSelectedCourses([...allSelectedCourses, course]);
@@ -110,7 +111,7 @@ const CoursesRegistrationStep2 = () => {
 					[courseAssignedForDepartmentId]: true
 				});
 				setTotalSelectedCreditUnit(
-					totalSelectedCreditUnit + course.courseUnit
+					totalSelectedCreditUnit + course.unitLoadId
 				);
 			}
 		};
@@ -132,8 +133,15 @@ const CoursesRegistrationStep2 = () => {
 					setOpen={setOpen}
 					setCourses={setCourses}
 					sessionId={location.state?.sessionId}
-					academicYearDetails={location.state}
+					academicYearDetails={{
+						...location.state,
+						levelId: coursesForRegistration?.data?.levelId
+					}}
 					isOriginallySelected={isSelecetd}
+					courseRegData={coursesForRegistration?.data?.studentProfile}
+					courseBorrowingStatus={
+						coursesForRegistration?.data?.courseBorrowingStatus
+					}
 					setIsOriginallySelected={setIsSelected}
 					setSelectedCourses={setSelectedCourses}
 					setTotalSelectedCreditUnit={setTotalSelectedCreditUnit}
@@ -177,7 +185,9 @@ const CoursesRegistrationStep2 = () => {
 											"Pay School Fees For This Session"
 										}
 										onClick={() =>
-											history.push("/school_fees")
+											history.push(
+												"/academic_fees/school_fees"
+											)
 										}
 									/>
 								)
@@ -197,7 +207,7 @@ const CoursesRegistrationStep2 = () => {
 								}
 								unitLoad={coursesForRegistration.data.unitLoad}
 								studentData={
-									coursesForRegistration.data.studentData
+									coursesForRegistration.data.studentProfile
 								}
 							/>
 						) : (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { TextField, Button } from "../../../ui_elements";
+import { TextField, Button, AuthPageGlobalWrapper } from "../../../ui_elements";
 import styles from "../auth_style.module.css";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -17,7 +17,7 @@ export const directEntryLoginSchema = yup.object().shape({
 });
 
 const DirectEntryLogin = () => {
-	const { push } = useHistory();
+	const { push, replace } = useHistory();
 	const [makeRequest, setMakeRequest] = useState(false);
 	const dispatch = useDispatch();
 	const [jambRegNumber, setJambRegNumber] = useState("");
@@ -35,22 +35,22 @@ const DirectEntryLogin = () => {
 		enabled: makeRequest,
 		refetchOnWindowFocus: false
 	});
-	
+
 	useEffect(() => {
 		if (data?.success && makeRequest && !isLoading) {
 			dispatch({
 				type: DIRECT_ENTRY,
 				payload: directEntryInitialState(data?.data)
 			});
-			if (data?.data?.basicInformation?.isFormCompleted === false) {
-				push({
-					pathname: "/direct_entry_application",
-					state: { details: data?.data, fromVerify: true }
-				});
-			} else {
+			if (data?.data?.formCompleted === true) {
 				push({
 					pathname: "/direct_entry_application/preview",
 					state: { details: jambRegNumber }
+				});
+			} else {
+				replace({
+					pathname: "/direct_entry_application",
+					state: { details: data?.data, fromVerify: true }
 				});
 			}
 		}
@@ -71,6 +71,7 @@ const DirectEntryLogin = () => {
 		data,
 		requestError,
 		push,
+		replace,
 		makeRequest,
 		isLoading,
 		dispatch,
@@ -83,43 +84,46 @@ const DirectEntryLogin = () => {
 	};
 
 	return (
-		<AuthPageWrapper>
-			<form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-				<h1 className={`${styles.auth_main_header}`}>Login</h1>
-				<p className={`${styles.auth_sub_header}`}>
-					DIRECT ENTRY APPLICATION FORM
-				</p>
-				<div className="my-3 px-5 w-100 text-left">
-					<label
-						className={`${styles.auth_label} my-3`}
-						htmlFor="reg_no"
-					>
-						JAMB Reg No
-					</label>
-					<TextField
-						id="reg_no"
-						placeholder="Enter your JAMB registration number"
-						type="text"
-						name="jambRegNumber"
-						register={register}
-						required
-						error={errors.jambRegNumber}
-						errorText={
-							errors.jambRegNumber && errors.jambRegNumber.message
-						}
-					/>
-				</div>
-				<div className="d-flex border-top px-5 py-2 mt-4 justify-content-end">
-					<Button
-						data-cy="login"
-						label="Login"
-						type="submit"
-						buttonClass="primary"
-						loading={isLoading}
-					/>
-				</div>
-			</form>
-		</AuthPageWrapper>
+		<AuthPageGlobalWrapper>
+			<AuthPageWrapper>
+				<form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+					<h1 className={`${styles.auth_main_header}`}>Login</h1>
+					<p className={`${styles.auth_sub_header}`}>
+						DIRECT ENTRY APPLICATION FORM
+					</p>
+					<div className="my-3 px-5 w-100 text-left">
+						<label
+							className={`${styles.auth_label} my-3`}
+							htmlFor="reg_no"
+						>
+							JAMB Reg No
+						</label>
+						<TextField
+							id="reg_no"
+							placeholder="Enter your JAMB registration number"
+							type="text"
+							name="jambRegNumber"
+							register={register}
+							required
+							error={errors.jambRegNumber}
+							errorText={
+								errors.jambRegNumber &&
+								errors.jambRegNumber.message
+							}
+						/>
+					</div>
+					<div className="d-flex border-top px-5 py-2 mt-4 justify-content-end">
+						<Button
+							data-cy="login"
+							label="Login"
+							type="submit"
+							buttonClass="primary"
+							loading={isLoading}
+						/>
+					</div>
+				</form>
+			</AuthPageWrapper>
+		</AuthPageGlobalWrapper>
 	);
 };
 

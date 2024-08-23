@@ -8,7 +8,8 @@ import {
 	yearOfStudyUrl,
 	getStudentTypesUrl,
 	getUnitLoadsToManageUrl,
-	getStudentModeOfEntryUrl
+	getStudentModeOfEntryUrl,
+	getAllSessionsUrl
 } from "../../../../../api/urls";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
@@ -23,10 +24,10 @@ const ManageUnitLoad = () => {
 	const [editData, setEditData] = useState({});
 	const [filter, setFilter] = useState({
 		facultyId: "",
-		studentModeOfEntryId: "",
+		modeOfEntryId: "",
 		studentTypeId: "",
 		sessionId: "",
-		semester: "",
+		semesterId: "",
 		yearOfStudyId: "",
 		searchTerm: "",
 		pageSize: PAGESIZE.sm
@@ -41,10 +42,11 @@ const ManageUnitLoad = () => {
 	} = useApiGet(
 		getUnitLoadsToManageUrl({
 			facultyId: filter.facultyId,
-			studentModeOfEntryId: filter.studentModeOfEntryId,
+			modeOfEntryId: filter.modeOfEntryId,
 			studentTypeId: filter.studentTypeId,
-			semesterId: filter.semester,
-			levelId: filter.yearOfStudyId,
+			// sessionId: "",
+			semesterId: filter.semesterId,
+			...(filter.yearOfStudyId && { levelId: filter.yearOfStudyId }),
 			searchTerm: filter.searchTerm,
 			pageSize: PAGESIZE.sm,
 			pageNumber
@@ -54,6 +56,7 @@ const ManageUnitLoad = () => {
 			keepPreviousData: true
 		}
 	);
+	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
 	const { data: studentTypes, isLoading: isLoadingStudentTypes } = useApiGet(
 		getStudentTypesUrl(),
 		{
@@ -71,14 +74,13 @@ const ManageUnitLoad = () => {
 	const watchData = watch({
 		studentTypeId: "studentTypeId"
 	});
-	const {
-		data: faculties,
-		isLoading: isLoadingFaculties,
-		error
-	} = useApiGet(getFacultiesUrl(watchData?.studentTypeId?.value), {
-		refetchOnWindowFocus: false,
-		enabled: !!watchData?.studentTypeId?.value
-	});
+	const { data: faculties, isLoading: isLoadingFaculties } = useApiGet(
+		getFacultiesUrl(watchData?.studentTypeId?.value),
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!watchData?.studentTypeId?.value
+		}
+	);
 	const { data: studentModes, isLoading: isLoadingStudentModes } = useApiGet(
 		getStudentModeOfEntryUrl(),
 		{
@@ -94,13 +96,14 @@ const ManageUnitLoad = () => {
 		}
 	);
 	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
+	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const allLevels = formatSelectItems(levels?.data, "name", "id");
 
-	if (isLoadingStudentModes || isLoadingStudentTypes || unitLoadsError)
+	if (isLoading || isLoadingStudentModes || isLoadingStudentTypes)
 		return <Spinner />;
-	if (error)
+	if (error || unitLoadsError)
 		return "An error has occurred: " + error?.response?.data?.message;
 	return (
 		<div className={styles.container}>
@@ -113,8 +116,20 @@ const ManageUnitLoad = () => {
 			>
 				<EditUnitLoad
 					data={editData}
+					currentFilterState={{
+						facultyId: filter.facultyId,
+						modeOfEntryId: filter.modeOfEntryId,
+						studentTypeId: filter.studentTypeId,
+						// sessionId: "",
+						semesterId: filter.semesterId,
+						...(filter.yearOfStudyId && {
+							levelId: filter.yearOfStudyId
+						}),
+						searchTerm: filter.searchTerm,
+						pageSize: PAGESIZE.sm,
+						pageNumber
+					}}
 					filter={filter}
-					currentFilterState={{ ...filter, pageNumber }}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
@@ -125,6 +140,7 @@ const ManageUnitLoad = () => {
 						errors={errors}
 						allFaculties={allFaculties}
 						isLoadingFaculties={isLoadingFaculties}
+						allSessions={allSessions}
 						allStudentModes={allStudentModes}
 						allStudentTypes={allStudentTypes}
 						isLoadingLevels={isLoadingLevels}

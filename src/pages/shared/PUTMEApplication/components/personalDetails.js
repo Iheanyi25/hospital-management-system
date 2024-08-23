@@ -101,7 +101,6 @@ export const PersonalDetails = ({
 			country: putmeStoreData?.personalInfo?.country,
 			state: putmeStoreData?.personalInfo?.state,
 			lga: putmeStoreData?.personalInfo?.lga,
-			homeTown: putmeStoreData?.personalInfo?.homeTown,
 			mobileNo: putmeStoreData?.personalInfo?.mobileNo,
 			email: putmeStoreData?.personalInfo?.email,
 			disability: putmeStoreData?.personalInfo?.disability,
@@ -145,21 +144,26 @@ export const PersonalDetails = ({
 		const requestBody = {
 			url: putmePersonalDetailsFormUrl(),
 			data: {
-				RegNumber: putmeStoreData?.programmeInfo?.regNo,
-				CountryId: personalInfo?.country?.value,
-				StateId: personalInfo?.state?.value,
-				LGAId: personalInfo?.lga?.value,
-				DateOfBirth: personalInfo?.dateOfBirth,
-				ContactAddress: personalInfo.contactAddress,
-				SponsorFullName: personalInfo.sponsorFullName,
-				SponsorContactAddress: personalInfo.sponsorAddress,
-				SponsorMobileNumber: personalInfo.sponsorMobileNo,
-				SponsorRelationshipId: personalInfo.sponsorRelationship?.value,
-				Email: personalInfo.email,
-				Disability: personalInfo.disability ?? "",
-				MobileNo: personalInfo.mobileNo,
-				HomeTown: personalInfo.homeTown,
-				PassportAsBase64: putmeStoreData?.passport.passport
+				BasicInformation: {
+					RegNumber: putmeStoreData?.programmeInfo?.regNo,
+					DateOfBirth: personalInfo?.dateOfBirth,
+					CountryId: personalInfo?.country?.value,
+					StateId: personalInfo?.state?.value,
+					LGAId: personalInfo?.lga?.value,
+					GenderId: personalInfo?.sex?.value,
+					ContactAddress: personalInfo.contactAddress,
+					Email: personalInfo.email,
+					MobileNo: personalInfo.mobileNo,
+					PassportAsBase64: putmeStoreData?.passport.passport,
+					HomeTown: personalInfo.homeTown,
+					Disability: personalInfo.disability ?? ""
+				},
+				Guardian: {
+					Fullname: personalInfo.sponsorFullName,
+					MobileNumber: personalInfo.sponsorMobileNo,
+					Address: personalInfo.sponsorAddress,
+					RelationshipId: personalInfo.sponsorRelationship?.value
+				}
 			}
 		};
 		mutate(requestBody, {
@@ -185,11 +189,11 @@ export const PersonalDetails = ({
 				});
 				replace({ hash: "#section_b", state });
 			},
-			onError: () => {
+			onError: (error) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
 					title: "Failed!",
-					body: "Something went wrong"
+					body: `${error.response.data.message}`
 				});
 				setTimeout(() => {
 					errorFlag.close();
@@ -269,7 +273,6 @@ export const PersonalDetails = ({
 										searchable={false}
 										placeholder="Choose a sex"
 										id="sex"
-										disabled
 										options={allGenders}
 										isError={!!errors.sex}
 										errorText={
@@ -438,28 +441,6 @@ export const PersonalDetails = ({
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
 						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="homeTown">Town</label>
-						</div>
-						<div className="col-lg-9">
-							<TextField
-								autoComplete="off"
-								placeholder="Enter your town"
-								className="w-100"
-								id="Town"
-								name="homeTown"
-								register={register}
-								required
-								error={errors.homeTown}
-								errorText={
-									errors.homeTown && errors.homeTown.message
-								}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
 							<label htmlFor="mobileNo">Phone Number</label>
 						</div>
 						<div className="d-flex col-lg-9">
@@ -471,6 +452,7 @@ export const PersonalDetails = ({
 								name="mobileNo"
 								register={register}
 								required
+								disabled
 								error={errors.mobileNo}
 								errorText={
 									errors.mobileNo && errors.mobileNo.message
@@ -586,7 +568,7 @@ export const PersonalDetails = ({
 				)}
 
 				<div className="border-top border-bottom px-4 py-3 jumbotron-header jumbo-header">
-					<span>Next of Kin Details</span>
+					<span>Guardian Details</span>
 				</div>
 				<div className="container-fluid px-4 mt-4 mb-3">
 					<div className="row">
