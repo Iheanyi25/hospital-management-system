@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import ViewResultSheet from "./pages/ResultSheet/viewResultSheet";
+import ViewSummarySheet from "./pages/SummarySheet/viewSummarySheet";
 import { MainRouter } from "./routers/mainRouter";
 
 const AppRouter = () => {
@@ -7,10 +8,10 @@ const AppRouter = () => {
     <Router>
       <Switch>
         <MainRouter
-          title={"View Result Sheets"}
+          title={"View Summary Sheets"}
           path={"/"}
           exact
-          component={ViewResultSheet}
+          component={ViewSummarySheet}
         />
       </Switch>
     </Router>

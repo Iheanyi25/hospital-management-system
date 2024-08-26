@@ -1,7 +1,10 @@
+
+
+
+import { useState } from "react";
 import { useRef, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useApiGet } from "../../api/apiCall";
-import { useReactToPrint } from "react-to-print";
 import {
   getAllDepartmentsUrl,
   getLevelUrl,
@@ -10,12 +13,11 @@ import {
   getStudentTypeUrl,
   studentCompositeResultsUrl,
 } from "../../api/urls";
+import { useReactToPrint } from "react-to-print";
+import { SummarySheet } from "./component/summarySheet";
 import { Jumbotron, SMSelect, Button, Spinner } from "../../ui_elements";
 import { formatSelectItems } from "../../utils/formatSelectItems";
 import styles from "./style.module.css";
-import { useState } from "react";
-import { ResultSheet } from "./component/resultSheet";
-import { SummarySheet } from "../SummarySheet/component/summarySheet";
 
 const pageStyle = `
   @page {
@@ -37,7 +39,7 @@ const pageStyle = `
   }
 `;
 
-const ViewResultSheet = () => {
+const ViewSummarySheet = () => {
   const {
     handleSubmit,
     control,
@@ -222,16 +224,15 @@ const ViewResultSheet = () => {
       errorLevels?.message
     );
 
-  return (
+  return(
     <>
-      <div className="d-none">
-        <div ref={componentRef}>
-          <ResultSheet compositeSheet={compositeSheet} data={tableData} />
-        </div>
+    <div className="d-none">
+      <div ref={componentRef}>
+        <SummarySheet compositeSheet={compositeSheet} data = {tableData}/>
       </div>
-      
-      <Jumbotron
-        headerText={"View Result Sheets"}
+    </div>
+    <Jumbotron
+        headerText={"View Summary Sheets"}
         footerContent={
           <div className="d-flex justify-content-end">
             <Button
@@ -437,9 +438,9 @@ const ViewResultSheet = () => {
             </div>
           </div>
         </section>
-      </Jumbotron>
+      </Jumbotron>{" "}
     </>
-  );
-};
+  )
+}
 
-export default ViewResultSheet;
+export default ViewSummarySheet;

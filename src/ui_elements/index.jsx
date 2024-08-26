@@ -8,3 +8,4 @@ export * from "./button/Button";
 export * from "./smSelect/SMSelect";
 export * from "./validationText/validationText";
 export * from "./spinner/spinner";
+export * from "./summaryTable/summaryTable";
