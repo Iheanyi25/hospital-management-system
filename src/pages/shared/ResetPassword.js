@@ -10,7 +10,6 @@ import { useApiPost } from "../../api/apiCall";
 import { resetPasswordUrl, verifyUserUrl } from "../../api/urls";
 import { useHistory } from "react-router-dom";
 import { checkForValidPassword } from "../../utils/formValidations";
-import { AuthPageBackgroundWrapper } from "./AuthPageBackgroundWrapper";
 
 const resetPasswordSchema = yup.object().shape({
 	newPassword: yup
@@ -92,71 +91,64 @@ const ResetPassword = () => {
 	};
 
 	return (
-		<AuthPageBackgroundWrapper>
-			<div className={`${styles.forgot_login_content}`}>
-				<AuthPageWrapper>
-					<h1 className={`${styles.auth_main_header}`}>
-						Reset Password
-					</h1>
-					<p className={`${styles.auth_sub_header}`}>
-						Create a new password to sign in with
-					</p>
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="my-3 px-5 w-100 text-left">
-							<label
-								className={`${styles.auth_label} my-3`}
-								htmlFor="new_password"
-							>
-								New Password
-							</label>
-							<TextField
-								id="new_password"
-								placeholder="New Password"
-								type="password"
-								name="newPassword"
-								required
-								register={register}
-								error={errors.newPassword}
-								errorText={
-									errors.newPassword &&
-									errors.newPassword.message
-								}
-							/>
-						</div>
-						<div className="pb-4 px-5 w-100 text-left">
-							<label
-								className={`${styles.auth_label} my-3`}
-								htmlFor="retype_password"
-							>
-								Retype Password
-							</label>
-							<TextField
-								id="retype_password"
-								placeholder="Retype Password"
-								type="password"
-								name="confirmPassword"
-								required
-								register={register}
-								error={errors.confirmPassword}
-								errorText={
-									errors.confirmPassword &&
-									errors.confirmPassword.message
-								}
-							/>
-						</div>
-						<div className="d-flex border-top px-5 py-2 justify-content-end">
-							<Button
-								data-cy="reset_password"
-								label="Reset Password"
-								type="submit"
-								buttonClass="primary"
-								loading={isSubmitting || mutation.isLoading}
-							/>
-						</div>
-					</form>
-				</AuthPageWrapper>
-			</div>
-		</AuthPageBackgroundWrapper>
+		<AuthPageWrapper>
+			<h1 className={`${styles.auth_main_header}`}>Reset Password</h1>
+			<p className={`${styles.auth_sub_header}`}>
+				Create a new password to sign in with
+			</p>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<div className="my-3 px-5 w-100 text-left">
+					<label
+						className={`${styles.auth_label} my-3`}
+						htmlFor="new_password"
+					>
+						New Password
+					</label>
+					<TextField
+						id="new_password"
+						placeholder="New Password"
+						type="password"
+						name="newPassword"
+						required
+						register={register}
+						error={errors.newPassword}
+						errorText={
+							errors.newPassword && errors.newPassword.message
+						}
+					/>
+				</div>
+				<div className="pb-4 px-5 w-100 text-left">
+					<label
+						className={`${styles.auth_label} my-3`}
+						htmlFor="retype_password"
+					>
+						Retype Password
+					</label>
+					<TextField
+						id="retype_password"
+						placeholder="Retype Password"
+						type="password"
+						name="confirmPassword"
+						required
+						register={register}
+						error={errors.confirmPassword}
+						errorText={
+							errors.confirmPassword &&
+							errors.confirmPassword.message
+						}
+					/>
+				</div>
+				<div className="d-flex border-top px-5 py-2 justify-content-end">
+					<Button
+						data-cy="reset_password"
+						label="Reset Password"
+						type="submit"
+						buttonClass="primary"
+						loading={isSubmitting || mutation.isLoading}
+					/>
+				</div>
+			</form>
+		</AuthPageWrapper>
 	);
 };
 
