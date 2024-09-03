@@ -43,31 +43,41 @@ const Login = () => {
 		return mutation.mutate(requestDet, {
 			onSuccess: ({ data }) => {
 				const userRole = data?.data?.userType?.toLowerCase()?.trim();
-				if (USER_TYPES.includes(userRole)) {
-					if (data?.data?.twoFactor) {
-						push({
-							pathname: "/verify_otp",
-							state: {
-								data: {
-									...data?.data,
-									userName: requestDet.data.userName,
-									password: requestDet.data.password
-								},
-								fromLogin: true
-							}
-						});
+				if (data?.data?.oldUser) {
+					if (USER_TYPES.includes(userRole)) {
+						if (data?.data?.twoFactor) {
+							push({
+								pathname: "/verify_otp",
+								state: {
+									data: {
+										...data?.data,
+										userName: requestDet.data.userName,
+										password: requestDet.data.password
+									},
+									fromLogin: true
+								}
+							});
+						} else {
+							setLoginPrarms(data);
+						}
 					} else {
-						setLoginPrarms(data);
+						const errorFlag = window.AJS.flag({
+							type: "error",
+							title: "Login Failed!",
+							body: `User type can't be granted log in access`
+						});
+						setTimeout(() => {
+							errorFlag.close();
+						}, 5000);
 					}
 				} else {
-					const errorFlag = window.AJS.flag({
-						type: "error",
-						title: "Login Failed!",
-						body: `User type can't be granted log in access`
+					push({
+						pathname: "/change_email",
+						state: {
+							id: data?.data?.userId,
+							fromLogin: true
+						}
 					});
-					setTimeout(() => {
-						errorFlag.close();
-					}, 5000);
 				}
 			},
 			onError: ({ response }) => {
