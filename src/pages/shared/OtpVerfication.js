@@ -20,7 +20,7 @@ const OtpVerfication = () => {
 		e.preventDefault();
 		const requestDet = {
 			url: twoFactorAuthUrl(),
-			data: { id: state?.data?.userId, token: otp }
+			data: { userId: state?.data?.userId, token: otp }
 		};
 		return mutate(requestDet, {
 			onSuccess: ({ data }) => {
