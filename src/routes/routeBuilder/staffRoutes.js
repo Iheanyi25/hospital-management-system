@@ -955,7 +955,7 @@ export const staffRoutes = [
 		title: "Invoice Management"
 	},
 	{
-		path: "/reports/registration_number_reports",
+		path: "/reports/matric_number_generation_reports",
 		component: LazyMatricNumberGenerationReports,
 		exact: true,
 		router: ReportsRouter,
