@@ -14,14 +14,14 @@ export const ReportsRouter = ({
 	const Component = component;
 	const paths = useMemo(
 		() => [
-			{
-				title: "Sub-degree Reports",
-				path: "/reports/jupeb_reports",
-				disabled: false
-			},
+			// {
+			// 	title: "Sub-degree Reports",
+			// 	path: "/reports/jupeb_reports",
+			// 	disabled: false
+			// },
 			{
 				title: "Application Payment Reports",
-				path: "/reports/application_payment_reports",
+				path: "/reports/application_reports",
 				disabled: false
 			},
 			{
@@ -34,21 +34,36 @@ export const ReportsRouter = ({
 				path: "/reports/putme_reports",
 				disabled: false
 			},
-			{
-				title: "PG Reports",
-				path: "/reports/pg_reports",
-				disabled: false
-			},
-			{
-				title: "Course Reg. Reports",
-				path: "/reports/course_reg_reports",
-				disabled: false
-			},
+			// {
+			// 	title: "PG Reports",
+			// 	path: "/reports/pg_reports",
+			// 	disabled: false
+			// },
+			// {
+			// 	title: "Course Reg. Reports",
+			// 	path: "/reports/course_reg_reports",
+			// 	disabled: false
+			// },
 			{
 				title: "Matric No. Reports",
 				path: "/reports/matric_number_generation_reports",
 				disabled: false
-			}
+			},
+			{
+				title: "Sundry Reports",
+				path: "/reports/sundry",
+				disabled: false
+			},
+			// {
+			// 	title: "Hostel Reports",
+			// 	path: "/reports/hostel_reports",
+			// 	disabled: false
+			// },
+			// {
+			// 	title: "Hostel Summary Reports",
+			// 	path: "/reports/hostel_summary_reports",
+			// 	disabled: false
+			// }
 		],
 		[]
 	);
