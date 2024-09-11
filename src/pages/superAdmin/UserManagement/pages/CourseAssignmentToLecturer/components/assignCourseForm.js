@@ -39,7 +39,7 @@ export const AssignCourseForm = ({
 				departmentOption?.data?.length > 0
 					? formData?.departmentOptionId?.value
 					: null,
-			campusId: formData?.campusId?.label
+			campusId: formData?.campusId?.value
 		}));
 	};
 	return (
@@ -293,7 +293,12 @@ export const AssignCourseForm = ({
 						<div className="col-md-6 mt-5">
 							<div className={`row align-items-center`}>
 								<div className="col-lg-3 align-items-center">
-									<label className="font-weight-bold" htmlFor="campusId">Campus</label>
+									<label
+										className="font-weight-bold"
+										htmlFor="campusId"
+									>
+										Campus
+									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller

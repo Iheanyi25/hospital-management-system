@@ -43,6 +43,7 @@ const AssignCourseToLecturer = () => {
 		campusId: "",
 		pageSize: PAGESIZE.sm
 	});
+	console.log({ filter });
 	const [editData, setEditData] = useState({});
 	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
 	const {
