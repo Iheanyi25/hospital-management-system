@@ -94,9 +94,6 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-						{/* <select name="" id="" className="global-landing-page-links">
-							<option value="old-students">Old Students</option>
-						</select> */}
 						<LinkDropdown buttonGroup={buttonGroupData} linkName="Old Students"/>
 					</div>
 				) : (
