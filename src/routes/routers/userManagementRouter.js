@@ -29,6 +29,26 @@ export const UserManagementRouter = ({
 				title: "Manage Menus",
 				path: "/user_management/menus",
 				disabled: false
+			},
+			{
+				title: "Assign Course",
+				path: "/user_management/assign_courses",
+				disabled: false
+			},
+			{
+				title: "Assign HOD",
+				path: "/user_management/assign_staff/hod",
+				disabled: false
+			},
+			{
+				title: "Assign Dean",
+				path: "/user_management/assign_staff/dean",
+				disabled: false
+			},
+			{
+				title: "Assign Course Adviser",
+				path: "/user_management/assign_staff/course_adviser",
+				disabled: false
 			}
 		],
 		[]
