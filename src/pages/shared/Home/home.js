@@ -120,10 +120,14 @@ const Home = () => {
 						</p>
 					</section>
 					<section className={`${styles.cardsContainer} row`}>
-						<div className="col-md-6 col-12 mt-3">
+						<div>
+							<h4 className="text-center">Our Programmes</h4>
+							<p className="text-center">Explore a World of Learning Possiblities: Discover Our Diverse Academic Pathways</p>
+						</div>
+						<div className="col-md-4 col-12 mt-3">
 							<div className={styles.card}>
-								<h4>Sub-degree Programme</h4>
-								<p>
+								<h4 >HND Programme</h4>
+								<p >
 									Please select a link applicable to you from{" "}
 									<br /> the list below
 								</p>
@@ -143,9 +147,9 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-md-6 col-12 mt-3">
+						<div className="col-md-4 col-12 mt-3">
 							<div className={styles.card}>
-								<h4>Post UTME</h4>
+								<h4>ND Programme</h4>
 								<p>
 									Please select a link applicable to you from{" "}
 									<br /> the list below
@@ -166,9 +170,9 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						{/* <div className="col-md-6 col-12 mt-3">
+						<div className="col-md-4 col-12 mt-3">
 							<div className={styles.card}>
-								<h4>Post Graduate</h4>
+								<h4>ND Part-Time Programme</h4>
 								<p>
 									Please select a link applicable to you from{" "}
 									<br /> the list below
@@ -177,67 +181,18 @@ const Home = () => {
 									<Link
 										to={() =>
 											handleCurrentLink(
-												applicationForms.postgraduate
+												applicationForms.postUme
 											)
 										}
 									>
 										Generate Invoice
 									</Link>
-									<Link to={"/pg_login"}>
-										Application Form
-									</Link>
-									<Link to="/pg_reprint_login">
-										Track Application Status
-									</Link>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-12 mt-3">
-							<div className={styles.card}>
-								<h4>Centre for Safety Education</h4>
-								<p>
-									Please select a link applicable to you from{" "}
-									<br /> the list below
-								</p>
-								<div className={styles.cardLinks}>
-									<Link
-										to={() =>
-											handleCurrentLink(
-												applicationForms.cse
-											)
-										}
-									>
-										Generate Invoice
-									</Link>
-									<Link to={"/center_of_safety_login"}>
+									<Link to="/putme_login">
 										Application Form
 									</Link>
 								</div>
 							</div>
 						</div>
-						<div className="col-md-6 col-12 mt-3">
-							<div className={styles.card}>
-								<h4>Direct Entry</h4>
-								<p>
-									Please select a link applicable to you from{" "}
-									<br /> the list below
-								</p>
-								<div className={styles.cardLinks}>
-									<Link
-										to={() =>
-											handleCurrentLink(
-												applicationForms.direct_entry
-											)
-										}
-									>
-										Generate Invoice
-									</Link>
-									<Link to={"/direct_entry_login"}>
-										Application Form
-									</Link>
-								</div>
-							</div>
-						</div> */}
 					</section>
 				</div>
 				<Footer />

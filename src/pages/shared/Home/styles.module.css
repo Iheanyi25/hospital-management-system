@@ -224,7 +224,7 @@
 
 	.cardsContainer {
 		padding: 64px;
-		max-width: 872px;
+		max-width: 1200px;
 		width: calc(100% - 128px);
 		background-color: var(--neutral-20);
 		border-radius: 12px;

@@ -10,6 +10,7 @@ import { Button } from "../button/Button";
 // import { TENECE_SUPPORT_URL } from "../../utils/constants";
 import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
 import ChristmasLogo from "../../assets/images/christmasLogo.png";
+import { LinkDropdown } from "../linkDropdown/linkDropdown";
 
 const GlobalMenu = ({
 	title = "Components",
@@ -23,18 +24,25 @@ const GlobalMenu = ({
 
 	const linkOptions = [
 		{
-			name: "Check Admission No",
-			route: "/"
+			name: "Verify Admission Status",
+			route: "/prospective_students"
 		},
 		{
-			name: "Application Form",
-			route: "/prospective_students"
+			name: "Check Admission No",
+			route: "/"
 		},
 		{
 			name: "E learning",
 			route: "/prospective_students"
 		}
 	];
+
+	const buttonGroupData = [
+		{ name: "Home", link: "/home" },
+		{ name: "About Us", link: "/about" },
+		{ name: "Services", link: "/services" },
+		{ name: "Contact Us", link: "/contact" },
+];
 
 	return (
 		<section className="red-global-menu">
@@ -86,12 +94,7 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-						{/* 
-						<a href={TENECE_SUPPORT_URL}>
-							<button className="global-landing-page-links">
-								Support
-							</button>
-						</a> */}
+						<LinkDropdown buttonGroup={buttonGroupData} linkName="Old Students"/>
 					</div>
 				) : (
 					<div className="red-current-module">{title}</div>
