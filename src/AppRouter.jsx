@@ -8,10 +8,10 @@ const AppRouter = () => {
     <Router>
       <Switch>
         <MainRouter
-          title={"View Summary Sheets"}
+          title={"View Result Sheets"}
           path={"/"}
           exact
-          component={ViewSummarySheet}
+          component={ViewResultSheet}
         />
       </Switch>
     </Router>

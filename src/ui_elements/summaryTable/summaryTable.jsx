@@ -19,8 +19,8 @@ export const SummaryTable = ({ students }) => {
         </tr>
       </thead>
       <tbody>
-        {students?.map((student)=> (
-          <tr key = {student.id}>
+        {students?.map((student, index)=> (
+          <tr key = {index}>
             <td className="td-align-center">{student.id}</td>
             <td className="">
               {student.name}
@@ -28,13 +28,13 @@ export const SummaryTable = ({ students }) => {
               {student.regNo}
             </td>
             <td className="td-align-center">
-              {student.entry}
+              {student.entryReq}
             </td>
-            <td className="td-align-center">{student.unit}</td>
+            <td className="td-align-center">{student.cumCourseUnit}</td>
             <td className="td-align-center">{student.cgpa}</td>
-            <td className="td-align-center">{student.repeatCourses}</td>
-            <td className="td-align-center">{student.takeCourses}</td>
-            <td className="td-align-center">{student.remarks}</td>
+            <td className="td-align-center">{student.coursesToRepeat}</td>
+            <td className="td-align-center">{student.coursesToTake}</td>
+            <td className="td-align-center">{student.cgpaRemark}</td>
           </tr>
         ))}
       </tbody>

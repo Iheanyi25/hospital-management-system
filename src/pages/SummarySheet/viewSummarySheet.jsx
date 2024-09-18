@@ -68,7 +68,7 @@ const ViewSummarySheet = () => {
     isLoading: isLoadingCompositeSheet,
     error: errorCompositeSheet,
   } = useApiGet(
-    studentCompositeResultsUrl({
+    ({
       levelId: details?.Level?.value,
       departmentId: details?.Department?.value,
       sessionId: details?.Session?.value,
@@ -224,14 +224,14 @@ const ViewSummarySheet = () => {
       errorLevels?.message
     );
 
-  return(
+  return (
     <>
-    <div className="d-none">
-      <div ref={componentRef}>
-        <SummarySheet compositeSheet={compositeSheet} data = {tableData}/>
+      <div className="d-none">
+        <div ref={componentRef}>
+          <SummarySheet compositeSheet={compositeSheet} data={tableData} />
+        </div>
       </div>
-    </div>
-    <Jumbotron
+      <Jumbotron
         headerText={"View Summary Sheets"}
         footerContent={
           <div className="d-flex justify-content-end">

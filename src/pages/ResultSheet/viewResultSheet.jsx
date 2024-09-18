@@ -9,6 +9,7 @@ import {
   getSessionsUrl,
   getStudentTypeUrl,
   studentCompositeResultsUrl,
+  studentSummaryResultsUrl
 } from "../../api/urls";
 import { Jumbotron, SMSelect, Button, Spinner } from "../../ui_elements";
 import { formatSelectItems } from "../../utils/formatSelectItems";
@@ -45,15 +46,24 @@ const ViewResultSheet = () => {
     formState: { errors },
   } = useForm();
 
-  const [makeRequest, setMakeRequest] = useState(false);
-
+  // const [makeRequest, setMakeRequest] = useState(false);
   const [details, setDetails] = useState({});
   const [tableData, setData] = useState([]);
 
+  const [summaryData, setSummaryData] = useState([])
+  const [makeCompositeRequest, setMakeCompositeRequest] = useState(false);
+  const [makeSummaryRequest, setMakeSummaryRequest] = useState(false);
+
   const componentRef = useRef();
+  const summaryRef = useRef();
 
   const handlePrint = useReactToPrint({
     content: () => componentRef?.current,
+    pageStyle,
+  });
+
+  const handleSummaryPrint = useReactToPrint({
+    content: () => summaryRef?.current,
     pageStyle,
   });
 
@@ -74,10 +84,37 @@ const ViewResultSheet = () => {
       studentTypeId: details?.StudentType?.value,
     }),
     {
-      enabled: makeRequest,
+      enabled: makeCompositeRequest,
       refetchOnWindowFocus: false,
     }
   );
+
+  const { data: summarySheet, isLoading: isLoadingSummarySheet, error: errorSummarySheet } = useApiGet(studentSummaryResultsUrl({
+    levelId: details?.Level?.value,
+    departmentId: details?.Department?.value,
+    sessionId: details?.Session?.value,
+    semesterId: details?.Semester?.value,
+    studentTypeId: details?.StudentType?.value,
+  }), {
+    enabled: makeSummaryRequest,
+    refetchOnWindowFocus: false,
+  })
+
+  const getResultSummaryData = () => {
+    return summarySheet?.data?.studentCourses?.items.map((student, i) => {
+      return {
+        id: i + 1,
+        name: student?.fullName,
+        regNo: student?.registrationNumber,
+        coursesToRepeat: student?.coursesToRepeat ?  student?.coursesToRepeat : "-",
+        coursesToTake: student?.coursesToTake ? student?.coursesToTake : "-",
+        entryReq: student?.entryRequirement,
+        cumCourseUnit: student?.cumulatoveCourseUnit,
+        cgpa: student?.cgpa,
+        cgpaRemark: student?.cgpaRemark
+      }
+    })
+  }
 
   const getStudentData = () => {
     return compositeSheet?.data?.studentCourses?.map((student, i) => {
@@ -127,13 +164,35 @@ const ViewResultSheet = () => {
   }
 
   useEffect(() => {
-    if (compositeSheet?.success && makeRequest && !isLoadingCompositeSheet) {
+    if (compositeSheet?.success && makeCompositeRequest && !isLoadingCompositeSheet) {
       setData(sliceIntoChunks(getStudentData(), getStudentData().length));
       setTimeout(() => {
         handlePrint();
       }, 1000);
     }
-    if (errorCompositeSheet && makeRequest && !isLoadingCompositeSheet) {
+
+    if (errorCompositeSheet && makeCompositeRequest && !isLoadingCompositeSheet) {
+      setMakeRequest(false);
+      const errorFlag = window.AJS.flag({
+        type: "error",
+        title: "Invalid Action!",
+        body:
+          errorCompositeSheet?.response?.data?.message ||
+          `Invalid action, please enter correct details`,
+      });
+      setTimeout(() => {
+        errorFlag.close();
+      }, 5000);
+    }
+
+    if (summarySheet?.success && makeSummaryRequest && !isLoadingSummarySheet) {
+      setSummaryData(getResultSummaryData());
+      setTimeout(() => {
+        handleSummaryPrint();
+      }, 1000);
+    }
+
+    if (errorSummarySheet && makeSummaryRequest && !isLoadingSummarySheet) {
       setMakeRequest(false);
       const errorFlag = window.AJS.flag({
         type: "error",
@@ -149,14 +208,25 @@ const ViewResultSheet = () => {
   }, [
     compositeSheet,
     errorCompositeSheet,
-    makeRequest,
+    makeCompositeRequest,
     isLoadingCompositeSheet,
+    summarySheet,
+    errorSummarySheet,
+    isLoadingSummarySheet,
+    makeSummaryRequest
   ]);
 
   const handleCompositeSubmit = (info) => {
     setDetails({ ...info });
-    setMakeRequest(true);
+    setMakeCompositeRequest(true);
+    setMakeSummaryRequest(false);
   };
+
+  const handleSummarySubmit = (info) => {
+    setDetails({ ...info });
+    setMakeCompositeRequest(false);
+    setMakeSummaryRequest(true);
+  }
 
   const {
     data: sessions,
@@ -228,20 +298,22 @@ const ViewResultSheet = () => {
         <div ref={componentRef}>
           <ResultSheet compositeSheet={compositeSheet} data={tableData} />
         </div>
+        <div ref={summaryRef}>
+          <SummarySheet compositeSheet={compositeSheet} data={summaryData} />
+        </div>
       </div>
-      
       <Jumbotron
         headerText={"View Result Sheets"}
         footerContent={
           <div className="d-flex justify-content-end">
             <Button
               data-cy="view_record"
-              type="submit"
-              // ref={ref}
+              type="button"
               buttonClass="secondary"
               label="Print Summary Sheet"
-              // loading={isLoadingAdmissionList}
-              disabled={true}
+              loading={isLoadingSummarySheet}
+              disabled={isLoadingDepartment || isLoadingLevels}
+              onClick={handleSubmit(handleSummarySubmit)}
             />
             <Button
               data-cy="upload_list"
@@ -289,7 +361,7 @@ const ViewResultSheet = () => {
             </div>
             <div>
               <div className="row">
-                <div className="col-lg-3  d-flex align-items-center">
+                <div className="col-lg-3 d-flex align-items-center">
                   <label className="font-weight-bold" htmlFor="student_type">
                     Student Type
                   </label>
@@ -437,7 +509,7 @@ const ViewResultSheet = () => {
             </div>
           </div>
         </section>
-      </Jumbotron>
+      </Jumbotron>{" "}
     </>
   );
 };
