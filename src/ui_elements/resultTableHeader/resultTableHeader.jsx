@@ -2,7 +2,8 @@ import React from "react";
 import { logo } from "../../assets/images";
 import styles from "./styles.module.css";
 
-export const ResultTableHeader = ({ details }) => {
+export const TableHeader = ({ details, result}) => {
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.header}>
@@ -10,7 +11,7 @@ export const ResultTableHeader = ({ details }) => {
 				<div className={styles.schoolInfo}>
 					<h1>AKWA IBOM STATE POLYTECHNIC, IKOT OSURUA</h1>
 					<h2>SCHOOL OF {details?.faculty}</h2>
-					<h3>{details?.semester} EXAMINATION RESULT</h3>
+					<h3>{details?.semester} {result ? "EXAMINATION RESULT" : "summary of semester examination results"}</h3>
 				</div>
 				<div className={styles.headerGrid}>
 					<div>

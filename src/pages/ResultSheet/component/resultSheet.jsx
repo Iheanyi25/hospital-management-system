@@ -1,11 +1,11 @@
-import { ResultTable, ResultTableHeader } from "../../../ui_elements";
+import { ResultTable, TableHeader } from "../../../ui_elements";
 
 export const ResultSheet = ({ compositeSheet, data }) => {
   return (
     <>
       {data?.map((data, i) => (
         <div key={i}>
-          <ResultTableHeader
+          <TableHeader
             details={{
               faculty: compositeSheet?.data?.faculty || "-",
               department: compositeSheet?.data?.department || "-",
@@ -14,6 +14,7 @@ export const ResultSheet = ({ compositeSheet, data }) => {
               programme: compositeSheet?.data?.programme || "-",
               session: compositeSheet?.data?.session || "-",
             }}
+            result={true}
           />
           <ResultTable
             semester={compositeSheet?.data?.semester}
