@@ -69,6 +69,11 @@ const LazyGenerateJambPaymentInvoice = lazy(() =>
 		"../../pages/shared/JambStudents/pages/GenerateJambPaymentInvoice/generateJambPaymentInvoice"
 	)
 );
+const LazyGenerateHNDInvoice = lazy(() => 
+	import(
+		"../../pages/shared/HNDApplication/generateHNDInvoice"
+	)
+);
 const LazyJambStudentsInvoice = lazy(() =>
 	import("../../pages/shared/JambStudents/pages/Invoice/jambStudentsInvoice")
 );
@@ -83,6 +88,28 @@ const LazyJupebApplication = lazy(() =>
 );
 const LazyJupebApplicationPreview = lazy(() =>
 	import("../../pages/shared/JupebApplication/jupebApplicationPreview")
+);
+const LazyHNDLogin = lazy(() =>
+	import("../../pages/shared/HNDApplication/hndLogin")
+);
+const LazyHNDApplication = lazy(() =>
+	import("../../pages/shared/HNDApplication/hndApplication")
+);
+const LazyHNDApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/HNDApplication/HndApplicationDetails/hndApplicationDetails"
+	)
+);
+const LazyNDLogin = lazy(() =>
+	import("../../pages/shared/NDApplication/ndLogin")
+);
+const LazyNDApplication = lazy(() =>
+	import("../../pages/shared/NDApplication/ndApplication")
+);
+const LazyNDApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/NDApplication/NDApplicationDetails/ndApplicationDetails"
+	)
 );
 const LazyPutmeLogin = lazy(() =>
 	import("../../pages/shared/PUTMEApplication/putmeLogin")
@@ -377,6 +404,12 @@ export const sharedRoutes = [
 		exact: true
 	},
 	{
+		path: "/generate_hnd_invoice",
+		component: LazyGenerateHNDInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
 		path: "/jamb_students_invoice",
 		component: LazyJambStudentsInvoice,
 		router: SharedRouter,
@@ -455,7 +488,40 @@ export const sharedRoutes = [
 		component: LazyJupebApplicationPreview,
 		exact: true
 	},
-	{ path: "/putme_login", component: LazyPutmeLogin, exact: true },
+	{
+		path: "/hnd_login",
+		component: LazyHNDLogin,
+		exact: true
+	},
+	{
+		path: "/hnd_application",
+		router: SharedRouter,
+		component: LazyHNDApplication,
+		exact: true
+	},
+	{
+		path: "/hnd_application_details",
+		router: SharedRouter,
+		component: LazyHNDApplicationDetails,
+		exact: true
+	},
+	{
+		path: "/nd_login",
+		component: LazyNDLogin,
+		exact: true
+	},
+	{
+		path: "/nd_application",
+		router: SharedRouter,
+		component: LazyNDApplication,
+		exact: true
+	},
+	{
+		path: "/nd_application_details",
+		router: SharedRouter,
+		component: LazyNDApplicationDetails,
+		exact: true
+	},
 	{
 		path: "/putme_application",
 		router: SharedRouter,
