@@ -2,11 +2,8 @@ import * as yup from "yup";
 import {
 	checkForCorrectPhoneNumber,
 	checkIfCertificateTypeHasCertificateUpload,
-	checkifDuplicateEntriesExist,
-	checkIfMinimumNumberOfSubjectIsSelected,
 	checkIfUserIsLessThanMaximumAge,
 	checkIfUserIsMoreThanMinimumAge,
-	checkDuplicateSubjects
 } from "../../../utils/formValidations";
 
 export const personalDetailsSchema = yup.object().shape({

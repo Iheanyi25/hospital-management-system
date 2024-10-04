@@ -1,23 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect,} from "react";
 import {
   Jumbotron,
   Button,
   TextField,
   SMSelect,
-  Spinner
 } from "../../../../ui_elements";
 import { useLocation, useHistory } from "react-router";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_PUTME_INFO } from "../../../../store/constant";
-import { useApiGet, useApiPost } from "../../../../api/apiCall";
+import { useApiPost } from "../../../../api/apiCall";
 import {
   ndJambDetailsFormUrl
 } from "../../../../api/urls";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { JambDetailsSchema } from "../ndSchema";
-import { formatSelectItems } from "../../../../utils/formatSelectItems";
-import { fieldSetterAndClearer } from "../../../../utils/fieldSetterAndClearer";
 
 export const JambDetails = ({
 
@@ -25,10 +22,7 @@ export const JambDetails = ({
   fromJambState
 }) => {
   const putmeStoreData = useSelector((state) => state.putmeData);
-  const { programmeInfo, StudentTypeId, personalInfo } = putmeStoreData;
-  const [facultyState, setFacultyState] = useState(
-    programmeInfo?.faculty?.value
-  );
+  const { programmeInfo, personalInfo } = putmeStoreData;
   const dispatch = useDispatch();
   const { replace } = useHistory();
   const { state } = useLocation();
@@ -43,8 +37,6 @@ export const JambDetails = ({
     register,
     control,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -110,13 +102,6 @@ export const JambDetails = ({
       }
     });
   };
-
-  useEffect(() => {
-    const subscription = watch(({ faculty }) => {
-      setFacultyState(faculty?.value);
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, setValue]);
 
   useEffect(() => {
     if (errors?.utmeResultSlip) {

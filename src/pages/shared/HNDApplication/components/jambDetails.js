@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, } from "react";
 import {
   Jumbotron,
   Button,
   TextField,
   SMSelect,
-  Spinner
 } from "../../../../ui_elements";
 import { useLocation, useHistory } from "react-router";
 import { Controller, useForm } from "react-hook-form";
@@ -23,7 +22,7 @@ export const JambDetails = ({
   fromJambState
 }) => {
   const putmeStoreData = useSelector((state) => state.putmeData);
-  const { programmeInfo, StudentTypeId, personalInfo } = putmeStoreData;
+  const { programmeInfo, personalInfo } = putmeStoreData;
   const dispatch = useDispatch();
   const { replace } = useHistory();
   const { state } = useLocation();
@@ -38,8 +37,6 @@ export const JambDetails = ({
     register,
     control,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors }
   } = useForm({
     defaultValues: {
