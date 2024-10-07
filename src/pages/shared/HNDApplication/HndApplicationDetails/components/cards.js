@@ -7,7 +7,7 @@ import {
 	getApplicationInvoiceData
 } from "../../../../../api/urls";
 import { ApplicationCard, Spinner } from "../../../../../ui_elements";
-import { APPLICATION_ID } from "../../../../../utils/constants";
+// import { APPLICATION_ID } from "../../../../../utils/constants";
 import PUTMEPreview from "../../hndPreview";
 import { HndResult } from "../../hndResult";
 import { HNDResultSlip } from "../../hndResultSlip";
