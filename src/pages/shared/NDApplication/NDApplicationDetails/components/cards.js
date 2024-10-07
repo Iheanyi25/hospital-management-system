@@ -7,7 +7,7 @@ import {
 	getApplicationInvoiceData
 } from "../../../../../api/urls";
 import { ApplicationCard, Spinner } from "../../../../../ui_elements";
-import { APPLICATION_ID } from "../../../../../utils/constants";
+// import { APPLICATION_ID } from "../../../../../utils/constants";
 import NDPreview from "../../ndPreview";
 import { NDResult } from "../../ndResult";
 import { NDResultSlip } from "../../ndResultSlip";
