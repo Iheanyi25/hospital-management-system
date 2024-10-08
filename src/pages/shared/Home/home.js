@@ -19,17 +19,12 @@ const Home = () => {
 			};
 		} else if (linkObject?.applicationMode === "2") {
 			return {
-				pathname: `/generate_sub_degree_invoice`,
+				pathname: `/generate_jamb_students_invoice`,
 				state: { application: linkObject }
 			};
 		} else if (linkObject?.applicationMode === "3") {
 			return {
 				pathname: `/generate_other_students_invoice`,
-				state: { application: linkObject }
-			};
-		} else if (linkObject?.applicationMode === "4") {
-			return {
-				pathname: `/generate_cse_invoice`,
 				state: { application: linkObject }
 			};
 		} else {
@@ -38,28 +33,9 @@ const Home = () => {
 	};
 
 	const applicationForms = {
-		postUme: {
-			applicationMode: "1",
-			id: "9",
-			name: "POST UTME APPLICATION "
-		},
-		jupeb: { applicationMode: "2", id: "5", name: "JUPEB APPLICATION" },
-		cse: { applicationMode: "4", id: "9", name: "CSE APPLICATION" },
-		part_time: {
-			applicationMode: "2",
-			id: "6",
-			name: "PART-TIME SALE OF FORMS"
-		},
-		postgraduate: {
-			applicationMode: "3",
-			id: "12",
-			name: "POSTGRADUATE APPLICATION"
-		},
-		direct_entry: {
-			applicationMode: "1",
-			id: "15",
-			name: "DIRECT ENTRY APPLICATION"
-		}
+		nd: {applicationMode: "1", id: "1", name: "ND APPLICATION "},
+		hnd: { applicationMode: "2", id: "2", name: "HND APPLICATION" },
+		partTime: { applicationMode: "3", id: "4", name: "ND PART-TIME APPLICATION" },
 	};
 	const { data, isFetched } = useApiGet(getRecentNoticessUrl(), {
 		keepPreviousData: true
@@ -106,10 +82,6 @@ const Home = () => {
 			<main className={`${styles.container}`}>
 				<div className={styles.sectionsContainer}>
 					<section className={`${styles.sectionTextContainer} pb-5`}>
-						{/* <div className={styles.notice}>
-							<span>Notice</span>
-							Post UTME application is now open!
-						</div> */}
 						<h1>
 							Welcome To Akwa Ibom State <br/> Polytechnic Portal.
 						</h1>
@@ -135,13 +107,13 @@ const Home = () => {
 									<Link
 										to={() =>
 											handleCurrentLink(
-												applicationForms.jupeb
+												applicationForms.hnd
 											)
 										}
 									>
 										Generate Invoice
 									</Link>
-									<Link to="/sub_degree_login">
+									<Link to="/hnd_login">
 										Application Form
 									</Link>
 								</div>
@@ -158,13 +130,13 @@ const Home = () => {
 									<Link
 										to={() =>
 											handleCurrentLink(
-												applicationForms.postUme
+												applicationForms.nd
 											)
 										}
 									>
 										Generate Invoice
 									</Link>
-									<Link to="/putme_login">
+									<Link to="/nd_login">
 										Application Form
 									</Link>
 								</div>
@@ -181,7 +153,7 @@ const Home = () => {
 									<Link
 										to={() =>
 											handleCurrentLink(
-												applicationForms.postUme
+												applicationForms.partTime
 											)
 										}
 									>

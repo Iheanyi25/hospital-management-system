@@ -66,6 +66,12 @@ export const putmeInitialState = (data) => ({
 		}),
 		mobileNo: data?.personalInfoResponse?.mobileNumber,
 		email: data?.personalInfoResponse?.email,
+		...(data?.personalInfoResponse?.maritalStatus && {
+			maritalStatus: {
+				label: data?.personalInfoResponse?.maritalStatus,
+				value: data?.personalInfoResponse?.maritalStatusId
+			}
+		}),
 		disability: data?.personalInfoResponse?.disability,
 		hasDisability: data?.personalInfoResponse?.disability ? "Yes" : "No",
 		...(data?.personalInfoResponse?.country && {

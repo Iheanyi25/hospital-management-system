@@ -51,3 +51,5 @@ export * from "./urlCategories/SandwichApplication";
 export * from "./urlCategories/Finance";
 export * from "./urlCategories/BorrowedCourseRegistration";
 export * from "./urlCategories/SchoolProgramme";
+export * from "./urlCategories/ND";
+export * from "./urlCategories/HND";

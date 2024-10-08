@@ -59,15 +59,15 @@ export const ApplicationPreviewWrapper = ({
 				<div className={styles.watermark}>
 					<img src={watermark} alt="logo" />
 				</div>
-				<div className="pb-5">
+				<div className="pb-4">
 					<div className="d-flex justify-content-center align-items-center shared_img_container">
 						<img src={logo} alt="Logo" />
 					</div>
 				</div>
-				<div className="py-4 text-center text-capitalize border-top border-bottom">
+				<div className="py-2 text-center text-capitalize border-top border-bottom">
 					<h4>{previewHeader}</h4>
 				</div>
-				<div className="d-flex justify-content-center align-items-center my-5">
+				<div className="d-flex justify-content-center align-items-center my-3">
 					<Avatar
 						name={userDetails?.fullname}
 						size={240}
