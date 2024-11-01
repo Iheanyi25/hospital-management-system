@@ -1,176 +1,205 @@
 import "./style.css";
 
-
 export const ResultTable = ({
-	semester = "2",
-	subjects = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-	creditUnit = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-	students = [
-		{
-			name: "NWANKWO CHIDIMMA JUDITH",
-			reg: 2013316001,
-			subjects: [
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-				{
-					gr: "A",
-					gp: "11.00"
-				},
-                {
-					gr: "A",
-					gp: "11.00"
-				},
-                {
-					gr: "A",
-					gp: "11.00"
-				},
-                {
-					gr: "A",
-					gp: "11.00"
-				}
-			]
-		}
-	]
+  semester = "2",
+  subjects = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  students = [
+    {
+      name: "NWANKWO CHIDIMMA JUDITH",
+      reg: 2013316001,
+      subjects: [
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+        {
+          gr: "A",
+          gp: "11.00",
+        },
+      ],
+    },
+  ],
 }) => {
-	return (
-		<table className="result-table-th">
-			<thead>
-				<tr>
-					<td></td>
-					<td></td>
-					{subjects.map((sub, i) => (
-						<td colspan="2" className="vertical-td" key={i}>
-							CURRENT SEMESTERCURRENT SEMESTER
-						</td>
-					))}
+  const roundUp = (num) => Math.round(num * 100) / 100;
 
-					<td colspan="3" rowspan="1" className="td-align-center">
-						CURRENT SEMESTER
-					</td>
+  const roundUpTo1 = (num) => Math.round(num * 10) / 10;
 
-					{semester !== "1" && (
-						<td colspan="3" rowspan="1" className="td-align-center">
-							PREVIOUS SEMESTER
-						</td>
-					)}
-					<td colspan="3" rowspan="1" className="td-align-center">
-						CUMULATIVE
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>CREDIT UNIT</td>
-					{creditUnit.map((cred, i) => (
-						<td className="td-align-center" colspan="2" key={i}>
-							{cred}
-						</td>
-					))}
+  return (
+    <table className="result-table-th">
+      <thead>
+        <tr>
+          <td></td>
+          <td></td>
+          {subjects.map((sub, i) => (
+            <td colSpan="2" className="vertical-td course-fields" key={i}>
+              {sub?.courseTitle}
+              <br />
+              {sub?.courseCode}
+            </td>
+          ))}
 
-					<td rowspan="2" className="vertical-td">
-						CURRENT SEMESTER
-					</td>
-					<td rowspan="2" className="vertical-td">
-						CUMULATIVE
-					</td>
-					<td rowspan="2" className="vertical-td">
-						CURRENT SEMESTER
-					</td>
+          <td colSpan="3" rowSpan="1" className="td-align-center">
+            CURRENT SEMESTER
+          </td>
 
-					{semester !== "1" && (
-						<>
-							<td rowspan="2" className="vertical-td">
-								CUMULATIVE
-							</td>
-							<td rowspan="2" className="vertical-td">
-								CURRENT SEMESTER
-							</td>
-							<td rowspan="2" className="vertical-td">
-								CUMULATIVE
-							</td>
-						</>
-					)}
+          <td colSpan="3" rowSpan="1" className="td-align-center">
+            PREVIOUS SEMESTER
+          </td>
 
-					<td rowspan="2" className="vertical-td">
-						CUMULATIVE
-					</td>
-					<td rowspan="2" className="vertical-td">
-						CURRENT SEMESTER
-					</td>
-					<td rowspan="2" className="vertical-td">
-						CUMULATIVE
-					</td>
-				</tr>
-				<tr>
-					<td>SN</td>
-					<td>STUDENT NAME AND REG NO</td>
-					{creditUnit.map((cred, i) => (
-						<>
-							<td className="td-align-center">GR</td>
-							<td className="td-align-center">GP</td>
-						</>
-					))}
-				</tr>
-			</thead>
-			<tbody>
-				{students.map((students, i) => (
-					<tr>
-						<td>{i + 1}</td>
-						<td>
-							{students.name}
-							<br /> {students.reg}
-						</td>
-						{students?.subjects?.map((stud) => (
-							<>
-								<td>{stud.gr}</td>
-								<td>{stud.gp}</td>
-							</>
-						))}
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						{semester !== "1" && (
-							<>
-								<td>7</td>
-								<td>8</td>
-								<td>9</td>
-							</>
-						)}
-						<td>4</td>
-						<td>5</td>
-						<td>6</td>
-					</tr>
-				))}
-			</tbody>
-		</table>
-	);
+          <td colSpan="3" rowSpan="1" className="td-align-center">
+            CUMULATIVE
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>CREDIT UNIT</td>
+          {subjects?.map((cred, i) => (
+            <td className="td-align-center" colSpan="2" key={i}>
+              {roundUpTo1(cred?.courseUnit).toFixed(1)}
+            </td>
+          ))}
+
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT UNITS
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT POINT
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            GRADE POINT AVERAGE
+          </td>
+
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT UNITS
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT POINT
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            GRADE POINT AVERAGE
+          </td>
+
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT UNITS
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            TOTAL CREDIT POINT
+          </td>
+          <td rowSpan="2" className="vertical-td">
+            GRADE POINT AVERAGE
+          </td>
+        </tr>
+        <tr>
+          <td>SN</td>
+          <td>STUDENT NAME AND REG NO</td>
+          {subjects?.map((_, i) => (
+            <td colSpan="2" className="td-align-center">
+              GR/CP
+            </td>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {students?.map((students) => (
+          <tr key={students.id}>
+            <td>{students.id}</td>
+            <td className="course-fields-name">
+              {students.name}
+              <br /> {students?.regNo}
+            </td>
+            {students?.subjects?.map((stud) => (
+              <td colSpan="2" className="text-right">
+                {stud.grade}
+                <br />
+                {stud.gradePoint}
+              </td>
+            ))}
+            <td className="td-align-center">
+              {roundUpTo1(
+                students?.currentSemesterDataResponse?.creditUnit
+              ).toFixed(1)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(students?.currentSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(
+                students?.currentSemesterDataResponse?.gradePointAverage
+              )}
+            </td>
+            {students?.previousSemesterDataResponse && (
+              <>
+                <td className="td-align-center">
+                  {roundUpTo1(
+                    students?.previousSemesterDataResponse?.creditUnit
+                  ).toFixed(1)}
+                </td>
+                <td className="td-align-center">
+                  {roundUp(students?.previousSemesterDataResponse?.creditPoint)}
+                </td>
+                <td className="td-align-center">
+                  {roundUp(
+                    students?.previousSemesterDataResponse?.gradePointAverage
+                  )}
+                </td>
+              </>
+            )}
+            <td className="td-align-center">
+              {roundUpTo1(
+                students?.cumulativeSemesterDataResponse?.creditUnit
+              ).toFixed(1)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(students?.cumulativeSemesterDataResponse?.creditPoint)}
+            </td>
+            <td className="td-align-center">
+              {roundUp(
+                students?.cumulativeSemesterDataResponse?.gradePointAverage
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 };
