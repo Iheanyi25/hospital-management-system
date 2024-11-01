@@ -1,15 +1,16 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useApiGet } from "../../api/apiCall";
 import { useReactToPrint } from "react-to-print";
 import {
   getAllDepartmentsUrl,
+  getDepartmentOptionUrl,
   getLevelUrl,
   getSemesterUrl,
   getSessionsUrl,
   getStudentTypeUrl,
   studentCompositeResultsUrl,
-  studentSummaryResultsUrl
+  studentSummaryResultsUrl,
 } from "../../api/urls";
 import { Jumbotron, SMSelect, Button, Spinner } from "../../ui_elements";
 import { formatSelectItems } from "../../utils/formatSelectItems";
@@ -50,7 +51,7 @@ const ViewResultSheet = () => {
   const [details, setDetails] = useState({});
   const [tableData, setData] = useState([]);
 
-  const [summaryData, setSummaryData] = useState([])
+  const [summaryData, setSummaryData] = useState([]);
   const [makeCompositeRequest, setMakeCompositeRequest] = useState(false);
   const [makeSummaryRequest, setMakeSummaryRequest] = useState(false);
 
@@ -69,6 +70,7 @@ const ViewResultSheet = () => {
 
   const watchData = watch({
     StudentType: "StudentType",
+    Department: "Department",
   });
 
   const {
@@ -79,6 +81,7 @@ const ViewResultSheet = () => {
     studentCompositeResultsUrl({
       levelId: details?.Level?.value,
       departmentId: details?.Department?.value,
+      departmentOptionId: details?.DepartmentOption?.value,
       sessionId: details?.Session?.value,
       semesterId: details?.Semester?.value,
       studentTypeId: details?.StudentType?.value,
@@ -89,16 +92,24 @@ const ViewResultSheet = () => {
     }
   );
 
-  const { data: summarySheet, isLoading: isLoadingSummarySheet, error: errorSummarySheet } = useApiGet(studentSummaryResultsUrl({
-    levelId: details?.Level?.value,
-    departmentId: details?.Department?.value,
-    sessionId: details?.Session?.value,
-    semesterId: details?.Semester?.value,
-    studentTypeId: details?.StudentType?.value,
-  }), {
-    enabled: makeSummaryRequest,
-    refetchOnWindowFocus: false,
-  })
+  const {
+    data: summarySheet,
+    isLoading: isLoadingSummarySheet,
+    error: errorSummarySheet,
+  } = useApiGet(
+    studentSummaryResultsUrl({
+      levelId: details?.Level?.value,
+      departmentId: details?.Department?.value,
+      departmentOptionId: details?.DepartmentOption?.value,
+      sessionId: details?.Session?.value,
+      semesterId: details?.Semester?.value,
+      studentTypeId: details?.StudentType?.value,
+    }),
+    {
+      enabled: makeSummaryRequest,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const getResultSummaryData = () => {
     return summarySheet?.data?.studentCourses?.items.map((student, i) => {
@@ -106,15 +117,17 @@ const ViewResultSheet = () => {
         id: i + 1,
         name: student?.fullName,
         regNo: student?.registrationNumber,
-        coursesToRepeat: student?.coursesToRepeat ?  student?.coursesToRepeat : "-",
+        coursesToRepeat: student?.coursesToRepeat
+          ? student?.coursesToRepeat
+          : "-",
         coursesToTake: student?.coursesToTake ? student?.coursesToTake : "-",
         entryReq: student?.entryRequirement,
         cumCourseUnit: student?.cumulatoveCourseUnit,
         cgpa: student?.cgpa,
-        cgpaRemark: student?.cgpaRemark
-      }
-    })
-  }
+        cgpaRemark: student?.cgpaRemark,
+      };
+    });
+  };
 
   const getStudentData = () => {
     return compositeSheet?.data?.studentCourses?.map((student, i) => {
@@ -164,14 +177,22 @@ const ViewResultSheet = () => {
   }
 
   useEffect(() => {
-    if (compositeSheet?.success && makeCompositeRequest && !isLoadingCompositeSheet) {
+    if (
+      compositeSheet?.success &&
+      makeCompositeRequest &&
+      !isLoadingCompositeSheet
+    ) {
       setData(sliceIntoChunks(getStudentData(), getStudentData().length));
       setTimeout(() => {
         handlePrint();
       }, 1000);
     }
 
-    if (errorCompositeSheet && makeCompositeRequest && !isLoadingCompositeSheet) {
+    if (
+      errorCompositeSheet &&
+      makeCompositeRequest &&
+      !isLoadingCompositeSheet
+    ) {
       setMakeRequest(false);
       const errorFlag = window.AJS.flag({
         type: "error",
@@ -213,7 +234,7 @@ const ViewResultSheet = () => {
     summarySheet,
     errorSummarySheet,
     isLoadingSummarySheet,
-    makeSummaryRequest
+    makeSummaryRequest,
   ]);
 
   const handleCompositeSubmit = (info) => {
@@ -226,7 +247,7 @@ const ViewResultSheet = () => {
     setDetails({ ...info });
     setMakeCompositeRequest(false);
     setMakeSummaryRequest(true);
-  }
+  };
 
   const {
     data: sessions,
@@ -247,6 +268,17 @@ const ViewResultSheet = () => {
   } = useApiGet(getAllDepartmentsUrl(watchData?.StudentType?.value), {
     enabled: !!watchData?.StudentType?.value,
   });
+
+  const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
+    useApiGet(
+      getDepartmentOptionUrl({
+        departmentId: watchData?.Department?.value,
+      }),
+      {
+        refetchOnWindowFocus: false,
+        enabled: !!watchData?.Department?.value,
+      }
+    );
 
   const {
     data: levels,
@@ -270,6 +302,16 @@ const ViewResultSheet = () => {
     department?.data,
     "department",
     "departmentId"
+  );
+
+  const allDepartmentOption = useMemo(
+    () =>
+      formatSelectItems(
+        departmentOption?.data,
+        "departmentAreaOfSepecializationName",
+        "departmentAreaOfSepecializationId"
+      ),
+    [departmentOption]
   );
 
   const allLevels = formatSelectItems(levels?.data, "name", "id");
@@ -362,7 +404,7 @@ const ViewResultSheet = () => {
             <div>
               <div className="row">
                 <div className="col-lg-3 d-flex align-items-center">
-                  <label className="font-weight-bold" htmlFor="student_type">
+                  <label className="font-weight-bold" htmlFor="StudentType">
                     Student Type
                   </label>
                 </div>
@@ -393,7 +435,7 @@ const ViewResultSheet = () => {
               <div>
                 <div className="row">
                   <div className="col-lg-3  d-flex align-items-center">
-                    <label className="font-weight-bold" htmlFor="student_type">
+                    <label className="font-weight-bold" htmlFor="Department">
                       Department
                     </label>
                   </div>
@@ -424,8 +466,56 @@ const ViewResultSheet = () => {
               <div>
                 <div className="row">
                   <div className="col-lg-3  d-flex align-items-center">
-                    <label className="font-weight-bold" htmlFor="student_type">
+                    <label className="font-weight-bold" htmlFor="Department">
                       Department
+                    </label>
+                  </div>
+                  <div className="col-lg-9">
+                    <Spinner />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {departmentOption?.data?.length > 0 && (
+              <div className="row">
+                <div className="col-lg-3  d-flex align-items-center">
+                  <label
+                    className="font-weight-bold"
+                    htmlFor="DepartmentOption"
+                  >
+                    Department Option
+                  </label>
+                </div>
+                <div className="col-lg-9">
+                  <Controller
+                    name="DepartmentOption"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <SMSelect
+                        {...field}
+                        id="DepartmentOption"
+                        placeholder="Select department option"
+                        options={allDepartmentOption}
+                        searchable={false}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+            {isLoadingDepartmentOption && (
+              <div>
+                <div className="row">
+                  <div className="col-lg-3  d-flex align-items-center">
+                    <label
+                      className="font-weight-bold"
+                      htmlFor="DepartmentOption"
+                    >
+                      Department Option
                     </label>
                   </div>
                   <div className="col-lg-9">
