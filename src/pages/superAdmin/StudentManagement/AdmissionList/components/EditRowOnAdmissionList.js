@@ -6,9 +6,11 @@ import { useState } from "react";
 
 import { useApiGet } from "../../../../../api/apiCall";
 import {
+	getAreaOfSpecializationByDepartmentUrl,
 	getDepartmentOptionUrl,
 	getDepartmentsUrl,
 	getSchoolProgrammesUrl,
+	getStudentModeOfEntryUrl,
 	getStudentModesOfStudyUrl
 } from "../../../../../api/urls";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
@@ -84,8 +86,6 @@ export const EditAdmissionListSchema = yup.object().shape({
 export const EditRowOnAdmissionList = ({
 	editData,
 	allSessions,
-	// allDepartments,
-	allStudentModes,
 	allStudentTypes,
 	setEditOpen,
 	filter,
@@ -93,7 +93,6 @@ export const EditRowOnAdmissionList = ({
 	searchTerm,
 	pageSize,
 	isFacultyPage
-	// isDepartmentLoading
 }) => {
 	const [departmentIdState, setDepartmentId] = useState(
 		editData?.departmentId
@@ -101,11 +100,22 @@ export const EditRowOnAdmissionList = ({
 	const [studentTypeState, setStudentTypeState] = useState(
 		editData?.studentTypeId
 	);
+	const [programmeIdState, setProgrammeIdState] = useState(
+		editData?.programmeId
+	);
 
 	const { modeOfEntryId, sessionId } = editData;
 
 	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
 		getDepartmentsUrl(studentTypeState)
+	);
+
+	const { data: studentModes, isLoading: isLoadingStudentModes } = useApiGet(
+		getStudentModeOfEntryUrl(studentTypeState),
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!studentTypeState
+		}
 	);
 
 	const { data: programmes, isLoading: isLoadingProgrammes } = useApiGet(
@@ -115,6 +125,19 @@ export const EditRowOnAdmissionList = ({
 		{
 			refetchOnWindowFocus: false,
 			enabled: studentTypeState === STUDENT_TYPES.POSTGRADUATE
+		}
+	);
+	const {
+		data: areaOfSpecialization,
+		isLoading: isLoadingAreaOfSpecialization
+	} = useApiGet(
+		getAreaOfSpecializationByDepartmentUrl(
+			departmentIdState,
+			programmeIdState
+		),
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!departmentIdState && !!programmeIdState
 		}
 	);
 	const {
@@ -138,6 +161,8 @@ export const EditRowOnAdmissionList = ({
 			)
 		);
 
+	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
+
 	const allDepartmentOptions = formatSelectItems(
 		departmentOption?.data,
 		"departmentOption",
@@ -152,6 +177,11 @@ export const EditRowOnAdmissionList = ({
 	const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
 	const allStudentModesOfStudy = formatSelectItems(
 		studentModesOfStudy?.data,
+		"name",
+		"id"
+	);
+	const allAreaOfSpecialization = formatSelectItems(
+		areaOfSpecialization?.data,
 		"name",
 		"id"
 	);
@@ -185,10 +215,13 @@ export const EditRowOnAdmissionList = ({
 	});
 
 	useEffect(() => {
-		const subscription = watch(({ department, studentType }) => {
-			setDepartmentId(department?.value);
-			setStudentTypeState(studentType?.value);
-		});
+		const subscription = watch(
+			({ department, studentType, programmeId }) => {
+				setDepartmentId(department?.value);
+				setStudentTypeState(studentType?.value);
+				setProgrammeIdState(programmeId?.value);
+			}
+		);
 		return () => subscription.unsubscribe();
 	}, [watch]);
 
@@ -213,8 +246,11 @@ export const EditRowOnAdmissionList = ({
 				filter={filter}
 				pageNumber={pageNumber}
 				searchTerm={searchTerm}
+				isLoadingStudentModes={isLoadingStudentModes}
 				isLoadingProgrammes={isLoadingProgrammes}
 				isLoadingStudentModesOfStudy={isLoadingStudentModesOfStudy}
+				allAreaOfSpecialization={allAreaOfSpecialization}
+				isLoadingAreaOfSpecialization={isLoadingAreaOfSpecialization}
 				pageSize={pageSize}
 				setValue={setValue}
 				isFacultyPage={isFacultyPage}

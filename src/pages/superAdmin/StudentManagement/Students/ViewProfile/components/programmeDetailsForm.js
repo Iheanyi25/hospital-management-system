@@ -25,6 +25,7 @@ export const ProgrammeDetailsForm = ({
 	register,
 	setValue,
 	isLoadingDepartmentOptions,
+	isLoadingStudentModesOfEntry,
 	allDepartmentOption,
 	isLoadingLevels,
 	allLevels,
@@ -38,6 +39,8 @@ export const ProgrammeDetailsForm = ({
 	isLoadingSchoolProgrammes,
 	isPGStudent,
 	data,
+	allAreaOfSpecialization,
+	isLoadingAreaOfSpecialization,
 	allStudentModes
 }) => {
 	const { replace } = useHistory();
@@ -48,7 +51,6 @@ export const ProgrammeDetailsForm = ({
 	const onSubmit = async (values) => {
 		const data = [];
 		Object.keys(values).map((item) => {
-			console.log(values, item);
 			return data.push({
 				op: "replace",
 				path: `/StudentProgrammeDetail/${item}`,
@@ -60,7 +62,6 @@ export const ProgrammeDetailsForm = ({
 						: null
 			});
 		});
-		console.log(data);
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode }),
 			data
@@ -100,6 +101,7 @@ export const ProgrammeDetailsForm = ({
 			setterFunc: setValue,
 			setField: "StudentTypeId",
 			clearFields: [
+				"ModeOfEntryId",
 				"DepartmentId",
 				"DepartmentOptionId",
 				"LevelId",
@@ -113,11 +115,18 @@ export const ProgrammeDetailsForm = ({
 			value,
 			setterFunc: setValue,
 			setField: "DepartmentId",
-			clearFields: ["DepartmentOptionId"]
+			clearFields: ["DepartmentOptionId", "areaOfSpecializationId"]
 		});
 	};
 
-
+	const onProgrammeChange = (value) => {
+		fieldSetterAndClearer({
+			value,
+			setterFunc: setValue,
+			setField: "SchoolProgrammeId",
+			clearFields: ["areaOfSpecializationId"]
+		});
+	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -211,12 +220,6 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</>
 				)}
-				{console.log(
-					findValueAndLabel(
-						data?.departmentOptionId,
-						allDepartmentOption
-					)
-				)}
 				{allDepartmentOption?.length > 0 && (
 					<div className="container-fluid px-4 my-4">
 						<div className="row">
@@ -270,7 +273,7 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</>
 				)}
-				{allProgrammes?.length > 0 && (
+				{!isLoadingSchoolProgrammes && allProgrammes?.length > 0 && (
 					<div className="container-fluid px-4 my-4">
 						<div className="row">
 							<div className="col-lg-3  d-flex align-items-center">
@@ -292,6 +295,7 @@ export const ProgrammeDetailsForm = ({
 											{...field}
 											placeholder="Select a programme"
 											searchable={false}
+											onChange={onProgrammeChange}
 											options={allProgrammes}
 											isError={!!errors.SchoolProgrammeId}
 											errorText={
@@ -306,6 +310,67 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</div>
 				)}
+				{isLoadingAreaOfSpecialization && (
+					<>
+						<div className="container-fluid px-4 my-4">
+							<div className="row">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label htmlFor="DepartmentOptionId">
+										Area of Specialization
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Spinner />
+								</div>
+							</div>
+						</div>
+					</>
+				)}
+				{isPGStudent &&
+					!isLoadingAreaOfSpecialization &&
+					allAreaOfSpecialization?.length > 0 && (
+						<div className="container-fluid px-4 my-4">
+							<div className="row">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label htmlFor="schoolProgramme">
+										Area of Specialization
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="areaOfSpecializationId"
+										defaultValue={findValueAndLabel(
+											data?.areaOfSpecializationId,
+											allAreaOfSpecialization
+										)}
+										control={control}
+										rules={{ required: true }}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												placeholder="Select an area of specialization"
+												searchable={true}
+												options={
+													allAreaOfSpecialization
+												}
+												isError={
+													!!errors.areaOfSpecializationId
+												}
+												errorText={
+													errors.areaOfSpecializationId &&
+													errors
+														.areaOfSpecializationId
+														.message
+												}
+												id="areaOfSpecializationId"
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+					)}
+
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
 						<div className="col-lg-3 d-flex align-items-center">
@@ -350,6 +415,11 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</div>
 				</div>
+				{isLoadingStudentModesOfEntry && (
+					<div className="mb-4">
+						<Spinner />
+					</div>
+				)}
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
 						<div className="col-lg-3  d-flex align-items-center">

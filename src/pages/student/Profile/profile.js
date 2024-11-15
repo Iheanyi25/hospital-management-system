@@ -85,16 +85,16 @@ const Profile = () => {
 
 	const postgraduate_object = useMemo(
 		() => [
-			{
-				linkName: `Educational History`,
-				hashName: "#section_e",
-				state
-			},
-			{
-				linkName: `Employment History`,
-				hashName: "#section_f",
-				state
-			},
+			// {
+			// 	linkName: `Educational History`,
+			// 	hashName: "#section_e",
+			// 	state
+			// },
+			// {
+			// 	linkName: `Employment History`,
+			// 	hashName: "#section_f",
+			// 	state
+			// },
 			{
 				linkName: `Medical History`,
 				hashName: "#section_g",

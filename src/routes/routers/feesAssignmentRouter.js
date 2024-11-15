@@ -26,6 +26,16 @@ export const FeesAssignmentRouter = ({
 				disabled: false
 			},
 			{
+				title: "Bursary fees",
+				path: "/fees_assignment/busary_fees",
+				disabled: false
+			},
+			{
+				title: "Scholarship Management",
+				path: "/fees_assignment/scholarship_management",
+				disabled: false
+			},
+			{
 				title: "Sundry fees",
 				path: "/fees_assignment/sundry_fees",
 				disabled: false

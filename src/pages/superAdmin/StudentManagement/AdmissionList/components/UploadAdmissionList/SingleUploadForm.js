@@ -23,7 +23,6 @@ export default function SingleUploadForm({
 	setUploadModal,
 	isPGSelected
 }) {
-	console.log(errors);
 	const { mutate, isLoading: isEditing } = useApiPost();
 	const queryClient = useQueryClient();
 	const onSubmitForm = (formData) => {
@@ -39,6 +38,7 @@ export default function SingleUploadForm({
 			studentTypeId: filter.studentTypeId,
 			modeOfEntryId: filter.modeOfEntryId,
 			sessionId: filter.sessionId,
+			areaOfSpecializationId: filter?.areaOfSpecializationId,
 			...(filter?.programmeId && {
 				programmeId: filter?.programmeId
 			}),
@@ -53,7 +53,7 @@ export default function SingleUploadForm({
 		};
 
 		mutate(requestBody, {
-			onSuccess: (data) => {
+			onSuccess: () => {
 				queryClient.invalidateQueries(
 					getAdmissionList({
 						...filter,

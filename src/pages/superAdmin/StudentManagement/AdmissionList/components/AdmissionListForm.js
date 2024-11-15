@@ -7,7 +7,6 @@ import {
 	Jumbotron,
 	CenteredDialog
 } from "../../../../../ui_elements";
-import styles from ".././style.module.css";
 import { UploadAdmissionList } from "./UploadAdmissionList";
 import { STUDENT_TYPES } from "../../../../../utils/constants";
 import { fieldSetterAndClearer } from "../../../../../utils/fieldSetterAndClearer";
@@ -30,17 +29,20 @@ export default function AdmissionListForm({
 	handleSubmit,
 	isLoadingAdmissionList,
 	allAdmissionTypes,
+	allAOS,
+	isLoadingAOS,
 	watchData,
 	filter,
 	pageNumber,
 	pageSize,
 	searchTerm,
-	setValue
+	setValue,
+	isLoadingStudentModes
 }) {
 	const [open, setOpen] = useState(false);
 	const ref = useRef(null);
 	const isPGSelected =
-		Number(watchData.student_type?.value) === STUDENT_TYPES.POSTGRADUATE;
+		Number(watchData?.student_type) === STUDENT_TYPES.POSTGRADUATE;
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			departmentId: formData?.department?.value,
@@ -48,9 +50,11 @@ export default function AdmissionListForm({
 			...(allDepartmentOption?.length > 0 && {
 				departmentOptionId: formData?.departmentOption?.value
 			}),
-			modeOfEntryId: formData.student_mode.value,
-			studentTypeId: formData.student_type.value,
-			sessionId: formData.session.value,
+			...(formData?.student_mode?.value && {
+				modeOfEntryId: formData?.student_mode?.value
+			}),
+			studentTypeId: formData?.student_type?.value,
+			sessionId: formData?.session?.value,
 			...(allProgrammes?.length && {
 				programmeId: formData?.schoolProgramme?.value
 			}),
@@ -58,7 +62,8 @@ export default function AdmissionListForm({
 				isPGSelected && {
 					modeOfStudyId: formData?.modeOfStudyId?.value
 				}),
-			pageSize: state.pageSize
+			areaOfSpecializationId: formData?.areaOfSpecializationId?.value,
+			pageSize: state?.pageSize
 		}));
 	};
 
@@ -132,8 +137,39 @@ export default function AdmissionListForm({
 				footerStyle="d-flex justify-content-end"
 			>
 				<section className="p-4">
-					<div className={styles.filter_container}>
-						<div>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="row">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="session"
+									>
+										Session
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="session"
+										control={control}
+										rules={{
+											required: true
+										}}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												id="session"
+												options={allSessions}
+												placeholder="Select Academic Session"
+												searchable={false}
+												isError={!!errors.session}
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="col-md-6">
 							<div className="row">
 								<div className="col-lg-3  d-flex align-items-center">
 									<label
@@ -166,9 +202,9 @@ export default function AdmissionListForm({
 							</div>
 						</div>
 						{allDepartments.length > 0 && (
-							<div>
-								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
+							<div className="col-md-6">
+								<div className="row mt-5">
+									<div className="col-lg-3 d-flex align-items-center">
 										<label
 											className="font-weight-bold"
 											htmlFor="dept"
@@ -188,7 +224,9 @@ export default function AdmissionListForm({
 													{...field}
 													id="dept"
 													placeholder="Select department"
-													onChange={onDepartmentChange}
+													onChange={
+														onDepartmentChange
+													}
 													options={allDepartments}
 													searchable={true}
 													isError={
@@ -202,12 +240,12 @@ export default function AdmissionListForm({
 							</div>
 						)}
 						{isDepartmentLoading && (
-							<div>
+							<div className="col-md-6 mt-5">
 								<Spinner />
 							</div>
 						)}
 						{allDepartmentOption.length > 0 && (
-							<div>
+							<div className="col-md-6 mt-5">
 								<div className="row">
 									<div className="col-lg-3  d-flex align-items-center">
 										<label
@@ -244,148 +282,177 @@ export default function AdmissionListForm({
 							</div>
 						)}
 						{isLoadingDepartmentOption && (
-							<div>
+							<div className="col-md-6 mt-5">
 								<Spinner />
 							</div>
 						)}
-						<div className="row">
-							<div className="col-lg-3  d-flex align-items-center">
-								<label
-									className="font-weight-bold"
-									htmlFor="student_mode"
-								>
-									Mode of Entry
-								</label>
+						{isLoadingStudentModes && (
+							<div className="col-md-6 mt-5">
+								<Spinner />
 							</div>
-							<div className="col-lg-9">
-								<Controller
-									name="student_mode"
-									control={control}
-									rules={{
-										required: true
-									}}
-									render={({ field }) => (
-										<SMSelect
-											{...field}
-											placeholder="Select student mode"
-											options={allStudentModes}
-											id="student_mode"
-											searchable={false}
-											isError={!!errors.student_mode}
+						)}
+						{allStudentModes?.length > 0 && (
+							<div className="col-md-6 mt-5">
+								<div className="row">
+									<div className="col-lg-3  d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="student_mode"
+										>
+											Mode of Entry
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="student_mode"
+											control={control}
+											rules={{
+												required: true
+											}}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select student mode"
+													options={allStudentModes}
+													id="student_mode"
+													searchable={false}
+													isError={
+														!!errors.student_mode
+													}
+												/>
+											)}
 										/>
-									)}
-								/>
+									</div>
+								</div>
 							</div>
-						</div>
+						)}
+
 						{loadingProgrammes && (
-							<div>
+							<div className="col-md-6 mt-5">
 								<Spinner />
 							</div>
 						)}
 						{allProgrammes?.length && isPGSelected ? (
-							<div className="row">
-								<div className="col-lg-3  d-flex align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="schoolProgramme"
-									>
-										Programme
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="schoolProgramme"
-										control={control}
-										rules={{
-											required: true
-										}}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select programme"
-												options={allProgrammes}
-												id="schoolProgramme"
-												searchable={true}
-												isError={
-													!!errors.schoolProgramme
-												}
-											/>
-										)}
-									/>
+							<div className="col-md-6 mt-5">
+								<div className="row">
+									<div className="col-lg-3  d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="schoolProgramme"
+										>
+											Programme
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="schoolProgramme"
+											control={control}
+											rules={{
+												required: true
+											}}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select programme"
+													options={allProgrammes}
+													id="schoolProgramme"
+													searchable={true}
+													isError={
+														!!errors.schoolProgramme
+													}
+												/>
+											)}
+										/>
+									</div>
 								</div>
 							</div>
 						) : (
-							""
+							<></>
 						)}
 						{isLoadingStudentModesOfStudy && (
-							<div>
+							<div className="col-md-6 mt-5">
 								<Spinner />
 							</div>
 						)}
 						{allStudentModesOfStudy?.length && isPGSelected ? (
-							<div className="row">
-								<div className="col-lg-3  d-flex align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="modeOfStudyId"
-									>
-										Mode of Study
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="modeOfStudyId"
-										control={control}
-										rules={{
-											required: true
-										}}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select mode of study"
-												options={allStudentModesOfStudy}
-												id="modeOfStudyId"
-												searchable={false}
-												isError={!!errors.modeOfStudyId}
-											/>
-										)}
-									/>
+							<div className="col-md-6 mt-5">
+								<div className="row">
+									<div className="col-lg-3  d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="modeOfStudyId"
+										>
+											Mode of Study
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="modeOfStudyId"
+											control={control}
+											rules={{
+												required: true
+											}}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select mode of study"
+													options={
+														allStudentModesOfStudy
+													}
+													id="modeOfStudyId"
+													searchable={false}
+													isError={
+														!!errors.modeOfStudyId
+													}
+												/>
+											)}
+										/>
+									</div>
 								</div>
 							</div>
 						) : (
-							""
+							<></>
 						)}
-						<div>
-							<div className="row">
-								<div className="col-lg-3  d-flex align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="session"
-									>
-										Session
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="session"
-										control={control}
-										rules={{
-											required: true
-										}}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												id="session"
-												options={allSessions}
-												placeholder="Select Academic Session"
-												searchable={false}
-												isError={!!errors.session}
-											/>
-										)}
-									/>
+						{isLoadingAOS && (
+							<div className="col-md-6 mt-5">
+								<Spinner />
+							</div>
+						)}
+						{isPGSelected && allAOS?.length > 0 && (
+							<div className="col-md-6 mt-5">
+								<div className="row">
+									<div className="col-lg-3  d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="schoolProgramme"
+										>
+											Area of special specialization
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="areaOfSpecializationId"
+											control={control}
+											rules={{
+												required: true
+											}}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select area of special specialization"
+													options={allAOS}
+													id="areaOfSpecializationId"
+													searchable={true}
+													isError={
+														!!errors.areaOfSpecialization
+													}
+												/>
+											)}
+										/>
+									</div>
 								</div>
 							</div>
-						</div>
+						)}
 					</div>
 				</section>
 			</Jumbotron>

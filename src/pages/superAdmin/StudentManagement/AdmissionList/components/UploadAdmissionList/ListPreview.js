@@ -40,6 +40,11 @@ export const ListPreview = ({
 			formData.append("programmeId ", filter.programmeId);
 		filter?.modeOfStudyId &&
 			formData.append("modeOfStudyId ", filter.modeOfStudyId);
+		filter?.areaOfSpecializationId &&
+			formData.append(
+				"areaOfSpecializationId ",
+				filter.areaOfSpecializationId
+			);
 
 		const requestBody = {
 			url: bulkUploadAdmissionListUrl(),
@@ -47,7 +52,6 @@ export const ListPreview = ({
 		};
 		mutate(requestBody, {
 			onSuccess: ({ data }) => {
-				console.log(data?.data);
 				queryClient.invalidateQueries(
 					getAdmissionList({
 						...filter,
@@ -58,10 +62,10 @@ export const ListPreview = ({
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Upload Successful",
+					title: "Upload In Progress",
 					body:
 						data?.data ||
-						`${fileData?.name} was uploaded successfully!`
+						`${fileData?.name} upload in progress, check back later`
 				});
 				setTimeout(() => {
 					successFlag.close();

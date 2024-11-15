@@ -19,21 +19,21 @@ export const InvoiceRouter = ({
 				path: "/invoice_management/invoice",
 				disabled: false
 			},
-			// {
-			// 	title: "Fee Bypass",
-			// 	path: "/invoice_management/fee_bypass",
-			// 	disabled: false
-			// },
-			// {
-			// 	title: "Delete Sundry Invoice",
-			// 	path: "/invoice_management/delete_sundry_invoice",
-			// 	disabled: false
-			// },
-			// {
-			// 	title: "Delete PG Invoice",
-			// 	path: "/invoice_management/delete_pg_invoice",
-			// 	disabled: false
-			// }
+			{
+				title: "Fee Bypass",
+				path: "/invoice_management/fee_bypass",
+				disabled: false
+			},
+			{
+				title: "Delete Sundry Invoice",
+				path: "/invoice_management/delete_sundry_invoice",
+				disabled: false
+			},
+			{
+				title: "Delete PG Invoice",
+				path: "/invoice_management/delete_pg_invoice",
+				disabled: false
+			}
 		],
 		[]
 	);

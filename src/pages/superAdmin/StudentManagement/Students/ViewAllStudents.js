@@ -9,10 +9,16 @@ import {
 	getStudentRolesUrl,
 	getAllSessionsUrl,
 	getFacultiesUrl,
-	getDepartmentsUrl
+	getDepartmentsUrl,
+	getAreaOfSpecializationByDepartmentUrl,
+	getSchoolProgrammesUrl
 } from "../../../../api/urls";
 import { useApiGet } from "../../../../api/apiCall";
-import { PAGESIZE, SEARCH_DELAY } from "../../../../utils/constants";
+import {
+	PAGESIZE,
+	SEARCH_DELAY,
+	STUDENT_TYPES
+} from "../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
 import ViewAllStudentsForm from "./ViewAllStudentsForm";
 import { useForm } from "react-hook-form";
@@ -42,7 +48,8 @@ const ViewAllStudents = () => {
 		departmentId: programDetails?.departmentId ?? "",
 		studentTypeId: programDetails?.studentTypeId ?? "",
 		facultyId: programDetails?.facultyId ?? "",
-		active: programDetails?.active ?? ""
+		active: programDetails?.active ?? "",
+		programme: programDetails?.programmeId ?? ""
 	});
 
 	const debouncedSearch = useDebouncedCallback(
@@ -63,13 +70,21 @@ const ViewAllStudents = () => {
 
 	useEffect(() => {
 		const subscription = watch(
-			({ departmentId, studentTypeId, facultyId, levelId, active }) => {
+			({
+				departmentId,
+				studentTypeId,
+				facultyId,
+				levelId,
+				active,
+				schoolProgramme
+			}) => {
 				setWatchData((state) => ({
 					departmentId: departmentId?.value ?? state.departmentId,
 					studentTypeId: studentTypeId?.value ?? state.studentTypeId,
 					facultyId: facultyId?.value ?? state.facultyId,
 					levelId: levelId?.value ?? state.levelId,
-					active: active?.value ?? state.active
+					active: active?.value ?? state.active,
+					programme: schoolProgramme?.value ?? state.programme
 				}));
 			}
 		);
@@ -135,6 +150,25 @@ const ViewAllStudents = () => {
 			refetchOnWindowFocus: false
 		}
 	);
+	const { data: programmes, isLoading: loadingProgrammes } = useApiGet(
+		getSchoolProgrammesUrl({
+			studentTypeId: watchData?.studentTypeId
+		}),
+		{
+			refetchOnWindowFocus: false,
+			enabled: watchData?.studentTypeId === STUDENT_TYPES.POSTGRADUATE
+		}
+	);
+
+	const { data: areaOfSpecialization, isLoading: isLoadingAOS } = useApiGet(
+		getAreaOfSpecializationByDepartmentUrl(
+			watchData?.departmentId,
+			watchData?.programme
+		),
+		{
+			enabled: !!watchData?.departmentId && !!watchData?.programme
+		}
+	);
 
 	const allLevels = useMemo(
 		() => formatSelectItems(levels?.data, "name", "id"),
@@ -150,11 +184,12 @@ const ViewAllStudents = () => {
 		"departmentOption",
 		"departmentOptionId"
 	);
+	const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
 	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
-
+	const allAOS = formatSelectItems(areaOfSpecialization?.data, "name", "id");
 	const allStudentRoles = useMemo(
 		() =>
 			studentRoles?.data?.map((role) => {
@@ -195,6 +230,10 @@ const ViewAllStudents = () => {
 							isLoadingDepartmentOption={
 								isLoadingDepartmentOption
 							}
+							allProgrammes={allProgrammes}
+							loadingProgrammes={loadingProgrammes}
+							isLoadingAOS={isLoadingAOS}
+							allAOS={allAOS}
 							isDepartmentLoading={isDepartmentLoading}
 							watchData={watchData}
 							allFaculties={allFaculties}
