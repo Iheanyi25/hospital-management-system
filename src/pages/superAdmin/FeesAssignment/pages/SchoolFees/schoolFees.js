@@ -29,7 +29,7 @@ import { FEES_ASSIGNMENT } from "../../../../../store/constant";
 import { findValueAndLabel } from "../../../../../utils/findValueAndLabel";
 import { useEffect } from "react";
 import numberFormatter from "../../../../../utils/numberFormatter";
-import {CloneSchoolFeesAssignment} from "./components/cloneSchoolFeesAssignment";
+import { CloneSchoolFeesAssignment } from "./components/cloneSchoolFeesAssignment";
 
 const SchoolFeesAssignment = () => {
 	const [cloneOpen, setCloneOpen] = useState(false);
@@ -259,6 +259,33 @@ const SchoolFeesAssignment = () => {
 				Cell: ({ cell: { row } }) => (
 					<div>{`${numberFormatter(
 						row?.original?.teneceCommission
+					)}`}</div>
+				)
+			},
+			{
+				Header: "KSmart Commission (₦)",
+				accessor: "kSmartCommission",
+				Cell: ({ cell: { row } }) => (
+					<div>{`${numberFormatter(
+						row?.original?.kSmartCommission
+					)}`}</div>
+				)
+			},
+			{
+				Header: "Hubbly Commission (₦)",
+				accessor: "hubblyCommission",
+				Cell: ({ cell: { row } }) => (
+					<div>{`${numberFormatter(
+						row?.original?.hubblyCommission
+					)}`}</div>
+				)
+			},
+			{
+				Header: "Seamfix Commission (₦)",
+				accessor: "seamfixCommission",
+				Cell: ({ cell: { row } }) => (
+					<div>{`${numberFormatter(
+						row?.original?.seamfixCommission
 					)}`}</div>
 				)
 			},
@@ -496,9 +523,7 @@ const SchoolFeesAssignment = () => {
 							});
 						}}
 					/>
-
 				</div>
-
 			</div>
 			<SchoolFeesTable
 				title={

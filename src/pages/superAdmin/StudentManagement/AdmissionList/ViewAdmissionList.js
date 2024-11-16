@@ -1,6 +1,6 @@
 import { Spinner } from "../../../../ui_elements";
 import styles from "./style.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../api/apiCall";
@@ -13,7 +13,8 @@ import {
 	getAdmissionTypesUrl,
 	getAllSessionsUrl,
 	getSchoolProgrammesUrl,
-	getStudentModesOfStudyUrl
+	getStudentModesOfStudyUrl,
+	getAreaOfSpecializationByDepartmentUrl
 } from "../../../../api/urls";
 
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
@@ -31,6 +32,11 @@ const ViewAdmissionList = () => {
 	const location = useLocation();
 	const isFacultyPage =
 		location.pathname === "/student_management/admission_list";
+	const [watchData, setWatchData] = useState({
+		student_type: "",
+		department: "",
+		programme: ""
+	});
 	const [filter, setFilter] = useState({
 		departmentId: "",
 		departmentOptionId: "",
@@ -79,7 +85,17 @@ const ViewAdmissionList = () => {
 		}
 	);
 
+	const { data: areaOfSpecialization, isLoading: isLoadingAOS } = useApiGet(
+		getAreaOfSpecializationByDepartmentUrl(
+			watchData?.department,
+			watchData?.programme
+		),
+		{
+			enabled: !!watchData?.department && !!watchData?.programme
+		}
+	);
 	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
+
 	const {
 		handleSubmit,
 		control,
@@ -87,43 +103,55 @@ const ViewAdmissionList = () => {
 		setValue,
 		formState: { errors }
 	} = useForm();
-	const { data: studentModes, isLoading: isLoadingStudentModes } = useApiGet(
-		getStudentModeOfEntryUrl(),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
+
 	const { data: studentTypes, isLoading: isLoadingStudentTypes } = useApiGet(
 		getStudentTypesUrl(),
 		{
 			refetchOnWindowFocus: false
 		}
 	);
-	const watchData = watch({
-		student_type: "student_type",
-		department: "department"
-	});
+	useEffect(() => {
+		const subscription = watch(
+			({ student_type, department, schoolProgramme }) => {
+				setWatchData((state) => ({
+					student_type: student_type?.value ?? state.student_type,
+					department: department?.value ?? state.department,
+					programme: schoolProgramme?.value ?? state.programme
+				}));
+			}
+		);
+		return () => subscription.unsubscribe();
+	}, [watch]);
+
 	const {
 		data: departments,
 		isLoading: isDepartmentLoading,
 		error: departmentError
 	} = useApiGet(
-		getDepartmentsUrl(watchData?.student_type?.value || searchStudentType),
+		getDepartmentsUrl(watchData?.student_type || searchStudentType),
 		{
-			enabled: !!watchData?.student_type?.value || !!searchStudentType
+			enabled: !!watchData?.student_type || !!searchStudentType
 		}
 	);
 
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
 		useApiGet(
 			getDepartmentOptionUrl({
-				departmentId: watchData?.department?.value,
-				studentTypeId: watchData?.student_type?.value
+				departmentId: watchData?.department,
+				studentTypeId: watchData?.student_type
 			}),
 			{
-				enabled: !!watchData?.department?.value
+				enabled: !!watchData?.department
 			}
 		);
+
+	const { data: studentModes, isLoading: isLoadingStudentModes } = useApiGet(
+		getStudentModeOfEntryUrl(watchData?.student_type),
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!watchData?.student_type
+		}
+	);
 
 	const { data: admissionTypes, isLoading: isLoadingAdmssionTypes } =
 		useApiGet(getAdmissionTypesUrl(), {
@@ -132,11 +160,11 @@ const ViewAdmissionList = () => {
 
 	const { data: programmes, isLoading: loadingProgrammes } = useApiGet(
 		getSchoolProgrammesUrl({
-			studentTypeId: watchData?.student_type?.value
+			studentTypeId: watchData?.student_type
 		}),
 		{
 			refetchOnWindowFocus: false,
-			enabled: watchData?.student_type?.value === STUDENT_TYPES.POSTGRADUATE
+			enabled: watchData?.student_type === STUDENT_TYPES.POSTGRADUATE
 		}
 	);
 	const {
@@ -144,7 +172,7 @@ const ViewAdmissionList = () => {
 		isLoading: isLoadingStudentModesOfStudy
 	} = useApiGet(getStudentModesOfStudyUrl(), {
 		refetchOnWindowFocus: false,
-		enabled: watchData?.student_type?.value === STUDENT_TYPES.POSTGRADUATE
+		enabled: watchData?.student_type === STUDENT_TYPES.POSTGRADUATE
 	});
 
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
@@ -158,6 +186,7 @@ const ViewAdmissionList = () => {
 		"departmentOption",
 		"departmentOptionId"
 	);
+	const allAOS = formatSelectItems(areaOfSpecialization?.data, "name", "id");
 	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const allAdmissionTypes = formatSelectItems(
@@ -172,12 +201,7 @@ const ViewAdmissionList = () => {
 		"id"
 	);
 
-	if (
-		isLoading ||
-		isLoadingStudentModes ||
-		isLoadingStudentTypes ||
-		isLoadingAdmssionTypes
-	)
+	if (isLoading || isLoadingStudentTypes || isLoadingAdmssionTypes)
 		return <Spinner />;
 	if (error || departmentError || admissionListError)
 		return (
@@ -200,12 +224,15 @@ const ViewAdmissionList = () => {
 							allDepartmentOption={allDepartmentOption}
 							allStudentModes={allStudentModes}
 							allStudentTypes={allStudentTypes}
+							allAOS={allAOS}
 							allProgrammes={allProgrammes}
 							allStudentModesOfStudy={allStudentModesOfStudy}
 							isLoadingStudentModesOfStudy={
 								isLoadingStudentModesOfStudy
 							}
+							isLoadingAOS={isLoadingAOS}
 							loadingProgrammes={loadingProgrammes}
+							isLoadingStudentModes={isLoadingStudentModes}
 							isLoadingDepartmentOption={
 								isLoadingDepartmentOption
 							}

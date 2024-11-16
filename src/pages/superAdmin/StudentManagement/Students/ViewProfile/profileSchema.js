@@ -147,5 +147,6 @@ export const ProgrammeDetailSchema = yup.object().shape({
 				return schema.required("please select a programme type");
 			}
 			return schema.default(null);
-		})
+		}),
+	areaOfSpecializationId: yup.mixed()
 });

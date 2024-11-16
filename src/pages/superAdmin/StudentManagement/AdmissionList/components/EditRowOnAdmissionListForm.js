@@ -25,6 +25,7 @@ export default function EditRowOnAdmissionListForm({
 	allStudentTypes,
 	allDepartmentOptions,
 	isLoadingDepartmentOptions,
+	isLoadingStudentModes,
 	setEditOpen,
 	filter,
 	pageNumber,
@@ -39,6 +40,8 @@ export default function EditRowOnAdmissionListForm({
 	setValue,
 	isLoadingProgrammes,
 	isLoadingStudentModesOfStudy,
+	allAreaOfSpecialization,
+	isLoadingAreaOfSpecialization,
 	admissionListId
 }) {
 	const { mutate, isLoading: isEditing } = useApiPut();
@@ -47,6 +50,13 @@ export default function EditRowOnAdmissionListForm({
 	const onSubmitForm = (formData) => {
 		const hasSchoolProgrammeId = formData?.programmeId?.value
 			? { programmeId: formData?.programmeId?.value }
+			: {};
+		const hasAreaOfSpecializationId = formData?.areaOfSpecializationId
+			?.value
+			? {
+					areaOfSpecializationId:
+						formData?.areaOfSpecializationId?.value
+			  }
 			: {};
 		const hasModeOfStudyId = formData?.modeOfStudyId?.value
 			? { modeOfStudyId: formData?.modeOfStudyId?.value }
@@ -68,6 +78,7 @@ export default function EditRowOnAdmissionListForm({
 			modeOfEntryId: formData.studentModeOfEntry.value,
 			...hasSchoolProgrammeId,
 			...hasModeOfStudyId,
+			...hasAreaOfSpecializationId,
 			SessionId: formData.session.value,
 			...(filter?.modeOfStudyId && {
 				modeOfStudyId: filter?.modeOfStudyId
@@ -96,8 +107,8 @@ export default function EditRowOnAdmissionListForm({
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Edit Admission List Record ",
-					body: "Admission List Record Updated successfully"
+					title: "Success!",
+					body: "Admission List Record Added successfully"
 				});
 
 				setEditOpen(false);
@@ -363,6 +374,47 @@ export default function EditRowOnAdmissionListForm({
 					</div>
 				</div>
 			)}
+			{isLoadingAreaOfSpecialization && (
+				<div className="mb-4">
+					<Spinner />
+				</div>
+			)}
+			{allAreaOfSpecialization?.length > 0 && isPGSelected && (
+				<div className="row mb-4">
+					<div className="col-lg-3 d-flex align-items-center">
+						<label
+							htmlFor="areaOfSpecializationId"
+							className={styles.admission_list_edit_label}
+						>
+							Area of Specialization
+						</label>
+					</div>
+					<div className="col-lg-9">
+						<Controller
+							name="areaOfSpecializationId"
+							defaultValue={
+								editData?.areaOfSpecializationId
+									? findValueAndLabel(
+											editData?.areaOfSpecializationId,
+											allProgrammes
+									  )
+									: null
+							}
+							control={control}
+							render={({ field }) => (
+								<SMSelect
+									placeholder="Please choose a programme"
+									options={allAreaOfSpecialization}
+									searchable={true}
+									id="areaOfSpecializationId"
+									isError={!!errors.areaOfSpecializationId}
+									{...field}
+								/>
+							)}
+						/>
+					</div>
+				</div>
+			)}
 
 			{isLoadingStudentModesOfStudy && (
 				<div className="mb-4">
@@ -427,6 +479,12 @@ export default function EditRowOnAdmissionListForm({
 							}
 						/>
 					</div>
+				</div>
+			)}
+
+			{isLoadingStudentModes && (
+				<div className="mb-4">
+					<Spinner />
 				</div>
 			)}
 			<div className="row mb-4">

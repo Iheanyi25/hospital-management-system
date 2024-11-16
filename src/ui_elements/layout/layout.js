@@ -41,7 +41,7 @@ const staffPaths = {
 	"jamb list upload": "/jamb_list_upload",
 	"hostel management": "/hostel_management/manage_hostel",
 	"application reports": "/app_reports/application_reports",
-	"school setup": "/school_setup/manage_faculty_and_department",
+	"school setup": "/school_setup/manage_faculty_and_department"
 };
 
 const Layout = ({ children, title, noHeader }) => {
@@ -83,7 +83,8 @@ const Layout = ({ children, title, noHeader }) => {
 		"course registration": "/course_registration",
 		results: "/results",
 		siwes: "/siwes",
-		hostel: "/hostel"
+		hostel: "/hostel",
+		"lecturer appraisal": "/lecturer_appraisal"
 	};
 	const menuItemsFromApi = useSelector((state) => state.menuItemsData);
 	const { tokenExpirationDate, impersonatorUsername, isImpersonating } =
@@ -156,9 +157,7 @@ const Layout = ({ children, title, noHeader }) => {
 					style={isImpersonating ? { paddingTop: "96px" } : {}}
 					ref={parent}
 				>
-
 					{children}
-
 				</div>
 				<Logout
 					isOpen={signOutModal}
