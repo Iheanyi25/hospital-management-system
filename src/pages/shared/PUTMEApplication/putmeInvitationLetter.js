@@ -8,26 +8,26 @@ export const PUTMEInvitationLetter = ({ componentRef, details }) => {
 	const applicationDetails = [
 		{
 			title: "Full Name",
-			value: `${details?.putmePersonalInfoResponse?.surname ?? ""} ${
-				details?.putmePersonalInfoResponse?.firstname ?? ""
-			} ${details?.putmePersonalInfoResponse?.middlename ?? ""},`
+			value: `${details?.personalInfoResponse?.surname ?? ""} ${
+				details?.personalInfoResponse?.firstname ?? ""
+			} ${details?.personalInfoResponse?.middlename ?? ""},`
 		},
 		{
 			title: "Applicant ID",
-			value: details?.putmePersonalInfoResponse?.applicationNo
+			value: details?.personalInfoResponse?.applicationNo
 		},
 		{ title: "Registration Number", value: details?.regNumber },
 		{
 			title: "Email Address",
-			value: details?.putmePersonalInfoResponse?.email
+			value: details?.personalInfoResponse?.email
 		},
 		{
 			title: "1st Choice Course of Study",
-			value: details?.putmeProgrammeInfoResponse?.department
+			value: details?.programmeInfoResponse?.department
 		},
 		{
 			title: "Date of Birth",
-			value: shortDate(details?.putmePersonalInfoResponse?.dateOfBirth)
+			value: shortDate(details?.personalInfoResponse?.dateOfBirth)
 		}
 	];
 	return (
@@ -38,9 +38,7 @@ export const PUTMEInvitationLetter = ({ componentRef, details }) => {
 			<div
 				className={`d-flex flex-column align-items-center ${styles.putme_form_title}`}
 			>
-				<p className="text-uppercase">
-					P.M.B 1221, Effurun, Delta State, Nigeria.
-				</p>
+				<p className="text-uppercase">{SCHOOL_DETAILS.pmb}</p>
 				<h3 className="text-uppercase">
 					Invitation Letter for Pre-Admission Screening
 				</h3>
@@ -62,7 +60,8 @@ export const PUTMEInvitationLetter = ({ componentRef, details }) => {
 				<br />
 				<p>
 					{`You are invited for your ${SCHOOL_DETAILS.shortForm} Admission Screening Exercise
-					on`}:{" "}
+					on`}
+					:{" "}
 				</p>
 				<p>
 					<b>{details?.screeningDate}</b>

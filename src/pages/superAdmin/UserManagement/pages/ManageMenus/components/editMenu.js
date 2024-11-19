@@ -21,7 +21,7 @@ export const EditMenu = ({ currentFilterState, editMenuData, closeModal }) => {
 	});
 	const onSubmit = (data) => {
 		const requestDet = {
-			url: updateMenuUrl(editMenuData.id),
+			url: updateMenuUrl({ id: editMenuData.id }),
 			data: { Name: data.Name }
 		};
 		mutate(requestDet, {

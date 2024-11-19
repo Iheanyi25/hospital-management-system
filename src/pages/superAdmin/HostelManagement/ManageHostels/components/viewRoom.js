@@ -6,9 +6,9 @@ import {
 	getGendersUrl,
 	deleteHostelRoomUrl,
 	getAllHostelsRoomUrl,
-	getAllLevels,
 	getUpaginatedHostelRoomCategories,
-	getGroupSelectionsUrl
+	getGroupSelectionsUrl,
+	getAllSelectLevels
 } from "../../../../../api/urls";
 import {
 	PageTitle,
@@ -31,7 +31,7 @@ import numberFormatter from "../../../../../utils/numberFormatter";
 
 const ViewRoom = () => {
 	const queryClient = useQueryClient();
-	const pageSize = PAGESIZE.sm;
+	const pageSize = PAGESIZE.xxl;
 	const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [open, setOpen] = useState(false);
@@ -39,6 +39,7 @@ const ViewRoom = () => {
 	const [editOpen, setEditOpen] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [currentData, setCurrentData] = useState({});
+
 	const { push } = useHistory();
 	const debounced = useDebouncedCallback((value) => {
 		setSearchTerm(value);
@@ -63,7 +64,7 @@ const ViewRoom = () => {
 		getGendersUrl()
 	);
 	const { data: levels, isLoading: isLoadingLevels } = useApiGet(
-		getAllLevels()
+		getAllSelectLevels()
 	);
 	const { data: categories, isLoading: isLoadingCatgories } = useApiGet(
 		getUpaginatedHostelRoomCategories()
@@ -72,6 +73,7 @@ const ViewRoom = () => {
 		data: activationStatuses,
 		isLoading: isLoadingHostelActivationStatus
 	} = useApiGet(getGroupSelectionsUrl());
+
 	const allGenders = formatSelectItems(genders?.data, "name", "id");
 	const allLevels = formatSelectItems(
 		levels?.data,
@@ -205,8 +207,11 @@ const ViewRoom = () => {
 								push({
 									pathname: `/hostel_management/manage_hostel/view_hostel/view_bedspaces`,
 									state: {
-										...row.original,
-										roomName: `${state?.name}`
+										...state,
+										bedSpaceState: {
+											...row.original,
+											roomName: `${state?.name}`
+										}
 									}
 								});
 							}
@@ -238,7 +243,7 @@ const ViewRoom = () => {
 				}
 			}
 		],
-		[pageNumber, push, state?.name, pageSize]
+		[pageNumber, push, state, pageSize]
 	);
 
 	if (
@@ -337,6 +342,7 @@ const ViewRoom = () => {
 					})}
 					closeModal={() => setBatchOpen(false)}
 					allActivationStatuses={allActivationStatuses}
+					rooms={data?.data?.items?.map((obj) => obj.id)}
 				/>
 			</CenteredDialog>
 			<div>

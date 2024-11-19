@@ -1,5 +1,12 @@
 import { Controller } from "react-hook-form";
-import { Jumbotron, Button, SMSelect } from "../../../../../../ui_elements";
+import {
+	Jumbotron,
+	Button,
+	SMSelect,
+	Spinner
+} from "../../../../../../ui_elements";
+import { useHistory } from "react-router-dom";
+import { fieldSetterAndClearer } from "../../../../../../utils/fieldSetterAndClearer";
 
 export const ViewAcceptanceFeeForm = ({
 	control,
@@ -9,15 +16,37 @@ export const ViewAcceptanceFeeForm = ({
 	setFilter,
 	handleSubmit,
 	isLoadingFeesToAssign,
-	allServiceTypes
+	allFaculties,
+	isFacultiesLoading,
+	faculties,
+	pageNumber,
+	pageSize,
+	searchTerm,
+	setValue
 }) => {
+	const { push } = useHistory();
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			...state,
-			session: formData.session.value,
+			sessionId: formData.sessionId.value,
 			studentTypeId: formData.studentTypeId.value,
+			facultyId: formData.facultyId.value,
+			pageNumber,
+			pageSize,
+			searchTerm
 		}));
+		push({
+			search: new URLSearchParams({
+				sessionId: formData.sessionId.value,
+				studentTypeId: formData.studentTypeId.value,
+				facultyId: formData.facultyId.value,
+				pageNumber,
+				pageSize,
+				searchTerm
+			}).toString()
+		});
 	};
+
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -41,24 +70,24 @@ export const ViewAcceptanceFeeForm = ({
 								<div className="col-lg-3 d-flex align-items-center">
 									<label
 										className="font-weight-bold"
-										htmlFor="session"
+										htmlFor="sessionId"
 									>
 										Session
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="session"
+										name="sessionId"
 										control={control}
 										rules={{ required: true }}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
-												id="session"
+												id="sessionId"
 												options={allSessions}
 												placeholder="Select Session"
 												searchable={true}
-												isError={!!errors.session}
+												isError={!!errors.sessionId}
 											/>
 										)}
 									/>
@@ -87,6 +116,17 @@ export const ViewAcceptanceFeeForm = ({
 												options={allStudentTypes}
 												id="studentTypeId"
 												searchable={false}
+												onChange={(value) =>
+													fieldSetterAndClearer({
+														value,
+														setterFunc: setValue,
+														setField:
+															"studentTypeId",
+														clearFields: [
+															"facultyId"
+														]
+													})
+												}
 												isError={!!errors.studentTypeId}
 											/>
 										)}
@@ -94,6 +134,42 @@ export const ViewAcceptanceFeeForm = ({
 								</div>
 							</div>
 						</div>
+						{isFacultiesLoading && (
+							<div className="col-md-6">
+								<Spinner />
+							</div>
+						)}
+						{faculties?.data?.length > 0 && (
+							<div className="col-md-6 mt-5">
+								<div className="row">
+									<div className="col-lg-3 d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="facultyId"
+										>
+											Faculty
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="facultyId"
+											control={control}
+											rules={{ required: true }}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select faculty"
+													options={allFaculties}
+													id="facultyId"
+													searchable={true}
+													isError={!!errors.facultyId}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						)}
 					</div>
 				</section>
 			</Jumbotron>

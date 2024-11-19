@@ -24,7 +24,15 @@ export const UploadSchema = yup.object().shape({
 				return Number(this.parent.Amount) >= Number(value);
 			}
 		),
-	ServiceTypeId: yup.mixed().required("please enter service type"),
+	ServiceTypeId: yup.mixed().required("please enter service types amount"),
 	PaymentType: yup.mixed().required("please enter payment types"),
-	PaymentPurpose: yup.mixed().required("please enter payment purpose")
+	DepartmentTypeId: yup.mixed().required("please enter your department"),
+	DepartmentOption: yup
+		.mixed()
+		.when("$isDepartmentOptionRequired", (isDepartmentOptionRequired, schema) => {
+			if (isDepartmentOptionRequired) {
+				return schema.required("Please enter your department option");
+			}
+			return schema.default(null);
+		})
 });

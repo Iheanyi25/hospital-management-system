@@ -4,7 +4,10 @@ import { Button, SMSelect, TextField } from "../../../../../ui_elements";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UploadSchema } from "./uploadSchema";
 import { useApiPost } from "../../../../../api/apiCall";
-import { createHostelRoomUrl, getAllHostelsRoomUrl } from "../../../../../api/urls";
+import {
+	createHostelRoomUrl,
+	getAllHostelsRoomUrl
+} from "../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { findValueAndLabel } from "../../../../../utils/findValueAndLabel";
 import { useState } from "react";
@@ -65,7 +68,6 @@ export const SingleUpload = ({
 		};
 		mutate(requestDet, {
 			onSuccess: () => {
-				console.log(filter);
 				queryClient.invalidateQueries(getAllHostelsRoomUrl(filter));
 				const successFlag = window.AJS.flag({
 					type: "success",

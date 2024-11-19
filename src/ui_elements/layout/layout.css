@@ -1,5 +1,6 @@
 .app-container {
 	background-color: var(--neutral-10);
+	padding-bottom: 100px;
 }
 
 .children {
@@ -56,7 +57,7 @@
 }
 
 @media (min-width: 768px) {
-	.children {
+	.children{
 		padding: 50px 5% 50px 5%;
 	}
 	.no-header-tab {

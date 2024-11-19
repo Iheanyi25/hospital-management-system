@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../style.module.css";
+import { formatDateFromAPI } from "../../../../utils/formatDate";
 
 export default function PersonalInfoPrintOut({ personalData }) {
 	const {
@@ -11,7 +12,7 @@ export default function PersonalInfoPrintOut({ personalData }) {
 		homeTown,
 		lga,
 		mobileNumber,
-		permanentAddres,
+		permanentAddress,
 		bloodGroup,
 		state,
 		middlename,
@@ -34,7 +35,7 @@ export default function PersonalInfoPrintOut({ personalData }) {
 					</div>
 					<div>
 						<div>Date of birth</div>
-						<div>{dateOfBirth}</div>
+						<div>{formatDateFromAPI(dateOfBirth)}</div>
 					</div>
 					<div>
 						<div>Country</div>
@@ -74,7 +75,7 @@ export default function PersonalInfoPrintOut({ personalData }) {
 					</div>
 					<div>
 						<div>Parmanent address</div>
-						<div>{permanentAddres || "nil"}</div>
+						<div>{permanentAddress || "nil"}</div>
 					</div>
 				</div>
 			</div>

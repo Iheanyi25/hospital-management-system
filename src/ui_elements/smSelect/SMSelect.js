@@ -70,13 +70,17 @@ export const SMSelect = forwardRef(
 		},
 		ref
 	) => {
+		const handleChange = async (value) => {
+			const awaitedValue = await value;
+			onChange(awaitedValue);
+		};
 		return (
 			<div className="d-flex">
 				<div style={{ width: selectWidth }}>
 					<Select
 						options={options}
 						placeholder={placeholder}
-						onChange={onChange}
+						onChange={handleChange}
 						styles={selectStyles({ isError })}
 						isDisabled={disabled}
 						isLoading={loading}
@@ -100,3 +104,4 @@ export const SMSelect = forwardRef(
 		);
 	}
 );
+

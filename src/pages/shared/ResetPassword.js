@@ -48,7 +48,10 @@ const ResetPassword = () => {
 						data: {
 							newPassword: data.newPassword,
 							authenticationToken: parsed?.w,
-							email: parsed?.q
+							email: parsed?.q,
+							...(parsed?.u && {
+								userId: parsed?.u
+							})
 						}
 				  }
 				: {

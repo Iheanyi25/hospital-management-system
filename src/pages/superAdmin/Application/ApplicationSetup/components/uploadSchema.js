@@ -12,7 +12,7 @@ export const UploadSchema = yup.object().shape({
 			(value) => Number(value) > 0
 		),
 	teneceCommission: yup
-		.mixed()
+		.string()
 		.required("please input tenece commission")
 		.test(
 			"Is positive?",
@@ -27,7 +27,25 @@ export const UploadSchema = yup.object().shape({
 			}
 		),
 	sessionId: yup.mixed().required("please choose a session"),
-	paymentType: yup.mixed().required("please choose a payment type"),
 	studentTypeId: yup.mixed().required("please choose a student type"),
-	serviceTypeId: yup.mixed().required("please choose a service type")
+	serviceTypeId: yup.mixed().required("please choose a service type"),
+	departmentId: yup
+		.mixed()
+		.when(
+			"$isChooseSelectionRquired",
+			(isChooseSelectionRquired, schema) => {
+				if (isChooseSelectionRquired)
+					return schema
+						.required("please select a department")
+						.test(
+							"test department length",
+							"select at least 1 department",
+							(value) => {
+								return value?.length > 0;
+							}
+						);
+				return schema.default(null);
+			}
+		),
+	groupSelectionId: yup.mixed().required("please select an action")
 });

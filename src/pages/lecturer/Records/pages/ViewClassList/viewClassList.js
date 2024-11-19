@@ -16,7 +16,7 @@ const ViewClassList = () => {
 	const { goBack } = useHistory();
 	const [pageNumber, setPageNumber] = useState(1);
 	const location = useLocation();
-	const pageSize = PAGESIZE.sm;
+	const pageSize = PAGESIZE.lg;
 
 	if (!location.state) goBack();
 
@@ -32,7 +32,7 @@ const ViewClassList = () => {
 	);
 	const crumbItems = [
 		{
-			name: "Results & Class List",
+			name: "My Courses",
 			path: "/records"
 		},
 		{

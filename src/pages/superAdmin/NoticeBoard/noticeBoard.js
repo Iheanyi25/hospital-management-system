@@ -167,7 +167,7 @@ const NoticeBoard = () => {
 					return (
 						<div className={styles.notice_info}>
 							<h3>
-								{row?.original?.name
+								{row?.original?.title
 									.split(/(\s+)/)
 									.slice(0, 4) ?? "-"}
 								...
@@ -238,11 +238,11 @@ const NoticeBoard = () => {
 				Cell: ({ cell: { row } }) => {
 					return (
 						<ToggleElement
-							checked={row.original.active}
+							checked={row.original.activated}
 							onChange={() =>
 								statusToggle(
 									row.original.id,
-									row.original.active
+									row.original.activated
 								)
 							}
 							isDisabled={isUpdating}

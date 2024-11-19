@@ -160,6 +160,9 @@ export default function ApproveCoursesForm({
 										<Controller
 											name="departmentOption"
 											control={control}
+											rules={{
+												required: true
+											}}
 											render={({ field }) => (
 												<SMSelect
 													{...field}

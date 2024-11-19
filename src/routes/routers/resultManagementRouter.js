@@ -20,11 +20,11 @@ export const ResultManagementRouter = ({
 				path: "/results/classlist",
 				disabled: false
 			},
-			{
-				title: "View Result Sheets",
-				path: "/results/view_result_sheets",
-				disabled: false
-			}
+			// {
+			// 	title: "View Result Sheets",
+			// 	path: "/results/view_result_sheets",
+			// 	disabled: false
+			// }
 		],
 		[]
 	);

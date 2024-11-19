@@ -13,7 +13,7 @@ import { EditStatus } from "./components";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useApiGet } from "../../../../../api/apiCall";
-import { geRegisteredCoursesForApprovalUrl } from "../../../../../api/urls";
+import { getCoursesToAddOrDropUrl } from "../../../../../api/urls";
 
 const ViewCoursesRegistered = () => {
 	const [editOpen, setEditOpen] = useState(false);
@@ -29,25 +29,28 @@ const ViewCoursesRegistered = () => {
 			path: ""
 		}
 	];
-	const { studentId, sessionId, semesterId, levelId } = state?.data;
+	const { sessionId, semesterId, userId } = state?.data;
+
 	const { data, isLoading, error } = useApiGet(
-		geRegisteredCoursesForApprovalUrl({
-			studentId,
+		getCoursesToAddOrDropUrl({
 			sessionId,
-			semester: semesterId,
-			levelId
+			semesterId,
+			userId
 		})
 	);
 
 	const details = [
-		{ title: "Full Name", value: data?.data?.studentData.fullname },
-		{ title: "Entry Mode", value: data?.data?.studentData.studentModeOfEntry },
-		{ title: "Matric No", value: data?.data?.studentData.matricNumber },
-		{ title: "Level", value: data?.data?.studentData.level },
-		{ title: "Faculty", value: data?.data?.studentData.faculty },
-		{ title: "Session", value: data?.data?.studentData.session },
-		{ title: "Department", value: data?.data?.studentData.department },
-		{ title: "Semester", value: data?.data?.studentData.semester }
+		{ title: "Full Name", value: data?.data?.studentProfile?.fullname },
+		{
+			title: "Entry Mode",
+			value: data?.data?.studentProfile?.modeOfEntry
+		},
+		{ title: "Matric No", value: data?.data?.studentProfile?.matricNumber },
+		{ title: "Level", value: data?.data?.studentProfile?.level },
+		{ title: "Faculty", value: data?.data?.studentProfile?.faculty },
+		{ title: "Session", value: data?.data?.session },
+		{ title: "Department", value: data?.data?.studentProfile?.department },
+		{ title: "Semester", value: data?.data?.semester }
 	];
 	if (isLoading) return <Spinner />;
 	if (error)
@@ -60,16 +63,17 @@ const ViewCoursesRegistered = () => {
 				isOpen={editOpen}
 				closeModal={() => setEditOpen(false)}
 				width={605}
-				formTitle="Edit registerd course status"
+				formTitle="Edit registered course status"
 			>
 				<EditStatus
 					status={data?.data?.status}
+					levelId={data?.data?.levelId}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
 			<Breadcrumbs crumbs={crumbs} />
 			<PageTitle
-				title={`Course Registration for  ${data?.data?.studentData.matricNumber}`}
+				title={`Course Registration for  ${data?.data?.studentProfile?.matricNumber}`}
 				buttonGroup={
 					<Button
 						data-cy="update"
@@ -95,14 +99,14 @@ const ViewCoursesRegistered = () => {
 					<PersonnelCard
 						details={details}
 						user={{
-							fullName: data?.data?.studentData.fullName,
-							passPort: data?.data?.studentData.passPort
+							fullName: data?.data?.studentProfile?.fullname,
+							passPort: data?.data?.studentProfile?.passPort
 						}}
 					/>
 				</div>
 
 				<CourseOverviewTable
-					courses={data?.data?.courses}
+					courses={data?.data?.registerableCourses}
 					noCourseApprovalStatus
 				/>
 			</div>

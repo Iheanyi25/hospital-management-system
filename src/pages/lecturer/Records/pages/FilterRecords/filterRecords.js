@@ -36,7 +36,7 @@ const FilterRecords = () => {
 				<div className="col-12 col-md-1"></div>
 				<div className="col-12 col-md-10">
 					<header className="mt-2">
-						<PageTitle title="Results and Class List" />
+						<PageTitle title="My Courses" />
 					</header>
 					<main className={styles.page_content}>
 						<form onSubmit={handleSubmit(onSubmit)}>

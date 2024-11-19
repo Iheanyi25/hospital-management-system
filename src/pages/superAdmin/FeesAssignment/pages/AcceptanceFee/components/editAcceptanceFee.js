@@ -14,9 +14,11 @@ export const EditAcceptanceFee = ({
 	data,
 	filter,
 	closeModal,
-	allServiceTypes
+	allServiceTypes,
+	searchTerm,
+	pageNumber
 }) => {
-	const { id, studentTypeId, sessionId, serviceTypeId } = data;
+	const { id, studentTypeId, sessionId, serviceTypeId, departmentId } = data;
 	const queryClient = useQueryClient();
 	const { mutate, isLoading } = useApiPut();
 	const {
@@ -39,6 +41,7 @@ export const EditAcceptanceFee = ({
 			data: {
 				studentTypeId,
 				sessionId,
+				departmentId,
 				Amount: data.Amount,
 				TeneceCommission: data.TeneceCommission,
 				serviceTypeId: data.ServiceTypeId.value
@@ -48,8 +51,12 @@ export const EditAcceptanceFee = ({
 			onSuccess: () => {
 				queryClient.invalidateQueries(
 					getAcceptanceFeesUrl({
-						sessionId: filter.session,
-						studentTypeId: filter.studentTypeId
+						sessionId: filter.sessionId,
+						studentTypeId: filter.studentTypeId,
+						facultyId: filter.facultyId,
+						searchTerm: searchTerm,
+						pageNumber: pageNumber,
+						pageSize: filter.pageSize
 					})
 				);
 				closeModal();
@@ -88,7 +95,7 @@ export const EditAcceptanceFee = ({
 						control={control}
 						render={({ field }) => (
 							<TextField
-								type="number"
+								type="text"
 								placeholder="Enter amount"
 								id="Amount"
 								error={errors.Amount}
@@ -112,7 +119,7 @@ export const EditAcceptanceFee = ({
 						control={control}
 						render={({ field }) => (
 							<TextField
-								type="number"
+								type="text"
 								placeholder="Enter commission"
 								register={register}
 								id="TeneceCommission"

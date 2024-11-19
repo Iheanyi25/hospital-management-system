@@ -1,12 +1,14 @@
 import {
 	SharedRouter,
 	PreviewRouter,
-	UnathorisedRouter
+	UnathorisedRouter,
+	SundryRouter
 } from "../routers/index";
 import ForgotPassword from "../../pages/shared/ForgotPassword";
 import { lazy } from "react";
 
 const LazyHome = lazy(() => import("../../pages/shared/Home/home"));
+const LazyChangeEmail = lazy(() => import("../../pages/shared/ChangeEmail"));
 const LazyLogin = lazy(() => import("../../pages/shared/Login/login"));
 const LazyResetPassword = lazy(() =>
 	import("../../pages/shared/ResetPassword")
@@ -26,9 +28,25 @@ const LazyImpersonationLogin = lazy(() =>
 const LazyVerifyConfirmation = lazy(() =>
 	import("../../pages/shared/VerifyConfirmation")
 );
+const LazySundrySelection = lazy(() =>
+	import("../../pages/shared/SundryPayments/pages/SundrySelection")
+);
+const LazyTranscript = lazy(() =>
+	import("../../pages/shared/Transcript/transcript")
+);
 const LazyGenerateJupebStudentsPaymentInvoice = lazy(() =>
 	import(
 		"../../pages/shared/JupebStudents/pages/GenerateJupebStudentsPaymentInvoice/generateJupebStudentsPaymentInvoice"
+	)
+);
+const LazyGenerateUniversityTransferPaymentInvoice = lazy(() =>
+	import(
+		"../../pages/shared/InterUniversityTransfer/UniTransferStudents/pages/GenerateUniTransferPaymentInvoice/generateUniTransferPaymentInvoice"
+	)
+);
+const LazyUniTransferStudentsInvoice = lazy(() =>
+	import(
+		"../../pages/shared/InterUniversityTransfer/UniTransferStudents/pages/Invoice/uniTransferStudentsInvoice"
 	)
 );
 const LazyJupebStudentsInvoice = lazy(() =>
@@ -36,20 +54,30 @@ const LazyJupebStudentsInvoice = lazy(() =>
 		"../../pages/shared/JupebStudents/pages/Invoice/JupebStudentsInvoice"
 	)
 );
+const LazyGeneratePGStudentsPaymentInvoice = lazy(() =>
+	import(
+		"../../pages/shared/PGStudentsInvoice/pages/GenerateStudentsPaymentInvoice/generateStudentsPaymentInvoice"
+	)
+);
+const LazyGenerateCCEInvoice = lazy(() =>
+	import(
+		"../../pages/shared/CSEInvoiceGeneration/pages/GenerateCSEInvoice/generateCSEInvoice"
+	)
+);
 const LazyGenerateJambPaymentInvoice = lazy(() =>
 	import(
 		"../../pages/shared/JambStudents/pages/GenerateJambPaymentInvoice/generateJambPaymentInvoice"
 	)
 );
-const LazyGenerateCSEInvoice = lazy(() =>
+const LazyGenerateHNDInvoice = lazy(() => 
 	import(
-		"../../pages/shared/CSEInvoiceGeneration/pages/GenerateCSEInvoice/generateCSEInvoice"
+		"../../pages/shared/HNDApplication/generateHNDInvoice"
 	)
 );
 const LazyJambStudentsInvoice = lazy(() =>
 	import("../../pages/shared/JambStudents/pages/Invoice/jambStudentsInvoice")
 );
-const LazyCSEInvoice = lazy(() =>
+const LazyCCEInvoice = lazy(() =>
 	import("../../pages/shared/CSEInvoiceGeneration/pages/Invoice/CSEInvoice")
 );
 const LazyJupebApplicationLogin = lazy(() =>
@@ -60,6 +88,28 @@ const LazyJupebApplication = lazy(() =>
 );
 const LazyJupebApplicationPreview = lazy(() =>
 	import("../../pages/shared/JupebApplication/jupebApplicationPreview")
+);
+const LazyHNDLogin = lazy(() =>
+	import("../../pages/shared/HNDApplication/hndLogin")
+);
+const LazyHNDApplication = lazy(() =>
+	import("../../pages/shared/HNDApplication/hndApplication")
+);
+const LazyHNDApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/HNDApplication/HndApplicationDetails/hndApplicationDetails"
+	)
+);
+const LazyNDLogin = lazy(() =>
+	import("../../pages/shared/NDApplication/ndLogin")
+);
+const LazyNDApplication = lazy(() =>
+	import("../../pages/shared/NDApplication/ndApplication")
+);
+const LazyNDApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/NDApplication/NDApplicationDetails/ndApplicationDetails"
+	)
 );
 const LazyPutmeLogin = lazy(() =>
 	import("../../pages/shared/PUTMEApplication/putmeLogin")
@@ -75,9 +125,36 @@ const LazyPutmeApplicationDetails = lazy(() =>
 const LazyPutmePreview = lazy(() =>
 	import("../../pages/shared/PUTMEApplication/putmePreview")
 );
-// const LazyProspectiveStudents = lazy(() =>
-// 	import("../../pages/shared/ProspectiveStudents/prospectiveStudents")
-// );
+const LazySupplementaryLogin = lazy(() =>
+	import("../../pages/shared/SupplementaryApplication/supplementaryLogin")
+);
+const LazyPreDegreeLogin = lazy(() =>
+	import("../../pages/shared/PreDegreeApplication/preDegreeLogin")
+);
+const LazyPreDegreeApplication = lazy(() =>
+	import("../../pages/shared/PreDegreeApplication/preDegreeApplication")
+);
+const LazyPredegreeApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/PreDegreeApplication/PreDegreeApplicationDetails/preDegreeApplicationDetails"
+	)
+);
+const LazySupplementaryApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/SupplementaryApplication/SupplementaryApplicationDetails/supplementaryApplicationDetails"
+	)
+);
+const LazySupplementaryPreview = lazy(() =>
+	import("../../pages/shared/SupplementaryApplication/supplementaryPreview")
+);
+const LazySupplementaryApplication = lazy(() =>
+	import(
+		"../../pages/shared/SupplementaryApplication/supplementaryApplication"
+	)
+);
+const LazyProspectiveStudents = lazy(() =>
+	import("../../pages/shared/ProspectiveStudents/prospectiveStudents")
+);
 const LazyAdmissionStatusInvoice = lazy(() =>
 	import(
 		"../../pages/shared/ProspectiveStudents/components/AdmissionStatusInvoice/admissionStatusInvoice"
@@ -88,6 +165,12 @@ const LazyUnauthorized = lazy(() =>
 );
 const LazyPGLogin = lazy(() =>
 	import("../../pages/shared/PGApplication/pgLogin")
+);
+const LazyDiplomaLogin = lazy(() =>
+	import("../../pages/shared/DiplomaApplication/diplomaLogin")
+);
+const LazyDiplomaApplication = lazy(() =>
+	import("../../pages/shared/DiplomaApplication/diplomaApplication")
 );
 const LazyPGApplication = lazy(() =>
 	import("../../pages/shared/PGApplication/pgApplication")
@@ -103,6 +186,19 @@ const LazyPGApplicationDetails = lazy(() =>
 const LazyPGReferenceForm = lazy(() =>
 	import("../../pages/shared/PGApplication/pgReferenceForm")
 );
+
+const LazyUniTransferLogin = lazy(() =>
+	import("../../pages/shared/InterUniversityTransfer/uniTransferLogin")
+);
+const LazyUniTransferApplication = lazy(() =>
+	import("../../pages/shared/InterUniversityTransfer/uniTransferApplication")
+);
+const LazyUniTransferApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/InterUniversityTransfer/UniTransferApplicationDetails/uniTransferApplicationDetails"
+	)
+);
+
 const LazyGenerateOtherStudentsPaymentInvoice = lazy(() =>
 	import(
 		"../../pages/shared/OtherStudents/pages/GenerateOtherStudentsPaymentInvoice/generateOtherStudentsPaymentInvoice"
@@ -111,24 +207,6 @@ const LazyGenerateOtherStudentsPaymentInvoice = lazy(() =>
 const LazyOtherStudentsInvoice = lazy(() =>
 	import(
 		"../../pages/shared/OtherStudents/pages/Invoice/otherStudentsInvoice"
-	)
-);
-
-const LazyCenterOfSafetyApplication = lazy(() =>
-	import(
-		"../../pages/shared/CenterOfSafetyApplication/centerOfSafetyApplication"
-	)
-);
-
-const LazyCenterOfSafetyApplicationLogin = lazy(() =>
-	import(
-		"../../pages/shared/CenterOfSafetyApplication/centerOfSafetyApplicationLogin"
-	)
-);
-
-const LazyCenterOfSafetyApplicationPreview = lazy(() =>
-	import(
-		"../../pages/shared/CenterOfSafetyApplication/centerOfSafetyApplicationPreview"
 	)
 );
 
@@ -144,10 +222,121 @@ const LazyDirectEntryPreview = lazy(() =>
 	import("../../pages/shared/DirectEntryApplication/directEntryPreview")
 );
 
+const LazySupplementaryPutmeLogin = lazy(() =>
+	import(
+		"../../pages/shared/SupplementaryPutmeApplication/supplementaryPutmeLogin"
+	)
+);
+
+const LazySupplementaryPutmeApplications = lazy(() =>
+	import(
+		"../../pages/shared/SupplementaryPutmeApplication/supplementaryPutmeApplication"
+	)
+);
+
+const LazySupplementaryPutmePreview = lazy(() =>
+	import(
+		"../../pages/shared/SupplementaryPutmeApplication/supplementaryPutmePreview"
+	)
+);
+
+const LazyCCELogin = lazy(() =>
+	import("../../pages/shared/CCEApplication/cceLogin")
+);
+
+const LazyCCEApplications = lazy(() =>
+	import("../../pages/shared/CCEApplication/cceApplication")
+);
+
+const LazyCCEPreview = lazy(() =>
+	import("../../pages/shared/CCEApplication/ccePreview")
+);
+const LazySundryInvoice = lazy(() =>
+	import(
+		"../../pages/shared/SundryPayments/pages/SundryInvoice/sundryInvoice"
+	)
+);
+const LazyStaffRequestInvoice = lazy(() =>
+	import("../../pages/shared/StaffRequest/pages/Invoice/staffRequestInvoice")
+);
+const LazyStaffRequestStudent = lazy(() =>
+	import(
+		"../../pages/shared/StaffRequest/pages/GenerateStaffRequestPaymentInvoice/generateStaffRequestPaymentInvoice"
+	)
+);
+const LazyStaffRequestLogin = lazy(() =>
+	import("../../pages/shared/StaffRequestApplication/staffRequestLogin")
+);
+
+const LazyStaffRequestApplications = lazy(() =>
+	import("../../pages/shared/StaffRequestApplication/staffRequestApplication")
+);
+
+const LazyStaffRequestPreview = lazy(() =>
+	import("../../pages/shared/StaffRequestApplication//staffRequestPreview")
+);
+
+const LazyDiplomaPreview = lazy(() =>
+	import("../../pages/shared/DiplomaApplication/diplomaPreview")
+);
+const LazyPostGraduateLandingPage = lazy(() =>
+	import("../../pages/shared/PostGraduateLandingPage/postGraduateLandingPage")
+);
+const LazyFourYearSandwichLogin = lazy(() =>
+	import(
+		"../../pages/shared/FourYearSandwichApplication/fourYearSandwichLogin"
+	)
+);
+const LazyFourYearSandwichApplication = lazy(() =>
+	import(
+		"../../pages/shared/FourYearSandwichApplication/fourYearSandwichApplication"
+	)
+);
+const LazyFourYearSandwichApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/FourYearSandwichApplication/FourYearSandwichApplicationDetails/fourYearSandwichApplicationDetails"
+	)
+);
+const LazyFiveYearSandwichLogin = lazy(() =>
+	import(
+		"../../pages/shared/FiveYearSandwichApplication/fiveYearSandwichLogin"
+	)
+);
+const LazyFiveYearSandwichApplication = lazy(() =>
+	import(
+		"../../pages/shared/FiveYearSandwichApplication/fiveYearSandwichApplication"
+	)
+);
+const LazyFiveYearSandwichApplicationDetails = lazy(() =>
+	import(
+		"../../pages/shared/FiveYearSandwichApplication/FiveYearSandwichApplicationDetails/fiveYearSandwichApplicationDetails"
+	)
+);
+
+const LazyInvoicePutmeSlip = lazy(() =>
+	import("../../pages/shared/PUTMEApplication/Invoice/putmeScreeningDetails")
+);
+
+const LazySundryPaymentHistory = lazy(() =>
+	import(
+		"../../pages/shared/SundryPayments/pages/PaymentHistory/paymentHistory"
+	)
+);
+
+const LazyFeeReceipt = lazy(() =>
+	import("../../pages/shared/SundryPayments/pages/feeReceipt")
+);
+
+const LazyCleranceForms = lazy(() => import("../../pages/shared/components"));
 export const sharedRoutes = [
 	{
 		path: "/",
 		component: LazyHome,
+		exact: true
+	},
+	{
+		path: "/post_graduate_portal",
+		component: LazyPostGraduateLandingPage,
 		exact: true
 	},
 	{
@@ -163,6 +352,11 @@ export const sharedRoutes = [
 	{
 		path: "/reset_password",
 		component: LazyResetPassword,
+		exact: true
+	},
+	{
+		path: "/change_email",
+		component: LazyChangeEmail,
 		exact: true
 	},
 	{
@@ -192,20 +386,26 @@ export const sharedRoutes = [
 		exact: true
 	},
 	{
-		path: "/generate_sub_degree_invoice",
-		component: LazyGenerateJupebStudentsPaymentInvoice,
-		router: SharedRouter,
+		path: "/bursary_collection/all",
+		router: SundryRouter,
+		component: LazySundrySelection,
 		exact: true
 	},
 	{
-		path: "/jupeb_students_invoice",
-		component: LazyJupebStudentsInvoice,
-		router: SharedRouter,
+		path: "/sundry/transcript",
+		router: SundryRouter,
+		component: LazyTranscript,
 		exact: true
 	},
 	{
 		path: "/generate_jamb_students_invoice",
 		component: LazyGenerateJambPaymentInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/generate_hnd_invoice",
+		component: LazyGenerateHNDInvoice,
 		router: SharedRouter,
 		exact: true
 	},
@@ -216,35 +416,112 @@ export const sharedRoutes = [
 		exact: true
 	},
 	{
-		path: "/generate_cse_invoice",
-		component: LazyGenerateCSEInvoice,
+		path: "/generate_staff_request_invoice",
+		component: LazyStaffRequestStudent,
+		router: SharedRouter,
+		exact: true
+	},
+
+	{
+		path: "/staff_request_invoice",
+		component: LazyStaffRequestInvoice,
 		router: SharedRouter,
 		exact: true
 	},
 	{
-		path: "/cse_students_invoice",
-		component: LazyCSEInvoice,
+		path: "/generate_application_invoice",
+		component: LazyGenerateJupebStudentsPaymentInvoice,
 		router: SharedRouter,
 		exact: true
 	},
 	{
-		path: "/sub_degree_login",
+		path: "/generate_inter_university_invoice",
+		component: LazyGenerateUniversityTransferPaymentInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/uni_transfer_students_invoice",
+		component: LazyUniTransferStudentsInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/jupeb_students_invoice",
+		component: LazyJupebStudentsInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/pg_students_invoice",
+		component: LazyGeneratePGStudentsPaymentInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/generate_cce_invoice",
+		component: LazyGenerateCCEInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/cce_students_invoice",
+		component: LazyCCEInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/jupeb_login",
 		component: LazyJupebApplicationLogin,
 		exact: true
 	},
+
 	{
-		path: "/sub_degree_application",
+		path: "/jupeb_application",
 		router: SharedRouter,
 		component: LazyJupebApplication,
 		exact: true
 	},
 	{
-		path: "/sub_degree_application/preview",
+		path: "/jupeb_application/preview",
 		router: PreviewRouter,
 		component: LazyJupebApplicationPreview,
 		exact: true
 	},
-	{ path: "/putme_login", component: LazyPutmeLogin, exact: true },
+	{
+		path: "/hnd_login",
+		component: LazyHNDLogin,
+		exact: true
+	},
+	{
+		path: "/hnd_application",
+		router: SharedRouter,
+		component: LazyHNDApplication,
+		exact: true
+	},
+	{
+		path: "/hnd_application_details",
+		router: SharedRouter,
+		component: LazyHNDApplicationDetails,
+		exact: true
+	},
+	{
+		path: "/nd_login",
+		component: LazyNDLogin,
+		exact: true
+	},
+	{
+		path: "/nd_application",
+		router: SharedRouter,
+		component: LazyNDApplication,
+		exact: true
+	},
+	{
+		path: "/nd_application_details",
+		router: SharedRouter,
+		component: LazyNDApplicationDetails,
+		exact: true
+	},
 	{
 		path: "/putme_application",
 		router: SharedRouter,
@@ -263,12 +540,57 @@ export const sharedRoutes = [
 		component: LazyPutmePreview,
 		exact: true
 	},
-	// {
-	// 	path: "/prospective_students",
-	// 	router: SharedRouter,
-	// 	component: LazyProspectiveStudents,
-	// 	exact: true
-	// },
+	{
+		path: "/supplementary_login",
+		component: LazySupplementaryLogin,
+		exact: true
+	},
+	{
+		path: "/supplementary_application",
+		router: SharedRouter,
+		component: LazySupplementaryApplication,
+		exact: true
+	},
+	{
+		path: "/pre_degree_login",
+		component: LazyPreDegreeLogin,
+		exact: true
+	},
+	{
+		path: "/pre_degree_application",
+		router: SharedRouter,
+		component: LazyPreDegreeApplication,
+		exact: true
+	},
+	{
+		path: "/pre_degree_application_details",
+		router: SharedRouter,
+		component: LazyPredegreeApplicationDetails,
+		exact: true
+	},
+	{
+		path: "/supplementary_application_details",
+		router: SharedRouter,
+		component: LazySupplementaryApplicationDetails,
+		exact: true
+	},
+	{
+		path: "/supplementary_application/preview",
+		router: PreviewRouter,
+		component: LazySupplementaryPreview,
+		exact: true
+	},
+	{
+		path: "/putme_login",
+		component: LazyPutmeLogin,
+		exact: true
+	},
+	{
+		path: "/prospective_students",
+		router: SharedRouter,
+		component: LazyProspectiveStudents,
+		exact: true
+	},
 	{
 		path: "/admission_status_reciepts",
 		router: SharedRouter,
@@ -283,24 +605,25 @@ export const sharedRoutes = [
 		title: "Unauthorized access"
 	},
 	{
-		path: "/center_of_safety_login",
-		component: LazyCenterOfSafetyApplicationLogin,
-		exact: true
-	},
-	{
-		path: "/center_of_safety_application",
-		router: SharedRouter,
-		component: LazyCenterOfSafetyApplication,
-		exact: true
-	},
-	{
-		path: "/center_of_safety_application/preview",
-		router: PreviewRouter,
-		component: LazyCenterOfSafetyApplicationPreview
-	},
-	{
 		path: "/pg_login",
 		component: LazyPGLogin,
+		exact: true
+	},
+	{
+		path: "/diploma_login",
+		component: LazyDiplomaLogin,
+		exact: true
+	},
+	{
+		path: "/diploma_application",
+		router: SharedRouter,
+		component: LazyDiplomaApplication,
+		exact: true
+	},
+	{
+		path: "/diploma_preview",
+		router: SharedRouter,
+		component: LazyDiplomaPreview,
 		exact: true
 	},
 	{
@@ -326,7 +649,23 @@ export const sharedRoutes = [
 		exact: true
 	},
 	{
-		path: "/generate_other_students_invoice",
+		path: "/uni_transfer_login",
+		component: LazyUniTransferLogin,
+		exact: true
+	},
+	{
+		path: "/uni_transfer_application",
+		router: SharedRouter,
+		component: LazyUniTransferApplication,
+		exact: true
+	},
+	{
+		path: "/uni_transfer_application_details",
+		router: SharedRouter,
+		component: LazyUniTransferApplicationDetails
+	},
+	{
+		path: "/generate_students_invoice",
 		component: LazyGenerateOtherStudentsPaymentInvoice,
 		router: SharedRouter,
 		exact: true
@@ -353,6 +692,120 @@ export const sharedRoutes = [
 		router: PreviewRouter,
 		component: LazyDirectEntryPreview,
 
+		exact: true
+	},
+	{
+		path: "/supplementary_putme_login",
+		component: LazySupplementaryPutmeLogin,
+		exact: true
+	},
+	{
+		path: "/supplementary_putme_application",
+		router: SharedRouter,
+		component: LazySupplementaryPutmeApplications,
+		exact: true
+	},
+	{
+		path: "/supplementary_putme_application/preview",
+		router: PreviewRouter,
+		component: LazySupplementaryPutmePreview,
+
+		exact: true
+	},
+	{
+		path: "/cce_login",
+		component: LazyCCELogin,
+		exact: true
+	},
+	{
+		path: "/cce_application",
+		router: SharedRouter,
+		component: LazyCCEApplications,
+		exact: true
+	},
+	{
+		path: "/cce_application/preview",
+		router: PreviewRouter,
+		component: LazyCCEPreview,
+
+		exact: true
+	},
+	{
+		path: "/sundry_reciepts",
+		component: LazySundryInvoice,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/staff_request_login",
+		component: LazyStaffRequestLogin,
+		exact: true
+	},
+	{
+		path: "/staff_request_application",
+		router: SharedRouter,
+		component: LazyStaffRequestApplications,
+		exact: true
+	},
+	{
+		path: "/staff_request_application/preview",
+		router: PreviewRouter,
+		component: LazyStaffRequestPreview,
+
+		exact: true
+	},
+	{
+		path: "/four_year_sandwich_login",
+		component: LazyFourYearSandwichLogin,
+		exact: true
+	},
+	{
+		path: "/four_year_sandwich_application",
+		router: SharedRouter,
+		component: LazyFourYearSandwichApplication,
+		exact: true
+	},
+	{
+		path: "/four_year_sandwich_application_details",
+		router: SharedRouter,
+		component: LazyFourYearSandwichApplicationDetails
+	},
+	{
+		path: "/five_year_sandwich_login",
+		component: LazyFiveYearSandwichLogin,
+		exact: true
+	},
+	{
+		path: "/five_year_sandwich_application",
+		router: SharedRouter,
+		component: LazyFiveYearSandwichApplication,
+		exact: true
+	},
+	{
+		path: "/five_year_sandwich_application_details",
+		router: SharedRouter,
+		component: LazyFiveYearSandwichApplicationDetails
+	},
+	{
+		path: "/invoice_generate_putme_slip",
+		router: SharedRouter,
+		component: LazyInvoicePutmeSlip
+	},
+	{
+		path: "/sundry/payment_history",
+		router: SundryRouter,
+		component: LazySundryPaymentHistory,
+		exact: true
+	},
+	{
+		path: "/fee_receipt",
+		component: LazyFeeReceipt,
+		router: SharedRouter,
+		exact: true
+	},
+	{
+		path: "/components_clerance_form",
+		component: LazyCleranceForms,
 		exact: true
 	}
 ];

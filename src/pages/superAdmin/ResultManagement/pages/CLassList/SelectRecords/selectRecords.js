@@ -1,7 +1,7 @@
 import { PageTitle, Spinner } from "../../../../../../ui_elements";
 import queryString from "query-string";
 import styles from "./style.module.css";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../../../api/apiCall";
 import {
@@ -10,8 +10,9 @@ import {
 	yearOfStudyUrl,
 	getStudentTypesUrl,
 	getCoursesAssignedToDeptsUrl,
-	getLecturerDepartmentsUrl,
-	getStudentModeOfEntryUrl
+	getDepartmentsUrl,
+	getStudentModeOfEntryUrl,
+	studentCompositeResultsUrl
 } from "../../../../../../api/urls";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
 import { SelectRecordsForm, SelectRecordsTable } from "./components";
@@ -22,8 +23,24 @@ import {
 } from "../../../../../../utils/constants";
 import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
 import { useDebouncedCallback } from "use-debounce";
+import { useReactToPrint } from "react-to-print";
+import { CollegeSheet } from "../CompositeSheet/component/collegeSheet";
 
 const SelectResultRecords = () => {
+	const [makeRequest, setMakeRequest] = useState(false);
+	const componentRef = useRef();
+
+	const handlePrint = useReactToPrint({
+		content: () => componentRef?.current,
+		pageStyle: `@media print {
+			@page {
+			  size: auto;
+			}
+		  }`
+	});
+	const [details, setDetails] = useState({});
+	const [tableData, setData] = useState([]);
+
 	const parsed = queryString.parse(window.location.search);
 	const [watchData, setWatchData] = useState({
 		departmentId: parsed?.departmentId || "",
@@ -36,7 +53,7 @@ const SelectResultRecords = () => {
 		sessionId: parsed?.sessionId || "",
 		semesterId: parsed?.semesterId || "",
 		levelId: parsed?.levelId || "",
-		studentModeOfEntryId: parsed?.studentModeOfEntryId || "",
+		modeOfEntryId: parsed?.modeOfEntryId || "",
 		pageSize: PAGESIZE.sm
 	});
 
@@ -61,6 +78,119 @@ const SelectResultRecords = () => {
 			keepPreviousData: true
 		}
 	);
+
+	const {
+		data: compositeSheet,
+		isLoading: isLoadingCompositeSheet,
+		error: errorCompositeSheet
+	} = useApiGet(
+		studentCompositeResultsUrl({
+			levelId: details?.levelId?.value,
+			departmentId: details?.departmentId?.value,
+			departmentOptionId: details?.departmentOptionId?.value,
+			sessionId: details?.sessionId?.value,
+			semesterId: details?.semesterId?.value,
+			studentTypeId: details?.studentTypeId?.value
+		}),
+		{
+			enabled: !!makeRequest,
+			refetchOnWindowFocus: false
+		}
+	);
+
+	const getStudentData = useCallback(() => {
+		return compositeSheet?.data?.studentCourses?.map((student, i) => {
+			const registerCourses = {};
+
+			student?.registeredCourses.forEach((registeredCourse) => {
+				registerCourses[registeredCourse.courseCode] = registeredCourse;
+			});
+
+			const subjects = compositeSheet.data.courses?.map((course) => {
+				if (registerCourses[course.courseCode]) {
+					return {
+						courseCode: course.courseCode,
+						grade: registerCourses[course.courseCode].grade,
+						gradePoint:
+							registerCourses[course.courseCode].gradePoint,
+						totalScore:
+							registerCourses[course.courseCode].totalScore
+					};
+				} else {
+					return {
+						courseCode: course.courseCode,
+						grade: "-",
+						gradePoint: "-",
+						totalScore: "-"
+					};
+				}
+			});
+
+			return {
+				id: i + 1,
+				name: student?.fullName,
+				regNo: student?.registrationNumber,
+				cumulativeSemesterDataResponse:
+					student?.cumulativeSemesterDataResponse,
+				currentSemesterDataResponse:
+					student?.currentSemesterDataResponse,
+				...(student?.previousSemesterDataResponse && {
+					previousSemesterDataResponse:
+						student?.previousSemesterDataResponse
+				}),
+				subjects: subjects,
+				outStandingCourses: student?.outStandingCourses,
+				remark: student?.remark
+			};
+		});
+	}, [compositeSheet]);
+
+	function sliceIntoChunks(arr, chunkSize) {
+		const res = [];
+		for (let i = 0; i < arr?.length; i += chunkSize) {
+			const chunk = arr?.slice(i, i + chunkSize);
+			res.push(chunk);
+		}
+		return res;
+	}
+	useEffect(() => {
+		if (
+			compositeSheet?.success &&
+			makeRequest &&
+			!isLoadingCompositeSheet
+		) {
+			setMakeRequest(false);
+			setData(sliceIntoChunks(getStudentData(), getStudentData().length));
+			setTimeout(() => {
+				handlePrint();
+			}, 1000);
+		}
+		if (errorCompositeSheet && makeRequest && !isLoadingCompositeSheet) {
+			setMakeRequest(false);
+			const errorFlag = window.AJS.flag({
+				type: "error",
+				title: "Invalid Action!",
+				body:
+					errorCompositeSheet?.response?.data?.message ||
+					`Invalid action, please enter correct details`
+			});
+			setTimeout(() => {
+				errorFlag.close();
+			}, 5000);
+		}
+	}, [
+		compositeSheet,
+		errorCompositeSheet,
+		makeRequest,
+		isLoadingCompositeSheet,
+		getStudentData,
+		handlePrint
+	]);
+	const handleCompositeSubmit = (info) => {
+		console.log(info, "kdkdk");
+		setDetails({ ...info });
+		setMakeRequest(true);
+	};
 	const {
 		control,
 		watch,
@@ -69,11 +199,12 @@ const SelectResultRecords = () => {
 		formState: { errors }
 	} = useForm();
 	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
-	const {
-		data: departments,
-		isLoading: isDepartmentLoading,
-		error: departmentError
-	} = useApiGet(getLecturerDepartmentsUrl());
+	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
+		getDepartmentsUrl(watchData?.studentTypeId),
+		{
+			enabled: !!watchData?.studentTypeId
+		}
+	);
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
 		useApiGet(
 			getDepartmentOptionUrl({
@@ -136,7 +267,7 @@ const SelectResultRecords = () => {
 			levelId,
 			sessionId,
 			semesterId,
-			studentModeOfEntryId
+			modeOfEntryId
 		} = filter;
 		// setting this value from watch data to prevent the value resetting anytime the state is upadated
 		if (watchData.departmentId) {
@@ -156,10 +287,10 @@ const SelectResultRecords = () => {
 				"studentTypeId",
 				findValueAndLabel(watchData.studentTypeId, allStudentTypes)
 			);
-		if (studentModeOfEntryId)
+		if (modeOfEntryId)
 			setValue(
-				"studentModeOfEntryId",
-				findValueAndLabel(studentModeOfEntryId, allStudentModes)
+				"modeOfEntryId",
+				findValueAndLabel(modeOfEntryId, allStudentModes)
 			);
 		if (sessionId)
 			setValue("sessionId", findValueAndLabel(sessionId, allSessions));
@@ -175,7 +306,7 @@ const SelectResultRecords = () => {
 		filter,
 		allDepartmentOption,
 		watchData.departmentId,
-		watchData.studentTypeId,
+		watchData.studentTypeId
 	]);
 	useEffect(() => {
 		const subscription = watch(({ departmentId, studentTypeId }) => {
@@ -187,17 +318,20 @@ const SelectResultRecords = () => {
 		return () => subscription.unsubscribe();
 	}, [watch]);
 
-	if (
-		isLoading ||
-		isDepartmentLoading ||
-		isLoadingStudentTypes ||
-		isLoadingStudentModes
-	)
+	if (isLoading || isLoadingStudentTypes || isLoadingStudentModes)
 		return <Spinner />;
-	if (error || departmentError || courseListError)
+	if (error || courseListError)
 		return "An error has occurred: " + error?.response?.data?.message;
 	return (
 		<div className={styles.container}>
+			<div className="d-none">
+				<div ref={componentRef}>
+					<CollegeSheet
+						compositeSheet={compositeSheet}
+						data={tableData}
+					/>
+				</div>
+			</div>
 			<PageTitle title="Class List" />
 			<div className={styles.page_content}>
 				<div className="w-100">
@@ -209,6 +343,7 @@ const SelectResultRecords = () => {
 						allDepartmentOption={allDepartmentOption}
 						allStudentTypes={allStudentTypes}
 						allStudentModes={allStudentModes}
+						isDepartmentLoading={isDepartmentLoading}
 						isLoadingDepartmentOption={isLoadingDepartmentOption}
 						departmentOption={departmentOption}
 						isLoadingLevels={isLoadingLevels}
@@ -219,6 +354,7 @@ const SelectResultRecords = () => {
 						handleSubmit={handleSubmit}
 						filter={filter}
 						isLoadingCourses={isLoadingcourseList}
+						handleCompositeSubmit={handleCompositeSubmit}
 					/>
 					<SelectRecordsTable
 						data={courseList?.data?.items || []}

@@ -9,3 +9,17 @@
     font-size: 1rem;
     color: var(--light-text-color);
 }
+
+
+.call_centre_number{
+	font-weight: 500;
+	color: var(--alt-text-color-tint);
+}
+
+.call_centre_number > span:first-of-type{
+	color: var(--light-text-color);
+}
+
+.call_centre_number > span:last-of-type{
+	color: var(--primary);
+}

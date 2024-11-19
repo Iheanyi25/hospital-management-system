@@ -26,8 +26,8 @@ export const CloneCourseAssignment = ({ allSessions, closeModal }) => {
 		const requestDet = {
 			url: cloneCourseAssignmentUrl(),
 			data: {
-				newSessionId: newSessionId.value,
-				oldSessionId: oldSessionId.value
+				NewSessionId: newSessionId.value,
+				OldSessionId: oldSessionId.value
 			}
 		};
 		mutate(requestDet, {

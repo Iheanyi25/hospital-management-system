@@ -28,14 +28,16 @@ export const ListPreview = ({
 			data: formData
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: ({ response }) => {
 				queryClient.invalidateQueries(
 					getJambListUrl(currentFilterState)
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",
 					title: "Upload Successful",
-					body: `${fileData?.name} was uploaded successfully!`
+					body:
+						response?.data?.message ||
+						`${fileData?.name} was uploaded successfully!`
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -94,7 +96,7 @@ export const ListPreview = ({
 				<div className="container-fluid px-4 mt-3 mb-3">
 					<p>
 						Cross check and make sure there are no mistakes in the
-						courses, before you click complete upload
+						records, before you click complete upload
 					</p>
 					<div>
 						{extractedData?.rows ? (

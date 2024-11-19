@@ -12,7 +12,7 @@ import styles from "./style.module.css";
 import { getLecturerCoursesUrl } from "../../../../../api/urls";
 import { useApiGet } from "../../../../../api/apiCall";
 
- const ViewRecords = () => {
+const ViewRecords = () => {
 	const { push, goBack } = useHistory();
 	const location = useLocation();
 
@@ -29,7 +29,7 @@ import { useApiGet } from "../../../../../api/apiCall";
 
 	const crumbItems = [
 		{
-			name: "Results & Class List",
+			name: "My Courses",
 			path: "/records"
 		},
 		{
@@ -90,6 +90,10 @@ const DisplayTable = ({ data, isLoading, error }) => {
 			{
 				Header: "Course Unit",
 				accessor: "courseUnit"
+			},
+			{
+				Header: "Campus",
+				accessor: "campus"
 			},
 			{
 				Header: "No. of Results Uploaded",

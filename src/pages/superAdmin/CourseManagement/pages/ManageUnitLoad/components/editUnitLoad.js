@@ -23,6 +23,7 @@ export const EditUnitLoad = ({
 		yearOfStudyId,
 		departmentId,
 		departmentOptionId,
+		modeOfEntryId
 	} = data;
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
@@ -37,7 +38,6 @@ export const EditUnitLoad = ({
 		},
 		resolver: yupResolver(UploadSchema)
 	});
-	console.log(filter);
 	const onSubmit = (data) => {
 		const { maximumUnit, minimumUnit } = data;
 		const requestDet = {
@@ -48,26 +48,16 @@ export const EditUnitLoad = ({
 				yearOfStudyId,
 				departmentId,
 				departmentOptionId: departmentOptionId || 0,
-				semesterId: filter?.semester,
+				semesterId: filter?.semesterId,
 				studentTypeId: filter?.studentTypeId,
-				levelId : filter?.yearOfStudyId,
-				studentModeOfEntryId: filter?.studentModeOfEntryId
+				levelId: filter?.yearOfStudyId,
+				modeOfEntryId
 			}
 		};
 		mutate(requestDet, {
 			onSuccess: () => {
 				queryClient.invalidateQueries(
-					getUnitLoadsToManageUrl({
-						facultyId: currentFilterState.facultyId,
-						studentModeOfEntryId:
-							currentFilterState.studentModeOfEntryId,
-						studentTypeId: currentFilterState.studentTypeId,
-						semesterId: currentFilterState.semester,
-						levelId: currentFilterState.yearOfStudyId,
-						searchTerm: currentFilterState.searchTerm,
-						pageSize: currentFilterState.pageSize,
-						pageNumber: currentFilterState.pageNumber
-					})
+					getUnitLoadsToManageUrl(currentFilterState)
 				);
 				closeModal();
 				const successFlag = window.AJS.flag({
@@ -136,7 +126,7 @@ export const EditUnitLoad = ({
 					<TextField
 						id="maximumUnit"
 						placeholder="Enter maximum unit"
-						type="number"
+						type="text"
 						name="maximumUnit"
 						register={register}
 						error={errors.maximumUnit}
@@ -155,7 +145,7 @@ export const EditUnitLoad = ({
 					<TextField
 						id="minimumUnit"
 						placeholder="Enter minimum unit"
-						type="number"
+						type="text"
 						name="minimumUnit"
 						register={register}
 						error={errors.minimumUnit}

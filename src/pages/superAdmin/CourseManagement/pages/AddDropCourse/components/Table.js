@@ -11,6 +11,7 @@ export const Table = ({
 	totalSelectedCreditUnit,
 	unitLoad
 }) => {
+	console.log(studentData);
 	const columns = useMemo(
 		() => [
 			{
@@ -19,11 +20,11 @@ export const Table = ({
 			},
 			{
 				Header: "Course Title",
-				accessor: "courseTitle"
+				accessor: "courseName"
 			},
 			{
 				Header: "Course Unit",
-				accessor: "courseUnit"
+				accessor: "unitLoad"
 			},
 			{
 				Header: "Action",
@@ -46,13 +47,25 @@ export const Table = ({
 
 	const details = useMemo(() => {
 		return [
-			{ title: "Full Name", value: studentData?.fullname?.toUpperCase() },
-			{ title: "Entry Mode", value: studentData?.studentModeOfEntry },
-			{ title: "Matric No", value: studentData?.matricNumber },
-			{ title: "Level", value: studentData?.level },
-			{ title: "Faculty", value: studentData?.faculty },
+			{
+				title: "Full Name",
+				value: studentData?.studentProfile?.fullname?.toUpperCase()
+			},
+			{
+				title: "Entry Mode",
+				value: studentData?.studentProfile?.modeOfEntry
+			},
+			{
+				title: "Matric No",
+				value: studentData?.studentProfile?.matricNumber
+			},
+			{ title: "Level", value: studentData?.studentProfile?.level },
+			{ title: "School", value: studentData?.studentProfile?.faculty },
 			{ title: "Session", value: studentData?.session },
-			{ title: "Department", value: studentData?.department },
+			{
+				title: "Department",
+				value: studentData?.studentProfile?.department
+			},
 			{ title: "Semester", value: studentData?.semester }
 		];
 	}, [studentData]);
@@ -64,8 +77,9 @@ export const Table = ({
 					<PersonnelCard
 						details={details}
 						user={{
-							fullName: studentData?.fullName?.toUpperCase(),
-							passPort: studentData?.passPort
+							fullName:
+								studentData?.studentProfile?.fullname?.toUpperCase(),
+							passPort: studentData?.studentProfile?.passPort
 						}}
 						noMargin
 						noLogo
@@ -77,7 +91,7 @@ export const Table = ({
 				data={data}
 				title={
 					data?.length > 0 &&
-					`Registered courses for  ${studentData?.matricNumber}`
+					`Registered courses for  ${studentData?.studentProfile?.matricNumber}`
 				}
 				loading={loading}
 				additonalTitleData={
@@ -85,12 +99,13 @@ export const Table = ({
 						{data?.length > 0 && (
 							<div
 								className={
-									totalSelectedCreditUnit < unitLoad?.min ||
-									totalSelectedCreditUnit > unitLoad?.max
+									totalSelectedCreditUnit <
+										unitLoad?.minimum ||
+									totalSelectedCreditUnit > unitLoad?.maximum
 										? "u-danger"
 										: "u-success"
 								}
-							>{`${totalSelectedCreditUnit} of ${unitLoad?.max} units`}</div>
+							>{`${totalSelectedCreditUnit} of ${unitLoad?.maximum} units`}</div>
 						)}
 						<Button
 							data-cy="default"

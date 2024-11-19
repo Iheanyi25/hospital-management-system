@@ -5,29 +5,30 @@
 .bedSpaceHolder {
 	width: 18%;
 	margin: 0px calc(1.15% - 2px);
+	margin-bottom: 10px;
 }
 .bedDetails {
-    max-width: 640px;
+	max-width: 640px;
 	background-color: var(--neutral-20);
 	padding: 10px 24px;
 }
 
 .bedDetails p:first-of-type {
-    font-size: 1.14rem;
+	font-size: 1.14rem;
 }
 
 .bedDetails p:last-of-type {
-    font-size: 0.93rem;
+	font-size: 0.93rem;
 }
 
 .markerBox {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
 }
 
 .markerDescription {
-    color: var(--light-text-color-3);
+	color: var(--light-text-color-3);
 }
 
 @media (max-width: 1000px) {
@@ -50,9 +51,9 @@
 }
 
 @media (max-width: 350px) {
-    .bedSpaceHolder {
+	.bedSpaceHolder {
 		width: 98%;
-        margin: 0px auto;
-        margin-top: 20px;
+		margin: 0px auto;
+		margin-top: 20px;
 	}
 }

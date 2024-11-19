@@ -20,7 +20,7 @@ export const RoomPreview = ({
 	submitData,
 	setUploadModal,
 	state,
-	currentFilterState
+	filter
 }) => {
 	const { mutate, isLoading } = useApiPost();
 	const queryClient = useQueryClient();
@@ -29,9 +29,19 @@ export const RoomPreview = ({
 		formData.append("file", fileData, fileData.name);
 		formData.append("hostelId", state?.id);
 		formData.append("genderId", submitData?.genderId.value);
-		formData.append("groupSelectionId", submitData?.groupSelectionId.value);
-		formData.append("levelId", submitData?.levelId.map((levelId) => levelId.value));
-		formData.append("hostelRoomCategoryId", submitData?.hostelRoomCategoryId?.value);
+		formData.append(
+			"groupSelectionId",
+			submitData?.groupSelectionId?.value
+		);
+		submitData?.levelId !== null &&
+			formData.append(
+				"levelId",
+				submitData?.levelId.map((levelId) => levelId.value)
+			);
+		formData.append(
+			"hostelRoomCategoryId",
+			submitData?.hostelRoomCategoryId?.value
+		);
 		const requestBody = {
 			url: bulkCreateHostelRoomUrl(),
 			data: formData
@@ -39,7 +49,7 @@ export const RoomPreview = ({
 		mutate(requestBody, {
 			onSuccess: () => {
 				queryClient.invalidateQueries(
-					getAllHostelsRoomUrl(currentFilterState)
+					getAllHostelsRoomUrl(filter)
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",

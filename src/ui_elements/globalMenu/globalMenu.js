@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/sideLogo.png";
 import globalMenuIcon from "../../assets/svgs/globalMenuIcon.svg";
 import cancel from "../../assets/svgs/cancel.svg";
 import Avatar from "react-avatar";
@@ -10,6 +10,7 @@ import { Button } from "../button/Button";
 // import { TENECE_SUPPORT_URL } from "../../utils/constants";
 import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
 import ChristmasLogo from "../../assets/images/christmasLogo.png";
+import { LinkDropdown } from "../linkDropdown/linkDropdown";
 
 const GlobalMenu = ({
 	title = "Components",
@@ -23,18 +24,25 @@ const GlobalMenu = ({
 
 	const linkOptions = [
 		{
-			name: "Check Admission No",
-			route: "/"
+			name: "Verify Admission Status",
+			route: "/prospective_students"
 		},
 		{
-			name: "Application Form",
-			route: "/prospective_students"
+			name: "Check Admission No",
+			route: "/"
 		},
 		{
 			name: "E learning",
 			route: "/prospective_students"
 		}
 	];
+
+	const buttonGroupData = [
+		{ name: "Home", link: "/home" },
+		{ name: "About Us", link: "/about" },
+		{ name: "Services", link: "/services" },
+		{ name: "Contact Us", link: "/contact" },
+];
 
 	return (
 		<section className="red-global-menu">
@@ -59,8 +67,7 @@ const GlobalMenu = ({
 						</>
 					) : (
 						<div className={`d-flex align-items-center gap-2 logo`} onClick={() => push("/")}>
-						<img src={logo} alt="akwapoly logo" />
-							<h5>Akwa Ibom State Polytechnic, Ikot Osurua</h5>
+							<img src={logo} alt="akwapoly logo" />
 						</div>
 					)}
 				</div>
@@ -87,12 +94,7 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-{/* 
-						<a href={TENECE_SUPPORT_URL}>
-							<button className="global-landing-page-links">
-								Support
-							</button>
-						</a> */}
+						<LinkDropdown buttonGroup={buttonGroupData} linkName="Old Students"/>
 					</div>
 				) : (
 					<div className="red-current-module">{title}</div>

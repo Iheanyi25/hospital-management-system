@@ -23,23 +23,23 @@ import {
 	AddCourse,
 	AssignCoursetForm,
 	EditCourse,
-	AssignCourseTable,
-	CloneCourseAssignment
+	AssignCourseTable
 } from "./components";
 import { useQueryClient } from "react-query";
 import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
+import { CloneCourseAssignment } from './components/cloneCourseAssignment';
 
 const AssignCourse = () => {
 	const [open, setOpen] = useState(false);
-	const [cloneOpen, setCloneOpen] = useState(false);
 	const [editOpen, setEditOpen] = useState(false);
 	const [openDelete, setOpenDelete] = useState(false);
+	const [cloneOpen, setCloneOpen] = useState(false);
 	const [editData, setEditData] = useState({});
 	const [filter, setFilter] = useState({
 		departmentId: "",
 		departmentOptionId: "" || 0,
-		studentModeOfEntryId: "",
+		modeOfEntryId: "",
 		studentTypeId: "",
 		sessionId: "",
 		semesterId: "",
@@ -105,7 +105,8 @@ const AssignCourse = () => {
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
 		useApiGet(
 			getDepartmentOptionUrl({
-				departmentId: watchData?.departmentId?.value
+				departmentId: watchData?.departmentId?.value,
+				studentTypeId: watchData?.studentTypeId?.value
 			}),
 			{
 				refetchOnWindowFocus: false,
@@ -183,11 +184,11 @@ const AssignCourse = () => {
 		});
 	};
 
-	const toggleCourseActivation = ({ activated, id }) => {
+	const toggleCourseActivation = ({ active, id }) => {
 		const requestDet = {
 			url: toggleCourseAssignedActivationUrl(id),
 			data: {
-				activate: activated
+				activate: active
 			}
 		};
 		toggle(requestDet, {
@@ -202,9 +203,8 @@ const AssignCourse = () => {
 				const successFlag = window.AJS.flag({
 					type: "success",
 					title: "Course Action Success!",
-					body: `Course was ${
-						activated ? "activated" : "deactivated"
-					} successfully!`
+					body: `Course was ${active ? "activated" : "deactivated"
+						} successfully!`
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -216,8 +216,7 @@ const AssignCourse = () => {
 					title: "Course Action Success!",
 					body:
 						response?.data?.message ||
-						`Course wasn't ${
-							activated ? "activated" : "deactivated"
+						`Course wasn't ${active ? "activated" : "deactivated"
 						} successfully!`
 				});
 				setTimeout(() => {
@@ -298,8 +297,8 @@ const AssignCourse = () => {
 						allLevels={allLevels}
 						setFilter={setFilter}
 						setValue={setValue}
-						handleSubmit={handleSubmit}
 						setCloneOpen={setCloneOpen}
+						handleSubmit={handleSubmit}
 						isLoadingCourses={isLoadingcourseList}
 					/>
 					<AssignCourseTable

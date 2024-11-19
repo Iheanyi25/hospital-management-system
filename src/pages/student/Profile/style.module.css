@@ -1,7 +1,6 @@
 .container label {
 	font-weight: 500;
 }
-
 .profile_img span {
 	font-size: 2.86rem;
 }
@@ -10,40 +9,9 @@
 	width: 100%;
 	height: 100%;
 }
-
 .upload_button {
 	margin-left: 20px;
 	margin-bottom: 38px;
-}
-
-.line {
-	flex: 1;
-}
-
-.line2 {
-	width: 40%;
-}
-
-hr {
-	border-top: solid 1px #000 !important;
-}
-
-.previewKin {
-	width: 180px;
-	height: 180px;
-	object-fit: cover;
-}
-
-.kin {
-	position: relative;
-	width: 7rem;
-	height: 7rem;
-	object-fit: cover;
-	border-radius: 50%;
-	background-color: var(--disabled-tint);
-	font-size: 8px;
-	overflow: hidden;
-	cursor: pointer;
 }
 
 .sub_header {
@@ -77,45 +45,6 @@ hr {
 	display: none;
 }
 
-.image_print_out {
-	width: 180px;
-	height: 180px;
-}
-
-.image_print_out img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.gaurdian {
-	font-size: 1.14rem;
-}
-
-.print_out_h2 h2 {
-	font-size: 1.43rem;
-}
-
-.printout_logo {
-	width: 354.22px;
-	margin: 0px auto;
-	margin-bottom: 24px;
-}
-
-.printout_logo img {
-	width: 100%;
-}
-
-.print_out_wrapper {
-	max-width: 979px;
-	width: 100%;
-	margin: 0px auto;
-}
-
-.print_out_wrapper hr {
-	color: rgba(223, 225, 230, 1);
-}
-
 @media (max-width: 768px) {
 	.key_comes_sticky {
 		position: relative;
@@ -132,25 +61,21 @@ hr {
 	padding-bottom: 3rem;
 	border-bottom: 1px solid #f4f5f7;
 }
-
 .avatar_container {
 	display: flex;
 	justify-content: center;
 	padding-top: 2.5rem;
 }
-
 .print_out__section {
 	margin-top: 2rem;
 	padding-bottom: 1rem;
 	border-bottom: 1px solid #f4f5f7;
 }
-
 .grid_header {
 	color: var(--text-color);
 	margin-bottom: 2rem;
 	font-size: 1.14rem;
 }
-
 .print_out__grid {
 	display: flex;
 	justify-content: space-between;
@@ -168,13 +93,11 @@ hr {
 	color: #42526e;
 	font-weight: bold;
 }
-
 .print_out_footer {
 	padding: 4rem 1rem;
 	text-align: center;
 	color: var(--light-text-color-2);
 }
-
 .ailment_grid {
 	display: grid;
 	grid-template-columns: auto auto auto auto;
@@ -184,11 +107,9 @@ hr {
 	margin: auto;
 	color: var(--light-text-color-2);
 }
-
 .ailments_items {
 	display: flex;
 }
-
 .ailments_items img {
 	margin-right: 1rem;
 }

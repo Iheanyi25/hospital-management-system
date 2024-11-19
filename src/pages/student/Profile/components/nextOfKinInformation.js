@@ -12,33 +12,21 @@ import {
 	Button,
 	TextField,
 	SMSelect,
-	CompulsoryIndicator,
-	SignatureUpload
+	CompulsoryIndicator
 } from "../../../../ui_elements";
 import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
 import { trimItem } from "../../../../utils/trimItem";
 import { NextOfKinDetailsSchema } from "./profileSchema";
-import formatImageToBase64 from "../../../../utils/formatImage";
-import {
-	checkIfFilesAreTooBig,
-	checkIfImagesAreCorrectType
-} from "../../../../utils/FileValidation";
 
 export const NextOfKinInformation = ({ data, relationships }) => {
 	const { replace } = useHistory();
 	const { mutate, isLoading } = useApiPatch();
-
 	const queryClient = useQueryClient();
-
 	const {
 		register,
 		control,
 		formState: { errors },
-		handleSubmit,
-		setValue,
-		watch,
-		clearErrors,
-		setError
+		handleSubmit
 	} = useForm({
 		defaultValues: {
 			Fullname: data?.fullname.toUpperCase(),
@@ -49,87 +37,51 @@ export const NextOfKinInformation = ({ data, relationships }) => {
 		},
 		resolver: yupResolver(NextOfKinDetailsSchema)
 	});
-
-	const onChange = async (e, fieldName) => {
-		const value = e.target.files;
-		if (!(value && value.length)) {
-			setError(fieldName, { message: "please select an image file!" });
-		} else if (!checkIfFilesAreTooBig(value)) {
-			setError(fieldName, {
-				message: "The file you selected is too big!"
-			});
-		} else if (!checkIfImagesAreCorrectType(value)) {
-			setError(fieldName, {
-				message: "wrong file type, ensure this an image file!"
-			});
-		} else {
-			clearErrors(fieldName);
-			setValue(fieldName, await formatImageToBase64(e.target.files[0]));
-		}
-	};
-
-	const fileFieldValue = watch("PassportAsBase64");
-
 	const onSubmit = (values) => {
+		const requestData = [];
 		const { Relationship, ...editedValues } = values;
 		const newObj = {
 			...editedValues,
-			RelationshipId: Relationship.value,
-			PassportAsBase64: !!values.PassportAsBase64
-				? values.PassportAsBase64
-				: data.passportAsBase64
+			RelationshipId: Relationship.value
 		};
-		if (
-			newObj?.PassportAsBase64?.length > 0 ||
-			!!newObj?.PassportAsBase64
-		) {
-			const requestData = [];
-
-			Object.keys(newObj).map((item) =>
-				requestData.push({
-					op: "replace",
-					path: `/StudentNextOfKin/${item}`,
-					value: trimItem(newObj[item])
-				})
-			);
-
-			const requestBody = {
-				url: updateStudentProfileUrl({ refCode: false }),
-				data: requestData
-			};
-			mutate(requestBody, {
-				onSuccess: () => {
-					queryClient.invalidateQueries(
-						getStudentProfileUrl({ refCode: false })
-					);
-					const successFlag = window.AJS.flag({
-						type: "success",
-						title: "Profile details updated.",
-						body: "Your student profile details have been successfully updated."
-					});
-					setTimeout(() => {
-						successFlag.close();
-					}, 5000);
-					replace("#section_d");
-				},
-				onError: ({ response }) => {
-					const errorFlag = window.AJS.flag({
-						type: "error",
-						title: "Failed!",
-						body: response?.data?.message || "Something went wrong"
-					});
-					setTimeout(() => {
-						errorFlag.close();
-					}, 5000);
-				}
-			});
-		} else {
-			setError(`PassportAsBase64`, {
-				message: "please select an image file!"
-			});
-		}
+		Object.keys(newObj).map((item) =>
+			requestData.push({
+				op: "replace",
+				path: `/StudentNextOfKin/${item}`,
+				value: trimItem(newObj[item])
+			})
+		);
+		const requestBody = {
+			url: updateStudentProfileUrl({ refCode: false }),
+			data: requestData
+		};
+		mutate(requestBody, {
+			onSuccess: () => {
+				queryClient.invalidateQueries(
+					getStudentProfileUrl({ refCode: false })
+				);
+				const successFlag = window.AJS.flag({
+					type: "success",
+					title: "Profile details updated.",
+					body: "Your student profile details have been successfully updated."
+				});
+				setTimeout(() => {
+					successFlag.close();
+				}, 5000);
+				replace("#section_d");
+			},
+			onError: ({ response }) => {
+				const errorFlag = window.AJS.flag({
+					type: "error",
+					title: "Failed!",
+					body: response?.data?.message || "Something went wrong"
+				});
+				setTimeout(() => {
+					errorFlag.close();
+				}, 5000);
+			}
+		});
 	};
-
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -150,35 +102,9 @@ export const NextOfKinInformation = ({ data, relationships }) => {
 				}
 				footerStyle="d-flex justify-content-end"
 			>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 mt-4">
-							<label htmlFor="signature">
-								Next of Kin Picture
-							</label>
-						</div>
-						<div className="col-lg-9">
-							<SignatureUpload
-								name={`PassportAsBase64`}
-								onChange={(e) => {
-									onChange(e, `PassportAsBase64`);
-								}}
-								currentValue={
-									fileFieldValue
-										? fileFieldValue
-										: data?.passportAsBase64
-								}
-								errorText={
-									errors?.PassportAsBase64 &&
-									errors?.PassportAsBase64?.message
-								}
-							/>
-						</div>
-					</div>
-				</div>
 				<div className="container-fluid px-4 mt-4 mb-3">
 					<div className="row">
-						<div className="col-lg-3">
+						<div className="col-lg-3 d-flex align-items-center">
 							<label htmlFor="fullname">
 								Next of Kin's fullname
 							</label>
@@ -241,8 +167,7 @@ export const NextOfKinInformation = ({ data, relationships }) => {
 								register={register}
 								error={errors.MobileNumber}
 								errorText={
-									errors.MobileNumber &&
-									errors.MobileNumber.message
+									errors.MobileNumber && errors.MobileNumber.message
 								}
 							/>
 						</div>

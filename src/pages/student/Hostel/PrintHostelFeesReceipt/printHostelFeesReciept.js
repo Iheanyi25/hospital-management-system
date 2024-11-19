@@ -8,7 +8,7 @@ import {
 import styles from "./style.module.css";
 import logo from "../../../../assets/images/sideLogo.png";
 import numberFormatter from "../../../../utils/numberFormatter";
-import barcode from "../../../../assets/images/barcode.png";
+// import barcode from "../../../../assets/images/barcode.png";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
 import { shortDate } from "../../../../utils/formatDate";
@@ -70,10 +70,6 @@ const PrintSchoolFeesReceipt = () => {
 			title: "Date of Payment",
 			details: shortDate(data?.data?.paymentDate)
 		},
-		{
-			title: "Date of Printing",
-			details: shortDate(data?.data?.datePrinted)
-		},
 		{ title: "Breakdown", details: "-" },
 		{
 			title: "Amount Paid",
@@ -82,21 +78,18 @@ const PrintSchoolFeesReceipt = () => {
 		{ title: "Concerned Session", details: data?.data?.session },
 		{ title: "Student Name", details: data?.data?.fullName },
 		{ title: "Matriculation Number", details: data?.data?.matricNumber },
-		{
-			title: "JAMB Registration Number",
-			details: data?.data?.jambRegNumber
-		},
 		{ title: "Student Type", details: data?.data?.studentType },
-		{ title: "College/Faculty", details: data?.data?.faculty },
 		{ title: "Department", details: data?.data?.department },
 		{ title: "Sex", details: data?.data?.gender },
 		{ title: "Student Level", details: data?.data?.level },
-		{ title: "Payment Type", details: data?.data?.paymentType },
+		{ title: "Hostel", details: data?.data?.hostel },
+		{ title: "Hostel Room", details: data?.data?.hostelRoom },
+		{ title: "Bedspace", details: data?.data?.hostelBed },
 		{ title: "Student Reference Number", details: data?.data?.rrr }
 	];
 
 	if (!(state?.sessionId || state?.yearofStudyId)) {
-		push("/school_fees");
+		push("/academic_fees/school_fees");
 	}
 
 	if (isLoading) return <Spinner />;
@@ -166,7 +159,7 @@ const PrintSchoolFeesReceipt = () => {
 							))}
 						</div>
 						<div className={styles.code}>
-							<img src={barcode} alt={""} />
+							{/* <img src={barcode} alt={""} /> */}
 						</div>
 						<div className="border-top border-bottom py-3 invoice-important">
 							<p className="m-0">

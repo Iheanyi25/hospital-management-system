@@ -1,21 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
 	Jumbotron,
 	Button,
 	TextField,
-	SMSelect
+	SMSelect,
+	Spinner
 } from "../../../../ui_elements";
 import { useLocation, useHistory } from "react-router";
 import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_PUTME_INFO } from "../../../../store/constant";
+import { useApiGet, useApiPost } from "../../../../api/apiCall";
+import {
+	getDepartmentsUrl,
+	putmeProgrammeDetailsFormUrl
+} from "../../../../api/urls";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { ProgrammeDetailsSchema } from "../putmeSchema";
-import { useApiPost } from "../../../../api/apiCall";
-import { putmeProgrammeDetailsFormUrl } from "../../../../api/urls";
+import { formatSelectItems } from "../../../../utils/formatSelectItems";
+import { fieldSetterAndClearer } from "../../../../utils/fieldSetterAndClearer";
 
-export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
+export const ProgrammeDetails = ({
+	allFaculties,
+	allPutmeSubjects,
+	fromJambState
+}) => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
+	const { programmeInfo, StudentTypeId } = putmeStoreData;
+	const [facultyState, setFacultyState] = useState(
+		programmeInfo?.faculty?.value
+	);
 	const dispatch = useDispatch();
 	const { replace } = useHistory();
 	const { state } = useLocation();
@@ -24,19 +38,33 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 		replace("/putme_login");
 	}
 
+	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
+		getDepartmentsUrl(StudentTypeId, facultyState),
+		{
+			refetchOnWindowFocus: false,
+			enabled: !!facultyState
+		}
+	);
+
+	const allDepartments = useMemo(
+		() =>
+			formatSelectItems(departments?.data, "department", "departmentId"),
+		[departments?.data]
+	);
+
 	const { mutate, isLoading: isFormLoading } = useApiPost();
 
 	const {
 		register,
 		control,
 		handleSubmit,
+		watch,
+		setValue,
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
 			faculty: putmeStoreData?.programmeInfo?.faculty,
 			department: putmeStoreData?.programmeInfo?.department,
-			option: putmeStoreData?.programmeInfo?.option,
-			altDepartment: putmeStoreData?.programmeInfo?.altDepartment,
 			regNo: putmeStoreData?.programmeInfo?.regNo,
 			firstSubject: putmeStoreData?.programmeInfo?.firstSubject,
 			secondSubject: putmeStoreData?.programmeInfo?.secondSubject,
@@ -53,8 +81,12 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 			url: putmeProgrammeDetailsFormUrl(),
 			data: {
 				JambNumber: programmeInfo?.regNo,
-				AltDepartmentId: programmeInfo?.altDepartment.value,
-				DepartmentOptionId: programmeInfo?.option?.value
+				FacultyId: programmeInfo?.faculty?.value,
+				DepartmentId: programmeInfo?.department?.value,
+				SecondSubjectId: programmeInfo?.secondSubject?.value,
+				ThirdSubjectId: programmeInfo?.thirdSubject?.value,
+				FourthSubjectId: programmeInfo?.fourthSubject?.value,
+				UtmeScore: programmeInfo?.utmeScore
 			}
 		};
 		mutate(requestBody, {
@@ -90,6 +122,13 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 	};
 
 	useEffect(() => {
+		const subscription = watch(({ faculty }) => {
+			setFacultyState(faculty?.value);
+		});
+		return () => subscription.unsubscribe();
+	}, [watch, setValue]);
+
+	useEffect(() => {
 		if (errors?.utmeResultSlip) {
 			const successFlag = window.AJS.flag({
 				type: "error",
@@ -112,6 +151,7 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 						label="Next"
 						buttonClass="primary"
 						type="submit"
+						disabled={isFormLoading || isDepartmentLoading}
 						loading={isFormLoading}
 					/>
 				}
@@ -120,7 +160,7 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
 						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="facultyId">Faculty</label>
+							<label htmlFor="faculty">Faculty</label>
 						</div>
 						<div className="col-lg-9">
 							<Controller
@@ -132,94 +172,68 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 										{...field}
 										placeholder="Select a faculty"
 										searchable={true}
-										id="facultyId"
-										disabled
+										id="faculty"
+										onChange={(value) =>
+											fieldSetterAndClearer({
+												value,
+												setterFunc: setValue,
+												setField: "faculty",
+												clearFields: ["department"]
+											})
+										}
+										disabled={fromJambState}
+										options={allFaculties}
+										isError={!!errors.faculty}
+										errorText={
+											errors.faculty &&
+											errors.faculty.message
+										}
 									/>
 								)}
 							/>
 						</div>
 					</div>
 				</div>
-				<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="departmentId">Department</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="department"
-								control={control}
-								rules={{ required: true }}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										placeholder="Select a department"
-										searchable={true}
-										id="departmentId"
-										disabled
-									/>
-								)}
-							/>
-						</div>
-					</div>
-				</div>
-				{allDepartmentOptions?.length > 0 ? (
-					<div className="container-fluid px-4 my-4">
-						<div className="row">
-							<div className="col-lg-3  d-flex align-items-center">
-								<label htmlFor="departmentId">Option</label>
-							</div>
-							<div className="col-lg-9">
-								<Controller
-									name="option"
-									control={control}
-									rules={{ required: true }}
-									render={({ field }) => (
-										<SMSelect
-											{...field}
-											placeholder="choose option"
-											searchable={true}
-											id="optionId"
-											options={allDepartmentOptions}
-										/>
-									)}
-								/>
-							</div>
-						</div>
+				{isDepartmentLoading ? (
+					<div className="mb-4">
+						<Spinner />
 					</div>
 				) : (
-					""
-				)}
-				<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="altDepartmentId">
-								Alternative Department
-							</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="altDepartment"
-								control={control}
-								rules={{ required: true }}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										placeholder="Select an alternative department"
-										searchable={false}
-										options={allDepartments}
-										isError={errors?.altDepartment}
-										errorText={
-											errors?.altDepartment &&
-											errors?.altDepartment?.message
-										}
-										id="altDepartmentId"
+					allDepartments?.length > 0 &&
+					facultyState && (
+						<div className="container-fluid px-4 my-4">
+							<div className="row">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label htmlFor="departmentId">
+										Department
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="department"
+										control={control}
+										rules={{ required: true }}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												placeholder="Select a department"
+												searchable={true}
+												id="departmentId"
+												disabled={fromJambState}
+												options={allDepartments}
+												isError={!!errors.department}
+												errorText={
+													errors.department &&
+													errors.department.message
+												}
+											/>
+										)}
 									/>
-								)}
-							/>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
+					)
+				)}
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
 						<div className="col-lg-3 d-flex align-items-center">
@@ -260,6 +274,7 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 										searchable={true}
 										id="firstSubjectId"
 										disabled
+										options={allPutmeSubjects}
 									/>
 								)}
 							/>
@@ -282,7 +297,13 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 										placeholder="Select a second subject"
 										searchable={true}
 										id="secondSubjectId"
-										disabled
+										disabled={fromJambState}
+										options={allPutmeSubjects}
+										isError={!!errors.secondSubject}
+										errorText={
+											errors.secondSubject &&
+											errors.secondSubject.message
+										}
 									/>
 								)}
 							/>
@@ -305,7 +326,13 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 										placeholder="Select a third subject"
 										searchable={true}
 										id="thirdSubjectId"
-										disabled
+										disabled={fromJambState}
+										options={allPutmeSubjects}
+										isError={!!errors.thirdSubject}
+										errorText={
+											errors.thirdSubject &&
+											errors.thirdSubject.message
+										}
 									/>
 								)}
 							/>
@@ -328,7 +355,13 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 										placeholder="Select a fourth subject"
 										searchable={true}
 										id="fourthSubjectId"
-										disabled
+										disabled={fromJambState}
+										options={allPutmeSubjects}
+										isError={!!errors.fourthSubject}
+										errorText={
+											errors.fourthSubject &&
+											errors.fourthSubject.message
+										}
 									/>
 								)}
 							/>
@@ -350,7 +383,11 @@ export const ProgrammeDetails = ({ allDepartments, allDepartmentOptions }) => {
 								name="utmeScore"
 								register={register}
 								required
-								disabled
+								disabled={fromJambState}
+								isError={!!errors.utmeScore}
+								errorText={
+									errors.utmeScore && errors.utmeScore.message
+								}
 							/>
 						</div>
 					</div>

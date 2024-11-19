@@ -2,6 +2,7 @@ import styles from "../style.module.css";
 import {
 	AsyncMultiSelect,
 	Button,
+	Checkbox,
 	SMSelect,
 	Spinner
 } from "../../../../../../ui_elements";
@@ -27,6 +28,7 @@ import { useRef, useState } from "react";
 import cancel from "../../../../../../assets/svgs/cancel.svg";
 
 export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
+	const [active, setActive] = useState(false)
 	const [courses, setCourses] = useState([]);
 	const courseIdInputRef = useRef();
 
@@ -34,7 +36,7 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 		semesterId,
 		sessionId,
 		studentTypeId,
-		studentModeOfEntryId,
+		modeOfEntryId,
 		departmentId,
 		departmentOptionId,
 		levelId
@@ -70,8 +72,9 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 		);
 
 		if (courses.length < 15) {
-			setCourses([...filteredCourses, watchData]);
+			setCourses([...filteredCourses, { ...watchData, cbtCourse: active }]);
 			clearValues();
+			setActive(false)
 		} else {
 			const errorFlag = window.AJS.flag({
 				type: "error",
@@ -121,12 +124,12 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 	});
 	const apiOptions = async (query) => {
 		const data = await getSearchRequest({
-			queryKey: getCoursesToManageUrl({ searchTerm: query })
+			queryKey: getCoursesToManageUrl({ searchTerm: query, active: true })
 		});
 		return formatCourses({
 			courses: data.data.items,
 			courseCode: "courseCode",
-			couseTitle: "title",
+			couseTitle: "name",
 			value: "id"
 		});
 	};
@@ -156,13 +159,14 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 			url: assignCoursesToDeptsUrl(),
 			data: courses.map((data) => ({
 				courseId: data?.courseId.value,
-				courseUnit: data.courseUnit.value,
+				UnitLoadId: data.courseUnit.value,
 				courseTypeId: data.courseTypeId.value,
-				semesterId: semesterId,
-				sessionId: sessionId,
-				studentTypeId: studentTypeId,
-				studentModeOfEntryId: studentModeOfEntryId,
-				departmentId: departmentId,
+				cbtCourse: data.cbtCourse,
+				semesterId,
+				sessionId,
+				studentTypeId,
+				modeOfEntryId,
+				departmentId,
 				departmentOptionId: departmentOptionId || 0,
 				levelId
 			}))
@@ -312,7 +316,14 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 					/>
 				</div>
 			</div>
-			<div className="d-flex justify-content-end">
+			<div className="d-flex">
+				<Checkbox
+					label={"Is CBT Course"}
+					labelClassName="ml-3"
+					checked={active ? true : false}
+					onSelect={() => setActive(!active)}
+				/>
+				<div className={styles.spacer} />
 				<Button
 					data-cy="add_course"
 					label="Add"

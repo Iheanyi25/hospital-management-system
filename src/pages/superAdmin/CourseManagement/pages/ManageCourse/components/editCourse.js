@@ -29,7 +29,7 @@ export const EditCourse = ({ data, currentFilterState, closeModal }) => {
 		const requestDet = {
 			url: editUploadedCourseUrl(id),
 			data: {
-				Title: data.Title.toUpperCase(),
+				Name: data.Title.toUpperCase(),
 				CourseCode: data.CourseCode.toUpperCase()
 			}
 		};

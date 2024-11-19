@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export const UploadSchema = yup.object().shape({
 	maximumUnit: yup
-		.number()
+		.string()
 		.required("please input maximum unit")
 		.test(
 			"Is positive?",
@@ -10,8 +10,8 @@ export const UploadSchema = yup.object().shape({
 			(value) => value > 0
 		),
 	minimumUnit: yup
-		.number()
-		.required("please input maximum unit")
+		.string()
+		.required("please input minimum unit")
 		.test(
 			"Is positive?",
 			"number must be greater than 0!",

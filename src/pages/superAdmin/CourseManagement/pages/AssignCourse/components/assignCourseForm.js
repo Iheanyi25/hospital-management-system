@@ -32,12 +32,12 @@ export const AssignCoursetForm = ({
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			...state,
-			departmentId: formData.departmentId.value,
+			departmentId: formData?.departmentId?.value,
 			departmentOptionId:
 				departmentOption?.data?.length > 0
 					? formData?.departmentOptionId?.value
 					: null,
-			studentModeOfEntryId: formData.studentModeOfEntryId.value,
+			modeOfEntryId: formData.modeOfEntryId.value,
 			studentTypeId: formData.studentTypeId.value,
 			sessionId: formData.sessionId.value,
 			semesterId: formData.semesterId.value,
@@ -51,11 +51,10 @@ export const AssignCoursetForm = ({
 				headerText="Assign Course"
 				borderClasses="border-bottom-0"
 				footerContent={
-					<>
+					<div className="d-flex g-5">
 						<Button
 							data-cy="view_records"
-							type="button"
-							buttonClass="standard"
+							buttonClass="secondary"
 							label="Clone Course Assignment"
 							onClick={() => setCloneOpen(true)}
 						/>
@@ -69,7 +68,7 @@ export const AssignCoursetForm = ({
 								isLoadingDepartmentOption || isLoadingLevels
 							}
 						/>
-					</>
+					</div>
 				}
 				footerStyle="d-flex justify-content-end"
 			>
@@ -223,14 +222,14 @@ export const AssignCoursetForm = ({
 								<div className="col-lg-3  d-flex align-items-center">
 									<label
 										className="font-weight-bold"
-										htmlFor="studentModeOfEntryId"
+										htmlFor="modeOfEntryId"
 									>
 										Mode of Entry
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="studentModeOfEntryId"
+										name="modeOfEntryId"
 										control={control}
 										rules={{
 											required: true
@@ -240,11 +239,9 @@ export const AssignCoursetForm = ({
 												{...field}
 												placeholder="Select a Mode of Entry"
 												options={allStudentModes}
-												id="studentModeOfEntryId"
+												id="modeOfEntryId"
 												searchable={false}
-												isError={
-													!!errors.studentModeOfEntryId
-												}
+												isError={!!errors.modeOfEntryId}
 											/>
 										)}
 									/>

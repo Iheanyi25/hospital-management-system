@@ -8,7 +8,9 @@ import {
 	getAllUsersUrl,
 	getAllUnpaginatedRolesUrl,
 	toggleUserStatusUrl,
-	getStudentTypesUrl
+	getStudentTypesUrl,
+	getGendersUrl,
+	getAllCampusesUrl
 } from "../../../../../api/urls";
 
 import { Button, PageTitle, Spinner } from "../../../../../ui_elements";
@@ -54,6 +56,7 @@ const ManageUsers = () => {
 			refetchOnWindowFocus: false
 		}
 	);
+
 	const {
 		data: departments,
 		isLoading: isDepartmentLoading,
@@ -69,6 +72,18 @@ const ManageUsers = () => {
 			keepPreviousData: true
 		}
 	);
+	const { data: genders, isLoading: isLoadingGenders } = useApiGet(
+		getGendersUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+	const { data: campuses, isLoading: isLoadingCampuses } = useApiGet(
+		getAllCampusesUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
 
 	const {
 		control,
@@ -78,6 +93,8 @@ const ManageUsers = () => {
 	} = useForm();
 
 	const allRoles = formatSelectItems(roles?.data, "name", "name");
+	const allGenders = formatSelectItems(genders?.data, "name", "id");
+	const allCampuses = formatSelectItems(campuses?.data, "name", "id");
 	const allDepartments = formatSelectItems(departments?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 
@@ -118,7 +135,13 @@ const ManageUsers = () => {
 		});
 	};
 
-	if (isRolesLoading || isDepartmentLoading || isLoadingStudentTypes)
+	if (
+		isRolesLoading ||
+		isDepartmentLoading ||
+		isLoadingStudentTypes ||
+		isLoadingGenders ||
+		isLoadingCampuses
+	)
 		return <Spinner />;
 	if (rolesError || departmentError || userListError)
 		return "An error has occurred: " + rolesError?.message;
@@ -157,11 +180,18 @@ const ManageUsers = () => {
 							allDepartments={allDepartments}
 							allStudentTypes={allStudentTypes}
 							allRoles={allRoles}
+							allGenders={allGenders}
+							allCampuses={allCampuses}
 							addOpen={addOpen}
 							setAddOpen={setAddOpen}
 							filter={filter}
 							hasPerformedQuery={!!filter.departmentId}
 							paginationProps={userList?.data?.metaData || {}}
+							currentFilterState={{
+								...filter,
+								pageNumber,
+								searchTerm
+							}}
 							setPageNumber={setPageNumber}
 							debouncedSearch={debounced}
 							pageNumber={pageNumber}
@@ -169,6 +199,7 @@ const ManageUsers = () => {
 							searchValue={searchTerm}
 							loading={isFetchingUserList}
 							isPosting={isPosting}
+							metaData={userList?.data.metaData}
 							onSubmit={toggleUserStatus}
 						/>
 					</div>

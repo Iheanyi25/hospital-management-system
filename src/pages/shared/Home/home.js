@@ -19,17 +19,12 @@ const Home = () => {
 			};
 		} else if (linkObject?.applicationMode === "2") {
 			return {
-				pathname: `/generate_sub_degree_invoice`,
+				pathname: `/generate_jamb_students_invoice`,
 				state: { application: linkObject }
 			};
 		} else if (linkObject?.applicationMode === "3") {
 			return {
 				pathname: `/generate_other_students_invoice`,
-				state: { application: linkObject }
-			};
-		} else if (linkObject?.applicationMode === "4") {
-			return {
-				pathname: `/generate_cse_invoice`,
 				state: { application: linkObject }
 			};
 		} else {
@@ -38,28 +33,9 @@ const Home = () => {
 	};
 
 	const applicationForms = {
-		postUme: {
-			applicationMode: "1",
-			id: "9",
-			name: "POST UTME APPLICATION "
-		},
-		jupeb: { applicationMode: "2", id: "5", name: "JUPEB APPLICATION" },
-		cse: { applicationMode: "4", id: "9", name: "CSE APPLICATION" },
-		part_time: {
-			applicationMode: "2",
-			id: "6",
-			name: "PART-TIME SALE OF FORMS"
-		},
-		postgraduate: {
-			applicationMode: "3",
-			id: "12",
-			name: "POSTGRADUATE APPLICATION"
-		},
-		direct_entry: {
-			applicationMode: "1",
-			id: "15",
-			name: "DIRECT ENTRY APPLICATION"
-		}
+		nd: {applicationMode: "1", id: "1", name: "ND APPLICATION "},
+		hnd: { applicationMode: "2", id: "2", name: "HND APPLICATION" },
+		partTime: { applicationMode: "3", id: "4", name: "ND PART-TIME APPLICATION" },
 	};
 	const { data, isFetched } = useApiGet(getRecentNoticessUrl(), {
 		keepPreviousData: true
@@ -106,10 +82,6 @@ const Home = () => {
 			<main className={`${styles.container}`}>
 				<div className={styles.sectionsContainer}>
 					<section className={`${styles.sectionTextContainer} pb-5`}>
-						{/* <div className={styles.notice}>
-							<span>Notice</span>
-							Post UTME application is now open!
-						</div> */}
 						<h1>
 							Welcome To Akwa Ibom State <br/> Polytechnic Portal.
 						</h1>
@@ -120,10 +92,14 @@ const Home = () => {
 						</p>
 					</section>
 					<section className={`${styles.cardsContainer} row`}>
-						<div className="col-md-6 col-12 mt-3">
+						<div>
+							<h4 className="text-center">Our Programmes</h4>
+							<p className="text-center">Explore a World of Learning Possiblities: Discover Our Diverse Academic Pathways</p>
+						</div>
+						<div className="col-md-4 col-12 mt-3">
 							<div className={styles.card}>
-								<h4>Sub-degree Programme</h4>
-								<p>
+								<h4 >HND Programme</h4>
+								<p >
 									Please select a link applicable to you from{" "}
 									<br /> the list below
 								</p>
@@ -131,21 +107,21 @@ const Home = () => {
 									<Link
 										to={() =>
 											handleCurrentLink(
-												applicationForms.jupeb
+												applicationForms.hnd
 											)
 										}
 									>
 										Generate Invoice
 									</Link>
-									<Link to="/sub_degree_login">
+									<Link to="/hnd_login">
 										Application Form
 									</Link>
 								</div>
 							</div>
 						</div>
-						<div className="col-md-6 col-12 mt-3">
+						<div className="col-md-4 col-12 mt-3">
 							<div className={styles.card}>
-								<h4>Post UTME</h4>
+								<h4>ND Programme</h4>
 								<p>
 									Please select a link applicable to you from{" "}
 									<br /> the list below
@@ -154,7 +130,30 @@ const Home = () => {
 									<Link
 										to={() =>
 											handleCurrentLink(
-												applicationForms.postUme
+												applicationForms.nd
+											)
+										}
+									>
+										Generate Invoice
+									</Link>
+									<Link to="/nd_login">
+										Application Form
+									</Link>
+								</div>
+							</div>
+						</div>
+						<div className="col-md-4 col-12 mt-3">
+							<div className={styles.card}>
+								<h4>ND Part-Time Programme</h4>
+								<p>
+									Please select a link applicable to you from{" "}
+									<br /> the list below
+								</p>
+								<div className={styles.cardLinks}>
+									<Link
+										to={() =>
+											handleCurrentLink(
+												applicationForms.partTime
 											)
 										}
 									>
@@ -166,78 +165,6 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						{/* <div className="col-md-6 col-12 mt-3">
-							<div className={styles.card}>
-								<h4>Post Graduate</h4>
-								<p>
-									Please select a link applicable to you from{" "}
-									<br /> the list below
-								</p>
-								<div className={styles.cardLinks}>
-									<Link
-										to={() =>
-											handleCurrentLink(
-												applicationForms.postgraduate
-											)
-										}
-									>
-										Generate Invoice
-									</Link>
-									<Link to={"/pg_login"}>
-										Application Form
-									</Link>
-									<Link to="/pg_reprint_login">
-										Track Application Status
-									</Link>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-12 mt-3">
-							<div className={styles.card}>
-								<h4>Centre for Safety Education</h4>
-								<p>
-									Please select a link applicable to you from{" "}
-									<br /> the list below
-								</p>
-								<div className={styles.cardLinks}>
-									<Link
-										to={() =>
-											handleCurrentLink(
-												applicationForms.cse
-											)
-										}
-									>
-										Generate Invoice
-									</Link>
-									<Link to={"/center_of_safety_login"}>
-										Application Form
-									</Link>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6 col-12 mt-3">
-							<div className={styles.card}>
-								<h4>Direct Entry</h4>
-								<p>
-									Please select a link applicable to you from{" "}
-									<br /> the list below
-								</p>
-								<div className={styles.cardLinks}>
-									<Link
-										to={() =>
-											handleCurrentLink(
-												applicationForms.direct_entry
-											)
-										}
-									>
-										Generate Invoice
-									</Link>
-									<Link to={"/direct_entry_login"}>
-										Application Form
-									</Link>
-								</div>
-							</div>
-						</div> */}
 					</section>
 				</div>
 				<Footer />

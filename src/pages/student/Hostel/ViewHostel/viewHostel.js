@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useApiGet } from "../../../../api/apiCall";
-import { getInvoiceUrl, getMyInvoicesUrl } from "../../../../api/urls";
+import { useApiGet, useApiPost } from "../../../../api/apiCall";
+import { generateFeesInvoiceUrl, getMyInvoicesUrl } from "../../../../api/urls";
 import {
 	Badge,
 	Button,
 	PageTitle,
 	Spinner,
+	ProfileContext,
 	TMTable
 } from "../../../../ui_elements";
 import { PAYMENTIDENTIFIER } from "../../../../utils/constants";
@@ -14,50 +15,62 @@ import { shortDate } from "../../../../utils/formatDate";
 import numberFormatter from "../../../../utils/numberFormatter";
 
 const ViewHostel = () => {
-	const [makeRequest, setMakeRequest] = useState(false);
-	const [rrr, setRRR] = useState(null);
-
+	const profileData = useContext(ProfileContext);
 	const { push } = useHistory();
+	const [invoiceCode, setInvoiceCode] = useState("");
 
 	const { data, isLoading, error } = useApiGet(
 		getMyInvoicesUrl(PAYMENTIDENTIFIER.hostel)
 	);
 
-	const {
-		data: invoiceData,
-		isFetching: isLoadingInvoices,
-		error: requestError
-	} = useApiGet(getInvoiceUrl(rrr), {
-		enabled: makeRequest,
-		refetchOnWindowFocus: false
-	});
+	const { mutate, isLoading: isPosting } = useApiPost();
 
-	useEffect(() => {
-		if (invoiceData?.success && makeRequest && !isLoadingInvoices) {
-			push({
-				pathname: `/hostel/invoice`,
-				state: { data: invoiceData?.data }
-			});
-		}
-		if (requestError && makeRequest && !isLoadingInvoices) {
-			setMakeRequest(false);
-			const errorFlag = window.AJS.flag({
-				type: "error",
-				title: "Invalid Action!",
-				body:
-					requestError?.response?.data?.message ||
-					`Invalid action, please enter correct details`
-			});
-			setTimeout(() => {
-				errorFlag.close();
-			}, 5000);
-		}
-	}, [invoiceData, requestError, push, makeRequest, isLoadingInvoices]);
+	const onSubmit = useCallback(
+		(data) => {
+			setInvoiceCode(data.invoiceCode);
+			const requestDet = {
+				url: generateFeesInvoiceUrl(),
+				data: {
+					amount: data?.amount,
+					hostelBedId: data?.id,
+					sessionId: data?.sessionId,
+					levelId: profileData?.profileData?.programmeDetail?.levelId,
+					paymentPurposeId: PAYMENTIDENTIFIER?.hostel,
+					paymentTypeId: "Full"
+				}
+			};
 
-	const generateInvoice = (rrr) => {
-		setRRR(rrr);
-		setMakeRequest(true);
-	};
+			mutate(requestDet, {
+				onSuccess: (data) => {
+					push({
+						pathname: `/hostel/invoice`,
+						state: { data: data?.data?.data }
+					});
+					const successFlag = window.AJS.flag({
+						type: "success",
+						title: "Invoice Action Successful!",
+						body: "Invoice generated successfully!"
+					});
+					setTimeout(() => {
+						successFlag.close();
+					}, 3000);
+				},
+				onError: ({ response }) => {
+					const errorFlag = window.AJS.flag({
+						type: "error",
+						title: "Invoice Action Failed!",
+						body:
+							response?.data?.message ||
+							`Invoice generated failed!!`
+					});
+					setTimeout(() => {
+						errorFlag.close();
+					}, 3000);
+				}
+			});
+		},
+		[mutate, profileData?.profileData?.programmeDetail?.levelId, push]
+	);
 
 	const columns = useMemo(
 		() => [
@@ -140,43 +153,40 @@ const ViewHostel = () => {
 				accessor: "buttons",
 				Cell: ({ cell: { row } }) => (
 					<div>
-						{row.original.paymentStatus ? (
-							<Button
-								data-cy="edit_course"
-								label="Print Receipt"
-								buttonClass="standard"
-								onClick={() => {
-									push({
-										pathname: "/hostel_fees/receipt",
-										state: {
-											sessionId: row.original.sessionId,
-											levelId: row.original.levelId,
-											paymentTypeId:
-												row.original.paymentTypeId,
-											paymentPurposeId:
-												row.original.paymentPurposeId
-										}
-									});
-								}}
-							/>
-						) : (
-							<Button
-								data-cy="edit_course"
-								label="Print Invoice"
-								buttonClass="standard"
-								loading={isLoadingInvoices}
-								onClick={() =>
-									generateInvoice(row.original.rrr)
-								}
-							/>
-						)}
+						<Button
+							data-cy="edit_course"
+							label="Print Invoice"
+							buttonClass="standard"
+							loading={
+								isPosting &&
+								row.original.invoiceCode === invoiceCode
+							}
+							onClick={() => onSubmit(row.original)}
+						/>
+						<Button
+							data-cy="edit_course"
+							label="Print Receipt"
+							buttonClass="standard-two"
+							onClick={() => {
+								push({
+									pathname: "/hostel_fees/receipt",
+									state: {
+										sessionId: row.original.sessionId,
+										levelId: row.original.levelId,
+										paymentTypeId:
+											row.original.paymentTypeId,
+										paymentPurposeId:
+											row.original.paymentPurposeId
+									}
+								});
+							}}
+						/>
 					</div>
 				)
 			}
 		],
-		[push, isLoadingInvoices]
+		[push, invoiceCode, isPosting, onSubmit]
 	);
-
 	if (isLoading) return <Spinner />;
 	if (error)
 		return "An error has occurred: " + error?.response?.data?.message;
@@ -186,12 +196,31 @@ const ViewHostel = () => {
 			<PageTitle
 				title="Hostel Records"
 				buttonGroup={
-					<Button
-						disabled={data?.data?.length > 0 ? true : false}
-						buttonClass="primary"
-						label="Book Hostel"
-						onClick={() => push("/hostel/book_hostel")}
-					/>
+					<>
+						<Button
+							disabled={
+								data?.data?.length > 0 &&
+								!data?.data?.some((item) => item.canBookHostel)
+							}
+							buttonClass="primary"
+							label="Book Hostel"
+							onClick={() =>
+								window.open(
+									"https://schmgr.unn.edu.ng/LoginHostel.aspx?sent=e01a1733-1f93-4214-b6a5-7964ae2eda24"
+								)
+							}
+						/>
+						<Button
+							// add check for canPayArrears
+							// disabled={
+							// 	data?.data?.length > 0 &&
+							// 	!data?.data?.some((item) => item.canBookHostel)
+							// }
+							buttonClass="standard"
+							label="Pay Arrears"
+							onClick={() => push("/hostel/arrears_payment")}
+						/>
+					</>
 				}
 			/>
 			<div className="mt-5">

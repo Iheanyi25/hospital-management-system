@@ -20,9 +20,8 @@ import { fullDate } from "../../../utils/formatDate";
 import { NoticesModal } from "./components/modal";
 import { Cancel } from "../../../assets/svgs";
 import { BIRTHDAY_STATE_HOLDER } from "../../../utils/constants";
+import { getRecentNoticessUrl } from "../../../api/urls";
 import DOMPurify from "dompurify";
-// import { HubConnectionBuilder } from "@microsoft/signalr";
-import { getRecentNotificationsUrl } from "../../../api/urlCategories/Notification";
 
 const Dashboard = () => {
 	const [modal, setModal] = useState(false);
@@ -30,102 +29,24 @@ const Dashboard = () => {
 	const [showSmallAside, setShowSmallAside] = useState(false);
 	const { push } = useHistory();
 	const [cookies] = useCookies([BIRTHDAY_STATE_HOLDER]);
-	// const [connection, setConnection] = useState(null);
-	// const [chat, setChat] = useState([]);
-	// const latestChat = useRef(null);
 
 	const { [BIRTHDAY_STATE_HOLDER]: birthday } = cookies;
 
-	// const { data: notices, isLoading: noticesLoading } = useApiGet(
-	// 	getRecentNoticessUrl(1),
-	// 	{
-	// 		keepPreviousData: true
-	// 	}
-	// );
+	const { data: notices, isLoading: noticesIsLoading } = useApiGet(
+		getRecentNoticessUrl(1),
+		{
+			keepPreviousData: true
+		}
+	);
 
 	const handleCurrentNotice = (data) => {
 		setModal(true);
 		setCurrentNotice(data);
 	};
-	function timeAgo(receivedDate) {
-		const currentTime = new Date();
-		const newRecieved = new Date(receivedDate);
-		const timeDifference = currentTime.getTime() -newRecieved.getTime();
-// console.log(timeDifference);
-		let seconds = Math.floor(timeDifference / 1000);
-		let minutes = Math.floor(seconds / 60);
-		let hours = Math.floor(minutes / 60);
-		let days = Math.floor(hours / 24);
-		let weeks = Math.floor(days / 7);
 
-		if (weeks > 0) {
-			return weeks + " week(s) ago";
-		} else if (days > 0) {
-			return days + " day(s) ago";
-		} else if (hours > 0) {
-			return hours + " hour(s) ago";
-		} else if (minutes > 0) {
-			return minutes + " minute(s) ago";
-		} else {
-			return seconds + " second(s) ago";
-		}
-	}
-
-	const notices = [];
 	const { data, isLoading, error } = useApiGet(studentDashboardUrl());
-	const {
-		data: notifications,
-		isLoading: isLoadingNotifications,
-		error: notificationError
-	} = useApiGet(getRecentNotificationsUrl());
-	// useEffect(() => {
-	// 	const newConnection = new HubConnectionBuilder()
-	// 		.withUrl(signalRUrl())
-	// 		.withAutomaticReconnect()
-	// 		.build();
-	// 		setConnection(newConnection)
-	// 	// console.log(newConnection);
-	// 	// newConnection
-	// 	// 	.start()
-	// 	// 	.then((result) => {
-	// 	// 		console.log("Connected!", result);
-
-	// 	// 		connection.on("RecieveNotification", (message) => {
-	// 	// 			alert("A message came in");
-	// 	// 			console.log("yyyy", message);
-	// 	// 			const updatedChat = [...latestChat.current];
-	// 	// 			updatedChat.push(message);
-
-	// 	// 			setChat(updatedChat);
-	// 	// 		});
-	// 	// 	})
-	// 	// 	.catch((e) => console.log("Connection failed: ", e))
-	// 	// 	.finally((e) => console.log(e));
-	// }, []);
-	// const getMessage = () => {};
-	// useEffect(() => {
-	// 	if (connection) {
-	// 		console.log("I got here");
-	// 		connection
-	// 			.start()
-	// 			.then((result) => {
-	// 				console.log("Connected!", result);
-
-	// 				connection.on("RecieveNotification", (message) => {
-	// 					alert("I got here")
-	// 					console.log("yyyy", message);
-	// 					const updatedChat = [...latestChat.current];
-	// 					updatedChat.push(message);
-
-	// 					setChat(updatedChat);
-	// 				});
-	// 			})
-	// 			.catch((e) => console.log("Connection failed: ", e))
-	// 			.finally((e) => console.log(e));
-	// 	}
-	// }, [connection]);
-	if (isLoading || isLoadingNotifications) return <Spinner />;
-	if (error || notificationError)
+	if (isLoading || noticesIsLoading) return <Spinner />;
+	if (error)
 		return "An error has occurred: " + error?.response?.data?.message;
 	return (
 		<main className={styles.dashboard}>
@@ -202,14 +123,14 @@ const Dashboard = () => {
 					<div className={styles.bio}>
 						<Avatar
 							className={styles.avatar}
-							name={`${data?.data?.surname} ${data?.data?.firstname}`}
+							name={`${data?.data?.lastname} ${data?.data?.firstname}`}
 							size="100"
 							src={data?.data?.passport}
 							round={true}
 							maxInitials={2}
 						/>
 						<p className={`${styles.name} mt-2 text-uppercase`}>{`${
-							data?.data?.surname
+							data?.data?.lastname
 						} ${data?.data?.firstname} ${
 							data?.data?.middlename ?? ""
 						}`}</p>
@@ -227,7 +148,7 @@ const Dashboard = () => {
 					<div className={styles.student__details}>
 						<div className={styles.detail}>
 							<p>MOBILE PHONE</p>
-							<p>{data?.data?.mobileNo ?? "N/A"}</p>
+							<p>{data?.data?.mobileNumber ?? "N/A"}</p>
 						</div>
 						<div className={styles.detail}>
 							<p>EMAIL ADDRESS</p>
@@ -241,7 +162,7 @@ const Dashboard = () => {
 						</div>
 						<div className={styles.detail}>
 							<p>MATRIC NO</p>
-							<p>{data?.data?.matricNo ?? "N/A"}</p>
+							<p>{data?.data?.matricNumber ?? "N/A"}</p>
 						</div>
 						<div className={styles.detail}>
 							<p>DEPARTMENT</p>
@@ -285,44 +206,7 @@ const Dashboard = () => {
 					</div>
 				</div>
 				<section className="row">
-					<div className="col-lg-6">
-						<Jumbotron headerText="Recent Activities">
-							<div className={styles.activity_container}>
-								{notifications?.data?.length > 0 ? (
-									notifications?.data?.map(
-										(activity, index) => {
-											console.log(timeAgo(activity?.dateCreated));
-											return (
-												<div
-													className={styles.activity}
-													key={index}
-												>
-													<p>
-														{activity.heading}
-														<span>
-															{
-																timeAgo(activity?.dateCreated)
-															}
-														</span>
-													</p>
-													<small>{activity?.message}</small>
-												</div>
-											);
-										}
-									)
-								) : (
-									<div className="d-flex justify-content-center my-5">
-										<img
-											src={emptyState}
-											alt="No activities"
-										/>
-									</div>
-								)}
-							</div>
-						</Jumbotron>
-					</div>
-
-					<div className="col-lg-6">
+					<div className="col-lg-12">
 						<Jumbotron headerText="Announcements">
 							<div className={styles.announcement_container}>
 								{notices?.data?.length > 0 ? (

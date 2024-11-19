@@ -30,9 +30,9 @@ export const AddNoticeModal = ({
 		const requestDet = {
 			url: postNoticeUrl(),
 			data: {
-				name: data.title,
+				title: data.title,
 				description: data.description,
-				sender: data.senderName,
+				senderName: data.senderName,
 				categoryId: data.categoryId.value,
 				startDate: data.startDate,
 				endDate: data.endDate
@@ -59,7 +59,6 @@ export const AddNoticeModal = ({
 						response?.data?.message ||
 						`Notice(s) not added successfully`
 				});
-				closeModal();
 				setTimeout(() => {
 					errorFlag.close();
 				}, 5000);
@@ -71,9 +70,9 @@ export const AddNoticeModal = ({
 		const requestDet = {
 			url: getNoticeByIdUrl(currentId),
 			data: {
-				name: data.title,
+				title: data.title,
 				description: data.description,
-				sender: data.senderName,
+				senderName: data.senderName,
 				categoryId: data.categoryId.value,
 				startDate: data.startDate,
 				endDate: data.endDate
@@ -124,8 +123,8 @@ export const AddNoticeModal = ({
 		defaultValues: {
 			startDate: currentData?.startDate?.split("T")[0],
 			endDate: currentData?.endDate?.split("T")[0],
-			title: currentData?.name,
-			senderName: currentData?.sender,
+			title: currentData?.title,
+			senderName: currentData?.senderName,
 			description: currentData?.description,
 			categoryId: findValueAndLabel(
 				currentData?.categoryId,
@@ -256,7 +255,7 @@ export const AddNoticeModal = ({
 							value={getValues().description}
 							onChange={(e) => {
 								setValue("description", e);
-								clearErrors("description")
+								clearErrors("description");
 							}}
 							error={errors.description}
 							errorText={

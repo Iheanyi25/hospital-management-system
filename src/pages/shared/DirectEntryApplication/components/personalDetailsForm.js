@@ -5,8 +5,6 @@ import {
 	SMSelect,
 	Jumbotron,
 	Button,
-	RadioButtons,
-	ValidationText,
 	Spinner
 } from "../../../../ui_elements";
 import { DIRECT_ENTRY } from "../../../../store/constant";
@@ -25,17 +23,11 @@ export const PersonalDetailsForm = ({
 	mutate,
 	isFormLoading,
 	allGenders,
-	bloodGroups,
-	genotypes,
 	countries,
 	states,
 	loadingStates,
 	loadingLga,
 	localGovernments,
-	religions,
-	watchData,
-	departments,
-	relationships,
 	onCountryChange,
 	onStateChange
 }) => {
@@ -43,7 +35,7 @@ export const PersonalDetailsForm = ({
 
 	const dispatch = useDispatch();
 
-	const onSubmit = (basicInformation) => {
+	const onSubmit = (personalInfoResponse) => {
 		if (!directEntry?.passport?.passport) {
 			window.scrollTo(0, 0);
 			const errorFlag = window.AJS.flag({
@@ -60,34 +52,16 @@ export const PersonalDetailsForm = ({
 		const requestBody = {
 			url: postDirectEntryPersonalDetailsFormUrl(),
 			data: {
-				basicInformation: {
-					jambRegNumber: directEntry?.JambRegNumber,
-					genderId: basicInformation?.GenderId?.value,
-					dateOfBirth: basicInformation?.DateofBirth,
-					bloodGroupId: basicInformation?.BloodGroupId?.value,
-					genoTypeId: basicInformation?.GenoTypeId?.value,
-					countryId: basicInformation?.CountryId?.value,
-					stateId: basicInformation?.StateId?.value,
-					lgaId: basicInformation?.LgaId?.value,
-					town: basicInformation?.Town,
-					permanentAddress: basicInformation?.PermanentAddress,
-					mobileNumber: basicInformation?.MobileNo,
-					email: basicInformation?.Email,
-					religionId: basicInformation?.ReligionId?.value,
-					disability:
-						basicInformation?.Disability === "Yes" ? true : false,
-					departmentId: basicInformation?.CourseId?.value,
-					passport: directEntry?.passport?.passport,
-					extraCurricularActivities: basicInformation?.Hobby
-				},
-				nextOfKin: {
-					fullname: basicInformation?.SponsersFullname,
-					email: basicInformation.SponsersEmail,
-					contactAddress: basicInformation?.SponsersAddress,
-					mobileNumber: basicInformation?.SponsersMobileNo,
-					relationshipId:
-						basicInformation?.SponsersRelationship?.value
-				}
+				jambRegNumber: directEntry?.JambRegNumber,
+				genderId: personalInfoResponse?.GenderId?.value,
+				dateOfBirth: personalInfoResponse?.DateofBirth,
+				countryId: personalInfoResponse?.CountryId?.value,
+				stateId: personalInfoResponse?.StateId?.value,
+				lgaId: personalInfoResponse?.LgaId?.value,
+				mobileNumber: personalInfoResponse?.MobileNo,
+				ContactAddress: personalInfoResponse?.PermanentAddress,
+				email: personalInfoResponse?.Email,
+				passport: directEntry?.passport?.passport
 			}
 		};
 		mutate(requestBody, {
@@ -105,7 +79,7 @@ export const PersonalDetailsForm = ({
 					payload: {
 						...directEntry,
 						Id: data?.data?.data,
-						basicInformation,
+						personalInfoResponse
 					}
 				});
 				replace({ hash: "#section_b", state });
@@ -137,7 +111,6 @@ export const PersonalDetailsForm = ({
 					/>
 				}
 				footerStyle="d-flex justify-content-end"
-				endText={"1 of 3"}
 			>
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
@@ -211,7 +184,6 @@ export const PersonalDetailsForm = ({
 										searchable={false}
 										placeholder="Choose a sex"
 										id="GenderId"
-										disabled
 										options={allGenders}
 										isError={!!errors.GenderId}
 										errorText={
@@ -250,62 +222,6 @@ export const PersonalDetailsForm = ({
 									errors.DateofBirth &&
 									errors.DateofBirth.message
 								}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="sex">Blood Group</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="BloodGroupId"
-								control={control}
-								rules={{ required: true }}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										searchable={false}
-										placeholder="Choose a Blood Group"
-										id="BloodGroupId"
-										options={bloodGroups}
-										isError={!!errors.BloodGroupId}
-										errorText={
-											errors.BloodGroupId &&
-											errors.BloodGroupId.message
-										}
-									/>
-								)}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="sex">Genotype</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="GenoTypeId"
-								control={control}
-								rules={{ required: true }}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										searchable={false}
-										placeholder="Choose a Genotype"
-										id="GenoTypeId"
-										options={genotypes}
-										isError={!!errors.GenoTypeId}
-										errorText={
-											errors.GenoTypeId &&
-											errors.GenoTypeId.message
-										}
-									/>
-								)}
 							/>
 						</div>
 					</div>
@@ -368,9 +284,9 @@ export const PersonalDetailsForm = ({
 									defaultValue={
 										directEntry?.StateId?.value
 											? findValueAndLabel(
-													directEntry?.StateId?.value,
-													states
-											  )
+												directEntry?.StateId?.value,
+												states
+											)
 											: null
 									}
 									rules={{ required: true }}
@@ -407,9 +323,9 @@ export const PersonalDetailsForm = ({
 									defaultValue={
 										directEntry?.LgaId?.value
 											? findValueAndLabel(
-													directEntry?.LgaId?.value,
-													localGovernments
-											  )
+												directEntry?.LgaId?.value,
+												localGovernments
+											)
 											: null
 									}
 									rules={{ required: true }}
@@ -446,26 +362,52 @@ export const PersonalDetailsForm = ({
 						</div>
 					</>
 				)}
+
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
-						<div className="col-lg-3">
-							<label htmlFor="contactAddress">Town</label>
+						<div className="col-lg-3 d-flex align-items-center">
+							<label htmlFor="mobileNo">Phone Number</label>
 						</div>
-						<div className="col-lg-9">
+						<div className="d-flex col-lg-9">
 							<TextField
-								autoComplete="off"
-								placeholder="Enter your town"
 								className="w-100"
-								id="Town"
-								name="Town"
+								placeholder="Enter phone number"
+								type="text"
+								id="MobileNo"
+								name="MobileNo"
 								register={register}
 								required
-								error={errors.Town}
-								errorText={errors.Town && errors.Town.message}
+								error={errors.MobileNo}
+								errorText={
+									errors.MobileNo && errors.MobileNo.message
+								}
 							/>
 						</div>
 					</div>
 				</div>
+
+				<div className="container-fluid px-4 my-3">
+					<div className="row">
+						<div className="col-lg-3 d-flex align-items-center">
+							<label htmlFor="email">Email</label>
+						</div>
+						<div className="col-lg-9">
+							<TextField
+								autoComplete="off"
+								placeholder="example@examplemail.com"
+								className="w-100"
+								type="email"
+								id="Email"
+								name="Email"
+								register={register}
+								required
+								error={errors.Email}
+								errorText={errors.Email && errors.Email.message}
+							/>
+						</div>
+					</div>
+				</div>
+
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
 						<div className="col-lg-3">
@@ -489,291 +431,8 @@ export const PersonalDetailsForm = ({
 						</div>
 					</div>
 				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="mobileNo">Phone Number</label>
-						</div>
-						<div className="d-flex col-lg-9">
-							<TextField
-								className="w-100"
-								placeholder="Enter phone number"
-								type="text"
-								id="MobileNo"
-								name="MobileNo"
-								register={register}
-								required
-								error={errors.MobileNo}
-								errorText={
-									errors.MobileNo && errors.MobileNo.message
-								}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="email">Email Address</label>
-						</div>
-						<div className="col-lg-9">
-							<TextField
-								autoComplete="off"
-								placeholder="example@examplemail.com"
-								className="w-100"
-								type="email"
-								id="Email"
-								name="Email"
-								register={register}
-								required
-								error={errors.Email}
-								errorText={errors.Email && errors.Email.message}
-							/>
-						</div>
-					</div>
-				</div>
 
-				<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="religion">Religion</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="ReligionId"
-								control={control}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										id="ReligionId"
-										placeholder="Choose a religion"
-										name="ReligionId"
-										options={religions}
-										searchable={false}
-										isError={!!errors.ReligionId}
-										errorText={
-											errors.ReligionId &&
-											errors.ReligionId.message
-										}
-									/>
-								)}
-							/>
-						</div>
-					</div>
-				</div>
 
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3">
-							<label htmlFor="contactAddress">Hobby</label>
-						</div>
-						<div className="col-lg-9">
-							<TextField
-								placeholder="Enter Hobby"
-								className="w-100"
-								// inputType="textarea"
-								id="Hobby"
-								name="Hobby"
-								register={register}
-								required
-								error={errors.Hobby}
-								errorText={errors.Hobby && errors.Hobby.message}
-							/>
-						</div>
-					</div>
-				</div>
-
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="email">
-								Do you have any disability
-							</label>
-						</div>
-						<div className="col-lg-9 d-flex">
-							<RadioButtons
-								label={"Yes"}
-								value={"Yes"}
-								name={"Disability"}
-								id={"Disability"}
-								register={register}
-								checked={watchData?.Disability === "Yes"}
-							/>
-							<div className="mx-4">
-								<RadioButtons
-									label={"No"}
-									value={"No"}
-									name={"Disability"}
-									id={"Disability"}
-									register={register}
-									checked={watchData?.Disability === "No"}
-								/>
-							</div>
-							<div>
-								{errors.Disability &&
-									errors.Disability.message && (
-										<ValidationText
-											status={"error"}
-											message={errors.Disability.message}
-										/>
-									)}
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="maritalStatus">
-								Course of Study
-							</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="CourseId"
-								control={control}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										id="CourseId"
-										placeholder="Choose a Course of Study"
-										name="CourseId"
-										options={departments}
-										// searchable={false}
-										isError={!!errors.CourseId}
-										errorText={
-											errors.CourseId &&
-											errors.CourseId.message
-										}
-									/>
-								)}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="border-top border-bottom px-4 py-3 jumbotron-header jumbo-header">
-					<span>Next of Kin / Parent Details</span>
-				</div>
-				<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="full_name">Full Name</label>
-						</div>
-						<div className="col-lg-9">
-							<TextField
-								autoComplete="off"
-								placeholder="Enter Full Name"
-								className="w-100 pr-2"
-								name="SponsersFullname"
-								register={register}
-								error={errors.SponsersFullname}
-								errorText={
-									errors.SponsersFullname &&
-									errors.SponsersFullname.message
-								}
-								// disabled
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="email">Email Address</label>
-						</div>
-						<div className="col-lg-9">
-							<TextField
-								autoComplete="off"
-								placeholder="example@examplemail.com"
-								className="w-100"
-								type="email"
-								id="SponsersEmail"
-								name="SponsersEmail"
-								register={register}
-								required
-								error={errors.SponsersEmail}
-								errorText={
-									errors.SponsersEmail &&
-									errors.SponsersEmail.message
-								}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="religion">Relationship</label>
-						</div>
-						<div className="col-lg-9">
-							<Controller
-								name="SponsersRelationship"
-								control={control}
-								render={({ field }) => (
-									<SMSelect
-										{...field}
-										id="SponsersRelationship"
-										placeholder="Choose a Relationship"
-										name="SponsersRelationship"
-										options={relationships}
-										searchable={false}
-										isError={!!errors.SponsersRelationship}
-										errorText={
-											errors.SponsersRelationship &&
-											errors.SponsersRelationship.message
-										}
-									/>
-								)}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="sponsorMobileNo">Mobile No</label>
-						</div>
-						<div className="d-flex col-lg-9">
-							<TextField
-								id="SponsersMobileNo"
-								className="w-100"
-								placeholder="Enter phone number"
-								type="text"
-								name="SponsersMobileNo"
-								register={register}
-								error={errors.SponsersMobileNo}
-								errorText={
-									errors.SponsersMobileNo &&
-									errors.SponsersMobileNo.message
-								}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid px-4 my-3">
-					<div className="row">
-						<div className="col-lg-3">
-							<label htmlFor="contactAddress">Address</label>
-						</div>
-						<div className="col-lg-9">
-							<TextField
-								autoComplete="off"
-								placeholder="Enter contact address"
-								inputType="textarea"
-								className="w-100"
-								id="SponsersAddress"
-								name="SponsersAddress"
-								register={register}
-								required
-								error={errors.SponsersAddress}
-								errorText={
-									errors.SponsersAddress &&
-									errors.SponsersAddress.message
-								}
-							/>
-						</div>
-					</div>
-				</div>
 			</Jumbotron>
 		</form>
 	);

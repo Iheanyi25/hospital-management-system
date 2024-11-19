@@ -60,13 +60,13 @@ const AddDropCourse = () => {
 	} = useForm();
 
 	useEffect(() => {
-		if (addOrDropCourses?.data?.registrableCourses) {
-			setCourses(addOrDropCourses.data.registrableCourses);
-			setSelectedCourses(addOrDropCourses.data.registrableCourses);
+		if (addOrDropCourses?.data?.registerableCourses) {
+			setCourses(addOrDropCourses.data.registerableCourses);
+			setSelectedCourses(addOrDropCourses.data.registerableCourses);
 
 			//select all courses initially
 			const allSelectedInitially = {};
-			addOrDropCourses.data.registrableCourses.forEach((course) => {
+			addOrDropCourses.data.registerableCourses.forEach((course) => {
 				allSelectedInitially[
 					course.courseAssignedForDepartmentId
 				] = true;
@@ -75,8 +75,8 @@ const AddDropCourse = () => {
 
 			//calculate total credit unit
 			const totalCreditUnitSelectedInitially =
-				addOrDropCourses.data.registrableCourses.reduce(
-					(acc, course) => acc + course.courseUnit,
+				addOrDropCourses.data.registerableCourses.reduce(
+					(acc, course) => acc + course.unitLoadId,
 					0
 				);
 			setTotalSelectedCreditUnit(totalCreditUnitSelectedInitially);
@@ -84,14 +84,15 @@ const AddDropCourse = () => {
 	}, [addOrDropCourses]);
 
 	const addCourse = (data) => {
+
 		const requestDet = {
 			url: addCoursesUrl(),
 			data: {
-				userId: addOrDropCourses?.data?.studentData?.userId,
-				sessionId: addOrDropCourses?.data?.studentData?.sessionId,
-				levelId: addOrDropCourses?.data?.studentData?.levelId,
-				semesterId: addOrDropCourses?.data?.studentData?.semesterId,
-				courses: data
+				userId: addOrDropCourses?.data?.studentProfile?.userId,
+				sessionId: addOrDropCourses?.data?.studentProfile?.sessionId,
+				levelId: addOrDropCourses?.data?.studentProfile?.levelId,
+				semesterId: addOrDropCourses?.data?.studentProfile?.semesterId,
+				coursesToRegister: data
 			}
 		};
 		callAction(requestDet, {
@@ -130,19 +131,14 @@ const AddDropCourse = () => {
 	};
 
 	const dropCourse = () => {
-		const {
-			courseAssignedForDepartmentId,
-			courseUnit,
-			sessionId,
-			yearOfStudyId
-		} = editData;
+		const { courseAssignedForDepartmentId, unitLoadId } = editData;
 		const requestDet = {
 			url: dropCourseUrl(courseAssignedForDepartmentId),
 			data: {
 				userId: filter.matricNo,
-				courseUnit,
-				sessionId,
-				yearOfStudyId,
+				courseUnit: unitLoadId,
+				levelId: addOrDropCourses?.data?.studentProfile?.levelId,
+				sessionId: addOrDropCourses?.data?.studentProfile?.sessionId,
 				semesterId: filter?.semester
 			}
 		};
@@ -216,7 +212,7 @@ const AddDropCourse = () => {
 					sessionId={filter.sessionId}
 					academicYearDetails={filter}
 					setSelectedCourses={setSelectedCourses}
-					studentData={addOrDropCourses?.data?.studentData}
+					studentData={addOrDropCourses?.data?.studentProfile}
 					isAdding={isAdding}
 					adminCallback={addCourse}
 				/>
@@ -243,7 +239,7 @@ const AddDropCourse = () => {
 					/>
 					<Table
 						data={allCourses}
-						studentData={addOrDropCourses?.data?.studentData}
+						studentData={addOrDropCourses?.data}
 						totalSelectedCreditUnit={totalSelectedCreditUnit}
 						isSelecetd={isSelecetd}
 						selectedCourses={allSelectedCourses}

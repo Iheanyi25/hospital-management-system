@@ -12,6 +12,7 @@ import { useApiPost } from "../../../../../../api/apiCall";
 import { useQueryClient } from "react-query";
 import {
 	geRegisteredCoursesForApprovalUrl,
+	getCoursesToAddOrDropUrl,
 	postCourseApprovalUrl
 } from "../../../../../../api/urls";
 import { useLocation } from "react-router-dom";
@@ -28,7 +29,7 @@ export const Schema = yup.object().shape({
 			return schema.default("");
 		})
 });
-export const EditStatus = ({ closeModal }) => {
+export const EditStatus = ({ closeModal, levelId }) => {
 	const { state } = useLocation();
 	const { mutate, isLoading } = useApiPost();
 	const queryClient = useQueryClient();
@@ -64,9 +65,10 @@ export const EditStatus = ({ closeModal }) => {
 				studentId: state?.data?.studentId,
 				sessionId: state?.data?.sessionId,
 				semesterId: state?.data?.semesterId,
-				levelId: state?.data?.levelId,
+				levelId,
 				approved: data.status === "Approve" ? true : false,
-				comment: data.comment
+				comment: data.comment,
+				userId: state?.data?.userId
 			}
 		};
 		mutate(requestDet, {
@@ -77,6 +79,13 @@ export const EditStatus = ({ closeModal }) => {
 						sessionId: state?.data?.sessionId,
 						semester: state?.data?.semesterId,
 						levelId: state?.data?.levelId
+					})
+				);
+				queryClient.invalidateQueries(
+					getCoursesToAddOrDropUrl({
+						sessionId: state?.data?.sessionId,
+						semesterId: state?.data?.semesterId,
+						userId: state?.data?.userId
 					})
 				);
 				closeModal();

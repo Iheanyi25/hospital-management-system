@@ -12,7 +12,7 @@ import {
 	checkIfFilesAreTooBig
 } from "../../../../../utils/FileValidation";
 import { useApiBlob } from "../../../../../api/apiCall";
-import { downloadDirectEntryListTemplateUrl } from "./../../../../../api/urlCategories/DirectEntryList";
+import { downloadDirectEntryListTemplateUrl } from "./../../../../../api/urlCategories/DirectEntryApplication";
 
 const schema = yup.object().shape({
 	resultSheet: yup

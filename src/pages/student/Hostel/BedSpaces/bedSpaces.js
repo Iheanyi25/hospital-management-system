@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
 	useHistory,
 	useLocation
@@ -13,7 +13,8 @@ import {
 	Breadcrumbs,
 	Button,
 	Jumbotron,
-	PageTitle
+	PageTitle,
+	ProfileContext
 } from "../../../../ui_elements";
 
 import styles from "../styles.module.css";
@@ -23,6 +24,8 @@ import { PAYMENTIDENTIFIER } from "../../../../utils/constants";
 const BedSpaces = () => {
 	const { push, goBack } = useHistory();
 	const { state } = useLocation();
+
+	const profileData = useContext(ProfileContext);
 
 	if (!state) goBack();
 
@@ -35,26 +38,42 @@ const BedSpaces = () => {
 
 	const [currentBedSpace, setCurrentdBedSpace] = useState(null);
 
-	const crumbItems = [
-		{
-			name: "Hostel",
-			path: "/hostel"
-		},
-		{
-			name: "Book Hostel",
-			path: "/hostel/book_hostel",
-			state
-		},
-		{
-			name: state?.name,
-			path: "/hostel/select_room",
-			state
-		},
-		{
-			name: state?.roomName,
-			path: ""
-		}
-	];
+	const crumbItems = state?.isArrears
+		? [
+				{
+					name: "Hostel",
+					path: "/hostel"
+				},
+				{
+					name: "Pay Arrears",
+					path: "/hostel/arrears_payment",
+					state
+				},
+				{
+					name: state?.roomName,
+					path: ""
+				}
+		  ]
+		: [
+				{
+					name: "Hostel",
+					path: "/hostel"
+				},
+				{
+					name: "Book Hostel",
+					path: "/hostel/book_hostel",
+					state
+				},
+				{
+					name: state?.name,
+					path: "/hostel/select_room",
+					state
+				},
+				{
+					name: state?.roomName,
+					path: ""
+				}
+		  ];
 
 	const selectedBedSpace = (item) => {
 		setCurrentdBedSpace(item);
@@ -86,10 +105,12 @@ const BedSpaces = () => {
 			data: {
 				amount: state?.price,
 				hostelBedId: currentBedSpace?.id,
-				sessionId: currentBedSpace?.sessionId,
-				levelId: currentBedSpace?.levelId,
-				paymentPurposeId: PAYMENTIDENTIFIER?.hostel,
-				paymentTypeId: 1
+				sessionId: state?.sessionId ?? currentBedSpace?.sessionId,
+				levelId: profileData?.profileData?.programmeDetail?.levelId,
+				paymentPurposeId: state?.isArrears
+					? PAYMENTIDENTIFIER?.hostelArrears
+					: PAYMENTIDENTIFIER?.hostel,
+				paymentTypeId: "Full"
 			}
 		};
 
@@ -232,9 +253,10 @@ const BedSpaces = () => {
 								</p>
 								<p className="py-2">
 									Once you have booked a room you have a time
-									limit of 8 days to make payment. If payment
-									hasn’t been made within 8 days, the room can
-									be made available to someone else.{" "}
+									limit of 2 days to make payment. If payment
+									hasn’t been made within 2 days, the room can
+									be made available to someone else and your
+									invoice deactivated.{" "}
 								</p>
 							</div>
 						</div>

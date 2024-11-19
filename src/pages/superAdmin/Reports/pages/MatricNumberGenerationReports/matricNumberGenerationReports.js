@@ -132,7 +132,7 @@ const MatricNumberGenerationReports = () => {
 			? `for the department of ${department}`
 			: faculty
 			? `for the faculty of ${faculty}`
-			: "for all Faculties"
+			: "for all faculties"
 	} for ${sessionName} session${
 		filter.dateTo
 			? ` between ${shortDate(filter.dateFrom)} and ${shortDate(
@@ -188,6 +188,7 @@ const MatricNumberGenerationReports = () => {
 		setValue("facultyId", null);
 		setValue("departmentId", null);
 	};
+	console.log(reports);
 	if (isLoading || isLoadingStudentTypes) return <Spinner />;
 	if (error)
 		return "An error has occurred: " + error?.response?.data?.message;
@@ -206,7 +207,7 @@ const MatricNumberGenerationReports = () => {
 						isLoadingFaculties={isLoadingFaculties}
 						facultyState={facultyState}
 						studentTypeState={studentTypeState}
-						data={reports?.data?.items}
+						data={reports?.data?.studentData?.items}
 						setFilter={setFilter}
 						onStudentTypeChange={onStudentTypeChange}
 						onFacultyChange={onFacultyChange}
@@ -230,7 +231,8 @@ const MatricNumberGenerationReports = () => {
 										reports?.data?.studentData?.items || []
 									}
 									paginationProps={
-										reports?.data?.metaData || {}
+										reports?.data?.studentData?.metaData ||
+										{}
 									}
 									hasPerformedQuery={!!filter.studentTypeId}
 									setPageNumber={setPageNumber}

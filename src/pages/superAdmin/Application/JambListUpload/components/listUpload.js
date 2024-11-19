@@ -9,7 +9,7 @@ import {
 } from "../../../../../ui_elements";
 import {
 	checkIfFilesAreCorrectType,
-	checkIfFilesAreTooBig
+	checkIfAdmissionListFilesAreTooBig
 } from "../../../../../utils/FileValidation";
 import { downloadJambListTemplateUrl } from "../../../../../api/urls";
 import { useApiBlob } from "../../../../../api/apiCall";
@@ -21,7 +21,7 @@ const schema = yup.object().shape({
 			return value && value.length;
 		})
 		.test("is-big-file", "The file you selected is too big!", (files) =>
-			checkIfFilesAreTooBig(files, 1000)
+			checkIfAdmissionListFilesAreTooBig(files, 3000)
 		)
 		.test(
 			"is-correct-file",

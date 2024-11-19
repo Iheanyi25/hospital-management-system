@@ -4,85 +4,75 @@ import {
 	checkifDuplicateEntriesExist,
 	checkIfMinimumNumberOfSubjectIsSelected,
 	checkforValidName,
-	checkIfValidFullName,
-	checkForNumbersAndStrings
+	checkForWholeAndTwoDecimalPlaceNumbers,
+	checkforValidInitial
 } from "../../../utils/formValidations";
 
 export const personalDetailsSchema = yup.object().shape({
 	Surname: yup
 		.string()
 		.nullable()
-		.test("text name", "invaild name", checkforValidName),
+		.test("text name", "Invaild name", checkforValidName),
 	Firstname: yup
 		.string()
 		.nullable()
-		.test("text name", "invaild name", checkforValidName),
+		.test("text name", "Invaild name", checkforValidName),
 	Middlename: yup
 		.string()
 		.nullable()
-		.test("text name", "invaild name", checkforValidName),
-	GenderId: yup.mixed().required("please select your gender").nullable(),
-	DateofBirth: yup.string().required("please enter your date of birth").nullable(),
-	BloodGroupId: yup.mixed().required("please select your blood group"),
-	GenoTypeId: yup.mixed().required("please select your genotype"),
-	CountryId: yup.mixed().required("please select your country"),
-	StateId: yup.mixed().required("please select your state"),
+		.test("text name", "Invalid name", checkforValidInitial),
+	GenderId: yup.mixed().required("Please select your gender").nullable(),
+	DateofBirth: yup
+		.string()
+		.required("Please enter your date of birth")
+		.nullable(),
+	CountryId: yup.mixed().required("Please select your country"),
+	StateId: yup.mixed().required("Please select your state"),
 	LgaId: yup.mixed().when("$isLGARequired", (isLGARequired, schema) => {
 		if (isLGARequired) {
-			return schema.required("please select your LGA");
+			return schema.required("Please select your LGA");
 		}
 		return schema.default(null);
 	}),
-	Town: yup.string().required("please input your town").nullable(),
 	PermanentAddress: yup
 		.string()
-		.required("please enter your address")
+		.required("Please enter your address")
 		.nullable()
-		.test("test name", "invalid address", checkForNumbersAndStrings)
 		.min(3),
-	Hobby: yup.string().required("please enter your hobby").nullable(),
 	MobileNo: yup
 		.string()
-		.required("phone number is required")
-		.test("text number", "invaild phone number", checkForCorrectPhoneNumber)
+		.required("Phone number is required")
+		.test("text number", "Invaild phone number", checkForCorrectPhoneNumber)
 		.nullable(),
 	Email: yup
 		.string()
-		.required("email is required")
-		.email("invalid email address")
-		.nullable(),
-	ReligionId: yup.mixed().required("please select your religion"),
-	Disability: yup.string().required("check a radio button").nullable(),
-	CourseId: yup.mixed().required("please select your course"),
-
-	SponsersFullname: yup
-		.string()
-		.required("please enter sponsor's full name")
-		.test("text name", "invaild name", checkIfValidFullName)
-		.nullable(),
-	SponsersEmail: yup
-		.string()
-		.required("email is required")
-		.email("invalid email address")
-		.nullable(),
-	SponsersRelationship: yup
-		.mixed()
-		.required("please select sponsor's relationship")
-		.nullable(),
-	SponsersMobileNo: yup
-		.string()
-		.required("sponsor's phone number is required")
-		.test(
-			"text number",
-			"invaild phone number",
-			checkForCorrectPhoneNumber
-		),
-	SponsersAddress: yup
-		.string()
-		.required("please input your address")
+		.required("Email is required")
+		.email("Invalid email address")
 		.nullable()
-		.test("test name", "invalid address", checkForNumbersAndStrings)
-		.min(3)
+});
+
+export const ProgrammeDetailsSchema = yup.object().shape({
+	department: yup.mixed().required("Please select your department"),
+	regNo: yup.string().required("Please enter your reg number").nullable(),
+	certificateType: yup.mixed().required("Please select your certificate"),
+	grade: yup.mixed().when("certificateType", {
+		is: (certificateType) => (certificateType?.label !== "A Level" || certificateType?.label !== "JUPEB"),
+		then: yup.mixed().required("Please select grade"),
+		otherwise: yup.mixed().notRequired()
+	}),
+	cgpa: yup
+		.string()
+		.required("Please enter your CGPA")
+		.test("cgpa", "Invalid cgpa", checkForWholeAndTwoDecimalPlaceNumbers)
+		.nullable(),
+	previousSchool: yup
+		.string()
+		.required("Please enter your previous school")
+		.nullable(),
+	previousCourse: yup
+		.string()
+		.required("Please enter your previous course")
+		.nullable()
 });
 
 export const OlevelResultSchema = yup.object().shape({
@@ -90,20 +80,16 @@ export const OlevelResultSchema = yup.object().shape({
 		.array()
 		.of(
 			yup.object().shape({
-				examinationType: yup
+				oLevelType: yup
 					.mixed()
-					.required("please select your o level type"),
+					.required("Please input your O'Level type"),
 				examCentre: yup
 					.string()
-					.required("please enter your exam center"),
+					.required("Please enter your exam center"),
 				examNumber: yup
 					.string()
-					.required("please enter your exam number"),
-				examYear: yup.mixed().required("please select your exam year"),
-				cardPin: yup.string().required("please enter your card pin"),
-				cardSerialNumber: yup
-					.string()
-					.required("please enter your card serial number"),
+					.required("Please enter your exam number"),
+				examYear: yup.mixed().required("Please select your exam year"),
 				subjects: yup
 					.array()
 					.of(
@@ -114,38 +100,25 @@ export const OlevelResultSchema = yup.object().shape({
 					)
 					.test(
 						"incomplete",
-						"subjects are required",
+						"Subjects are required",
 						checkIfMinimumNumberOfSubjectIsSelected
 					)
 					.test(
 						"duplicate",
-						"duplicate entries exists",
+						"Duplicate entries exists",
 						checkifDuplicateEntriesExist
 					)
-					.required("please select at least one subject")
+					.required("Please select entry")
 			})
 		)
-		.required("this information is required")
+		.required("This information is required")
 });
 
-export const InstitutionAttendedSchema = yup.object().shape({
-	institutionAttended: yup
-		.array()
-		.of(
-			yup.object().shape({
-				institution: yup.string().required("enter name of institution"),
-				fieldOfStudy: yup
-					.string()
-					.required("enter name your field of study"),
-				dateFrom: yup.string().required("enter start date"),
-				dateTo: yup.string().required("enter end date"),
-				certificate: yup.string().required("enter certificate")
-			})
-		)
-		// .test(
-		// 	"test",
-		// 	"institutions attended are required",
-		// 	checkIfAtLeastOneInstitutionIsSelected
-		// )
-		// .required("please submit at least one institution attended")
+export const UploadCertificateSchema = yup.object().shape({
+	birthCertificate: yup.string().required("Field cannot be empty"),
+	lgaIdentification: yup.string().required("Field cannot be empty"),
+	testimonials: yup.string().required("Field cannot be empty"),
+	firstSchoolLeaving: yup.string().nullable(),
+	ondHndStatementOfResult: yup.string().required("Field cannot be empty"),
+	olevelResult: yup.string().required("Field cannot be empty")
 });

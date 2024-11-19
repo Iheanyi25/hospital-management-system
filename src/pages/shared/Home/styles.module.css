@@ -1,5 +1,5 @@
 .container {
-	background-image: url("../../../assets/images/landingBanner.png");
+	background-image: url("https://smcore.blob.core.windows.net/logos/akwapolylanding.png");
 	background-position: top;
 	/* background-attachment: fixed; */
 	background-repeat: no-repeat;
@@ -7,6 +7,7 @@
 	height: auto;
 	background-size: cover;
 	background-attachment: fixed;
+	background-color: var(--primary);
 }
 
 .sectionsContainer {
@@ -223,7 +224,7 @@
 
 	.cardsContainer {
 		padding: 64px;
-		max-width: 872px;
+		max-width: 1200px;
 		width: calc(100% - 128px);
 		background-color: var(--neutral-20);
 		border-radius: 12px;

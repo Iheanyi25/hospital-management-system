@@ -1,0 +1,13 @@
+.page_content {
+	display: flex;
+	justify-content: center;
+	padding-top: 15%;
+}
+
+.content {
+	margin-top: 96px;
+}
+
+.button_class_list {
+	min-width: 6rem;
+}
