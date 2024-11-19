@@ -354,11 +354,17 @@ const SchoolFeesAssignment = () => {
 			PaymentChannelId,
 			SchoolProgrammeId,
 			ModeOfStudyId,
-			ProgrammeTypeId
+			ProgrammeTypeId,
+			CategoryId
 			// IsStaff
 		} = filter;
 		// setting this value from watch data to prevent the value resetting anytime the state is upadated
 		if (Level) setValue("Level", findValueAndLabel(Level, allLevels));
+		if (CategoryId)
+			setValue(
+				"CategoryId",
+				findValueAndLabel(CategoryId, allStudentCategory)
+			);
 		if (SchoolProgrammeId)
 			setValue(
 				"SchoolProgrammeId",
