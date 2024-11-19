@@ -37,7 +37,7 @@ export const ViewSchoolFeesForm = ({
 	isLoadingStudentModesOfStudy,
 	isLoadingProgrammeTypes,
 	allProgrammeTypes,
-	allStaffStatus,
+	allStudentCategory,
 	setValue,
 	searchTerm
 }) => {
@@ -56,7 +56,7 @@ export const ViewSchoolFeesForm = ({
 			...state,
 			StudentTypeId: formData.StudentTypeId.value,
 			StudentModeId: formData.StudentModeId.value,
-			IsStaff: formData.IsStaff.value,
+			CategoryId: formData.CategoryId.value,
 			ModeOfEntryId: formData.ModeOfEntryId.value,
 			ServiceTypeId: formData.ServiceTypeId.value,
 			SessionId: formData.session.value,
@@ -77,7 +77,7 @@ export const ViewSchoolFeesForm = ({
 				StudentModeId: formData.StudentModeId.value,
 				ModeOfEntryId: formData.ModeOfEntryId.value,
 				ServiceTypeId: formData.ServiceTypeId.value,
-				IsStaff: formData.IsStaff.value,
+				CategoryId: formData.CategoryId.value,
 				SessionId: formData.session.value,
 				Level: formData.Level.value,
 				PaymentType: formData.PaymentType.value,
@@ -221,24 +221,24 @@ export const ViewSchoolFeesForm = ({
 								<div className="col-lg-3 d-flex  align-items-center">
 									<label
 										className="font-weight-bold"
-										htmlFor="IsStaff"
+										htmlFor="CategoryId"
 									>
-										Staff Status
+										Student Category
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="IsStaff"
+										name="CategoryId"
 										control={control}
 										rules={{ required: true }}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
-												placeholder="Is the student a staff?"
-												options={allStaffStatus}
-												id="IsStaff"
+												placeholder="Select Category of Student"
+												options={allStudentCategory}
+												id="CategoryId"
 												searchable={false}
-												isError={!!errors.IsStaff}
+												isError={!!errors.CategoryId}
 											/>
 										)}
 									/>
