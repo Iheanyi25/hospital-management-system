@@ -29,16 +29,17 @@ export const FeesPreview = ({
 		const formData = new FormData();
 		formData.append("file", fileData?.file, fileData?.file.name);
 		formData.append("teneceCommission", fileData?.teneceCommission);
-		formData.append("kSmartCommission", fileData?.kSmartCommission);
+		// formData.append("kSmartCommission", fileData?.kSmartCommission);
+		formData.append("CategoryId", fileData?.CategoryId);
 		formData.append("hubblyCommission", fileData?.hubblyCommission);
-		formData.append("seamfixCommission", fileData?.seamfixCommission);
+		// formData.append("seamfixCommission", fileData?.seamfixCommission);
 		formData.append("SessionId", currentFilterState.SessionId);
 		formData.append(
 			"PaymentChannelId",
 			currentFilterState.PaymentChannelId
 		);
 		formData.append("ProgrammeTypeId", currentFilterState?.ProgrammeTypeId);
-		formData.append("IsStaff", currentFilterState?.IsStaff);
+		// formData.append("IsStaff", currentFilterState?.IsStaff);
 		formData.append(
 			"SchoolProgrammeId",
 			currentFilterState.SchoolProgrammeId

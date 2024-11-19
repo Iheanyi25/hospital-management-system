@@ -43,7 +43,7 @@ const SchoolFeesEdit = () => {
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
 
-	const [breakdowns, setBreakdowns] = useState([0, 1, 2, 3]);
+	const [breakdowns, setBreakdowns] = useState([0, 2]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 
 	const crumbItems = [
@@ -96,9 +96,9 @@ const SchoolFeesEdit = () => {
 			),
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
-				KSmartCommission: getValues()?.["amount"]?.[1] || 0,
+				// KSmartCommission: getValues()?.["amount"]?.[1] || 0,
 				HubblyCommission: getValues()?.["amount"]?.[2] || 0,
-				SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
+				// SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
 				PaymentChannelId: filter?.PaymentChannelId,
 				StudentTypeId: filter?.StudentTypeId,
@@ -106,7 +106,7 @@ const SchoolFeesEdit = () => {
 				...hasSchoolProgrammeId,
 				...hasModeOfStudyId,
 				...hasProgrammeTypeId,
-				IsStaff: filter?.IsStaff,
+				CategoryId: filter?.CategoryId,
 				DepartmentId: breakdown?.data?.departmentId || departmentId,
 				LevelId: filter?.Level,
 				PaymentTypeId:
@@ -189,12 +189,14 @@ const SchoolFeesEdit = () => {
 	useEffect(() => {
 		setValue(`amount.${0}`, breakdown?.data?.teneceCommission || 0);
 		setValue(`description.${0}`, "Tenece Commission");
-		setValue(`amount.${1}`, breakdown?.data?.kSmartCommission || 0);
-		setValue(`description.${1}`, "KSmart Commission");
+
+		// Todo incase they start adding said commisions
+		// setValue(`amount.${1}`, breakdown?.data?.kSmartCommission || 0);
+		// setValue(`description.${1}`, "KSmart Commission");
 		setValue(`amount.${2}`, breakdown?.data?.hubblyCommission || 0);
 		setValue(`description.${2}`, "Hubbly Commission");
-		setValue(`amount.${3}`, breakdown?.data?.seamfixCommission || 0);
-		setValue(`description.${3}`, "Seamfix Commission");
+		// setValue(`amount.${3}`, breakdown?.data?.seamfixCommission || 0);
+		// setValue(`description.${3}`, "Seamfix Commission");
 
 		if (breakdown?.data && breakdown?.data?.breakdown.length > 0) {
 			breakdown?.data?.breakdown?.map((_, index) => {
@@ -221,6 +223,8 @@ const SchoolFeesEdit = () => {
 		return (
 			"An error has occurred: " + errorBreakdown?.response?.data?.message
 		);
+
+	console.log("WAHAHAHA", filter);
 	return (
 		<div className={styles.container}>
 			<Breadcrumbs crumbs={crumbItems} />

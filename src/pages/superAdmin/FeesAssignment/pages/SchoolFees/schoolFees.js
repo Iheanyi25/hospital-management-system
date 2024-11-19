@@ -15,7 +15,8 @@ import {
 	getPaymentChannelsUrl,
 	getSchoolProgrammesUrl,
 	getStudentModesOfStudyUrl,
-	getProgrammeTypesUrl
+	getProgrammeTypesUrl,
+	getStudentCategoryUrl
 } from "../../../../../api/urls";
 import { Button, Spinner, CenteredDialog } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
@@ -42,7 +43,8 @@ const SchoolFeesAssignment = () => {
 		StudentTypeId: parsed?.StudentTypeId || "",
 		StudentModeId: parsed?.StudentModeId || "",
 		ModeOfEntryId: parsed?.ModeOfEntryId || "",
-		IsStaff: parsed?.IsStaff || "",
+		// IsStaff: parsed?.IsStaff || "",
+		CategoryId: parsed?.CategoryId || "",
 		ServiceTypeId: parsed?.ServiceTypeId || "",
 		PaymentChannelId: parsed?.PaymentChannelId || "",
 		SchoolProgrammeId: parsed?.SchoolProgrammeId || "",
@@ -148,6 +150,14 @@ const SchoolFeesAssignment = () => {
 		refetchOnWindowFocus: false,
 		enabled: !!watchData?.StudentTypeId
 	});
+
+	const {
+		data: studentCategory,
+		isLoading: isLoadingCategories,
+		error: studentCategoryError
+	} = useApiGet(getStudentCategoryUrl(), {
+		refetchOnWindowFocus: false
+	});
 	const {
 		data: feesToAssign,
 		isLoading: isLoadingFeesToAssign,
@@ -161,7 +171,8 @@ const SchoolFeesAssignment = () => {
 			LevelId: filter.Level,
 			StudentTypeId: filter.StudentTypeId,
 			StudentModeId: filter.StudentModeId,
-			IsStaff: filter.IsStaff,
+			CategoryId: filter.CategoryId,
+			// IsStaff: filter.IsStaff,
 			ModeOfEntryId: filter.ModeOfEntryId,
 			SchoolProgrammeId: filter.SchoolProgrammeId,
 			ProgrammeTypeId: filter.ProgrammeTypeId,
@@ -226,6 +237,12 @@ const SchoolFeesAssignment = () => {
 		() => formatSelectItems(programmeTypes?.data, "name", "id"),
 		[programmeTypes]
 	);
+
+	const allStudentCategory = useMemo(
+		() => formatSelectItems(studentCategory?.data, "name", "id"),
+		[studentCategory]
+	);
+
 	const allStaffStatus = useMemo(
 		() => [
 			{
@@ -338,17 +355,23 @@ const SchoolFeesAssignment = () => {
 			SchoolProgrammeId,
 			ModeOfStudyId,
 			ProgrammeTypeId,
-			IsStaff
+			CategoryId
+			// IsStaff
 		} = filter;
 		// setting this value from watch data to prevent the value resetting anytime the state is upadated
 		if (Level) setValue("Level", findValueAndLabel(Level, allLevels));
+		if (CategoryId)
+			setValue(
+				"CategoryId",
+				findValueAndLabel(CategoryId, allStudentCategory)
+			);
 		if (SchoolProgrammeId)
 			setValue(
 				"SchoolProgrammeId",
 				findValueAndLabel(SchoolProgrammeId, allProgrammes)
 			);
-		if (IsStaff)
-			setValue("IsStaff", findValueAndLabel(IsStaff, allStaffStatus));
+		// if (IsStaff)
+		// 	setValue("IsStaff", findValueAndLabel(IsStaff, allStaffStatus));
 		if (ProgrammeTypeId)
 			setValue(
 				"ProgrammeTypeId",
@@ -428,7 +451,8 @@ const SchoolFeesAssignment = () => {
 		isLoadingStudentTypes ||
 		isLoadingStudentMode ||
 		isLoadingStudentModeOfEntry ||
-		isLoadingPaymentChannels
+		isLoadingPaymentChannels ||
+		isLoadingCategories
 	)
 		return <Spinner />;
 	if (
@@ -440,7 +464,8 @@ const SchoolFeesAssignment = () => {
 		feesToAssignError ||
 		facultiesError ||
 		paymentChannelsError ||
-		programmeTypesError
+		programmeTypesError ||
+		studentCategoryError
 	)
 		return "An error has occurred: " + error?.message;
 
@@ -477,7 +502,7 @@ const SchoolFeesAssignment = () => {
 					allServiceTypes={allServiceTypes}
 					allStudentTypes={allStudentTypes}
 					allStudentModes={allStudentModes}
-					allStaffStatus={allStaffStatus}
+					allStudentCategory={allStudentCategory}
 					allPaymentChannels={allPaymentChannels}
 					allStudentModeEntry={allStudentModeEntry}
 					isLoadingSchoolProgrammes={isLoadingSchoolProgrammes}
