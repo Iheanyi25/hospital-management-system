@@ -121,9 +121,9 @@ export const Form = ({
 												onChange={onStudentTypeChange}
 												searchable={false}
 												id="studentTypeId"
-												disabled={
-													programDetails?.studentTypeId
-												}
+												// disabled={
+												// 	programDetails?.studentTypeId
+												// }
 												isError={!!errors.studentTypeId}
 											/>
 										)}
@@ -169,9 +169,9 @@ export const Form = ({
 													placeholder="Select faculty"
 													options={allFaculties}
 													searchable={true}
-													disabled={
-														programDetails?.facultyId
-													}
+													// disabled={
+													// 	programDetails?.facultyId
+													// }
 													isError={!!errors.facultyId}
 												/>
 											)}
