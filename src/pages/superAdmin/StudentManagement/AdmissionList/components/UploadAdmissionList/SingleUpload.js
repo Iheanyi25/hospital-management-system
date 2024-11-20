@@ -2,7 +2,10 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SingleUploadForm from "./SingleUploadForm";
-import { checkforValidInitial, checkforValidName } from "../../../../../../utils/formValidations";
+import {
+	checkforValidInitial,
+	checkforValidName
+} from "../../../../../../utils/formValidations";
 import { STUDENT_TYPES } from "../../../../../../utils/constants";
 
 export const Schema = yup.object().shape({
@@ -51,7 +54,8 @@ export const SingleUpload = ({
 	pageNumber,
 	searchTerm,
 	pageSize,
-	setUploadModal
+	setUploadModal,
+	allStudentCategory
 }) => {
 	const isPGSelected = filter.studentTypeId === STUDENT_TYPES.POSTGRADUATE;
 	const {
@@ -79,6 +83,7 @@ export const SingleUpload = ({
 			setUploadModal={setUploadModal}
 			isPGSelected={isPGSelected}
 			isSubmitting={isSubmitting}
+			allStudentCategory={allStudentCategory}
 		/>
 	);
 };

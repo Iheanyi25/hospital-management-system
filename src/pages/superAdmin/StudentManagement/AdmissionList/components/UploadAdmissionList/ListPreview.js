@@ -22,7 +22,8 @@ export const ListPreview = ({
 	admissionTypeId,
 	pageNumber,
 	pageSize,
-	searchTerm
+	searchTerm,
+	categoryId
 }) => {
 	const { mutate, isLoading } = useApiPost();
 	const queryClient = useQueryClient();
@@ -30,6 +31,7 @@ export const ListPreview = ({
 		const formData = new FormData();
 		formData.append("file", fileData, fileData.name);
 		formData.append("admissionTypeId", admissionTypeId);
+		formData.append("categoryId", categoryId);
 		formData.append("departmentId", filter.departmentId);
 		filter.departmentOptionId !== undefined &&
 			formData.append("departmentOptionId", filter.departmentOptionId);
