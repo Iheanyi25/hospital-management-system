@@ -28,7 +28,8 @@ export const PersonalInformationForm = ({
 	onCountryChange,
 	onStateChange,
 	allGenders,
-	isLoadingLGAs
+	isLoadingLGAs,
+	allStudentCategory
 }) => {
 	const studentState = useSelector((state) => state.studentData);
 	const { PersonalData, isPassportValid } = studentState;
@@ -141,6 +142,34 @@ export const PersonalInformationForm = ({
 										errorText={
 											errors.Gender &&
 											errors.Gender.message
+										}
+									/>
+								)}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="container-fluid px-4 my-3">
+					<div className="row">
+						<div className="col-lg-3">
+							<label htmlFor="gender">Select Category</label>
+						</div>
+						<div className="col-lg-9">
+							<Controller
+								name="CategoryId"
+								control={control}
+								rules={{ required: true }}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										searchable={false}
+										placeholder="Choose a sex"
+										id="CategoryId"
+										options={allStudentCategory}
+										isError={!!errors.Gender}
+										errorText={
+											errors.CategoryId &&
+											errors.CategoryId.message
 										}
 									/>
 								)}
@@ -444,7 +473,6 @@ export const PersonalInformationForm = ({
 						</div>
 					</div>
 				</div>
-
 
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
