@@ -192,9 +192,9 @@ export default function ViewAllStudentsForm({
 												placeholder="Select faculty"
 												options={allFaculties}
 												searchable={true}
-												disabled={
-													programDetails?.facultyId
-												}
+												// disabled={
+												// 	programDetails?.facultyId
+												// }
 												isError={!!errors.facultyId}
 											/>
 										)}
@@ -238,9 +238,9 @@ export default function ViewAllStudentsForm({
 												placeholder="Select department"
 												options={allDepartments}
 												onChange={onDepartmentChange}
-												disabled={
-													programDetails?.departmentId
-												}
+												// disabled={
+												// 	programDetails?.departmentId
+												// }
 												id="departmentId"
 											/>
 										)}

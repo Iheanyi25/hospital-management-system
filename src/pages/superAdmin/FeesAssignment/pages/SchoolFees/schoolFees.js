@@ -432,7 +432,8 @@ const SchoolFeesAssignment = () => {
 		allStaffStatus,
 		watchData.StudentTypeId,
 		setValue,
-		filter
+		filter,
+		allStudentCategory
 	]);
 
 	useEffect(() => {
