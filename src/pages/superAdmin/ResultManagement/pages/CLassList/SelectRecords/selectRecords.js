@@ -235,7 +235,12 @@ const SelectResultRecords = () => {
 		}
 	);
 	const allDepartmentOption = useMemo(
-		() => formatSelectItems(departmentOption?.data, "name", "id"),
+		() =>
+			formatSelectItems(
+				departmentOption?.data,
+				"departmentOption",
+				"departmentOptionId"
+			),
 		[departmentOption]
 	);
 	const allStudentTypes = useMemo(
