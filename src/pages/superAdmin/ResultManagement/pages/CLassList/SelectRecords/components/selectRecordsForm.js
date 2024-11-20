@@ -176,7 +176,7 @@ export const SelectRecordsForm = ({
 						</div>
 						{departmentOption?.data?.length > 0 && (
 							<div className="col-md-6">
-								<div className="row">
+								<div className={`row ${"mt-5"}`}>
 									<div className="col-lg-3  d-flex align-items-center">
 										<label
 											className="font-weight-bold"
@@ -211,11 +211,7 @@ export const SelectRecordsForm = ({
 								</div>
 							</div>
 						)}
-						{isLoadingDepartmentOption && (
-							<div className="col-md-6">
-								<Spinner />
-							</div>
-						)}
+						{isLoadingDepartmentOption && <Spinner />}
 						<div className="col-md-6">
 							<div className={`row ${"mt-5"}`}>
 								<div className="col-lg-3  d-flex align-items-center">
