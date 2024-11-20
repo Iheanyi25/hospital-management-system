@@ -255,6 +255,7 @@ const CreateProfile = () => {
 					DateOfBirth: PersonalData?.DateOfBirth,
 					CountryId: PersonalData?.CountryId?.value,
 					StateId: PersonalData?.StateId?.value,
+					CategoryId: PersonalData?.CategoryId.value,
 					LgaId: PersonalData?.LgaId
 						? PersonalData?.LgaId.value
 						: null,
