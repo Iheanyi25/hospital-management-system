@@ -37,7 +37,9 @@ export default function AdmissionListForm({
 	pageSize,
 	searchTerm,
 	setValue,
-	isLoadingStudentModes
+	isLoadingStudentModes,
+	allStudentCategory,
+	isLoadingCategories
 }) {
 	const [open, setOpen] = useState(false);
 	const ref = useRef(null);
@@ -105,6 +107,8 @@ export default function AdmissionListForm({
 					searchTerm={searchTerm}
 					pageSize={pageSize}
 					setUploadModal={setOpen}
+					allStudentCategory={allStudentCategory}
+					isLoadingCategories={isLoadingCategories}
 				/>
 			</CenteredDialog>
 			<Jumbotron

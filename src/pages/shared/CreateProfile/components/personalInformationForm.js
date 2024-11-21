@@ -163,14 +163,15 @@ export const PersonalInformationForm = ({
 									<SMSelect
 										{...field}
 										searchable={false}
-										placeholder="Choose a sex"
+										placeholder="Choose a category"
 										id="CategoryId"
 										options={allStudentCategory}
-										isError={!!errors.Gender}
+										isError={!!errors.CategoryId}
 										errorText={
 											errors.CategoryId &&
 											errors.CategoryId.message
 										}
+										disabled
 									/>
 								)}
 							/>
