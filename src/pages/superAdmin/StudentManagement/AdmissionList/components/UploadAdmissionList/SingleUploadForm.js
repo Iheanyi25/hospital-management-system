@@ -38,7 +38,6 @@ export default function SingleUploadForm({
 			studentTypeId: filter.studentTypeId,
 			modeOfEntryId: filter.modeOfEntryId,
 			sessionId: filter.sessionId,
-			areaOfSpecializationId: filter?.areaOfSpecializationId,
 			...(filter?.programmeId && {
 				programmeId: filter?.programmeId
 			}),
