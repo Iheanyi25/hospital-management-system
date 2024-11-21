@@ -208,12 +208,10 @@ const ClearStudent = () => {
 		[items, isCleared, updateItems, updateAllChecks]
 	);
 	const handleValues = (values) => {
-		console.log(values, "VALUES OPEN");
 		setOpen(true);
 		setValues(values);
 	};
 	const canProceed = items.length === data.length;
-	console.log("YEYEYE", state);
 
 	if (isLoadingDepartments) return <Spinner />;
 	if (error)

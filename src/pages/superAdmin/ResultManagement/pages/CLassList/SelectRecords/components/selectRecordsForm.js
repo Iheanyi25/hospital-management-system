@@ -33,7 +33,6 @@ export const SelectRecordsForm = ({
 	programDetails
 }) => {
 	const { push } = useHistory();
-	console.log(allDepartmentOption, "YAYAYAYAY");
 
 	const onSubmit = (formData) => {
 		setFilter((state) => ({

@@ -280,8 +280,6 @@ const SelectResultRecords = () => {
 		[studentModes?.data]
 	);
 
-	console.log("WAYPPPP", watchData.studentTypeId);
-
 	useEffect(() => {
 		const {
 			departmentOptionId,
@@ -331,7 +329,6 @@ const SelectResultRecords = () => {
 	]);
 	useEffect(() => {
 		const subscription = watch(({ departmentId, studentTypeId }) => {
-			console.log("watchData", departmentId, studentTypeId);
 			setWatchData((state) => ({
 				departmentId: departmentId?.value ?? state.departmentId,
 				studentTypeId: studentTypeId?.value ?? state.studentTypeId
