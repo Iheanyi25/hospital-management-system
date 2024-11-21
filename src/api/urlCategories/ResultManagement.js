@@ -1,6 +1,6 @@
 import { generateUrlParams } from "../../utils/generateUrlParams";
 
-const baseUrl = "ResultManagement";
+const baseUrl = "Results";
 
 export const getSingleResultToManageUrl = (filter) =>
 	`${baseUrl}/results?${generateUrlParams(filter)}`;

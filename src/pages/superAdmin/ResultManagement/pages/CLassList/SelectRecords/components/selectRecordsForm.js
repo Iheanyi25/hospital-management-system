@@ -8,6 +8,7 @@ import {
 	Jumbotron
 } from "../../../../../../../ui_elements";
 import { SEMESTERS } from "../../../../../../../utils/constants";
+import { findValueAndLabel } from "../../../../../../../utils/findValueAndLabel";
 
 export const SelectRecordsForm = ({
 	control,
@@ -28,9 +29,12 @@ export const SelectRecordsForm = ({
 	levels,
 	isLoadingLevels,
 	isLoadingCourses,
-	handleCompositeSubmit
+	handleCompositeSubmit,
+	programDetails
 }) => {
 	const { push } = useHistory();
+	console.log(allDepartmentOption, "YAYAYAYAY");
+
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			...state,
@@ -123,6 +127,14 @@ export const SelectRecordsForm = ({
 										rules={{
 											required: true
 										}}
+										defaultValue={
+											programDetails?.studentTypeId
+												? findValueAndLabel(
+														programDetails.studentTypeId,
+														allStudentTypes
+												  )
+												: null
+										}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
@@ -131,6 +143,9 @@ export const SelectRecordsForm = ({
 												options={allStudentTypes}
 												searchable={false}
 												id="studentTypeId"
+												disabled={
+													programDetails?.studentTypeId
+												}
 												isError={!!errors.studentTypeId}
 											/>
 										)}
@@ -160,6 +175,14 @@ export const SelectRecordsForm = ({
 										rules={{
 											required: true
 										}}
+										defaultValue={
+											programDetails?.departmentId
+												? findValueAndLabel(
+														programDetails.departmentId,
+														allDepartments
+												  )
+												: null
+										}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
@@ -168,6 +191,9 @@ export const SelectRecordsForm = ({
 												options={allDepartments}
 												searchable={true}
 												isError={!!errors.departmentId}
+												disabled={
+													programDetails?.departmentId
+												}
 											/>
 										)}
 									/>
@@ -192,6 +218,14 @@ export const SelectRecordsForm = ({
 											rules={{
 												required: true
 											}}
+											defaultValue={
+												programDetails?.departmentOptionId
+													? findValueAndLabel(
+															programDetails.departmentOptionId,
+															allDepartmentOption
+													  )
+													: null
+											}
 											render={({ field }) => (
 												<SMSelect
 													{...field}
@@ -203,6 +237,9 @@ export const SelectRecordsForm = ({
 													searchable={false}
 													isError={
 														!!errors.departmentOptionId
+													}
+													disabled={
+														programDetails?.departmentOptionId
 													}
 												/>
 											)}
