@@ -147,7 +147,7 @@
 .global-landing-page-link-container {
 	display: flex;
 	align-items: center;
-	margin-left: -200px;
+	/* margin-left: -200px; */
 }
 
 .cancel-button {

@@ -33,12 +33,12 @@ export const ApplicationsRouter = ({
 				title: "Jamb List Upload",
 				path: "/applications/jamb_list_upload",
 				disabled: false
-			},
-			{
-				title: "Direct Entry List Upload",
-				path: "/applications/de_list_upload",
-				disabled: false
 			}
+			// {
+			// 	title: "Direct Entry List Upload",
+			// 	path: "/applications/de_list_upload",
+			// 	disabled: false
+			// }
 		],
 		[]
 	);
