@@ -241,11 +241,11 @@ const LazyPutmeResultView = lazy(() =>
 		"../../pages/superAdmin/Application/PUtmeResultUpload/putmeResultView"
 	)
 );
-const LazyDirectEntryUpload = lazy(() =>
-	import(
-		"../../pages/superAdmin/Application/DirectEntryUpload/directEntryUpload"
-	)
-);
+// const LazyDirectEntryUpload = lazy(() =>
+// 	import(
+// 		"../../pages/superAdmin/Application/DirectEntryUpload/directEntryUpload"
+// 	)
+// );
 const LazySelectCourseRecords = lazy(() =>
 	import(
 		"../../pages/superAdmin/ApproveCourses/pages/SelectRecords/selectRecords"
@@ -349,9 +349,7 @@ const LazyHostelSummaryReports = lazy(() =>
 );
 
 const LazyManageFaculties = lazy(() =>
-	import(
-		"../../pages/superAdmin/SchoolSetup/ManageSchoolSetup/manageFaculty"
-	)
+	import("../../pages/superAdmin/SchoolSetup/ManageSchoolSetup/manageFaculty")
 );
 
 const LazyManageProgrammes = lazy(() =>
@@ -366,9 +364,7 @@ const LazyManageDepartments = lazy(() =>
 	)
 );
 const LazyManageOptions = lazy(() =>
-	import(
-		"../../pages/superAdmin/SchoolSetup/ManageSchoolSetup/manageOptions"
-	)
+	import("../../pages/superAdmin/SchoolSetup/ManageSchoolSetup/manageOptions")
 );
 
 //UTILITIES
@@ -877,13 +873,13 @@ export const staffRoutes = [
 		router: ApplicationsRouter,
 		title: "Applications"
 	},
-	{
-		path: "/applications/de_list_upload",
-		component: LazyDirectEntryUpload,
-		exact: true,
-		router: ApplicationsRouter,
-		title: "Direct Entry Upload"
-	},
+	// {
+	// 	path: "/applications/de_list_upload",
+	// 	component: LazyDirectEntryUpload,
+	// 	exact: true,
+	// 	router: ApplicationsRouter,
+	// 	title: "Direct Entry Upload"
+	// },
 	{
 		path: "/approve_courses",
 		component: LazySelectCourseRecords,
