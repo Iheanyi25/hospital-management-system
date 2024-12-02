@@ -21,7 +21,8 @@ export const ListPreview = ({
 	departmentId,
 	studentTypeIdState,
 	role,
-	currentFilterState
+	currentFilterState,
+	departmentOptions
 }) => {
 	const { mutate, isLoading } = useApiPost();
 	const queryClient = useQueryClient();
@@ -29,6 +30,7 @@ export const ListPreview = ({
 		const formData = new FormData();
 		formData.append("file", fileData, fileData.name);
 		formData.append("departmentId", departmentId);
+		formData.append("departmentOptionId", departmentOptions);
 		formData.append("studentTypeId", studentTypeIdState);
 		formData.append("role", role);
 		const requestBody = {

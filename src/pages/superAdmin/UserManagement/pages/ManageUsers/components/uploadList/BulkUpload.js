@@ -13,6 +13,7 @@ export const BulkUpload = ({
 	const [extractedData, setExtractedData] = useState({});
 	const [uploaded, setUploaded] = useState(false);
 	const [departmentId, setDepartmentId] = useState("");
+	const [departmentOptions, setDepartmentOptions] = useState("");
 	const [role, setRole] = useState("");
 	const [studentTypeIdState, setStudentTypeIdState] = useState("");
 	const [error, setError] = useState(null);
@@ -48,6 +49,8 @@ export const BulkUpload = ({
 					setFileData={setFileData}
 					setRole={setRole}
 					currentFilterState={currentFilterState}
+					departmentId={departmentId}
+					setDepartmentOption={setDepartmentOptions}
 				/>
 			) : (
 				<ListPreview
@@ -59,6 +62,7 @@ export const BulkUpload = ({
 					departmentId={departmentId}
 					role={role}
 					currentFilterState={currentFilterState}
+					departmentOptions={departmentOptions}
 				/>
 			)}
 		</div>

@@ -13,10 +13,11 @@ import { addUserSchema } from "./componentsSchema";
 import {
 	createUserUrl,
 	getAllUsersUrl,
+	getDepartmentOptionUrl,
 	getDepartmentsUrl
 } from "../../../../../../api/urls";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const AddUser = ({
 	closeModal,
@@ -28,6 +29,7 @@ export const AddUser = ({
 }) => {
 	const [studentTupeState, setStudentTupeState] = useState("");
 	const queryClient = useQueryClient();
+	const [departmentType, setDepartmentType] = useState("");
 	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
 		getDepartmentsUrl(studentTupeState),
 		{
@@ -35,11 +37,32 @@ export const AddUser = ({
 			enabled: !!studentTupeState
 		}
 	);
+	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
+		useApiGet(
+			getDepartmentOptionUrl({
+				departmentId: departmentType,
+				studentTypeId: studentTupeState
+			}),
+			{
+				refetchOnWindowFocus: false,
+				enabled: !!departmentType
+			}
+		);
 	const allDepartments = formatSelectItems(
 		departments?.data,
 		"department",
 		"departmentId"
 	);
+	const allDepartmentOption = useMemo(
+		() =>
+			formatSelectItems(
+				departmentOption?.data,
+				"departmentOption",
+				"departmentOptionId"
+			),
+		[departmentOption]
+	);
+
 	const {
 		control,
 		register,
@@ -64,15 +87,17 @@ export const AddUser = ({
 	});
 	const { mutate, isLoading: isPosting } = useApiPost();
 	useEffect(() => {
-		const subscription = watch(({ StudentType }) =>
-			setStudentTupeState(StudentType?.value)
-		);
+		const subscription = watch(({ StudentType, Department }) => {
+			setStudentTupeState(StudentType?.value);
+			setDepartmentType(Department?.value);
+		});
 		return () => subscription.unsubscribe();
 	}, [watch]);
 	const onChange = (value) => {
 		clearErrors("StudentType");
 		setValue("StudentType", value);
 		setValue("Department", null);
+		setValue("departmentOption", null);
 	};
 	const onSubmit = (data) => {
 		const requestDet = {
@@ -86,6 +111,7 @@ export const AddUser = ({
 				StaffNumber: data?.StaffNumber,
 				StudentTypeId: data?.StudentType?.value,
 				DepartmentId: data?.Department?.value,
+				DepartmentOptionId: data?.departmentOption?.value,
 				MobileNumber: data?.PhoneNumber,
 				GenderId: data?.GenderId?.value,
 				CampusId: data?.CampusId?.value,
@@ -348,6 +374,42 @@ export const AddUser = ({
 										errorText={
 											errors.Department &&
 											errors.Department.message
+										}
+									/>
+								)}
+							/>
+						</div>
+					</div>
+				)
+			)}
+			{isLoadingDepartmentOption ? (
+				<div className="mb-4">
+					<Spinner />
+				</div>
+			) : (
+				allDepartmentOption?.length > 0 && (
+					<div className="row">
+						<div className="col-lg-3  d-flex align-items-center">
+							<label htmlFor="departmentOption">
+								Department Option*
+							</label>
+						</div>
+						<div className="col-lg-9">
+							<Controller
+								name="departmentOption"
+								control={control}
+								rules={{ required: true }}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										placeholder="Select a programme option"
+										searchable={true}
+										id="departmentOption"
+										options={allDepartmentOption}
+										isError={!!errors.departmentOption}
+										errorText={
+											errors.departmentOption &&
+											errors.departmentOption.message
 										}
 									/>
 								)}
