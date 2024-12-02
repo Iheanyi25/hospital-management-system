@@ -14,6 +14,7 @@ import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
 import {
 	editUserUrl,
 	getAllUsersUrl,
+	getDepartmentOptionUrl,
 	getDepartmentsUrl,
 	getUserProfileUrl
 } from "../../../../../../api/urls";
@@ -32,6 +33,7 @@ export const EditUser = ({
 	allCampuses,
 	allRoles
 }) => {
+	console.log(data, "YOOHOO");
 	const ref = useRef();
 	const profileData = useContext(ProfileContext);
 	const [shouldUpdateProfile, setShouldUpdateProfile] = useState(false);
@@ -45,6 +47,8 @@ export const EditUser = ({
 	const [studentTupeState, setStudentTupeState] = useState(
 		data?.studentTypeId
 	);
+	const [departmentType, setDepartmentType] = useState(data?.departmentId);
+
 	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
 		getDepartmentsUrl(studentTupeState),
 		{
@@ -57,6 +61,31 @@ export const EditUser = ({
 		departments?.data,
 		"department",
 		"departmentId"
+	);
+	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
+		useApiGet(
+			getDepartmentOptionUrl({
+				departmentId: departmentType,
+				studentTypeId: studentTupeState
+			}),
+			{
+				refetchOnWindowFocus: false,
+				enabled: !!departmentType
+			}
+		);
+	const allDepartmentOption = formatSelectItems(
+		departmentOption?.data,
+		"departmentOption",
+		"departmentOptionId"
+	);
+
+	console.log(
+		"YOOOWAAAA",
+		findValueAndLabel(data?.departmentOptionId, allDepartmentOption)
+	);
+	console.log(
+		"BAAAAAAA",
+		findValueAndLabel(data?.departmentId, allDepartments)
 	);
 	const {
 		control,
@@ -82,7 +111,11 @@ export const EditUser = ({
 			),
 			UserRole: { label: data.role, value: data.role },
 			Username: data.userName,
-			MobileNo: data.mobileNo
+			MobileNo: data.mobileNo,
+			DepartmentOption: findValueAndLabel(
+				data?.departmentOptionId,
+				allDepartmentOption
+			)
 		},
 		resolver: yupResolver(editUserSchema),
 		context: {
@@ -93,6 +126,7 @@ export const EditUser = ({
 
 	const queryClient = useQueryClient();
 	const onSubmit = (submitData) => {
+		console.log("WAHAHAHAHA", submitData);
 		const requestDet = {
 			url: editUserUrl(data.userId),
 			data: {
@@ -105,7 +139,8 @@ export const EditUser = ({
 				CampusId: submitData?.CampusId?.value,
 				DepartmentId: submitData?.Department?.value,
 				GenderId: submitData?.Gender?.value,
-				Role: submitData?.UserRole?.value
+				Role: submitData?.UserRole?.value,
+				DepartmentOptionId: submitData?.DepartmentOption?.value
 			}
 		};
 		mutate(requestDet, {
@@ -140,16 +175,28 @@ export const EditUser = ({
 		});
 	};
 	useEffect(() => {
-		const subscription = watch(({ StudentType }) =>
-			setStudentTupeState(StudentType?.value)
-		);
+		const subscription = watch(({ StudentType, Department }) => {
+			setStudentTupeState(StudentType?.value);
+			setDepartmentType(Department?.value);
+		});
 		return () => subscription.unsubscribe();
 	}, [watch]);
 	const onChange = (value) => {
 		clearErrors("StudentType");
 		setValue("StudentType", value);
 		setValue("Department", null);
+		setValue("DepartmentOption", null);
 	};
+
+	useEffect(() => {
+		if (allDepartmentOption.length > 0) {
+			const defaultDepartmentOption = findValueAndLabel(
+				data?.departmentOptionId,
+				allDepartmentOption
+			);
+			setValue("DepartmentOption", defaultDepartmentOption);
+		}
+	}, [allDepartmentOption, data?.departmentOptionId, setValue]);
 	return (
 		<form
 			className={`${styles.form_content} w-100 mt-5`}
@@ -447,6 +494,62 @@ export const EditUser = ({
 								onClick={() => {
 									ref?.current?.clearValue();
 									setValue("Department", null);
+								}}
+							>
+								<RedCancel className="align-middle" />
+							</span>
+						</div>
+					</div>
+				)
+			)}
+			{isLoadingDepartmentOption ? (
+				<div className="mb-4">
+					<Spinner />
+				</div>
+			) : (
+				allDepartmentOption?.length > 0 && (
+					<div className="row mb-4">
+						<div className="col-lg-3  d-flex align-items-center">
+							<label htmlFor="departmentOption">
+								Department Option*
+							</label>
+						</div>
+						<div className="col-lg-8">
+							<Controller
+								name="DepartmentOption"
+								control={control}
+								defaultValue={
+									data?.departmentOptionId
+										? findValueAndLabel(
+												data?.departmentOptionId,
+												allDepartmentOption
+										  )
+										: null
+								}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										placeholder="Select a programme option"
+										searchable={true}
+										id="DepartmentOption"
+										options={allDepartmentOption}
+										ref={ref}
+										isError={!!errors.departmentOption}
+										errorText={
+											errors.DepartmentOption &&
+											errors.DepartmentOption.message
+										}
+									/>
+								)}
+							/>
+						</div>
+						<div className={`col-1 d-flex`}>
+							<span
+								className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
+								role="button"
+								onClick={() => {
+									ref?.current?.clearValue();
+									setValue("departmentOption", null);
 								}}
 							>
 								<RedCancel className="align-middle" />
