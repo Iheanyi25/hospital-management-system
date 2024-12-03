@@ -71,6 +71,8 @@ const EditProfile = () => {
 			refetchOnWindowFocus: false
 		}
 	);
+
+	console.log("WAHAHAHA", data?.data);
 	const {
 		data: countries,
 		isLoading: isLoadingCountries,
@@ -498,6 +500,7 @@ const DisplayInformation = memo(
 						allProgrammeTypes={allProgrammeTypes}
 						refCode={refCode}
 						data={data?.programmeDetail}
+						hasMatricNumber={data?.hasMatricNumber}
 					/>
 				);
 			case "#section_e":

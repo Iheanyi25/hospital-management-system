@@ -39,7 +39,8 @@ export const ProgrammeDetailsForm = ({
 	isLoadingSchoolProgrammes,
 	isPGStudent,
 	data,
-	allStudentModes
+	allStudentModes,
+	hasMatricNumber
 }) => {
 	const { replace } = useHistory();
 	const { state } = useLocation();
@@ -321,6 +322,7 @@ export const ProgrammeDetailsForm = ({
 								name="MatricNumber"
 								type="text"
 								register={register}
+								disabled={hasMatricNumber}
 								error={errors.MatricNo}
 								errorText={
 									errors.MatricNo &&
@@ -343,6 +345,7 @@ export const ProgrammeDetailsForm = ({
 								name="JambRegNumber"
 								type="text"
 								register={register}
+								disabled={hasMatricNumber}
 								error={errors.MatricNo}
 								errorText={
 									errors.MatricNo &&
