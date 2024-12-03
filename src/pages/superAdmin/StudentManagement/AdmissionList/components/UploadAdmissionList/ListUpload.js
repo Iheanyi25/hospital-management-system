@@ -31,7 +31,8 @@ const schema = yup.object().shape({
 			"Wrong file type, ensure this an excel file!",
 			checkIfFilesAreCorrectType
 		),
-	admissionType: yup.mixed().required("please select admission batch")
+	admissionType: yup.mixed().required("please select admission batch"),
+	CategoryId: yup.mixed().required("please select admission batch")
 });
 
 export const ListUpload = ({
@@ -39,7 +40,9 @@ export const ListUpload = ({
 	allAdmissionTypes,
 	setAdmissionTypeId,
 	studentTypeId,
-	setFileData
+	setFileData,
+	allStudentCategory,
+	setCategoryId
 }) => {
 	const [downloadFile, setDownloadFile] = useState(false);
 
@@ -53,6 +56,7 @@ export const ListUpload = ({
 	const onSubmit = (data) => {
 		setUploaded(true);
 		setAdmissionTypeId(data.admissionType.value);
+		setCategoryId(data.CategoryId.value);
 		setFileData(data.resultSheet[0]);
 	};
 	const fileFieldValue = watch("resultSheet");
@@ -130,6 +134,36 @@ export const ListUpload = ({
 								errorText={
 									errors.admissionType &&
 									errors.admissionType.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label
+						htmlFor="CategoryId"
+						className={styles.admission_list_edit_label}
+					>
+						Student Category
+					</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="CategoryId"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								placeholder="Select student type"
+								searchable={true}
+								id="CategoryId"
+								options={allStudentCategory}
+								isError={!!errors.CategoryId}
+								errorText={
+									errors.CategoryId &&
+									errors.CategoryId.message
 								}
 							/>
 						)}

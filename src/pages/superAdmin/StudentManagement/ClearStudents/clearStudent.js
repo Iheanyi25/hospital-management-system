@@ -212,6 +212,7 @@ const ClearStudent = () => {
 		setValues(values);
 	};
 	const canProceed = items.length === data.length;
+
 	if (isLoadingDepartments) return <Spinner />;
 	if (error)
 		return "An error has occurred: " + error?.response?.data?.message;

@@ -7,7 +7,8 @@ export const UploadAdmissionList = ({
 	pageNumber,
 	searchTerm,
 	pageSize,
-	setUploadModal
+	setUploadModal,
+	allStudentCategory
 }) => {
 	return (
 		<Tabs id="default">
@@ -25,6 +26,7 @@ export const UploadAdmissionList = ({
 					searchTerm={searchTerm}
 					pageSize={pageSize}
 					setUploadModal={setUploadModal}
+					allStudentCategory={allStudentCategory}
 				/>
 			</TabPanel>
 			<TabPanel>
@@ -35,6 +37,7 @@ export const UploadAdmissionList = ({
 					searchTerm={searchTerm}
 					pageSize={pageSize}
 					setUploadModal={setUploadModal}
+					allStudentCategory={allStudentCategory}
 				/>
 			</TabPanel>
 		</Tabs>

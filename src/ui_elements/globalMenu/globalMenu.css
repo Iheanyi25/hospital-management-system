@@ -18,6 +18,9 @@
 	border: none;
 }
 
+.py-3 {
+	padding: 30px;
+}
 
 .red-global-logo {
 	width: 250px;
@@ -144,7 +147,7 @@
 .global-landing-page-link-container {
 	display: flex;
 	align-items: center;
-	margin-left: -200px;
+	/* margin-left: -200px; */
 }
 
 .cancel-button {
@@ -161,7 +164,7 @@
 	background-color: transparent;
 	margin-right: 16px !important;
 	font-size: 1rem;
-	color: #091E42;
+	color: #091e42;
 	cursor: pointer;
 }
 
@@ -177,13 +180,13 @@
 	top: 0% !important;
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
 	.global-landing-page-link-container {
 		margin-left: 0px;
 	}
 }
 
-@media(max-width: 834px) {
+@media (max-width: 834px) {
 	.responsive-hamburger-menu {
 		display: block;
 	}
@@ -242,7 +245,7 @@
 	}
 }
 
-@media(max-width: 322px) {
+@media (max-width: 322px) {
 	.red-global-logo {
 		width: 150px;
 	}

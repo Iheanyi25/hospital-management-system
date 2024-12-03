@@ -22,7 +22,8 @@ export const ListPreview = ({
 	admissionTypeId,
 	pageNumber,
 	pageSize,
-	searchTerm
+	searchTerm,
+	categoryId
 }) => {
 	const { mutate, isLoading } = useApiPost();
 	const queryClient = useQueryClient();
@@ -30,6 +31,7 @@ export const ListPreview = ({
 		const formData = new FormData();
 		formData.append("file", fileData, fileData.name);
 		formData.append("admissionTypeId", admissionTypeId);
+		formData.append("categoryId", categoryId);
 		formData.append("departmentId", filter.departmentId);
 		filter.departmentOptionId !== undefined &&
 			formData.append("departmentOptionId", filter.departmentOptionId);
@@ -40,6 +42,11 @@ export const ListPreview = ({
 			formData.append("programmeId ", filter.programmeId);
 		filter?.modeOfStudyId &&
 			formData.append("modeOfStudyId ", filter.modeOfStudyId);
+		filter?.areaOfSpecializationId &&
+			formData.append(
+				"areaOfSpecializationId ",
+				filter.areaOfSpecializationId
+			);
 
 		const requestBody = {
 			url: bulkUploadAdmissionListUrl(),
@@ -47,7 +54,6 @@ export const ListPreview = ({
 		};
 		mutate(requestBody, {
 			onSuccess: ({ data }) => {
-				console.log(data?.data);
 				queryClient.invalidateQueries(
 					getAdmissionList({
 						...filter,
@@ -58,10 +64,10 @@ export const ListPreview = ({
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Upload Successful",
+					title: "Upload In Progress",
 					body:
 						data?.data ||
-						`${fileData?.name} was uploaded successfully!`
+						`${fileData?.name} upload in progress, check back later`
 				});
 				setTimeout(() => {
 					successFlag.close();

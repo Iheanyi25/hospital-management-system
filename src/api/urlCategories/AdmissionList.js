@@ -11,8 +11,8 @@ export const getAdmissionList = (filter) =>
 
 export const getClearanceInfoUrl = (filter) =>
 	`${baseUrl}/admission-clearance-list?${generateUrlParams(filter)}`;
-export const updateClearanceStatusUrl = ({ admissionListId }) =>
-	`${baseUrl}/update-admission-clearance-status/${admissionListId}`;
+export const updateClearanceStatusUrl = () =>
+	`${baseUrl}/update-admission-clearance-status`;
 
 export const downloadAdmissionsListTemplateUrl = () =>
 	`${baseUrl}/download-sample-sheet`;

@@ -59,5 +59,6 @@ export const getCampusLocationUrl = () => `${baseUrl}/campus-locations`;
 export const getProgrammeTypesUrl = () => `${baseUrl}/programme-types`;
 export const getPGActualProgrammesUrl = () => `${baseUrl}/pg-programmes`;
 export const getNCESubjectsUrl = () => `${baseUrl}/NCESubjects`;
-export const getDirectEntryCertificateTypes = () => `${baseUrl}/direct-entry-certificate-types`;
-
+export const getStudentCategoryUrl = () => `${baseUrl}/student-category`;
+export const getDirectEntryCertificateTypes = () =>
+	`${baseUrl}/direct-entry-certificate-types`;

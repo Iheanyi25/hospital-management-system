@@ -27,3 +27,5 @@ export const getImpersonatorDetailsUrl = ({
 export const impersonateUserUrl = () => `${baseUrl}/impersonate`;
 export const getReferralsUrl = (filter) =>
 	`${baseUrl}/Referrals?${generateUrlParams(filter)}`;
+export const toggleUserActivationStatusUrl = (userId) =>
+	`${baseUrl}/toggle-user-activation-status?userId=${userId}`;

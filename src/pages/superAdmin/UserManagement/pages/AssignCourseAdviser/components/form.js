@@ -3,11 +3,10 @@ import {
 	Jumbotron,
 	Button,
 	SMSelect,
-	Spinner,
-	ProfileContext
+	Spinner
 } from "../../../../../../ui_elements";
 import { fieldSetterAndClearer } from "../../../../../../utils/fieldSetterAndClearer";
-import { useContext } from "react";
+// import { useContext } from "react";
 
 export const Form = ({
 	control,
@@ -23,8 +22,8 @@ export const Form = ({
 	isLoadingDepartments,
 	allDepartments
 }) => {
-	const data = useContext(ProfileContext);
-	const programDetails = data?.profileData?.programmeDetail;
+	// const data = useContext(ProfileContext);
+	// const programDetails = data?.profileData?.programmeDetail;
 
 	const onFacultyChange = (value) => {
 		setValue("facultyId", value);
@@ -81,9 +80,9 @@ export const Form = ({
 												placeholder="Select Student Type"
 												options={allStudentTypes}
 												searchable={false}
-												disabled={
-													programDetails?.studentTypeId
-												}
+												// disabled={
+												// 	programDetails?.studentTypeId
+												// }
 												onChange={(value) =>
 													fieldSetterAndClearer({
 														value,
@@ -136,9 +135,9 @@ export const Form = ({
 														onFacultyChange(value)
 													}
 													id="facultyId"
-													disabled={
-														programDetails?.facultyId
-													}
+													// disabled={
+													// 	programDetails?.facultyId
+													// }
 													searchable={true}
 													isError={!!errors.facultyId}
 												/>
@@ -178,9 +177,9 @@ export const Form = ({
 													options={allDepartments}
 													id="departmentId"
 													searchable={true}
-													disabled={
-														programDetails?.departmentId
-													}
+													// disabled={
+													// 	programDetails?.departmentId
+													// }
 													isError={
 														!!errors.departmentId
 													}

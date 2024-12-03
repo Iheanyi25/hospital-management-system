@@ -8,12 +8,14 @@ export const BulkUpload = ({
 	filter,
 	pageNumber,
 	pageSize,
-	searchTerm
+	searchTerm,
+	allStudentCategory
 }) => {
 	const [fileData, setFileData] = useState(null);
 	const [extractedData, setExtractedData] = useState({});
 	const [uploaded, setUploaded] = useState(false);
 	const [admissionTypeId, setAdmissionTypeId] = useState("");
+	const [categoryId, setCategoryId] = useState("");
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
@@ -43,6 +45,8 @@ export const BulkUpload = ({
 					allAdmissionTypes={allAdmissionTypes}
 					setFileData={setFileData}
 					studentTypeId={filter.studentTypeId}
+					allStudentCategory={allStudentCategory}
+					setCategoryId={setCategoryId}
 				/>
 			) : (
 				<ListPreview
@@ -55,6 +59,7 @@ export const BulkUpload = ({
 					searchTerm={searchTerm}
 					pageSize={pageSize}
 					filter={filter}
+					categoryId={categoryId}
 				/>
 			)}
 		</div>

@@ -30,7 +30,6 @@ import {
 	getRelationshipsUrl,
 	getReligionsUrl,
 	getSponsorRelationshipsUrl,
-	getStudentModeOfEntryUrl,
 	getStudentModesOfStudyUrl,
 	getStudentModesUrl,
 	getStudentProfileUrl,
@@ -114,12 +113,6 @@ const EditProfile = () => {
 			refetchOnWindowFocus: false
 		}
 	);
-	const {
-		data: studentModesOfEntry,
-		isLoading: isLoadingStudentModesOfEntry
-	} = useApiGet(getStudentModeOfEntryUrl(), {
-		refetchOnWindowFocus: false
-	});
 
 	const {
 		data: programmeTypes,
@@ -189,11 +182,6 @@ const EditProfile = () => {
 	);
 	const allDepartments = formatSelectItems(departments?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
-	const allStudentModesOfEntry = formatSelectItems(
-		studentModesOfEntry?.data,
-		"name",
-		"id"
-	);
 	const allStudentModesOfStudy = formatSelectItems(
 		studentModesOfStudy?.data,
 		"name",
@@ -323,7 +311,6 @@ const EditProfile = () => {
 		isLoadingRelationships ||
 		isDepartmentLoading ||
 		isLoadingStudentTypes ||
-		isLoadingStudentModesOfEntry ||
 		isLoadingStudentModesOfStudy ||
 		loadingBloodGroups ||
 		loadingGenotypes ||
@@ -429,7 +416,6 @@ const EditProfile = () => {
 					<DisplayInformation
 						allDepartments={allDepartments}
 						allStudentTypes={allStudentTypes}
-						allStudentModesOfEntry={allStudentModesOfEntry}
 						allStudentModesOfStudy={allStudentModesOfStudy}
 						allRelationships={allRelationships}
 						allSponsorRelationships={allSponsorRelationships}
@@ -457,7 +443,6 @@ const DisplayInformation = memo(
 		data,
 		allDepartments,
 		allStudentTypes,
-		allStudentModesOfEntry,
 		allStudentModesOfStudy,
 		allRelationships,
 		allSponsorRelationships,
@@ -508,7 +493,6 @@ const DisplayInformation = memo(
 						allDepartments={allDepartments}
 						allStudentTypes={allStudentTypes}
 						allStudentModesOfStudy={allStudentModesOfStudy}
-						allStudentModesOfEntry={allStudentModesOfEntry}
 						allSessions={allSessions}
 						allStudentModes={allStudentModes}
 						allProgrammeTypes={allProgrammeTypes}

@@ -183,12 +183,13 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 						<span className="text-uppercase">
 							{data?.profileData?.programmeDetail?.modeOfStudy}
 						</span>{" "}
-						programme leading to the award of {data?.profileData?.programmeDetail?.schoolProgramme} in{" "}
+						programme leading to the award of{" "}
+						{data?.profileData?.programmeDetail?.schoolProgramme} in{" "}
 						<span className="text-bold text-uppercase">
 							Department of {details.department}
 						</span>{" "}
-						of the University of Nigeria with immediate effect from
-						the {details.session} Academic Session.
+						of the {SCHOOL_DETAILS.location} with immediate effect
+						from the {details.session} Academic Session.
 					</p>
 					<p className={styles.textIndent}>
 						You are therefore to generate and download your payment
@@ -199,7 +200,8 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 						E-receipt No upon payment of prescribed fee. You are
 						expected to submit copies of admission letter,
 						Particulars of Admission, Courses Registered and Online
-						Receipt of payment of fees to the College of Postgraduate Studies, University of Nigeria, Nsukka, not
+						Receipt of payment of fees to the College of
+						Postgraduate Studies, University of Nigeria, Nsukka, not
 						later than one month from the beginning of the session.
 					</p>
 					<p>Regularization of this offer will be subject to:</p>

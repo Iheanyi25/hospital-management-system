@@ -13,7 +13,8 @@ export const PersonalInformation = ({
 	allBloodGroups,
 	allGenders,
 	allReligions,
-	allGenotypes
+	allGenotypes,
+	allStudentCategory
 }) => {
 	const { PersonalData } = useSelector((state) => state.studentData);
 	const [countryState, setCountryState] = useState(
@@ -70,7 +71,8 @@ export const PersonalInformation = ({
 			HomeTown: PersonalData?.HomeTown,
 			PermanentAddress: PersonalData?.PermanentAddress,
 			BloodGroup: PersonalData?.BloodGroup,
-			GenoType: PersonalData?.GenoType
+			GenoType: PersonalData?.GenoType,
+			CategoryId: PersonalData?.CategoryId
 		},
 		resolver: yupResolver(PersonalInformationSchema),
 		context: {
@@ -116,6 +118,7 @@ export const PersonalInformation = ({
 			allBloodGroups={allBloodGroups}
 			allGenotypes={allGenotypes}
 			allCountries={allCountries}
+			allStudentCategory={allStudentCategory}
 		/>
 	);
 };

@@ -30,7 +30,7 @@ const SchoolFeesBulk = () => {
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
 
-	const [breakdowns, setBreakdowns] = useState([0, 1, 2, 3]);
+	const [breakdowns, setBreakdowns] = useState([0]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 	const name = "Bulk Assignment";
 
@@ -102,9 +102,9 @@ const SchoolFeesBulk = () => {
 			url: bulkUpdateSchoolFeesAssignmentUrl(),
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
-				KSmartCommission: getValues()?.["amount"]?.[1] || 0,
-				HubblyCommission: getValues()?.["amount"]?.[2] || 0,
-				SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
+				// KSmartCommission: getValues()?.["amount"]?.[1] || 0,
+				// HubblyCommission: getValues()?.["amount"]?.[2] || 0,
+				// SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
 				StudentTypeId: filter?.StudentTypeId,
 				DepartmentId: formattedDepartments,
@@ -115,7 +115,8 @@ const SchoolFeesBulk = () => {
 				...hasSchoolProgrammeId,
 				...hasModeOfStudyId,
 				...hasProgrammeTypeId,
-				IsStaff: filter?.IsStaff,
+				// IsStaff: filter?.IsStaff,
+				CategoryId: filter?.CategoryId,
 				ModeOfEntryId: filter.ModeOfEntryId,
 				ServiceTypeId: filter.ServiceTypeId,
 				FeeBreakdown: Object.values(getValues()?.["amount"])
@@ -184,12 +185,12 @@ const SchoolFeesBulk = () => {
 	useEffect(() => {
 		setValue(`description.${0}`, "Tenece Commission");
 		setValue(`amount.${0}`, 0);
-		setValue(`amount.${1}`, 0);
-		setValue(`description.${1}`, "KSmart Commission");
-		setValue(`amount.${2}`, 0);
-		setValue(`description.${2}`, "Hubbly Commission");
-		setValue(`amount.${3}`, 0);
-		setValue(`description.${3}`, "Seamfix Commission");
+		// setValue(`amount.${1}`, 0);
+		// setValue(`description.${1}`, "KSmart Commission");
+		// setValue(`amount.${2}`, 0);
+		// setValue(`description.${2}`, "Hubbly Commission");
+		// setValue(`amount.${3}`, 0);
+		// setValue(`description.${3}`, "Seamfix Commission");
 	}, [setValue]);
 
 	return (
@@ -317,7 +318,7 @@ const SchoolFeesBulk = () => {
 																index
 															]
 														}
-														disabled={index < 4}
+														disabled={index < 1}
 													/>
 												</div>
 												<div className="col-md-5 d-flex align-items-center gap-2 gap-md-0">

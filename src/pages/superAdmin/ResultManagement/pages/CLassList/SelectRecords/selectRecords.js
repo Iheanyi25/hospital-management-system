@@ -1,7 +1,18 @@
-import { PageTitle, Spinner } from "../../../../../../ui_elements";
+import {
+	PageTitle,
+	Spinner,
+	ProfileContext
+} from "../../../../../../ui_elements";
 import queryString from "query-string";
 import styles from "./style.module.css";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+	useContext
+} from "react";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../../../api/apiCall";
 import {
@@ -29,6 +40,8 @@ import { CollegeSheet } from "../CompositeSheet/component/collegeSheet";
 const SelectResultRecords = () => {
 	const [makeRequest, setMakeRequest] = useState(false);
 	const componentRef = useRef();
+	const data = useContext(ProfileContext);
+	const programDetails = data?.profileData?.programmeDetail;
 
 	const handlePrint = useReactToPrint({
 		content: () => componentRef?.current,
@@ -43,8 +56,9 @@ const SelectResultRecords = () => {
 
 	const parsed = queryString.parse(window.location.search);
 	const [watchData, setWatchData] = useState({
-		departmentId: parsed?.departmentId || "",
-		studentTypeId: parsed?.studentTypeId || ""
+		departmentId: programDetails.departmentId || parsed?.departmentId || "",
+		studentTypeId:
+			programDetails.studentTypeId || parsed?.studentTypeId || ""
 	});
 	const [filter, setFilter] = useState({
 		departmentId: parsed?.departmentId || "",
@@ -235,7 +249,12 @@ const SelectResultRecords = () => {
 		}
 	);
 	const allDepartmentOption = useMemo(
-		() => formatSelectItems(departmentOption?.data, "name", "id"),
+		() =>
+			formatSelectItems(
+				departmentOption?.data,
+				"departmentOption",
+				"departmentOptionId"
+			),
 		[departmentOption]
 	);
 	const allStudentTypes = useMemo(
@@ -355,6 +374,7 @@ const SelectResultRecords = () => {
 						filter={filter}
 						isLoadingCourses={isLoadingcourseList}
 						handleCompositeSubmit={handleCompositeSubmit}
+						programDetails={programDetails}
 					/>
 					<SelectRecordsTable
 						data={courseList?.data?.items || []}

@@ -10,6 +10,7 @@ import {
 import styles from "./style.module.css";
 import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
 import { fieldSetterAndClearer } from "../../../../utils/fieldSetterAndClearer";
+import { STUDENT_TYPES } from "../../../../utils/constants";
 
 export default function ViewAllStudentsForm({
 	control,
@@ -20,6 +21,10 @@ export default function ViewAllStudentsForm({
 	allDepartmentOption,
 	allStudentModes,
 	allStudentTypes,
+	allAOS,
+	loadingProgrammes,
+	allProgrammes,
+	isLoadingAOS,
 	isLoadingDepartmentOption,
 	isLoadingLevels,
 	setFilter,
@@ -35,6 +40,8 @@ export default function ViewAllStudentsForm({
 	const ref = useRef(null);
 	const data = useContext(ProfileContext);
 	const programDetails = data?.profileData?.programmeDetail;
+	const isPGSelected =
+		Number(watchData?.studentTypeId) === STUDENT_TYPES.POSTGRADUATE;
 
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -139,9 +146,9 @@ export default function ViewAllStudentsForm({
 											searchable={false}
 											onChange={onStudentTypeChange}
 											id="studentTypeId"
-											disabled={
-												programDetails?.studentTypeId
-											}
+											// disabled={
+											// 	programDetails?.studentTypeId
+											// }
 											isError={!!errors.studentTypeId}
 										/>
 									)}
@@ -185,9 +192,9 @@ export default function ViewAllStudentsForm({
 												placeholder="Select faculty"
 												options={allFaculties}
 												searchable={true}
-												disabled={
-													programDetails?.facultyId
-												}
+												// disabled={
+												// 	programDetails?.facultyId
+												// }
 												isError={!!errors.facultyId}
 											/>
 										)}
@@ -231,9 +238,9 @@ export default function ViewAllStudentsForm({
 												placeholder="Select department"
 												options={allDepartments}
 												onChange={onDepartmentChange}
-												disabled={
-													programDetails?.departmentId
-												}
+												// disabled={
+												// 	programDetails?.departmentId
+												// }
 												id="departmentId"
 											/>
 										)}
@@ -416,6 +423,88 @@ export default function ViewAllStudentsForm({
 													placeholder="Select Status"
 													searchable={false}
 													isError={!!errors.status}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						)}
+						{loadingProgrammes && (
+							<div className="col-md-6 mt-5">
+								<Spinner />
+							</div>
+						)}
+						{allProgrammes?.length && isPGSelected ? (
+							<div>
+								<div className="row">
+									<div className="col-lg-3  d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="schoolProgramme"
+										>
+											Programme
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="schoolProgramme"
+											control={control}
+											rules={{
+												required: true
+											}}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select programme"
+													options={allProgrammes}
+													id="schoolProgramme"
+													searchable={true}
+													isError={
+														!!errors.schoolProgramme
+													}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						) : (
+							<></>
+						)}
+						{isLoadingAOS && (
+							<div className="col-md-6 mt-5">
+								<Spinner />
+							</div>
+						)}
+						{isPGSelected && allAOS?.length > 0 && (
+							<div>
+								<div className="row">
+									<div className="col-lg-3  d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="schoolProgramme"
+										>
+											Area of special specialization
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="areaOfSpecializationId"
+											control={control}
+											rules={{
+												required: true
+											}}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select area of special specialization"
+													options={allAOS}
+													id="areaOfSpecializationId"
+													searchable={true}
+													isError={
+														!!errors.areaOfSpecialization
+													}
 												/>
 											)}
 										/>

@@ -14,7 +14,7 @@ import { LinkDropdown } from "../linkDropdown/linkDropdown";
 
 const GlobalMenu = ({
 	title = "Components",
-	openSide = () => { },
+	openSide = () => {},
 	setSignOutModal,
 	userName,
 	isLanding
@@ -32,6 +32,10 @@ const GlobalMenu = ({
 			route: "/"
 		},
 		{
+			name: "Verify Payment Status",
+			route: "/verify_remita_status"
+		},
+		{
 			name: "E learning",
 			route: "/prospective_students"
 		}
@@ -41,8 +45,8 @@ const GlobalMenu = ({
 		{ name: "Home", link: "/home" },
 		{ name: "About Us", link: "/about" },
 		{ name: "Services", link: "/services" },
-		{ name: "Contact Us", link: "/contact" },
-];
+		{ name: "Contact Us", link: "/contact" }
+	];
 
 	return (
 		<section className="red-global-menu">
@@ -61,22 +65,29 @@ const GlobalMenu = ({
 				)}
 				<div className="red-global-logo">
 					{checkIfChristmasPeriod() ? (
-						<>
+						<div
+							className={`d-flex align-items-center gap-2  logo`}
+							onClick={() => push("/")}
+						>
 							<img src={ChristmasLogo} alt="akwapoly logo" />
-							<img src={ChristmasLogo} alt="akwapoly logo" />
-						</>
+							{/* <img src={ChristmasLogo} alt="akwapoly logo" /> */}
+						</div>
 					) : (
-						<div className={`d-flex align-items-center gap-2 logo`} onClick={() => push("/")}>
+						<div
+							className={`d-flex align-items-center gap-2 logo`}
+							onClick={() => push("/")}
+						>
 							<img src={logo} alt="akwapoly logo" />
 						</div>
 					)}
 				</div>
 			</div>
-			<div className="w-100 d-flex justify-content-center">
+			<div className={`w-100 d-flex align-items-center py-3`}>
 				{isLanding === "unAuthenticated" ? (
 					<div
-						className={`global-landing-page-link-container ${menu && `retract-navigation`
-							}`}
+						className={`global-landing-page-link-container ${
+							menu && `retract-navigation`
+						}`}
 					>
 						<button
 							onClick={() => setMenu(false)}
@@ -94,7 +105,10 @@ const GlobalMenu = ({
 								{link.name}
 							</button>
 						))}
-						<LinkDropdown buttonGroup={buttonGroupData} linkName="Old Students"/>
+						<LinkDropdown
+							buttonGroup={buttonGroupData}
+							linkName="Old Students"
+						/>
 					</div>
 				) : (
 					<div className="red-current-module">{title}</div>

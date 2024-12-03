@@ -20,6 +20,8 @@ import { ReactComponent as ChristmasLogo } from "./christmasLogo.svg";
 import { ReactComponent as ChristmasLight } from "./christmasLight.svg";
 import { ReactComponent as EmptyState } from "./emptyState.svg";
 import { ReactComponent as ArrowUp } from "./arrow-up.svg";
+import { ReactComponent as Caution } from "./caution.svg";
+import { ReactComponent as Success } from "./success.svg";
 
 export {
 	Avatar,
@@ -44,4 +46,6 @@ export {
 	ChristmasLight,
 	EmptyState,
 	ArrowUp,
+	Caution,
+	Success
 };

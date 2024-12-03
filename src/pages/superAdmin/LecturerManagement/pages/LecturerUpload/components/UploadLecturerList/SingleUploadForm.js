@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styles from "../../../../../AdmissionList/style.module.css";
 import {
 	Button,
@@ -10,7 +10,8 @@ import { useApiGet, useApiPost } from "../../../../../../../api/apiCall";
 import {
 	createNewLecturerUrl,
 	getDepartmentsUrl,
-	getLecturersUrl
+	getLecturersUrl,
+	getStudentCategoryUrl
 } from "../../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { formatSelectItems } from "../../../../../../../utils/formatSelectItems";
@@ -36,6 +37,10 @@ export default function SingleUploadForm({
 			refetchOnWindowFocus: false
 		}
 	);
+
+	const { data: studentCategory } = useApiGet(getStudentCategoryUrl(), {
+		refetchOnWindowFocus: false
+	});
 	const {
 		register,
 		handleSubmit,
@@ -65,6 +70,10 @@ export default function SingleUploadForm({
 		"department",
 		"departmentId"
 	);
+	const allStudentCategory = useMemo(
+		() => formatSelectItems(studentCategory?.data, "name", "id"),
+		[studentCategory]
+	);
 	const onSubmit = (data) => {
 		const requestBody = {
 			url: createNewLecturerUrl(),
@@ -76,7 +85,8 @@ export default function SingleUploadForm({
 				StudentTypeId: data?.StudentTypeId?.value,
 				GenderId: data?.GenderId?.value,
 				Email: data.Email,
-				MobileNumber: data.MobileNo
+				MobileNumber: data.MobileNo,
+				CategoryId: data?.CategoryId?.value
 			}
 		};
 
@@ -247,6 +257,36 @@ export default function SingleUploadForm({
 								errorText={
 									errors.StudentTypeId &&
 									errors.StudentTypeId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label
+						htmlFor="CategoryId"
+						className={styles.admission_list_edit_label}
+					>
+						Student Category
+					</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="CategoryId"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								placeholder="Select student type"
+								searchable={true}
+								id="CategoryId"
+								options={allStudentCategory}
+								isError={!!errors.CategoryId}
+								errorText={
+									errors.CategoryId &&
+									errors.CategoryId.message
 								}
 							/>
 						)}

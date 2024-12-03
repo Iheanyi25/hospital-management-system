@@ -18,11 +18,11 @@
 .page_content {
 	margin-top: 74px;
 }
-.filter_container {
+/* .filter_container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 2.4rem;
-}
+} */
 .admission_list_edit_label {
 	color: #344563;
 	line-height: 16px;
