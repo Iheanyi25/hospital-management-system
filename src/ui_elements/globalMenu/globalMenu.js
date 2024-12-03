@@ -69,7 +69,11 @@ const GlobalMenu = ({
 							className={`d-flex align-items-center gap-2  logo`}
 							onClick={() => push("/")}
 						>
-							<img src={ChristmasLogo} alt="akwapoly logo" />
+							<img
+								className="xmas-logo"
+								src={ChristmasLogo}
+								alt="akwapoly logo"
+							/>
 							{/* <img src={ChristmasLogo} alt="akwapoly logo" /> */}
 						</div>
 					) : (

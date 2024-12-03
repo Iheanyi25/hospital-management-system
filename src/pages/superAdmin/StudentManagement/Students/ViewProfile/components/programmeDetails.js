@@ -22,7 +22,8 @@ export const ProgrammeDetails = ({
 	allStudentModesOfStudy,
 	allSessions,
 	allProgrammeTypes,
-	allStudentModes
+	allStudentModes,
+	hasMatricNumber
 }) => {
 	const [departmentIdState, setDepartmentId] = useState(data?.departmentId);
 	const [studentTypeIdState, setStudentTypeIdState] = useState(
@@ -192,6 +193,7 @@ export const ProgrammeDetails = ({
 			allStudentModesOfStudy={allStudentModesOfStudy}
 			allSessions={allSessions}
 			allStudentModes={allStudentModes}
+			hasMatricNumber={hasMatricNumber}
 		/>
 	);
 };
