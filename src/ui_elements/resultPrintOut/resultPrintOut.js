@@ -65,79 +65,79 @@ export const ResultPrintOut = ({ resultData }) => {
 		<>
 			{data.map((data, i) => (
 				<section key={i} className={styles.section_container}>
-					<div class={styles.img_container}>
+					<div className={styles.img_container}>
 						<img src={logo} alt="school logo" />
 					</div>
-					<header class={styles.header_container}>
+					<header className={styles.header_container}>
 						<div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Faculty:</div>
 								<div>{resultData?.faculty}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Department:</div>
 								<div>{resultData?.department}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Course title:</div>
 								<div>{resultData?.courseTitle}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Course code:</div>
 								<div>{resultData?.courseCode}</div>
 							</div>
 						</div>
 						<div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Course unit:</div>
 								<div>{resultData?.courseUnit}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Programme:</div>
 								<div>{resultData?.programme}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Session:</div>
 								<div>{resultData?.session}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>Semester:</div>
 								<div>{resultData?.semester}</div>
 							</div>
 						</div>
 						<div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>A (70-100%):</div>
 								<div>{resultData?.gradeACount}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>B (60-69%):</div>
 								<div>{resultData?.gradeBCount}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>C (50-59%): </div>
 								<div>{resultData?.gradeCCount}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>D (45-49%):</div>
 								<div>{resultData?.gradeDCount}</div>
 							</div>
 						</div>
 						<div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>E (40-44%):</div>
 								<div>{resultData?.gradeECount}</div>
 							</div>
-							<div class={styles.student_details_grid}>
+							<div className={styles.student_details_grid}>
 								<div>F (0-39%):</div>
 								<div>{resultData?.gradeFCount}</div>
 							</div>
 						</div>
 					</header>
-					<div class={styles.course_overview_table_header}>
+					<div className={styles.course_overview_table_header}>
 						<h4 className="text-uppercase">{`${resultData?.session} ${resultData?.semester} Semester Results`}</h4>
 					</div>
-					{/* <table class={styles.course_table}>
+					{/* <table className={styles.course_table}>
 						<tr>
 							<th>Course Code</th>
 							<th>Students name</th>

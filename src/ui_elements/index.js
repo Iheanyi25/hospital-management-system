@@ -95,3 +95,4 @@ export * from "./receipt/receipt";
 export * from "./row/row";
 export * from "./resultTable/resultTable";
 export * from "./resultTableHeader/resultTableHeader";
+export * from "./summaryTable/summaryTable";

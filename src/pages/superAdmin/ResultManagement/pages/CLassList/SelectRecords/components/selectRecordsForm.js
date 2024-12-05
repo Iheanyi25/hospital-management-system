@@ -30,7 +30,10 @@ export const SelectRecordsForm = ({
 	isLoadingLevels,
 	isLoadingCourses,
 	handleCompositeSubmit,
-	programDetails
+	programDetails,
+	isLoadingCompositeSheet,
+	handleSummarySubmit,
+	isLoadingSummarySheet
 }) => {
 	const { push } = useHistory();
 
@@ -80,14 +83,19 @@ export const SelectRecordsForm = ({
 					<>
 						<Button
 							data-cy="view_res_data"
-							type="submit"
+							type="button"
 							buttonClass="standard"
 							label="Print Composite Sheet"
-							loading={isLoadingCourses}
+							loading={isLoadingCompositeSheet}
 							onClick={handleSubmit(handleCompositeSubmit)}
-							disabled={
-								isLoadingDepartmentOption || isLoadingLevels
-							}
+						/>
+						<Button
+							data-cy="view_res_data"
+							type="button"
+							buttonClass="secondary"
+							label="Print Summary Sheet"
+							loading={isLoadingSummarySheet}
+							onClick={handleSubmit(handleSummarySubmit)}
 						/>
 						<Button
 							data-cy="view_res_data"
@@ -95,9 +103,6 @@ export const SelectRecordsForm = ({
 							buttonClass="primary"
 							label="View results"
 							loading={isLoadingCourses}
-							disabled={
-								isLoadingDepartmentOption || isLoadingLevels
-							}
 						/>
 					</>
 				}

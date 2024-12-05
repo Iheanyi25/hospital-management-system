@@ -6,7 +6,7 @@ export const LinkDropdown = ({ buttonGroup, linkName, className }) => {
 	const { push } = useHistory();
 
 	return (
-		<div class={`dropdown btn_group_dropdown_container ${className}`}>
+		<div className={`dropdown btn_group_dropdown_container ${className}`}>
 			<button
 				class="border-0 d-flex align-items-center btn_dropdown"
 				type="button"
