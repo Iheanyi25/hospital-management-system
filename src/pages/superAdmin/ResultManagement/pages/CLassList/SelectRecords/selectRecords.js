@@ -23,7 +23,8 @@ import {
 	getCoursesAssignedToDeptsUrl,
 	getDepartmentsUrl,
 	getStudentModeOfEntryUrl,
-	studentCompositeResultsUrl
+	studentCompositeResultsUrl,
+	studentSummaryResultsUrl
 } from "../../../../../../api/urls";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
 import { SelectRecordsForm, SelectRecordsTable } from "./components";
@@ -36,10 +37,32 @@ import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
 import { useDebouncedCallback } from "use-debounce";
 import { useReactToPrint } from "react-to-print";
 import { CollegeSheet } from "../CompositeSheet/component/collegeSheet";
+import { SummarySheet } from "../SummarySheet/component/summarySheet";
+
+const pageStyle = `
+  @page {
+    margin-left: 3rem;
+    size: landscape;
+    page-break-before: always;
+  }
+
+  // @media all {
+  //   .pagebreak {
+  //     display: none;
+  //   }
+  // }
+
+  @media print {
+    .pagebreak {
+      page-break-before: always;
+    }
+  }
+`;
 
 const SelectResultRecords = () => {
-	const [makeRequest, setMakeRequest] = useState(false);
 	const componentRef = useRef();
+	const summaryRef = useRef();
+
 	const data = useContext(ProfileContext);
 	const programDetails = data?.profileData?.programmeDetail;
 	const role = data?.profileData?.personalData?.role;
@@ -47,16 +70,22 @@ const SelectResultRecords = () => {
 	console.log("WHAT ARE YOU", data);
 	console.log("WHAT ARE HEEEE", role);
 
-	const handlePrint = useReactToPrint({
+	const handleCompositePrint = useReactToPrint({
 		content: () => componentRef?.current,
-		pageStyle: `@media print {
-			@page {
-			  size: auto;
-			}
-		  }`
+		pageStyle
 	});
+
+	const handleSummaryPrint = useReactToPrint({
+		content: () => summaryRef?.current,
+		pageStyle
+	});
+
 	const [details, setDetails] = useState({});
 	const [tableData, setData] = useState([]);
+
+	const [summaryData, setSummaryData] = useState([]);
+	const [makeCompositeRequest, setMakeCompositeRequest] = useState(false);
+	const [makeSummaryRequest, setMakeSummaryRequest] = useState(false);
 
 	const parsed = queryString.parse(window.location.search);
 	const [watchData, setWatchData] = useState({
@@ -99,7 +128,7 @@ const SelectResultRecords = () => {
 
 	const {
 		data: compositeSheet,
-		isLoading: isLoadingCompositeSheet,
+		isFetching: isLoadingCompositeSheet,
 		error: errorCompositeSheet
 	} = useApiGet(
 		studentCompositeResultsUrl({
@@ -111,10 +140,49 @@ const SelectResultRecords = () => {
 			studentTypeId: details?.studentTypeId?.value
 		}),
 		{
-			enabled: !!makeRequest,
+			enabled: makeCompositeRequest,
 			refetchOnWindowFocus: false
 		}
 	);
+
+	const {
+		data: summarySheet,
+		isFetching: isLoadingSummarySheet,
+		error: errorSummarySheet
+	} = useApiGet(
+		studentSummaryResultsUrl({
+			levelId: details?.levelId?.value,
+			departmentId: details?.departmentId?.value,
+			departmentOptionId: details?.departmentOptionId?.value,
+			sessionId: details?.sessionId?.value,
+			semesterId: details?.semesterId?.value,
+			studentTypeId: details?.studentTypeId?.value
+		}),
+		{
+			enabled: makeSummaryRequest,
+			refetchOnWindowFocus: false
+		}
+	);
+
+	const getResultSummaryData = useCallback(() => {
+		return summarySheet?.data?.studentCourses?.items.map((student, i) => {
+			return {
+				id: i + 1,
+				name: student?.fullName,
+				regNo: student?.registrationNumber,
+				coursesToRepeat: student?.coursesToRepeat
+					? student?.coursesToRepeat
+					: "-",
+				coursesToTake: student?.coursesToTake
+					? student?.coursesToTake
+					: "-",
+				entryReq: student?.entryRequirement,
+				cumCourseUnit: student?.cumulatoveCourseUnit,
+				cgpa: student?.cgpa,
+				cgpaRemark: student?.cgpaRemark
+			};
+		});
+	}, [summarySheet]);
 
 	const getStudentData = useCallback(() => {
 		return compositeSheet?.data?.studentCourses?.map((student, i) => {
@@ -174,17 +242,21 @@ const SelectResultRecords = () => {
 	useEffect(() => {
 		if (
 			compositeSheet?.success &&
-			makeRequest &&
+			makeCompositeRequest &&
 			!isLoadingCompositeSheet
 		) {
-			setMakeRequest(false);
 			setData(sliceIntoChunks(getStudentData(), getStudentData().length));
 			setTimeout(() => {
-				handlePrint();
+				handleCompositePrint();
 			}, 1000);
 		}
-		if (errorCompositeSheet && makeRequest && !isLoadingCompositeSheet) {
-			setMakeRequest(false);
+
+		if (
+			errorCompositeSheet &&
+			makeCompositeRequest &&
+			!makeSummaryRequest &&
+			!isLoadingCompositeSheet
+		) {
 			const errorFlag = window.AJS.flag({
 				type: "error",
 				title: "Invalid Action!",
@@ -196,18 +268,53 @@ const SelectResultRecords = () => {
 				errorFlag.close();
 			}, 5000);
 		}
+
+		if (
+			summarySheet?.success &&
+			makeSummaryRequest &&
+			!makeCompositeRequest &&
+			!isLoadingSummarySheet
+		) {
+			setSummaryData(getResultSummaryData());
+			setTimeout(() => {
+				handleSummaryPrint();
+			}, 1000);
+		}
+
+		if (errorSummarySheet && makeSummaryRequest && !isLoadingSummarySheet) {
+			const errorFlag = window.AJS.flag({
+				type: "error",
+				title: "Invalid Action!",
+				body:
+					errorSummarySheet?.response?.data?.message ||
+					`Invalid action, please enter correct details`
+			});
+			setTimeout(() => {
+				errorFlag.close();
+			}, 5000);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		compositeSheet,
 		errorCompositeSheet,
-		makeRequest,
+		makeCompositeRequest,
 		isLoadingCompositeSheet,
-		getStudentData,
-		handlePrint
+		summarySheet,
+		errorSummarySheet,
+		isLoadingSummarySheet,
+		makeSummaryRequest
 	]);
+
 	const handleCompositeSubmit = (info) => {
-		console.log(info, "kdkdk");
 		setDetails({ ...info });
-		setMakeRequest(true);
+		setMakeCompositeRequest(true);
+		setMakeSummaryRequest(false);
+	};
+
+	const handleSummarySubmit = (info) => {
+		setDetails({ ...info });
+		setMakeCompositeRequest(false);
+		setMakeSummaryRequest(true);
 	};
 	const {
 		control,
@@ -354,6 +461,12 @@ const SelectResultRecords = () => {
 						data={tableData}
 					/>
 				</div>
+				<div ref={summaryRef}>
+					<SummarySheet
+						compositeSheet={compositeSheet}
+						data={summaryData}
+					/>
+				</div>
 			</div>
 			<PageTitle title="Class List" />
 			<div className={styles.page_content}>
@@ -378,7 +491,10 @@ const SelectResultRecords = () => {
 						filter={filter}
 						isLoadingCourses={isLoadingcourseList}
 						handleCompositeSubmit={handleCompositeSubmit}
+						isLoadingCompositeSheet={isLoadingCompositeSheet}
 						programDetails={programDetails}
+						handleSummarySubmit={handleSummarySubmit}
+						isLoadingSummarySheet={isLoadingSummarySheet}
 						role={role}
 					/>
 					<SelectRecordsTable
