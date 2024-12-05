@@ -64,8 +64,8 @@ const JambStudentsInvoice = () => {
 		fullName: data?.fullName,
 		rrr: data?.rrr,
 		transactionRef: data?.paymentReference,
-		invoiceNumber: data?.invoiceNo,
-		date: data?.invoiceDate,
+		invoiceNumber: data?.invoiceNumber,
+		date: data?.dateGenerated,
 		cardPaymentLink: data?.cardPaymentLink,
 		isPaid: data?.paymentStatus,
 		recieptItems: [

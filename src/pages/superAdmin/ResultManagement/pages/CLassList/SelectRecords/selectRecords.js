@@ -65,6 +65,10 @@ const SelectResultRecords = () => {
 
 	const data = useContext(ProfileContext);
 	const programDetails = data?.profileData?.programmeDetail;
+	const role = data?.profileData?.personalData?.role;
+
+	console.log("WHAT ARE YOU", data);
+	console.log("WHAT ARE HEEEE", role);
 
 	const handleCompositePrint = useReactToPrint({
 		content: () => componentRef?.current,
@@ -491,6 +495,7 @@ const SelectResultRecords = () => {
 						programDetails={programDetails}
 						handleSummarySubmit={handleSummarySubmit}
 						isLoadingSummarySheet={isLoadingSummarySheet}
+						role={role}
 					/>
 					<SelectRecordsTable
 						data={courseList?.data?.items || []}

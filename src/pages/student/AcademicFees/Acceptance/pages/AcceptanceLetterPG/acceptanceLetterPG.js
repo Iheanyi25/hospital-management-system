@@ -119,9 +119,7 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 			<header className={`${styles.header} mb-5`}>
 				<div className="d-flex align-items-center">
 					{/* <img src={logo} alt="logo" className="mr-3" /> */}
-					<h2 className="text-uppercase">
-						{SCHOOL_DETAILS.nameWithoutCampus}
-					</h2>
+					<h2 className="text-uppercase">{SCHOOL_DETAILS.name}</h2>
 				</div>
 				<h4 className="text-uppercase mb-3 mt-3">
 					COLLEGE OF POSTGRADUATE STUDIES
@@ -136,7 +134,7 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 						</p>
 						<p className="mt-1">
 							<span className="text-bold">Vice-Chancellor: </span>
-							{SCHOOL_DETAILS.viceChancellor}
+							{POST_GRADUATE_DETAILS.deputyRegister}
 						</p>
 					</aside>
 					<aside>
@@ -192,39 +190,35 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 						from the {details.session} Academic Session.
 					</p>
 					<p className={styles.textIndent}>
-						You are therefore to generate and download your payment
-						invoice online, pay your fees at any designated bank or
-						through any other approved payment channel (including
-						but not limited to Web, POS, ATM and Mobile), as
-						applicable, and obtain a confirmation slip with an
-						E-receipt No upon payment of prescribed fee. You are
-						expected to submit copies of admission letter,
-						Particulars of Admission, Courses Registered and Online
-						Receipt of payment of fees to the College of
-						Postgraduate Studies, University of Nigeria, Nsukka, not
-						later than one month from the beginning of the session.
+						You are to confirm your acceptance of this offer using
+						the enclosed Acceptance Form which must be returned to
+						the Registrar, Akwa Ibom State Polytechnic, Ikot Osurua,
+						P.M.B 1200, Ikot Ekpene within ONE WEEK from the date of
+						resumption. FAILURE TO CONFIRM ACCEPTANCE WITHIN THE
+						STIPULATED PERIOD MAY RESULT IN THE CANCELLATION OF THE
+						OFFER.
 					</p>
-					<p>Regularization of this offer will be subject to:</p>
+					<p>
+						All new students are advised to make themselves
+						available at the Pre-Registration and Orientation
+						briefing which will take place on the above date. The
+						original copies of the following documents shall be
+						required at the time of the registration:
+					</p>
 					<ol className={`${styles.requirement_list} mt-4 mb-4`}>
 						<li>
-							Your authenticating the qualifications claimed in
-							your application on which admission is based by
-							producing the original of your statement of
-							result(s) or certificates including NYSC
-							discharge/exemption certificate.
+							The original copies of your Certificate/Statement of
+							Result
 						</li>
+						<li>Letter of Provisional Admission</li>
 						<li>
-							The receipt of the academic transcript(s) for your
-							degree(s);
+							Four (4) recent passport size photographs of
+							yourself
 						</li>
+						<li>Birth Certificate or Sworn Declaration of Age</li>
 						<li>
-							Your not being of Full-Time employment if on
-							Full-Time studies
-						</li>
-						<li>
-							Your not being a registered student in another
-							department of this University, to pursue two
-							programmes concurrently
+							Evidence of good conduct from the Principal of last
+							School attended/ Employer/Senior Public Servant
 						</li>
 					</ol>
 					<p>
@@ -261,8 +255,8 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 					<p className="text-bold mt-3">
 						{POST_GRADUATE_DETAILS.deputyRegister}
 					</p>
-					<p>Deputy Registrar/Secretary</p>
-					<p>College of Postgraduate Studies</p>
+					<p>Acting Registrar</p>
+					{/* <p>College of Postgraduate Studies</p> */}
 				</section>
 				<section
 					className={`mt-5 border-top pt-2 d-flex flex-wrap justify-content-between ${styles.closingSection}`}
@@ -275,13 +269,13 @@ const ViewAcceptanceLetterPG = ({ details, currentRef }) => {
 						<p className="font-italic">
 							Email: {POST_GRADUATE_DETAILS.correspondenceEmail}
 						</p>
-						<p className="font-italic">
+						{/* <p className="font-italic">
 							<span className="text-bold">Provost: </span>
 							{POST_GRADUATE_DETAILS.provost}
 						</p>
 						<p className="font-italic">
 							Email: {POST_GRADUATE_DETAILS.provostEmail}
-						</p>
+						</p> */}
 					</div>
 					<aside className={styles.barcode_img}>
 						<Barcode value={details?.rrr} />
