@@ -48,8 +48,6 @@ export const ProgrammeDetailsForm = ({
 	const queryClient = useQueryClient();
 
 	const onSubmit = async (values) => {
-		console.log("WHY?", values);
-
 		const data = [];
 		Object.keys(values).map((item) => {
 			return (
@@ -66,7 +64,6 @@ export const ProgrammeDetailsForm = ({
 				})
 			);
 		});
-		console.log("WHY ME Z??", data);
 
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode }),
