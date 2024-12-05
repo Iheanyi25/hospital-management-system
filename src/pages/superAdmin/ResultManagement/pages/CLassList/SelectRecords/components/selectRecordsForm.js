@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
@@ -30,7 +30,8 @@ export const SelectRecordsForm = ({
 	isLoadingLevels,
 	isLoadingCourses,
 	handleCompositeSubmit,
-	programDetails
+	programDetails,
+	role
 }) => {
 	const { push } = useHistory();
 
@@ -71,6 +72,16 @@ export const SelectRecordsForm = ({
 		setValue("departmentOptionId", null);
 		setValue("levelId", null);
 	};
+
+	useEffect(() => {
+		if (allDepartmentOption.length > 0) {
+			const defaultDepartmentOption = findValueAndLabel(
+				programDetails?.departmentOptionId,
+				allDepartmentOption
+			);
+			setValue("departmentOptionId", defaultDepartmentOption);
+		}
+	}, [allDepartmentOption, programDetails?.departmentOptionId, setValue]);
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -143,7 +154,7 @@ export const SelectRecordsForm = ({
 												searchable={false}
 												id="studentTypeId"
 												disabled={
-													programDetails?.studentTypeId
+													role === "Exams Officer"
 												}
 												isError={!!errors.studentTypeId}
 											/>
@@ -191,7 +202,7 @@ export const SelectRecordsForm = ({
 												searchable={true}
 												isError={!!errors.departmentId}
 												disabled={
-													programDetails?.departmentId
+													role === "Exams Officer"
 												}
 											/>
 										)}
@@ -238,7 +249,7 @@ export const SelectRecordsForm = ({
 														!!errors.departmentOptionId
 													}
 													disabled={
-														programDetails?.departmentOptionId
+														role === "Exams Officer"
 													}
 												/>
 											)}
