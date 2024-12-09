@@ -29,7 +29,7 @@ export const selectStyles = ({ isError }) => ({
 		...styles,
 		borderLeft: "none",
 		fontSize: "14px",
-		minHeight: "40px",
+		minHeight: "40px"
 	}),
 	indicatorSeparator: (styles) => ({
 		...styles,
@@ -44,7 +44,7 @@ export const selectStyles = ({ isError }) => ({
 	autosizeInput: (styles) => ({
 		...styles,
 		"&:not(.aui-no-focusvisible) :focus-visible": { boxShadow: "none" }
-	}),
+	})
 });
 
 export const SMSelect = forwardRef(
@@ -66,6 +66,8 @@ export const SMSelect = forwardRef(
 			id,
 			isError = false,
 			errorText = "",
+			menuPlacement = "bottom",
+
 			...field
 		},
 		ref
@@ -89,6 +91,7 @@ export const SMSelect = forwardRef(
 						isSearchable={searchable}
 						id={id}
 						ref={ref}
+						menuPlacement={menuPlacement}
 						{...field}
 					/>
 					<div>
@@ -104,4 +107,3 @@ export const SMSelect = forwardRef(
 		);
 	}
 );
-

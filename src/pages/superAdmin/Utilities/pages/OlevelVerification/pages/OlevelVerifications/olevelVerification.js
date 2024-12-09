@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useApiBlob, useApiGet } from "../../../../../../../api/apiCall";
 import {
-	// getApplicationTypesUrl,
+	getApplicationTypesUrl,
 	getAllSessionsUrl,
 	getApplicationReportsUrl,
 	getAllDepartmentsWithoutValuesUrl,
@@ -66,11 +66,11 @@ const ApplicationReports = () => {
 		setValue("subjectCombinationId", null);
 	}, [watchData.applicationTypeId, setValue]);
 
-	// const {
-	// 	data: applicatiionData,
-	// 	isLoading: applicationTypesLoading,
-	// 	error: applicationError
-	// } = useApiGet(getApplicationTypesUrl());
+	const {
+		data: applicatiionData,
+		isLoading: applicationTypesLoading,
+		error: applicationError
+	} = useApiGet(getApplicationTypesUrl());
 
 	const {
 		data: sessions,
@@ -99,20 +99,11 @@ const ApplicationReports = () => {
 	const allSessions = [...formatSelectItems(sessions?.data, "session", "id")];
 	const allStatus = [...formatSelectItems(status?.data, "name", "id")];
 
-	const allApplicationTypes = [
-		{
-			value: 1,
-			label: "POST UTME APPLICATION"
-		},
-		{
-			value: 4,
-			label: "Direct Entry Application"
-		},
-		{
-			value: 5,
-			label: "Admission Shopping Application"
-		}
-	];
+	const allApplicationTypes = formatSelectItems(
+		applicatiionData?.data,
+		"name",
+		"id"
+	);
 
 	const allDepartments = formatSelectItems(departments?.data, "name", "id");
 
@@ -188,14 +179,14 @@ const ApplicationReports = () => {
 	}, [watch]);
 
 	if (
-		// applicationTypesLoading ||
+		applicationTypesLoading ||
 		sessionsLoading ||
 		departmentLoading ||
 		statusLoading
 	)
-		return <Spinner />
+		return <Spinner />;
 	if (
-		// applicationError ||
+		applicationError ||
 		sessionsError ||
 		applicationsError ||
 		departmentError ||

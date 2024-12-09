@@ -50,17 +50,21 @@ export const ProgrammeDetailsForm = ({
 	const onSubmit = async (values) => {
 		const data = [];
 		Object.keys(values).map((item) => {
-			return data.push({
-				op: "replace",
-				path: `/StudentProgrammeDetail/${item}`,
-				value:
-					typeof values[item] === "object"
-						? values[item]?.value
-						: typeof values[item] === "string"
-						? values[item].toUpperCase()
-						: null
-			});
+			return (
+				item !== "areaOfSpecializationId" &&
+				data.push({
+					op: "replace",
+					path: `/StudentProgrammeDetail/${item}`,
+					value:
+						typeof values[item] === "object"
+							? values[item]?.value
+							: typeof values[item] === "string"
+							? values[item].toUpperCase()
+							: undefined
+				})
+			);
 		});
+
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode }),
 			data
@@ -345,7 +349,7 @@ export const ProgrammeDetailsForm = ({
 								name="JambRegNumber"
 								type="text"
 								register={register}
-								disabled={hasMatricNumber}
+								disabled
 								error={errors.MatricNo}
 								errorText={
 									errors.MatricNo &&
