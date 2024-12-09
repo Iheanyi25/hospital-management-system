@@ -106,11 +106,9 @@ export const CertificateTypeIds = {
 };
 
 export const POST_GRADUATE_DETAILS = {
-	deputyRegister: "MRS. ANTHONIA AMADI",
-	correspondence:
-		"Provost, College of Postgraduate Studies, University of Nigeria, Nsukka.",
-	correspondenceEmail: "dean.spgsunn@unn.edu.ng",
-	provost: "PROF. OBIOMA U. NJOKU",
-	provostEmail: "obioma.njoku@unn.edu.ng"
+	deputyRegister: "MR. Godswill .E. Udofah, MNIM",
+	correspondence: "PMB 1200 Ikot Ekpene Akwa Ibom State, Nigeria",
+	correspondenceEmail: "info@akwapoly.edu.ng"
+	// provost: "PROF. OBIOMA U. NJOKU",
+	// provostEmail: "obioma.njoku@unn.edu.ng"
 };
-

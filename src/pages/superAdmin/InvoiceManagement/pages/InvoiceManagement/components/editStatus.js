@@ -72,7 +72,10 @@ export const EditStatus = ({
 	} = useForm({
 		defaultValues: {
 			session: findValueAndLabel(data?.session, allSessions, "label"),
-			paymentTypeId: findValueAndLabel(data?.paymentTypeId, allPaymentTypes),
+			paymentTypeId: findValueAndLabel(
+				data?.paymentTypeId,
+				allPaymentTypes
+			),
 			matricNumber: data?.matricNumber,
 			level: findValueAndLabel(data?.level, allLevels, "label")
 		},
@@ -82,7 +85,6 @@ export const EditStatus = ({
 	useEffect(() => {
 		const subscription = watch(({ departmentId }) => {
 			setDepartmentId(departmentId?.value);
-
 		});
 		return () => subscription.unsubscribe();
 	}, [watch]);
@@ -145,7 +147,6 @@ export const EditStatus = ({
 			),
 		[departmentOption?.data]
 	);
-
 
 	return (
 		<form
@@ -266,10 +267,8 @@ export const EditStatus = ({
 					</div>
 				</div>
 			)}
-
-			{isLoadingDepartmentOptions ? (
-				<Spinner />
-			) : (
+			{isLoadingDepartmentOptions && <Spinner />}{" "}
+			{allDepartmentOption.length > 0 && (
 				<div className="row mb-4">
 					<div className="col-lg-3 d-flex align-items-center">
 						<label htmlFor="departmentOptionId">
@@ -301,12 +300,9 @@ export const EditStatus = ({
 					</div>
 				</div>
 			)}
-
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="paymentTypeId">
-						Payment Type
-					</label>
+					<label htmlFor="paymentTypeId">Payment Type</label>
 				</div>
 				<div className="col-lg-9">
 					<Controller
@@ -332,7 +328,6 @@ export const EditStatus = ({
 					/>
 				</div>
 			</div>
-
 			<div className={`d-flex justify-content-end ${styles.margin_btn}`}>
 				<Button
 					data-cy="update_invoice"

@@ -21,7 +21,8 @@ export default function SingleUploadForm({
 	pageSize,
 	isSubmitting,
 	setUploadModal,
-	isPGSelected
+	isPGSelected,
+	allStudentCategory
 }) {
 	const { mutate, isLoading: isEditing } = useApiPost();
 	const queryClient = useQueryClient();
@@ -33,12 +34,12 @@ export default function SingleUploadForm({
 			regNumber: formData.regno,
 			supervisor: formData?.supervisor,
 			admissionTypeId: formData.admissionType.value,
+			CategoryId: formData.CategoryId.value,
 			departmentId: filter.departmentId,
 			departmentOptionId: filter.departmentOptionId,
 			studentTypeId: filter.studentTypeId,
 			modeOfEntryId: filter.modeOfEntryId,
 			sessionId: filter.sessionId,
-			areaOfSpecializationId: filter?.areaOfSpecializationId,
 			...(filter?.programmeId && {
 				programmeId: filter?.programmeId
 			}),
@@ -191,6 +192,36 @@ export default function SingleUploadForm({
 					</div>
 				</div>
 			)}
+			<div className="row mb-4">
+				<div className="col-lg-3 d-flex align-items-center">
+					<label
+						htmlFor="CategoryId"
+						className={styles.admission_list_edit_label}
+					>
+						Student Category
+					</label>
+				</div>
+				<div className="col-lg-9">
+					<Controller
+						name="CategoryId"
+						control={control}
+						render={({ field }) => (
+							<SMSelect
+								{...field}
+								placeholder="Select student type"
+								searchable={true}
+								id="CategoryId"
+								options={allStudentCategory}
+								isError={!!errors.CategoryId}
+								errorText={
+									errors.CategoryId &&
+									errors.CategoryId.message
+								}
+							/>
+						)}
+					/>
+				</div>
+			</div>
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
 					<label

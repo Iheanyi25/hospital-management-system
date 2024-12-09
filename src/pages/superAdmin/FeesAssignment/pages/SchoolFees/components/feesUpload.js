@@ -25,22 +25,22 @@ const schema = yup.object().shape({
 			(value) => value >= 0
 		),
 
-	hubblyCommission: yup
-		.string()
-		.required("please input hubbly commission")
-		.test(
-			"Is positive?",
-			"number must be a valid positive number!",
-			(value) => value >= 0
-		),
-	seamfixCommission: yup
-		.string()
-		.required("please input seamfix commission")
-		.test(
-			"Is positive?",
-			"number must be a valid positive number!",
-			(value) => value >= 0
-		),
+	// hubblyCommission: yup
+	// 	.string()
+	// 	.required("please input hubbly commission")
+	// 	.test(
+	// 		"Is positive?",
+	// 		"number must be a valid positive number!",
+	// 		(value) => value >= 0
+	// 	),
+	// seamfixCommission: yup
+	// 	.string()
+	// 	.required("please input seamfix commission")
+	// 	.test(
+	// 		"Is positive?",
+	// 		"number must be a valid positive number!",
+	// 		(value) => value >= 0
+	// 	),
 	feesSheet: yup
 		.mixed()
 		.test("required", "Please select an excel file!", (value) => {
@@ -179,7 +179,7 @@ export const FeesUpload = ({ setUploaded, setFileData, allAdmissionTypes }) => {
 					/>
 				</div>
 			</div> */}
-			<div className="row mb-4">
+			{/* <div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
 					<label
 						htmlFor="admission_batch"
@@ -203,8 +203,8 @@ export const FeesUpload = ({ setUploaded, setFileData, allAdmissionTypes }) => {
 						required
 					/>
 				</div>
-			</div>
-			<div className="row mb-4">
+			</div> */}
+			{/* <div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
 					<label
 						htmlFor="admission_batch"
@@ -228,7 +228,7 @@ export const FeesUpload = ({ setUploaded, setFileData, allAdmissionTypes }) => {
 						required
 					/>
 				</div>
-			</div>
+			</div> */}
 			<FileUpload
 				name="feesSheet"
 				register={register}

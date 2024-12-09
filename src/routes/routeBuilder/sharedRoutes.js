@@ -69,10 +69,8 @@ const LazyGenerateJambPaymentInvoice = lazy(() =>
 		"../../pages/shared/JambStudents/pages/GenerateJambPaymentInvoice/generateJambPaymentInvoice"
 	)
 );
-const LazyGenerateHNDInvoice = lazy(() => 
-	import(
-		"../../pages/shared/HNDApplication/generateHNDInvoice"
-	)
+const LazyGenerateHNDInvoice = lazy(() =>
+	import("../../pages/shared/HNDApplication/generateHNDInvoice")
 );
 const LazyJambStudentsInvoice = lazy(() =>
 	import("../../pages/shared/JambStudents/pages/Invoice/jambStudentsInvoice")
@@ -328,6 +326,11 @@ const LazyFeeReceipt = lazy(() =>
 );
 
 const LazyCleranceForms = lazy(() => import("../../pages/shared/components"));
+const LazyVerifyRemitaStatus = lazy(() =>
+	import(
+		"../../pages/superAdmin/InvoiceManagement/pages/VerifyRemitaStatus/pages/VerifyRemitaStatus"
+	)
+);
 export const sharedRoutes = [
 	{
 		path: "/",
@@ -807,5 +810,12 @@ export const sharedRoutes = [
 		path: "/components_clerance_form",
 		component: LazyCleranceForms,
 		exact: true
+	},
+	{
+		path: "/verify_remita_status",
+		component: LazyVerifyRemitaStatus,
+		router: SharedRouter,
+		exact: true,
+		title: "Invoice Management"
 	}
 ];

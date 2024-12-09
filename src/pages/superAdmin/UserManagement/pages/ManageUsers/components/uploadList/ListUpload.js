@@ -1,6 +1,6 @@
 import styles from "../../../../../AdmissionList/style.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../../../../../../../utils/FileValidation";
 import {
 	downloadUserUploadTemplate,
+	getDepartmentOptionUrl,
 	getDepartmentsUrl
 } from "../../../../../../../api/urls";
 import { useApiBlob, useApiGet } from "../../../../../../../api/apiCall";
@@ -50,7 +51,9 @@ export const ListUpload = ({
 	currentFilterState,
 	allRoles,
 	setRole,
-	setFileData
+	setFileData,
+	departmentId,
+	setDepartmentOption
 }) => {
 	const [downloadFile, setDownloadFile] = useState(false);
 
@@ -82,9 +85,32 @@ export const ListUpload = ({
 		}
 	);
 
+	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
+		useApiGet(
+			getDepartmentOptionUrl({
+				departmentId: departmentId,
+				studentTypeId: studentTypeIdState
+			}),
+			{
+				refetchOnWindowFocus: false,
+				enabled: !!departmentId
+			}
+		);
+
+	const allDepartmentOption = useMemo(
+		() =>
+			formatSelectItems(
+				departmentOption?.data,
+				"departmentOption",
+				"departmentOptionId"
+			),
+		[departmentOption]
+	);
+
 	const onSubmit = (data) => {
 		setUploaded(true);
 		setDepartmentId(data.departmentId.value);
+		setDepartmentOption(data.departmentOptionId.value);
 		setRole(data.role.value);
 		setFileData(data.resultSheet[0]);
 	};
@@ -135,16 +161,18 @@ export const ListUpload = ({
 		}
 	}, [file, downloadFile, downloadXLSFile]);
 	useEffect(() => {
-		const subscription = watch(({ studentTypeId }) => {
+		const subscription = watch(({ studentTypeId, departmentId }) => {
 			setStudentTypeIdState(studentTypeId?.value);
+			setDepartmentId(departmentId?.value);
 		});
 		return () => subscription.unsubscribe();
-	}, [watch, setStudentTypeIdState]);
+	}, [watch, setStudentTypeIdState, setDepartmentId]);
 
 	const onStudentTpeChange = (value) => {
 		setStudentTypeIdState(value.value);
 		setValue("studentTypeId", value);
 		setValue("departmentId", null);
+		setValue("departmentOptionId", null);
 		clearErrors("studentTypeId");
 	};
 	const allDepartments = formatSelectItems(
@@ -254,6 +282,54 @@ export const ListUpload = ({
 									errorText={
 										errors.departmentId &&
 										errors.departmentId.message
+									}
+								/>
+							)}
+						/>
+					</div>
+				</div>
+			)}
+			{isLoadingDepartmentOption && (
+				<>
+					<div className="container-fluid px-4 my-4">
+						<div className="row">
+							<div className="col-lg-3  d-flex align-items-center">
+								<label htmlFor="departmentId">
+									Department Option
+								</label>
+							</div>
+							<div className="col-lg-9">
+								<Spinner />
+							</div>
+						</div>
+					</div>
+				</>
+			)}
+			{allDepartmentOption?.length > 0 && (
+				<div className="row mb-4">
+					<div className="col-lg-3 d-flex align-items-center">
+						<label
+							htmlFor="admission_batch"
+							className={styles.admission_list_edit_label}
+						>
+							Department Option
+						</label>
+					</div>
+					<div className="col-lg-9">
+						<Controller
+							name="departmentOptionId"
+							control={control}
+							render={({ field }) => (
+								<SMSelect
+									placeholder="Select department Option"
+									searchable={true}
+									id="departmentOptionId"
+									{...field}
+									options={allDepartmentOption}
+									isError={!!errors.departmentOptionId}
+									errorText={
+										errors.departmentOptionId &&
+										errors.departmentOptionId.message
 									}
 								/>
 							)}

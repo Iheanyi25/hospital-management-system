@@ -279,33 +279,33 @@ const SchoolFeesAssignment = () => {
 					)}`}</div>
 				)
 			},
-			{
-				Header: "KSmart Commission (₦)",
-				accessor: "kSmartCommission",
-				Cell: ({ cell: { row } }) => (
-					<div>{`${numberFormatter(
-						row?.original?.kSmartCommission
-					)}`}</div>
-				)
-			},
-			{
-				Header: "Hubbly Commission (₦)",
-				accessor: "hubblyCommission",
-				Cell: ({ cell: { row } }) => (
-					<div>{`${numberFormatter(
-						row?.original?.hubblyCommission
-					)}`}</div>
-				)
-			},
-			{
-				Header: "Seamfix Commission (₦)",
-				accessor: "seamfixCommission",
-				Cell: ({ cell: { row } }) => (
-					<div>{`${numberFormatter(
-						row?.original?.seamfixCommission
-					)}`}</div>
-				)
-			},
+			// {
+			// 	Header: "KSmart Commission (₦)",
+			// 	accessor: "kSmartCommission",
+			// 	Cell: ({ cell: { row } }) => (
+			// 		<div>{`${numberFormatter(
+			// 			row?.original?.kSmartCommission
+			// 		)}`}</div>
+			// 	)
+			// },
+			// {
+			// 	Header: "Hubbly Commission (₦)",
+			// 	accessor: "hubblyCommission",
+			// 	Cell: ({ cell: { row } }) => (
+			// 		<div>{`${numberFormatter(
+			// 			row?.original?.hubblyCommission
+			// 		)}`}</div>
+			// 	)
+			// },
+			// {
+			// 	Header: "Seamfix Commission (₦)",
+			// 	accessor: "seamfixCommission",
+			// 	Cell: ({ cell: { row } }) => (
+			// 		<div>{`${numberFormatter(
+			// 			row?.original?.seamfixCommission
+			// 		)}`}</div>
+			// 	)
+			// },
 			{
 				Header: "Service Type",
 				accessor: "serviceType"
@@ -432,7 +432,8 @@ const SchoolFeesAssignment = () => {
 		allStaffStatus,
 		watchData.StudentTypeId,
 		setValue,
-		filter
+		filter,
+		allStudentCategory
 	]);
 
 	useEffect(() => {

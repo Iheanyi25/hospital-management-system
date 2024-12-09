@@ -39,9 +39,8 @@ export const ProgrammeDetailsForm = ({
 	isLoadingSchoolProgrammes,
 	isPGStudent,
 	data,
-	allAreaOfSpecialization,
-	isLoadingAreaOfSpecialization,
-	allStudentModes
+	allStudentModes,
+	hasMatricNumber
 }) => {
 	const { replace } = useHistory();
 	const { state } = useLocation();
@@ -51,17 +50,21 @@ export const ProgrammeDetailsForm = ({
 	const onSubmit = async (values) => {
 		const data = [];
 		Object.keys(values).map((item) => {
-			return data.push({
-				op: "replace",
-				path: `/StudentProgrammeDetail/${item}`,
-				value:
-					typeof values[item] === "object"
-						? values[item]?.value
-						: typeof values[item] === "string"
-						? values[item].toUpperCase()
-						: null
-			});
+			return (
+				item !== "areaOfSpecializationId" &&
+				data.push({
+					op: "replace",
+					path: `/StudentProgrammeDetail/${item}`,
+					value:
+						typeof values[item] === "object"
+							? values[item]?.value
+							: typeof values[item] === "string"
+							? values[item].toUpperCase()
+							: undefined
+				})
+			);
 		});
+
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode }),
 			data
@@ -310,66 +313,6 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</div>
 				)}
-				{isLoadingAreaOfSpecialization && (
-					<>
-						<div className="container-fluid px-4 my-4">
-							<div className="row">
-								<div className="col-lg-3  d-flex align-items-center">
-									<label htmlFor="DepartmentOptionId">
-										Area of Specialization
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Spinner />
-								</div>
-							</div>
-						</div>
-					</>
-				)}
-				{isPGStudent &&
-					!isLoadingAreaOfSpecialization &&
-					allAreaOfSpecialization?.length > 0 && (
-						<div className="container-fluid px-4 my-4">
-							<div className="row">
-								<div className="col-lg-3  d-flex align-items-center">
-									<label htmlFor="schoolProgramme">
-										Area of Specialization
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="areaOfSpecializationId"
-										defaultValue={findValueAndLabel(
-											data?.areaOfSpecializationId,
-											allAreaOfSpecialization
-										)}
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select an area of specialization"
-												searchable={true}
-												options={
-													allAreaOfSpecialization
-												}
-												isError={
-													!!errors.areaOfSpecializationId
-												}
-												errorText={
-													errors.areaOfSpecializationId &&
-													errors
-														.areaOfSpecializationId
-														.message
-												}
-												id="areaOfSpecializationId"
-											/>
-										)}
-									/>
-								</div>
-							</div>
-						</div>
-					)}
 
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
@@ -383,6 +326,7 @@ export const ProgrammeDetailsForm = ({
 								name="MatricNumber"
 								type="text"
 								register={register}
+								disabled={hasMatricNumber}
 								error={errors.MatricNo}
 								errorText={
 									errors.MatricNo &&
@@ -405,6 +349,7 @@ export const ProgrammeDetailsForm = ({
 								name="JambRegNumber"
 								type="text"
 								register={register}
+								disabled
 								error={errors.MatricNo}
 								errorText={
 									errors.MatricNo &&

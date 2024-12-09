@@ -1,6 +1,6 @@
 import { Spinner } from "../../../../ui_elements";
 import styles from "./style.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../api/apiCall";
@@ -14,7 +14,8 @@ import {
 	getAllSessionsUrl,
 	getSchoolProgrammesUrl,
 	getStudentModesOfStudyUrl,
-	getAreaOfSpecializationByDepartmentUrl
+	getAreaOfSpecializationByDepartmentUrl,
+	getStudentCategoryUrl
 } from "../../../../api/urls";
 
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
@@ -134,6 +135,13 @@ const ViewAdmissionList = () => {
 		}
 	);
 
+	const { data: studentCategory, isLoading: isLoadingCategories } = useApiGet(
+		getStudentCategoryUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+
 	const { data: departmentOption, isLoading: isLoadingDepartmentOption } =
 		useApiGet(
 			getDepartmentOptionUrl({
@@ -180,6 +188,10 @@ const ViewAdmissionList = () => {
 		departments?.data,
 		"department",
 		"departmentId"
+	);
+	const allStudentCategory = useMemo(
+		() => formatSelectItems(studentCategory?.data, "name", "id"),
+		[studentCategory]
 	);
 	const allDepartmentOption = formatSelectItems(
 		departmentOption?.data,
@@ -236,6 +248,8 @@ const ViewAdmissionList = () => {
 							isLoadingDepartmentOption={
 								isLoadingDepartmentOption
 							}
+							allStudentCategory={allStudentCategory}
+							isLoadingCategories={isLoadingCategories}
 							isDepartmentLoading={isDepartmentLoading}
 							data={admissionList?.data?.items}
 							setFilter={setFilter}

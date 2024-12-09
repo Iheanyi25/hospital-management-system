@@ -31,7 +31,8 @@ import {
 	getStudentModesOfStudyUrl,
 	getStudentModesUrl,
 	createStudentProfileUrl,
-	yearOfStudyUrl
+	yearOfStudyUrl,
+	getStudentCategoryUrl
 } from "../../../api/urls";
 import Avatar from "react-avatar";
 import { formatSelectItems } from "../../../utils/formatSelectItems";
@@ -143,6 +144,12 @@ const CreateProfile = () => {
 	} = useApiGet(getStudentModesOfStudyUrl(), {
 		refetchOnWindowFocus: false
 	});
+	const { data: studentCategory, isLoading: isLoadingCategories } = useApiGet(
+		getStudentCategoryUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
 	const { data: programmes, isLoading: loadingProgrammes } = useApiGet(
 		getSchoolProgrammesUrl({
 			studentTypeId: ProgrammeDetail?.StudentTypeId?.value
@@ -175,6 +182,10 @@ const CreateProfile = () => {
 		"id"
 	);
 	const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
+	const allStudentCategory = useMemo(
+		() => formatSelectItems(studentCategory?.data, "name", "id"),
+		[studentCategory]
+	);
 	const navs = useMemo(
 		() => [
 			{
@@ -244,6 +255,7 @@ const CreateProfile = () => {
 					DateOfBirth: PersonalData?.DateOfBirth,
 					CountryId: PersonalData?.CountryId?.value,
 					StateId: PersonalData?.StateId?.value,
+					CategoryId: PersonalData?.CategoryId.value,
 					LgaId: PersonalData?.LgaId
 						? PersonalData?.LgaId.value
 						: null,
@@ -351,7 +363,8 @@ const CreateProfile = () => {
 		isLoadingSessions ||
 		isLoadingStudentModes ||
 		isLoadingStudentModesOfStudy ||
-		loadingProgrammes
+		loadingProgrammes ||
+		isLoadingCategories
 	)
 		return (
 			<div
@@ -458,6 +471,7 @@ const CreateProfile = () => {
 						allStudentModesOfStudy={allStudentModesOfStudy}
 						allProgrammes={allProgrammes}
 						setOpen={setOpen}
+						allStudentCategory={allStudentCategory}
 					/>
 				</div>
 			</div>
@@ -479,7 +493,8 @@ const DisplayInformation = memo(
 		allStudentModes,
 		allStudentModesOfStudy,
 		allProgrammes,
-		setOpen
+		setOpen,
+		allStudentCategory
 	}) => {
 		const location = useLocation();
 		switch (location.hash) {
@@ -491,6 +506,7 @@ const DisplayInformation = memo(
 						allBloodGroups={allBloodGroups}
 						allGenotypes={allGenotypes}
 						allReligions={allReligions}
+						allStudentCategory={allStudentCategory}
 					/>
 				);
 			case "#section_b":

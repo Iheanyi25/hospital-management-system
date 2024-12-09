@@ -30,7 +30,7 @@ const SchoolFeesBulk = () => {
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
 
-	const [breakdowns, setBreakdowns] = useState([0, 2]);
+	const [breakdowns, setBreakdowns] = useState([0]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 	const name = "Bulk Assignment";
 
@@ -103,7 +103,7 @@ const SchoolFeesBulk = () => {
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
 				// KSmartCommission: getValues()?.["amount"]?.[1] || 0,
-				HubblyCommission: getValues()?.["amount"]?.[2] || 0,
+				// HubblyCommission: getValues()?.["amount"]?.[2] || 0,
 				// SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
 				StudentTypeId: filter?.StudentTypeId,
@@ -187,8 +187,8 @@ const SchoolFeesBulk = () => {
 		setValue(`amount.${0}`, 0);
 		// setValue(`amount.${1}`, 0);
 		// setValue(`description.${1}`, "KSmart Commission");
-		setValue(`amount.${2}`, 0);
-		setValue(`description.${2}`, "Hubbly Commission");
+		// setValue(`amount.${2}`, 0);
+		// setValue(`description.${2}`, "Hubbly Commission");
 		// setValue(`amount.${3}`, 0);
 		// setValue(`description.${3}`, "Seamfix Commission");
 	}, [setValue]);
@@ -318,7 +318,7 @@ const SchoolFeesBulk = () => {
 																index
 															]
 														}
-														disabled={index < 4}
+														disabled={index < 1}
 													/>
 												</div>
 												<div className="col-md-5 d-flex align-items-center gap-2 gap-md-0">

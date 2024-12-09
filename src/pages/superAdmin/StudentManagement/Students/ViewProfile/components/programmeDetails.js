@@ -6,8 +6,7 @@ import {
 	yearOfStudyUrl,
 	getDepartmentOptionUrl,
 	getSchoolProgrammesUrl,
-	getStudentModeOfEntryUrl,
-	getAreaOfSpecializationByDepartmentUrl
+	getStudentModeOfEntryUrl
 } from "../../../../../../api/urls";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
 import { useEffect, useMemo, useState } from "react";
@@ -23,15 +22,16 @@ export const ProgrammeDetails = ({
 	allStudentModesOfStudy,
 	allSessions,
 	allProgrammeTypes,
-	allStudentModes
+	allStudentModes,
+	hasMatricNumber
 }) => {
 	const [departmentIdState, setDepartmentId] = useState(data?.departmentId);
 	const [studentTypeIdState, setStudentTypeIdState] = useState(
 		data?.studentTypeId
 	);
-	const [programmeIdState, setProgrammeIdState] = useState(
-		data?.schoolProgrammeId
-	);
+	// const [programmeIdState, setProgrammeIdState] = useState(
+	// 	data?.schoolProgrammeId
+	// );
 	const { data: levels, isLoading: isLoadingLevels } = useApiGet(
 		yearOfStudyUrl({ studentTypeId: studentTypeIdState }),
 		{
@@ -69,19 +69,7 @@ export const ProgrammeDetails = ({
 				enabled: !!studentTypeIdState
 			}
 		);
-	const {
-		data: areaOfSpecialization,
-		isLoading: isLoadingAreaOfSpecialization
-	} = useApiGet(
-		getAreaOfSpecializationByDepartmentUrl(
-			departmentIdState,
-			programmeIdState
-		),
-		{
-			refetchOnWindowFocus: false,
-			enabled: !!departmentIdState && !!programmeIdState
-		}
-	);
+
 	const allDepartmentOption = useMemo(
 		() =>
 			formatSelectItems(
@@ -102,11 +90,6 @@ export const ProgrammeDetails = ({
 	const isPGStudent = studentTypeIdState === STUDENT_TYPES.POSTGRADUATE;
 	const allStudentModesOfEntry = formatSelectItems(
 		studentModesOfEntry?.data,
-		"name",
-		"id"
-	);
-	const allAreaOfSpecialization = formatSelectItems(
-		areaOfSpecialization?.data,
 		"name",
 		"id"
 	);
@@ -154,10 +137,7 @@ export const ProgrammeDetails = ({
 				data?.programmeTypeId,
 				allProgrammeTypes
 			),
-			areaOfSpecializationId: {
-				value: data?.areaOfSpecializationId,
-				label: data?.areaOfSpecialization
-			},
+
 			ModeOfStudyId: {
 				value: data?.modeOfStudyId,
 				label: data?.modeOfStudy
@@ -177,7 +157,6 @@ export const ProgrammeDetails = ({
 			({ DepartmentId, StudentTypeId, SchoolProgrammeId }) => {
 				setDepartmentId(DepartmentId?.value);
 				setStudentTypeIdState(StudentTypeId?.value);
-				setProgrammeIdState(SchoolProgrammeId?.value);
 			}
 		);
 		return () => subscription.unsubscribe();
@@ -197,8 +176,6 @@ export const ProgrammeDetails = ({
 			control={control}
 			register={register}
 			setValue={setValue}
-			allAreaOfSpecialization={allAreaOfSpecialization}
-			isLoadingAreaOfSpecialization={isLoadingAreaOfSpecialization}
 			data={data}
 			isLoadingDepartmentOptions={isLoadingDepartmentOptions}
 			isLoadingStudentModesOfEntry={isLoadingStudentModesOfEntry}
@@ -216,6 +193,7 @@ export const ProgrammeDetails = ({
 			allStudentModesOfStudy={allStudentModesOfStudy}
 			allSessions={allSessions}
 			allStudentModes={allStudentModes}
+			hasMatricNumber={hasMatricNumber}
 		/>
 	);
 };

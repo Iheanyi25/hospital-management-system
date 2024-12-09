@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
 	Jumbotron
 } from "../../../../../../../ui_elements";
 import { SEMESTERS } from "../../../../../../../utils/constants";
+import { findValueAndLabel } from "../../../../../../../utils/findValueAndLabel";
 
 export const SelectRecordsForm = ({
 	control,
@@ -28,9 +29,15 @@ export const SelectRecordsForm = ({
 	levels,
 	isLoadingLevels,
 	isLoadingCourses,
-	handleCompositeSubmit
+	handleCompositeSubmit,
+	programDetails,
+	isLoadingCompositeSheet,
+	handleSummarySubmit,
+	isLoadingSummarySheet,
+	role
 }) => {
 	const { push } = useHistory();
+
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
 			...state,
@@ -68,6 +75,16 @@ export const SelectRecordsForm = ({
 		setValue("departmentOptionId", null);
 		setValue("levelId", null);
 	};
+
+	useEffect(() => {
+		if (allDepartmentOption.length > 0) {
+			const defaultDepartmentOption = findValueAndLabel(
+				programDetails?.departmentOptionId,
+				allDepartmentOption
+			);
+			setValue("departmentOptionId", defaultDepartmentOption);
+		}
+	}, [allDepartmentOption, programDetails?.departmentOptionId, setValue]);
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -77,14 +94,19 @@ export const SelectRecordsForm = ({
 					<>
 						<Button
 							data-cy="view_res_data"
-							type="submit"
+							type="button"
 							buttonClass="standard"
 							label="Print Composite Sheet"
-							loading={isLoadingCourses}
+							loading={isLoadingCompositeSheet}
 							onClick={handleSubmit(handleCompositeSubmit)}
-							disabled={
-								isLoadingDepartmentOption || isLoadingLevels
-							}
+						/>
+						<Button
+							data-cy="view_res_data"
+							type="button"
+							buttonClass="secondary"
+							label="Print Summary Sheet"
+							loading={isLoadingSummarySheet}
+							onClick={handleSubmit(handleSummarySubmit)}
 						/>
 						<Button
 							data-cy="view_res_data"
@@ -92,9 +114,6 @@ export const SelectRecordsForm = ({
 							buttonClass="primary"
 							label="View results"
 							loading={isLoadingCourses}
-							disabled={
-								isLoadingDepartmentOption || isLoadingLevels
-							}
 						/>
 					</>
 				}
@@ -123,6 +142,14 @@ export const SelectRecordsForm = ({
 										rules={{
 											required: true
 										}}
+										defaultValue={
+											programDetails?.studentTypeId
+												? findValueAndLabel(
+														programDetails.studentTypeId,
+														allStudentTypes
+												  )
+												: null
+										}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
@@ -131,6 +158,9 @@ export const SelectRecordsForm = ({
 												options={allStudentTypes}
 												searchable={false}
 												id="studentTypeId"
+												disabled={
+													role === "Exams Officer"
+												}
 												isError={!!errors.studentTypeId}
 											/>
 										)}
@@ -160,6 +190,14 @@ export const SelectRecordsForm = ({
 										rules={{
 											required: true
 										}}
+										defaultValue={
+											programDetails?.departmentId
+												? findValueAndLabel(
+														programDetails.departmentId,
+														allDepartments
+												  )
+												: null
+										}
 										render={({ field }) => (
 											<SMSelect
 												{...field}
@@ -168,6 +206,9 @@ export const SelectRecordsForm = ({
 												options={allDepartments}
 												searchable={true}
 												isError={!!errors.departmentId}
+												disabled={
+													role === "Exams Officer"
+												}
 											/>
 										)}
 									/>
@@ -176,7 +217,7 @@ export const SelectRecordsForm = ({
 						</div>
 						{departmentOption?.data?.length > 0 && (
 							<div className="col-md-6">
-								<div className="row">
+								<div className={`row ${"mt-5"}`}>
 									<div className="col-lg-3  d-flex align-items-center">
 										<label
 											className="font-weight-bold"
@@ -192,6 +233,14 @@ export const SelectRecordsForm = ({
 											rules={{
 												required: true
 											}}
+											defaultValue={
+												programDetails?.departmentOptionId
+													? findValueAndLabel(
+															programDetails.departmentOptionId,
+															allDepartmentOption
+													  )
+													: null
+											}
 											render={({ field }) => (
 												<SMSelect
 													{...field}
@@ -204,6 +253,9 @@ export const SelectRecordsForm = ({
 													isError={
 														!!errors.departmentOptionId
 													}
+													disabled={
+														role === "Exams Officer"
+													}
 												/>
 											)}
 										/>
@@ -211,11 +263,7 @@ export const SelectRecordsForm = ({
 								</div>
 							</div>
 						)}
-						{isLoadingDepartmentOption && (
-							<div className="col-md-6">
-								<Spinner />
-							</div>
-						)}
+						{isLoadingDepartmentOption && <Spinner />}
 						<div className="col-md-6">
 							<div className={`row ${"mt-5"}`}>
 								<div className="col-lg-3  d-flex align-items-center">

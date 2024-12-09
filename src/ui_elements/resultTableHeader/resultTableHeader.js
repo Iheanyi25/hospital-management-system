@@ -3,37 +3,46 @@ import logo from "../../assets/images/logo.png";
 import { SCHOOL_DETAILS } from "../../utils/constants";
 import styles from "./styles.module.css";
 
-export const ResultTableHeader = ({ details }) => {
+export const ResultTableHeader = ({ details, result }) => {
 	return (
 		<div className={styles.container}>
-			<header>
-				<img src={logo} alt="logo" />
-				<h1 className="ml-2">{SCHOOL_DETAILS.name}</h1>
-			</header>
-			<div>
-				<h2>{details?.faculty}</h2>
-				<h2>semester examination result</h2>
-			</div>
-			<div>
-				<div className={`${styles.gridItem}`}>
-					<span>department:</span>
-					<span>{details?.department}</span>
+			<div className={styles.header}>
+				<img src={logo} alt="School Logo" className={styles.logo} />
+				<div className={styles.schoolInfo}>
+					<h1>{`${SCHOOL_DETAILS.name}, ${SCHOOL_DETAILS.location}`}</h1>
+					<h3>
+						{details?.semester && `${details?.semester} SEMESTER`}{" "}
+						{result
+							? "EXAMINATION RESULT"
+							: "summary of semester examination results"}
+					</h3>
 				</div>
-				<div className={`${styles.gridItem}`}>
-					<span>semester:</span>
-					<span>{details?.semester}</span>
-				</div>
-				<div className={`${styles.gridItem}`}>
-					<span>date:</span>
-					<span>{details?.date}</span>
-				</div>
-				<div className={`${styles.gridItem}`}>
-					<span>programme:</span>
-					<span>{details?.programme}</span>
-				</div>
-				<div className={`${styles.gridItem}`}>
-					<span>session:</span>
-					<span>{details?.session}</span>
+				<div className={styles.headerGrid}>
+					<div>
+						<div className={styles.gridItem}>
+							<span>SESSION:</span>
+							<span>{details?.session}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>DEPARTMENT:</span>
+							<span>{details?.department}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>SEMESTER:</span>
+							<span>{details?.semester}</span>
+						</div>
+					</div>
+
+					<div>
+						<div className={styles.gridItem}>
+							<span>PROGRAMME:</span>
+							<span>{details?.programme}</span>
+						</div>
+						<div className={styles.gridItem}>
+							<span>DATE:</span>
+							<span>{details?.date}</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

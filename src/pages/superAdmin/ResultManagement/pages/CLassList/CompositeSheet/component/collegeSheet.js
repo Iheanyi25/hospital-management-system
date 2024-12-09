@@ -23,6 +23,7 @@ export const CollegeSheet = ({ compositeSheet, data }) => {
 							programme: compositeSheet?.data?.programme || "-",
 							session: compositeSheet?.data?.session || "-"
 						}}
+						result={true}
 					/>
 					{/* <div className="d-flex pt-4">
 						<OfficalsTable compositeSheet={compositeSheet} />

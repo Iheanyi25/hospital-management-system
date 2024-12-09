@@ -31,3 +31,5 @@ export const downloadCBTScoresheetUrl = (filter) =>
 export const uploadCBTScoresheetUrl = (filter) => `${baseUrl}/cbt-upload`;
 export const studentCompositeResultsUrl = (filter) =>
 	`${baseUrl}/students-composite-results?${generateUrlParams(filter)}`;
+export const studentSummaryResultsUrl = (filter) =>
+	`${baseUrl}/students-summary-results?${generateUrlParams(filter)}`;
