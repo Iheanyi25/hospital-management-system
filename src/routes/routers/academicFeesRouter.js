@@ -32,12 +32,12 @@ export const AcademicFeesRouter = ({
 				title: "Acceptance",
 				path: "/academic_fees/acceptance",
 				disabled: false
-			},
-			{
-				title: "Change of Degree",
-				path: "/academic_fees/change_of_degree",
-				disabled: false
 			}
+			// {
+			// 	title: "Change of Degree",
+			// 	path: "/academic_fees/change_of_degree",
+			// 	disabled: false
+			// }
 		],
 		[]
 	);

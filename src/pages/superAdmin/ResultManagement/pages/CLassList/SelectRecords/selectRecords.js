@@ -67,9 +67,6 @@ const SelectResultRecords = () => {
 	const programDetails = data?.profileData?.programmeDetail;
 	const role = data?.profileData?.personalData?.role;
 
-	console.log("WHAT ARE YOU", data);
-	console.log("WHAT ARE HEEEE", role);
-
 	const handleCompositePrint = useReactToPrint({
 		content: () => componentRef?.current,
 		pageStyle

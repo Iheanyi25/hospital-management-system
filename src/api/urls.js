@@ -53,4 +53,6 @@ export * from "./urlCategories/BorrowedCourseRegistration";
 export * from "./urlCategories/SchoolProgramme";
 export * from "./urlCategories/ND";
 export * from "./urlCategories/HND";
+export * from "./urlCategories/ApplicationInvoice";
+export * from "./urlCategories/Sessions";
 export * from "./urlCategories/AreaOfSpecialization";

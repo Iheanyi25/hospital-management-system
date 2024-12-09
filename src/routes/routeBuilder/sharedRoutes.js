@@ -668,7 +668,7 @@ export const sharedRoutes = [
 		component: LazyUniTransferApplicationDetails
 	},
 	{
-		path: "/generate_students_invoice",
+		path: "/generate_other_students_invoice",
 		component: LazyGenerateOtherStudentsPaymentInvoice,
 		router: SharedRouter,
 		exact: true

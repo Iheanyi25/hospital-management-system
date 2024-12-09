@@ -25,3 +25,5 @@ export const downloadApplicationReportsUrl = (filter) =>
 	`${baseUrl}/download-payment-report?${generateUrlParams(filter)}`;
 export const getApplicationReportsUrl = (filter) =>
 	`${baseUrl}/payment-report?${generateUrlParams(filter)}`;
+export const updateApplicationInvoiceUrl = () =>
+	`${baseUrl}/update-application-invoice`;
