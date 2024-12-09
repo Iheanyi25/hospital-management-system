@@ -233,25 +233,16 @@ const SchoolFeesEdit = () => {
 					<Jumbotron
 						headerText={`Fees Breakdown for ${name ? name : ""}`}
 						endText={`Total: ${
-							watchData?.amount?.length >= 5
+							watchData?.amount?.length >= 1
 								? numberFormatter(
-										watchData?.amount
-											?.slice(4)
-											?.reduce(
-												(
-													previousValue,
-													currentValue
-												) => {
-													return (
-														Number(
-															previousValue || 0
-														) +
-														Number(
-															currentValue || 0
-														)
-													);
-												}
-											)
+										watchData?.amount?.reduce(
+											(previousValue, currentValue) => {
+												return (
+													Number(previousValue || 0) +
+													Number(currentValue || 0)
+												);
+											}
+										)
 								  )
 								: 0
 						}`}

@@ -133,6 +133,17 @@ const LazySchoolFeesAssignmentEdit = lazy(() =>
 		"../../pages/superAdmin/FeesAssignment/pages/SchoolFees/schoolFeesEdit"
 	)
 );
+const LazyManageInvoices = lazy(() =>
+	import(
+		"../../pages/superAdmin/Application/ManageInvoices/pages/manageInvoices"
+	)
+);
+
+const LazyAdmissionListReports = lazy(() =>
+	import(
+		"../../pages/superAdmin/Reports/pages/AdmissionListReports/admissionListReports"
+	)
+);
 
 const LazySchoolFeesAssignmentBulk = lazy(() =>
 	import(
@@ -456,6 +467,13 @@ export const staffRoutes = [
 	{
 		path: "/reports/jupeb_reports",
 		component: LazyJupebReports,
+		exact: true,
+		router: ReportsRouter,
+		title: "Reports"
+	},
+	{
+		path: "/reports/admission_list",
+		component: LazyAdmissionListReports,
 		exact: true,
 		router: ReportsRouter,
 		title: "Reports"
@@ -834,6 +852,13 @@ export const staffRoutes = [
 	{
 		path: "/applications/setup",
 		component: LazyApplicationSetup,
+		exact: true,
+		router: ApplicationsRouter,
+		title: "Applications"
+	},
+	{
+		path: "/applications/manage_invoices",
+		component: LazyManageInvoices,
 		exact: true,
 		router: ApplicationsRouter,
 		title: "Applications"
