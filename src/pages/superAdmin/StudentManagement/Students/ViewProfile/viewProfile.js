@@ -40,7 +40,6 @@ import {
 import Avatar from "react-avatar";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import formatImageToBase64 from "../../../../../utils/formatImage";
-import { Link } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import {
 	checkIfFilesAreTooBig,
