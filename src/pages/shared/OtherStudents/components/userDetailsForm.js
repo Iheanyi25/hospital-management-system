@@ -49,7 +49,7 @@ export const UserDetailsForm = ({
 				Lastname: data?.Surname,
 				FirstName: data?.Firstname,
 				MiddleName: data?.Middlename,
-				PhoneNumber: encodeURIComponent(data?.MobileNo),
+				MobileNumber: encodeURIComponent(data?.MobileNo),
 				RegNumber: encodeURIComponent(data?.MobileNo),
 				Email: data?.Email,
 				SessionId: data?.SessionId?.value,

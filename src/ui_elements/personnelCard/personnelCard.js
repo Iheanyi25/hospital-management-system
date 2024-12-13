@@ -2,7 +2,13 @@ import Avatar from "react-avatar";
 import logo from "../../assets/images/logo.png";
 import "./personnelCard.css";
 
-export const PersonnelCard = ({ details, user, noMargin, noLogo }) => {
+export const PersonnelCard = ({
+	details,
+	user,
+	noMargin,
+	noLogo,
+	isCourse
+}) => {
 	return (
 		<section className={`${noMargin ?? "mt-5"} personnel_card_align`}>
 			{!noLogo && (
@@ -10,7 +16,7 @@ export const PersonnelCard = ({ details, user, noMargin, noLogo }) => {
 					<img src={logo} alt={"logo"} className="personnel-image" />
 				</header>
 			)}
-			<div className="row">
+			<div className={isCourse ? "forCourses" : "row"}>
 				<div className="col-md-3 d-flex align-items-center">
 					<Avatar
 						className="info-avatar"
@@ -21,9 +27,9 @@ export const PersonnelCard = ({ details, user, noMargin, noLogo }) => {
 						maxInitials={2}
 					/>
 				</div>
-				<div className="col-md-1" />
+				{!isCourse && <div className="col-md-1" />}
 
-				<div className="col-md-8 d-flex align-items-center">
+				<div className="col-md-6 d-flex align-items-center">
 					<div className="row">
 						{details?.map((detail, index) => (
 							<div className="col-md-6" key={index}>

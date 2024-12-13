@@ -1,6 +1,6 @@
 import { generateUrlParams } from "../../utils/generateUrlParams";
 
-const baseUrl = "PostUtme";
+const baseUrl = "ND";
 
 export const putmeLoadApplicationFormUrl = (jambRegNumber) =>
 	`${baseUrl}/load-application-form?regNumber=${jambRegNumber}`;
