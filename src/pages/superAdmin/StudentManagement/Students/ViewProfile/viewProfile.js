@@ -40,7 +40,6 @@ import {
 import Avatar from "react-avatar";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import formatImageToBase64 from "../../../../../utils/formatImage";
-import { Link } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import {
 	checkIfFilesAreTooBig,
@@ -72,7 +71,6 @@ const EditProfile = () => {
 		}
 	);
 
-	console.log("WAHAHAHA", data?.data);
 	const {
 		data: countries,
 		isLoading: isLoadingCountries,
@@ -338,17 +336,13 @@ const EditProfile = () => {
 	return (
 		<div ref={ref}>
 			<div style={{ width: "fit-content" }}>
-				<Link
+				<div
 					className={`mb-3 mx-5 d-flex align-items-center ${styles.back_link}`}
-					to={
-						state?.fromUserManagement
-							? "/user_management/users/edit"
-							: "/student_management/view"
-					}
+					onClick={() => goBack()}
 				>
 					<img src={dropDown} alt={""} />
 					<span>Back to Search</span>
-				</Link>
+				</div>
 			</div>
 			<div className="row mb-3 mx-5">
 				<div className="col-12 col-md-2 col-lg-2">

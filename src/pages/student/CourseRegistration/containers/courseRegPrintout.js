@@ -33,7 +33,7 @@ const CourseRegPrintout = ({ dataRef, registeredCourses }) => {
 	return (
 		<div ref={dataRef} className={styles.course_container_card}>
 			<div className={styles.personnel_card_align}>
-				<PersonnelCard details={details} user={profile} />
+				<PersonnelCard isCourse details={details} user={profile} />
 			</div>
 
 			<CourseOverviewTable
@@ -41,10 +41,6 @@ const CourseRegPrintout = ({ dataRef, registeredCourses }) => {
 			/>
 			<div className="d-flex">
 				<div className={styles.credibility_container}>
-					<aside>
-						<input />
-						<h4>Student Signature:</h4>
-					</aside>
 					<aside>
 						<input />
 						<h4>Academic Adviser's Name</h4>
@@ -60,10 +56,6 @@ const CourseRegPrintout = ({ dataRef, registeredCourses }) => {
 				</div>
 
 				<div className={styles.credibility_container}>
-					<aside>
-						<input />
-						<h4>Date:</h4>
-					</aside>
 					<aside>
 						<input />
 						<h4>Academic Adviser's Signature</h4>

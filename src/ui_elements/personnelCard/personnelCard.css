@@ -12,3 +12,8 @@
 .info-avatar span {
 	font-size: 100px !important;
 }
+
+.forCourses {
+	display: flex;
+	justify-content: space-between;
+}

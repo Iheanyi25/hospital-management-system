@@ -11,6 +11,7 @@ import styles from "./style.module.css";
 import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
 import { fieldSetterAndClearer } from "../../../../utils/fieldSetterAndClearer";
 import { STUDENT_TYPES } from "../../../../utils/constants";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function ViewAllStudentsForm({
 	control,
@@ -35,15 +36,20 @@ export default function ViewAllStudentsForm({
 	allFaculties,
 	isDepartmentLoading,
 	setValue,
-	isLoading
+	isLoading,
+	allObj,
+	allPortalStatus
 }) {
 	const ref = useRef(null);
 	const data = useContext(ProfileContext);
+	const { push } = useHistory();
+
 	const programDetails = data?.profileData?.programmeDetail;
 	const isPGSelected =
 		Number(watchData?.studentTypeId) === STUDENT_TYPES.POSTGRADUATE;
 
 	const onSubmit = (formData) => {
+		console.log("formDATA", formData);
 		setFilter((state) => ({
 			departmentId: formData.departmentId.value,
 			//conditinally add departmentOptionId to filter object
@@ -58,6 +64,22 @@ export default function ViewAllStudentsForm({
 			role: formData.status?.value,
 			pageSize: state.pageSize
 		}));
+
+		push({
+			search: new URLSearchParams({
+				departmentId: formData.departmentId.value,
+				//conditinally add departmentOptionId to filter object
+				...(allDepartmentOption?.length > 0 && {
+					departmentOptionId: formData?.departmentOption?.value
+				}),
+				studentModeId: formData.studentModeId.value,
+				facultyId: formData.facultyId.value,
+				studentTypeId: formData.studentTypeId.value,
+				active: formData.active.value,
+				levelId: formData.levelId.value,
+				role: formData.status?.value
+			}).toString()
+		});
 	};
 
 	const onStudentTypeChange = (value) => {
@@ -81,17 +103,6 @@ export default function ViewAllStudentsForm({
 		});
 	};
 
-	const allObj = { value: "", label: "All" };
-	const allPortalStatus = [
-		{
-			value: true,
-			label: "Active"
-		},
-		{
-			value: false,
-			label: "Inactive"
-		}
-	];
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -261,11 +272,12 @@ export default function ViewAllStudentsForm({
 									</div>
 									<div className="col-lg-9">
 										<Controller
-											name="departmentOption"
+											name=""
 											control={control}
 											render={({ field }) => (
 												<SMSelect
 													{...field}
+													departmentOption
 													id="dept_opt"
 													placeholder="Select department option"
 													options={
