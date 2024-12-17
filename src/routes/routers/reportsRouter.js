@@ -58,6 +58,11 @@ export const ReportsRouter = ({
 				title: "Sundry Reports",
 				path: "/reports/sundry",
 				disabled: false
+			},
+			{
+				title: "Cash Book Reports",
+				path: "/reports/cash_book_reports",
+				disabled: false
 			}
 			// {
 			// 	title: "Hostel Reports",

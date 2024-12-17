@@ -5,7 +5,6 @@ import { useApiGet } from "../../../../../../api/apiCall";
 import {
 	yearOfStudyUrl,
 	getDepartmentOptionUrl,
-	getSchoolProgrammesUrl,
 	getStudentModeOfEntryUrl
 } from "../../../../../../api/urls";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
@@ -59,16 +58,16 @@ export const ProgrammeDetails = ({
 		}
 	);
 
-	const { data: programmes, isLoading: isLoadingSchoolProgrammes } =
-		useApiGet(
-			getSchoolProgrammesUrl({
-				studentTypeId: studentTypeIdState
-			}),
-			{
-				refetchOnWindowFocus: false,
-				enabled: !!studentTypeIdState
-			}
-		);
+	// const { data: programmes, isLoading: isLoadingSchoolProgrammes } =
+	// 	useApiGet(
+	// 		getSchoolProgrammesUrl({
+	// 			studentTypeId: studentTypeIdState
+	// 		}),
+	// 		{
+	// 			refetchOnWindowFocus: false,
+	// 			enabled: !!studentTypeIdState
+	// 		}
+	// 	);
 
 	const allDepartmentOption = useMemo(
 		() =>
@@ -79,10 +78,10 @@ export const ProgrammeDetails = ({
 			),
 		[departmentOption]
 	);
-	const allProgrammes = useMemo(
-		() => formatSelectItems(programmes?.data, "name", "id"),
-		[programmes]
-	);
+	// const allProgrammes = useMemo(
+	// 	() => formatSelectItems(programmes?.data, "name", "id"),
+	// 	[programmes]
+	// );
 	const allLevels = useMemo(
 		() => formatSelectItems(levels?.data, "name", "id"),
 		[levels]
@@ -133,10 +132,10 @@ export const ProgrammeDetails = ({
 				allStudentModes,
 				"label"
 			),
-			programmeTypeId: findValueAndLabel(
-				data?.programmeTypeId,
-				allProgrammeTypes
-			),
+			// programmeTypeId: findValueAndLabel(
+			// 	data?.programmeTypeId,
+			// 	allProgrammeTypes
+			// ),
 
 			ModeOfStudyId: {
 				value: data?.modeOfStudyId,
@@ -147,8 +146,8 @@ export const ProgrammeDetails = ({
 		context: {
 			isDepartmentOptionRequired:
 				departmentOption?.data?.length > 0 ? true : false,
-			isSchoolProgrammeIdRequired:
-				programmes?.data?.length > 0 ? true : false,
+			// isSchoolProgrammeIdRequired:
+			// 	programmes?.data?.length > 0 ? true : false,
 			isPGStudent
 		}
 	});
@@ -179,14 +178,14 @@ export const ProgrammeDetails = ({
 			data={data}
 			isLoadingDepartmentOptions={isLoadingDepartmentOptions}
 			isLoadingStudentModesOfEntry={isLoadingStudentModesOfEntry}
-			isLoadingSchoolProgrammes={isLoadingSchoolProgrammes}
+			// isLoadingSchoolProgrammes={isLoadingSchoolProgrammes}
 			departmentOption={departmentOption}
 			allDepartmentOption={allDepartmentOption}
 			isLoadingLevels={isLoadingLevels}
 			allLevels={allLevels}
 			allDepartments={allDepartments}
 			isPGStudent={isPGStudent}
-			allProgrammes={allProgrammes}
+			// allProgrammes={allProgrammes}
 			allProgrammeTypes={allProgrammeTypes}
 			allStudentModesOfEntry={allStudentModesOfEntry}
 			allStudentTypes={allStudentTypes}

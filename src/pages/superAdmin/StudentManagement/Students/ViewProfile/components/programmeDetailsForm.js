@@ -30,13 +30,13 @@ export const ProgrammeDetailsForm = ({
 	isLoadingLevels,
 	allLevels,
 	allDepartments,
-	allProgrammes,
+	// allProgrammes,
 	allStudentModesOfEntry,
 	allStudentTypes,
 	allStudentModesOfStudy,
 	allSessions,
 	allProgrammeTypes,
-	isLoadingSchoolProgrammes,
+	// isLoadingSchoolProgrammes,
 	isPGStudent,
 	data,
 	allStudentModes,
@@ -122,14 +122,14 @@ export const ProgrammeDetailsForm = ({
 		});
 	};
 
-	const onProgrammeChange = (value) => {
-		fieldSetterAndClearer({
-			value,
-			setterFunc: setValue,
-			setField: "SchoolProgrammeId",
-			clearFields: ["areaOfSpecializationId"]
-		});
-	};
+	// const onProgrammeChange = (value) => {
+	// 	fieldSetterAndClearer({
+	// 		value,
+	// 		setterFunc: setValue,
+	// 		setField: "SchoolProgrammeId",
+	// 		clearFields: ["areaOfSpecializationId"]
+	// 	});
+	// };
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -260,7 +260,7 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</div>
 				)}
-				{isLoadingSchoolProgrammes && (
+				{/* {isLoadingSchoolProgrammes && (
 					<>
 						<div className="container-fluid px-4 my-4">
 							<div className="row">
@@ -312,7 +312,7 @@ export const ProgrammeDetailsForm = ({
 							</div>
 						</div>
 					</div>
-				)}
+				)} */}
 
 				<div className="container-fluid px-4 my-3">
 					<div className="row">

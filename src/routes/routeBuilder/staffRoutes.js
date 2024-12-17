@@ -31,6 +31,9 @@ const LazyJupebReports = lazy(() =>
 const LazyPaymentReports = lazy(() =>
 	import("../../pages/superAdmin/Reports/pages/PaymentReport/paymentReport")
 );
+const LazyCashBookReports = lazy(() =>
+	import("../../pages/superAdmin/Reports/pages/CashBook/paymentReport")
+);
 const LazyPutmeReports = lazy(() =>
 	import("../../pages/superAdmin/Reports/pages/PutmeReports/putmeReports")
 );
@@ -481,6 +484,13 @@ export const staffRoutes = [
 	{
 		path: "/reports/payment_reports",
 		component: LazyPaymentReports,
+		exact: true,
+		router: ReportsRouter,
+		title: "Reports"
+	},
+	{
+		path: "/reports/cash_book_reports",
+		component: LazyCashBookReports,
 		exact: true,
 		router: ReportsRouter,
 		title: "Reports"
