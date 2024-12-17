@@ -11,7 +11,6 @@ import { SAVE_PUTME_INFO } from "../../../store/constant";
 import { useApiGet } from "../../../api/apiCall";
 import AuthPageWrapper from "../AuthPageWrapper";
 import { putmeInitialState } from "../../../store/reducers/putmeReducer";
-// import { checkIfPutmeFormat } from "../../../utils/formValidations";
 
 export const hndLoginSchema = yup.object().shape({
 	mobileNumber: yup.string().required("please input your phone number")
@@ -80,8 +79,6 @@ const HNDLogin = () => {
 		}
 	}, [data, requestError, push, makeRequest, isLoading, dispatch]);
 
-	console.log(data)
-	
 	const onSubmit = (data) => {
 		setMobileNumber(data.mobileNumber);
 		setMakeRequest(true);
@@ -91,7 +88,9 @@ const HNDLogin = () => {
 		<AuthPageGlobalWrapper>
 			<AuthPageWrapper>
 				<form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-					<h1 className={`${styles.auth_main_header}`}>Higher National Diploma (HND)</h1>
+					<h1 className={`${styles.auth_main_header}`}>
+						Higher National Diploma (HND)
+					</h1>
 					<p className={`${styles.auth_sub_header}`}>
 						Login to fill the form
 					</p>
