@@ -1,4 +1,6 @@
-const baseUrl = "level";
+const baseUrl = "Select";
 export const getLevelForBorrowCoursesUrl = (userId) =>
-	`${baseUrl}/levelForBorrowCourses${userId ? `?userId=${userId}` : ""}`;
+	`${baseUrl}/level-for-borrowing-courses${
+		userId ? `?userId=${userId}` : ""
+	}`;
 export const getAllLevels = () => `${baseUrl}/get-all-levels`;

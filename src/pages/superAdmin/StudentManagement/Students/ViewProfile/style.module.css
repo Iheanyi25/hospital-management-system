@@ -21,9 +21,10 @@
 	margin-bottom: 38px;
 }
 
-.back_link  {
+.back_link {
 	text-decoration: none !important;
 	color: var(--light-text-color) !important;
+	cursor: pointer;
 }
 .sub_header {
 	font-size: 1.14rem;

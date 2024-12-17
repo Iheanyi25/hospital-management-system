@@ -34,6 +34,11 @@ export const ReportsRouter = ({
 				path: "/reports/putme_reports",
 				disabled: false
 			},
+			{
+				title: "Admission List Report",
+				path: "/reports/admission_list",
+				disabled: false
+			},
 			// {
 			// 	title: "PG Reports",
 			// 	path: "/reports/pg_reports",
@@ -54,6 +59,11 @@ export const ReportsRouter = ({
 				path: "/reports/sundry",
 				disabled: false
 			},
+			{
+				title: "Cash Book Reports",
+				path: "/reports/cash_book_reports",
+				disabled: false
+			}
 			// {
 			// 	title: "Hostel Reports",
 			// 	path: "/reports/hostel_reports",

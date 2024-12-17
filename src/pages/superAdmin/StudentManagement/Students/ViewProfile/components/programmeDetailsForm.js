@@ -30,13 +30,13 @@ export const ProgrammeDetailsForm = ({
 	isLoadingLevels,
 	allLevels,
 	allDepartments,
-	allProgrammes,
+	// allProgrammes,
 	allStudentModesOfEntry,
 	allStudentTypes,
 	allStudentModesOfStudy,
 	allSessions,
 	allProgrammeTypes,
-	isLoadingSchoolProgrammes,
+	// isLoadingSchoolProgrammes,
 	isPGStudent,
 	data,
 	allStudentModes,
@@ -50,17 +50,21 @@ export const ProgrammeDetailsForm = ({
 	const onSubmit = async (values) => {
 		const data = [];
 		Object.keys(values).map((item) => {
-			return data.push({
-				op: "replace",
-				path: `/StudentProgrammeDetail/${item}`,
-				value:
-					typeof values[item] === "object"
-						? values[item]?.value
-						: typeof values[item] === "string"
-						? values[item].toUpperCase()
-						: null
-			});
+			return (
+				item !== "areaOfSpecializationId" &&
+				data.push({
+					op: "replace",
+					path: `/StudentProgrammeDetail/${item}`,
+					value:
+						typeof values[item] === "object"
+							? values[item]?.value
+							: typeof values[item] === "string"
+							? values[item].toUpperCase()
+							: undefined
+				})
+			);
 		});
+
 		const requestBody = {
 			url: updateStudentProfileUrl({ refCode }),
 			data
@@ -118,14 +122,14 @@ export const ProgrammeDetailsForm = ({
 		});
 	};
 
-	const onProgrammeChange = (value) => {
-		fieldSetterAndClearer({
-			value,
-			setterFunc: setValue,
-			setField: "SchoolProgrammeId",
-			clearFields: ["areaOfSpecializationId"]
-		});
-	};
+	// const onProgrammeChange = (value) => {
+	// 	fieldSetterAndClearer({
+	// 		value,
+	// 		setterFunc: setValue,
+	// 		setField: "SchoolProgrammeId",
+	// 		clearFields: ["areaOfSpecializationId"]
+	// 	});
+	// };
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron
@@ -256,7 +260,7 @@ export const ProgrammeDetailsForm = ({
 						</div>
 					</div>
 				)}
-				{isLoadingSchoolProgrammes && (
+				{/* {isLoadingSchoolProgrammes && (
 					<>
 						<div className="container-fluid px-4 my-4">
 							<div className="row">
@@ -308,7 +312,7 @@ export const ProgrammeDetailsForm = ({
 							</div>
 						</div>
 					</div>
-				)}
+				)} */}
 
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
@@ -345,7 +349,7 @@ export const ProgrammeDetailsForm = ({
 								name="JambRegNumber"
 								type="text"
 								register={register}
-								disabled={hasMatricNumber}
+								disabled
 								error={errors.MatricNo}
 								errorText={
 									errors.MatricNo &&

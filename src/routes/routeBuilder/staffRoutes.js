@@ -31,6 +31,9 @@ const LazyJupebReports = lazy(() =>
 const LazyPaymentReports = lazy(() =>
 	import("../../pages/superAdmin/Reports/pages/PaymentReport/paymentReport")
 );
+const LazyCashBookReports = lazy(() =>
+	import("../../pages/superAdmin/Reports/pages/CashBook/paymentReport")
+);
 const LazyPutmeReports = lazy(() =>
 	import("../../pages/superAdmin/Reports/pages/PutmeReports/putmeReports")
 );
@@ -131,6 +134,17 @@ const LazySchoolFeesAssignment = lazy(() =>
 const LazySchoolFeesAssignmentEdit = lazy(() =>
 	import(
 		"../../pages/superAdmin/FeesAssignment/pages/SchoolFees/schoolFeesEdit"
+	)
+);
+const LazyManageInvoices = lazy(() =>
+	import(
+		"../../pages/superAdmin/Application/ManageInvoices/pages/manageInvoices"
+	)
+);
+
+const LazyAdmissionListReports = lazy(() =>
+	import(
+		"../../pages/superAdmin/Reports/pages/AdmissionListReports/admissionListReports"
 	)
 );
 
@@ -461,8 +475,22 @@ export const staffRoutes = [
 		title: "Reports"
 	},
 	{
+		path: "/reports/admission_list",
+		component: LazyAdmissionListReports,
+		exact: true,
+		router: ReportsRouter,
+		title: "Reports"
+	},
+	{
 		path: "/reports/payment_reports",
 		component: LazyPaymentReports,
+		exact: true,
+		router: ReportsRouter,
+		title: "Reports"
+	},
+	{
+		path: "/reports/cash_book_reports",
+		component: LazyCashBookReports,
 		exact: true,
 		router: ReportsRouter,
 		title: "Reports"
@@ -834,6 +862,13 @@ export const staffRoutes = [
 	{
 		path: "/applications/setup",
 		component: LazyApplicationSetup,
+		exact: true,
+		router: ApplicationsRouter,
+		title: "Applications"
+	},
+	{
+		path: "/applications/manage_invoices",
+		component: LazyManageInvoices,
 		exact: true,
 		router: ApplicationsRouter,
 		title: "Applications"
