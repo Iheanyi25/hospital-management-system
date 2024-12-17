@@ -3,7 +3,12 @@ import { PageTitle, Button, SideTabs, Spinner } from "../../../ui_elements";
 import styles from "./style.module.css";
 import { useLocation } from "react-router";
 
-import { OlevelResult, PersonalDetails, ProgrammeDetails, JambDetails } from "./components";
+import {
+	OlevelResult,
+	PersonalDetails,
+	ProgrammeDetails,
+	NDDetails
+} from "./components";
 
 import { parent } from "../../../ui_elements/layout/layout";
 
@@ -19,7 +24,8 @@ import {
 	getRelationshipsUrl,
 	getPutmeSubjectsUrl,
 	getOLevelSubjectsUrl,
-	getFacultiesUrl
+	getFacultiesUrl,
+	getAllSessionsUrl
 } from "../../../api/urls";
 
 import Avatar from "react-avatar";
@@ -120,6 +126,11 @@ const HNDApplication = () => {
 		refetchOnWindowFocus: false
 	});
 
+	const { data: sessions, isLoading: isLoadingSessions } = useApiGet(
+		getAllSessionsUrl()
+	);
+
+	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allStatuses = formatSelectItems(statuses?.data, "name", "id");
 	const allGenders = formatSelectItems(genders?.data, "name", "id");
 	const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
@@ -164,12 +175,12 @@ const HNDApplication = () => {
 				state
 			},
 			{
-				linkName: "JAMB Details",
+				linkName: "O-Level Result",
 				hashName: "#section_c",
 				state
 			},
 			{
-				linkName: "O-Level Result",
+				linkName: "ND Details",
 				hashName: "#section_d",
 				state
 			}
@@ -216,7 +227,8 @@ const HNDApplication = () => {
 		isLoadingExamYears ||
 		isLoadingCountries ||
 		isLoadingFaculties ||
-		isLoadingOlevelSubjects
+		isLoadingOlevelSubjects ||
+		isLoadingSessions
 	)
 		return <Spinner />;
 	if (error || countryError) return "An error has occurred: " + error.message;
@@ -271,7 +283,6 @@ const HNDApplication = () => {
 					</div>
 				</div>
 				<div className="col-12 col-md-10 col-lg-10">
-
 					<DisplayInformation
 						allRelationships={allRelationships}
 						allProgrammes={allProgrammes}
@@ -284,6 +295,7 @@ const HNDApplication = () => {
 						allExamTypes={allExamTypes}
 						allCountries={allCountries}
 						allFaculties={allFaculties}
+						allSessions={allSessions}
 						fromJambState={state.fromJamb}
 					/>
 				</div>
@@ -304,7 +316,8 @@ const DisplayInformation = memo(
 		allExamTypes,
 		allCountries,
 		allFaculties,
-		fromJambState,
+		allSessions,
+		fromJambState
 	}) => {
 		const location = useLocation();
 		switch (location.hash) {
@@ -327,14 +340,6 @@ const DisplayInformation = memo(
 				);
 			case "#section_c":
 				return (
-					<JambDetails
-						allFaculties={allFaculties}
-						allPutmeSubjects={allPutmeSubjects}
-						fromJambState={fromJambState}
-					/>
-				);
-			case "#section_d":
-				return (
 					<OlevelResult
 						oLevelGrades={allOlevelGrades}
 						oLevelSubjects={allOlevelSubjects}
@@ -342,6 +347,8 @@ const DisplayInformation = memo(
 						oLevelType={allExamTypes}
 					/>
 				);
+			case "#section_d":
+				return <NDDetails allSessions={allSessions} />;
 			default:
 				return (
 					<PersonalDetails
