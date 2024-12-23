@@ -341,7 +341,7 @@ const ViewResultSheet = () => {
           <ResultSheet compositeSheet={compositeSheet} data={tableData} />
         </div>
         <div ref={summaryRef}>
-          <SummarySheet compositeSheet={compositeSheet} data={summaryData} />
+          <SummarySheet summarySheet={summarySheet} data={summaryData} />
         </div>
       </div>
       <Jumbotron
