@@ -336,14 +336,14 @@ const ViewResultSheet = () => {
 
   return (
     <>
-      {/* <div className="d-none"> */}
+      <div className="d-none">
         <div ref={componentRef}>
           <ResultSheet compositeSheet={compositeSheet} data={tableData} />
         </div>
         <div ref={summaryRef}>
           <SummarySheet summarySheet={summarySheet} data={summaryData} />
         </div>
-      {/* </div> */}
+      </div>
       <Jumbotron
         headerText={"View Result Sheets"}
         footerContent={
