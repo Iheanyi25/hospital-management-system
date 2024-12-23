@@ -1,27 +1,24 @@
 import { TableHeader, SummaryTable } from "../../../ui_elements";
 
-export const SummarySheet = ({ compositeSheet, data}) => {
-
+export const SummarySheet = ({ summarySheet, data }) => {
   return (
     <>
       <TableHeader
         details={{
-          faculty: compositeSheet?.data?.faculty || "-",
-          department: compositeSheet?.data?.department || "-",
-          semester: compositeSheet?.data?.semester || "-",
-          date: compositeSheet?.data?.date || "-",
-          programme: compositeSheet?.data?.programme || "-",
-          session: compositeSheet?.data?.session || "-",
+          faculty: summarySheet?.data?.faculty || "-",
+          department: summarySheet?.data?.department || "-",
+          semester: summarySheet?.data?.semester || "-",
+          date: summarySheet?.data?.date || "-",
+          programme: summarySheet?.data?.programme || "-",
+          session: summarySheet?.data?.session || "-",
         }}
-        result = {false}
+        result={false}
       />
       <SummaryTable
-        semester={compositeSheet?.data?.semester}
-        subjects={compositeSheet?.data?.courses}
+        semester={summarySheet?.data?.semester}
+        subjects={summarySheet?.data?.courses}
         students={data}
       />
-     
     </>
-  )
-
-}
+  );
+};
