@@ -112,7 +112,7 @@ const ViewResultSheet = () => {
   );
 
   const getResultSummaryData = () => {
-    return summarySheet?.data?.studentCourses?.items.map((student, i) => {
+    return summarySheet?.data?.studentCourses?.map((student, i) => {
       return {
         id: i + 1,
         name: student?.fullName,
