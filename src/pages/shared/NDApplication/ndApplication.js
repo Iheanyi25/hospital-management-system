@@ -3,7 +3,12 @@ import { PageTitle, Button, SideTabs, Spinner } from "../../../ui_elements";
 import styles from "./style.module.css";
 import { useLocation } from "react-router";
 
-import { OlevelResult, PersonalDetails, ProgrammeDetails, JambDetails } from "./components";
+import {
+	OlevelResult,
+	PersonalDetails,
+	ProgrammeDetails,
+	JambDetails
+} from "./components";
 
 import { parent } from "../../../ui_elements/layout/layout";
 
@@ -31,12 +36,15 @@ import {
 	checkIfFilesAreTooBig,
 	checkIfImagesAreCorrectType
 } from "../../../utils/FileValidation";
+import { useHistory } from "react-router-dom";
 
 const NDApplication = () => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
 	const dispatch = useDispatch();
 	const ref = useRef();
 	const pictureRef = useRef();
+
+	const { push } = useHistory();
 
 	const { hash, state } = useLocation();
 
@@ -234,11 +242,22 @@ const NDApplication = () => {
 						maxInitials={2}
 					/>
 				</div>
-				<div className="col-12 col-md-10 col-lg-10">
+				<div className="d-flex align-items-center w-full justify-content-between col-12 col-md-10 col-lg-10">
 					<div className="">
 						<PageTitle
 							title={`${putmeStoreData?.personalInfo?.surName}
 						${putmeStoreData?.personalInfo?.firstName}`}
+						/>
+					</div>
+					<div>
+						<Button
+							label={"Continue Later"}
+							buttonClass="secondary"
+							onClick={() => {
+								push({
+									pathname: "/"
+								});
+							}}
 						/>
 					</div>
 				</div>
@@ -271,7 +290,6 @@ const NDApplication = () => {
 					</div>
 				</div>
 				<div className="col-12 col-md-10 col-lg-10">
-
 					<DisplayInformation
 						allRelationships={allRelationships}
 						allProgrammes={allProgrammes}
@@ -304,7 +322,7 @@ const DisplayInformation = memo(
 		allExamTypes,
 		allCountries,
 		allFaculties,
-		fromJambState,
+		fromJambState
 	}) => {
 		const location = useLocation();
 		switch (location.hash) {
