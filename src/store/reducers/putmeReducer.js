@@ -38,10 +38,12 @@ export const putmeInitialState = (data) => ({
 				value: data?.programmeInfoResponse?.altDepartmentId
 			}
 		}),
-		department: {
-			label: data?.programmeInfoResponse?.department,
-			value: data?.programmeInfoResponse?.departmentId
-		},
+		...(data?.programmeInfoResponse?.department && {
+			department: {
+				label: data?.programmeInfoResponse?.department,
+				value: data?.programmeInfoResponse?.departmentId
+			}
+		}),
 		departmentOption: {
 			label: data?.programmeInfoResponse?.departmentOption,
 			value: data?.programmeInfoResponse?.departmentOptionId
