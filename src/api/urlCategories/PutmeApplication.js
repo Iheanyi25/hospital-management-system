@@ -1,9 +1,9 @@
 import { generateUrlParams } from "../../utils/generateUrlParams";
 
-const baseUrl = "PostUtme";
+const baseUrl = "NDPartTime";
 
 export const putmeLoadApplicationFormUrl = (jambRegNumber) =>
-	`${baseUrl}/load-application-form?regNumber=${jambRegNumber}`;
+	`${baseUrl}/load-application-form?rrr=${jambRegNumber}`;
 
 export const putmePersonalDetailsFormUrl = () =>
 	`${baseUrl}/add-or-update-putme-application-personal-details`;

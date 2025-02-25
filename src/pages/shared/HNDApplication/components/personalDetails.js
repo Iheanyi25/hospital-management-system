@@ -4,7 +4,7 @@ import {
 	Button,
 	TextField,
 	SMSelect,
-	Spinner,
+	Spinner
 } from "../../../../ui_elements";
 import { useLocation, useHistory } from "react-router";
 import { Controller, useForm } from "react-hook-form";
@@ -19,11 +19,7 @@ import { formatSelectItems } from "../../../../utils/formatSelectItems";
 import { formatInputDate } from "../../../../utils/formatDate";
 import { MAXIMUM_AGE, MINIMUM_AGE } from "../../../../utils/constants";
 
-export const PersonalDetails = ({
-	allGenders,
-	allCountries,
-	allStatuses
-}) => {
+export const PersonalDetails = ({ allGenders, allCountries, allStatuses }) => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
 	const dispatch = useDispatch();
 	const { replace } = useHistory();
@@ -101,6 +97,7 @@ export const PersonalDetails = ({
 			email: putmeStoreData?.personalInfo?.email,
 			maritalStatus: putmeStoreData?.personalInfo?.maritalStatus,
 			contactAddress: putmeStoreData?.personalInfo?.contactAddress,
+			permanentAddress: putmeStoreData?.personalInfo?.permanentAddress
 		},
 		resolver: yupResolver(personalDetailsSchema),
 		context: {
@@ -112,7 +109,6 @@ export const PersonalDetails = ({
 		const subscription = watch(({ country, state, hasDisability }) => {
 			setCountryState(country?.value);
 			setStateFieldState(state?.value);
-
 		});
 		return () => subscription.unsubscribe();
 	}, [watch]);
@@ -133,19 +129,18 @@ export const PersonalDetails = ({
 		const requestBody = {
 			url: hndPersonalDetailsFormUrl(),
 			data: {
-				
-					JambRegNumber: putmeStoreData?.programmeInfo?.regNo,
-					DateOfBirth: personalInfo?.dateOfBirth,
-					CountryId: personalInfo?.country?.value,
-					StateId: personalInfo?.state?.value,
-					LGAId: personalInfo?.lga?.value,
-					GenderId: personalInfo?.sex?.label,
-					ContactAddress: personalInfo.contactAddress,
-					Email: personalInfo.email,
-					MobileNumber: personalInfo.mobileNo,
-					Passport: putmeStoreData?.passport.passport,
-					MaritalStatusId: personalInfo?.maritalStatus?.label
-				
+				JambRegNumber: putmeStoreData?.programmeInfo?.regNo,
+				DateOfBirth: personalInfo?.dateOfBirth,
+				CountryId: personalInfo?.country?.value,
+				StateId: personalInfo?.state?.value,
+				LGAId: personalInfo?.lga?.value,
+				GenderId: personalInfo?.sex?.label,
+				ContactAddress: personalInfo.contactAddress,
+				PermanentAddress: personalInfo.permanentAddress,
+				Email: personalInfo.email,
+				MobileNumber: personalInfo.mobileNo,
+				Passport: putmeStoreData?.passport.passport,
+				MaritalStatusId: personalInfo?.maritalStatus?.label
 			}
 		};
 		mutate(requestBody, {
@@ -155,7 +150,6 @@ export const PersonalDetails = ({
 					title: "Successfully updated personal details",
 					body: "You can now proceed to next step"
 				});
-				console.log(data)
 				setTimeout(() => {
 					successFlag.close();
 				}, 5000);
@@ -300,7 +294,9 @@ export const PersonalDetails = ({
 				<div className="container-fluid px-4 my-3">
 					<div className="row">
 						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="maritalStatus">Marital Status</label>
+							<label htmlFor="maritalStatus">
+								Marital Status
+							</label>
 						</div>
 						<div className="col-lg-9">
 							<Controller
@@ -316,7 +312,8 @@ export const PersonalDetails = ({
 										options={allStatuses}
 										isError={!!errors.maritalStatus}
 										errorText={
-											errors.maritalStatus && errors.maritalStatus.message
+											errors.maritalStatus &&
+											errors.maritalStatus.message
 										}
 									/>
 								)}
@@ -514,6 +511,32 @@ export const PersonalDetails = ({
 								errorText={
 									errors.contactAddress &&
 									errors.contactAddress.message
+								}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="container-fluid px-4 my-3">
+					<div className="row">
+						<div className="col-lg-3">
+							<label htmlFor="contactAddress">
+								Permanent Address
+							</label>
+						</div>
+						<div className="col-lg-9">
+							<TextField
+								autoComplete="off"
+								placeholder="Enter permanent address"
+								className="w-100"
+								inputType="textarea"
+								id="permanentAddress"
+								name="permanentAddress"
+								register={register}
+								required
+								error={errors.permanentAddress}
+								errorText={
+									errors.permanentAddress &&
+									errors.permanentAddress.message
 								}
 							/>
 						</div>

@@ -120,11 +120,11 @@ export const OlevelResult = ({
 			}
 		};
 		mutate(requestBody, {
-			onSuccess: ({ data }) => {
+			onSuccess: () => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Successfully uploaded your O-Level result",
-					body: "That would be all!!"
+					title: "Details saved successfully",
+					body: "Your O-Level result has been successfully uploaded"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -136,10 +136,7 @@ export const OlevelResult = ({
 						oLevelResult
 					}
 				});
-				replace({
-					pathname: "/hnd_application_details",
-					state: { fromLogin: true, details: data?.data }
-				});
+				replace({ hash: "#section_d", state });
 			},
 			onError: () => {
 				const errorFlag = window.AJS.flag({
@@ -209,7 +206,7 @@ export const OlevelResult = ({
 						endText={
 							sittings.length > 1 ? (
 								<div className="d-flex">
-									<p className="me-2">Step 4 of 4</p>
+									<p className="me-2">Step 3 of 4</p>
 									<button
 										className="clickable"
 										type="button"
@@ -232,9 +229,8 @@ export const OlevelResult = ({
 										)}
 									</button>
 								</div>
-
 							) : (
-								"Step 4 of 4"
+								"Step 3 of 4"
 							)
 						}
 						footerContent={
@@ -246,17 +242,21 @@ export const OlevelResult = ({
 										buttonClass="secondary"
 										type="button"
 										disabled={isFormLoading}
-										onClick={() => replace({ hash: "#section_a", state })}
+										onClick={() =>
+											replace({
+												hash: "#section_a",
+												state
+											})
+										}
 									/>
 									<Button
 										data-cy="submit_personal"
-										label="Submit"
+										label="Next"
 										buttonClass="primary"
 										type="submit"
 										loading={isFormLoading}
 									/>
 								</div>
-
 							) : (
 								""
 							)
@@ -641,13 +641,13 @@ export const OlevelResult = ({
 								))}
 								<div className="border-top px-4 py-3 text-right">
 									{sittingIndex === sittings.length - 1 &&
-										!(sittings.length >= 2) ? (
+									!(sittings.length >= 2) ? (
 										<SecondaryLink
 											label="+ Click to add Second Sitting"
 											onClick={handleAddAnother}
 										/>
 									) : sittingIndex === 1 &&
-										sittings.length >= 2 ? (
+									  sittings.length >= 2 ? (
 										<SecondaryLink
 											linkType="danger-link"
 											label={

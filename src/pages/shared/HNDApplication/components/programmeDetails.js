@@ -1,10 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-	Jumbotron,
-	Button,
-	SMSelect,
-	Spinner
-} from "../../../../ui_elements";
+import { Jumbotron, Button, SMSelect, Spinner } from "../../../../ui_elements";
 import { useLocation, useHistory } from "react-router";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,21 +8,21 @@ import { useApiGet, useApiPost } from "../../../../api/apiCall";
 import {
 	getDepartmentsUrl,
 	hndProgrammeDetailsFormUrl,
-	getDepartmentOptionUrl,
+	getDepartmentOptionUrl
 } from "../../../../api/urls";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProgrammeDetailsSchema } from "../hndSchema";
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
 import { fieldSetterAndClearer } from "../../../../utils/fieldSetterAndClearer";
 
-export const ProgrammeDetails = ({
-	allFaculties,
-	fromJambState,
-}) => {
+export const ProgrammeDetails = ({ allFaculties, fromJambState }) => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
 	const { programmeInfo, StudentTypeId, personalInfo } = putmeStoreData;
 	const [facultyState, setFacultyState] = useState(
 		programmeInfo?.faculty?.value
+	);
+	const [departmentState, setDepartmentState] = useState(
+		programmeInfo?.department?.value
 	);
 
 	const dispatch = useDispatch();
@@ -37,6 +32,21 @@ export const ProgrammeDetails = ({
 	if (!state) {
 		replace("/hnd_login");
 	}
+
+	const {
+		control,
+		handleSubmit,
+		watch,
+		setValue,
+		formState: { errors }
+	} = useForm({
+		defaultValues: {
+			faculty: putmeStoreData?.programmeInfo?.faculty,
+			department: putmeStoreData?.programmeInfo?.department,
+			departmentOption: putmeStoreData?.programmeInfo?.departmentOption
+		},
+		resolver: yupResolver(ProgrammeDetailsSchema)
+	});
 
 	const { data: departments, isLoading: isDepartmentLoading } = useApiGet(
 		getDepartmentsUrl(StudentTypeId, facultyState),
@@ -49,17 +59,14 @@ export const ProgrammeDetails = ({
 	const { data: departmentsOptions, isLoading: isLoadingDepartmentsOptions } =
 		useApiGet(
 			getDepartmentOptionUrl({
-				departmentId: programmeInfo?.department?.value,
+				departmentId: departmentState,
 				studentTypeId: StudentTypeId
 			}),
 			{
 				refetchOnWindowFocus: false,
-				enabled:
-					programmeInfo?.department?.value !==
-					undefined
+				enabled: !!departmentState
 			}
 		);
-
 	const allDepartments = useMemo(
 		() =>
 			formatSelectItems(departments?.data, "department", "departmentId"),
@@ -74,33 +81,13 @@ export const ProgrammeDetails = ({
 
 	const { mutate, isLoading: isFormLoading } = useApiPost();
 
-	const {
-		control,
-		handleSubmit,
-		watch,
-		setValue,
-		formState: { errors }
-	} = useForm({
-		defaultValues: {
-			faculty: putmeStoreData?.programmeInfo?.faculty,
-			department: putmeStoreData?.programmeInfo?.department,
-			regNo: putmeStoreData?.programmeInfo?.regNo,
-			alternativeDepartment: putmeStoreData?.alternativeDepartment
-			
-		},
-		resolver: yupResolver(ProgrammeDetailsSchema)
-	});
-
 	const onSubmit = (programmeInfo) => {
 		const requestBody = {
 			url: hndProgrammeDetailsFormUrl(),
 			data: {
-				JambNumber: programmeInfo?.regNo,
-				FacultyId: programmeInfo?.faculty?.value,
 				DepartmentId: programmeInfo?.department?.value,
 				DepartmentOptionId: programmeInfo?.departmentOption?.value,
-				AlternativeDepartmentId: programmeInfo?.alternativeDepartment?.value,
-				ApplicantId: personalInfo?.postUtmeApplicantBasicInformationId,
+				ApplicantId: personalInfo?.postUtmeApplicantBasicInformationId
 			}
 		};
 		mutate(requestBody, {
@@ -138,6 +125,7 @@ export const ProgrammeDetails = ({
 	useEffect(() => {
 		const subscription = watch(({ faculty, department }) => {
 			setFacultyState(faculty?.value);
+			setDepartmentState(department?.value);
 		});
 		return () => subscription.unsubscribe();
 	}, [watch, setValue]);
@@ -168,7 +156,9 @@ export const ProgrammeDetails = ({
 							buttonClass="secondary"
 							type="button"
 							disabled={isFormLoading || isDepartmentLoading}
-							onClick = {() => replace({ hash: "#section_a", state })}
+							onClick={() =>
+								replace({ hash: "#section_a", state })
+							}
 						/>
 						<Button
 							data-cy="submit_personal"
@@ -179,14 +169,15 @@ export const ProgrammeDetails = ({
 							loading={isFormLoading}
 						/>
 					</div>
-
 				}
 				footerStyle="d-flex justify-content-end"
 			>
 				<div className="container-fluid px-4 my-4">
 					<div className="row">
 						<div className="col-lg-3 d-flex align-items-center">
-							<label htmlFor="faculty">First Choice School*</label>
+							<label htmlFor="faculty">
+								First Choice School*
+							</label>
 						</div>
 						<div className="col-lg-9">
 							<Controller
@@ -246,6 +237,16 @@ export const ProgrammeDetails = ({
 												searchable={true}
 												id="department"
 												disabled={fromJambState}
+												onChange={(value) =>
+													fieldSetterAndClearer({
+														value,
+														setterFunc: setValue,
+														setField: "department",
+														clearFields: [
+															"departmentOption"
+														]
+													})
+												}
 												options={allDepartments}
 												isError={!!errors.department}
 												errorText={
@@ -262,17 +263,18 @@ export const ProgrammeDetails = ({
 				)}
 				{isLoadingDepartmentsOptions ? (
 					<div className="mb-4">
-						<Spinner/>
+						<Spinner />
 					</div>
-				) : (allDepartmentOptions?.length > 0 && (
-					<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="departmentOption">
-								Programme Option*
-							</label>
-						</div>
-						<div className="col-lg-9">
+				) : (
+					allDepartmentOptions?.length > 0 && (
+						<div className="container-fluid px-4 my-4">
+							<div className="row">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label htmlFor="departmentOption">
+										Programme Option*
+									</label>
+								</div>
+								<div className="col-lg-9">
 									<Controller
 										name="departmentOption"
 										control={control}
@@ -284,51 +286,14 @@ export const ProgrammeDetails = ({
 												searchable={true}
 												id="departmentOption"
 												disabled={fromJambState}
-												options={allDepartments}
-												isError={!!errors.departmentOption}
+												options={allDepartmentOptions}
+												isError={
+													!!errors.departmentOption
+												}
 												errorText={
 													errors.departmentOption &&
-													errors.departmentOption.message
-												}
-											/>
-										)}
-									/>
-								</div>
-					</div>
-				</div>
-				))}
-				
-				{isDepartmentLoading ? (
-					<div className="mb-4">
-						<Spinner />
-					</div>
-				) : (
-					allDepartments?.length > 0 &&
-					facultyState && (
-						<div className="container-fluid px-4 my-4">
-							<div className="row">
-								<div className="col-lg-3 d-flex align-items-center">
-									<label htmlFor="alternativeDepartment">
-										Second Choice Programme
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="alternativedepartment"
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select a department"
-												searchable={true}
-												id="department"
-												disabled={fromJambState}
-												options={allDepartments}
-												isError={!!errors.department}
-												errorText={
-													errors.department &&
-													errors.department.message
+													errors.departmentOption
+														.message
 												}
 											/>
 										)}

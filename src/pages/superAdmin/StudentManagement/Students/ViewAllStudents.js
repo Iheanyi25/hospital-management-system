@@ -1,6 +1,6 @@
-import { ProfileContext, Search, Spinner } from "../../../../ui_elements";
+import { Search, Spinner } from "../../../../ui_elements";
 import styles from "./style.module.css";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
 	getDepartmentOptionUrl,
 	getStudentModesUrl,
@@ -25,31 +25,28 @@ import { useForm } from "react-hook-form";
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
 import { StudentTable } from "./components";
 import { useLocation } from "react-router-dom";
-
+import queryString from "query-string";
+import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
+import { stringToBoolean } from "../../../../utils/toBoolean";
 const ViewAllStudents = () => {
 	const location = useLocation();
-	const userData = useContext(ProfileContext);
 	const isFacultyPage = location.pathname === "/student_management/view";
-	const programDetails = userData?.profileData?.programmeDetail;
+	const stateFilter = queryString.parse(window.location.search);
 	const [filter, setFilter] = useState({
-		departmentId: "",
-		departmentOptionId: "",
-		studentModeOfEntryId: "",
-		studentTypeId: "",
-		facultyId: "",
-		active: "",
-		levelId: "",
-		role: "",
+		departmentOptionId: stateFilter.departmentOptionId || "",
+		studentModeId: stateFilter.studentModeId || "",
+		levelId: stateFilter.levelId || "",
+		role: stateFilter.role || "",
 		pageSize: PAGESIZE.sm
 	});
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [watchData, setWatchData] = useState({
-		departmentId: programDetails?.departmentId ?? "",
-		studentTypeId: programDetails?.studentTypeId ?? "",
-		facultyId: programDetails?.facultyId ?? "",
-		active: programDetails?.active ?? "",
-		programme: programDetails?.programmeId ?? ""
+		departmentId: stateFilter?.departmentId ?? "",
+		studentTypeId: stateFilter?.studentTypeId ?? "",
+		facultyId: stateFilter?.facultyId ?? "",
+		active: stateFilter?.active ?? "",
+		programme: stateFilter?.programmeId ?? ""
 	});
 
 	const debouncedSearch = useDebouncedCallback(
@@ -68,28 +65,6 @@ const ViewAllStudents = () => {
 		formState: { errors }
 	} = useForm();
 
-	useEffect(() => {
-		const subscription = watch(
-			({
-				departmentId,
-				studentTypeId,
-				facultyId,
-				levelId,
-				active,
-				schoolProgramme
-			}) => {
-				setWatchData((state) => ({
-					departmentId: departmentId?.value ?? state.departmentId,
-					studentTypeId: studentTypeId?.value ?? state.studentTypeId,
-					facultyId: facultyId?.value ?? state.facultyId,
-					levelId: levelId?.value ?? state.levelId,
-					active: active?.value ?? state.active,
-					programme: schoolProgramme?.value ?? state.programme
-				}));
-			}
-		);
-		return () => subscription.unsubscribe();
-	}, [watch]);
 	const { data: levels, isLoading: isLoadingLevels } = useApiGet(
 		yearOfStudyUrl({ studentTypeId: watchData?.studentTypeId }),
 		{
@@ -174,22 +149,52 @@ const ViewAllStudents = () => {
 		() => formatSelectItems(levels?.data, "name", "id"),
 		[levels]
 	);
-	const allDepartments = formatSelectItems(
-		departments?.data,
-		"department",
-		"departmentId"
+	const allDepartments = useMemo(
+		() =>
+			formatSelectItems(departments?.data, "department", "departmentId"),
+		[departments?.data]
 	);
-	const allDepartmentOption = formatSelectItems(
-		departmentOption?.data,
-		"departmentOption",
-		"departmentOptionId"
+
+	const allDepartmentOption = useMemo(
+		() =>
+			formatSelectItems(
+				departmentOption?.data,
+				"departmentOption",
+				"departmentOptionId"
+			),
+		[departmentOption?.data]
 	);
-	const allProgrammes = formatSelectItems(programmes?.data, "name", "id");
-	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
-	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
-	const allSessions = formatSelectItems(sessions?.data, "session", "id");
-	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
-	const allAOS = formatSelectItems(areaOfSpecialization?.data, "name", "id");
+
+	const allProgrammes = useMemo(
+		() => formatSelectItems(programmes?.data, "name", "id"),
+		[programmes?.data]
+	);
+
+	const allStudentModes = useMemo(
+		() => formatSelectItems(studentModes?.data, "name", "id"),
+		[studentModes?.data]
+	);
+
+	const allStudentTypes = useMemo(
+		() => formatSelectItems(studentTypes?.data, "name", "id"),
+		[studentTypes?.data]
+	);
+
+	const allSessions = useMemo(
+		() => formatSelectItems(sessions?.data, "session", "id"),
+		[sessions?.data]
+	);
+
+	const allFaculties = useMemo(
+		() => formatSelectItems(faculties?.data, "name", "id"),
+		[faculties?.data]
+	);
+
+	const allAOS = useMemo(
+		() => formatSelectItems(areaOfSpecialization?.data, "name", "id"),
+		[areaOfSpecialization?.data]
+	);
+
 	const allStudentRoles = useMemo(
 		() =>
 			studentRoles?.data?.map((role) => {
@@ -200,6 +205,113 @@ const ViewAllStudents = () => {
 			}),
 		[studentRoles]
 	);
+
+	const allObj = { value: "", label: "All" };
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const allPortalStatus = [
+		{
+			value: true,
+			label: "Active"
+		},
+		{
+			value: false,
+			label: "Inactive"
+		}
+	];
+
+	useEffect(() => {
+		const subscription = watch(
+			({
+				departmentId,
+				studentTypeId,
+				facultyId,
+				levelId,
+				active,
+				schoolProgramme
+			}) => {
+				setWatchData((state) => ({
+					departmentId: departmentId?.value ?? state.departmentId,
+					studentTypeId: studentTypeId?.value ?? state.studentTypeId,
+					facultyId: facultyId?.value ?? state.facultyId,
+					levelId: levelId?.value ?? state.levelId,
+					active: active?.value ?? state.active,
+					programme: schoolProgramme?.value ?? state.programme
+				}));
+			}
+		);
+		return () => subscription.unsubscribe();
+	}, [watch]);
+
+	useEffect(() => {
+		const { departmentOptionId, sessionId, studentModeId, levelId, role } =
+			filter;
+		if (levelId) {
+			setValue("levelId", findValueAndLabel(levelId, allLevels));
+		}
+		if (watchData.active) {
+			setValue(
+				"active",
+				findValueAndLabel(
+					stringToBoolean(watchData.active),
+					allPortalStatus
+				)
+			);
+		}
+		if (role && studentRoles) {
+			setValue("status", findValueAndLabel(role, [...allStudentRoles]));
+		}
+		if (studentModeId) {
+			setValue(
+				"studentModeId",
+				findValueAndLabel(studentModeId, allStudentModes)
+			);
+		}
+		if (departmentOptionId) {
+			setValue(
+				"departmentOption",
+				findValueAndLabel(departmentOptionId, allDepartmentOption)
+			);
+		}
+		if (watchData.studentTypeId) {
+			setValue(
+				"studentTypeId",
+				findValueAndLabel(watchData.studentTypeId, allStudentTypes)
+			);
+		}
+		if (sessionId) {
+			setValue("sessionId", findValueAndLabel(sessionId, allSessions));
+		}
+		if (watchData.facultyId) {
+			setValue(
+				"facultyId",
+				findValueAndLabel(watchData.facultyId, allFaculties)
+			);
+		}
+		if (watchData.departmentId) {
+			setValue(
+				"departmentId",
+				findValueAndLabel(watchData.departmentId, allDepartments)
+			);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [
+		filter,
+		watchData.departmentId,
+		watchData.facultyId,
+		watchData.studentTypeId,
+		watchData.levelId,
+		watchData.active,
+		studentRoles,
+		setValue,
+		allLevels,
+		allStudentRoles,
+		allStudentModes,
+		allDepartmentOption,
+		allStudentTypes,
+		allSessions,
+		allFaculties,
+		allDepartments
+	]);
 
 	if (
 		isLoadingStudentModes ||
@@ -246,6 +358,8 @@ const ViewAllStudents = () => {
 							pageNumber={pageNumber}
 							pageSize={filter?.pageSize}
 							searchTerm={searchTerm}
+							allObj={allObj}
+							allPortalStatus={allPortalStatus}
 						/>
 					)}
 					<StudentTable

@@ -17,30 +17,30 @@ import {
 	STUDENT_TYPES
 } from "../../../../../../utils/constants";
 import styles from "./style.module.css";
-import { useReactToPrint } from "react-to-print";
+// import { useReactToPrint } from "react-to-print";
 import { ParticularsOfAdmission } from "../ParticualrsOfAdmission/particularsOfAdmission";
 
-const pageStyle = `
-@page {
-// size: 80mm 50mm;
-margin-top: 10rem;
-margin-left: 5rem;
-margin-right: 5rem;
-}
-
-// @media all {
-//   .pagebreak {
-//     display: none;
-//   }
+// const pageStyle = `
+// @page {
+// // size: 80mm 50mm;
+// margin-top: 10rem;
+// margin-left: 5rem;
+// margin-right: 5rem;
 // }
 
-@media print {
-.pagebreak {
-// page-break-before: always;
+// // @media all {
+// //   .pagebreak {
+// //     display: none;
+// //   }
+// // }
 
-}
-}
-`;
+// @media print {
+// .pagebreak {
+// // page-break-before: always;
+
+// }
+// }
+// `;
 
 const AcceptanceFeeDefault = () => {
 	const { data, isLoading, error } = useApiGet(
@@ -50,10 +50,10 @@ const AcceptanceFeeDefault = () => {
 	const [makeRequest, setMakeRequest] = useState(false);
 	const ref = createRef();
 
-	const handlePrint = useReactToPrint({
-		content: () => ref.current,
-		pageStyle: pageStyle
-	});
+	// const handlePrint = useReactToPrint({
+	// 	content: () => ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
 	const {
 		data: invoiceData,
@@ -126,30 +126,32 @@ const AcceptanceFeeDefault = () => {
 					/>
 					<Button
 						data-cy="print_accpt"
-						label={` ${data?.data?.[0]?.studentTypeId ===
-								STUDENT_TYPES.POSTGRADUATE
+						label={` ${
+							data?.data?.[0]?.studentTypeId ===
+							STUDENT_TYPES.POSTGRADUATE
 								? "Print Admission Letter"
 								: "Print Acceptance Letter"
-							}`}
+						}`}
 						buttonClass="standard"
 						onClick={() =>
 							push({
-								pathname: `/academic_fees/acceptance/${data?.data?.[0]?.studentTypeId ===
-										STUDENT_TYPES.Diploma
+								pathname: `/academic_fees/acceptance/${
+									data?.data?.[0]?.studentTypeId ===
+									STUDENT_TYPES.Diploma
 										? "fee_receipt"
 										: data?.data?.[0]?.studentTypeId ===
-											STUDENT_TYPES.POSTGRADUATE
-											? "letter_pg"
-											: data?.data?.[0]?.studentTypeId === 8
-												? "jupeb"
-												: "letter"
-									}`,
+										  STUDENT_TYPES.POSTGRADUATE
+										? "letter_pg"
+										: data?.data?.[0]?.studentTypeId === 8
+										? "jupeb"
+										: "letter"
+								}`,
 								state: data?.data?.[0]
 							})
 						}
 						disabled={!data?.data[0]?.paymentStatus}
 					/>
-					{data?.data?.[0]?.studentTypeId ===
+					{/* {data?.data?.[0]?.studentTypeId ===
 						STUDENT_TYPES.POSTGRADUATE && (
 							<Button
 								data-cy="print_particulars"
@@ -159,16 +161,16 @@ const AcceptanceFeeDefault = () => {
 								disabled={!data?.data[0]?.paymentStatus}
 							/>
 						)
-						// 	: (
-						// 	<Button
-						// 		data-cy="print_particulars"
-						// 		label={`Print Acceptance Letter`}
-						// 		buttonClass="primary"
-						// 		onClick={handlePrint}
-						// 		disabled={!data?.data[0]?.paymentStatus}
-						// 	/>
-						// )
-					}
+							: (
+							<Button
+								data-cy="print_particulars"
+								label={`Print Acceptance Letter`}
+								buttonClass="primary"
+								onClick={handlePrint}
+								disabled={!data?.data[0]?.paymentStatus}
+							/>
+						)
+					} */}
 				</div>
 			)
 		}

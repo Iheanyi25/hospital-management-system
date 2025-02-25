@@ -26,3 +26,7 @@ export const deleteAdmissionListRecordUrl = (admissionListId) =>
 	`${baseUrl}/admission-list-record/${admissionListId}`;
 export const deleteAdmissionListUrl = (filter) =>
 	`${baseUrl}?${generateUrlParams(filter)}`;
+export const downloadAdmissionListReportsUrl = (filter) =>
+	`${baseUrl}/download-admission-list-report?${generateUrlParams(filter)}`;
+export const getAdmissionListReportsUrl = (filter) =>
+	`${baseUrl}/admission-list-report?${generateUrlParams(filter)}`;

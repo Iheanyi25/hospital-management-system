@@ -38,10 +38,12 @@ export const putmeInitialState = (data) => ({
 				value: data?.programmeInfoResponse?.altDepartmentId
 			}
 		}),
-		department: {
-			label: data?.programmeInfoResponse?.department,
-			value: data?.programmeInfoResponse?.departmentId
-		},
+		...(data?.programmeInfoResponse?.department && {
+			department: {
+				label: data?.programmeInfoResponse?.department,
+				value: data?.programmeInfoResponse?.departmentId
+			}
+		}),
 		departmentOption: {
 			label: data?.programmeInfoResponse?.departmentOption,
 			value: data?.programmeInfoResponse?.departmentOptionId
@@ -94,6 +96,7 @@ export const putmeInitialState = (data) => ({
 		}),
 		homeTown: data?.personalInfoResponse?.homeTown,
 		contactAddress: data?.personalInfoResponse?.contactAddress,
+		permanentAddress: data?.personalInfoResponse?.permanentAddress,
 		sponsorFullName: data?.personalInfoResponse?.sponsorFullName,
 		sponsorAddress: data?.personalInfoResponse?.sponsorContactAddress,
 		sponsorMobileNo: data?.personalInfoResponse?.sponsorMobileNumber,
@@ -130,6 +133,12 @@ export const putmeInitialState = (data) => ({
 				}))
 			]
 		}))
+	},
+	ndDetailsInfo: {
+		cgpa: data?.ndResponse?.cgpa,
+		courseStudied: data?.ndResponse?.courseStudied,
+		schoolAttended: data?.ndResponse?.schoolAttended,
+		yearOfGraduation: data?.ndResponse?.yearOfGraduationId
 	}
 });
 

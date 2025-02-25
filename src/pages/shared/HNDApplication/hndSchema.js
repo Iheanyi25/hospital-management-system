@@ -3,7 +3,7 @@ import {
 	checkForCorrectPhoneNumber,
 	checkIfCertificateTypeHasCertificateUpload,
 	checkIfUserIsLessThanMaximumAge,
-	checkIfUserIsMoreThanMinimumAge,
+	checkIfUserIsMoreThanMinimumAge
 } from "../../../utils/formValidations";
 
 export const personalDetailsSchema = yup.object().shape({
@@ -40,44 +40,53 @@ export const personalDetailsSchema = yup.object().shape({
 		.string()
 		.required("please input your address")
 		.nullable(),
+	permanentAddress: yup
+		.string()
+		.required("please input your permanent address")
+		.nullable(),
 	email: yup
 		.string()
 		.required("email is required")
 		.email("invalid email address")
 		.nullable(),
-	maritalStatus: yup.mixed().required("please select your marital status"),
+	maritalStatus: yup.mixed().required("please select your marital status")
 });
 
 export const OlevelResultSchema = yup.object().shape({
-  OlevelInfo: yup.array().of(
-    yup.object().shape({
-      ExaminationTypeId: yup.number()
-        .required('ExaminationTypeId is required')
-        .min(0, 'ExaminationTypeId must be at least 0'), // Assuming 0 is valid
-      ExamCenter: yup.string()
-        .required('ExamCenter is required'),
-      ExamNumber: yup.string()
-        .required('ExamNumber is required'),
-      ExamYear: yup.number()
-        .required('ExamYear is required')
-        .min(1900, 'ExamYear must be a valid year')
-        .max(new Date().getFullYear(), 'ExamYear cannot be in the future'),
-      ResultPin: yup.string()
-        .required('ResultPin is required'),
-      ResultSerialNumber: yup.string()
-        .required('ResultSerialNumber is required'),
-      SubjectGrade: yup.object().shape({
-        additionalProp1: yup.string()
-          .required('Grade for additionalProp1 is required'),
-        additionalProp2: yup.string()
-          .required('Grade for additionalProp2 is required'),
-        additionalProp3: yup.string()
-          .required('Grade for additionalProp3 is required')
-      })
-    })
-  )
+	OlevelInfo: yup.array().of(
+		yup.object().shape({
+			ExaminationTypeId: yup
+				.number()
+				.required("ExaminationTypeId is required")
+				.min(0, "ExaminationTypeId must be at least 0"), // Assuming 0 is valid
+			ExamCenter: yup.string().required("ExamCenter is required"),
+			ExamNumber: yup.string().required("ExamNumber is required"),
+			ExamYear: yup
+				.number()
+				.required("ExamYear is required")
+				.min(1900, "ExamYear must be a valid year")
+				.max(
+					new Date().getFullYear(),
+					"ExamYear cannot be in the future"
+				),
+			ResultPin: yup.string().required("ResultPin is required"),
+			ResultSerialNumber: yup
+				.string()
+				.required("ResultSerialNumber is required"),
+			SubjectGrade: yup.object().shape({
+				additionalProp1: yup
+					.string()
+					.required("Grade for additionalProp1 is required"),
+				additionalProp2: yup
+					.string()
+					.required("Grade for additionalProp2 is required"),
+				additionalProp3: yup
+					.string()
+					.required("Grade for additionalProp3 is required")
+			})
+		})
+	)
 });
-
 
 export const UploadCertificateSchema = yup.object().shape({
 	certificates: yup
@@ -98,9 +107,7 @@ export const UploadCertificateSchema = yup.object().shape({
 
 export const ProgrammeDetailsSchema = yup.object().shape({
 	department: yup.mixed().required("please select your department"),
-	faculty: yup.mixed().required("please select your faculty"),
-	regNo: yup.string().required("please enter your reg number").nullable(),
-	alternativeDepartment: yup.mixed()
+	faculty: yup.mixed().required("please select your faculty")
 });
 
 export const JambDetailsSchema = yup.object().shape({
@@ -108,8 +115,35 @@ export const JambDetailsSchema = yup.object().shape({
 	secondSubject: yup.mixed().required("please select your second subject"),
 	thirdSubject: yup.mixed().required("please select your third subject"),
 	fourthSubject: yup.mixed().required("please select your fourth subject"),
-	firstSubjectUtmeScore: yup.number().nullable().min(0, 'Value must be at least 0').max(100, 'Value must be at most 100').required('This field is required'),
-	secondSubjectUtmeScore: yup.number().nullable().min(0, 'Value must be at least 0').max(100, 'Value must be at most 100').required('This field is required'),
-	thirdSubjectUtmeScore: yup.number().nullable().min(0, 'Value must be at least 0').max(100, 'Value must be at most 100').required('This field is required'),
-	fourthSubjectUtmeScore: yup.number().nullable().min(0, 'Value must be at least 0').max(100, 'Value must be at most 100').required('This field is required')
-})
+	firstSubjectUtmeScore: yup
+		.number()
+		.nullable()
+		.min(0, "Value must be at least 0")
+		.max(100, "Value must be at most 100")
+		.required("This field is required"),
+	secondSubjectUtmeScore: yup
+		.number()
+		.nullable()
+		.min(0, "Value must be at least 0")
+		.max(100, "Value must be at most 100")
+		.required("This field is required"),
+	thirdSubjectUtmeScore: yup
+		.number()
+		.nullable()
+		.min(0, "Value must be at least 0")
+		.max(100, "Value must be at most 100")
+		.required("This field is required"),
+	fourthSubjectUtmeScore: yup
+		.number()
+		.nullable()
+		.min(0, "Value must be at least 0")
+		.max(100, "Value must be at most 100")
+		.required("This field is required")
+});
+
+export const NDDetailsSchema = yup.object().shape({
+	yearOfGraduation: yup.mixed().required("please select your department"),
+	schoolAttended: yup.string().required("please enter your school attended"),
+	cgpa: yup.string().required("please enter your cgpa"),
+	courseStudied: yup.string().required("please enter your course studied")
+});

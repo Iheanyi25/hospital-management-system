@@ -103,7 +103,7 @@ const PUTMELogin = () => {
 						</label>
 						<TextField
 							id="reg_no"
-							placeholder="Enter your JAMB registration number"
+							placeholder="Enter your Remita Retrieval Refference "
 							type="text"
 							name="jambRegNumber"
 							register={register}

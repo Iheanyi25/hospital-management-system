@@ -13,7 +13,7 @@ import { useReactToPrint } from "react-to-print";
 
 const pageStyle = `
 @page {
-// size: 80mm 50mm;
+// size: 80mm 80mm;
 margin-top: 5rem;
 }
 

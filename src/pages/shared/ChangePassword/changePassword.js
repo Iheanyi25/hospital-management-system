@@ -34,7 +34,7 @@ const ChangePassword = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting }
+		formState: { errors, isSubmitting }, reset
 	} = useForm({
 		resolver: yupResolver(changePasswordSchema)
 	});
@@ -50,6 +50,7 @@ const ChangePassword = () => {
 		};
 		return mutation.mutate(requestDet, {
 			onSuccess: () => {
+				reset();
 				const successFlag = window.AJS.flag({
 					type: "success",
 					title: "Password successfully updated!"

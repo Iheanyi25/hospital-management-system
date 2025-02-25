@@ -141,7 +141,7 @@ export const UploadCertificateSchema = yup.object().shape({
 });
 
 export const ProgrammeDetailsSchema = yup.object().shape({
-	department: yup.mixed().required("please select your department"),
+	department: yup.mixed().required("please select your first choice programme"),
 	faculty: yup.mixed().required("please select your faculty"),
 	regNo: yup.string().required("please enter your reg number").nullable(),
 	alternativeDepartment: yup.mixed()
