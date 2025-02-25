@@ -82,14 +82,18 @@ export const ProgrammeDetails = ({
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
-			faculty: putmeStoreData?.programmeInfo?.faculty,
+			faculty: putmeStoreData?.programmeInfo?.faculty.value,
 			department: putmeStoreData?.programmeInfo?.department,
 			regNo: putmeStoreData?.programmeInfo?.regNo,
-			alternativeDepartment: putmeStoreData?.alternativeDepartment
+			alternativeDepartment: putmeStoreData?.programmeInfo?.altDepartment
 			
 		},
 		resolver: yupResolver(ProgrammeDetailsSchema)
+
 	});
+
+	console.log(putmeStoreData.programmeInfo);
+	
 
 	const onSubmit = (programmeInfo) => {
 		const requestBody = {
