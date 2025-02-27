@@ -53,19 +53,20 @@ export const checkifDuplicateEntriesExist = (values) => {
 };
 
 
-export const checkIfMinimumNumberOfSubjectIsSelected = (value, leastNumber = 8) => {
-	if (!Array.isArray(value)) return false;
+export const checkIfMinimumNumberOfSubjectIsSelected = (value) => {
+	const verifyEight = [];
 
-	let verifyLeast = [];
-
-	for (let i = 0; i < Math.min(value.length, leastNumber); i++) {
-		const subjectExists = value?.[i]?.subject?.value;
-		const gradeExists = value?.[i]?.grade?.value;
-
-		verifyLeast.push(!!subjectExists && !!gradeExists);
+	for (let i = 0; i < value?.length; i++) {
+		if (i === 8) {
+			break;
+		}
+		if (!value?.[i]?.subject?.value || !value?.[i]?.grade?.value) {
+			verifyEight?.push(false);
+		} else {
+			verifyEight?.push(true);
+		}
 	}
-
-	return verifyLeast.every(Boolean);
+	return verifyEight?.every((item) => item === true);
 };
 
 export const checkIfCertificateTypeHasCertificateUpload = (value) => {

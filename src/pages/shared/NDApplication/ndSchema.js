@@ -86,7 +86,7 @@ export const OlevelResultSchema = yup.object().shape({
 						"duplicate entries exists",
 						checkifDuplicateEntriesExist
 					)
-					.required("please select at least one subject")
+					.required("please select at least eight subject")
 			})
 		)
 		.required("this information is required")
