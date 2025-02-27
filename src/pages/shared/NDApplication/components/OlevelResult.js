@@ -324,7 +324,7 @@ export const OlevelResult = ({
 												placeholder="Enter exam center"
 												className="w-100"
 												type="text"
-												id={`sittings.${sittingIndex}.examCentreid`}
+												id={`sittings.${sittingIndex}.examCentre`}
 												name={`sittings.${sittingIndex}.examCentre`}
 												register={register}
 												required
