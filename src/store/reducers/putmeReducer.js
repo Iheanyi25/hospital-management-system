@@ -28,12 +28,14 @@ export const putmeInitialState = (data) => ({
 			label: data?.programmeInfoResponse?.fourthSubject,
 			value: data?.programmeInfoResponse?.fourthSubjectId
 		},
+		...(data?.programmeInfoResponse?.faculty && {
 		faculty: {
 			label: data?.programmeInfoResponse?.faculty,
 			value: data?.programmeInfoResponse?.facultyId
-		},
+		}
+	}),
 		...(data?.programmeInfoResponse?.alternativeDepartment && {
-			altDepartment: {
+			alternativeDepartment: {
 				label: data?.programmeInfoResponse?.alternativeDepartment,
 				value: data?.programmeInfoResponse?.altDepartmentId
 			}

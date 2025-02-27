@@ -43,31 +43,29 @@ export const checkIfValidFullName = (value) => {
 };
 
 export const checkifDuplicateEntriesExist = (values) => {
-	const subjects = values?.map((subValue) => {
-		let value = subValue?.subject?.value;
-		return value?.toString()?.toLowerCase();
-	});
-	if (subjects?.length === new Set(subjects)?.size) {
-		return true;
-	}
-	return false;
+	if (!Array.isArray(values)) return false;
+
+	const subjects = values
+		?.map((subValue) => subValue?.subject?.value?.toString()?.toLowerCase())
+		.filter(Boolean); // Removes undefined/null values
+
+	return subjects.length === new Set(subjects).size;
 };
 
-export const checkIfMinimumNumberOfSubjectIsSelected = (value, leastNumber) => {
-	let verifyLeastNumber = typeof leastNumber === "number" ? leastNumber : 8;
-	const verifyLeast = [];
 
-	for (let i = 0; i < value?.length; i++) {
-		if (i === verifyLeastNumber) {
-			break;
-		}
-		if (!value?.[i]?.subject?.value || !value?.[i]?.grade?.value) {
-			verifyLeast?.push(false);
-		} else {
-			verifyLeast?.push(true);
-		}
+export const checkIfMinimumNumberOfSubjectIsSelected = (value, leastNumber = 8) => {
+	if (!Array.isArray(value)) return false;
+
+	let verifyLeast = [];
+
+	for (let i = 0; i < Math.min(value.length, leastNumber); i++) {
+		const subjectExists = value?.[i]?.subject?.value;
+		const gradeExists = value?.[i]?.grade?.value;
+
+		verifyLeast.push(!!subjectExists && !!gradeExists);
 	}
-	return verifyLeast?.every((item) => item === true);
+
+	return verifyLeast.every(Boolean);
 };
 
 export const checkIfCertificateTypeHasCertificateUpload = (value) => {
@@ -126,3 +124,15 @@ export const checkDuplicateSubjects = (subjectName) => {
 		return true;
 	};
 };
+
+export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
+	function (value) {
+		const siblingValue =
+			typeof this.parent[fieldToCompare] !== "string"
+				? this.parent[fieldToCompare]?.value
+				: this.parent[fieldToCompare];
+
+		const valueToCompare = typeof value !== "string" ? value?.value : value;
+
+		return valueToCompare !== siblingValue;
+	};
