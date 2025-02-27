@@ -9,8 +9,6 @@ export const checkForCorrectPhoneNumber = (value) =>
 export const checkIfPutmeFormat = (value) =>
 	/^2023\d{8}[a-zA-Z]{2}$/.test(value);
 
-export const checkIfSpecialCharacters = (value) => /^[a-zA-Z\s]*$/.test(value);
-
 export const checkIfUserIsMoreThanMinimumAge = (value) => {
 	if (!(new Date().getFullYear() - value.split("-")[0] < 15)) {
 		return true;
@@ -51,7 +49,6 @@ export const checkifDuplicateEntriesExist = (values) => {
 
 	return subjects.length === new Set(subjects).size;
 };
-
 
 export const checkIfMinimumNumberOfSubjectIsSelected = (value) => {
 	const verifyEight = [];
@@ -137,3 +134,16 @@ export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
 
 		return valueToCompare !== siblingValue;
 	};
+
+export const checkIfSpecialCharacters = (value) => {
+	// eslint-disable-next-line no-useless-escape
+	const regex = /^[A-Za-z0-9\s/,.'\-]+$/;
+
+	const htmlTagRegex = /<[^>]*>/;
+	const hasHTMLTags = htmlTagRegex.test(value);
+	const emojiRegex =
+		/[\p{Emoji}\p{Emoji_Presentation}\p{Extended_Pictographic}]/u;
+	const hasEmojis = emojiRegex.test(value);
+
+	return regex.test(value) && !hasHTMLTags && !hasEmojis;
+};

@@ -6,7 +6,8 @@ import {
 	checkIfUserIsMoreThanMinimumAge,
 	checkIfFieldsAreNotIdentical,
 	checkIfMinimumNumberOfSubjectIsSelected,
-	checkifDuplicateEntriesExist
+	checkifDuplicateEntriesExist,
+	checkIfSpecialCharacters
 } from "../../../utils/formValidations";
 
 export const personalDetailsSchema = yup.object().shape({
@@ -33,7 +34,7 @@ export const personalDetailsSchema = yup.object().shape({
 	}),
 	mobileNo: yup
 		.string()
-		.required("phone number is required")
+		.required("phone number is required")	
 		.test(
 			"text number",
 			"invaild phone number",
@@ -42,6 +43,11 @@ export const personalDetailsSchema = yup.object().shape({
 	contactAddress: yup
 		.string()
 		.required("please input your address")
+		.test(
+			"check-input-type",
+			"only letters are allowed",
+			checkIfSpecialCharacters
+		)
 		.nullable(),
 	email: yup
 		.string()
@@ -61,9 +67,19 @@ export const OlevelResultSchema = yup.object().shape({
 					.required("please input your o level type"),
 				examCentre: yup
 					.string()
+					.test(
+						"check-input-type",
+						"only letters are allowed",
+						checkIfSpecialCharacters
+					)
 					.required("please input your exam center"),
 				examNumber: yup
 					.string()
+					.test(
+						"check-input-type",
+						"only letters are allowed",
+						checkIfSpecialCharacters
+					)
 					.required("please input your exam number"),
 				examYear: yup.mixed().required("please input your exam year"),
 				// resultPin: yup.string().required("please input value"),
