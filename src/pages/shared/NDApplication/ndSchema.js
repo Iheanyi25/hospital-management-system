@@ -165,7 +165,7 @@ export const ProgrammeDetailsSchema = yup.object().shape({
 	department: yup
 		.mixed()
 		.required("please select your first choice programme"),
-	faculty: yup.mixed().required("please select your faculty"),
+	faculty: yup.mixed().required("please select first choice school"),
 	regNo: yup.string().required("please enter your reg number").nullable(),
 	alternativeDepartment: yup
 		.mixed()
