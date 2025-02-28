@@ -9,6 +9,7 @@ export const putmeInitialState = (data) => ({
 		passport: data?.passport
 	},
 	programmeInfo: {
+		...data?.programmeInfoResponse,
 		regNo: data?.regNumber,
 		utmeScore: data?.programmeInfoResponse?.utmeScore,
 		utmeResultSlip: data?.programmeInfoResponse?.resultSlip,
@@ -29,11 +30,11 @@ export const putmeInitialState = (data) => ({
 			value: data?.programmeInfoResponse?.fourthSubjectId
 		},
 		...(data?.programmeInfoResponse?.faculty && {
-		faculty: {
-			label: data?.programmeInfoResponse?.faculty,
-			value: data?.programmeInfoResponse?.facultyId
-		}
-	}),
+			faculty: {
+				label: data?.programmeInfoResponse?.faculty,
+				value: data?.programmeInfoResponse?.facultyId
+			}
+		}),
 		...(data?.programmeInfoResponse?.alternativeDepartment && {
 			alternativeDepartment: {
 				label: data?.programmeInfoResponse?.alternativeDepartment,

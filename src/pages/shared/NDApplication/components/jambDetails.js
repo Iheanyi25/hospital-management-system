@@ -22,7 +22,7 @@ export const JambDetails = ({
   fromJambState
 }) => {
   const putmeStoreData = useSelector((state) => state.putmeData);
-  const { programmeInfo, personalInfo } = putmeStoreData;
+  const { programmeInfo: programmeData, personalInfo } = putmeStoreData;
   const dispatch = useDispatch();
   const { replace } = useHistory();
   const { state } = useLocation();
@@ -32,6 +32,8 @@ export const JambDetails = ({
   }
 
   const { mutate, isLoading: isFormLoading } = useApiPost();
+
+  
 
   const {
     register,
@@ -45,10 +47,10 @@ export const JambDetails = ({
       secondSubject: putmeStoreData?.programmeInfo?.secondSubject,
       thirdSubject: putmeStoreData?.programmeInfo?.thirdSubject,
       fourthSubject: putmeStoreData?.programmeInfo?.fourthSubject,
-      firstSubjectUtmeScore: programmeInfo?.firstSubjectUtmeScore || null,
-      secondSubjectUtmeScore: programmeInfo?.secondSubjectUtmeScore || null,
-      thirdSubjectUtmeScore: programmeInfo?.thirdSubjectUtmeScore || null,
-      fourthSubjectUtmeScore: programmeInfo?.fourthSubjectUtmeScore || null,
+      firstSubjectUtmeScore: programmeData?.firstSubjectUtmeScore ?? null,
+      secondSubjectUtmeScore: programmeData?.secondSubjectUtmeScore ?? null,
+      thirdSubjectUtmeScore: programmeData?.thirdSubjectUtmeScore ?? null,
+      fourthSubjectUtmeScore: programmeData?.fourthSubjectUtmeScore ?? null,
     },
     resolver: yupResolver(JambDetailsSchema)
   });
@@ -56,6 +58,8 @@ export const JambDetails = ({
 
 
   const onSubmit = (programmeInfo) => {
+    console.log(programmeInfo, "YETUNDE");
+    
     const requestBody = {
       url: ndJambDetailsFormUrl(),
       data: {
@@ -65,10 +69,10 @@ export const JambDetails = ({
         SecondSubjectId: programmeInfo?.secondSubject?.value,
         ThirdSubjectId: programmeInfo?.thirdSubject?.value,
         FourthSubjectId: programmeInfo?.fourthSubject?.value,
-        FirstSubjectScore: programmeInfo?.firstSubjectUtmeScore,
-        SecondSubjectScore: programmeInfo?.secondSubjectUtmeScore,
-        ThirdSubjectScore: programmeInfo?.thirdSubjectUtmeScore,
-        FourthSubjectScore: programmeInfo?.fourthSubjectUtmeScore,
+        FirstSubjectUtmeScore: programmeInfo?.firstSubjectUtmeScore,
+        SecondSubjectUtmeScore: programmeInfo?.secondSubjectUtmeScore,
+        ThirdSubjectUtmeScore: programmeInfo?.thirdSubjectUtmeScore,
+        FourthSubjectUtmeScore: programmeInfo?.fourthSubjectUtmeScore,
       }
     };
     mutate(requestBody, {
@@ -85,7 +89,10 @@ export const JambDetails = ({
           type: SAVE_PUTME_INFO,
           payload: {
             ...putmeStoreData,
-            programmeInfo
+            programmeInfo: {
+              ...putmeStoreData?.programmeInfo,
+              ...programmeInfo
+            }
           }
         });
         replace({ hash: "#section_d", state });

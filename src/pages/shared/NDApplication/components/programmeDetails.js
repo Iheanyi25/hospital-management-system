@@ -123,7 +123,10 @@ export const ProgrammeDetails = ({
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						programmeInfo
+						programmeInfo : {
+							...putmeStoreData?.programmeInfo,
+							...programmeInfo
+						}
 					}
 				});
 				replace({ hash: "#section_c", state });

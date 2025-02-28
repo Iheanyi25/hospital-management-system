@@ -246,7 +246,7 @@ export const OlevelResult = ({
 										buttonClass="secondary"
 										type="button"
 										disabled={isFormLoading}
-										onClick={() => replace({ hash: "#section_a", state })}
+										onClick={() => replace({ hash: "#section_c", state })}
 									/>
 									<Button
 										data-cy="submit_personal"

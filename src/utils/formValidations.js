@@ -9,8 +9,6 @@ export const checkForCorrectPhoneNumber = (value) =>
 export const checkIfPutmeFormat = (value) =>
 	/^2023\d{8}[a-zA-Z]{2}$/.test(value);
 
-export const checkIfSpecialCharacters = (value) => /^[a-zA-Z\s]*$/.test(value);
-
 export const checkIfUserIsMoreThanMinimumAge = (value) => {
 	if (!(new Date().getFullYear() - value.split("-")[0] < 15)) {
 		return true;
@@ -52,20 +50,20 @@ export const checkifDuplicateEntriesExist = (values) => {
 	return subjects.length === new Set(subjects).size;
 };
 
+export const checkIfMinimumNumberOfSubjectIsSelected = (value) => {
+	const verifyEight = [];
 
-export const checkIfMinimumNumberOfSubjectIsSelected = (value, leastNumber = 8) => {
-	if (!Array.isArray(value)) return false;
-
-	let verifyLeast = [];
-
-	for (let i = 0; i < Math.min(value.length, leastNumber); i++) {
-		const subjectExists = value?.[i]?.subject?.value;
-		const gradeExists = value?.[i]?.grade?.value;
-
-		verifyLeast.push(!!subjectExists && !!gradeExists);
+	for (let i = 0; i < value?.length; i++) {
+		if (i === 8) {
+			break;
+		}
+		if (!value?.[i]?.subject?.value || !value?.[i]?.grade?.value) {
+			verifyEight?.push(false);
+		} else {
+			verifyEight?.push(true);
+		}
 	}
-
-	return verifyLeast.every(Boolean);
+	return verifyEight?.every((item) => item === true);
 };
 
 export const checkIfCertificateTypeHasCertificateUpload = (value) => {
@@ -136,3 +134,16 @@ export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
 
 		return valueToCompare !== siblingValue;
 	};
+
+export const checkIfSpecialCharacters = (value) => {
+	// eslint-disable-next-line no-useless-escape
+	const regex = /^[A-Za-z0-9\s/,.'\-]+$/;
+
+	const htmlTagRegex = /<[^>]*>/;
+	const hasHTMLTags = htmlTagRegex.test(value);
+	const emojiRegex =
+		/[\p{Emoji}\p{Emoji_Presentation}\p{Extended_Pictographic}]/u;
+	const hasEmojis = emojiRegex.test(value);
+
+	return regex.test(value) && !hasHTMLTags && !hasEmojis;
+};
