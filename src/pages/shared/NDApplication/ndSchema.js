@@ -45,7 +45,7 @@ export const personalDetailsSchema = yup.object().shape({
 		.required("please input your address")
 		.test(
 			"check-input-type",
-			"only letters are allowed",
+			"no special characters are allowed",
 			checkIfSpecialCharacters
 		)
 		.nullable(),
@@ -69,7 +69,7 @@ export const OlevelResultSchema = yup.object().shape({
 					.string()
 					.test(
 						"check-input-type",
-						"only letters are allowed",
+						"no special characters are allowed",
 						checkIfSpecialCharacters
 					)
 					.required("please input your exam center"),
@@ -77,7 +77,7 @@ export const OlevelResultSchema = yup.object().shape({
 					.string()
 					.test(
 						"check-input-type",
-						"only letters are allowed",
+						"no special characters are allowed",
 						checkIfSpecialCharacters
 					)
 					.required("please input your exam number"),
@@ -165,7 +165,7 @@ export const ProgrammeDetailsSchema = yup.object().shape({
 	department: yup
 		.mixed()
 		.required("please select your first choice programme"),
-	faculty: yup.mixed().required("please select your faculty"),
+	faculty: yup.mixed().required("please select first choice school"),
 	regNo: yup.string().required("please enter your reg number").nullable(),
 	alternativeDepartment: yup
 		.mixed()
