@@ -136,16 +136,7 @@ export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
 	};
 
 export const checkIfSpecialCharacters = (value) => {
-	// eslint-disable-next-line no-useless-escape
-	const regex = /^[A-Za-z0-9\s/,.'\-]+$/;
+	const allowedCharsRegex = /^[A-Za-z0-9\s',.-]+$/;
 
-	const htmlTagRegex = /<[^>]*>/;
-	const hasHTMLTags = htmlTagRegex.test(value);
-
-	// Simplified check for emojis - this is less comprehensive but more reliable
-	// Checks for characters outside the normal ASCII range
-	// eslint-disable-next-line no-control-regex
-	const hasNonStandardChars = /[^\u0000-\u007F]/.test(value);
-
-	return regex.test(value) && !hasHTMLTags && !hasNonStandardChars;
+	return allowedCharsRegex.test(value);
 };
