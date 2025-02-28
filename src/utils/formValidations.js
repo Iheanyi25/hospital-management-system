@@ -9,8 +9,6 @@ export const checkForCorrectPhoneNumber = (value) =>
 export const checkIfPutmeFormat = (value) =>
 	/^2023\d{8}[a-zA-Z]{2}$/.test(value);
 
-export const checkIfSpecialCharacters = (value) => /^[a-zA-Z\s]*$/.test(value);
-
 export const checkIfUserIsMoreThanMinimumAge = (value) => {
 	if (!(new Date().getFullYear() - value.split("-")[0] < 15)) {
 		return true;
@@ -43,31 +41,29 @@ export const checkIfValidFullName = (value) => {
 };
 
 export const checkifDuplicateEntriesExist = (values) => {
-	const subjects = values?.map((subValue) => {
-		let value = subValue?.subject?.value;
-		return value?.toString()?.toLowerCase();
-	});
-	if (subjects?.length === new Set(subjects)?.size) {
-		return true;
-	}
-	return false;
+	if (!Array.isArray(values)) return false;
+
+	const subjects = values
+		?.map((subValue) => subValue?.subject?.value?.toString()?.toLowerCase())
+		.filter(Boolean); // Removes undefined/null values
+
+	return subjects.length === new Set(subjects).size;
 };
 
-export const checkIfMinimumNumberOfSubjectIsSelected = (value, leastNumber) => {
-	let verifyLeastNumber = typeof leastNumber === "number" ? leastNumber : 8;
-	const verifyLeast = [];
+export const checkIfMinimumNumberOfSubjectIsSelected = (value) => {
+	const verifyEight = [];
 
 	for (let i = 0; i < value?.length; i++) {
-		if (i === verifyLeastNumber) {
+		if (i === 8) {
 			break;
 		}
 		if (!value?.[i]?.subject?.value || !value?.[i]?.grade?.value) {
-			verifyLeast?.push(false);
+			verifyEight?.push(false);
 		} else {
-			verifyLeast?.push(true);
+			verifyEight?.push(true);
 		}
 	}
-	return verifyLeast?.every((item) => item === true);
+	return verifyEight?.every((item) => item === true);
 };
 
 export const checkIfCertificateTypeHasCertificateUpload = (value) => {
@@ -125,4 +121,29 @@ export const checkDuplicateSubjects = (subjectName) => {
 		}
 		return true;
 	};
+};
+
+export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
+	function (value) {
+		const siblingValue =
+			typeof this.parent[fieldToCompare] !== "string"
+				? this.parent[fieldToCompare]?.value
+				: this.parent[fieldToCompare];
+
+		const valueToCompare = typeof value !== "string" ? value?.value : value;
+
+		return valueToCompare !== siblingValue;
+	};
+
+export const checkIfSpecialCharacters = (value) => {
+	// eslint-disable-next-line no-useless-escape
+	const regex = /^[A-Za-z0-9\s/,.'\-]+$/;
+
+	const htmlTagRegex = /<[^>]*>/;
+	const hasHTMLTags = htmlTagRegex.test(value);
+	const emojiRegex =
+		/[\p{Emoji}\p{Emoji_Presentation}\p{Extended_Pictographic}]/u;
+	const hasEmojis = emojiRegex.test(value);
+
+	return regex.test(value) && !hasHTMLTags && !hasEmojis;
 };

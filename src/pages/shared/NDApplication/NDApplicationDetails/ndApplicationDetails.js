@@ -5,6 +5,8 @@ import { Cards, Title } from "./components";
 const NdApplicationDetails = () => {
 	const { replace } = useHistory();
 	const { state } = useLocation();
+	console.log(state.details, "YAHOOO");
+	
 	if (!state?.fromLogin) replace("/nd_login");
 
 	return (

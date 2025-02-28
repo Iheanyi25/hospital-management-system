@@ -246,7 +246,7 @@ export const OlevelResult = ({
 										buttonClass="secondary"
 										type="button"
 										disabled={isFormLoading}
-										onClick={() => replace({ hash: "#section_a", state })}
+										onClick={() => replace({ hash: "#section_c", state })}
 									/>
 									<Button
 										data-cy="submit_personal"
@@ -324,7 +324,7 @@ export const OlevelResult = ({
 												placeholder="Enter exam center"
 												className="w-100"
 												type="text"
-												id={`sittings.${sittingIndex}.examCentreid`}
+												id={`sittings.${sittingIndex}.examCentre`}
 												name={`sittings.${sittingIndex}.examCentre`}
 												register={register}
 												required

@@ -79,6 +79,8 @@ export const PersonalDetails = ({
 		clearErrors("state");
 	};
 
+
+
 	const {
 		register,
 		control,

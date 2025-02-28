@@ -82,10 +82,10 @@ export const ProgrammeDetails = ({
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
-			faculty: putmeStoreData?.programmeInfo?.faculty.value,
+			faculty: putmeStoreData?.programmeInfo?.faculty,
 			department: putmeStoreData?.programmeInfo?.department,
 			regNo: putmeStoreData?.programmeInfo?.regNo,
-			alternativeDepartment: putmeStoreData?.programmeInfo?.altDepartment
+			alternativeDepartment: putmeStoreData?.programmeInfo?.alternativeDepartment
 			
 		},
 		resolver: yupResolver(ProgrammeDetailsSchema)
@@ -96,6 +96,8 @@ export const ProgrammeDetails = ({
 	
 
 	const onSubmit = (programmeInfo) => {
+		console.log("ONSUBmit", programmeInfo);
+		
 		const requestBody = {
 			url: ndProgrammeDetailsFormUrl(),
 			data: {
@@ -121,7 +123,10 @@ export const ProgrammeDetails = ({
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						programmeInfo
+						programmeInfo : {
+							...putmeStoreData?.programmeInfo,
+							...programmeInfo
+						}
 					}
 				});
 				replace({ hash: "#section_c", state });
@@ -318,7 +323,7 @@ export const ProgrammeDetails = ({
 								</div>
 								<div className="col-lg-9">
 									<Controller
-										name="alternativedepartment"
+										name="alternativeDepartment"
 										control={control}
 										rules={{ required: true }}
 										render={({ field }) => (
@@ -326,13 +331,13 @@ export const ProgrammeDetails = ({
 												{...field}
 												placeholder="Select a department"
 												searchable={true}
-												id="department"
+												id="alternativeDepartment"
 												disabled={fromJambState}
 												options={allDepartments}
 												isError={!!errors.department}
 												errorText={
-													errors.department &&
-													errors.department.message
+													errors.alternativeDepartment &&
+													errors.alternativeDepartment.message
 												}
 											/>
 										)}
