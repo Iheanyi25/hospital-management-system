@@ -141,9 +141,11 @@ export const checkIfSpecialCharacters = (value) => {
 
 	const htmlTagRegex = /<[^>]*>/;
 	const hasHTMLTags = htmlTagRegex.test(value);
-	const emojiRegex =
-		/[\p{Emoji}\p{Emoji_Presentation}\p{Extended_Pictographic}]/u;
-	const hasEmojis = emojiRegex.test(value);
 
-	return regex.test(value) && !hasHTMLTags && !hasEmojis;
+	// Simplified check for emojis - this is less comprehensive but more reliable
+	// Checks for characters outside the normal ASCII range
+	// eslint-disable-next-line no-control-regex
+	const hasNonStandardChars = /[^\u0000-\u007F]/.test(value);
+
+	return regex.test(value) && !hasHTMLTags && !hasNonStandardChars;
 };
