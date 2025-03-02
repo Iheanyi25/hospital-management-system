@@ -188,25 +188,29 @@ export const JambDetailsSchema = yup
 			.mixed()
 			.required("Please select your fourth subject"),
 		firstSubjectUtmeScore: yup
-			.number()
+			.number("Please input a valid JAMB score")
+			.typeError('Score must be a number')
 			.nullable()
 			.min(0, "Value must be at least 0")
 			.max(100, "Value must be at most 100")
 			.required("This field is required"),
 		secondSubjectUtmeScore: yup
-			.number()
+			.number("Please input a valid JAMB score")
+			.typeError('Score must be a number')
 			.nullable()
 			.min(0, "Value must be at least 0")
 			.max(100, "Value must be at most 100")
 			.required("This field is required"),
 		thirdSubjectUtmeScore: yup
-			.number()
+			.number("Please input a valid JAMB score")
+			.typeError('Score must be a number')
 			.nullable()
 			.min(0, "Value must be at least 0")
 			.max(100, "Value must be at most 100")
 			.required("This field is required"),
 		fourthSubjectUtmeScore: yup
-			.number()
+			.number("Please input a valid JAMB score")
+			.typeError('Score must be a number')
 			.nullable()
 			.min(0, "Value must be at least 0")
 			.max(100, "Value must be at most 100")
