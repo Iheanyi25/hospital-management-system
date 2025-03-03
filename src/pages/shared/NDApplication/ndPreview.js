@@ -14,7 +14,12 @@ const NDPreview = ({ componentRef, details }) => {
 		Object?.entries(item?.subjectGrade)
 	);
 
-	const totalUTMEscore = programmeInfoResponse?.firstSubjectUtmeScore + programmeInfoResponse?.secondSubjectUtmeScore + programmeInfoResponse?.thirdSubjectUtmeScore + programmeInfoResponse?.fourthSubjectUtmeScore;
+	const totalUTMEscore =
+		programmeInfoResponse?.firstSubjectUtmeScore +
+		programmeInfoResponse?.secondSubjectUtmeScore +
+		programmeInfoResponse?.thirdSubjectUtmeScore +
+		programmeInfoResponse?.fourthSubjectUtmeScore;
+
 
 	return (
 		<ApplicationPreviewWrapper
@@ -22,8 +27,9 @@ const NDPreview = ({ componentRef, details }) => {
 				name: `${personalInfoResponse?.surname} ${personalInfoResponse?.firstname} `,
 				passport
 			}}
-			previewHeader={`${personalInfoResponse?.session ?? ""
-				} ND APPLICATION SLIP`}
+			previewHeader={`${
+				personalInfoResponse?.session ?? ""
+			} ND APPLICATION SLIP`}
 			footerStyle={" justify-content-center"}
 			componentRef={componentRef}
 		>
@@ -58,8 +64,8 @@ const NDPreview = ({ componentRef, details }) => {
 								<p className="col-4">
 									{personalInfoResponse?.dateOfBirth
 										? formatDateFromAPI(
-											personalInfoResponse?.dateOfBirth
-										)
+												personalInfoResponse?.dateOfBirth
+										  )
 										: "N/A"}
 								</p>
 							</div>
@@ -87,7 +93,10 @@ const NDPreview = ({ componentRef, details }) => {
 							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Contact Address</h6>
 								<p className="col-4">
-									{personalInfoResponse?.contactAddress}
+									{personalInfoResponse?.contactAddress.slice(
+										0,
+										24
+									)}
 								</p>
 							</div>
 							<div className="d-flex gap-3 my-2">
@@ -103,6 +112,71 @@ const NDPreview = ({ componentRef, details }) => {
 								</p>
 							</div>
 						</div>
+					</div>
+				</section>
+				<section className="row align-items-center mt-3">
+					<h4 className="mb-2">Programme Details</h4>
+					<div className="row justify-content-between">
+						<div className="col-6 my-2">
+							<div className="d-flex  gap-3 my-3">
+								<h6 className="col-4">First Choice School</h6>
+								<p className="col-4">
+									{programmeInfoResponse?.faculty}
+								</p>
+							</div>
+
+							<div className="d-flex gap-3 my-3">
+								<h6 className="col-4">
+									First Choice Programme
+								</h6>
+								<p className="col-4">
+									{programmeInfoResponse?.department}
+								</p>
+							</div>
+							{programmeInfoResponse?.departmentOption && (
+								<div className="d-flex gap-3 my-3">
+									<h6 className="col-4">
+										First Choice Programme Option
+									</h6>
+									<p className="col-4">
+										{
+											programmeInfoResponse?.departmentOption
+										}
+									</p>
+								</div>
+							)}
+						</div>{" "}
+						{programmeInfoResponse?.alternativeDepartment && (
+							<div className="col-6 my-2">
+								<div className="d-flex gap-3 my-3">
+									<h6 className="col-4">
+										Alternative Programme
+									</h6>
+									<p className="col-4">
+										{
+											programmeInfoResponse?.alternativeDepartment
+										}{" "}
+										{
+											programmeInfoResponse?.thirdSubjectUtmeScore
+										}
+									</p>
+								</div>
+								{programmeInfoResponse?.alternativeDepartmentOption && (
+									<div className="d-flex gap-3 my-3">
+										<h6 className="col-4">
+											Alternative Programme Option
+										</h6>
+										<p className="col-4">
+											{
+												programmeInfoResponse?.alternativeDepartmentOption
+											}
+										</p>
+									</div>
+								)}
+							</div>
+						)}
+						<div className="col-12 col-md-6 my-2"></div>
+						<div className="col-12 col-md-6 my-2"></div>
 					</div>
 				</section>
 				<section className="row align-items-center mt-3">
@@ -176,36 +250,46 @@ const NDPreview = ({ componentRef, details }) => {
 							<div className="d-flex  gap-3 my-3">
 								<h6 className="col-4">Subject 1 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.firstSubject} {programmeInfoResponse?.firstSubjectUtmeScore}
+									{programmeInfoResponse?.firstSubject}{" "}
+									{
+										programmeInfoResponse?.firstSubjectUtmeScore
+									}
 								</p>
 							</div>
 
 							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Subject 2 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.secondSubject} {programmeInfoResponse?.secondSubjectUtmeScore}
+									{programmeInfoResponse?.secondSubject}{" "}
+									{
+										programmeInfoResponse?.secondSubjectUtmeScore
+									}
 								</p>
 							</div>
 
 							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">UTME Score</h6>
-								<p className="col-4">
-									{totalUTMEscore}
-								</p>
+								<p className="col-4">{totalUTMEscore}</p>
 							</div>
 						</div>
 						<div className="col-6 my-2">
 							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Subject 3 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.thirdSubject} {programmeInfoResponse?.thirdSubjectUtmeScore}
+									{programmeInfoResponse?.thirdSubject}{" "}
+									{
+										programmeInfoResponse?.thirdSubjectUtmeScore
+									}
 								</p>
 							</div>
 
 							<div className="d-flex gap-3 my-3">
 								<h6 className="col-4">Subject 4 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.fourthSubject} {programmeInfoResponse?.fourthSubjectUtmeScore}
+									{programmeInfoResponse?.fourthSubject}{" "}
+									{
+										programmeInfoResponse?.fourthSubjectUtmeScore
+									}
 								</p>
 							</div>
 
@@ -214,23 +298,10 @@ const NDPreview = ({ componentRef, details }) => {
 								<p className="col-4">{regNumber}</p>
 							</div>
 						</div>
-						<div className="col-12 col-md-6 my-2">
-
-
-
-
-
-
-						</div>
-						<div className="col-12 col-md-6 my-2">
-
-
-
-
-						</div>
+						<div className="col-12 col-md-6 my-2"></div>
+						<div className="col-12 col-md-6 my-2"></div>
 					</div>
 				</section>
-
 			</div>
 		</ApplicationPreviewWrapper>
 	);

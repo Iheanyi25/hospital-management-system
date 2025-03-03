@@ -334,7 +334,7 @@ export const ProgrammeDetails = ({
 												id="alternativeDepartment"
 												disabled={fromJambState}
 												options={allDepartments}
-												isError={!!errors.department}
+												isError={!!errors.alternativeDepartment}
 												errorText={
 													errors.alternativeDepartment &&
 													errors.alternativeDepartment.message

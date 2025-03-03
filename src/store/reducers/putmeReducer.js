@@ -13,22 +13,24 @@ export const putmeInitialState = (data) => ({
 		regNo: data?.regNumber,
 		utmeScore: data?.programmeInfoResponse?.utmeScore,
 		utmeResultSlip: data?.programmeInfoResponse?.resultSlip,
-		firstSubject: {
-			label: data?.programmeInfoResponse?.firstSubject,
-			value: data?.programmeInfoResponse?.firstSubjectId
-		},
-		secondSubject: {
-			label: data?.programmeInfoResponse?.secondSubject,
-			value: data?.programmeInfoResponse?.secondSubjectId
-		},
-		thirdSubject: {
-			label: data?.programmeInfoResponse?.thirdSubject,
-			value: data?.programmeInfoResponse?.thirdSubjectId
-		},
-		fourthSubject: {
-			label: data?.programmeInfoResponse?.fourthSubject,
-			value: data?.programmeInfoResponse?.fourthSubjectId
-		},
+		...(data.programmeInfoResponse?.firstSubject && {
+			firstSubject: {
+				label: data?.programmeInfoResponse?.firstSubject,
+				value: data?.programmeInfoResponse?.firstSubjectId
+			},
+			secondSubject: {
+				label: data?.programmeInfoResponse?.secondSubject,
+				value: data?.programmeInfoResponse?.secondSubjectId
+			},
+			thirdSubject: {
+				label: data?.programmeInfoResponse?.thirdSubject,
+				value: data?.programmeInfoResponse?.thirdSubjectId
+			},
+			fourthSubject: {
+				label: data?.programmeInfoResponse?.fourthSubject,
+				value: data?.programmeInfoResponse?.fourthSubjectId
+			}
+		}),
 		...(data?.programmeInfoResponse?.faculty && {
 			faculty: {
 				label: data?.programmeInfoResponse?.faculty,
@@ -123,18 +125,20 @@ export const putmeInitialState = (data) => ({
 				label: item?.examinationType
 			},
 			examYear: { value: item?.examYear, label: item?.examYear },
-			subjects: [
-				...Object?.keys(item?.subjectGrade).map((key, index) => ({
-					subject: {
-						label: key?.toUpperCase(),
-						value: Object?.keys(item?.subjectGradeId)?.[index]
-					},
-					grade: {
-						label: item?.subjectGrade?.[key],
-						value: Object?.values(item?.subjectGradeId)?.[index]
-					}
-				}))
-			]
+			...(data.olevelResponse.length > 0 && {
+				subjects: [
+					...Object?.keys(item?.subjectGrade).map((key, index) => ({
+						subject: {
+							label: key?.toUpperCase(),
+							value: Object?.keys(item?.subjectGradeId)?.[index]
+						},
+						grade: {
+							label: item?.subjectGrade?.[key],
+							value: Object?.values(item?.subjectGradeId)?.[index]
+						}
+					}))
+				]
+			})
 		}))
 	},
 	ndDetailsInfo: {
