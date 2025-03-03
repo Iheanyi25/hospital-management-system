@@ -125,18 +125,22 @@ export const checkDuplicateSubjects = (subjectName) => {
 
 export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
 	function (value) {
-		const siblingValue =
-			typeof this.parent[fieldToCompare] !== "string"
-				? this.parent[fieldToCompare]?.value
-				: this.parent[fieldToCompare];
+		if (value) {
+			const siblingValue =
+				typeof this.parent[fieldToCompare] !== "string"
+					? this.parent[fieldToCompare]?.value
+					: this.parent[fieldToCompare];
 
-		const valueToCompare = typeof value !== "string" ? value?.value : value;
+			const valueToCompare =
+				typeof value !== "string" ? value?.value : value;
 
-		return valueToCompare !== siblingValue;
+			return valueToCompare !== siblingValue;
+		}
+		return true;
 	};
 
 export const checkIfSpecialCharacters = (value) => {
-	const allowedCharsRegex = /^[A-Za-z0-9\s',.-]+$/;
-
+	// eslint-disable-next-line no-useless-escape
+	const allowedCharsRegex = /^[A-Za-z0-9\s',./()\&#+-]+$/;
 	return allowedCharsRegex.test(value);
 };
