@@ -150,21 +150,18 @@ const NDPreview = ({ componentRef, details }) => {
 							<div className="col-6 my-2">
 								<div className="d-flex gap-3 my-3">
 									<h6 className="col-4">
-										Alternative Programme
+										Second Choice Programme
 									</h6>
 									<p className="col-4">
 										{
 											programmeInfoResponse?.alternativeDepartment
-										}{" "}
-										{
-											programmeInfoResponse?.thirdSubjectUtmeScore
 										}
 									</p>
 								</div>
 								{programmeInfoResponse?.alternativeDepartmentOption && (
 									<div className="d-flex gap-3 my-3">
 										<h6 className="col-4">
-											Alternative Programme Option
+											Second Choice Programme Option
 										</h6>
 										<p className="col-4">
 											{
