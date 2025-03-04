@@ -138,6 +138,10 @@ export const NDDetails = ({ allSessions }) => {
 								name="schoolAttended"
 								register={register}
 								error={!!errors.schoolAttended}
+								errorText={
+									errors.schoolAttended &&
+									errors.schoolAttended.message
+								}
 								required
 							/>
 						</div>
@@ -163,6 +167,10 @@ export const NDDetails = ({ allSessions }) => {
 										id="yearOfGraduation"
 										options={allSessions}
 										isError={!!errors.yearOfGraduation}
+										errorText={
+											errors.yearOfGraduation &&
+											errors.yearOfGraduation.message
+										}
 									/>
 								)}
 							/>
@@ -182,7 +190,8 @@ export const NDDetails = ({ allSessions }) => {
 								type="text"
 								id="cgpa"
 								name="cgpa"
-								error={!!errors.schoolAttended}
+								error={!!errors.cgpa}
+								errorText={errors.cgpa && errors.cgpa.message}
 								register={register}
 								required
 							/>
@@ -205,6 +214,10 @@ export const NDDetails = ({ allSessions }) => {
 								id="courseStudied"
 								name="courseStudied"
 								error={!!errors.courseStudied}
+								errorText={
+                                    errors.courseStudied &&
+                                    errors.courseStudied.message
+                                }
 								register={register}
 								required
 							/>
