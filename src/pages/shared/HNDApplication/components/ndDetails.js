@@ -83,7 +83,7 @@ export const NDDetails = ({ allSessions }) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
 					title: "Failed!",
-					body: `Something went wrong ${error.response.data.message}`
+					body: `${error.response.data.message}`
 				});
 				setTimeout(() => {
 					errorFlag.close();
