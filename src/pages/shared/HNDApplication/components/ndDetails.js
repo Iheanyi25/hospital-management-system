@@ -79,11 +79,11 @@ export const NDDetails = ({ allSessions }) => {
 					state: { fromLogin: true, details: data?.data }
 				});
 			},
-			onError: () => {
+			onError: (error) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
 					title: "Failed!",
-					body: "Something went wrong"
+					body: `Something went wrong ${error.response.data.message}`
 				});
 				setTimeout(() => {
 					errorFlag.close();
