@@ -141,6 +141,6 @@ export const checkIfFieldsAreNotIdentical = (fieldToCompare) =>
 
 export const checkIfSpecialCharacters = (value) => {
 	// eslint-disable-next-line no-useless-escape
-	const allowedCharsRegex = /^[A-Za-z0-9\s',./()\&#+-]+$/;
+	const allowedCharsRegex = /^[A-Za-z0-9\s/_\-]+$/;
 	return allowedCharsRegex.test(value);
 };
