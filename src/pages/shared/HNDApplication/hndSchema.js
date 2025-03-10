@@ -228,6 +228,7 @@ export const NDDetailsSchema = yup.object().shape({
 	yearOfGraduation: yup.mixed().required("please select your department"),
 	schoolAttended: yup
 		.string()
+		.trim()
 		.test(
 			"check-input-type",
 			"no special characters are allowed",
@@ -240,6 +241,7 @@ export const NDDetailsSchema = yup.object().shape({
 		.test("cgpa", "Invalid cgpa", checkForWholeAndTwoDecimalPlaceNumbers),
 	courseStudied: yup
 		.string()
+		.trim()
 		.test(
 			"check-input-type",
 			"no special characters are allowed",
