@@ -8,13 +8,19 @@ const NDPreview = ({ componentRef, details }) => {
 		programmeInfoResponse,
 		olevelResponse,
 		regNumber,
-		passport
+		passport,
+		ndResponse
 	} = details ?? {};
 	const subjectAndGrade = olevelResponse?.map((item) =>
 		Object?.entries(item?.subjectGrade)
 	);
+console.log(details, "Wahala");
 
-	const totalUTMEscore = programmeInfoResponse?.firstSubjectUtmeScore + programmeInfoResponse?.secondSubjectUtmeScore + programmeInfoResponse?.thirdSubjectUtmeScore + programmeInfoResponse?.fourthSubjectUtmeScore;
+	const totalUTMEscore =
+		programmeInfoResponse?.firstSubjectUtmeScore +
+		programmeInfoResponse?.secondSubjectUtmeScore +
+		programmeInfoResponse?.thirdSubjectUtmeScore +
+		programmeInfoResponse?.fourthSubjectUtmeScore;
 
 	return (
 		<ApplicationPreviewWrapper
@@ -22,8 +28,9 @@ const NDPreview = ({ componentRef, details }) => {
 				name: `${personalInfoResponse?.surname} ${personalInfoResponse?.firstname} `,
 				passport
 			}}
-			previewHeader={`${personalInfoResponse?.session ?? ""
-				} HND APPLICATION SLIP`}
+			previewHeader={`${
+				personalInfoResponse?.session ?? ""
+			} HND APPLICATION SLIP`}
 			footerStyle={" justify-content-center"}
 			componentRef={componentRef}
 		>
@@ -58,8 +65,8 @@ const NDPreview = ({ componentRef, details }) => {
 								<p className="col-4">
 									{personalInfoResponse?.dateOfBirth
 										? formatDateFromAPI(
-											personalInfoResponse?.dateOfBirth
-										)
+												personalInfoResponse?.dateOfBirth
+										  )
 										: "N/A"}
 								</p>
 							</div>
@@ -103,6 +110,23 @@ const NDPreview = ({ componentRef, details }) => {
 							</div>
 						</div>
 					</div>
+				</section>
+				<section className="row align-items-center mt-2">
+					<h4 className="mb-2">Programme of Study</h4>
+					<div className="row justify-content-between">
+						<div className="d-flex gap-3 my-2">
+							<h6 className="col-4"> First Choice School</h6>
+							<p className="col-4">
+								{programmeInfoResponse?.faculty}
+							</p>
+						</div>
+						<div className="d-flex gap-3 my-2">
+							<h6 className="col-4">First Choice Programme</h6>
+							<p className="col-4">
+								{programmeInfoResponse?.department}
+							</p>
+						</div>
+					</div>{" "}
 				</section>
 				<section className="row align-items-center mt-3">
 					<h4 className="mb-2">O-Level Result</h4>
@@ -168,43 +192,53 @@ const NDPreview = ({ componentRef, details }) => {
 							))}
 					</div>
 				</section>
-				<section className="row align-items-center mt-2">
+				<section className="row align-items-center mt-4">
 					<h4 className="mb-2">JAMB Details</h4>
 					<div className="row justify-content-between">
 						<div className="col-6 my-2">
 							<div className="d-flex  gap-3 my-2">
 								<h6 className="col-4">Subject 1 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.firstSubject} {programmeInfoResponse?.firstSubjectUtmeScore}
+									{programmeInfoResponse?.firstSubject}{" "}
+									{
+										programmeInfoResponse?.firstSubjectUtmeScore
+									}
 								</p>
 							</div>
 
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Subject 2 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.secondSubject} {programmeInfoResponse?.secondSubjectUtmeScore}
+									{programmeInfoResponse?.secondSubject}{" "}
+									{
+										programmeInfoResponse?.secondSubjectUtmeScore
+									}
 								</p>
 							</div>
 
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">UTME Score</h6>
-								<p className="col-4">
-									{totalUTMEscore}
-								</p>
+								<p className="col-4">{totalUTMEscore}</p>
 							</div>
 						</div>
 						<div className="col-6 my-2">
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Subject 3 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.thirdSubject} {programmeInfoResponse?.thirdSubjectUtmeScore}
+									{programmeInfoResponse?.thirdSubject}{" "}
+									{
+										programmeInfoResponse?.thirdSubjectUtmeScore
+									}
 								</p>
 							</div>
 
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Subject 4 / Score</h6>
 								<p className="col-4">
-									{programmeInfoResponse?.fourthSubject} {programmeInfoResponse?.fourthSubjectUtmeScore}
+									{programmeInfoResponse?.fourthSubject}{" "}
+									{
+										programmeInfoResponse?.fourthSubjectUtmeScore
+									}
 								</p>
 							</div>
 
@@ -213,13 +247,39 @@ const NDPreview = ({ componentRef, details }) => {
 								<p className="col-4">{regNumber}</p>
 							</div>
 						</div>
-						<div className="col-12 col-md-6 my-2">
-						</div>
-						<div className="col-12 col-md-6 my-2">
-						</div>
+						<div className="col-12 col-md-6 my-2"></div>
+						<div className="col-12 col-md-6 my-2"></div>
 					</div>
 				</section>
-
+				<section className="row align-items-center mt-2">
+					<h4 className="mb-2">ND Details</h4>
+					<div className="row justify-content-between">
+						<div className="d-flex gap-3 my-2">
+							<h6 className="col-4"> School Attended</h6>
+							<p className="col-4">
+								{ndResponse?.schoolAttended}
+							</p>
+						</div>
+						<div className="d-flex gap-3 my-2">
+							<h6 className="col-4">Year of graduation</h6>
+							<p className="col-4">
+								{ndResponse?.yearOfGraduation}
+							</p>
+						</div>
+						<div className="d-flex gap-3 my-2">
+							<h6 className="col-4">CGPA</h6>
+							<p className="col-4">
+								{ndResponse?.cgpa}
+							</p>
+						</div>
+						<div className="d-flex gap-3 my-2">
+							<h6 className="col-4"> Course Studied</h6>
+							<p className="col-4">
+								{ndResponse?.courseStudied}
+							</p>
+						</div>
+					</div>{" "}
+				</section>
 			</div>
 		</ApplicationPreviewWrapper>
 	);

@@ -53,6 +53,8 @@ margin-top: 0rem;
 `;
 
 export const Cards = ({ details }) => {
+	console.log(details, "WAHALA");
+	
 	const componentRef = useRef();
 	const requestFormRef = useRef();
 	const resultRef = useRef();

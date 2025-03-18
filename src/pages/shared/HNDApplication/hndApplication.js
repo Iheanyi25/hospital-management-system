@@ -37,12 +37,16 @@ import {
 	checkIfFilesAreTooBig,
 	checkIfImagesAreCorrectType
 } from "../../../utils/FileValidation";
+import { useHistory } from "react-router-dom";
+
 
 const HNDApplication = () => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
 	const dispatch = useDispatch();
 	const ref = useRef();
 	const pictureRef = useRef();
+	const { push } = useHistory();
+
 
 	const { hash, state } = useLocation();
 
@@ -246,11 +250,22 @@ const HNDApplication = () => {
 						maxInitials={2}
 					/>
 				</div>
-				<div className="col-12 col-md-10 col-lg-10">
+				<div className="d-flex align-items-center w-full justify-content-between col-12 col-md-10 col-lg-10">
 					<div className="">
 						<PageTitle
 							title={`${putmeStoreData?.personalInfo?.surName}
 						${putmeStoreData?.personalInfo?.firstName}`}
+						/>
+					</div>
+					<div>
+						<Button
+							label={"Continue Later"}
+							buttonClass="secondary"
+							onClick={() => {
+								push({
+									pathname: "/"
+								});
+							}}
 						/>
 					</div>
 				</div>

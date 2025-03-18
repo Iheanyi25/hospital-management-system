@@ -244,7 +244,7 @@ export const OlevelResult = ({
 										disabled={isFormLoading}
 										onClick={() =>
 											replace({
-												hash: "#section_a",
+												hash: "#section_b",
 												state
 											})
 										}
