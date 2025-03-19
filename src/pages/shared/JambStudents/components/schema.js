@@ -9,6 +9,14 @@ export const JambFormSchema = yup.object().shape({
 	RegNo: yup.string().required("please enter your Reg. No.").nullable()
 });
 
+export const HndFormSchema = yup.object().shape({
+	InvoiceTypeId: yup.mixed().required("please enter an invoice"),
+	mobileNumber: yup
+	.string()
+	.required("please input mobile number")
+	.test("text number", "invaild phone number", checkForCorrectPhoneNumber)
+});
+
 export const UserDetailsSchema = yup.object().shape({
 	Surname: yup
 		.string()
@@ -41,7 +49,7 @@ export const UserDetailsSchema = yup.object().shape({
 		.required("please input mobile number")
 		.test("text number", "invaild phone number", checkForCorrectPhoneNumber)
 		.nullable(),
-	RegNo: yup.string().required("please enter your Reg. No.").nullable(),
+	RegNo: yup.string().required("please enter your JAMB Reg No.").nullable(),
 	Email: yup
 		.string()
 		.required("please input email address")
