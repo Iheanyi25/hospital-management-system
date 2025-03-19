@@ -10,24 +10,22 @@ import {
 } from "../../../../../api/urls";
 import { Note, PaymentOptions, Spinner } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
-import { UserDetailsForm } from "../../components";
+import { HndDetailsForm, HndUserDetailsForm, UserDetailsForm } from "../../components";
 import { JupebDetailsForm } from "../../components";
 
 const GenerateJambPaymentInvoice = () => {
 	const [userFormState, setUserFormState] = useState(false);
 	const [makeRequest, setMakeRequest] = useState(false);
 	const [userFormData, setUserFormData] = useState({});
-	const {
-		data: applicatiionData,
-		isLoading: applicationTypesLoading,
-	} = useApiGet(getApplicationTypesUrl());
+	const { data: applicatiionData, isLoading: applicationTypesLoading } =
+		useApiGet(getApplicationTypesUrl());
 
-	const {
-		data: sessions,
-		isLoading: sessionLoading,
-	} = useApiGet(getAllSessionsUrl(), {
-		refetchOnWindowFocus: false
-	});
+	const { data: sessions, isLoading: sessionLoading } = useApiGet(
+		getAllSessionsUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
 
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 
@@ -43,9 +41,12 @@ const GenerateJambPaymentInvoice = () => {
 	const { state } = location;
 	const { goBack } = history;
 
+	console.log(state, "WYOMIN");
+	
+
 	if (!location.state) goBack();
 
-	if ((applicationTypesLoading || sessionLoading)) return <Spinner />;
+	if (applicationTypesLoading || sessionLoading) return <Spinner />;
 
 	return (
 		<>
@@ -56,25 +57,52 @@ const GenerateJambPaymentInvoice = () => {
 				`}
 				/>
 			)}
-			<JupebDetailsForm
-				allApplicationTypes={allApplicationTypes}
-				setUserFormState={setUserFormState}
-				setUserFormData={setUserFormData}
-				userFormState={userFormState}
-				userFormData={userFormData}
-				state={state}
-				makeRequest={makeRequest}
-				setMakeRequest={setMakeRequest}
-			/>
-			{userFormState && (
-				<UserDetailsForm
-					allSessions={allSessions}
-					userFormData={userFormData}
-					applicationId={state?.application?.id}
-					state={state}
-					makeRequest={makeRequest}
-				/>
+			{state?.application?.id !== "2" ? (
+				<>
+					<JupebDetailsForm
+						allApplicationTypes={allApplicationTypes}
+						setUserFormState={setUserFormState}
+						setUserFormData={setUserFormData}
+						userFormState={userFormState}
+						userFormData={userFormData}
+						state={state}
+						makeRequest={makeRequest}
+						setMakeRequest={setMakeRequest}
+					/>
+					{userFormState && (
+						<UserDetailsForm
+							allSessions={allSessions}
+							userFormData={userFormData}
+							applicationId={state?.application?.id}
+							state={state}
+							makeRequest={makeRequest}
+						/>
+					)}
+				</>
+			) : (
+				<>
+					<HndDetailsForm
+						allApplicationTypes={allApplicationTypes}
+						setUserFormState={setUserFormState}
+						setUserFormData={setUserFormData}
+						userFormState={userFormState}
+						userFormData={userFormData}
+						state={state}
+						makeRequest={makeRequest}
+						setMakeRequest={setMakeRequest}
+					/>
+					{userFormState && (
+						<HndUserDetailsForm
+							allSessions={allSessions}
+							userFormData={userFormData}
+							applicationId={state?.application?.id}
+							state={state}
+							makeRequest={makeRequest}
+						/>
+					)}
+				</>
 			)}
+
 			<div className="mt-5">
 				<PaymentOptions />
 			</div>
