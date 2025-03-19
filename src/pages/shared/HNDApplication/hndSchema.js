@@ -42,6 +42,7 @@ export const personalDetailsSchema = yup.object().shape({
 		),
 	contactAddress: yup
 		.string()
+		.trim()
 		.required("please input your address")
 		.test(
 			"check-input-type",
@@ -73,24 +74,26 @@ export const OlevelResultSchema = yup.object().shape({
 			yup.object().shape({
 				oLevelType: yup
 					.mixed()
-					.required("please input your o level type"),
+					.required("please select your o level type"),
 				examCentre: yup
 					.string()
+					.trim()
+					.required("please input your exam center")
 					.test(
 						"check-input-type",
 						"no special characters are allowed",
 						checkIfSpecialCharacters
-					)
-					.required("please input your exam center"),
+					),
 				examNumber: yup
 					.string()
+					.trim()
+					.required("please input your exam number")
 					.test(
 						"check-input-type",
 						"no special characters are allowed",
 						checkIfSpecialCharacters
-					)
-					.required("please input your exam number"),
-				examYear: yup.mixed().required("please input your exam year"),
+					),
+				examYear: yup.mixed().required("please select your exam year"),
 				// resultPin: yup.string().required("please input value"),
 				// resultPinSno: yup.string().required("please input value"),
 				subjects: yup
@@ -135,8 +138,8 @@ export const UploadCertificateSchema = yup.object().shape({
 });
 
 export const ProgrammeDetailsSchema = yup.object().shape({
-	department: yup.mixed().required("please select your department"),
-	faculty: yup.mixed().required("please select your faculty")
+	department: yup.mixed().required("please select your first choice programme"),
+	faculty: yup.mixed().required("please select your first choice school")
 });
 
 export const JambDetailsSchema = yup
@@ -228,22 +231,26 @@ export const NDDetailsSchema = yup.object().shape({
 	yearOfGraduation: yup.mixed().required("please select your department"),
 	schoolAttended: yup
 		.string()
+		.trim()
+		.required("please enter your school attended")
 		.test(
 			"check-input-type",
 			"no special characters are allowed",
 			checkIfSpecialCharacters
 		)
-		.required("please enter your school attended"),
+		,
 	cgpa: yup
 		.string()
 		.required("Please enter your CGPA")
 		.test("cgpa", "Invalid cgpa", checkForWholeAndTwoDecimalPlaceNumbers),
 	courseStudied: yup
 		.string()
+		.trim()
+		.required("please enter your course studied")
 		.test(
 			"check-input-type",
 			"no special characters are allowed",
 			checkIfSpecialCharacters
 		)
-		.required("please enter your course studied")
+		
 });

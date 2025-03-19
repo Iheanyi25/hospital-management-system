@@ -53,6 +53,7 @@ margin-top: 0rem;
 `;
 
 export const Cards = ({ details }) => {
+	
 	const componentRef = useRef();
 	const requestFormRef = useRef();
 	const resultRef = useRef();

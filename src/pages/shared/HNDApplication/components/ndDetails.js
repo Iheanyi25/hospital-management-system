@@ -106,7 +106,7 @@ export const NDDetails = ({ allSessions }) => {
 							type="button"
 							disabled={isFormLoading}
 							onClick={() =>
-								replace({ hash: "#section_b", state })
+								replace({ hash: "#section_c", state })
 							}
 						/>
 						<Button

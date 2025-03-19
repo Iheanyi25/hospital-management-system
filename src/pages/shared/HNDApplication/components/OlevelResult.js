@@ -138,11 +138,11 @@ export const OlevelResult = ({
 				});
 				replace({ hash: "#section_d", state });
 			},
-			onError: () => {
+			onError: (error) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
 					title: "Failed!",
-					body: "Something went wrong"
+					body: `${error.response.data.message}`
 				});
 				setTimeout(() => {
 					errorFlag.close();
@@ -244,7 +244,7 @@ export const OlevelResult = ({
 										disabled={isFormLoading}
 										onClick={() =>
 											replace({
-												hash: "#section_a",
+												hash: "#section_b",
 												state
 											})
 										}
