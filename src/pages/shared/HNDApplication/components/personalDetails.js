@@ -159,6 +159,7 @@ export const PersonalDetails = ({ allGenders, allCountries, allStatuses }) => {
 						...putmeStoreData,
 						personalInfo: {
 							...personalInfo,
+							regNo: requestBody.data.JambRegNumber,
 							postUtmeApplicantBasicInformationId:
 								data?.data?.data
 						}
