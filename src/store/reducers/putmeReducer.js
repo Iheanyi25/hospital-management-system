@@ -49,10 +49,13 @@ export const putmeInitialState = (data) => ({
 				value: data?.programmeInfoResponse?.departmentId
 			}
 		}),
-		departmentOption: {
-			label: data?.programmeInfoResponse?.departmentOption,
-			value: data?.programmeInfoResponse?.departmentOptionId
-		},
+		...(data?.programmeInfoResponse?.department && {
+			departmentOption: {
+				label: data?.programmeInfoResponse?.departmentOption,
+				value: data?.programmeInfoResponse?.departmentOptionId
+			}
+		}),
+
 		rrr: data?.programmeInfoResponse?.rrr
 	},
 	personalInfo: {

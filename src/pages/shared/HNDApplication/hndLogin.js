@@ -11,9 +11,13 @@ import { SAVE_PUTME_INFO } from "../../../store/constant";
 import { useApiGet } from "../../../api/apiCall";
 import AuthPageWrapper from "../AuthPageWrapper";
 import { putmeInitialState } from "../../../store/reducers/putmeReducer";
+import { checkForCorrectPhoneNumber } from "../../../utils/formValidations";
 
 export const hndLoginSchema = yup.object().shape({
-	mobileNumber: yup.string().required("please input your phone number")
+	mobileNumber: yup
+		.string()
+		.required("please input your phone number")
+		.test("text number", "invalid phone number", checkForCorrectPhoneNumber)
 });
 
 const HNDLogin = () => {
