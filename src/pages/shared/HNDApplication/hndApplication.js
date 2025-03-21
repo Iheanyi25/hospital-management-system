@@ -39,14 +39,12 @@ import {
 } from "../../../utils/FileValidation";
 import { useHistory } from "react-router-dom";
 
-
 const HNDApplication = () => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
 	const dispatch = useDispatch();
 	const ref = useRef();
 	const pictureRef = useRef();
 	const { push } = useHistory();
-
 
 	const { hash, state } = useLocation();
 
@@ -179,12 +177,12 @@ const HNDApplication = () => {
 				state
 			},
 			{
-				linkName: "O-Level Result",
+				linkName: "ND Details",
 				hashName: "#section_c",
 				state
 			},
 			{
-				linkName: "ND Details",
+				linkName: "O-Level Result",
 				hashName: "#section_d",
 				state
 			}
@@ -354,6 +352,8 @@ const DisplayInformation = memo(
 					/>
 				);
 			case "#section_c":
+				return <NDDetails allSessions={allSessions} />;
+			case "#section_d":
 				return (
 					<OlevelResult
 						oLevelGrades={allOlevelGrades}
@@ -362,8 +362,6 @@ const DisplayInformation = memo(
 						oLevelType={allExamTypes}
 					/>
 				);
-			case "#section_d":
-				return <NDDetails allSessions={allSessions} />;
 			default:
 				return (
 					<PersonalDetails
