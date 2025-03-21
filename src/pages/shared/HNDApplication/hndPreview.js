@@ -7,20 +7,13 @@ const NDPreview = ({ componentRef, details }) => {
 		personalInfoResponse,
 		programmeInfoResponse,
 		olevelResponse,
-		regNumber,
 		passport,
 		ndResponse
 	} = details ?? {};
 	const subjectAndGrade = olevelResponse?.map((item) =>
 		Object?.entries(item?.subjectGrade)
 	);
-console.log(details, "Wahala");
 
-	const totalUTMEscore =
-		programmeInfoResponse?.firstSubjectUtmeScore +
-		programmeInfoResponse?.secondSubjectUtmeScore +
-		programmeInfoResponse?.thirdSubjectUtmeScore +
-		programmeInfoResponse?.fourthSubjectUtmeScore;
 
 	return (
 		<ApplicationPreviewWrapper
@@ -192,65 +185,7 @@ console.log(details, "Wahala");
 							))}
 					</div>
 				</section>
-				<section className="row align-items-center mt-4">
-					<h4 className="mb-2">JAMB Details</h4>
-					<div className="row justify-content-between">
-						<div className="col-6 my-2">
-							<div className="d-flex  gap-3 my-2">
-								<h6 className="col-4">Subject 1 / Score</h6>
-								<p className="col-4">
-									{programmeInfoResponse?.firstSubject}{" "}
-									{
-										programmeInfoResponse?.firstSubjectUtmeScore
-									}
-								</p>
-							</div>
 
-							<div className="d-flex gap-3 my-2">
-								<h6 className="col-4">Subject 2 / Score</h6>
-								<p className="col-4">
-									{programmeInfoResponse?.secondSubject}{" "}
-									{
-										programmeInfoResponse?.secondSubjectUtmeScore
-									}
-								</p>
-							</div>
-
-							<div className="d-flex gap-3 my-2">
-								<h6 className="col-4">UTME Score</h6>
-								<p className="col-4">{totalUTMEscore}</p>
-							</div>
-						</div>
-						<div className="col-6 my-2">
-							<div className="d-flex gap-3 my-2">
-								<h6 className="col-4">Subject 3 / Score</h6>
-								<p className="col-4">
-									{programmeInfoResponse?.thirdSubject}{" "}
-									{
-										programmeInfoResponse?.thirdSubjectUtmeScore
-									}
-								</p>
-							</div>
-
-							<div className="d-flex gap-3 my-2">
-								<h6 className="col-4">Subject 4 / Score</h6>
-								<p className="col-4">
-									{programmeInfoResponse?.fourthSubject}{" "}
-									{
-										programmeInfoResponse?.fourthSubjectUtmeScore
-									}
-								</p>
-							</div>
-
-							<div className="d-flex  gap-3 my-2">
-								<h6 className="col-4">UTME No</h6>
-								<p className="col-4">{regNumber}</p>
-							</div>
-						</div>
-						<div className="col-12 col-md-6 my-2"></div>
-						<div className="col-12 col-md-6 my-2"></div>
-					</div>
-				</section>
 				<section className="row align-items-center mt-2">
 					<h4 className="mb-2">ND Details</h4>
 					<div className="row justify-content-between">

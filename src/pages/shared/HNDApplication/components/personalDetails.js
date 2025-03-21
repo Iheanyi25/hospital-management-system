@@ -157,6 +157,10 @@ export const PersonalDetails = ({ allGenders, allCountries, allStatuses }) => {
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
+						programmeInfo: {
+							...putmeStoreData.programmeInfo,
+							regNo: requestBody.data.JambRegNumber
+						},
 						personalInfo: {
 							...personalInfo,
 							postUtmeApplicantBasicInformationId:

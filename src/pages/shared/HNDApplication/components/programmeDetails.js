@@ -38,6 +38,7 @@ export const ProgrammeDetails = ({ allFaculties, fromJambState }) => {
 		handleSubmit,
 		watch,
 		setValue,
+		trigger,
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
@@ -104,7 +105,10 @@ export const ProgrammeDetails = ({ allFaculties, fromJambState }) => {
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						programmeInfo
+						programmeInfo: {
+							...programmeInfo,
+							regNo: putmeStoreData?.programmeInfo?.regNo
+						}
 					}
 				});
 				replace({ hash: "#section_c", state });
@@ -195,7 +199,8 @@ export const ProgrammeDetails = ({ allFaculties, fromJambState }) => {
 												value,
 												setterFunc: setValue,
 												setField: "faculty",
-												clearFields: ["department"]
+												clearFields: ["department"],
+												trigger
 											})
 										}
 										disabled={fromJambState}
@@ -244,7 +249,8 @@ export const ProgrammeDetails = ({ allFaculties, fromJambState }) => {
 														setField: "department",
 														clearFields: [
 															"departmentOption"
-														]
+														],
+														trigger
 													})
 												}
 												options={allDepartments}
