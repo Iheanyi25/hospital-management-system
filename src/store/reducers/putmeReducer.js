@@ -49,7 +49,7 @@ export const putmeInitialState = (data) => ({
 				value: data?.programmeInfoResponse?.departmentId
 			}
 		}),
-		...(data?.programmeInfoResponse?.department && {
+		...(data?.programmeInfoResponse?.departmentOptionId && {
 			departmentOption: {
 				label: data?.programmeInfoResponse?.departmentOption,
 				value: data?.programmeInfoResponse?.departmentOptionId

@@ -105,7 +105,10 @@ export const ProgrammeDetails = ({ allFaculties, fromJambState }) => {
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						programmeInfo
+						programmeInfo: {
+							...programmeInfo,
+							regNo: putmeStoreData?.programmeInfo?.regNo
+						}
 					}
 				});
 				replace({ hash: "#section_c", state });
