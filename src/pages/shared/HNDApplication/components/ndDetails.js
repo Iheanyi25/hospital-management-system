@@ -37,7 +37,7 @@ export const NDDetails = ({ allSessions }) => {
 			schoolAttended: ndDetailsInfo?.schoolAttended,
 			yearOfGraduation:
 				findValueAndLabel(
-					ndDetailsInfo?.yearOfGraduation,
+					ndDetailsInfo?.yearOfGraduation.value || ndDetailsInfo?.yearOfGraduation,
 					allSessions
 				) || null,
 			cgpa: ndDetailsInfo?.cgpa,
@@ -46,23 +46,23 @@ export const NDDetails = ({ allSessions }) => {
 		resolver: yupResolver(NDDetailsSchema)
 	});
 
-	const onSubmit = (ndDetails) => {
+	const onSubmit = (ndDetailsInfo) => {
 		const requestBody = {
 			url: hndNdDetailsFormUrl(),
 			data: {
 				ApplicantId: personalInfo?.postUtmeApplicantBasicInformationId,
-				YearOfGraduationId: ndDetails?.yearOfGraduation?.value,
-				CGPA: ndDetails?.cgpa,
-				CourseStudied: ndDetails?.courseStudied,
-				SchoolAttended: ndDetails?.schoolAttended
+				YearOfGraduationId: ndDetailsInfo?.yearOfGraduation?.value,
+				CGPA: ndDetailsInfo?.cgpa,
+				CourseStudied: ndDetailsInfo?.courseStudied,
+				SchoolAttended: ndDetailsInfo?.schoolAttended
 			}
 		};
 		mutate(requestBody, {
-			onSuccess: ({ data }) => {
+			onSuccess: () => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Successfully uploaded your ND details",
-					body: "That would be all!!"
+					title: "Details saved successfully",
+					body: "Your ND-Details has been successfully uploaded"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -71,13 +71,11 @@ export const NDDetails = ({ allSessions }) => {
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						ndDetails
+						ndDetailsInfo
 					}
 				});
-				replace({
-					pathname: "/hnd_application_details",
-					state: { fromLogin: true, details: data?.data }
-				});
+				replace({ hash: "#section_d", state });
+		
 			},
 			onError: (error) => {
 				const errorFlag = window.AJS.flag({
@@ -106,12 +104,12 @@ export const NDDetails = ({ allSessions }) => {
 							type="button"
 							disabled={isFormLoading}
 							onClick={() =>
-								replace({ hash: "#section_c", state })
+								replace({ hash: "#section_b", state })
 							}
 						/>
 						<Button
 							data-cy="submit_personal"
-							label="Submit"
+							label="Next"
 							buttonClass="primary"
 							type="submit"
 							disabled={isFormLoading}

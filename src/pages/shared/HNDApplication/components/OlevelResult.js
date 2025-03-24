@@ -120,11 +120,11 @@ export const OlevelResult = ({
 			}
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: ({ data }) => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Details saved successfully",
-					body: "Your O-Level result has been successfully uploaded"
+					title: "Successfully uploaded your O level Details",
+					body: "That would be all!!"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -136,7 +136,10 @@ export const OlevelResult = ({
 						oLevelResult
 					}
 				});
-				replace({ hash: "#section_d", state });
+				replace({
+					pathname: "/hnd_application_details",
+					state: { fromLogin: true, details: data?.data }
+				});
 			},
 			onError: (error) => {
 				const errorFlag = window.AJS.flag({
@@ -244,14 +247,14 @@ export const OlevelResult = ({
 										disabled={isFormLoading}
 										onClick={() =>
 											replace({
-												hash: "#section_b",
+												hash: "#section_c",
 												state
 											})
 										}
 									/>
 									<Button
 										data-cy="submit_personal"
-										label="Next"
+										label="Submit"
 										buttonClass="primary"
 										type="submit"
 										loading={isFormLoading}
