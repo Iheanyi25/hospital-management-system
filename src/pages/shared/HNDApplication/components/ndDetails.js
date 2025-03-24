@@ -37,7 +37,7 @@ export const NDDetails = ({ allSessions }) => {
 			schoolAttended: ndDetailsInfo?.schoolAttended,
 			yearOfGraduation:
 				findValueAndLabel(
-					ndDetailsInfo?.yearOfGraduation.value || ndDetailsInfo?.yearOfGraduation,
+					ndDetailsInfo?.yearOfGraduation?.value || ndDetailsInfo?.yearOfGraduation,
 					allSessions
 				) || null,
 			cgpa: ndDetailsInfo?.cgpa,
