@@ -58,11 +58,11 @@ export const NDDetails = ({ allSessions }) => {
 			}
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: ({ data }) => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Details saved successfully",
-					body: "Your ND-Details has been successfully uploaded"
+					title: "ND-Details saved successfully",
+					body: "That would be all!!"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -74,7 +74,11 @@ export const NDDetails = ({ allSessions }) => {
 						ndDetailsInfo
 					}
 				});
-				replace({ hash: "#section_d", state });
+				replace({
+					pathname: "/hnd_application_details",
+					state: { fromLogin: true, details: data?.data }
+				});
+			
 		
 			},
 			onError: (error) => {
@@ -104,12 +108,12 @@ export const NDDetails = ({ allSessions }) => {
 							type="button"
 							disabled={isFormLoading}
 							onClick={() =>
-								replace({ hash: "#section_b", state })
+								replace({ hash: "#section_c", state })
 							}
 						/>
 						<Button
 							data-cy="submit_personal"
-							label="Next"
+							label="Submit"
 							buttonClass="primary"
 							type="submit"
 							disabled={isFormLoading}
