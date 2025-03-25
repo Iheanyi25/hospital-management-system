@@ -123,8 +123,8 @@ export const OlevelResult = ({
 			onSuccess: () => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Details saved successfully",
-					body: "Your O-Level result has been successfully uploaded"
+					title: "Successfully uploaded your O level Details",
+					body: " Your O-level has been successfully uploaded"
 				});
 				setTimeout(() => {
 					successFlag.close();

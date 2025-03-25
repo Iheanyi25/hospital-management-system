@@ -37,7 +37,7 @@ export const NDDetails = ({ allSessions }) => {
 			schoolAttended: ndDetailsInfo?.schoolAttended,
 			yearOfGraduation:
 				findValueAndLabel(
-					ndDetailsInfo?.yearOfGraduation,
+					ndDetailsInfo?.yearOfGraduation?.value || ndDetailsInfo?.yearOfGraduation,
 					allSessions
 				) || null,
 			cgpa: ndDetailsInfo?.cgpa,
@@ -46,22 +46,22 @@ export const NDDetails = ({ allSessions }) => {
 		resolver: yupResolver(NDDetailsSchema)
 	});
 
-	const onSubmit = (ndDetails) => {
+	const onSubmit = (ndDetailsInfo) => {
 		const requestBody = {
 			url: hndNdDetailsFormUrl(),
 			data: {
 				ApplicantId: personalInfo?.postUtmeApplicantBasicInformationId,
-				YearOfGraduationId: ndDetails?.yearOfGraduation?.value,
-				CGPA: ndDetails?.cgpa,
-				CourseStudied: ndDetails?.courseStudied,
-				SchoolAttended: ndDetails?.schoolAttended
+				YearOfGraduationId: ndDetailsInfo?.yearOfGraduation?.value,
+				CGPA: ndDetailsInfo?.cgpa,
+				CourseStudied: ndDetailsInfo?.courseStudied,
+				SchoolAttended: ndDetailsInfo?.schoolAttended
 			}
 		};
 		mutate(requestBody, {
 			onSuccess: ({ data }) => {
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Successfully uploaded your ND details",
+					title: "ND-Details saved successfully",
 					body: "That would be all!!"
 				});
 				setTimeout(() => {
@@ -71,13 +71,15 @@ export const NDDetails = ({ allSessions }) => {
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						ndDetails
+						ndDetailsInfo
 					}
 				});
 				replace({
 					pathname: "/hnd_application_details",
 					state: { fromLogin: true, details: data?.data }
 				});
+			
+		
 			},
 			onError: (error) => {
 				const errorFlag = window.AJS.flag({

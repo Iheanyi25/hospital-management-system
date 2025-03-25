@@ -228,7 +228,7 @@ export const JambDetailsSchema = yup
 	});
 
 export const NDDetailsSchema = yup.object().shape({
-	yearOfGraduation: yup.mixed().required("please select your department"),
+	yearOfGraduation: yup.mixed().required("please select your year of graduation"),
 	schoolAttended: yup
 		.string()
 		.trim()
