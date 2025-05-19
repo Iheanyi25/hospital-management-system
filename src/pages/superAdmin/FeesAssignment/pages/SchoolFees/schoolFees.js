@@ -173,7 +173,6 @@ const SchoolFeesAssignment = () => {
 			StudentModeId: filter.StudentModeId,
 			CategoryId: filter.CategoryId,
 			// IsStaff: filter.IsStaff,
-			ModeOfEntryId: filter.ModeOfEntryId,
 			SchoolProgrammeId: filter.SchoolProgrammeId,
 			ProgrammeTypeId: filter.ProgrammeTypeId,
 			PaymentChannelId: filter.PaymentChannelId,
@@ -279,33 +278,7 @@ const SchoolFeesAssignment = () => {
 					)}`}</div>
 				)
 			},
-			// {
-			// 	Header: "KSmart Commission (₦)",
-			// 	accessor: "kSmartCommission",
-			// 	Cell: ({ cell: { row } }) => (
-			// 		<div>{`${numberFormatter(
-			// 			row?.original?.kSmartCommission
-			// 		)}`}</div>
-			// 	)
-			// },
-			// {
-			// 	Header: "Hubbly Commission (₦)",
-			// 	accessor: "hubblyCommission",
-			// 	Cell: ({ cell: { row } }) => (
-			// 		<div>{`${numberFormatter(
-			// 			row?.original?.hubblyCommission
-			// 		)}`}</div>
-			// 	)
-			// },
-			// {
-			// 	Header: "Seamfix Commission (₦)",
-			// 	accessor: "seamfixCommission",
-			// 	Cell: ({ cell: { row } }) => (
-			// 		<div>{`${numberFormatter(
-			// 			row?.original?.seamfixCommission
-			// 		)}`}</div>
-			// 	)
-			// },
+
 			{
 				Header: "Service Type",
 				accessor: "serviceType"
@@ -505,7 +478,6 @@ const SchoolFeesAssignment = () => {
 					allStudentModes={allStudentModes}
 					allStudentCategory={allStudentCategory}
 					allPaymentChannels={allPaymentChannels}
-					allStudentModeEntry={allStudentModeEntry}
 					isLoadingSchoolProgrammes={isLoadingSchoolProgrammes}
 					isLoadingStudentModesOfStudy={isLoadingStudentModesOfStudy}
 					allStudentModesOfStudy={allStudentModesOfStudy}

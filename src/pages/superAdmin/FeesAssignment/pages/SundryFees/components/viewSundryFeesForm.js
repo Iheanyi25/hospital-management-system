@@ -27,9 +27,14 @@ export const ViewSundryFeesForm = ({
 	searchTerm,
 	faculties,
 	allPaymentPurpose,
-	allStudentModesOfEntry
+	allStudentModesOfEntry,
+	allStudentModesOfStudy,
+	isLoadingStudentModesOfStudy
 }) => {
 	const onSubmit = (formData) => {
+		const hasModeOfStudyId = formData?.ModeOfStudyId?.value
+			? { ModeOfStudyId: formData?.ModeOfStudyId?.value }
+			: {};
 		setFilter((state) => ({
 			...state,
 			StudentTypeId: formData.StudentTypeId.value,
@@ -41,6 +46,8 @@ export const ViewSundryFeesForm = ({
 			PaymentPurpose: formData.PaymentPurpose.value,
 			FacultyId: formData.FacultyId.value,
 			modeOfEntryId: formData.modeOfEntryId.value,
+			...hasModeOfStudyId,
+
 			pageNumber,
 			pageSize,
 			searchTerm
@@ -243,6 +250,51 @@ export const ViewSundryFeesForm = ({
 								</div>
 							</div>
 						</div>
+						{isLoadingStudentModesOfStudy && (
+							<div className="col-md-6">
+								<Spinner />
+							</div>
+						)}
+						{allStudentModesOfStudy?.length > 0 && (
+							<div className="col-md-6">
+								<div className="row mt-5">
+									<div className="col-lg-3 d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="ModeOfStudyId"
+										>
+											Mode of Study
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="ModeOfStudyId"
+											control={control}
+											rules={{ required: true }}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select a mode of study"
+													searchable={false}
+													options={
+														allStudentModesOfStudy
+													}
+													isError={
+														!!errors.ModeOfStudyId
+													}
+													errorText={
+														errors.ModeOfStudyId &&
+														errors.ModeOfStudyId
+															.message
+													}
+													id="ModeOfStudyId"
+												/>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						)}
 						<div className="col-md-6 mt-5">
 							<div className="row">
 								<div className="col-lg-3 d-flex  align-items-center">

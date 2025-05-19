@@ -4,7 +4,7 @@ import {
 	ConfirmationModal
 } from "../../../../../ui_elements";
 import styles from "./style.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useApiDelete, useApiGet, useApiPut } from "../../../../../api/apiCall";
 import {
@@ -16,7 +16,8 @@ import {
 	getCoursesAssignedToDeptsUrl,
 	editCourseAssignedToDeptsUrl,
 	toggleCourseAssignedActivationUrl,
-	getAllSessionsUrl
+	getAllSessionsUrl,
+	getStudentModesOfStudyUrl
 } from "../../../../../api/urls";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
@@ -28,7 +29,7 @@ import {
 import { useQueryClient } from "react-query";
 import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
-import { CloneCourseAssignment } from './components/cloneCourseAssignment';
+import { CloneCourseAssignment } from "./components/cloneCourseAssignment";
 
 const AssignCourse = () => {
 	const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ const AssignCourse = () => {
 	const [filter, setFilter] = useState({
 		departmentId: "",
 		departmentOptionId: "" || 0,
-		modeOfEntryId: "",
+		modeOfStudyId: "",
 		studentTypeId: "",
 		sessionId: "",
 		semesterId: "",
@@ -59,6 +60,12 @@ const AssignCourse = () => {
 	const { mutate, isLoading: isDeleting } = useApiDelete();
 	const { mutate: toggle, isLoading: isPosting } = useApiPut();
 	const queryClient = useQueryClient();
+	const {
+		data: studentModesOfStudy,
+		isLoading: isLoadingStudentModesOfStudy
+	} = useApiGet(getStudentModesOfStudyUrl(), {
+		refetchOnWindowFocus: false
+	});
 	const {
 		data: courseList,
 		isLoading: isLoadingcourseList,
@@ -132,6 +139,11 @@ const AssignCourse = () => {
 		"department",
 		"departmentId"
 	);
+
+	const allStudentModesOfStudy = useMemo(
+		() => formatSelectItems(studentModesOfStudy?.data, "name", "id"),
+		[studentModesOfStudy]
+	);
 	const allDepartmentOption = formatSelectItems(
 		departmentOption?.data,
 		"departmentOption",
@@ -203,8 +215,9 @@ const AssignCourse = () => {
 				const successFlag = window.AJS.flag({
 					type: "success",
 					title: "Course Action Success!",
-					body: `Course was ${active ? "activated" : "deactivated"
-						} successfully!`
+					body: `Course was ${
+						active ? "activated" : "deactivated"
+					} successfully!`
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -216,7 +229,8 @@ const AssignCourse = () => {
 					title: "Course Action Success!",
 					body:
 						response?.data?.message ||
-						`Course wasn't ${active ? "activated" : "deactivated"
+						`Course wasn't ${
+							active ? "activated" : "deactivated"
 						} successfully!`
 				});
 				setTimeout(() => {
@@ -225,7 +239,7 @@ const AssignCourse = () => {
 			}
 		});
 	};
-	if (isLoading || isLoadingStudentModes || isLoadingStudentTypes)
+	if (isLoading || isLoadingStudentModes || isLoadingStudentTypes || isLoadingStudentModesOfStudy)
 		return <Spinner />;
 	if (error || departmentError || courseListError)
 		return "An error has occurred: " + error?.response?.data?.message;
@@ -300,6 +314,7 @@ const AssignCourse = () => {
 						setCloneOpen={setCloneOpen}
 						handleSubmit={handleSubmit}
 						isLoadingCourses={isLoadingcourseList}
+						allStudentModesOfStudy={allStudentModesOfStudy}
 					/>
 					<AssignCourseTable
 						data={courseList?.data?.items || []}

@@ -117,7 +117,6 @@ const SchoolFeesBulk = () => {
 				...hasProgrammeTypeId,
 				// IsStaff: filter?.IsStaff,
 				CategoryId: filter?.CategoryId,
-				ModeOfEntryId: filter.ModeOfEntryId,
 				ServiceTypeId: filter.ServiceTypeId,
 				FeeBreakdown: Object.values(getValues()?.["amount"])
 					?.slice(1)

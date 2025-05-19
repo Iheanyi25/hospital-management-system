@@ -2,7 +2,7 @@ import { ProfileContext, Spinner } from "../../../../ui_elements";
 import styles from "./style.module.css";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useApiGet } from "../../../../api/apiCall";
+import { useApiGet, useApiPut } from "../../../../api/apiCall";
 import {
 	getDepartmentsUrl,
 	getDepartmentOptionUrl,
@@ -10,7 +10,8 @@ import {
 	getStudentTypesUrl,
 	getClearanceInfoUrl,
 	getAllSessionsUrl,
-	getFacultiesUrl
+	getFacultiesUrl,
+	updateClearanceStatusUrl
 } from "../../../../api/urls";
 import { formatSelectItems } from "../../../../utils/formatSelectItems";
 import { Form, Table } from "./components";
@@ -18,6 +19,7 @@ import { PAGESIZE, SEARCH_DELAY } from "../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
 import queryString from "query-string";
 import { findValueAndLabel } from "../../../../utils/findValueAndLabel";
+import { useQueryClient } from "react-query";
 
 const ViewStudentRecords = () => {
 	const parsed = queryString.parse(window.location.search);
@@ -58,6 +60,10 @@ const ViewStudentRecords = () => {
 		enabled: !!filter.departmentId,
 		keepPreviousData: true
 	});
+
+	const { mutate, isLoading: isPosting } = useApiPut();
+
+	const queryClient = useQueryClient();
 
 	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
 	const {
@@ -205,6 +211,51 @@ const ViewStudentRecords = () => {
 		findValueAndLabel(filter.sessionId, allSessions)?.label
 	}`;
 
+	const toggleClearanceStatus = ({
+		admissionListId,
+		departmentId,
+		departmentOptionId
+	}) => {
+		const hasDepartmentOptionId = departmentOptionId
+			? { departmentOptionId }
+			: {};
+		const requestDet = {
+			url: updateClearanceStatusUrl(),
+			data: { departmentId, admissionListId, ...hasDepartmentOptionId }
+		};
+		mutate(requestDet, {
+			onSuccess: () => {
+				queryClient.invalidateQueries(
+					getClearanceInfoUrl({
+						...filter,
+						pageNumber,
+						searchTerm
+					})
+				);
+				const successFlag = window.AJS.flag({
+					type: "success",
+					title: "Clearance Success!",
+					body: `Student was cleared successfully!`
+				});
+				setTimeout(() => {
+					successFlag.close();
+				}, 5000);
+			},
+			onError: ({ response }) => {
+				const errorFlag = window.AJS.flag({
+					type: "error",
+					title: "Clearance Failure!",
+					body:
+						response?.data?.message ||
+						`Student was uncleared successfully!`
+				});
+				setTimeout(() => {
+					errorFlag.close();
+				}, 5000);
+			}
+		});
+	};
+
 	if (
 		isLoading ||
 		isLoadingStudentModes ||
@@ -249,6 +300,8 @@ const ViewStudentRecords = () => {
 						searchValue={searchTerm}
 						loading={isFetchingcourseList}
 						title={title}
+						isPosting={isPosting}
+						onSubmit={toggleClearanceStatus}
 					/>
 				</div>
 			</div>
