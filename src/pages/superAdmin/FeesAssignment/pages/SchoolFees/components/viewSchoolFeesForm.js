@@ -6,7 +6,6 @@ import {
 	SMSelect,
 	Spinner
 } from "../../../../../../ui_elements";
-import { STUDENT_TYPES } from "../../../../../../utils/constants";
 import { fieldSetterAndClearer } from "../../../../../../utils/fieldSetterAndClearer";
 
 export const ViewSchoolFeesForm = ({
@@ -30,13 +29,11 @@ export const ViewSchoolFeesForm = ({
 	pageNumber,
 	pageSize,
 	allProgrammes,
-	watchData,
 	allPaymentChannels,
 	isLoadingSchoolProgrammes,
 	allStudentModesOfStudy,
 	isLoadingStudentModesOfStudy,
 	isLoadingProgrammeTypes,
-	allProgrammeTypes,
 	allStudentCategory,
 	setValue,
 	searchTerm
@@ -57,7 +54,6 @@ export const ViewSchoolFeesForm = ({
 			StudentTypeId: formData.StudentTypeId.value,
 			StudentModeId: formData.StudentModeId.value,
 			CategoryId: formData.CategoryId.value,
-			ModeOfEntryId: formData.ModeOfEntryId.value,
 			ServiceTypeId: formData.ServiceTypeId.value,
 			SessionId: formData.session.value,
 			Level: formData.Level.value,
@@ -75,7 +71,6 @@ export const ViewSchoolFeesForm = ({
 			search: new URLSearchParams({
 				StudentTypeId: formData.StudentTypeId.value,
 				StudentModeId: formData.StudentModeId.value,
-				ModeOfEntryId: formData.ModeOfEntryId.value,
 				ServiceTypeId: formData.ServiceTypeId.value,
 				CategoryId: formData.CategoryId.value,
 				SessionId: formData.session.value,
@@ -92,8 +87,8 @@ export const ViewSchoolFeesForm = ({
 			}).toString()
 		});
 	};
-	const shouldShowProgramme =
-		Number(watchData.StudentTypeId) === STUDENT_TYPES.POSTGRADUATE;
+	// const shouldShowProgramme =
+	// 	Number(watchData.StudentTypeId) === STUDENT_TYPES.POSTGRADUATE;
 
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
@@ -274,35 +269,7 @@ export const ViewSchoolFeesForm = ({
 								</div>
 							</div>
 						</div>
-						<div className="col-md-6 mt-5">
-							<div className="row">
-								<div className="col-lg-3 d-flex  align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="ModeOfEntryId"
-									>
-										Mode Of Entry
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="ModeOfEntryId"
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select Student Mode of Entry"
-												options={allStudentModeEntry}
-												id="ModeOfEntryId"
-												searchable={false}
-												isError={!!errors.ModeOfEntryId}
-											/>
-										)}
-									/>
-								</div>
-							</div>
-						</div>
+
 						<div className="col-md-6 mt-5">
 							<div className="row">
 								<div className="col-lg-3 d-flex  align-items-center">
@@ -440,7 +407,7 @@ export const ViewSchoolFeesForm = ({
 								<Spinner />
 							</div>
 						)}
-						{allProgrammes?.length > 0 && shouldShowProgramme && (
+						{allProgrammes?.length > 0 &&  (
 							<div className="col-md-6">
 								<div className="row mt-5">
 									<div className="col-lg-3 d-flex align-items-center">
@@ -478,45 +445,14 @@ export const ViewSchoolFeesForm = ({
 								<Spinner />
 							</div>
 						)}
-						{allProgrammeTypes?.length > 0 && shouldShowProgramme && (
-							<div className="col-md-6">
-								<div className="row mt-5">
-									<div className="col-lg-3 d-flex align-items-center">
-										<label
-											className="font-weight-bold"
-											htmlFor="ProgrammeTypeId"
-										>
-											Programme Type
-										</label>
-									</div>
-									<div className="col-lg-9">
-										<Controller
-											name="ProgrammeTypeId"
-											control={control}
-											render={({ field }) => (
-												<SMSelect
-													{...field}
-													id="ProgrammeTypeId"
-													placeholder="Select a programme type"
-													options={allProgrammeTypes}
-													searchable={true}
-													isError={
-														!!errors.ProgrammeTypeId
-													}
-												/>
-											)}
-										/>
-									</div>
-								</div>
-							</div>
-						)}
+
 						{isLoadingStudentModesOfStudy && (
 							<div className="col-md-6">
 								<Spinner />
 							</div>
 						)}
 						{allStudentModesOfStudy?.length > 0 &&
-							shouldShowProgramme && (
+							 (
 								<div className="col-md-6">
 									<div className="row mt-5">
 										<div className="col-lg-3 d-flex align-items-center">

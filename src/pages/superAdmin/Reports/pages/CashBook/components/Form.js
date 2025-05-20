@@ -97,17 +97,6 @@ export const PaymentReportsForm = ({
 										)}
 									/>
 								</div>
-								<div className={`col-1 d-flex`}>
-									<span
-										className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
-										role="button"
-										onClick={() =>
-											setValue("studentTypeId", null)
-										}
-									>
-										<RedCancel className="align-middle" />
-									</span>
-								</div>
 							</div>
 						</div>
 						<div className="col-md-6">
@@ -141,59 +130,6 @@ export const PaymentReportsForm = ({
 										)}
 									/>
 								</div>
-								<div className={`col-1 d-flex`}>
-									<span
-										className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
-										role="button"
-										onClick={() =>
-											setValue("paymentPurposeId", null)
-										}
-									>
-										<RedCancel className="align-middle" />
-									</span>
-								</div>
-							</div>
-						</div>
-						<div className="col-md-6">
-							<div className="row mt-5">
-								<div className="col-lg-3  d-flex align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="paymentTypeId"
-									>
-										Payment Type
-									</label>
-								</div>
-								<div className="col-lg-8">
-									<Controller
-										name="paymentTypeId"
-										control={control}
-										rules={{
-											required: true
-										}}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												id="paymentTypeId"
-												placeholder="Select payment type"
-												options={allPaymentTypes}
-												searchable={false}
-												isError={!!errors.paymentTypeId}
-											/>
-										)}
-									/>
-								</div>
-								<div className={`col-1 d-flex`}>
-									<span
-										className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
-										role="button"
-										onClick={() =>
-											setValue("paymentTypeId", null)
-										}
-									>
-										<RedCancel className="align-middle" />
-									</span>
-								</div>
 							</div>
 						</div>
 						<div className="col-md-6">
@@ -225,12 +161,41 @@ export const PaymentReportsForm = ({
 										)}
 									/>
 								</div>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="row mt-5">
+								<div className="col-lg-3  d-flex align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="paymentTypeId"
+									>
+										Payment Type{" "}
+										<OptionalIndicator text="(Optional)" />
+									</label>
+								</div>
+								<div className="col-lg-8">
+									<Controller
+										name="paymentTypeId"
+										control={control}
+										render={({ field }) => (
+											<SMSelect
+												{...field}
+												id="paymentTypeId"
+												placeholder="Select payment type"
+												options={allPaymentTypes}
+												searchable={false}
+												isError={!!errors.paymentTypeId}
+											/>
+										)}
+									/>
+								</div>
 								<div className={`col-1 d-flex`}>
 									<span
 										className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
 										role="button"
 										onClick={() =>
-											setValue("sessionId", null)
+											setValue("paymentTypeId", null)
 										}
 									>
 										<RedCancel className="align-middle" />
@@ -238,6 +203,7 @@ export const PaymentReportsForm = ({
 								</div>
 							</div>
 						</div>
+
 						{isLoadingFaculties && (
 							<div className="col-md-6 mt-5">
 								<Spinner />
