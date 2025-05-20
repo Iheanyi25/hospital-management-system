@@ -3,19 +3,17 @@ import {
 	PageTitle,
 	Button,
 	Spinner,
-	ProfileContext
 } from "../../../../../../src/ui_elements";
 import styles from "./style.module.css";
 import logo from "../../../../../../src/assets/images/sideLogo.png";
 import numberToWords from "../../../../../../src/utils/numberToWords";
 import { useReactToPrint } from "react-to-print";
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Avatar from "react-avatar";
 import Barcode from "react-barcode";
 import { useApiGet } from "../../../../../api/apiCall";
 import { getFeeDetailsWithInvoiceUrl } from "../../../../../api/urls";
-import { STUDENT_TYPES } from "../../../../../utils/constants";
 import { shortDate } from "../../../../../utils/formatDate";
 import numberFormatter from "../../../../../utils/numberFormatter";
 
@@ -42,8 +40,6 @@ margin-top: 5rem;
 const PrintSchoolFeesReceipt = () => {
 	const { state } = useLocation();
 	const { push } = useHistory();
-	const studentData = useContext(ProfileContext);
-	const programDetails = studentData?.profileData?.programmeDetail;
 	const { data, isLoading, error } = useApiGet(
 		getFeeDetailsWithInvoiceUrl(state?.invoiceCode),
 		{
