@@ -3,13 +3,12 @@ import {
 	PageTitle,
 	Button,
 	Spinner,
-	ProfileContext
 } from "../../../../../../src/ui_elements";
 import styles from "./style.module.css";
 import logo from "../../../../../../src/assets/images/sideLogo.png";
 import numberToWords from "../../../../../../src/utils/numberToWords";
 import { useReactToPrint } from "react-to-print";
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Avatar from "react-avatar";
 import Barcode from "react-barcode";
@@ -50,7 +49,6 @@ const PrintAcceptanceFeeReceipt = () => {
 		}
 	);
 	const ref = useRef();
-	const userData = useContext(ProfileContext);
 	const handlePrint = useReactToPrint({
 		content: () => ref.current,
 		pageStyle: pageStyle
@@ -66,7 +64,7 @@ const PrintAcceptanceFeeReceipt = () => {
 		}
 	];
 
-	if (!(state?.invoiceCode)) {
+	if (!state?.invoiceCode) {
 		push("/invoice_management/verify_remita_status");
 	}
 
@@ -134,16 +132,10 @@ const PrintAcceptanceFeeReceipt = () => {
 							</div>
 							<div>
 								<Avatar
-									name={
-										userData?.profileData?.personalData
-											?.fullname
-									}
+									name={state?.fullname}
 									size={160}
 									round={false}
-									src={
-										userData?.profileData?.personalData
-											?.passport
-									}
+									src={data?.data?.passport}
 									className="mx-auto"
 								/>
 							</div>

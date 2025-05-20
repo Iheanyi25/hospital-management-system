@@ -68,39 +68,6 @@ const PrintSchoolFeesReceipt = () => {
 		}
 	];
 
-	console.log("data", state);
-
-	// const contents = [
-	// 	{
-	// 		title: "Date of Payment",
-	// 		details: shortDate(data?.data?.paymentDate)
-	// 	},
-	// 	{
-	// 		title: "Date of Printing",
-	// 		details: shortDate(data?.data?.datePrinted)
-	// 	},
-	// 	{ title: "Breakdown", details: "-" },
-	// 	{
-	// 		title: "Amount Paid",
-	// 		details: <>&#8358;{numberFormatter(data?.data?.amount)}</>
-	// 	},
-	// 	{ title: "Concerned Session", details: data?.data?.session },
-	// 	{ title: "Student Name", details: data?.data?.fullName },
-	// 	{ title: "Matriculation Number", details: data?.data?.matricNumber },
-	// 	{
-	// 		title: "JAMB Registration Number",
-	// 		details: data?.data?.jambRegNumber
-	// 	},
-	// 	{ title: "Student Type", details: data?.data?.studentType },
-	// 	{ title: "Faculty", details: data?.data?.faculty },
-	// 	{ title: "Department", details: data?.data?.department },
-	// 	{ title: "Sex", details: data?.data?.gender },
-	// 	{ title: "Student Level", details: data?.data?.level },
-	// 	{ title: "Payment Type", details: data?.data?.paymentType },
-	// 	{ title: "Payment Purpose", details: data?.data?.paymentPurpose },
-	// 	{ title: "Student Reference Number", details: data?.data?.rrr }
-	// ];
-
 	if (!state?.invoiceCode) {
 		push("/invoice_management/verify_remita_status");
 	}
@@ -150,10 +117,7 @@ const PrintSchoolFeesReceipt = () => {
 							<div className="w-50">
 								<div className="row my-3">
 									<h5 className="col-sm-4">
-										{programDetails?.studentTypeId ===
-										STUDENT_TYPES.POSTGRADUATE
-											? "Registration No/Entry No"
-											: "Matric/Jamb No:"}
+										Matric/Jamb No:
 									</h5>
 									<h4 className="col-8 text-uppercase">
 										{data?.data?.matricNumber}
