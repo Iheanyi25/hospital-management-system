@@ -241,6 +241,7 @@ const SundryFeesAssignment = () => {
 									serviceTypeId: row.original.serviceTypeId,
 									serviceType: row.original.serviceType,
 									paymentTypeId: row.original.paymentTypeId,
+									modeOfStudyId: row.original.modeOfStudyId,
 									paymentPurposeId:
 										row.original.paymentPurposeId
 								});
@@ -301,6 +302,8 @@ const SundryFeesAssignment = () => {
 					allServiceTypes={allServiceTypes}
 					allPaymentPurpose={allPaymentPurpose}
 					allPaymentTypes={allPaymentTypes}
+					allStudentModesOfStudy={allStudentModesOfStudy}
+					isLoadingStudentModesOfStudy={isLoadingStudentModesOfStudy}
 				/>
 			</CenteredDialog>
 

@@ -27,13 +27,12 @@ export const ViewSundryFeesForm = ({
 	searchTerm,
 	faculties,
 	allPaymentPurpose,
-	allStudentModesOfEntry,
 	allStudentModesOfStudy,
 	isLoadingStudentModesOfStudy
 }) => {
 	const onSubmit = (formData) => {
 		const hasModeOfStudyId = formData?.ModeOfStudyId?.value
-			? { ModeOfStudyId: formData?.ModeOfStudyId?.value }
+			? { modeOfStudyId: formData?.ModeOfStudyId?.value }
 			: {};
 		setFilter((state) => ({
 			...state,
@@ -45,9 +44,7 @@ export const ViewSundryFeesForm = ({
 			PaymentType: formData.PaymentType.value,
 			PaymentPurpose: formData.PaymentPurpose.value,
 			FacultyId: formData.FacultyId.value,
-			modeOfEntryId: formData.modeOfEntryId.value,
 			...hasModeOfStudyId,
-
 			pageNumber,
 			pageSize,
 			searchTerm
@@ -190,37 +187,7 @@ export const ViewSundryFeesForm = ({
 								</div>
 							</div>
 						</div>
-						<div className="col-md-6">
-							<div className={`row mt-5`}>
-								<div className="col-lg-3  d-flex align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="modeOfEntryId"
-									>
-										Mode of Entry
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="modeOfEntryId"
-										control={control}
-										rules={{
-											required: true
-										}}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select a Mode of Entry"
-												options={allStudentModesOfEntry}
-												id="modeOfEntryId"
-												searchable={false}
-												isError={!!errors.modeOfEntryId}
-											/>
-										)}
-									/>
-								</div>
-							</div>
-						</div>
+
 						<div className="col-md-6 mt-5">
 							<div className="row">
 								<div className="col-lg-3 d-flex  align-items-center">
