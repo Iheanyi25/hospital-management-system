@@ -30,7 +30,7 @@ export const ManageUnitLoadForm = ({
 }) => {
 	const onSubmit = (formData) => {
 		const hasModeOfStudyId = formData?.ModeOfStudyId?.value
-			? { ModeOfStudyId: formData?.ModeOfStudyId?.value }
+			? { modeOfStudyId: formData?.ModeOfStudyId?.value }
 			: {};
 		setFilter((state) => ({
 			...state,

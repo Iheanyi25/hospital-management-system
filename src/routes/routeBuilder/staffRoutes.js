@@ -342,6 +342,24 @@ const LazyDeleteSundryInvoice = lazy(() =>
 		"../../pages/superAdmin/InvoiceManagement/pages/DeleteSundryInvoice/pages/deleteSundryInvoice"
 	)
 );
+
+const LazyVerifyRemitaStatus = lazy(() =>
+	import(
+		"../../pages/superAdmin/InvoiceManagement/pages/VerifyRemitaStatus/pages/VerifyRemitaStatus"
+	)
+);
+
+const LazyAcceptanceFeeReceipt = lazy(() =>
+	import(
+		"../../pages/superAdmin/InvoiceManagement/pages/PrintAcceptanceFeeReceipt/printAcceptanceFeeReciept"
+	)
+);
+const LazyPrintSchoolFeesReceipt = lazy(() =>
+	import(
+		"../../pages/superAdmin/InvoiceManagement/pages/PrintSchoolFeesReceipt/printSchoolFeesReciept"
+	)
+);
+
 const LazyBusaryFees = lazy(() =>
 	import("../../pages/superAdmin/FeesAssignment/pages/BusaryFee/busaryFees")
 );
@@ -981,6 +999,27 @@ export const staffRoutes = [
 	{
 		path: "/invoice_management/delete_sundry_invoice",
 		component: LazyDeleteSundryInvoice,
+		exact: true,
+		router: InvoiceRouter,
+		title: "Invoice Management"
+	},
+	{
+		path: "/invoice_management/verify_remita_status",
+		component: LazyVerifyRemitaStatus,
+		exact: true,
+		router: InvoiceRouter,
+		title: "Invoice Management"
+	},
+	{
+		path: "/invoice_management/acceptance/fee_receipt",
+		component: LazyAcceptanceFeeReceipt,
+		exact: true,
+		router: InvoiceRouter,
+		title: "Invoice Management"
+	},
+	{
+		path: "/invoice_management/school_fees/receipt",
+		component: LazyPrintSchoolFeesReceipt,
 		exact: true,
 		router: InvoiceRouter,
 		title: "Invoice Management"

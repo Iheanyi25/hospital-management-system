@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { ConfirmationModal } from "../../../../../../ui_elements";
+import { useHistory } from "react-router";
 
 import { SearchApplication } from "./components";
 import { Caution, Success } from "../../../../../../assets/svgs";
 import { useApiGet } from "../../../../../../api/apiCall";
-import { verifyRemitaStatus } from "../../../../../../api/urls";
+import { getInvoiceUrl } from "../../../../../../api/urls";
 
 const VerifyRemitaStatus = () => {
 	const [makeRequest, setMakeRequest] = useState(false);
@@ -12,9 +13,14 @@ const VerifyRemitaStatus = () => {
 	const [verificationIcon, setVerificationIcon] = useState(null);
 	const [openModal, setOpenModal] = useState(false);
 	const [responseMessage, setResponseMessage] = useState("");
+	const { push } = useHistory();
 
 	const verifyError = (error) => {
-		setResponseMessage(error?.response?.data?.message);
+		if (typeof error === "string") {
+			setResponseMessage(error);
+		} else if (error?.response?.data?.message) {
+			setResponseMessage(error.response.data.message);
+		}
 	};
 
 	const {
@@ -22,36 +28,42 @@ const VerifyRemitaStatus = () => {
 		isLoading,
 		isError,
 		error
-	} = useApiGet(verifyRemitaStatus(rrr), {
+	} = useApiGet(getInvoiceUrl(rrr), {
 		enabled: makeRequest,
 		refetchOnWindowFocus: false,
 		onError: verifyError
 	});
 
-	const validationChecker = (message, rrr) => {
-		if (
-			message ===
-				`An error occurred while verifying the status of the reference ${rrr}` ||
-			message ===
-				`The invoice with reference ${rrr} has not been paid yet.`
-		) {
-			return setVerificationIcon(<Caution />);
-		} else if (
-			message === `The invoice with reference ${rrr} has been paid.`
-		) {
+	const validationChecker = (paymentStatus, rrr) => {
+		if (paymentStatus) {
 			return setVerificationIcon(<Success />);
+		} else {
+			return setVerificationIcon(<Caution />);
 		}
 	};
 
 	useEffect(() => {
-		if (verificationResponse) {
-			setResponseMessage(verificationResponse?.data);
-			validationChecker(verificationResponse?.data, rrr);
-			setOpenModal(true);
-			setMakeRequest(false);
-		} else if (isError) {
+		if (verificationResponse?.data && makeRequest) {
+			if (verificationResponse.data.paymentStatus) {
+				const pathname =
+					verificationResponse.data.paymentPurposeId === 1
+						? "/invoice_management/school_fees/receipt"
+						: "/invoice_management/acceptance/fee_receipt";
+				push({
+					pathname,
+					state: verificationResponse.data
+				});
+			} else {
+				setResponseMessage(
+					`The invoice with reference ${rrr} has not been paid yet.`
+				);
+				validationChecker(false, rrr);
+				setOpenModal(true);
+				setMakeRequest(false);
+			}
+		} else if (isError && makeRequest) {
 			verifyError(error);
-			validationChecker(responseMessage, rrr);
+			validationChecker(false, rrr);
 			setOpenModal(true);
 			setMakeRequest(false);
 		}
@@ -59,9 +71,10 @@ const VerifyRemitaStatus = () => {
 		error,
 		isError,
 		makeRequest,
-		responseMessage,
 		rrr,
-		verificationResponse
+		verificationResponse,
+		push,
+		isLoading
 	]);
 
 	return (
