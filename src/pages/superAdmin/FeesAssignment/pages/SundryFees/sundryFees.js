@@ -12,7 +12,7 @@ import {
 	getSundryFeesAssignmentsUrl,
 	getSundryPaymentPurposeUrl,
 	getStudentModeOfEntryUrl,
-
+	getStudentModesOfStudyUrl
 } from "../../../../../api/urls";
 import { Button, Spinner, CenteredDialog } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
@@ -67,7 +67,6 @@ const SundryFeesAssignment = () => {
 		error: paymentPurposeError
 	} = useApiGet(getSundryPaymentPurposeUrl());
 
-
 	const {
 		data: serviceTypes,
 		isLoading: isLoadingServiceTypes,
@@ -105,6 +104,13 @@ const SundryFeesAssignment = () => {
 		data: studentModesOfEntry,
 		isLoading: isLoadingStudentModesOfEntry
 	} = useApiGet(getStudentModeOfEntryUrl(), {
+		refetchOnWindowFocus: false
+	});
+
+	const {
+		data: studentModesOfStudy,
+		isLoading: isLoadingStudentModesOfStudy
+	} = useApiGet(getStudentModesOfStudyUrl(), {
 		refetchOnWindowFocus: false
 	});
 	const {
@@ -166,6 +172,10 @@ const SundryFeesAssignment = () => {
 	const allStudentModesOfEntry = useMemo(
 		() => formatSelectItems(studentModesOfEntry?.data, "name", "id"),
 		[studentModesOfEntry]
+	);
+	const allStudentModesOfStudy = useMemo(
+		() => formatSelectItems(studentModesOfStudy?.data, "name", "id"),
+		[studentModesOfStudy]
 	);
 
 	const columns = useMemo(
@@ -231,6 +241,7 @@ const SundryFeesAssignment = () => {
 									serviceTypeId: row.original.serviceTypeId,
 									serviceType: row.original.serviceType,
 									paymentTypeId: row.original.paymentTypeId,
+									modeOfStudyId: row.original.modeOfStudyId,
 									paymentPurposeId:
 										row.original.paymentPurposeId
 								});
@@ -258,7 +269,8 @@ const SundryFeesAssignment = () => {
 		isLoadingStudentTypes ||
 		isLoadingStudentMode ||
 		isPaymentPurposeLoading ||
-		isLoadingStudentModesOfEntry
+		isLoadingStudentModesOfEntry ||
+		isLoadingStudentModesOfStudy
 	)
 		return <Spinner />;
 	if (
@@ -290,6 +302,8 @@ const SundryFeesAssignment = () => {
 					allServiceTypes={allServiceTypes}
 					allPaymentPurpose={allPaymentPurpose}
 					allPaymentTypes={allPaymentTypes}
+					allStudentModesOfStudy={allStudentModesOfStudy}
+					isLoadingStudentModesOfStudy={isLoadingStudentModesOfStudy}
 				/>
 			</CenteredDialog>
 
@@ -324,6 +338,7 @@ const SundryFeesAssignment = () => {
 					allStudentModesOfEntry={allStudentModesOfEntry}
 					control={control}
 					handleSubmit={handleSubmit}
+					allStudentModesOfStudy={allStudentModesOfStudy}
 					isLoadingFeesToAssign={isLoadingFeesToAssign}
 					errors={errors}
 					isFacultiesLoading={isFacultiesLoading}
@@ -332,6 +347,7 @@ const SundryFeesAssignment = () => {
 					faculties={faculties}
 					allPaymentPurpose={allPaymentPurpose}
 					isPaymentPurposeLoading
+					isLoadingStudentModesOfStudy={isLoadingStudentModesOfStudy}
 				/>
 			</div>
 			<div className="d-flex justify-content-between align-items-center px-4 py-3 border">

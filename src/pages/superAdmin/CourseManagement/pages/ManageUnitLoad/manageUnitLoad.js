@@ -1,6 +1,6 @@
 import { CenteredDialog, Spinner } from "../../../../../ui_elements";
 import styles from "./style.module.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../../api/apiCall";
 import {
@@ -9,7 +9,8 @@ import {
 	getStudentTypesUrl,
 	getUnitLoadsToManageUrl,
 	getStudentModeOfEntryUrl,
-	getAllSessionsUrl
+	getAllSessionsUrl,
+	getStudentModesOfStudyUrl
 } from "../../../../../api/urls";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
@@ -24,12 +25,13 @@ const ManageUnitLoad = () => {
 	const [editData, setEditData] = useState({});
 	const [filter, setFilter] = useState({
 		facultyId: "",
-		modeOfEntryId: "",
+		modeOfStudyId: "",
 		studentTypeId: "",
 		sessionId: "",
 		semesterId: "",
 		yearOfStudyId: "",
 		searchTerm: "",
+
 		pageSize: PAGESIZE.sm
 	});
 
@@ -42,7 +44,7 @@ const ManageUnitLoad = () => {
 	} = useApiGet(
 		getUnitLoadsToManageUrl({
 			facultyId: filter.facultyId,
-			modeOfEntryId: filter.modeOfEntryId,
+			modeOfStudyId: filter.modeOfStudyId,
 			studentTypeId: filter.studentTypeId,
 			// sessionId: "",
 			semesterId: filter.semesterId,
@@ -100,6 +102,17 @@ const ManageUnitLoad = () => {
 	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const allLevels = formatSelectItems(levels?.data, "name", "id");
+	const {
+		data: studentModesOfStudy,
+		isLoading: isLoadingStudentModesOfStudy
+	} = useApiGet(getStudentModesOfStudyUrl(), {
+		refetchOnWindowFocus: false
+	});
+
+	const allStudentModesOfStudy = useMemo(
+		() => formatSelectItems(studentModesOfStudy?.data, "name", "id"),
+		[studentModesOfStudy]
+	);
 
 	if (isLoading || isLoadingStudentModes || isLoadingStudentTypes)
 		return <Spinner />;
@@ -118,7 +131,7 @@ const ManageUnitLoad = () => {
 					data={editData}
 					currentFilterState={{
 						facultyId: filter.facultyId,
-						modeOfEntryId: filter.modeOfEntryId,
+						modeOfStudyId: filter.modeOfStudyId,
 						studentTypeId: filter.studentTypeId,
 						// sessionId: "",
 						semesterId: filter.semesterId,
@@ -151,6 +164,10 @@ const ManageUnitLoad = () => {
 						setValue={setValue}
 						handleSubmit={handleSubmit}
 						isLoadingUnitLoads={isLoadingUnitLoads}
+						isLoadingStudentModesOfStudy={
+							isLoadingStudentModesOfStudy
+						}
+						allStudentModesOfStudy={allStudentModesOfStudy}
 					/>
 					<ManageUnitLoadTable
 						data={unitLoads?.data?.items || []}

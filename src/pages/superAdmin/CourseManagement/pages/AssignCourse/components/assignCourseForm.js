@@ -15,7 +15,7 @@ export const AssignCoursetForm = ({
 	allSessions,
 	allDepartments,
 	allDepartmentOption,
-	allStudentModes,
+	allStudentModesOfStudy,
 	allStudentTypes,
 	isLoadingDepartmentOption,
 	departmentOption,
@@ -30,6 +30,9 @@ export const AssignCoursetForm = ({
 	setCloneOpen
 }) => {
 	const onSubmit = (formData) => {
+		const hasModeOfStudyId = formData?.ModeOfStudyId?.value
+			? { modeOfStudyId: formData?.ModeOfStudyId?.value }
+			: {};
 		setFilter((state) => ({
 			...state,
 			departmentId: formData?.departmentId?.value,
@@ -37,11 +40,11 @@ export const AssignCoursetForm = ({
 				departmentOption?.data?.length > 0
 					? formData?.departmentOptionId?.value
 					: null,
-			modeOfEntryId: formData.modeOfEntryId.value,
 			studentTypeId: formData.studentTypeId.value,
 			sessionId: formData.sessionId.value,
 			semesterId: formData.semesterId.value,
-			levelId: formData.levelId.value
+			levelId: formData.levelId.value,
+			...hasModeOfStudyId
 		}));
 	};
 
@@ -209,45 +212,46 @@ export const AssignCoursetForm = ({
 								<Spinner />
 							</div>
 						)}
-						<div className="col-md-6">
-							<div
-								className={`row ${
-									(departmentOption?.data?.length > 0 ||
-										isLoadingDepartmentOption ||
-										isDepartmentLoading ||
-										allDepartments.length > 0) &&
-									"mt-5"
-								}`}
-							>
-								<div className="col-lg-3  d-flex align-items-center">
-									<label
-										className="font-weight-bold"
-										htmlFor="modeOfEntryId"
-									>
-										Mode of Entry
-									</label>
-								</div>
-								<div className="col-lg-9">
-									<Controller
-										name="modeOfEntryId"
-										control={control}
-										rules={{
-											required: true
-										}}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select a Mode of Entry"
-												options={allStudentModes}
-												id="modeOfEntryId"
-												searchable={false}
-												isError={!!errors.modeOfEntryId}
-											/>
-										)}
-									/>
+						{allStudentModesOfStudy?.length > 0 && (
+							<div className="col-md-6">
+								<div className="row mt-5">
+									<div className="col-lg-3 d-flex align-items-center">
+										<label
+											className="font-weight-bold"
+											htmlFor="ModeOfStudyId"
+										>
+											Mode of Study
+										</label>
+									</div>
+									<div className="col-lg-9">
+										<Controller
+											name="ModeOfStudyId"
+											control={control}
+											rules={{ required: true }}
+											render={({ field }) => (
+												<SMSelect
+													{...field}
+													placeholder="Select a mode of study"
+													searchable={false}
+													options={
+														allStudentModesOfStudy
+													}
+													isError={
+														!!errors.ModeOfStudyId
+													}
+													errorText={
+														errors.ModeOfStudyId &&
+														errors.ModeOfStudyId
+															.message
+													}
+													id="ModeOfStudyId"
+												/>
+											)}
+										/>
+									</div>
 								</div>
 							</div>
-						</div>
+						)}
 						<div className="col-md-6">
 							<div className="row mt-5">
 								<div className="col-lg-3  d-flex align-items-center">

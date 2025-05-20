@@ -29,11 +29,11 @@ export const InvoiceRouter = ({
 				path: "/invoice_management/delete_sundry_invoice",
 				disabled: false
 			},
-			// {
-			// 	title: "Delete PG Invoice",
-			// 	path: "/invoice_management/delete_pg_invoice",
-			// 	disabled: false
-			// }
+			{
+				title: "Verify Remita Status",
+				path: "/invoice_management/verify_remita_status",
+				disabled: false
+			}
 		],
 		[]
 	);

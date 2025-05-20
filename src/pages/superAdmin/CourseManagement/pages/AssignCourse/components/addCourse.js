@@ -36,10 +36,10 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 		semesterId,
 		sessionId,
 		studentTypeId,
-		modeOfEntryId,
 		departmentId,
 		departmentOptionId,
-		levelId
+		levelId,
+		modeOfStudyId
 	} = filter;
 
 	const { data: courseTypes, isLoading, error } = useApiGet(getCourseTypes());
@@ -165,8 +165,8 @@ export const AddCourse = ({ filter, currentFilterState, closeModal }) => {
 				semesterId,
 				sessionId,
 				studentTypeId,
-				modeOfEntryId,
 				departmentId,
+				modeOfStudyId,
 				departmentOptionId: departmentOptionId || 0,
 				levelId
 			}))

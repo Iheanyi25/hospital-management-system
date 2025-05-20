@@ -48,7 +48,6 @@ export const FeesPreview = ({
 		formData.append("LevelId", currentFilterState.Level);
 		formData.append("PaymentTypeId", currentFilterState.PaymentType);
 		formData.append("StudentModeId", currentFilterState.StudentModeId);
-		formData.append("ModeOfEntryId", currentFilterState.ModeOfEntryId);
 		formData.append("ModeOfStudyId", currentFilterState.ModeOfStudyId);
 		formData.append("ServiceTypeId", currentFilterState.ServiceTypeId);
 		for (const element of departments) {

@@ -20,6 +20,8 @@ export const generateSchoolFeesBalanceInvoiceUrl = () =>
 export const getInvoiceUrl = (rrr) => `${baseUrl}/invoice/${rrr}`;
 export const getInvoiceWithInvoiceNumberUrl = (invoiceCode) =>
 	`${baseUrl}/school-fees-invoice?invoiceCode=${invoiceCode}`;
+export const getFeeDetailsWithInvoiceUrl = (invoiceNumber) =>
+	`${baseUrl}/receipt?invoiceNumber=${invoiceNumber}`;
 export const getFeeRecieptUrl = ({
 	sessionId,
 	levelId,

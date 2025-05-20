@@ -20,14 +20,17 @@ export const EditSundryFees = ({
 	allServiceTypes,
 	allPaymentPurpose,
 	allPaymentTypes,
-	pageNumber
+	pageNumber,
+	allStudentModesOfStudy,
+	isLoadingStudentModesOfStudy
 }) => {
 	const {
 		studentTypeId,
 		sessionId,
 		serviceTypeId,
 		paymentPurposeId,
-		paymentTypeId
+		paymentTypeId,
+		modeOfStudyId
 	} = data;
 
 	const queryClient = useQueryClient();
@@ -43,6 +46,10 @@ export const EditSundryFees = ({
 			TeneceCommission: data?.TeneceCommission,
 			ServiceTypeId: findValueAndLabel(serviceTypeId, allServiceTypes),
 			PaymentType: findValueAndLabel(paymentTypeId, allPaymentTypes),
+			modeOfStudyId: findValueAndLabel(
+				modeOfStudyId,
+				allStudentModesOfStudy
+			),
 			PaymentPurpose: findValueAndLabel(
 				paymentPurposeId,
 				allPaymentPurpose
@@ -232,6 +239,40 @@ export const EditSundryFees = ({
 					/>
 				</div>
 			</div>
+			{allStudentModesOfStudy?.length > 0 && (
+				<div className="row mb-4">
+					<div className="col-lg-3 d-flex align-items-center">
+						<label
+							className="font-weight-bold"
+							htmlFor="ModeOfStudyId"
+						>
+							Mode of Study
+						</label>
+					</div>
+
+					<div className="col-lg-9">
+						<Controller
+							name="ModeOfStudyId"
+							control={control}
+							rules={{ required: true }}
+							render={({ field }) => (
+								<SMSelect
+									{...field}
+									placeholder="Select a mode of study"
+									searchable={false}
+									options={allStudentModesOfStudy}
+									isError={!!errors.ModeOfStudyId}
+									errorText={
+										errors.ModeOfStudyId &&
+										errors.ModeOfStudyId.message
+									}
+									id="ModeOfStudyId"
+								/>
+							)}
+						/>
+					</div>
+				</div>
+			)}
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex  align-items-center">
 					<label htmlFor="ServiceTypeId">Payment Type</label>

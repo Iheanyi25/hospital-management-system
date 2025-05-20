@@ -1,8 +1,15 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Avatar from "react-avatar";
-import { Badge, Button, Search, TMTable } from "../../../../../ui_elements";
-import { useHistory } from "react-router-dom";
-import queryString from "query-string";
+import {
+	Badge,
+	Button,
+	CenteredDialog,
+	Search,
+	TMTable,
+	ToggleElement
+} from "../../../../../ui_elements";
+
+import { ViewPassport } from "./viewPassport";
 
 export const Table = ({
 	data,
@@ -15,10 +22,11 @@ export const Table = ({
 	hasPerformedQuery,
 	loading,
 	title,
-	isPosting
+	isPosting,
+	onSubmit
 }) => {
-	const history = useHistory();
-	const parsed = queryString.parse(window.location.search);
+	const [editOpen, setEditOpen] = useState(false);
+	const [editData, setEditData] = useState({});
 	const columns = useMemo(
 		() => [
 			{
@@ -100,50 +108,57 @@ export const Table = ({
 				Header: "Action",
 				accessor: "buttons",
 				Cell: ({ cell: { row } }) => {
-					const nextPageCrumbs = [
-						{
-							name: "Class List",
-							path: "/student_management/clear"
-						},
-						{
-							name: title ?? "",
-							back: true,
-							path: "/student_management/clear"
-							
-						},
-						{
-							name: `${row.original.lastname} ${row.original.firstname}`,
-							path: "/"
-						}
-					];
+					const {
+						isCleared,
+						admissionListId,
+						departmentId,
+						departmentOptionId = 0
+					} = row.original;
 					return (
 						<div>
+							<ToggleElement
+								id={`cleareance-status-${isCleared}`}
+								checked={isCleared}
+								onChange={() =>
+									onSubmit({
+										admissionListId,
+										departmentId,
+										departmentOptionId
+									})
+								}
+								isDisabled={isPosting}
+							/>
 							<Button
 								data-cy="view_image"
 								label="View"
 								buttonClass="standard"
-								onClick={() =>
-									history.push({
-										pathname:
-											"/student_management/clear/view",
-										state: {
-											data: row.original,
-											searchParams: parsed,
-											crumbs: nextPageCrumbs
-										}
-									})
-								}
+								onClick={() => {
+									setEditData(row.original);
+									setEditOpen(true);
+								}}
 							/>
 						</div>
 					);
 				}
 			}
 		],
-		[pageNumber, pageSize, history, parsed, title]
+		[pageNumber, pageSize, setEditOpen, setEditData, isPosting, onSubmit]
 	);
 
 	return (
 		<div>
+			<CenteredDialog
+				modalId="open_image"
+				isOpen={editOpen}
+				closeModal={() => setEditOpen(false)}
+				width={288}
+				formTitle="Profile picture"
+			>
+				<ViewPassport
+					data={editData}
+					closeModal={() => setEditOpen(false)}
+				/>
+			</CenteredDialog>
 			<TMTable
 				columns={columns}
 				data={data}

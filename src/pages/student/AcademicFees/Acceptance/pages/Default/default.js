@@ -101,7 +101,7 @@ const AcceptanceFeeDefault = () => {
 					/>
 					<Button
 						data-cy="print_accpt"
-						label="Print Acceptance Letter"
+						label="Print Acceptance Reciept"
 						buttonClass="standard"
 						onClick={() => push("/academic_fees/acceptance/letter")}
 						disabled
@@ -130,22 +130,13 @@ const AcceptanceFeeDefault = () => {
 							data?.data?.[0]?.studentTypeId ===
 							STUDENT_TYPES.POSTGRADUATE
 								? "Print Admission Letter"
-								: "Print Acceptance Letter"
+								: "Print Acceptance Reciept"
 						}`}
 						buttonClass="standard"
 						onClick={() =>
 							push({
-								pathname: `/academic_fees/acceptance/${
-									data?.data?.[0]?.studentTypeId ===
-									STUDENT_TYPES.Diploma
-										? "fee_receipt"
-										: data?.data?.[0]?.studentTypeId ===
-										  STUDENT_TYPES.POSTGRADUATE
-										? "letter_pg"
-										: data?.data?.[0]?.studentTypeId === 8
-										? "jupeb"
-										: "letter"
-								}`,
+								pathname: `/academic_fees/acceptance/fee_reciept
+								`,
 								state: data?.data?.[0]
 							})
 						}
