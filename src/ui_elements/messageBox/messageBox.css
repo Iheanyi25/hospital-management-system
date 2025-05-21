@@ -23,15 +23,10 @@
 }
 
 .messageBox_text p {
-	display: flex;
-	justify-content: flex-start;
-	align-items: end;
-	flex-wrap: nowrap;
 	font-size: 1rem;
 	font-weight: 450;
 	margin-top: 5px;
 	color: var(--white-color);
-	white-space: nowrap;
 }
 
 .messageBox_text p span a {
@@ -43,14 +38,7 @@
 	flex: 1;
 }
 
-.messageBox_button_container {
-	position: relative;
-	max-width: 200px;
-	padding-left: 20px;
-}
 .close_btn {
-	position: absolute;
-	top: 0;
 	cursor: pointer;
 	background-color: transparent;
 	border: none;
@@ -69,11 +57,19 @@
 
 @media (max-width: 500px) {
 	.messageBox_button {
-		margin-top: 20px;
+		margin: 10px 0 0 34px;
 	}
+
 	.messageBox_container {
-		justify-content: center;
+		padding: 20px 16px;
+	}
+
+	.messageBox_text p {
+		text-align: start;
+	}
+
+	.close_btn {
+		position: absolute;
+		right: 17px;
 	}
 }
-
-
