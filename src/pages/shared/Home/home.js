@@ -46,6 +46,7 @@ const Home = () => {
 			setModal(true);
 		}
 	}, [isFetched]);
+	
 	return (
 		<>
 			{!data?.data || data?.data.length === 0 ? null : (
@@ -56,8 +57,8 @@ const Home = () => {
 				/>
 			)}
 			{!data?.data ||
-				data?.data?.length === 0 ||
-				message === false ? null : (
+			data?.data?.length === 0 ||
+			message === false ? null : (
 				<MessageBox
 					openModal={() => setModal(true)}
 					closeMessage={setMessage}
@@ -83,7 +84,8 @@ const Home = () => {
 				<div className={styles.sectionsContainer}>
 					<section className={`${styles.sectionTextContainer} pb-5`}>
 						<h1>
-							Welcome To Akwa Ibom State <br/> Polytechnic Portal.
+							Welcome To Akwa Ibom State <br /> Polytechnic
+							Portal.
 						</h1>
 						<p className="pb-5">
 							Offering you the best educational experience through
@@ -94,12 +96,15 @@ const Home = () => {
 					<section className={`${styles.cardsContainer} row`}>
 						<div>
 							<h4 className="text-center">Our Programmes</h4>
-							<p className="text-center">Explore a World of Learning Possiblities: Discover Our Diverse Academic Pathways</p>
+							<p className="text-center">
+								Explore a World of Learning Possiblities:
+								Discover Our Diverse Academic Pathways
+							</p>
 						</div>
 						<div className="col-md-4 col-12 mt-3">
 							<div className={styles.card}>
-								<h4 >HND Programme</h4>
-								<p >
+								<h4>HND Programme</h4>
+								<p>
 									Please select a link applicable to you from{" "}
 									<br /> the list below
 								</p>
@@ -136,9 +141,7 @@ const Home = () => {
 									>
 										Generate Invoice
 									</Link>
-									<Link to="/nd_login">
-										Application Form
-									</Link>
+									<Link to="/nd_login">Application Form</Link>
 								</div>
 							</div>
 						</div>
