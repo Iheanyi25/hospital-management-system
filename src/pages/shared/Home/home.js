@@ -46,6 +46,18 @@ const Home = () => {
 			setModal(true);
 		}
 	}, [isFetched]);
+ 
+	const truncatedMessage = data?.data[0]?.description
+		.slice(0, 70)
+		.split("</p>")
+		.map((item, index) => {
+			return `<p>${item.replace("<p>", "")}${
+				index === 1 ? " ..." : ""
+			}</p>`;
+		})
+		.join("");
+
+	
 	return (
 		<>
 			{!data?.data || data?.data.length === 0 ? null : (
@@ -64,16 +76,15 @@ const Home = () => {
 					title={data?.data[0]?.title}
 					message={
 						<div
-							className={`d-flex align-items-baseline ${styles.message_body}`}
+							className={` ${styles.message_body}`}
 						>
 							<div
 								dangerouslySetInnerHTML={{
 									__html: DOMPurify.sanitize(
-										data?.data[0]?.description.slice(0, 70)
+										truncatedMessage
 									)
 								}}
 							/>
-							<span>....</span>
 						</div>
 					}
 				/>

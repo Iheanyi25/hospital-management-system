@@ -8,15 +8,22 @@ export const MessageBox = ({ title, message, closeMessage, openModal }) => {
 			<Info />
 			<div className="messageBox_text">
 				<h5>{title}</h5>
-				<p>{message}...</p>
+				<p>
+					<span>{message}</span>
+				</p>
 			</div>
 			<div className="messageBox_spacer"></div>
-			<button onClick={openModal} className="messageBox_button">
-				Read more
-			</button>
-			<button onClick={() => closeMessage(false)} className="close_btn">
-				<img src={close} alt="" />
-			</button>
+			<div className="messageBox_button_container">
+				<button onClick={openModal} className="messageBox_button">
+					Read more
+				</button>
+				<button
+					onClick={() => closeMessage(false)}
+					className="close_btn"
+				>
+					<img src={close} alt="" />
+				</button>
+			</div>
 		</div>
 	);
 };
