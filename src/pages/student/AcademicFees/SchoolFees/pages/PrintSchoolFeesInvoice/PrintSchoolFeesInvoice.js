@@ -69,9 +69,15 @@ const PrintSchoolFeesInvoice = () => {
 				description: state?.details?.description,
 				amount: state?.details?.amount,
 				paymentType: state?.details?.paymentType
+			},
+			{
+				paymentPurposeId: state?.details?.paymentPurposeId,
+				description: "Portal Charges",
+				amount: state?.details?.portalCharge,
+				paymentType: ""
 			}
 		],
-		total: state?.details?.amount
+		total: state?.details?.totalAmount
 	};
 	return (
 		<div className="row">
