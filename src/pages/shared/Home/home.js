@@ -76,7 +76,7 @@ const Home = () => {
 					title={data?.data[0]?.title}
 					message={
 						<div
-							className={` ${styles.message_body}`}
+							className={`d-flex align-items-baseline ${styles.message_body}`}
 						>
 							<div
 								dangerouslySetInnerHTML={{
