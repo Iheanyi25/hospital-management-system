@@ -8,7 +8,7 @@ export const MessageBox = ({ title, message, closeMessage, openModal }) => {
 			<Info />
 			<div className="messageBox_text">
 				<h5>{title}</h5>
-				<p>{message}...</p>
+				<p>{message}</p>
 			</div>
 			<div className="messageBox_spacer"></div>
 			<button onClick={openModal} className="messageBox_button">
