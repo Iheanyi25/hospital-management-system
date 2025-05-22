@@ -24,7 +24,8 @@ export const PersonalInformation = ({
 	allBloodGroups,
 	allGenotypes,
 	allReligions,
-	allLGAs
+	allLGAs,
+	allStudentCategory
 }) => {
 	const { replace } = useHistory();
 	const { mutate, isLoading } = useApiPatch();
@@ -44,7 +45,11 @@ export const PersonalInformation = ({
 				label: data?.bloodGroup
 			},
 			GenoTypeId: { value: data?.genoTypeId, label: data.genoType },
-			ReligionId: { value: data?.religionId, label: data.religion }
+			ReligionId: { value: data?.religionId, label: data.religion },
+			CategoryId: {
+				value: data?.categoryId,
+				label: data?.category
+			}
 		},
 		resolver: yupResolver(PersonalInformationSchema)
 	});
@@ -57,7 +62,8 @@ export const PersonalInformation = ({
 			...editedValues,
 			ReligionId: ReligionId.value,
 			GenoTypeId: GenoTypeId.value,
-			BloodGroupId: BloodGroupId.value
+			BloodGroupId: BloodGroupId.value,
+			CategoryId: values?.CategoryId?.value,
 		};
 		Object.keys(newObj).forEach((item) => {
 			if (typeof values[item] === "object") {
@@ -185,6 +191,35 @@ export const PersonalInformation = ({
 								name="gender"
 								checked={data?.gender === "Male"}
 								disabled
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="container-fluid px-4 my-3">
+					<div className="row">
+						<div className="col-lg-3">
+							<label htmlFor="gender">Select Category</label>
+						</div>
+						<div className="col-lg-9">
+							<Controller
+								name="CategoryId"
+								control={control}
+								rules={{ required: true }}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										searchable={false}
+										placeholder="Choose a category"
+										id="CategoryId"
+										options={allStudentCategory}
+										isError={!!errors.CategoryId}
+										errorText={
+											errors.CategoryId &&
+											errors.CategoryId.message
+										}
+										disabled
+									/>
+								)}
 							/>
 						</div>
 					</div>
