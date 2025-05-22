@@ -7,10 +7,8 @@ import "./globalMenu.css";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { Button } from "../button/Button";
-// import { TENECE_SUPPORT_URL } from "../../utils/constants";
 import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
 import ChristmasLogo from "../../assets/images/christmasLogo.png";
-import { LinkDropdown } from "../linkDropdown/linkDropdown";
 
 const GlobalMenu = ({
 	title = "Components",
@@ -25,28 +23,32 @@ const GlobalMenu = ({
 	const linkOptions = [
 		{
 			name: "Verify Admission Status",
-			route: "/prospective_students"
+			route: "/verify_account"
 		},
 		{
 			name: "Check Admission No",
-			route: "/"
+			route: "/prospective_students"
 		},
 		{
 			name: "Verify Payment Status",
 			route: "/verify_remita_status"
 		},
 		{
-			name: "E learning",
+			name: "E-learning",
 			route: "/prospective_students"
+		},
+		{
+			name: "E-Voting",
+			route: "http://evoting.akwaibompoly.edu.ng/akwapoly/evoting"
 		}
 	];
 
-	const buttonGroupData = [
-		{ name: "Home", link: "/home" },
-		{ name: "About Us", link: "/about" },
-		{ name: "Services", link: "/services" },
-		{ name: "Contact Us", link: "/contact" }
-	];
+	// const buttonGroupData = [
+	// 	{ name: "Home", link: "/home" },
+	// 	{ name: "About Us", link: "/about" },
+	// 	{ name: "Services", link: "/services" },
+	// 	{ name: "Contact Us", link: "/contact" }
+	// ];
 
 	return (
 		<section className="red-global-menu">
@@ -100,19 +102,27 @@ const GlobalMenu = ({
 							<img src={cancel} alt="" />
 						</button>
 
-						{linkOptions.map((link, i) => (
-							<button
-								key={i}
-								className="global-landing-page-links"
-								onClick={() => push(link.route)}
-							>
-								{link.name}
-							</button>
-						))}
-						<LinkDropdown
-							buttonGroup={buttonGroupData}
-							linkName="Old Students"
-						/>
+						{linkOptions.map((link, i) =>
+							link.route.includes("http") ? (
+								<a
+									key={i}
+									className="global-landing-page-links"
+									href={link.route}
+									target="_blank"
+									rel="noreferrer"
+								>
+									{link.name}
+								</a>
+							) : (
+								<button
+									key={i}
+									className="global-landing-page-links"
+									onClick={() => push(link.route)}
+								>
+									{link.name}
+								</button>
+							)
+						)}
 					</div>
 				) : (
 					<div className="red-current-module">{title}</div>

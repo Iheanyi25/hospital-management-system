@@ -256,14 +256,13 @@ const AcceptanceFeeAssignment = () => {
 					searchTerm={searchTerm}
 				/>
 			</div>
-			<div className="d-flex justify-content-between align-items-center px-4 py-3 border">
-				<h5 className="">School fees summary</h5>
+			<div className="d-flex justify-content-end align-items-center px-4 py-3 border">
 				<div className="d-flex">
 					<Button
 						data-cy="view-records"
 						type="button"
 						buttonClass="standard"
-						label="Acceptance Fees Assignment"
+						label="Clone Acceptance Fees"
 						onClick={() => setCloneOpen(true)}
 					/>
 					<Button
