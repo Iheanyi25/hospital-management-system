@@ -1,5 +1,6 @@
 export const checkforValidName = (value) =>
 	value ? /^[A-Za-z'-]{2,}$/.test(value) : true;
+
 export const checkforValidInitial = (value) =>
 	value ? /^[a-zA-Z.'-]+$/.test(value) : true;
 
