@@ -29,6 +29,7 @@ import {
 	getRelationshipsUrl,
 	getReligionsUrl,
 	getSponsorRelationshipsUrl,
+	getStudentCategoryUrl,
 	getStudentProfileUrl
 } from "../../../api/urls";
 import Avatar from "react-avatar";
@@ -162,6 +163,14 @@ const Profile = () => {
 	} = useApiGet(getRelationshipsUrl(), {
 		refetchOnWindowFocus: false
 	});
+		const { data: studentCategory, isLoading: isLoadingCategories } = useApiGet(
+			getStudentCategoryUrl(),
+			{
+				refetchOnWindowFocus: false
+			}
+		);
+
+
 	const {
 		data: sponsorRelationships,
 		isLoading: isLoadingSponsorRelationships,
@@ -228,6 +237,11 @@ const Profile = () => {
 		"name",
 		"id"
 	);
+		const allStudentCategory = useMemo(
+		() => formatSelectItems(studentCategory?.data, "name", "id"),
+		[studentCategory]
+	);
+
 	const allRelationships = formatSelectItems(
 		relationships?.data,
 		"name",
@@ -247,7 +261,8 @@ const Profile = () => {
 		loadingBloodGroups ||
 		loadingGenotypes ||
 		loadingReligions ||
-		isLoadingLGAs
+		isLoadingLGAs ||
+		isLoadingCategories
 	)
 		return <Spinner />;
 	if (
@@ -383,6 +398,7 @@ const Profile = () => {
 							allGenotypes={allGenotypes}
 							allReligions={allReligions}
 							allLGAs={allLGAs}
+							allStudentCategory={allStudentCategory}
 						/>
 					)}
 				</div>
@@ -405,7 +421,8 @@ const DisplayInformation = ({
 	allBloodGroups,
 	allGenotypes,
 	allLGAs,
-	allReligions
+	allReligions,
+	allStudentCategory
 }) => {
 	const location = useLocation();
 	switch (location.hash) {
@@ -417,6 +434,8 @@ const DisplayInformation = ({
 					allGenotypes={allGenotypes}
 					allReligions={allReligions}
 					allLGAs={allLGAs}
+							allStudentCategory={allStudentCategory}
+
 				/>
 			);
 		case "#section_b":
