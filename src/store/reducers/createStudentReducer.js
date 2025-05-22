@@ -6,6 +6,10 @@ export const initialState = (data) => ({
 		Surname: data?.lastname,
 		Firstname: data?.firstname,
 		Middlename: data?.middlename,
+		CategoryId: {
+			value: data?.categoryId,
+			label: data?.category
+		},
 		...(data?.genderId && {
 			Gender: {
 				value: data?.genderId,
@@ -38,7 +42,8 @@ export const initialState = (data) => ({
 		PermanentAddress: data?.permanentAddress,
 		Email: data?.email,
 		MobileNo: data?.mobileNumber,
-		ContactAddress: data?.contactAddress
+		ContactAddress: data?.contactAddress,
+		
 	},
 	ProgrammeDetail: {
 		MatricNumber: data?.regNumber,
