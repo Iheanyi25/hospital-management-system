@@ -3,8 +3,7 @@ import {
 	checkForCorrectPhoneNumber,
 	checkIfUserIsLessThanMaximumAge,
 	checkIfUserIsMoreThanMinimumAge,
-	checkIfValidFullName,
-	checkforValidName
+	checkIfValidFullName
 } from "../../../utils/formValidations";
 
 export const PersonalInformationSchema = yup.object().shape({
@@ -60,8 +59,7 @@ export const SponsorDetailsSchema = yup.object().shape({
 			"test first & last name",
 			"enter both first and last name",
 			checkIfValidFullName
-		)
-		.test("text name", "invalid name, check for trailing spaces", checkforValidName),
+		),
 	Address: yup.string().required("please input sponsor's address"),
 	PhoneNo: yup
 		.string()
@@ -87,8 +85,7 @@ export const NextOfKinDetailsSchema = yup.object().shape({
 			"test first & last name",
 			"enter both first and last name",
 			checkIfValidFullName
-		)
-		.test("text name", "invalid name, check for trailing spaces", checkforValidName),
+		),
 	Address: yup.string().required("please input next of kin's address"),
 	PhoneNo: yup
 		.string()
@@ -113,10 +110,13 @@ export const ProgrammeDetailSchema = yup.object().shape({
 	JambRegNumber: yup.string().required("please input jamb reg. number"),
 	DepartmentId: yup.mixed().required("please select department"),
 	DepartmentOptionId: yup.mixed().required("please select department option"),
-	SchoolProgrammeId: yup.mixed().when("$isProgrammeRequired", (isProgrammeRequired, schema) => {
-		if (isProgrammeRequired) return schema.required("please select programme");
-		return schema.default(null);
-	}),
+	SchoolProgrammeId: yup
+		.mixed()
+		.when("$isProgrammeRequired", (isProgrammeRequired, schema) => {
+			if (isProgrammeRequired)
+				return schema.required("please select programme");
+			return schema.default(null);
+		}),
 	EntryYearId: yup.mixed().required("please select entry year"),
 	GraduationYearId: yup.mixed().required("please select graduation year"),
 	StudentTypeId: yup.mixed().required("please select student type"),
