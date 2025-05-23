@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+// import { useReactToPrint } from "react-to-print";
 import { Jumbotron, Row, Spinner } from "../../../../ui_elements";
 import Form1 from "../../../shared/components/cleranceForms/Form1";
 import Form2 from "../../../shared/components/cleranceForms/Form2";
@@ -13,27 +13,27 @@ import { getStudentProfileUrl } from "../../../../api/urls";
 import AdmissionNotificationSlip from "../../../shared/components/cleranceForms/admissionNotification";
 import CredentialsCheck from "../../../shared/components/cleranceForms/checkingOfAdmission";
 
-const pageStyle = `
-@page {
-// size: 80mm 50mm;
-margin-top: 10rem;
-margin-left: 5rem;
-margin-right: 5rem;
-}
-
-// @media all {
-//   .pagebreak {
-//     display: none;
-//   }
+// const pageStyle = `
+// @page {
+// // size: 80mm 50mm;
+// margin-top: 10rem;
+// margin-left: 5rem;
+// margin-right: 5rem;
 // }
 
-@media print {
-.pagebreak {
-// page-break-before: always;
+// // @media all {
+// //   .pagebreak {
+// //     display: none;
+// //   }
+// // }
 
-}
-}
-`;
+// @media print {
+// .pagebreak {
+// // page-break-before: always;
+
+// }
+// }
+// `;
 
 const Documents = () => {
 	const { data, isLoading, error } = useApiGet(
@@ -54,106 +54,106 @@ const Documents = () => {
 
 
 
-	const handleForm1Print = useReactToPrint({
-		content: () => form1Ref.current,
-		pageStyle: pageStyle
-	});
+	// const handleForm1Print = useReactToPrint({
+	// 	content: () => form1Ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
-	const handleForm2Print = useReactToPrint({
-		content: () => form2Ref.current,
-		pageStyle: pageStyle
-	});
+	// const handleForm2Print = useReactToPrint({
+	// 	content: () => form2Ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
-	const handleForm3Print = useReactToPrint({
-		content: () => form3Ref.current,
-		pageStyle: pageStyle
-	});
+	// const handleForm3Print = useReactToPrint({
+	// 	content: () => form3Ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
-	const handleForm4Print = useReactToPrint({
-		content: () => form4Ref.current,
-		pageStyle: pageStyle
-	});
+	// const handleForm4Print = useReactToPrint({
+	// 	content: () => form4Ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
-	const handleForm5Print = useReactToPrint({
-		content: () => form5Ref.current,
-		pageStyle: pageStyle
-	});
+	// const handleForm5Print = useReactToPrint({
+	// 	content: () => form5Ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
-	const handleForm6Print = useReactToPrint({
-		content: () => form6Ref.current,
-		pageStyle: pageStyle
-	});
+	// const handleForm6Print = useReactToPrint({
+	// 	content: () => form6Ref.current,
+	// 	pageStyle: pageStyle
+	// });
 
-	const handleAdmissionNotificationPrint = useReactToPrint({
-		content: () => admissionNotificationRef.current,
-		pageStyle: pageStyle
-	});
+	// const handleAdmissionNotificationPrint = useReactToPrint({
+	// 	content: () => admissionNotificationRef.current,
+	// 	pageStyle: pageStyle
+	// });
 
 
-	const handleCredentialsPrint = useReactToPrint({
-		content: () => credentialsCheckRef.current,
-		pageStyle: pageStyle
-	});
+	// const handleCredentialsPrint = useReactToPrint({
+	// 	content: () => credentialsCheckRef.current,
+	// 	pageStyle: pageStyle
+	// });
 
 	const items = [
-		{
-			title: "Acceptance of Offer of Admission and Pledge",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleForm1Print
-		},
-		{
-			title: "Letter of Undertaking",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleForm2Print
-		},
-		{
-			title: "Provisional Clearance",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleForm3Print
-		},
+		// {
+		// 	title: "Acceptance of Offer of Admission and Pledge",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleForm1Print
+		// },
+		// {
+		// 	title: "Letter of Undertaking",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleForm2Print
+		// },
+		// {
+		// 	title: "Provisional Clearance",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleForm3Print
+		// },
 
-		{
-			title: "Admission Notification Slip",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleAdmissionNotificationPrint
-		},
+		// {
+		// 	title: "Admission Notification Slip",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleAdmissionNotificationPrint
+		// },
 
-		{
-			title: "Checking Of Credentials",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleCredentialsPrint
-		},
-		{
-			title: "Authority to serve as an Admission Letter",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleForm4Print
-		},
-		{
-			title: "Class Admit Card",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleForm5Print
-		},
-		{
-			title: "Student Information Card",
-			id: "print",
-			label: "Print",
-			buttonClass: "primary",
-			onClick: handleForm6Print
-		}
+		// {
+		// 	title: "Checking Of Credentials",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleCredentialsPrint
+		// },
+		// {
+		// 	title: "Authority to serve as an Admission Letter",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleForm4Print
+		// },
+		// {
+		// 	title: "Class Admit Card",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleForm5Print
+		// },
+		// {
+		// 	title: "Student Information Card",
+		// 	id: "print",
+		// 	label: "Print",
+		// 	buttonClass: "primary",
+		// 	onClick: handleForm6Print
+		// }
 	];
 	if (isLoading) return <Spinner />;
 	if (error)
