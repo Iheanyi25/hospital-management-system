@@ -135,8 +135,7 @@ const AcceptanceFeeDefault = () => {
 						buttonClass="standard"
 						onClick={() =>
 							push({
-								pathname: `/academic_fees/acceptance/fee_reciept
-								`,
+								pathname: `/academic_fees/acceptance/fee_receipt`,
 								state: data?.data?.[0]
 							})
 						}
