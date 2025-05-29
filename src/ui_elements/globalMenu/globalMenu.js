@@ -39,7 +39,7 @@ const GlobalMenu = ({
 		},
 		{
 			name: "E-Voting",
-			route: "http://evoting.akwaibompoly.edu.ng/akwapoly/evoting"
+			route: "http://evoting.akwaibompoly.edu.ng/evoting/Login.aspx"
 		}
 	];
 
