@@ -32,7 +32,8 @@ import {
 	getStudentModesUrl,
 	createStudentProfileUrl,
 	yearOfStudyUrl,
-	getStudentCategoryUrl
+	getStudentCategoryUrl,
+	getStudentModeOfEntryUrl
 } from "../../../api/urls";
 import Avatar from "react-avatar";
 import { formatSelectItems } from "../../../utils/formatSelectItems";
@@ -138,6 +139,12 @@ const CreateProfile = () => {
 			refetchOnWindowFocus: false
 		}
 	);
+	const { data: studentModesOfEntry, isLoading: isLoadingStudentModesOfEntry } = useApiGet(
+		getStudentModeOfEntryUrl(),
+		{
+			refetchOnWindowFocus: false
+		}
+	);
 	const {
 		data: studentModesOfStudy,
 		isLoading: isLoadingStudentModesOfStudy
@@ -176,6 +183,7 @@ const CreateProfile = () => {
 	const allLevels = formatSelectItems(levels?.data, "name", "id");
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
 	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
+		const allStudentModesOfEntry = formatSelectItems(studentModesOfEntry?.data, "name", "id");
 	const allStudentModesOfStudy = formatSelectItems(
 		studentModesOfStudy?.data,
 		"name",
@@ -364,7 +372,8 @@ const CreateProfile = () => {
 		isLoadingStudentModes ||
 		isLoadingStudentModesOfStudy ||
 		loadingProgrammes ||
-		isLoadingCategories
+		isLoadingCategories  ||
+		isLoadingStudentModesOfEntry
 	)
 		return (
 			<div
@@ -472,6 +481,7 @@ const CreateProfile = () => {
 						allProgrammes={allProgrammes}
 						setOpen={setOpen}
 						allStudentCategory={allStudentCategory}
+						allStudentModesOfEntry={allStudentModesOfEntry}
 					/>
 				</div>
 			</div>
@@ -494,7 +504,8 @@ const DisplayInformation = memo(
 		allStudentModesOfStudy,
 		allProgrammes,
 		setOpen,
-		allStudentCategory
+		allStudentCategory,
+		allStudentModesOfEntry
 	}) => {
 		const location = useLocation();
 		switch (location.hash) {
@@ -527,6 +538,7 @@ const DisplayInformation = memo(
 						allStudentModes={allStudentModes}
 						allStudentModesOfStudy={allStudentModesOfStudy}
 						allProgrammes={allProgrammes}
+						allStudentModesOfEntry={allStudentModesOfEntry}
 					/>
 				);
 			case "#section_e":
