@@ -11,7 +11,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ProgrammeDetailSchema } from "../profileSchema";
 import { Controller, useForm } from "react-hook-form";
 import { SAVE_STUDENT_DATA } from "../../../../store/constant";
-import { useEffect } from "react";
 import { useMemo } from "react";
 
 export const ProgrammeDetails = ({
@@ -19,7 +18,8 @@ export const ProgrammeDetails = ({
 	allSessions,
 	allStudentModes,
 	allStudentModesOfStudy,
-	allProgrammes
+	allProgrammes,
+	allStudentModesOfEntry
 }) => {
 	const studentState = useSelector((state) => state.studentData);
 	const {
@@ -30,12 +30,13 @@ export const ProgrammeDetails = ({
 			DepartmentOptionId,
 			EntryYearId,
 			StudentTypeId,
-			StudentModeOfEntryId,
+			ModeOfEntryId,
 			ProgrammeId,
 			GraduationYearId,
 			SessionId,
 			LevelId,
 			StudentModeId,
+			ModeOfStudyId
 		}
 	} = studentState;
 	const dispatch = useDispatch();
@@ -45,7 +46,6 @@ export const ProgrammeDetails = ({
 		register,
 		control,
 		handleSubmit,
-		setValue,
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
@@ -55,23 +55,20 @@ export const ProgrammeDetails = ({
 			DepartmentOptionId,
 			EntryYearId,
 			StudentTypeId,
-			StudentModeOfEntryId,
+			StudentModeOfEntryId: ModeOfEntryId,
+			StudentModeOfStudyId: ModeOfStudyId,
 			GraduationYearId,
 			SchoolProgrammeId: ProgrammeId,
 			SessionId,
 			LevelId,
-			StudentModeId,
+			StudentModeId
 		},
 		resolver: yupResolver(ProgrammeDetailSchema),
 		context: {
 			isProgrammeRequired: allProgrammes?.length > 0 ? true : false
 		}
 	});
-	useEffect(() => {
-		// setValue("LevelId", allLevels[0]);
-		// setValue("StudentModeId", allStudentModes[0]);
-		setValue("StudentModeOfStudyId", allStudentModesOfStudy[0]);
-	}, [allLevels, allStudentModes, allStudentModesOfStudy, setValue]);
+
 	const graduationYears = useMemo(
 		() =>
 			allSessions.filter(
@@ -86,7 +83,11 @@ export const ProgrammeDetails = ({
 			type: SAVE_STUDENT_DATA,
 			payload: {
 				...studentState,
-				ProgrammeDetail,
+				ProgrammeDetail: {
+					...ProgrammeDetail,
+					ModeOfEntryId: ProgrammeDetail.StudentModeOfEntryId,
+					ModeOfStudyId: ProgrammeDetail.StudentModeOfStudyId
+				},
 				isProgrammeDetailValid: true
 			}
 		});
@@ -213,7 +214,9 @@ export const ProgrammeDetails = ({
 											placeholder="Select a programme"
 											searchable={false}
 											options={allProgrammes}
-											disabled={StudentTypeId?.value === 4}
+											disabled={
+												StudentTypeId?.value === 4
+											}
 											isError={!!errors.SchoolProgrammeId}
 											errorText={
 												errors.SchoolProgrammeId &&
@@ -349,8 +352,14 @@ export const ProgrammeDetails = ({
 										{...field}
 										placeholder="Select a mode of study"
 										searchable={false}
-										id="studentModeOfStudy"
-										disabled
+										id="StudentModeOfStudyId"
+										options={allStudentModesOfStudy}
+										isError={!!errors.StudentModeOfStudyId}
+										errorText={
+											errors.StudentModeOfStudyId &&
+											errors.StudentModeOfStudyId.message
+										}
+
 									/>
 								)}
 							/>
