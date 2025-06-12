@@ -6,8 +6,8 @@ import styles from "../style.module.css";
 
 export const schema = yup.object().shape({
 	rrr: yup
-		.number()
-		.typeError("Please input a valid RRR number")
+		.string()
+		.matches(/^\d+$/, "RRR must contain only numbers")
 		.required("Please input your RRR")
 });
 
@@ -22,6 +22,7 @@ export const SearchApplication = ({ setMakeRequest, isLoading, setRrr }) => {
 
 	const onSubmit = (data) => {
 		const { rrr } = data;
+
 		setRrr(rrr);
 		setMakeRequest(true);
 	};
@@ -58,6 +59,7 @@ export const SearchApplication = ({ setMakeRequest, isLoading, setRrr }) => {
 										placeholder="Enter Remita Number"
 										name="rrr"
 										register={register}
+										type="text"
 										autoComplete="off"
 										error={errors.rrr}
 										errorText={
