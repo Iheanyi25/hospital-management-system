@@ -5,6 +5,7 @@ import { setAuthHeader } from "../api/apiCall";
 import { SAVE_IMPERSONATION_ITEMS, SAVE_MENU_ITEMS } from "../store/constant";
 import {
 	BIRTHDAY_STATE_HOLDER,
+	DISPLAY_CSAT_MODAL,
 	REFRESH_TOKEN_HOLDER,
 	STUDENT_TYPE_HOLDER,
 	TOKEN_HOLDER,
@@ -44,6 +45,9 @@ export default function useAuthAction() {
 		const tokenExpirationDate = new Date(data?.data?.jwtToken?.expires);
 		const impersonatorUsername = data?.data?.impersonatorUsername;
 		const isImpersonating = data?.data?.isImpersonating;
+		const displayCSATModal = data?.data?.displayCSATModal
+			? JSON.stringify(data?.data?.displayCSATModal)
+			: false;
 		const refreshToken = data?.data?.refreshToken;
 		if (data?.data?.menuItems?.length !== 0) {
 			dispatch({
@@ -62,23 +66,26 @@ export default function useAuthAction() {
 			//automatically pushes to dashboard, since cookie is set, therefore, app re-renders
 			//and the App is re-mounted
 			setCookie(TOKEN_HOLDER, token, {
-				path: "/",
+				path: "/"
 			});
 			//manually being set to a student user now, since the api doesn't return the user type
 			setCookie(USER_ROLE_HOLDER, userRole, {
-				path: "/",
+				path: "/"
 			});
 			setCookie(USER_NAME_HOLDER, userName, {
-				path: "/",
+				path: "/"
 			});
 			setCookie(BIRTHDAY_STATE_HOLDER, birthday, {
-				path: "/",
+				path: "/"
 			});
 			setCookie(STUDENT_TYPE_HOLDER, studentTypeId, {
-				path: "/",
+				path: "/"
 			});
 			setCookie(REFRESH_TOKEN_HOLDER, refreshToken, {
-				path: "/",
+				path: "/"
+			});
+			setCookie(DISPLAY_CSAT_MODAL, displayCSATModal, {
+				path: "/"
 			});
 		} else {
 			const errorFlag = window.AJS.flag({

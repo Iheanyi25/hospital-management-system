@@ -5,15 +5,16 @@ import { useApiGet } from "../../api/apiCall";
 import { getStudentProfileUrl, getUserProfileUrl } from "../../api/urls";
 import useAuthAction from "../../custom-hooks/useAuthAction";
 import { Logout } from "../../pages";
-
 import {
 	TOKEN_HOLDER,
+	DISPLAY_CSAT_MODAL,
 	USER_NAME_HOLDER,
 	USER_ROLE_HOLDER
 } from "../../utils/constants";
 import { Banner, GlobalMenu, SideMenu } from "../index";
 import { PageLoader } from "../pageLoader/pageLoader";
 import "./layout.css";
+import FeedbackModal from "../feedbackModal/feedback";
 
 export const parent = createRef(null);
 
@@ -49,9 +50,20 @@ const Layout = ({ children, title, noHeader }) => {
 	const [signOutModal, setSignOutModal] = useState(false);
 	const [cookies] = useCookies([
 		TOKEN_HOLDER,
+		DISPLAY_CSAT_MODAL,
 		USER_NAME_HOLDER,
 		USER_ROLE_HOLDER
 	]);
+	const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(
+		cookies[DISPLAY_CSAT_MODAL]
+			? JSON.parse(cookies[DISPLAY_CSAT_MODAL])
+			: false
+	);
+	useEffect(() => {
+		cookies[DISPLAY_CSAT_MODAL] &&
+			setIsFeedbackModalOpen(JSON.parse(cookies[DISPLAY_CSAT_MODAL]));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [cookies[DISPLAY_CSAT_MODAL]]);
 
 	const { data, isLoading, error } = useApiGet(
 		getStudentProfileUrl({ refCode: false }),
@@ -131,6 +143,12 @@ const Layout = ({ children, title, noHeader }) => {
 							impersonated={userName}
 							date={tokenExpirationDate}
 							onEndSessionClick={logout}
+						/>
+					)}
+					{isFeedbackModalOpen && (
+						<FeedbackModal
+							isOpen={isFeedbackModalOpen}
+							onClose={() => setIsFeedbackModalOpen(false)}
 						/>
 					)}
 					<GlobalMenu
