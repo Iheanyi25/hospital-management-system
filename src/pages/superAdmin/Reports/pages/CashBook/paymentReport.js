@@ -12,7 +12,7 @@ import {
 	getSchoolFeesPaymentTypesUrl,
 	getPaymentPurposeUrl,
 	getFeesReportUrl,
-	downloadFeesReportUrl
+	downloadCashBookReportUrl
 } from "../../../../../api/urls";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
@@ -146,10 +146,7 @@ const PaymentReports = () => {
 		filter?.studentTypeId,
 		allStudentTypes
 	)?.label;
-	const paymentPuporse = findValueAndLabel(
-		filter?.paymentPurposeId,
-		allPaymentPurposes
-	)?.label;
+
 	const faculty = findValueAndLabel(filter?.facultyId, allFaculties)?.label;
 	const sessionName = findValueAndLabel(
 		filter?.sessionId,
@@ -160,7 +157,7 @@ const PaymentReports = () => {
 		allDepartments
 	)?.label;
 
-	const outputTitle = `${studentType} ${paymentPuporse} Payment Report ${
+	const outputTitle = `${studentType} Cash Book Report ${
 		department
 			? `for the department of ${department}`
 			: faculty
@@ -177,7 +174,7 @@ const PaymentReports = () => {
 		data: file,
 		isLoading: fileLoading,
 		error: fileError
-	} = useApiBlob(downloadFeesReportUrl(filter), {
+	} = useApiBlob(downloadCashBookReportUrl(filter), {
 		enabled: downloadFile,
 		refetchOnWindowFocus: false
 	});
