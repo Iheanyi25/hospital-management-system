@@ -146,10 +146,7 @@ const PaymentReports = () => {
 		filter?.studentTypeId,
 		allStudentTypes
 	)?.label;
-	const paymentPuporse = findValueAndLabel(
-		filter?.paymentPurposeId,
-		allPaymentPurposes
-	)?.label;
+
 	const faculty = findValueAndLabel(filter?.facultyId, allFaculties)?.label;
 	const sessionName = findValueAndLabel(
 		filter?.sessionId,
@@ -160,7 +157,7 @@ const PaymentReports = () => {
 		allDepartments
 	)?.label;
 
-	const outputTitle = `${studentType} ${paymentPuporse} Payment Report ${
+	const outputTitle = `${studentType} Cash Book Report ${
 		department
 			? `for the department of ${department}`
 			: faculty
