@@ -60,6 +60,7 @@ export const TENECE_SUPPORT_URL = "https://teneceschoolsupport.com/";
 
 // Authentication Constants
 export const TOKEN_HOLDER = `${SCHOOL_DETAILS.shortForm}token`;
+export const DISPLAY_CSAT_MODAL = `${SCHOOL_DETAILS.shortForm}displayCSATModal`;
 export const USER_ROLE_HOLDER = `${SCHOOL_DETAILS.shortForm}userRole`;
 export const USER_NAME_HOLDER = `${SCHOOL_DETAILS.shortForm}userName`;
 export const BIRTHDAY_STATE_HOLDER = `${SCHOOL_DETAILS.shortForm}birthday`;
