@@ -82,7 +82,7 @@ export const bulkUpdateAcceptanceFeesAssignmentUrl = () =>
 export const downloadAcceptanceFeesSampleUrl = () =>
 	`${baseUrl}/acceptance-fee-assignment-upload-sample-sheet`;
 export const downloadFeesReportUrl = (filter) =>
-	`${baseUrl}/download-fee-report?${generateUrlParams(filter)}`;
+	`${baseUrl}/download-cashbook-report?${generateUrlParams(filter)}`;
 export const getFeesReportUrl = (filter) =>
 	`${baseUrl}/fee-report?${generateUrlParams(filter)}`;
 export const getScholarshipsUrl = (filter) =>
