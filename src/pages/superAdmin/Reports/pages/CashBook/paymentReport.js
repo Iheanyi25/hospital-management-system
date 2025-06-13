@@ -12,7 +12,7 @@ import {
 	getSchoolFeesPaymentTypesUrl,
 	getPaymentPurposeUrl,
 	getFeesReportUrl,
-	downloadFeesReportUrl
+	downloadCashBookReportUrl
 } from "../../../../../api/urls";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
@@ -177,7 +177,7 @@ const PaymentReports = () => {
 		data: file,
 		isLoading: fileLoading,
 		error: fileError
-	} = useApiBlob(downloadFeesReportUrl(filter), {
+	} = useApiBlob(downloadCashBookReportUrl(filter), {
 		enabled: downloadFile,
 		refetchOnWindowFocus: false
 	});
