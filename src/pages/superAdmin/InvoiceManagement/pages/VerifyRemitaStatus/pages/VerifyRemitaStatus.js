@@ -16,6 +16,8 @@ const VerifyRemitaStatus = () => {
 	const { push } = useHistory();
 
 	const verifyError = (error) => {
+		if (!error) {
+			setResponseMessage("Error RRR is invalid");}
 		if (typeof error === "string") {
 			setResponseMessage(error);
 		} else if (error?.response?.data?.message) {
@@ -61,7 +63,7 @@ const VerifyRemitaStatus = () => {
 				setOpenModal(true);
 				setMakeRequest(false);
 			}
-		} else if (isError && makeRequest) {
+		} else if ((isError || verificationResponse?.data === null) && makeRequest) {
 			verifyError(error);
 			validationChecker(false, rrr);
 			setOpenModal(true);
