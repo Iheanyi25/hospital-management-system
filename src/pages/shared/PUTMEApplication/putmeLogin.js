@@ -92,7 +92,7 @@ const PUTMELogin = () => {
 				<form onSubmit={handleSubmit(onSubmit)} className="mt-4">
 					<h1 className={`${styles.auth_main_header}`}>Login</h1>
 					<p className={`${styles.auth_sub_header}`}>
-						ADMISSION SCREENING APPLICATION FORM
+						ND PART TIME PROGRAMME
 					</p>
 					<div className="my-3 px-5 w-100 text-left">
 						<label
@@ -103,7 +103,7 @@ const PUTMELogin = () => {
 						</label>
 						<TextField
 							id="reg_no"
-							placeholder="Enter your Remita Retrieval Refference "
+							placeholder="Enter your Remita Retrieval Reference "
 							type="text"
 							name="jambRegNumber"
 							register={register}
