@@ -116,15 +116,15 @@ const SchoolFeesEdit = () => {
 				ServiceTypeId:
 					breakdown?.data?.serviceTypeId || filter.ServiceTypeId,
 				FeeBreakdown: Object.values(getValues()?.["amount"])
-					?.slice(1)
+					?.slice(2)
 					?.map((_, index) => ({
 						amount: Object.values(getValues()?.["amount"])[
-							index + 1
+							index + 2
 						],
-						id: Object.values(getValues()?.["id"])[index + 1],
+						id: Object.values(getValues()?.["id"])[index + 2],
 						description: Object.values(
 							getValues()?.["description"]
-						)[index + 1]
+						)[index + 2]
 					}))
 					?.filter((item) => item?.amount !== undefined)
 			}
@@ -218,6 +218,8 @@ const SchoolFeesEdit = () => {
 	}, [breakdown, setValue, constants]);
 
 	if (isBreakdownLoading) return <Spinner />;
+
+	console.log(breakdowns, "HELLO BREAKDOWNS");
 
 	if (errorBreakdown)
 		return (
