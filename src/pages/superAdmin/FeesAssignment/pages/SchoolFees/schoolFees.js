@@ -278,6 +278,15 @@ const SchoolFeesAssignment = () => {
 					)}`}</div>
 				)
 			},
+			{
+				Header: "Portal Charge (₦)",
+				accessor: "portalCharge",
+				Cell: ({ cell: { row } }) => (
+					<div>{`${numberFormatter(
+						row?.original?.portalCharge
+					)}`}</div>
+				)
+			},
 
 			{
 				Header: "Service Type",

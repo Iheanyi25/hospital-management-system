@@ -30,7 +30,7 @@ const SchoolFeesBulk = () => {
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
 
-	const [breakdowns, setBreakdowns] = useState([0]);
+	const [breakdowns, setBreakdowns] = useState([0, 1]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 	const name = "Bulk Assignment";
 
@@ -102,7 +102,7 @@ const SchoolFeesBulk = () => {
 			url: bulkUpdateSchoolFeesAssignmentUrl(),
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
-				// KSmartCommission: getValues()?.["amount"]?.[1] || 0,
+				portalCharge: getValues()?.["amount"]?.[1] || 0,
 				// HubblyCommission: getValues()?.["amount"]?.[2] || 0,
 				// SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
@@ -184,8 +184,8 @@ const SchoolFeesBulk = () => {
 	useEffect(() => {
 		setValue(`description.${0}`, "Tenece Commission");
 		setValue(`amount.${0}`, 0);
-		// setValue(`amount.${1}`, 0);
-		// setValue(`description.${1}`, "KSmart Commission");
+		setValue(`amount.${1}`, 0);
+		setValue(`description.${1}`, "Portal Charge");
 		// setValue(`amount.${2}`, 0);
 		// setValue(`description.${2}`, "Hubbly Commission");
 		// setValue(`amount.${3}`, 0);
@@ -317,7 +317,7 @@ const SchoolFeesBulk = () => {
 																index
 															]
 														}
-														disabled={index < 1}
+														disabled={index < 2}
 													/>
 												</div>
 												<div className="col-md-5 d-flex align-items-center gap-2 gap-md-0">
