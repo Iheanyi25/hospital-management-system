@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../../../api/apiCall";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAllLGAsUrl, getAllStatesUrl } from "../../../../../../api/urls";
+import { getAllLGAsUrl, getAllStatesUrl, getStudentCategoryUrl } from "../../../../../../api/urls";
 import { PersonalInformationSchema } from "../profileSchema";
 import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
 import { useEffect, useMemo, useState } from "react";
@@ -35,6 +35,12 @@ export const PersonalInformation = ({
 		}
 	);
 
+	const {
+		data: studentCategories,
+	} = useApiGet(getStudentCategoryUrl(), {
+		refetchOnWindowFocus: false
+	});
+
 	const allStates = useMemo(
 		() => formatSelectItems(states?.data, "name", "id"),
 		[states]
@@ -43,6 +49,8 @@ export const PersonalInformation = ({
 		() => formatSelectItems(lgas?.data, "name", "id"),
 		[lgas]
 	);
+	const allStudentCategories = useMemo(() => formatSelectItems(studentCategories?.data, "name", "id"), [studentCategories])
+
 	const {
 		register,
 		control,
@@ -56,6 +64,7 @@ export const PersonalInformation = ({
 			Firstname: data?.firstname,
 			Middlename: data?.middlename,
 			Lastname: data?.lastname,
+			CategoryId: findValueAndLabel(data?.categoryId, allStudentCategories),
 			GenderId: findValueAndLabel(data?.genderId, allGenders),
 			DateOfBirth: formatDateFromAPI(data?.dateOfBirth),
 			CountryId: findValueAndLabel(data?.countryId, allCountries),
@@ -115,6 +124,7 @@ export const PersonalInformation = ({
 			allReligions={allReligions}
 			allCountries={allCountries}
 			allGenders={allGenders}
+			allStudentCategories={allStudentCategories}
 		/>
 	);
 };
