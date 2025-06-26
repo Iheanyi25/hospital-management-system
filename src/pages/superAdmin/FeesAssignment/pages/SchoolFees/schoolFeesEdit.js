@@ -43,7 +43,7 @@ const SchoolFeesEdit = () => {
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
 
-	const [breakdowns, setBreakdowns] = useState([0]);
+	const [breakdowns, setBreakdowns] = useState([0, 1]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 
 	const crumbItems = [
@@ -96,7 +96,7 @@ const SchoolFeesEdit = () => {
 			),
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
-				// KSmartCommission: getValues()?.["amount"]?.[1] || 0,
+				PortalCharge: getValues()?.["amount"]?.[1] || 0,
 				// HubblyCommission: getValues()?.["amount"]?.[2] || 0,
 				// SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
@@ -191,8 +191,8 @@ const SchoolFeesEdit = () => {
 		setValue(`description.${0}`, "Tenece Commission");
 
 		// Todo incase they start adding said commisions
-		// setValue(`amount.${1}`, breakdown?.data?.kSmartCommission || 0);
-		// setValue(`description.${1}`, "KSmart Commission");
+		setValue(`amount.${1}`, breakdown?.data?.portalCharge || 0);
+		setValue(`description.${1}`, "Portal Charge");
 		// setValue(`amount.${2}`, breakdown?.data?.hubblyCommission || 0);
 		// setValue(`description.${2}`, "Hubbly Commission");
 		// setValue(`amount.${3}`, breakdown?.data?.seamfixCommission || 0);
@@ -296,7 +296,7 @@ const SchoolFeesEdit = () => {
 												)
 											}
 											error={errors?.description?.[index]}
-											disabled={index < 1}
+											disabled={index < 2}
 										/>
 									</div>
 									<div className="col-md-5 d-flex align-items-center gap-2 gap-md-0">

@@ -24,23 +24,15 @@ const schema = yup.object().shape({
 			"number must be a valid positive number!",
 			(value) => value >= 0
 		),
+	portalCharge: yup
+		.string()
+		.required("please input tenece commission")
+		.test(
+			"Is positive?",
+			"number must be a valid positive number!",
+			(value) => value >=0
+		),
 
-	// hubblyCommission: yup
-	// 	.string()
-	// 	.required("please input hubbly commission")
-	// 	.test(
-	// 		"Is positive?",
-	// 		"number must be a valid positive number!",
-	// 		(value) => value >= 0
-	// 	),
-	// seamfixCommission: yup
-	// 	.string()
-	// 	.required("please input seamfix commission")
-	// 	.test(
-	// 		"Is positive?",
-	// 		"number must be a valid positive number!",
-	// 		(value) => value >= 0
-	// 	),
 	feesSheet: yup
 		.mixed()
 		.test("required", "Please select an excel file!", (value) => {
@@ -73,8 +65,7 @@ export const FeesUpload = ({ setUploaded, setFileData, allAdmissionTypes }) => {
 		setUploaded(true);
 		setFileData({
 			teneceCommission: data?.teneceCommission,
-			hubblyCommission: data?.hubblyCommission,
-			seamfixCommission: data?.seamfixCommission,
+			portalCharge: data?.portalCharge,
 			file: data.feesSheet[0]
 		});
 	};
@@ -154,31 +145,30 @@ export const FeesUpload = ({ setUploaded, setFileData, allAdmissionTypes }) => {
 					/>
 				</div>
 			</div>
-			{/* <div className="row mb-4">
+			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
 					<label
 						htmlFor="admission_batch"
 						className={styles.admission_list_edit_label}
 					>
-						KSmart Commission
+						Portal Charge
 					</label>
 				</div>
 				<div className="col-lg-9">
 					<TextField
-						id="kSmartCommission"
+						id="portalCharge"
 						placeholder="Enter commission"
 						type="text"
-						name="kSmartCommission"
+						name="portalCharge"
 						register={register}
-						error={errors.kSmartCommission}
+						error={errors.portalCharge}
 						errorText={
-							errors.kSmartCommission &&
-							errors.kSmartCommission.message
+							errors.portalCharge && errors.portalCharge.message
 						}
 						required
 					/>
 				</div>
-			</div> */}
+			</div>
 			{/* <div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
 					<label
