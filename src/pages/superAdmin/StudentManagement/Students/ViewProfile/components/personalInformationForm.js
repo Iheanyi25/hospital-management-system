@@ -10,7 +10,8 @@ import { Controller } from "react-hook-form";
 import { useApiPatch } from "../../../../../../api/apiCall";
 import {
 	getStudentProfileUrl,
-	updateStudentProfileUrl
+	updateStudentProfileUrl,
+
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { findValueAndLabel } from "../../../../../../utils/findValueAndLabel";
@@ -31,13 +32,13 @@ export const PersonalInformationForm = ({
 	allGenders,
 	allLGAs,
 	allStates,
+	allStudentCategories,
 	isLoadingLGAs,
 	isLoadingStates,
 	onCountryChange,
 	onStateChange,
 	refCode
 }) => {
-
 	const { mutate, isLoading } = useApiPatch();
 	const queryClient = useQueryClient();
 	const onSubmit = async (values) => {
@@ -221,6 +222,34 @@ export const PersonalInformationForm = ({
 									errors.DateOfBirth &&
 									errors.DateOfBirth.message
 								}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="container-fluid px-4 my-4">
+					<div className="row">
+						<div className="col-lg-3 d-flex align-items-center">
+							<label htmlFor="CategoryId">Category</label>
+						</div>
+						<div className="col-lg-9">
+							<Controller
+								name="CategoryId"
+								control={control}
+								rules={{ required: true }}
+								render={({ field }) => (
+									<SMSelect
+										{...field}
+										searchable={false}
+										placeholder="Choose a category"
+										id="CategoryId"
+										options={allStudentCategories}
+										isError={!!errors.CategoryId}
+										errorText={
+											errors.CatgoryId &&
+											errors.CategoryId.message
+										}
+									/>
+								)}
 							/>
 						</div>
 					</div>
