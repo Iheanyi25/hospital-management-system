@@ -109,7 +109,7 @@ export const ProgrammeDetailSchema = yup.object().shape({
 	MatricNumber: yup.string().required("please input matric number"),
 	JambRegNumber: yup.string().required("please input jamb reg. number"),
 	DepartmentId: yup.mixed().required("please select department"),
-	DepartmentOptionId: yup.mixed().required("please select department option"),
+	DepartmentOptionId: yup.mixed().nullable(),
 	SchoolProgrammeId: yup
 		.mixed()
 		.when("$isProgrammeRequired", (isProgrammeRequired, schema) => {
