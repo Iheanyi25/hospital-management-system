@@ -42,7 +42,8 @@ const staffPaths = {
 	"jamb list upload": "/jamb_list_upload",
 	"hostel management": "/hostel_management/manage_hostel",
 	"application reports": "/app_reports/application_reports",
-	"school setup": "/school_setup/manage_faculty_and_department"
+	"school setup": "/school_setup/manage_faculty_and_department",
+	"e tranzact": "/e_tranzact",
 };
 
 const Layout = ({ children, title, noHeader }) => {

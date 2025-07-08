@@ -337,6 +337,11 @@ const LazyBursaryInvoiceManagement = lazy(() =>
 		"../../pages/superAdmin/InvoiceManagement/pages/bursaryInvoiceManagement/bursaryInvoiceManagement"
 	)
 );
+const LazyETranzact = lazy(() =>
+	import(
+		"../../pages/superAdmin/InvoiceManagement/pages/ETranzact/tranzactFees"
+	)
+);
 const LazyDeleteSundryInvoice = lazy(() =>
 	import(
 		"../../pages/superAdmin/InvoiceManagement/pages/DeleteSundryInvoice/pages/deleteSundryInvoice"
@@ -985,6 +990,13 @@ export const staffRoutes = [
 	{
 		path: "/invoice_management/invoice",
 		component: LazyInvoiceManagement,
+		exact: true,
+		router: InvoiceRouter,
+		title: "Invoice Management"
+	},
+	{
+		path: "/invoice_management/e_tranzact",
+		component: LazyETranzact,
 		exact: true,
 		router: InvoiceRouter,
 		title: "Invoice Management"
