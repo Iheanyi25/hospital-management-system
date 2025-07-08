@@ -33,6 +33,11 @@ export const InvoiceRouter = ({
 				title: "Verify Remita Status",
 				path: "/invoice_management/verify_remita_status",
 				disabled: false
+			},
+			{
+				title: "E Tranzact",
+				path: "/invoice_management/e_tranzact",
+				disabled: false
 			}
 		],
 		[]

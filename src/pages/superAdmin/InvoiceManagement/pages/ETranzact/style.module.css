@@ -1,0 +1,112 @@
+.page_content {
+	display: flex;
+	justify-content: center;
+	margin-top: 74px;
+}
+
+.form_content label {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 16px;
+}
+
+.success_container {
+	border: 2px dashed var(--success);
+	padding: 24px 24px;
+}
+
+.success_container div:nth-child(2) h2 {
+	font-style: normal;
+	font-weight: 600;
+	font-size: 1.36rem;
+	line-height: 24px;
+}
+
+.success_container div:nth-child(2) h4 {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 20px;
+	margin-bottom: 19px;
+}
+
+.success_container div:nth-child(2) p {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 24px;
+}
+
+.progress_bar {
+	height: 4px;
+	border-radius: 2px;
+	background: var(--success);
+}
+
+.add_another,
+.bin {
+	background: none;
+	outline: none;
+	border: none;
+	color: var(--primary);
+}
+
+.add_another::before {
+	content: url("../../../../../assets/svgs/addCircle.svg");
+	vertical-align: middle;
+	margin-right: 6px;
+}
+
+.receipt_container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.details_table {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.label {
+  font-weight: 600;
+  color: #333;
+  min-width: 200px;
+}
+
+.value {
+  text-align: left;
+  color: #444;
+  flex: 1;
+}
+
+.button_wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* Optional style for orange button if not defined */
+.orange {
+  background-color: #f4a640;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+}

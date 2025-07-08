@@ -17,6 +17,9 @@ export const initiateDevelopmentLevyPaymentUrl = () =>
 export const generateFeesInvoiceUrl = () => `${baseUrl}/generate-fee-Invoice`;
 export const generateSchoolFeesBalanceInvoiceUrl = () =>
 	`${baseUrl}/generate-balance-invoice`;
+export const getAllETranzactFeesUrl = (filter) =>
+	`${baseUrl}/get-all-etranzact-payments?${generateUrlParams(filter)}`;
+
 export const getInvoiceUrl = (rrr) => `${baseUrl}/invoice/${rrr}`;
 export const getInvoiceWithInvoiceNumberUrl = (invoiceCode) =>
 	`${baseUrl}/school-fees-invoice?invoiceCode=${invoiceCode}`;
