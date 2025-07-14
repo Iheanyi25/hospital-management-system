@@ -104,8 +104,8 @@ export const CloneSchoolFeesAssignment = ({
 				closeModal();
 				const successFlag = window.AJS.flag({
 					type: "success",
-					title: "Cloned Successfully!",
-					body: "Fee assignment was cloned successfully!"
+					title: "School Fees Action Successful ",
+					body: "Your school fees assignment was cloned successfully!"
 				});
 				setTimeout(() => {
 					successFlag.close();
@@ -114,10 +114,10 @@ export const CloneSchoolFeesAssignment = ({
 			onError: ({ response }) => {
 				const errorFlag = window.AJS.flag({
 					type: "error",
-					title: "Cloned Unsuccessfully!",
+					title: "School Fees Action Failed",
 					body:
 						response?.data?.message ||
-						`Fee assignment wasn't cloned correctly!`
+						`School fees assignment wasn't cloned correctly!`
 				});
 				setTimeout(() => {
 					errorFlag.close();
