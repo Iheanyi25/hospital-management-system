@@ -31,7 +31,6 @@ export const CloneSchoolFeesAssignment = ({
 	allSessions,
 	closeModal,
 	paymentPurposeId,
-	paymentIdentifier
 }) => {
 	const {
 		control,

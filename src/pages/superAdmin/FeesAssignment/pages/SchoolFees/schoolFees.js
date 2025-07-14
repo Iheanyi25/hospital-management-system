@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../../api/apiCall";
-import { PAYMENTIDENTIFIER } from "../../../../../utils/constants";
 import queryString from "query-string";
 import {
 	getFacultiesUrl,
@@ -487,7 +486,6 @@ const SchoolFeesAssignment = () => {
 					allStudentTypes={allStudentTypes}
 					currentFilterState={{ ...filter, pageNumber, searchTerm }}
 					paymentPurposeId="SchoolFees"
-					paymentIdentifier={PAYMENTIDENTIFIER.schoolFees}
 					closeModal={() => setCloneOpen(false)}
 				/>
 			</CenteredDialog>
