@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useApiGet } from "../../../../../api/apiCall";
+import { PAYMENTIDENTIFIER } from "../../../../../utils/constants";
 import queryString from "query-string";
 import {
 	getFacultiesUrl,
@@ -10,6 +11,7 @@ import {
 	yearOfStudyUrl,
 	getSchoolFeesAssignmentsUrl,
 	getSchoolFeesPaymentTypesUrl,
+	getAllDepartmentsWithoutValuesUrl,
 	getAllSessionsUrl,
 	getStudentModeOfEntryUrl,
 	getPaymentChannelsUrl,
@@ -188,6 +190,15 @@ const SchoolFeesAssignment = () => {
 		}
 	);
 
+	const { 
+		data: departments, 
+		isLoading: isLoadingDepartments, 
+		error: departmentsError } = useApiGet(
+		getAllDepartmentsWithoutValuesUrl(),{
+			refetchOnWindowFocus: false
+		}
+	);
+
 	const allSessions = useMemo(
 		() => formatSelectItems(sessions?.data, "session", "id"),
 		[sessions]
@@ -254,6 +265,11 @@ const SchoolFeesAssignment = () => {
 			}
 		],
 		[]
+	);
+
+	const allDepartments = useMemo(
+		() => formatSelectItems(departments?.data, "name", "id"),
+		[departments]
 	);
 
 	const columns = useMemo(
@@ -430,6 +446,7 @@ const SchoolFeesAssignment = () => {
 	if (
 		isLoading ||
 		isPaymentTypesLoading ||
+		isLoadingDepartments ||
 		isLoadingServiceTypes ||
 		isLoadingStudentTypes ||
 		isLoadingStudentMode ||
@@ -448,7 +465,8 @@ const SchoolFeesAssignment = () => {
 		facultiesError ||
 		paymentChannelsError ||
 		programmeTypesError ||
-		studentCategoryError
+		studentCategoryError ||
+		departmentsError
 	)
 		return "An error has occurred: " + error?.message;
 
@@ -458,14 +476,18 @@ const SchoolFeesAssignment = () => {
 				modalId="clone_school_fees"
 				isOpen={cloneOpen}
 				closeModal={() => setCloneOpen(false)}
-				width={705}
+				width={1500}
 				formTitle="Clone School fees Assignment"
 			>
 				<CloneSchoolFeesAssignment
 					filter={filter}
 					allSessions={allSessions}
+					allDepartments={allDepartments}
+					allStudentModesOfStudy={allStudentModesOfStudy}
+					allStudentTypes={allStudentTypes}
 					currentFilterState={{ ...filter, pageNumber, searchTerm }}
 					paymentPurposeId="SchoolFees"
+					paymentIdentifier={PAYMENTIDENTIFIER.schoolFees}
 					closeModal={() => setCloneOpen(false)}
 				/>
 			</CenteredDialog>
