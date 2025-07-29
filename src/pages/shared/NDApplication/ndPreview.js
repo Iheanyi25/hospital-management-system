@@ -20,7 +20,6 @@ const NDPreview = ({ componentRef, details }) => {
 		programmeInfoResponse?.thirdSubjectUtmeScore +
 		programmeInfoResponse?.fourthSubjectUtmeScore;
 
-
 	return (
 		<ApplicationPreviewWrapper
 			userDetails={{
@@ -51,7 +50,7 @@ const NDPreview = ({ componentRef, details }) => {
 							</div>
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Middle Name</h6>
-								<p className="col-4">{`${personalInfoResponse?.firstname}`}</p>
+								<p className="col-4">{`${personalInfoResponse?.middlename}`}</p>
 							</div>
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Gender</h6>
