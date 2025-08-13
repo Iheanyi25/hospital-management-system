@@ -15,7 +15,6 @@ export const ManageUnitLoadForm = ({
 	allSessions,
 	allFaculties,
 	allStudentTypes,
-	data,
 	setFilter,
 	handleSubmit,
 	allLevels,

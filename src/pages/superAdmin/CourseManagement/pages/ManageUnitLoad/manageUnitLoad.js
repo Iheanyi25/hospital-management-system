@@ -8,7 +8,6 @@ import {
 	yearOfStudyUrl,
 	getStudentTypesUrl,
 	getUnitLoadsToManageUrl,
-	getStudentModeOfEntryUrl,
 	getAllSessionsUrl,
 	getStudentModesOfStudyUrl
 } from "../../../../../api/urls";
@@ -83,12 +82,6 @@ const ManageUnitLoad = () => {
 			enabled: !!watchData?.studentTypeId?.value
 		}
 	);
-	const { data: studentModes, isLoading: isLoadingStudentModes } = useApiGet(
-		getStudentModeOfEntryUrl(),
-		{
-			refetchOnWindowFocus: false
-		}
-	);
 
 	const { data: levels, isLoading: isLoadingLevels } = useApiGet(
 		yearOfStudyUrl({ studentTypeId: watchData?.studentTypeId?.value }),
@@ -99,7 +92,6 @@ const ManageUnitLoad = () => {
 	);
 	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
-	const allStudentModes = formatSelectItems(studentModes?.data, "name", "id");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const allLevels = formatSelectItems(levels?.data, "name", "id");
 	const {
@@ -114,8 +106,7 @@ const ManageUnitLoad = () => {
 		[studentModesOfStudy]
 	);
 
-	if (isLoading || isLoadingStudentModes || isLoadingStudentTypes)
-		return <Spinner />;
+	if (isLoading || isLoadingStudentTypes) return <Spinner />;
 	if (error || unitLoadsError)
 		return "An error has occurred: " + error?.response?.data?.message;
 	return (
@@ -133,7 +124,6 @@ const ManageUnitLoad = () => {
 						facultyId: filter.facultyId,
 						modeOfStudyId: filter.modeOfStudyId,
 						studentTypeId: filter.studentTypeId,
-						// sessionId: "",
 						semesterId: filter.semesterId,
 						...(filter.yearOfStudyId && {
 							levelId: filter.yearOfStudyId
@@ -154,12 +144,10 @@ const ManageUnitLoad = () => {
 						allFaculties={allFaculties}
 						isLoadingFaculties={isLoadingFaculties}
 						allSessions={allSessions}
-						allStudentModes={allStudentModes}
 						allStudentTypes={allStudentTypes}
 						isLoadingLevels={isLoadingLevels}
 						levels={levels}
 						allLevels={allLevels}
-						data={unitLoads?.data?.items}
 						setFilter={setFilter}
 						setValue={setValue}
 						handleSubmit={handleSubmit}
