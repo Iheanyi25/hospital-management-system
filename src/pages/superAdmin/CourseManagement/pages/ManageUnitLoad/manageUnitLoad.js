@@ -31,7 +31,6 @@ const ManageUnitLoad = () => {
 		semesterId: "",
 		yearOfStudyId: "",
 		searchTerm: "",
-
 		pageSize: PAGESIZE.sm
 	});
 
@@ -55,7 +54,8 @@ const ManageUnitLoad = () => {
 		}),
 		{
 			enabled: !!filter.facultyId,
-			keepPreviousData: true
+			keepPreviousData: true,
+			refetchOnWindowFocus: false
 		}
 	);
 	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
