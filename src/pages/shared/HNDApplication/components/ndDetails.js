@@ -37,7 +37,8 @@ export const NDDetails = ({ allSessions }) => {
 			schoolAttended: ndDetailsInfo?.schoolAttended,
 			yearOfGraduation:
 				findValueAndLabel(
-					ndDetailsInfo?.yearOfGraduation?.value || ndDetailsInfo?.yearOfGraduation,
+					ndDetailsInfo?.yearOfGraduation?.value ||
+						ndDetailsInfo?.yearOfGraduation,
 					allSessions
 				) || null,
 			cgpa: ndDetailsInfo?.cgpa,
@@ -78,8 +79,6 @@ export const NDDetails = ({ allSessions }) => {
 					pathname: "/hnd_application_details",
 					state: { fromLogin: true, details: data?.data }
 				});
-			
-		
 			},
 			onError: (error) => {
 				const errorFlag = window.AJS.flag({
@@ -217,9 +216,9 @@ export const NDDetails = ({ allSessions }) => {
 								name="courseStudied"
 								error={!!errors.courseStudied}
 								errorText={
-                                    errors.courseStudied &&
-                                    errors.courseStudied.message
-                                }
+									errors.courseStudied &&
+									errors.courseStudied.message
+								}
 								register={register}
 								required
 							/>
