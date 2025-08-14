@@ -23,7 +23,7 @@ export const EditUnitLoad = ({
 		yearOfStudyId,
 		departmentId,
 		departmentOptionId,
-		modeOfEntryId
+		modeOfStudyId
 	} = data;
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
@@ -51,7 +51,7 @@ export const EditUnitLoad = ({
 				semesterId: filter?.semesterId,
 				studentTypeId: filter?.studentTypeId,
 				levelId: filter?.yearOfStudyId,
-				modeOfEntryId
+				modeOfStudyId
 			}
 		};
 		mutate(requestDet, {

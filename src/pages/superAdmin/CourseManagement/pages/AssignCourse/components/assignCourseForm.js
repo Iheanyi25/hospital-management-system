@@ -214,7 +214,14 @@ export const AssignCoursetForm = ({
 						)}
 						{allStudentModesOfStudy?.length > 0 && (
 							<div className="col-md-6">
-								<div className="row mt-5">
+								<div
+									className={`row ${
+										allDepartments.length > 0 ||
+										isDepartmentLoading
+											? "mt-5"
+											: ""
+									}`}
+								>
 									<div className="col-lg-3 d-flex align-items-center">
 										<label
 											className="font-weight-bold"
