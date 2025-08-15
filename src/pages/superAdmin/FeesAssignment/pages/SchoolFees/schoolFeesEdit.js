@@ -12,7 +12,6 @@ import {
 import { Bin } from "../../../../../assets/svgs";
 import {
 	getSchoolFeesAssignmentBreakdownUrl,
-	getSchoolFeesAssignmentsUrl,
 	updateSchoolFeesAssignmentBreakdownUrl
 } from "../../../../../api/urls";
 import { useApiGet, useApiPut } from "../../../../../api/apiCall";
@@ -42,8 +41,7 @@ const SchoolFeesEdit = () => {
 	});
 	const { mutate, isLoading } = useApiPut();
 	const queryClient = useQueryClient();
-
-	const [breakdowns, setBreakdowns] = useState([0, 1]);
+	const [breakdowns, setBreakdowns] = useState(id === 0 ? [0, 1, 2] : [0, 1]);
 	const constants = useMemo(() => ["amount", "id", "description"], []);
 
 	const crumbItems = [
@@ -97,8 +95,6 @@ const SchoolFeesEdit = () => {
 			data: {
 				TeneceCommission: getValues()?.["amount"]?.[0] || 0,
 				PortalCharge: getValues()?.["amount"]?.[1] || 0,
-				// HubblyCommission: getValues()?.["amount"]?.[2] || 0,
-				// SeamfixCommission: getValues()?.["amount"]?.[3] || 0,
 				SessionId: filter?.SessionId,
 				PaymentChannelId: filter?.PaymentChannelId,
 				StudentTypeId: filter?.StudentTypeId,
@@ -135,8 +131,15 @@ const SchoolFeesEdit = () => {
 					type: FEES_ASSIGNMENT,
 					payload: data?.data?.data
 				});
-				queryClient.invalidateQueries(
-					getSchoolFeesAssignmentsUrl(filter)
+				queryClient.setQueryData(
+					getSchoolFeesAssignmentBreakdownUrl(id),
+					(cachedData) => ({
+						...cachedData,
+						data: {
+							...cachedData.data,
+							breakdown: requestDet?.data.FeeBreakdown
+						}
+					})
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",
@@ -184,42 +187,32 @@ const SchoolFeesEdit = () => {
 
 	useEffect(() => {
 		if (id === null) return push("/fees_assignment/school_fees");
-	}, [id, push]);
 
-	useEffect(() => {
 		setValue(`amount.${0}`, breakdown?.data?.teneceCommission || 0);
 		setValue(`description.${0}`, "Tenece Commission");
-
-		// Todo incase they start adding said commisions
 		setValue(`amount.${1}`, breakdown?.data?.portalCharge || 0);
 		setValue(`description.${1}`, "Portal Charge");
-		// setValue(`amount.${2}`, breakdown?.data?.hubblyCommission || 0);
-		// setValue(`description.${2}`, "Hubbly Commission");
-		// setValue(`amount.${3}`, breakdown?.data?.seamfixCommission || 0);
-		// setValue(`description.${3}`, "Seamfix Commission");
 
 		if (breakdown?.data && breakdown?.data?.breakdown.length > 0) {
 			breakdown?.data?.breakdown?.map((_, index) => {
 				constants.map((constant) => {
 					setValue(
-						`${constant}.${index + 1}`,
+						`${constant}.${index + 2}`,
 						breakdown?.data?.breakdown?.[index]?.[constant]
 					);
 					return null;
 				});
-
 				return null;
 			});
-			setBreakdowns((breakdowns) => [
-				...breakdowns,
-				breakdowns[breakdowns?.length - 1] + 1
-			]);
+
+			const additionalBreakdowns = breakdown?.data?.breakdown.map(
+				(_, index) => index + 2
+			);
+			setBreakdowns([0, 1, ...additionalBreakdowns]);
 		}
-	}, [breakdown, setValue, constants]);
+	}, [id, push, breakdown, setValue, constants]);
 
 	if (isBreakdownLoading) return <Spinner />;
-
-	console.log(breakdowns, "HELLO BREAKDOWNS");
 
 	if (errorBreakdown)
 		return (
@@ -323,7 +316,7 @@ const SchoolFeesEdit = () => {
 											error={errors?.amount?.[index]}
 										/>
 									</div>
-									{index > 3 ? (
+									{index > 2 ? (
 										<div className="col-md-1">
 											<button
 												className={styles.bin}

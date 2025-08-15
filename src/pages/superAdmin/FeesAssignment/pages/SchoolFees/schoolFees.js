@@ -189,14 +189,13 @@ const SchoolFeesAssignment = () => {
 		}
 	);
 
-	const { 
-		data: departments, 
-		isLoading: isLoadingDepartments, 
-		error: departmentsError } = useApiGet(
-		getAllDepartmentsWithoutValuesUrl(),{
-			refetchOnWindowFocus: false
-		}
-	);
+	const {
+		data: departments,
+		isLoading: isLoadingDepartments,
+		error: departmentsError
+	} = useApiGet(getAllDepartmentsWithoutValuesUrl(), {
+		refetchOnWindowFocus: false
+	});
 
 	const allSessions = useMemo(
 		() => formatSelectItems(sessions?.data, "session", "id"),
@@ -476,7 +475,7 @@ const SchoolFeesAssignment = () => {
 				isOpen={cloneOpen}
 				closeModal={() => setCloneOpen(false)}
 				width={1500}
-				formTitle="Clone School fees Assignment"
+				formTitle="Clone School Fees Assignment"
 			>
 				<CloneSchoolFeesAssignment
 					filter={filter}
@@ -524,13 +523,13 @@ const SchoolFeesAssignment = () => {
 				/>
 			</div>
 			<div className="d-flex justify-content-between align-items-center px-4 py-3 border">
-				<h5 className="">School fees summary</h5>
+				<h5 className="">School Fees Summary</h5>
 				<div className="d-flex">
 					<Button
 						data-cy="view_records"
 						type="button"
 						buttonClass="standard"
-						label="Clone School fees Assignment"
+						label="Clone School Fees Assignment"
 						onClick={() => setCloneOpen(true)}
 					/>
 					<Button
