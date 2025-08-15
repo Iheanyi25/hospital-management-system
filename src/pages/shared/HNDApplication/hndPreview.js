@@ -14,7 +14,6 @@ const NDPreview = ({ componentRef, details }) => {
 		Object?.entries(item?.subjectGrade)
 	);
 
-
 	return (
 		<ApplicationPreviewWrapper
 			userDetails={{
@@ -45,7 +44,7 @@ const NDPreview = ({ componentRef, details }) => {
 							</div>
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Middle Name</h6>
-								<p className="col-4">{`${personalInfoResponse?.firstname}`}</p>
+								<p className="col-4">{`${personalInfoResponse?.middlename}`}</p>
 							</div>
 							<div className="d-flex gap-3 my-2">
 								<h6 className="col-4">Gender</h6>
@@ -203,15 +202,11 @@ const NDPreview = ({ componentRef, details }) => {
 						</div>
 						<div className="d-flex gap-3 my-2">
 							<h6 className="col-4">CGPA</h6>
-							<p className="col-4">
-								{ndResponse?.cgpa}
-							</p>
+							<p className="col-4">{ndResponse?.cgpa}</p>
 						</div>
 						<div className="d-flex gap-3 my-2">
 							<h6 className="col-4"> Course Studied</h6>
-							<p className="col-4">
-								{ndResponse?.courseStudied}
-							</p>
+							<p className="col-4">{ndResponse?.courseStudied}</p>
 						</div>
 					</div>{" "}
 				</section>
