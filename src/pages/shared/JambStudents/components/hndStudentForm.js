@@ -49,7 +49,7 @@ export const HndDetailsForm = ({
 	} = useApiGet(
 		getApplicationInvoiceData({
 			applicationTypeId,
-			regNumber:mobileNumber
+			regNumber: mobileNumber
 		}),
 		{
 			enabled: makeRequest,
@@ -60,7 +60,7 @@ export const HndDetailsForm = ({
 	useEffect(() => {
 		if (invoiceData?.success && makeRequest && !isLoading) {
 			setMakeRequest(false);
-			if (invoiceData?.data?.invoiceNo) {
+			if (invoiceData?.data?.invoiceNumber) {
 				push({
 					pathname: `/jamb_students_invoice`,
 					state: { data: invoiceData?.data }
@@ -157,7 +157,9 @@ export const HndDetailsForm = ({
 						<div className={`col-md-6`}>
 							<div className={`row align-items-center`}>
 								<div className="col-lg-3 align-items-center">
-									<label htmlFor="phoneNumber">Phone Number</label>
+									<label htmlFor="phoneNumber">
+										Phone Number
+									</label>
 								</div>
 								<div className="d-flex col-lg-9">
 									<TextField
@@ -169,7 +171,8 @@ export const HndDetailsForm = ({
 										required
 										error={errors.mobileNumber}
 										errorText={
-											errors.mobileNumber && errors.mobileNumber.message
+											errors.mobileNumber &&
+											errors.mobileNumber.message
 										}
 										id="mobileNumber"
 									/>
