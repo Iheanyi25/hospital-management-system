@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Hat } from "../../../../../assets/svgs";
-import {
-	Button,
-	Note,
-	SecondaryLink,
-	TextField
-} from "../../../../../ui_elements";
+import { Button, Note, TextField } from "../../../../../ui_elements";
 
 import * as yup from "yup";
 
@@ -15,7 +10,6 @@ import styles from "../components.module.css";
 import { useApiGet } from "../../../../../api/apiCall";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { TENECE_SUPPORT_URL } from "../../../../../utils/constants";
 import { checkAdmissionStatusUrl } from "../../../../../api/urls";
 
 export const StatusSchema = yup.object().shape({
@@ -171,13 +165,8 @@ export const StatusCheck = () => {
 					paragraph={
 						<span>
 							If you experience any difficulty, kindly contact our
-							support{" "}
-							<SecondaryLink
-								label="here"
-								onClick={() =>
-									window.open(TENECE_SUPPORT_URL, "_blank")
-								}
-							/>
+							support by clicking on the Chat button at the bottom
+							left
 						</span>
 					}
 				/>
