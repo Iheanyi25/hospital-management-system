@@ -1,6 +1,5 @@
 import React from "react";
 import { ErrorPageIcon } from "../../assets/svgs";
-import { Button } from "../button/Button";
 import "./errorPage.css";
 
 export const ErrorPage = () => {
@@ -15,11 +14,11 @@ export const ErrorPage = () => {
 						<div className="description mb-4">
 							<p className="mb-3 lh-2 error_page_text">
 								Sorry about the inconvenience you can contact
-								our support, the page you are looking for does
-								not exist or has been removed.
+								our support by clicking on the Chat button at
+								the bottom left, the page you are looking for
+								does not exist or has been removed.
 							</p>
 						</div>
-						<Button label="Contact support" buttonClass="primary" />
 					</div>
 				</div>
 				<div className="col-sm-3 text-center">
