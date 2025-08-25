@@ -6,6 +6,7 @@ import { SearchApplication } from "./components";
 import { Caution, Success } from "../../../../../../assets/svgs";
 import { useApiGet } from "../../../../../../api/apiCall";
 import { getInvoiceUrl } from "../../../../../../api/urls";
+import { PAYMENTIDENTIFIER } from "../../../../../../utils/constants";
 
 const VerifyRemitaStatus = () => {
 	const [makeRequest, setMakeRequest] = useState(false);
@@ -17,7 +18,8 @@ const VerifyRemitaStatus = () => {
 
 	const verifyError = (error) => {
 		if (!error) {
-			setResponseMessage("Error RRR is invalid");}
+			setResponseMessage("Error RRR is invalid");
+		}
 		if (typeof error === "string") {
 			setResponseMessage(error);
 		} else if (error?.response?.data?.message) {
@@ -48,7 +50,8 @@ const VerifyRemitaStatus = () => {
 		if (verificationResponse?.data && makeRequest) {
 			if (verificationResponse.data.paymentStatus) {
 				const pathname =
-					verificationResponse.data.paymentPurposeId === 1
+					verificationResponse.data.paymentPurposeId ===
+					PAYMENTIDENTIFIER.schoolFees
 						? "/invoice_management/school_fees/receipt"
 						: "/invoice_management/acceptance/fee_receipt";
 				push({
@@ -63,7 +66,10 @@ const VerifyRemitaStatus = () => {
 				setOpenModal(true);
 				setMakeRequest(false);
 			}
-		} else if ((isError || verificationResponse?.data === null) && makeRequest) {
+		} else if (
+			(isError || verificationResponse?.data === null) &&
+			makeRequest
+		) {
 			verifyError(error);
 			validationChecker(false, rrr);
 			setOpenModal(true);
