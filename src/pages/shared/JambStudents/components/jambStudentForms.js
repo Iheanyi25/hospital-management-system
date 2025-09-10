@@ -60,7 +60,7 @@ export const JupebDetailsForm = ({
 	useEffect(() => {
 		if (invoiceData?.success && makeRequest && !isLoading) {
 			setMakeRequest(false);
-			if (invoiceData?.data?.invoiceNo) {
+			if (invoiceData?.data?.invoiceNumber) {
 				push({
 					pathname: `/jamb_students_invoice`,
 					state: { data: invoiceData?.data }

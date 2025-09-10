@@ -61,7 +61,7 @@ export const OtherStudentForms = ({
 		if (invoiceData?.success && makeRequest && !isLoading) {
 			setMakeRequest(false);
 
-			if (invoiceData?.data?.invoiceNo) {
+			if (invoiceData?.data?.invoiceNumber) {
 				push({
 					pathname: `/other_students_invoice`,
 					state: {
