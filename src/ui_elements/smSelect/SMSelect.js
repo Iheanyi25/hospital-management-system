@@ -83,7 +83,14 @@ export const SMSelect = forwardRef(
 						options={options}
 						placeholder={placeholder}
 						onChange={handleChange}
-						styles={selectStyles({ isError })}
+						styles={{
+							...selectStyles({ isError }),
+							menuPortal: (base) => ({
+								...base,
+								zIndex: 9999
+							})
+						}}
+						menuPortalTarget={document.body}
 						isDisabled={disabled}
 						isLoading={loading}
 						defaultInputValue={defaultInputValue}
