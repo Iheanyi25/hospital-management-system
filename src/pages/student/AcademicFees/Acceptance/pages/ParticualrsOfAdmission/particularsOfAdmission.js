@@ -30,7 +30,7 @@ const ViewParticularsOfAdmission = ({ details, currentRef }) => {
 
 	const CheckBox = () => {
 		const data = useContext(ProfileContext);
-		const currentValue = data?.profileData?.programmeDetail?.modeOfStudy.toLowerCase();
+		const currentValue = data?.profileData?.programmeDetail?.modeOfStudy?.toLowerCase();
 		const options = ["FULL TIME", "PART TIME", "SANDWICH"];
 
 		const [checkedValue, setCheckedValue] = useState('');

@@ -10,7 +10,11 @@ import {
 } from "../../../../../api/urls";
 import { Note, PaymentOptions, Spinner } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
-import { HndDetailsForm, HndUserDetailsForm, UserDetailsForm } from "../../components";
+import {
+	HndDetailsForm,
+	HndUserDetailsForm,
+	UserDetailsForm
+} from "../../components";
 import { JupebDetailsForm } from "../../components";
 
 const GenerateJambPaymentInvoice = () => {
@@ -40,9 +44,6 @@ const GenerateJambPaymentInvoice = () => {
 
 	const { state } = location;
 	const { goBack } = history;
-
-	console.log(state, "WYOMIN");
-	
 
 	if (!location.state) goBack();
 

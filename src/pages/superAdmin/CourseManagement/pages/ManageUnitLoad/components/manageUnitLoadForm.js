@@ -14,9 +14,7 @@ export const ManageUnitLoadForm = ({
 	errors,
 	allSessions,
 	allFaculties,
-	allStudentModes,
 	allStudentTypes,
-	data,
 	setFilter,
 	handleSubmit,
 	allLevels,
@@ -55,7 +53,7 @@ export const ManageUnitLoadForm = ({
 						data-cy="view_unit_load"
 						type="submit"
 						buttonClass="primary"
-						label="View unit loads"
+						label="View Unit Load"
 						loading={isLoadingUnitLoads}
 					/>
 				}
@@ -65,7 +63,7 @@ export const ManageUnitLoadForm = ({
 					<div className="row">
 						<div className="col-md-6">
 							<div className="row">
-								<div className="col-lg-3  d-flex align-items-center">
+								<div className="col-lg-3 d-flex align-items-center">
 									<label
 										className="font-weight-bold"
 										htmlFor="studentTypeId"
@@ -106,15 +104,16 @@ export const ManageUnitLoadForm = ({
 								</div>
 							</div>
 						</div>
+
 						{isLoadingFaculties && (
 							<div className="col-md-6">
 								<Spinner />
 							</div>
 						)}
 						{allFaculties.length > 0 && (
-							<div className="col-md-6 mb-5 mb-md-0">
+							<div className="col-md-6">
 								<div className="row">
-									<div className="col-lg-3  d-flex align-items-center">
+									<div className="col-lg-3 d-flex align-items-center">
 										<label
 											className="font-weight-bold"
 											htmlFor="facultyId"
@@ -144,6 +143,7 @@ export const ManageUnitLoadForm = ({
 								</div>
 							</div>
 						)}
+
 						{isLoadingStudentModesOfStudy && (
 							<div className="col-md-6">
 								<Spinner />
@@ -151,7 +151,14 @@ export const ManageUnitLoadForm = ({
 						)}
 						{allStudentModesOfStudy?.length > 0 && (
 							<div className="col-md-6">
-								<div className="row mt-5">
+								<div
+									className={`row ${
+										allFaculties.length > 0 ||
+										isLoadingFaculties
+											? "mt-5"
+											: ""
+									}`}
+								>
 									<div className="col-lg-3 d-flex align-items-center">
 										<label
 											className="font-weight-bold"
