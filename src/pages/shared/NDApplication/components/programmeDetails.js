@@ -25,6 +25,26 @@ export const ProgrammeDetails = ({
 	fromJambState,
 }) => {
 	const putmeStoreData = useSelector((state) => state.putmeData);
+
+	const {
+		control,
+		handleSubmit,
+		watch,
+		setValue,
+		formState: { errors }
+	} = useForm({
+		defaultValues: {
+			faculty: putmeStoreData?.programmeInfo?.faculty,
+			department: putmeStoreData?.programmeInfo?.department,
+			regNo: putmeStoreData?.programmeInfo?.regNo,
+			alternativeDepartment: putmeStoreData?.programmeInfo?.alternativeDepartment
+
+		},
+		resolver: yupResolver(ProgrammeDetailsSchema)
+
+	});
+
+
 	const { programmeInfo, StudentTypeId, personalInfo } = putmeStoreData;
 	const [facultyState, setFacultyState] = useState(
 		programmeInfo?.faculty?.value
@@ -46,17 +66,32 @@ export const ProgrammeDetails = ({
 		}
 	);
 
+	const departmentValue = watch('department');
+	const alternativeDepartmentValue = watch('alternativeDepartment');
+
 	const { data: departmentsOptions, isLoading: isLoadingDepartmentsOptions } =
 		useApiGet(
 			getDepartmentOptionUrl({
-				departmentId: programmeInfo?.department?.value,
+				departmentId: departmentValue?.value,
 				studentTypeId: StudentTypeId
 			}),
 			{
 				refetchOnWindowFocus: false,
 				enabled:
-					programmeInfo?.department?.value !==
-					undefined
+					!!departmentValue?.value
+			}
+		);
+
+	const { data: alternativeDepartmentsOptions, isLoading: isLoadingAlternativeDepartmentsOptions } =
+		useApiGet(
+			getDepartmentOptionUrl({
+				departmentId: alternativeDepartmentValue?.value,
+				studentTypeId: StudentTypeId
+			}),
+			{
+				refetchOnWindowFocus: false,
+				enabled:
+					!!alternativeDepartmentValue?.value
 			}
 		);
 
@@ -72,32 +107,16 @@ export const ProgrammeDetails = ({
 		"departmentOptionId"
 	);
 
+	const allAlternativeDepartmentOptions = formatSelectItems(
+		alternativeDepartmentsOptions?.data,
+		"departmentOption",
+		"departmentOptionId"
+	);
+
 	const { mutate, isLoading: isFormLoading } = useApiPost();
 
-	const {
-		control,
-		handleSubmit,
-		watch,
-		setValue,
-		formState: { errors }
-	} = useForm({
-		defaultValues: {
-			faculty: putmeStoreData?.programmeInfo?.faculty,
-			department: putmeStoreData?.programmeInfo?.department,
-			regNo: putmeStoreData?.programmeInfo?.regNo,
-			alternativeDepartment: putmeStoreData?.programmeInfo?.alternativeDepartment
-			
-		},
-		resolver: yupResolver(ProgrammeDetailsSchema)
-
-	});
-
-	console.log(putmeStoreData.programmeInfo);
-	
-
 	const onSubmit = (programmeInfo) => {
-		console.log("ONSUBmit", programmeInfo);
-		
+
 		const requestBody = {
 			url: ndProgrammeDetailsFormUrl(),
 			data: {
@@ -106,6 +125,7 @@ export const ProgrammeDetails = ({
 				DepartmentId: programmeInfo?.department?.value,
 				DepartmentOptionId: programmeInfo?.departmentOption?.value,
 				AlternativeDepartmentId: programmeInfo?.alternativeDepartment?.value,
+				AlternativeDepartmentOptionId: programmeInfo?.alternativeDepartmentOption?.value,
 				ApplicantId: personalInfo?.postUtmeApplicantBasicInformationId,
 			}
 		};
@@ -123,7 +143,7 @@ export const ProgrammeDetails = ({
 					type: SAVE_PUTME_INFO,
 					payload: {
 						...putmeStoreData,
-						programmeInfo : {
+						programmeInfo: {
 							...putmeStoreData?.programmeInfo,
 							...programmeInfo
 						}
@@ -177,7 +197,7 @@ export const ProgrammeDetails = ({
 							buttonClass="secondary"
 							type="button"
 							disabled={isFormLoading || isDepartmentLoading}
-							onClick = {() => replace({ hash: "#section_a", state })}
+							onClick={() => replace({ hash: "#section_a", state })}
 						/>
 						<Button
 							data-cy="submit_personal"
@@ -271,42 +291,42 @@ export const ProgrammeDetails = ({
 				)}
 				{isLoadingDepartmentsOptions ? (
 					<div className="mb-4">
-						<Spinner/>
+						<Spinner />
 					</div>
 				) : (allDepartmentOptions?.length > 0 && (
 					<div className="container-fluid px-4 my-4">
-					<div className="row">
-						<div className="col-lg-3  d-flex align-items-center">
-							<label htmlFor="departmentOption">
-								Programme Option*
-							</label>
+						<div className="row">
+							<div className="col-lg-3  d-flex align-items-center">
+								<label htmlFor="departmentOption">
+									First Choice Programme Option*
+								</label>
+							</div>
+							<div className="col-lg-9">
+								<Controller
+									name="departmentOption"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<SMSelect
+											{...field}
+											placeholder="Select a programme option"
+											searchable={true}
+											id="departmentOption"
+											disabled={fromJambState}
+											options={allDepartmentOptions}
+											isError={!!errors.departmentOption}
+											errorText={
+												errors.departmentOption &&
+												errors.departmentOption.message
+											}
+										/>
+									)}
+								/>
+							</div>
 						</div>
-						<div className="col-lg-9">
-									<Controller
-										name="departmentOption"
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => (
-											<SMSelect
-												{...field}
-												placeholder="Select a programme option"
-												searchable={true}
-												id="departmentOption"
-												disabled={fromJambState}
-												options={allDepartments}
-												isError={!!errors.departmentOption}
-												errorText={
-													errors.departmentOption &&
-													errors.departmentOption.message
-												}
-											/>
-										)}
-									/>
-								</div>
 					</div>
-				</div>
 				))}
-				
+
 				{isDepartmentLoading ? (
 					<div className="mb-4">
 						<Spinner />
@@ -347,6 +367,44 @@ export const ProgrammeDetails = ({
 						</div>
 					)
 				)}
+
+				{isLoadingAlternativeDepartmentsOptions ? (
+					<div className="mb-4">
+						<Spinner />
+					</div>
+				) : (allAlternativeDepartmentOptions?.length > 0 && (
+					<div className="container-fluid px-4 my-4">
+						<div className="row">
+							<div className="col-lg-3  d-flex align-items-center">
+								<label htmlFor="alternativeDepartmentOption">
+									Second Choice Programme Option*
+								</label>
+							</div>
+							<div className="col-lg-9">
+								<Controller
+									name="alternativeDepartmentOption"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<SMSelect
+											{...field}
+											placeholder="Select a programme option"
+											searchable={true}
+											id="alternativeDepartmentOption"
+											disabled={fromJambState}
+											options={allAlternativeDepartmentOptions}
+											isError={!!errors.alternativeDepartmentOption}
+											errorText={
+												errors.alternativeDepartmentOption &&
+												errors.alternativeDepartmentOption.message
+											}
+										/>
+									)}
+								/>
+							</div>
+						</div>
+					</div>
+				))}
 			</Jumbotron>
 		</form>
 	);
