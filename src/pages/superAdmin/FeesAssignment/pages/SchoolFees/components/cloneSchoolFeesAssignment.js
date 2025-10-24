@@ -1,12 +1,18 @@
 import styles from "../style.module.css";
-import { Jumbotron, Button, SMSelect, Spinner } from "../../../../../../ui_elements";
+import {
+	Jumbotron,
+	Button,
+	SMSelect,
+	Spinner,
+	AsyncMultiSelect
+} from "../../../../../../ui_elements";
 import { Controller, useForm } from "react-hook-form";
 import { useApiPost, useApiGet } from "../../../../../../api/apiCall";
 import { cloneFeesAssignmentUrl, yearOfStudyUrl } from "../../../../../../api/urls";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { RedCancel } from "../../../../../../assets/svgs";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { formatSelectItems } from "../../../../../../utils/formatSelectItems";
 import { fieldSetterAndClearer } from "../../../../../../utils/fieldSetterAndClearer";
 
@@ -63,6 +69,15 @@ export const CloneSchoolFeesAssignment = ({
 	const allOldLevels = useMemo(() => formatLevels(oldLevels), [oldLevels]);
 	const allNewLevels = useMemo(() => formatLevels(newLevels), [newLevels]);
 
+	const loadDepartmentOptions = async (inputValue) => {
+		const filtered = allDepartments?.filter((option) =>
+			option.label.toLowerCase().includes(inputValue.toLowerCase())
+		);
+		return filtered;
+	};
+
+	const ref = useRef();
+
 	const { mutate, isLoading: isPosting } = useApiPost();
 	const onSubmit = (data) => {
 		const requestDet = {
@@ -73,12 +88,22 @@ export const CloneSchoolFeesAssignment = ({
 					: { paymentPurposeId }),
 				oldSessionId: data.oldSessionId?.value,
 				newSessionId: data.newSessionId?.value,
-				...(data.oldModeOfStudyId?.value && {
-					oldModeOfStudyId: data.oldModeOfStudyId?.value
-				}),
-				...(data.newModeOfStudyId?.value && {
-					newModeOfStudyId: data.newModeOfStudyId?.value
-				}),
+				...(data.oldModeOfStudyId?.value &&
+					data.oldModeOfStudyId?.value === 1 && {
+						oldModeOfStudyId: "FullTime"
+					}),
+				...(data.oldModeOfStudyId?.value &&
+					data.oldModeOfStudyId?.value === 2 && {
+						oldModeOfStudyId: "PartTime"
+					}),
+				...(data.newModeOfStudyId?.value &&
+					data.newModeOfStudyId?.value === 1 && {
+						newModeOfStudyId: "FullTime"
+					}),
+				...(data.newModeOfStudyId?.value &&
+					data.newModeOfStudyId?.value === 2 && {
+						newModeOfStudyId: "PartTime"
+					}),
 				...(data.oldLevelId?.value && {
 					oldLevelId: data.oldLevelId?.value
 				}),
@@ -94,8 +119,13 @@ export const CloneSchoolFeesAssignment = ({
 				...(data.oldDepartmentId?.value && {
 					oldDepartmentId: data.oldDepartmentId?.value
 				}),
-				...(data.newDepartmentId?.value && {
-					newDepartmentId: data.newDepartmentId?.value
+				...(data.newDepartmentIds?.length > 0 && {
+					newDepartmentIds: data.newDepartmentIds.map(
+						(item) => item.value
+					)
+				}),
+				...(data.programmeIds?.length > 0 && {
+					programmeIds: data.programmeIds.map((item) => item.value)
 				})
 			}
 		};
@@ -626,19 +656,27 @@ export const CloneSchoolFeesAssignment = ({
 								</div>
 								<div className="col-lg-8">
 									<Controller
-										name="newDepartmentId"
+										name="newDepartmentIds"
 										control={control}
 										rules={{
 											required: true
 										}}
 										render={({ field }) => (
-											<SMSelect
-												{...field}
-												id="newDepartmentId"
+											<AsyncMultiSelect
 												placeholder="Select Department"
-												options={allDepartments}
-												searchable={false}
-												isError={!!errors.paymentTypeId}
+												id="newDepartmentIds"
+												loadOptions={
+													loadDepartmentOptions
+												}
+												isMulti={true}
+												isClearable
+												defaultOptions={allDepartments}
+												{...field}
+												ref={ref}
+												searchable={true}
+												isError={
+													!!errors.newDepartmentIds
+												}
 											/>
 										)}
 									/>
@@ -648,7 +686,7 @@ export const CloneSchoolFeesAssignment = ({
 										className={`p-md-2 ${styles.cancel} mt-2 mt-md-0`}
 										role="button"
 										onClick={() =>
-											setValue("newDepartmentId", null)
+											setValue("newDepartmentIds", null)
 										}
 									>
 										<RedCancel className="align-middle" />
