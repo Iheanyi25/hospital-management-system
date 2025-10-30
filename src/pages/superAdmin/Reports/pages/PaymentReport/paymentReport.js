@@ -256,6 +256,7 @@ const PaymentReports = () => {
 						register={register}
 						dateFrom={dateFrom}
 						isLoadingReports={isLoadingReports}
+						setPageNumber={setPageNumber}
 					/>
 					<Tabs id="default">
 						<div className="my-5">

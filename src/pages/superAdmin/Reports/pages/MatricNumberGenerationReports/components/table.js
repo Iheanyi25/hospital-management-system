@@ -50,6 +50,7 @@ export const Table = ({
 				data={data}
 				availablePages={paginationProps.totalPages}
 				setPageNumber={setPageNumber}
+				pageNumber={pageNumber}
 				title="Reports"
 				searchParams={searchTerm}
 				additonalTitleData={

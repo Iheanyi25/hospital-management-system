@@ -52,6 +52,7 @@ export const Table = ({
 			data={data}
 			loading={loading || isPosting}
 			title=" "
+			pageNumber={pageNumber}
 			additonalTitleData={
 				<div className="d-flex align-items-center">
 					{hasPerformedQuery && (

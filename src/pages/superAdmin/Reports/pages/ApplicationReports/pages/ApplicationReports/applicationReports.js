@@ -279,6 +279,7 @@ const ApplicationReports = () => {
 					subjectCombinationLoading={subjectCombinationLoading}
 					errors={errors}
 					isJupeb={isJupeb}
+					setPageNumber={setPageNumber}
 				/>
 			</div>
 			<div className="w-100">

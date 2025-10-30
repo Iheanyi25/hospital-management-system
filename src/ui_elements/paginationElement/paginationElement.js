@@ -6,7 +6,8 @@ const PaginationElement = ({
 	noOfPages,
 	length,
 	limit,
-	isServerSidePagination
+	isServerSidePagination,
+	pageNumber
 }) => {
 	const pages = Array.from(
 		{ length: noOfPages || Math.ceil(length / limit) },
@@ -17,6 +18,7 @@ const PaginationElement = ({
 		<div className="d-flex justify-content-center align-items-center">
 			<Pagination
 				pages={pages}
+				selectedIndex={pageNumber - 1}
 				onChange={(_, page) =>
 					setPageNumber(isServerSidePagination ? page : page - 1)
 				}
