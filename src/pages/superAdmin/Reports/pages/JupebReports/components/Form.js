@@ -9,7 +9,8 @@ export const Form = ({
 	isLoadingLevels,
 	isLoadingFeesToAssign,
 	allApplicationTypes,
-	errors
+	errors,
+	setPageNumber
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -17,7 +18,9 @@ export const Form = ({
 			sessionId: formData.sessionId.value,
 			applicationTypeId: formData.applicationTypeId.value
 		}));
+		setPageNumber(1);
 	};
+
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
 			<Jumbotron

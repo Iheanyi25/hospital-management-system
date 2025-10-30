@@ -23,7 +23,8 @@ export const Form = ({
 	allDepartments,
 	allStudentTypes,
 	setValue,
-	errors
+	errors,
+	setPageNumber
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -33,6 +34,7 @@ export const Form = ({
 			studentTypeId: formData?.studentTypeId?.value,
 			departmentId: formData?.departmentId?.value
 		}));
+		setPageNumber(1);
 	};
 
 	return (

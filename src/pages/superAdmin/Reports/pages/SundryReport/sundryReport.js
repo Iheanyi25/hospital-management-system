@@ -166,6 +166,7 @@ const SundryReport = () => {
 						register={register}
 						setValue={setValue}
 						isLoadingReports={isLoadingReports}
+						setPageNumber={setPageNumber}
 					/>
 					<SundryReportTable
 						data={reports?.data?.items || []}

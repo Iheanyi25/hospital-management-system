@@ -28,7 +28,8 @@ export const Form = ({
 	jupebOptionsLoading,
 	allSubjectCombination,
 	subjectCombinationLoading,
-	isJupeb
+	isJupeb,
+	setPageNumber
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -41,6 +42,7 @@ export const Form = ({
 			dateFrom: formData?.dateFrom,
 			dateTo: formData?.dateTo
 		}));
+		setPageNumber(1);
 	};
 
 	const onJupepOptionsChange = (value) => {

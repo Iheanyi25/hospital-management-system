@@ -24,7 +24,8 @@ export const SundryReportForm = ({
 	isDepartmentLoading,
 	dateFrom,
 	setValue,
-	isLoadingReports
+	isLoadingReports,
+	setPageNumber
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -39,7 +40,9 @@ export const SundryReportForm = ({
 			beginDate: formData?.dateFrom,
 			endDate: formData?.dateTo
 		}));
+		setPageNumber(1);
 	};
+	
 	const allObj = { value: "0", label: "All" };
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>

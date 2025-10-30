@@ -147,6 +147,7 @@ const HostelReports = () => {
 						register={register}
 						dateFrom={dateFrom}
 						isLoadingReports={isLoadingReports}
+						setPageNumber={setPageNumber}
 					/>
 					<div className="w-100">
 						<Tabs id="default">

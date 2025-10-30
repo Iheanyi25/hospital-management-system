@@ -63,6 +63,7 @@ export const Table = ({
 				setPageNumber={setPageNumber}
 				title="Reports"
 				searchParams={searchTerm}
+				pageNumber={pageNumber}
 				additonalTitleData={
 					<div className="d-flex align-items-center">
 						{hasPerformedQuery && (
