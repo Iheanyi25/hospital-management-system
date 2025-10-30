@@ -111,6 +111,7 @@ const JupebReports = () => {
 					handleSubmit={handleSubmit}
 					isLoadingFeesToAssign={isLoadingApplications}
 					errors={errors}
+					setPageNumber={setPageNumber}
 				/>
 			</div>
 			<Tabs

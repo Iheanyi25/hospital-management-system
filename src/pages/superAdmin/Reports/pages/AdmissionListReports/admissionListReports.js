@@ -196,6 +196,7 @@ const AdmissionListReports = () => {
 					register={register}
 					isLoadingFeesToAssign={isLoadingApplications}
 					errors={errors}
+					setPageNumber={setPageNumber}
 				/>
 			</div>
 			<div className="w-100">

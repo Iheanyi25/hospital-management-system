@@ -26,7 +26,8 @@ export const Form = ({
 	register,
 	dateFrom,
 	setValue,
-	errors
+	errors,
+	setPageNumber
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -37,6 +38,7 @@ export const Form = ({
 			dateFrom: formData?.dateFrom,
 			dateTo: formData?.dateTo
 		}));
+		setPageNumber(1);
 	};
 
 	return (

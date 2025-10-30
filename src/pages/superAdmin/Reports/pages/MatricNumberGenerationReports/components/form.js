@@ -29,7 +29,8 @@ export const Form = ({
 	onStudentTypeChange,
 	isLoadingFaculties,
 	studentTypeState,
-	isLoadingReports
+	isLoadingReports,
+	setPageNumber
 }) => {
 	const onSubmit = (formData) => {
 		setFilter((state) => ({
@@ -45,6 +46,7 @@ export const Form = ({
 			dateFrom: formData?.dateFrom,
 			dateTo: formData?.dateTo
 		}));
+		setPageNumber(1);
 	};
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>

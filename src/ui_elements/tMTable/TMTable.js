@@ -12,6 +12,7 @@ export const TMTable = ({
 	additonalTitleData,
 	availablePages,
 	setPageNumber,
+	pageNumber,
 	loading,
 	isServerSidePagination = true,
 	controlledPageCount,
@@ -187,6 +188,7 @@ export const TMTable = ({
 					}}
 				>
 					<PaginationElement
+						pageNumber={pageNumber}
 						setPageNumber={
 							isServerSidePagination ? setPageNumber : gotoPage
 						}
