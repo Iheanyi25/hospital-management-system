@@ -8,7 +8,10 @@ import {
 } from "../../../../../../ui_elements";
 import { Controller, useForm } from "react-hook-form";
 import { useApiPost, useApiGet } from "../../../../../../api/apiCall";
-import { cloneFeesAssignmentUrl, yearOfStudyUrl } from "../../../../../../api/urls";
+import {
+	cloneFeesAssignmentUrl,
+	yearOfStudyUrl
+} from "../../../../../../api/urls";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { RedCancel } from "../../../../../../assets/svgs";
@@ -36,7 +39,7 @@ export const CloneSchoolFeesAssignment = ({
 	allPaymentPurpose,
 	allSessions,
 	closeModal,
-	paymentPurposeId,
+	paymentPurposeId
 }) => {
 	const {
 		control,
@@ -55,7 +58,7 @@ export const CloneSchoolFeesAssignment = ({
 		);
 		return { levels: data, isLoading };
 	};
-	
+
 	const oldStudentTypeId = watch("oldStudentTypeId")?.value || "";
 	const newStudentTypeId = watch("newStudentTypeId")?.value || "";
 
@@ -88,13 +91,14 @@ export const CloneSchoolFeesAssignment = ({
 					: { paymentPurposeId }),
 				oldSessionId: data.oldSessionId?.value,
 				newSessionId: data.newSessionId?.value,
+
 				...(data.oldModeOfStudyId?.value &&
 					data.oldModeOfStudyId?.value === 1 && {
 						oldModeOfStudyId: "FullTime"
 					}),
 				...(data.oldModeOfStudyId?.value &&
 					data.oldModeOfStudyId?.value === 2 && {
-						oldModeOfStudyId: "PartTime"
+						oldModeOfStudyId: "Consult"
 					}),
 				...(data.newModeOfStudyId?.value &&
 					data.newModeOfStudyId?.value === 1 && {
@@ -102,7 +106,7 @@ export const CloneSchoolFeesAssignment = ({
 					}),
 				...(data.newModeOfStudyId?.value &&
 					data.newModeOfStudyId?.value === 2 && {
-						newModeOfStudyId: "PartTime"
+						newModeOfStudyId: "Consult"
 					}),
 				...(data.oldLevelId?.value && {
 					oldLevelId: data.oldLevelId?.value
@@ -199,7 +203,7 @@ export const CloneSchoolFeesAssignment = ({
 												{...field}
 												placeholder="Select Session"
 												options={allSessions}
-												searchable={false}
+												searchable
 												id="oldSessionId"
 												isError={!!errors.studentTypeId}
 											/>
@@ -255,7 +259,7 @@ export const CloneSchoolFeesAssignment = ({
 												{...field}
 												placeholder="Select Student Type"
 												options={allStudentTypes}
-												searchable={false}
+												searchable
 												id="oldStudentTypeId"
 												onChange={(value) =>
 													fieldSetterAndClearer({
@@ -320,7 +324,7 @@ export const CloneSchoolFeesAssignment = ({
 												id="oldDepartmentId"
 												placeholder="Select Department"
 												options={allDepartments}
-												searchable={false}
+												searchable
 												isError={!!errors.paymentTypeId}
 											/>
 										)}
@@ -379,7 +383,7 @@ export const CloneSchoolFeesAssignment = ({
 													id="oldLevelId"
 													options={allOldLevels}
 													placeholder="Select Academic Session"
-													searchable={false}
+													searchable
 													isError={
 														!!errors.oldLevelId
 													}
@@ -434,7 +438,7 @@ export const CloneSchoolFeesAssignment = ({
 												id="oldModeOfStudyId"
 												options={allStudentModesOfStudy}
 												placeholder="Select Mode Of Study"
-												searchable={false}
+												searchable
 												isError={
 													!!errors.oldModeOfStudyId
 												}
@@ -479,7 +483,7 @@ export const CloneSchoolFeesAssignment = ({
 													id="paymentPurposeId"
 													options={allPaymentPurpose}
 													placeholder="Select Payment Purpose"
-													searchable={false}
+													searchable
 													isError={
 														!!errors.paymentPurposeId
 													}
@@ -546,7 +550,7 @@ export const CloneSchoolFeesAssignment = ({
 												{...field}
 												placeholder="Select Session"
 												options={allSessions}
-												searchable={false}
+												searchable
 												id="newSessionId"
 												isError={!!errors.studentTypeId}
 											/>
@@ -602,7 +606,7 @@ export const CloneSchoolFeesAssignment = ({
 												{...field}
 												placeholder="Select Student Type"
 												options={allStudentTypes}
-												searchable={false}
+												searchable
 												id="newStudentTypeId"
 												onChange={(value) =>
 													fieldSetterAndClearer({
@@ -673,7 +677,7 @@ export const CloneSchoolFeesAssignment = ({
 												defaultOptions={allDepartments}
 												{...field}
 												ref={ref}
-												searchable={true}
+												searchable
 												isError={
 													!!errors.newDepartmentIds
 												}
@@ -734,7 +738,7 @@ export const CloneSchoolFeesAssignment = ({
 													id="newLevelId"
 													options={allNewLevels}
 													placeholder="Select Academic Session"
-													searchable={false}
+													searchable
 													isError={
 														!!errors.newLevelId
 													}
@@ -789,7 +793,7 @@ export const CloneSchoolFeesAssignment = ({
 												id="newModeOfStudyId"
 												options={allStudentModesOfStudy}
 												placeholder="Select Mode Of Study"
-												searchable={false}
+												searchable
 												isError={
 													!!errors.newModeOfStudyId
 												}
