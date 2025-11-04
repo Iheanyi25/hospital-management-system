@@ -15,11 +15,6 @@ export const ApplicationsRouter = ({
 	const paths = useMemo(
 		() => [
 			{
-				title: "Application Setup",
-				path: "/applications/setup",
-				disabled: false
-			},
-			{
 				title: "Reset Application",
 				path: "/applications/reset",
 				disabled: false
@@ -37,6 +32,11 @@ export const ApplicationsRouter = ({
 			{
 				title: "Manage Invoices",
 				path: "/applications/manage_invoices",
+				disabled: false
+			},
+			{
+				title: "Application Setup",
+				path: "/applications/setup",
 				disabled: false
 			}
 			// {
