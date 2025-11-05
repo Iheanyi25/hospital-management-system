@@ -36,6 +36,7 @@ export const PersonalInformationSchema = yup.object().shape({
 		)
 		.required("please input your date of birth"),
 	CountryId: yup.mixed().required("please select your country"),
+	CategoryId: yup.mixed().required("please select your category"),
 	StateId: yup.mixed().required("please select your state"),
 	LgaId: yup.mixed().when("$isLGARequired", (isLGARequired, schema) => {
 		if (isLGARequired) {
