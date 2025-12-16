@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import logo from "../../assets/images/sideLogo.png";
-import christmasLogo from "../../assets/images/christmasLogo.png";
+import christmasLogoSingle from "../../assets/images/christmasLogoSingle.png";
+import logoSingle from "../../assets/images/logoSingle.png";
 import ChristmasLogo from "../../assets/images/bannerLight.png";
 import styles from "./auth_style.module.css";
 import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
@@ -15,29 +15,21 @@ export default function AuthPageWrapper({ children }) {
 					<>
 						<img
 							src={ChristmasLogo}
-							alt="chrsitmas Light"
+							alt="christmas Light"
 							className={`${styles.light}`}
 						/>
 					</>
 				)}
-				<div className={`mt-5 pt-2 ${styles.logo}`}>
-					{checkIfChristmasPeriod() ? (
-						<>
-							<img src={christmasLogo} alt="akwapoly logo" />
-						</>
-					) : (
-						<>
-							<img
-								src={
-									checkIfChristmasPeriod()
-										? christmasLogo
-										: logo
-								}
-								alt="Login Logo"
-								onClick={() => push("/")}
-							/>
-						</>
-					)}
+				<div className={`mt-5 pt-2 mr-3 ${styles.logo}`}>
+					<img
+						src={
+							checkIfChristmasPeriod()
+								? christmasLogoSingle
+								: logoSingle
+						}
+						alt="Akwapoly Logo"
+						onClick={() => push("/")}
+					/>
 				</div>
 				{children}
 			</div>
