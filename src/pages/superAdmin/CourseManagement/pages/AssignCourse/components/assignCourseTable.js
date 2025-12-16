@@ -141,6 +141,7 @@ export const AssignCourseTable = ({
 				}
 				availablePages={paginationProps.totalPages}
 				setPageNumber={setPageNumber}
+				pageNumber={pageNumber}
 				hasPerformedQuery={hasPerformedQuery}
 				searchParams={searchValue}
 				loading={loading}

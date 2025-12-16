@@ -8,7 +8,8 @@ export const EtranzactFeesTable = ({
 	searchTerm,
 	debouncedSearch,
 	setPageNumber,
-	paginationProps
+	paginationProps,
+	pageNumber
 }) => {
 	return (
 		<TMTable
@@ -30,6 +31,7 @@ export const EtranzactFeesTable = ({
 			}
 			availablePages={paginationProps.totalPages}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 			searchParams={searchTerm}
 		/>
 	);

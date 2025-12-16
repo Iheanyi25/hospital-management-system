@@ -37,10 +37,11 @@ const PaymentReports = () => {
 		departmentId: "",
 		dateFrom: "",
 		dateTo: "",
-		searchTerm: ""
+		searchTerm: "",
+		pageNumber: 1
 	});
 	const pageSize = PAGESIZE.sm;
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [downloadFile, setDownloadFile] = useState(false);
 	const debounced = useDebouncedCallback(
@@ -61,7 +62,7 @@ const PaymentReports = () => {
 		getFeesReportUrl({
 			...filter,
 			pageSize,
-			pageNumber,
+			pageNumber: filter.pageNumber,
 			searchTerm
 		}),
 		{
@@ -274,11 +275,11 @@ const PaymentReports = () => {
 										{}
 									}
 									hasPerformedQuery={!!filter.studentTypeId}
-									setPageNumber={setPageNumber}
+									setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 									debouncedSearch={debounced}
 									searchTerm={searchTerm}
 									setFilter={setFilter}
-									pageNumber={pageNumber}
+									pageNumber={filter.pageNumber}
 									setDownloadFile={setDownloadFile}
 									fileLoading={fileLoading}
 									pageSize={pageSize}

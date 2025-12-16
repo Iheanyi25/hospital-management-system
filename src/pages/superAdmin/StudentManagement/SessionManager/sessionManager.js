@@ -31,19 +31,20 @@ const SessionManager = () => {
 		facultyId: "",
 		studentTypeId: "",
 		searchTerm: "",
-		pageSize: PAGESIZE.xl
+		pageSize: PAGESIZE.xl,
+		pageNumber: 1
 	});
 	const [deptsActiveSessionsToUpdate, setDeptsActiveSessionsToUpdate] =
 		useState([]);
 
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const {
 		data: depts,
 		isLoading: isLoadingDepartmentList,
 		isFetching: isFetchingdepts,
 		error: deptsError
 	} = useApiGet(
-		getAllDepartmentActiveSessionsUrl({ ...filter, pageNumber }),
+		getAllDepartmentActiveSessionsUrl({ ...filter, pageNumber:filter.pageNumber }),
 		{
 			enabled: !!filter.facultyId,
 			keepPreviousData: true
@@ -116,7 +117,7 @@ const SessionManager = () => {
 			onSuccess: () => {
 				resetdepartmentArray();
 				queryClient.invalidateQueries(
-					getAllDepartmentActiveSessionsUrl({ ...filter, pageNumber })
+					getAllDepartmentActiveSessionsUrl({ ...filter, pageNumber: filter.pageNumber })
 				);
 				const successFlag = window.AJS.flag({
 					type: "success",
@@ -182,7 +183,7 @@ const SessionManager = () => {
 					filter={filter}
 					resetdepartmentArray={resetdepartmentArray}
 					deptsActiveSessionsToUpdate={deptsActiveSessionsToUpdate}
-					currentFilterState={{ ...filter, pageNumber }}
+					currentFilterState={{ ...filter, pageNumber: filter.pageNumber }}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
@@ -214,7 +215,7 @@ const SessionManager = () => {
 						setEditOpen={setEditOpen}
 						setEditData={setEditData}
 						paginationProps={depts?.data?.metaData || {}}
-						setPageNumber={setPageNumber}
+						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 						setFilter={setFilter}
 						updateChecks={updateChecks}
 						updateAllChecks={updateAllChecks}

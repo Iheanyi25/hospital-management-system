@@ -45,9 +45,10 @@ const AssignCourse = () => {
 		sessionId: "",
 		semesterId: "",
 		levelId: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
-	const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {
@@ -72,7 +73,7 @@ const AssignCourse = () => {
 		isFetching: isFetchingcourseList,
 		error: courseListError
 	} = useApiGet(
-		getCoursesAssignedToDeptsUrl({ ...filter, pageNumber, searchTerm }),
+		getCoursesAssignedToDeptsUrl({ ...filter, pageNumber: filter.pageNumber, searchTerm }),
 		{
 			enabled: !!filter.departmentId,
 			keepPreviousData: true
@@ -166,7 +167,7 @@ const AssignCourse = () => {
 				queryClient.invalidateQueries(
 					getCoursesAssignedToDeptsUrl({
 						...filter,
-						pageNumber,
+						pageNumber: filter.pageNumber,
 						searchTerm
 					})
 				);
@@ -208,7 +209,7 @@ const AssignCourse = () => {
 				queryClient.invalidateQueries(
 					getCoursesAssignedToDeptsUrl({
 						...filter,
-						pageNumber,
+						pageNumber: filter.pageNumber,
 						searchTerm
 					})
 				);
@@ -255,7 +256,7 @@ const AssignCourse = () => {
 				<CloneCourseAssignment
 					filter={filter}
 					allSessions={allSessions}
-					currentFilterState={{ ...filter, pageNumber, searchTerm }}
+					currentFilterState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
 					closeModal={() => setCloneOpen(false)}
 				/>
 			</CenteredDialog>
@@ -268,7 +269,7 @@ const AssignCourse = () => {
 			>
 				<AddCourse
 					filter={filter}
-					currentFilterState={{ ...filter, pageNumber, searchTerm }}
+					currentFilterState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
 					closeModal={() => setOpen(false)}
 				/>
 			</CenteredDialog>
@@ -282,7 +283,7 @@ const AssignCourse = () => {
 				<EditCourse
 					data={editData}
 					filter={filter}
-					currentFilterState={{ ...filter, pageNumber, searchTerm }}
+					currentFilterState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
@@ -324,9 +325,9 @@ const AssignCourse = () => {
 						setOpenDelete={setOpenDelete}
 						hasPerformedQuery={!!filter.departmentId}
 						paginationProps={courseList?.data?.metaData || {}}
-						setPageNumber={setPageNumber}
+						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 						debouncedSearch={debounced}
-						pageNumber={pageNumber}
+						pageNumber={filter.pageNumber}
 						pageSize={filter.pageSize}
 						searchValue={searchTerm}
 						loading={isFetchingcourseList}

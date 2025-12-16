@@ -199,6 +199,7 @@ const CategoryManagement = () => {
 				<div className={styles.tableContainer}>
 					<TMTable
 						setPageNumber={setPageNumber}
+						pageNumber={pageNumber}
 						columns={columns}
 						data={data?.data.items || []}
 						title={`Category List`}

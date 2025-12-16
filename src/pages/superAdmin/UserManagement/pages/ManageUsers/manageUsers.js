@@ -23,9 +23,11 @@ import styles from "./style.module.css";
 const ManageUsers = () => {
 	const [filter, setFilter] = useState({
 		roleName: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
-	const [pageNumber, setPageNumber] = useState(1);
+
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const [addOpen, setAddOpen] = useState(false);
 
@@ -45,7 +47,7 @@ const ManageUsers = () => {
 		isLoading: isLoadingUserList,
 		isFetching: isFetchingUserList,
 		error: userListError
-	} = useApiGet(getAllUsersUrl({ ...filter, pageNumber, searchTerm }), {
+	} = useApiGet(getAllUsersUrl({ ...filter, pageNumber: filter.pageNumber, searchTerm }), {
 		keepPreviousData: true,
 		refetchOnWindowFocus: false,
 		enabled: !!filter.roleName
@@ -107,7 +109,7 @@ const ManageUsers = () => {
 				queryClient.invalidateQueries(
 					getAllUsersUrl({
 						...filter,
-						pageNumber,
+						pageNumber: filter.pageNumber,
 						searchTerm
 					})
 				);
@@ -189,12 +191,12 @@ const ManageUsers = () => {
 							paginationProps={userList?.data?.metaData || {}}
 							currentFilterState={{
 								...filter,
-								pageNumber,
+								pageNumber:filter.pageNumber,
 								searchTerm
 							}}
-							setPageNumber={setPageNumber}
+							setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 							debouncedSearch={debounced}
-							pageNumber={pageNumber}
+							pageNumber={filter.pageNumber}
 							pageSize={filter.pageSize}
 							searchValue={searchTerm}
 							loading={isFetchingUserList}

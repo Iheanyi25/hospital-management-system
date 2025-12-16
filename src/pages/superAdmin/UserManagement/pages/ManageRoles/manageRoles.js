@@ -216,6 +216,7 @@ const ManageRoles = () => {
 						}
 						loading={isLoading || isFetching}
 						setPageNumber={setPageNumber}
+						pageNumber={pageNumber}
 						availablePages={data?.data?.metaData.totalPages}
 					/>
 				</div>

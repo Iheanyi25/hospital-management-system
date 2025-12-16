@@ -26,7 +26,8 @@ export const StudentTable = ({
 	title,
 	allSessions,
 	allRoles,
-	isFacultyPage
+	isFacultyPage,
+
 }) => {
 	const { push } = useHistory();
 	const [searchTerm, setSearchTerm] = useState("");
@@ -327,6 +328,7 @@ export const StudentTable = ({
 				}
 				loading={isLoading || isFetching}
 				setPageNumber={setPageNumber}
+				pageNumber={pageNumber}
 				availablePages={data?.data?.metaData.totalPages}
 			/>
 		</>

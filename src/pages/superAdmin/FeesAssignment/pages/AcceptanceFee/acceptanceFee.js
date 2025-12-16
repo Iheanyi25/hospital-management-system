@@ -31,9 +31,10 @@ const AcceptanceFeeAssignment = () => {
 		sessionId: parsed?.sessionId || "",
 		studentTypeId: parsed?.studentTypeId || "",
 		facultyId: parsed?.facultyId || "",
-		pageSize: parsed?.pageSize || PAGESIZE.sm
+		pageSize: parsed?.pageSize || PAGESIZE.sm,
+		pageNumber: 1
 	});
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [watchData, setWatchData] = useState({
 		studentTypeId: parsed?.studentTypeId || ""
@@ -61,7 +62,7 @@ const AcceptanceFeeAssignment = () => {
 			studentTypeId: filter.studentTypeId,
 			facultyId: filter.facultyId,
 			searchTerm,
-			pageNumber,
+			pageNumber: filter.pageNumber,
 			pageSize: filter.pageSize
 		}),
 		{
@@ -218,7 +219,7 @@ const AcceptanceFeeAssignment = () => {
 					filter={filter}
 					closeModal={() => setEditOpen(false)}
 					allServiceTypes={allServiceTypes}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					searchTerm={searchTerm}
 				/>
 			</CenteredDialog>
@@ -251,7 +252,7 @@ const AcceptanceFeeAssignment = () => {
 					setFilter={setFilter}
 					handleSubmit={handleSubmit}
 					isLoadingFeesToAssign={isLoadingFeesToAssign}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					pageSize={filter?.pageSize}
 					searchTerm={searchTerm}
 				/>
@@ -291,8 +292,8 @@ const AcceptanceFeeAssignment = () => {
 				hasPerformedQuery={!!filter.sessionId}
 				paginationProps={feesToAssign?.data?.metaData || {}}
 				searchTerm={searchTerm}
-				setPageNumber={setPageNumber}
-				pageNumber={pageNumber}
+				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
+				pageNumber={filter.pageNumber}
 			/>
 		</section>
 	);

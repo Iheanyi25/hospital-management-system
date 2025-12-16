@@ -323,6 +323,7 @@ const HanageHostels = () => {
 				<div className={`${styles.tableContainer} 	`}>
 					<TMTable
 						setPageNumber={setPageNumber}
+						pageNumber={pageNumber}
 						metaData={data?.data.metaData}
 						columns={columns}
 						data={data?.data.items || []}

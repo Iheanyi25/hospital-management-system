@@ -18,7 +18,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { findValueAndLabel } from "../../../../../utils/findValueAndLabel";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Schema } from "./components/schema";
-import { useMemo } from "react";
 
 const AdmissionListReports = () => {
 	const pageSize = PAGESIZE.sm;
@@ -80,10 +79,7 @@ const AdmissionListReports = () => {
 	);
 	const allFaculties = formatSelectItems(faculties?.data, "name", "id");
 	const allSessions = formatSelectItems(sessions?.data, "session", "id");
-	const allDepartments = useMemo(
-		() => formatSelectItems(departments?.data, "name", "id"),
-		[departments?.data]
-	);
+	const allDepartments = formatSelectItems(departments?.data, "department", "departmentId");
 	const allStudentTypes = formatSelectItems(studentTypes?.data, "name", "id");
 	const faculty = findValueAndLabel(filter?.facultyId, allFaculties)?.label;
 	const sessionName = findValueAndLabel(

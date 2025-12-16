@@ -181,6 +181,7 @@ const InvoiceManagement = () => {
 					toggleInvoiceActivation={toggleInvoiceActivation}
 					setEditData={setEditData}
 					setPageNumber={setPageNumber}
+					pageNumber={pageNumber}
 					setEditOpen={setEditOpen}
 					metaData={data?.data?.invoiceData.metaData}
 					paginationProps={data?.data?.invoiceData?.metaData || {}}

@@ -81,6 +81,7 @@ const RoomTable = ({ filter }) => {
 			}
 			loading={isLoading || isFetching}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 			availablePages={data?.data?.metaData.totalPages}
 		/>
 	);

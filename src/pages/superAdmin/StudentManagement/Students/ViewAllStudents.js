@@ -37,7 +37,8 @@ const ViewAllStudents = () => {
 		studentModeId: stateFilter.studentModeId || "",
 		levelId: stateFilter.levelId || "",
 		role: stateFilter.role || "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
 
 	const [searchTerm, setSearchTerm] = useState("");
@@ -56,7 +57,8 @@ const ViewAllStudents = () => {
 		// delay in ms
 		SEARCH_DELAY.sm
 	);
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
+	// console.log(pageNumber)
 	const {
 		handleSubmit,
 		control,
@@ -355,7 +357,7 @@ const ViewAllStudents = () => {
 							setFilter={setFilter}
 							handleSubmit={handleSubmit}
 							filter={filter}
-							pageNumber={pageNumber}
+							pageNumber={filter.pageNumber}  
 							pageSize={filter?.pageSize}
 							searchTerm={searchTerm}
 							allObj={allObj}
@@ -364,6 +366,7 @@ const ViewAllStudents = () => {
 					)}
 					<StudentTable
 						title="Student List"
+						pageNumber={filter.pageNumber}  
 						filter={filter}
 						additonalTitleData={
 							<div className="d-flex align-items-center">
@@ -371,7 +374,7 @@ const ViewAllStudents = () => {
 									placeholder="Search for student name or JAMB REG NO "
 									onChange={(e) => {
 										debouncedSearch(e.target.value);
-										setPageNumber(1);
+										// setPageNumber(1);
 									}}
 								/>
 							</div>

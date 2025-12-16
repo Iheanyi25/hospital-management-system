@@ -34,7 +34,7 @@ export const SelectRecordsForm = ({
 	isLoadingCompositeSheet,
 	handleSummarySubmit,
 	isLoadingSummarySheet,
-	role
+	role,
 }) => {
 	const { push } = useHistory();
 
@@ -50,7 +50,8 @@ export const SelectRecordsForm = ({
 			sessionId: formData?.sessionId?.value,
 			semesterId: formData?.semesterId?.value,
 			levelId: formData?.levelId?.value,
-			modeOfEntryId: formData?.modeOfEntryId?.value
+			modeOfEntryId: formData?.modeOfEntryId?.value,
+			pageNumber: 1
 		}));
 		push({
 			search: new URLSearchParams({
