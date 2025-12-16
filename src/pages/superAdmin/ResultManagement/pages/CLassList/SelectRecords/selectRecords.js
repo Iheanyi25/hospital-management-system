@@ -446,18 +446,6 @@ const SelectResultRecords = () => {
 		return () => subscription.unsubscribe();
 	}, [watch]);
 
-// useEffect(() => {
-//   setPageNumber(1);
-// }, [
-//   filter.departmentId,
-//   filter.departmentOptionId,
-//   filter.studentTypeId,
-//   filter.sessionId,
-//   filter.semesterId,
-//   filter.levelId,
-//   filter.modeOfEntryId
-// ]);
-
 	if (isLoading || isLoadingStudentTypes || isLoadingStudentModes)
 		return <Spinner />;
 	if (error || courseListError)

@@ -44,7 +44,6 @@ const ApplicationSetup = () => {
 	);
 	const [pageNumber, setPageNumber] = useState(1);
 
-	console.log(pageNumber)
 	const { data, isLoading, isFetching, error } = useApiGet(
 		getAllApplicationTypesUrl({
 			pageSize,

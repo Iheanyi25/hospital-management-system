@@ -62,8 +62,6 @@ export default function AdmissionListTable({
 			  })
 	);
 
-	console.log(pageNumber)
-
 	const columns = useMemo(
 		() => [
 			{

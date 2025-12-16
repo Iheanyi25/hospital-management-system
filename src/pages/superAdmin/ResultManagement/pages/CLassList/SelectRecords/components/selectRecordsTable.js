@@ -72,8 +72,6 @@ export const SelectRecordsTable = ({
 		[pageNumber, pageSize, push, parsed, sessionId]
 	);
 
-	console.log("Pg Num in STable", pageNumber)
-
 	return (
 		<div>
 			<TMTable

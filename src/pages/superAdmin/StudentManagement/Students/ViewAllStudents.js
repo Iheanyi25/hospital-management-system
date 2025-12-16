@@ -57,8 +57,7 @@ const ViewAllStudents = () => {
 		// delay in ms
 		SEARCH_DELAY.sm
 	);
-	// const [pageNumber, setPageNumber] = useState(1);
-	// console.log(pageNumber)
+
 	const {
 		handleSubmit,
 		control,
@@ -374,7 +373,6 @@ const ViewAllStudents = () => {
 									placeholder="Search for student name or JAMB REG NO "
 									onChange={(e) => {
 										debouncedSearch(e.target.value);
-										// setPageNumber(1);
 									}}
 								/>
 							</div>

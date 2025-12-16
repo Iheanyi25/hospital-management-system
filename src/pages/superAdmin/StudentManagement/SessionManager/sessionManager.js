@@ -37,7 +37,6 @@ const SessionManager = () => {
 	const [deptsActiveSessionsToUpdate, setDeptsActiveSessionsToUpdate] =
 		useState([]);
 
-	// const [pageNumber, setPageNumber] = useState(1);
 	const {
 		data: depts,
 		isLoading: isLoadingDepartmentList,

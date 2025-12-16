@@ -41,7 +41,7 @@ const PaymentReports = () => {
 		pageNumber: 1
 	});
 	const pageSize = PAGESIZE.sm;
-	// const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const [downloadFile, setDownloadFile] = useState(false);
 	const debounced = useDebouncedCallback(

@@ -22,7 +22,7 @@ import ContainerStyles from "../../../CourseManagement/pages/AssignCourse/style.
 import { useDebouncedCallback } from "use-debounce/lib";
 
 const AssignCourseToLecturer = () => {
-	// const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {

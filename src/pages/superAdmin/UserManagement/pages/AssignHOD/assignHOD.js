@@ -15,7 +15,7 @@ import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
 
 const AssignHOD = () => {
-	// const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {
