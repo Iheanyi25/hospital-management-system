@@ -1,9 +1,10 @@
 import { createRef, memo, useCallback } from "react";
 import { NavMenuBar } from "../index";
 import logo from "../../assets/images/sideLogo.png";
-
+import christmasLogo from "../../assets/images/christmasLogo.png";
 import "./sharedLayout.css";
 import { useHistory } from "react-router-dom";
+import { checkIfChristmasPeriod } from "../../utils/checkIfChristmasPeriod";
 export const sharedParent = createRef(null);
 
 export const SharedLayout = memo(({ subMenus, children }) => {
@@ -13,7 +14,11 @@ export const SharedLayout = memo(({ subMenus, children }) => {
 		return (
 			<div className="shared-header mb-5">
 				<div className="d-flex justify-content-center align-items-center shared_img_container">
-					<img src={logo} alt="Logo" onClick={() => push("/")} />
+					<img
+						src={checkIfChristmasPeriod() ? christmasLogo : logo}
+						alt="Logo"
+						onClick={() => push("/")}
+					/>
 				</div>
 				{subMenus && (
 					<div className="mt-5">

@@ -65,26 +65,15 @@ const GlobalMenu = ({
 						<img src={globalMenuIcon} alt="open side menu" />
 					</button>
 				)}
-				<div className="red-global-logo">
+				<div className="red-global-logo" onClick={() => push("/")}>
 					{checkIfChristmasPeriod() ? (
-						<div
-							className={`d-flex align-items-center gap-2  logo`}
-							onClick={() => push("/")}
-						>
-							<img
-								className="xmas-logo"
-								src={ChristmasLogo}
-								alt="akwapoly logo"
-							/>
-							{/* <img src={ChristmasLogo} alt="akwapoly logo" /> */}
-						</div>
+						<img
+							src={ChristmasLogo}
+							alt="Akwapoly christmas logo"
+							className="mb-3"
+						/>
 					) : (
-						<div
-							className={`d-flex align-items-center gap-2 logo`}
-							onClick={() => push("/")}
-						>
-							<img src={logo} alt="akwapoly logo" />
-						</div>
+						<img src={logo} alt="Akwapoly logo" />
 					)}
 				</div>
 			</div>
