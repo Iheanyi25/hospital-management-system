@@ -23,23 +23,15 @@
 }
 
 .red-global-logo {
-	width: 250px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 
 .red-global-logo img {
-	object-fit: contain;
-}
-
-.red-global-logo img:nth-child(1) {
-	display: inline;
-}
-
-.red-global-logo img:nth-child(2) {
-	display: none;
-}
-
-.xmas-logo {
-	height: 72px;
+	width: 200px;
+	cursor: pointer;
 }
 
 .red-current-module {
@@ -231,7 +223,7 @@
 
 	.red-global-logo img:nth-child(2) {
 		display: inline;
-	}	
+	}
 
 	.red-current-module {
 		padding-left: 8px;
@@ -244,7 +236,7 @@
 		width: 100%;
 	}
 
-	.red-global-menu > :nth-child(2){
+	.red-global-menu > :nth-child(2) {
 		display: none;
 	}
 
