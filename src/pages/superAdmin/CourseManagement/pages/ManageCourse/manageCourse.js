@@ -247,6 +247,7 @@ const ManageCourse = () => {
 						}
 						loading={isLoading || isFetching || isPosting}
 						setPageNumber={setPageNumber}
+						pageNumber={pageNumber}
 						availablePages={data?.data?.metaData.totalPages}
 					/>
 				</div>

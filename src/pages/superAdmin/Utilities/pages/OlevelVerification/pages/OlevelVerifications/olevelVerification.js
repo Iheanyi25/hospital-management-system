@@ -31,12 +31,13 @@ const ApplicationReports = () => {
 		// delay in ms
 		SEARCH_DELAY.sm
 	);
-	const [pageNumber, setPageNumber] = useState(1);
+
 	const [filter, setFilter] = useState({
 		applicationTypeId: "",
 		sessionId: "",
 		dateFrom: "",
-		dateTo: ""
+		dateTo: "",
+		pageNumber: 1
 	});
 	const [dateFrom, setDateFrom] = useState("");
 
@@ -124,7 +125,7 @@ const ApplicationReports = () => {
 		getApplicationReportsUrl({
 			...filter,
 			pageSize,
-			pageNumber,
+			pageNumber: filter.pageNumber,
 			searchTerm
 		}),
 		{
@@ -223,7 +224,7 @@ const ApplicationReports = () => {
 					loading={isFetchingApplications}
 					debouncedSearch={debouncedSearch}
 					hasPerformedQuery={!!filter.applicationTypeId}
-					setPageNumber={setPageNumber}
+					setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 					fileLoading={fileLoading}
 					setDownloadFile={setDownloadFile}
 					applicationType={applicationType}
@@ -231,7 +232,7 @@ const ApplicationReports = () => {
 						applications?.data?.applicationReportResponse
 							?.metaData || {}
 					}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					pageSize={pageSize}
 					filter={filter}
 				/>

@@ -160,6 +160,7 @@ export const Table = ({
 				/>
 			</CenteredDialog>
 			<TMTable
+				pageNumber={pageNumber}
 				columns={columns}
 				data={data}
 				title={hasPerformedQuery ? title : "Students records"}

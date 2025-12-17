@@ -77,6 +77,7 @@ export const ManageUnitLoadTable = ({
 				title="Manage Unit Load"
 				availablePages={paginationProps.totalPages}
 				setPageNumber={setPageNumber}
+				pageNumber={pageNumber}
 				searchParams={searchValue}
 				loading={loading}
 			/>

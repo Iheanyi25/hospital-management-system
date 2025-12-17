@@ -30,10 +30,10 @@ const ManageUnitLoad = () => {
 		semesterId: "",
 		yearOfStudyId: "",
 		searchTerm: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
 
-	const [pageNumber, setPageNumber] = useState(1);
 	const {
 		data: unitLoads,
 		isLoading: isLoadingUnitLoads,
@@ -49,7 +49,7 @@ const ManageUnitLoad = () => {
 			...(filter.yearOfStudyId && { levelId: filter.yearOfStudyId }),
 			searchTerm: filter.searchTerm,
 			pageSize: PAGESIZE.sm,
-			pageNumber
+			pageNumber: filter.pageNumber,
 		}),
 		{
 			enabled: !!filter.facultyId,
@@ -130,7 +130,7 @@ const ManageUnitLoad = () => {
 						}),
 						searchTerm: filter.searchTerm,
 						pageSize: PAGESIZE.sm,
-						pageNumber
+						pageNumber: filter.pageNumber
 					}}
 					filter={filter}
 					closeModal={() => setEditOpen(false)}
@@ -162,9 +162,9 @@ const ManageUnitLoad = () => {
 						setEditOpen={setEditOpen}
 						setEditData={setEditData}
 						paginationProps={unitLoads?.data?.metaData || {}}
-						setPageNumber={setPageNumber}
+						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 						setFilter={setFilter}
-						pageNumber={pageNumber}
+						pageNumber={filter.pageNumber}
 						pageSize={filter.pageSize}
 						loading={isFetchingUnitLoads}
 					/>

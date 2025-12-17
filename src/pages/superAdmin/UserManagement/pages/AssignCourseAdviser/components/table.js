@@ -73,6 +73,7 @@ export const Table = ({
 			title={`Course Adviser Details`}
 			availablePages={paginationProps.totalPages}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 			hasPerformedQuery={hasPerformedQuery}
 			searchParams={searchValue}
 			loading={loading}

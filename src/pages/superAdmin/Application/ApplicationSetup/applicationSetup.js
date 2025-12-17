@@ -43,6 +43,7 @@ const ApplicationSetup = () => {
 		SEARCH_DELAY.sm
 	);
 	const [pageNumber, setPageNumber] = useState(1);
+
 	const { data, isLoading, isFetching, error } = useApiGet(
 		getAllApplicationTypesUrl({
 			pageSize,
@@ -393,6 +394,7 @@ const ApplicationSetup = () => {
 						}
 						loading={isLoading || isFetching}
 						setPageNumber={setPageNumber}
+						pageNumber={pageNumber}
 						availablePages={data?.data?.metaData.totalPages}
 					/>
 				</div>

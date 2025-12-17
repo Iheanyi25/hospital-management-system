@@ -123,6 +123,7 @@ const Notifications = () => {
 								notifications?.data?.metaData?.totalPages
 							}
 							isServerSidePagination={true}
+							pageNumber={pageNumber}
 						/>
 					</div>
 				</div>

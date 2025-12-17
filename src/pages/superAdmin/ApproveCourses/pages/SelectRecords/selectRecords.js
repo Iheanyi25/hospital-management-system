@@ -37,7 +37,8 @@ const SelectCourseRecords = () => {
 		studentTypeId: parsed?.studentTypeId || "",
 		sessionId: parsed?.sessionId || "",
 		semesterId: parsed?.semesterId || "",
-		pageSize: parsed?.pageSize || PAGESIZE.sm
+		pageSize: parsed?.pageSize || PAGESIZE.sm,
+		pageNumber: 1
 	});
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
@@ -48,7 +49,7 @@ const SelectCourseRecords = () => {
 		SEARCH_DELAY.sm
 	);
 
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const {
 		data: courses,
 		isLoading: isLoadingCoursesList,
@@ -57,7 +58,7 @@ const SelectCourseRecords = () => {
 	} = useApiGet(
 		getCourseApprovalUrl({
 			...filter,
-			pageNumber,
+			pageNumber: filter.pageNumber,
 			searchTerm
 		}),
 		{
@@ -212,9 +213,9 @@ const SelectCourseRecords = () => {
 					data={courses?.data?.items || []}
 					hasPerformedQuery={!!filter.departmentId}
 					paginationProps={courses?.data?.metaData || {}}
-					setPageNumber={setPageNumber}
+					setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 					debouncedSearch={debounced}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					pageSize={filter.pageSize}
 					searchTerm={searchTerm}
 					loading={isFetchingCoursesList}

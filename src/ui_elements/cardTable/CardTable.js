@@ -16,7 +16,8 @@ export const CardTable = ({
 	searchParams = "",
 	additonalFooterData,
 	availablePages,
-	setPageNumber
+	setPageNumber,
+	pageNumber
 }) => {
 	return (
 		<div className="card-table-main">
@@ -74,14 +75,13 @@ export const CardTable = ({
 					{
 						<h4 className="mt-2">
 							{hasPerformedQuery
-								? `No result found${
-										searchParams &&
-										` for  "${searchParams}"`
-								  }, check your selection and try
+								? `No result found${searchParams &&
+								` for  "${searchParams}"`
+								}, check your selection and try
 						again`
 								: customEmptyStateMessage
-								? customEmptyStateMessage
-								: "Your request results will be displayed here"}
+									? customEmptyStateMessage
+									: "Your request results will be displayed here"}
 						</h4>
 					}
 				</div>
@@ -94,6 +94,7 @@ export const CardTable = ({
 					}}
 				>
 					<PaginationElement
+						pageNumber={pageNumber}
 						setPageNumber={setPageNumber}
 						noOfPages={availablePages}
 						isServerSidePagination={true}

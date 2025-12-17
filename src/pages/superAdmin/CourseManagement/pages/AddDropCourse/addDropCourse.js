@@ -31,7 +31,8 @@ const AddDropCourse = () => {
 	const [filter, setFilter] = useState({
 		sessionId: "",
 		matricNo: "",
-		semester: ""
+		semester: "",
+		pageNumber: 1
 	});
 
 	const {
@@ -238,6 +239,7 @@ const AddDropCourse = () => {
 						isLoadingAddOrDropCourse={isLoadingAddOrDropCourse}
 					/>
 					<Table
+						pageNumber={filter.pageNumber}
 						data={allCourses}
 						studentData={addOrDropCourses?.data}
 						totalSelectedCreditUnit={totalSelectedCreditUnit}

@@ -9,7 +9,8 @@ export const SchoolFeesTable = ({
 	debouncedSearch,
 	setPageNumber,
 	hasPerformedQuery,
-	paginationProps
+	paginationProps,
+	pageNumber
 }) => {
 	return (
 		<TMTable
@@ -31,6 +32,7 @@ export const SchoolFeesTable = ({
 			}
 			availablePages={paginationProps.totalPages}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 			hasPerformedQuery={hasPerformedQuery}
 			searchParams={searchTerm}
 		/>

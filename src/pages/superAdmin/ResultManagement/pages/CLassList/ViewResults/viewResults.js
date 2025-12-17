@@ -260,6 +260,7 @@ const ViewResultsUploaded = () => {
 						availablePages={
 							data?.data?.studentGrades?.metaData?.totalPages
 						}
+						pageNumber={pageNumber}
 						setPageNumber={setPageNumber}
 						loading={isLoading || isFetching}
 						customEmptyStateMessage={

@@ -39,9 +39,10 @@ const ViewStudentRecords = () => {
 		modeOfEntryId: parsed?.modeOfEntryId || "",
 		studentTypeId: parsed?.studentTypeId || "",
 		sessionId: parsed?.sessionId || "",
-		pageSize: parsed?.pageSize || PAGESIZE.sm
+		pageSize: parsed?.pageSize || PAGESIZE.sm,
+		pageNumber: 1
 	});
-	const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {
@@ -56,11 +57,11 @@ const ViewStudentRecords = () => {
 		isLoading: isLoadingcourseList,
 		isFetching: isFetchingcourseList,
 		error: courseListError
-	} = useApiGet(getClearanceInfoUrl({ ...filter, pageNumber, searchTerm }), {
+	} = useApiGet(getClearanceInfoUrl({ ...filter, pageNumber: filter.pageNumber, searchTerm }), {
 		enabled: !!filter.departmentId,
 		keepPreviousData: true
 	});
-
+	
 	const { mutate, isLoading: isPosting } = useApiPut();
 
 	const queryClient = useQueryClient();
@@ -228,7 +229,7 @@ const ViewStudentRecords = () => {
 				queryClient.invalidateQueries(
 					getClearanceInfoUrl({
 						...filter,
-						pageNumber,
+						pageNumber: filter.pageNumber,
 						searchTerm
 					})
 				);
@@ -293,9 +294,9 @@ const ViewStudentRecords = () => {
 						data={courseList?.data?.items || []}
 						hasPerformedQuery={!!filter.departmentId}
 						paginationProps={courseList?.data?.metaData || {}}
-						setPageNumber={setPageNumber}
+						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 						debouncedSearch={debounced}
-						pageNumber={pageNumber}
+						pageNumber={filter.pageNumber}
 						pageSize={filter.pageSize}
 						searchValue={searchTerm}
 						loading={isFetchingcourseList}

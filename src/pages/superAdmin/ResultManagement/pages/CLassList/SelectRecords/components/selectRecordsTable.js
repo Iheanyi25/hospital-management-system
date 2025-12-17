@@ -98,6 +98,7 @@ export const SelectRecordsTable = ({
 				hasPerformedQuery={hasPerformedQuery}
 				searchParams={searchValue}
 				loading={loading}
+				pageNumber={pageNumber}
 			/>
 		</div>
 	);

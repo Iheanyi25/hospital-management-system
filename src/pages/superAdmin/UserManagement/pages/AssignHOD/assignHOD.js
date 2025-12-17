@@ -15,7 +15,7 @@ import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
 
 const AssignHOD = () => {
-	const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {
@@ -28,7 +28,8 @@ const AssignHOD = () => {
 	const [filter, setFilter] = useState({
 		sessionId: "",
 		facultyId: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
 	const [editData, setEditData] = useState({});
 	const {
@@ -68,7 +69,7 @@ const AssignHOD = () => {
 		data: hods,
 		isLoading: isLoadingHods,
 		isFetching: isFetchingHods
-	} = useApiGet(getAllHODsUrl({ ...filter, pageNumber, searchTerm }), {
+	} = useApiGet(getAllHODsUrl({ ...filter, pageNumber: filter.pageNumber, searchTerm }), {
 		enabled: !!filter.sessionId,
 		keepPreviousData: true
 	});
@@ -92,7 +93,7 @@ const AssignHOD = () => {
 				<EditHOD
 					data={editData}
 					filter={filter}
-					currentState={{ ...filter, pageNumber, searchTerm }}
+					currentState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
@@ -115,9 +116,9 @@ const AssignHOD = () => {
 				data={hods?.data?.items || []}
 				setEditData={setEditData}
 				paginationProps={hods?.data?.metaData || {}}
-				setPageNumber={setPageNumber}
+				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 				debouncedSearch={debounced}
-				pageNumber={pageNumber}
+				pageNumber={filter.pageNumber}
 				hasPerformedQuery={!!filter.sessionId}
 				pageSize={filter.pageSize}
 				searchValue={searchTerm}
