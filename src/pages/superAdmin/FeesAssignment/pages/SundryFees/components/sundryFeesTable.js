@@ -5,7 +5,8 @@ export const SundryFeesTable = ({
 	data,
 	columns,
 	paginationProps,
-	setPageNumber
+	setPageNumber,
+	pageNumber
 }) => {
 	return (
 		<TMTable
@@ -14,6 +15,7 @@ export const SundryFeesTable = ({
 			loading={loading}
 			availablePages={paginationProps.totalPages}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 		/>
 	);
 };

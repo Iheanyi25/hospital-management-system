@@ -188,7 +188,7 @@ export const TMTable = ({
 					}}
 				>
 					<PaginationElement
-						pageNumber={pageNumber}
+						pageNumber={pageNumber }
 						setPageNumber={
 							isServerSidePagination ? setPageNumber : gotoPage
 						}

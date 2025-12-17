@@ -9,7 +9,8 @@ export const Table = ({
 	searchValue,
 	updateChecks = () => {},
 	updateAllChecks = () => {},
-	loading
+	loading,
+	pageNumber
 }) => {
 	const columns = useMemo(
 		() => [
@@ -62,6 +63,7 @@ export const Table = ({
 				title="Department Active Sessions"
 				availablePages={paginationProps.totalPages}
 				setPageNumber={setPageNumber}
+				pageNumber={pageNumber}
 				searchParams={searchValue}
 				loading={loading}
 			/>

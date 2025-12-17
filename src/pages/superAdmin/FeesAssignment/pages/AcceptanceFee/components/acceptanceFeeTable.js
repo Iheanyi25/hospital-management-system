@@ -8,7 +8,8 @@ export const AcceptanceFeeTable = ({
 	debouncedSearch,
 	setPageNumber,
 	hasPerformedQuery,
-	paginationProps
+	paginationProps,
+	pageNumber
 }) => {
 	return (
 		<TMTable
@@ -30,6 +31,7 @@ export const AcceptanceFeeTable = ({
 			}
 			availablePages={paginationProps.totalPages}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 			hasPerformedQuery={hasPerformedQuery}
 			searchParams={searchTerm}
 		/>

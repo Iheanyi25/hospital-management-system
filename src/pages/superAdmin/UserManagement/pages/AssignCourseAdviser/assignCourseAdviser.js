@@ -20,7 +20,6 @@ import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
 import { useDebouncedCallback } from "use-debounce";
 
 const AssignCourseAdviser = () => {
-	const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const lecturer = useContext(ProfileContext);
 	const programDetails = lecturer?.profileData?.programmeDetail;
@@ -36,7 +35,8 @@ const AssignCourseAdviser = () => {
 		sessionId: "",
 		studentTypeId: "",
 		departmentId: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
 	const [editData, setEditData] = useState({});
 	const {
@@ -49,21 +49,21 @@ const AssignCourseAdviser = () => {
 		defaultValues: {
 			studentTypeId: programDetails?.studentTypeId
 				? {
-						label: programDetails?.studentType,
-						value: programDetails?.studentTypeId
-				  }
+					label: programDetails?.studentType,
+					value: programDetails?.studentTypeId
+				}
 				: null,
 			departmentId: programDetails?.departmentId
 				? {
-						label: programDetails?.department,
-						value: programDetails?.departmentId
-				  }
+					label: programDetails?.department,
+					value: programDetails?.departmentId
+				}
 				: null,
 			facultyId: programDetails?.facultyId
 				? {
-						label: programDetails?.faculty,
-						value: programDetails?.facultyId
-				  }
+					label: programDetails?.faculty,
+					value: programDetails?.facultyId
+				}
 				: null
 		}
 	});
@@ -117,7 +117,7 @@ const AssignCourseAdviser = () => {
 		isLoading: isLoadingLevelAdvisers,
 		isFetching: isFetchingLevelAdvisers
 	} = useApiGet(
-		getLevelCourseAdvisersUrl({ ...filter, pageNumber, searchTerm }),
+		getLevelCourseAdvisersUrl({ ...filter, pageNumber:filter.pageNumber, searchTerm }),
 		{
 			enabled: !!filter.sessionId,
 			keepPreviousData: true
@@ -149,7 +149,7 @@ const AssignCourseAdviser = () => {
 					data={editData}
 					filter={filter}
 					allDepartments={allDepartments}
-					currentState={{ ...filter, pageNumber, searchTerm }}
+					currentState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
 					closeModal={() => setEditOpen(false)}
 				/>
 			</CenteredDialog>
@@ -174,9 +174,9 @@ const AssignCourseAdviser = () => {
 				data={levelAdvisers?.data || []}
 				setEditData={setEditData}
 				paginationProps={levelAdvisers?.data?.metaData || {}}
-				setPageNumber={setPageNumber}
+				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 				debouncedSearch={debounced}
-				pageNumber={pageNumber}
+				pageNumber={filter.pageNumber}
 				hasPerformedQuery={!!filter.sessionId}
 				pageSize={filter.pageSize}
 				searchValue={searchTerm}

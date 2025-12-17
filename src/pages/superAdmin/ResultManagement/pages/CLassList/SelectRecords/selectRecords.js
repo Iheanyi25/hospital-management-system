@@ -98,10 +98,11 @@ const SelectResultRecords = () => {
 		semesterId: parsed?.semesterId || "",
 		levelId: parsed?.levelId || "",
 		modeOfEntryId: parsed?.modeOfEntryId || "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
 
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {
@@ -116,7 +117,7 @@ const SelectResultRecords = () => {
 		isFetching: isFetchingcourseList,
 		error: courseListError
 	} = useApiGet(
-		getCoursesAssignedToDeptsUrl({ ...filter, pageNumber, searchTerm }),
+		getCoursesAssignedToDeptsUrl({ ...filter, pageNumber: filter.pageNumber, searchTerm }),
 		{
 			enabled: !!filter.departmentId,
 			keepPreviousData: true
@@ -498,9 +499,9 @@ const SelectResultRecords = () => {
 						data={courseList?.data?.items || []}
 						hasPerformedQuery={!!filter.departmentId}
 						paginationProps={courseList?.data?.metaData || {}}
-						setPageNumber={setPageNumber}
+						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 						setFilter={setFilter}
-						pageNumber={pageNumber}
+						pageNumber={filter.pageNumber}  
 						pageSize={filter.pageSize}
 						debouncedSearch={debounced}
 						searchValue={searchTerm}

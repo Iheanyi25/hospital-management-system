@@ -39,9 +39,10 @@ const SundryFeesAssignment = () => {
 		StudentModeId: "",
 		ServiceTypeId: "",
 		modeOfEntryId: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
-	const [pageNumber, setPageNumber] = useState(1);
+	
 	const [watchData, setWatchData] = useState({
 		StudentTypeId: ""
 	});
@@ -128,7 +129,7 @@ const SundryFeesAssignment = () => {
 			StudentTypeId: filter.StudentTypeId,
 			StudentModeId: filter.StudentModeId,
 			modeOfEntryId: filter.modeOfEntryId,
-			pageNumber,
+			pageNumber: filter.pageNumber,
 			pageSize: filter.pageSize
 		}),
 		{
@@ -297,7 +298,7 @@ const SundryFeesAssignment = () => {
 				<EditSundryFees
 					data={editData}
 					filter={filter}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					closeModal={() => setEditOpen(false)}
 					allServiceTypes={allServiceTypes}
 					allPaymentPurpose={allPaymentPurpose}
@@ -342,7 +343,7 @@ const SundryFeesAssignment = () => {
 					isLoadingFeesToAssign={isLoadingFeesToAssign}
 					errors={errors}
 					isFacultiesLoading={isFacultiesLoading}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					pageSize={filter?.pageSize}
 					faculties={faculties}
 					allPaymentPurpose={allPaymentPurpose}
@@ -371,8 +372,8 @@ const SundryFeesAssignment = () => {
 				loading={isFetchingFeesToAssign}
 				setEditOpen={setEditOpen}
 				columns={columns}
-				setPageNumber={setPageNumber}
-				pageNumber={pageNumber}
+				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
+				pageNumber={filter.pageNumber}
 				hasPerformedQuery={!!filter.SessionId}
 				paginationProps={feesToAssign?.data?.metaData || {}}
 			/>

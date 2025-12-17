@@ -115,6 +115,7 @@ const BookHostel = () => {
 					setPageNumber={setPageNumber}
 					noOfPages={data?.data?.metaData.totalPages}
 					isServerSidePagination={true}
+					pageNumber={pageNumber}
 				/>
 			</div>
 		</>

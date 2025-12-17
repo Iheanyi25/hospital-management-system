@@ -89,6 +89,7 @@ export const Table = ({
 			}
 			availablePages={paginationProps.totalPages}
 			setPageNumber={setPageNumber}
+			pageNumber={pageNumber}
 			hasPerformedQuery={hasPerformedQuery}
 			searchParams={searchValue}
 			loading={loading}

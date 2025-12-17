@@ -111,6 +111,7 @@ export default function ApproveCoursesTable({
 				}
 				availablePages={paginationProps.totalPages}
 				setPageNumber={setPageNumber}
+				pageNumber={pageNumber}
 				hasPerformedQuery={hasPerformedQuery}
 				searchParams={searchTerm}
 				loading={loading && !cacheData}

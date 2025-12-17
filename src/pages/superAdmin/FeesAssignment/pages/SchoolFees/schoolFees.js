@@ -51,9 +51,10 @@ const SchoolFeesAssignment = () => {
 		SchoolProgrammeId: parsed?.SchoolProgrammeId || "",
 		ProgrammeTypeId: parsed?.ProgrammeTypeId || "",
 		ModeOfStudyId: parsed?.ModeOfStudyId || "",
-		pageSize: parsed?.pageSize || PAGESIZE.sm
+		pageSize: parsed?.pageSize || PAGESIZE.sm,
+		pageNumber: 1
 	});
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [watchData, setWatchData] = useState({
 		StudentTypeId: parsed?.StudentTypeId || ""
@@ -179,7 +180,7 @@ const SchoolFeesAssignment = () => {
 			PaymentChannelId: filter.PaymentChannelId,
 			ModeOfStudyId: filter.ModeOfStudyId,
 			searchTerm,
-			pageNumber,
+			pageNumber: filter.pageNumber,
 			pageSize: filter.pageSize
 		}),
 		{
@@ -483,7 +484,7 @@ const SchoolFeesAssignment = () => {
 					allDepartments={allDepartments}
 					allStudentModesOfStudy={allStudentModesOfStudy}
 					allStudentTypes={allStudentTypes}
-					currentFilterState={{ ...filter, pageNumber, searchTerm }}
+					currentFilterState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
 					paymentPurposeId="SchoolFees"
 					closeModal={() => setCloneOpen(false)}
 				/>
@@ -517,7 +518,7 @@ const SchoolFeesAssignment = () => {
 					errors={errors}
 					isFacultiesLoading={isFacultiesLoading}
 					faculties={faculties}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					pageSize={filter?.pageSize}
 					searchTerm={searchTerm}
 				/>
@@ -563,8 +564,8 @@ const SchoolFeesAssignment = () => {
 				hasPerformedQuery={!!filter.SessionId}
 				paginationProps={feesToAssign?.data?.metaData || {}}
 				searchTerm={searchTerm}
-				setPageNumber={setPageNumber}
-				pageNumber={pageNumber}
+				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
+				pageNumber={filter.pageNumber}
 			/>
 		</section>
 	);

@@ -36,7 +36,6 @@ export const Table = ({
 	allCampuses,
 	metaData,
 	currentFilterState,
-	filter
 }) => {
 	const [editOpen, setEditOpen] = useState(false);
 	const [editData, setEditData] = useState({});
@@ -101,9 +100,8 @@ export const Table = ({
 						row: { original }
 					}
 				}) => {
-					return `${original?.lastName ?? ""} ${
-						original?.firstName ?? ""
-					} ${original?.middleName ?? ""}`;
+					return `${original?.lastName ?? ""} ${original?.firstName ?? ""
+						} ${original?.middleName ?? ""}`;
 				}
 			},
 			{
@@ -158,9 +156,8 @@ export const Table = ({
 									pathname: `/user_management/users/management`,
 									state: {
 										userId: row?.original?.userId,
-										name: `${
-											row?.original?.lastName ?? ""
-										} ${row?.original?.firstName ?? ""}`
+										name: `${row?.original?.lastName ?? ""
+											} ${row?.original?.firstName ?? ""}`
 									}
 								});
 							}
@@ -170,19 +167,19 @@ export const Table = ({
 							onClick:
 								row.original.role === "student"
 									? () =>
-											push({
-												pathname:
-													"/user_management/users/edit",
-												state: {
-													refCode:
-														row.original.userId,
-													fromUserManagement: true
-												}
-											})
+										push({
+											pathname:
+												"/user_management/users/edit",
+											state: {
+												refCode:
+													row.original.userId,
+												fromUserManagement: true
+											}
+										})
 									: () => {
-											setEditData(row.original);
-											setEditOpen(true);
-									  }
+										setEditData(row.original);
+										setEditOpen(true);
+									}
 						},
 						{
 							name: "Impersonate User",
@@ -268,6 +265,7 @@ export const Table = ({
 				isLoading={isLoading}
 			/>
 			<TMTable
+				pageNumber={pageNumber}
 				columns={columns}
 				data={data}
 				title=" "

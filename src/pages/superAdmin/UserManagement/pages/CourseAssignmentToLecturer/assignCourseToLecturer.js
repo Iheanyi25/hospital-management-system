@@ -22,7 +22,7 @@ import ContainerStyles from "../../../CourseManagement/pages/AssignCourse/style.
 import { useDebouncedCallback } from "use-debounce/lib";
 
 const AssignCourseToLecturer = () => {
-	const [pageNumber, setPageNumber] = useState(1);
+	
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
 		(value) => {
@@ -41,9 +41,10 @@ const AssignCourseToLecturer = () => {
 		levelId: "",
 		studentTypeId: "",
 		campusId: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
-	console.log({ filter });
+
 	const [editData, setEditData] = useState({});
 	const { data: sessions, isLoading, error } = useApiGet(getAllSessionsUrl());
 	const {
@@ -96,7 +97,7 @@ const AssignCourseToLecturer = () => {
 		isLoading: isLoadingLecturerCourses,
 		isFetching: isFetchingLecturerCourses
 	} = useApiGet(
-		getAllLecturerCourses({ ...filter, pageNumber, searchTerm }),
+		getAllLecturerCourses({ ...filter, pageNumber: filter.pageNumber, searchTerm }),
 		{
 			enabled: !!filter.studentTypeId,
 			keepPreviousData: true
@@ -140,7 +141,7 @@ const AssignCourseToLecturer = () => {
 				<EditLecturerCourseAssignment
 					editData={editData}
 					filter={filter}
-					pageNumber={pageNumber}
+					pageNumber={filter.pageNumber}
 					searchTerm={searchTerm}
 					closeModal={() => setEditOpen(false)}
 				/>
@@ -175,9 +176,9 @@ const AssignCourseToLecturer = () => {
 				hasPerformedQuery={!!filter.studentTypeId}
 				setEditOpen={setEditOpen}
 				setEditData={setEditData}
-				setPageNumber={setPageNumber}
+				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 				debouncedSearch={debounced}
-				pageNumber={pageNumber}
+				pageNumber={filter.pageNumber}
 				pageSize={filter.pageSize}
 				searchValue={searchTerm}
 				paginationProps={lecturerCourses?.data?.metaData || {}}

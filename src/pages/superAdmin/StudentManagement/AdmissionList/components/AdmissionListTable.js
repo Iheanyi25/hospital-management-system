@@ -252,6 +252,7 @@ export default function AdmissionListTable({
 				columns={columns}
 				data={data}
 				title="Records"
+				pageNumber={pageNumber}
 				additonalTitleData={
 					<div className="d-flex align-items-center">
 						{isFacultyPage ? (

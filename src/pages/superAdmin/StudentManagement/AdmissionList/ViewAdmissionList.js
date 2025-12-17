@@ -46,7 +46,8 @@ const ViewAdmissionList = () => {
 		sessionId: "",
 		programmeId: "",
 		modeOfStudyId: "",
-		pageSize: PAGESIZE.sm
+		pageSize: PAGESIZE.sm,
+		pageNumber: 1
 	});
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
@@ -59,7 +60,7 @@ const ViewAdmissionList = () => {
 
 	const [searchStudentType, setSearchStudentType] = useState("");
 
-	const [pageNumber, setPageNumber] = useState(1);
+	// const [pageNumber, setPageNumber] = useState(1);
 	const {
 		data: admissionList,
 		isLoading: isLoadingAdmissionList,
@@ -69,13 +70,13 @@ const ViewAdmissionList = () => {
 		isFacultyPage
 			? getAdmissionList({
 					...filter,
-					pageNumber,
+					pageNumber: filter.pageNumber,
 					pageSize: filter.pageSize,
 					searchTerm
 			  })
 			: getSearchAdmissionList({
 					pageSize: filter.pageSize,
-					pageNumber,
+					pageNumber: filter.pageNumber,
 					searchTerm
 			  }),
 		{
@@ -257,7 +258,7 @@ const ViewAdmissionList = () => {
 							isLoadingAdmissionList={isLoadingAdmissionList}
 							filter={filter}
 							allAdmissionTypes={allAdmissionTypes}
-							pageNumber={pageNumber}
+							pageNumber={filter.pageNumber}
 							pageSize={filter?.pageSize}
 							searchTerm={searchTerm}
 							setValue={setValue}
@@ -268,9 +269,9 @@ const ViewAdmissionList = () => {
 						data={admissionList?.data?.items || []}
 						hasPerformedQuery={!!filter.departmentId}
 						paginationProps={admissionList?.data?.metaData || {}}
-						setPageNumber={setPageNumber}
+						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
 						debouncedSearch={debounced}
-						pageNumber={pageNumber}
+						pageNumber={filter.pageNumber}
 						pageSize={filter?.pageSize}
 						searchTerm={searchTerm}
 						loading={isFetchingAdmissionList}
