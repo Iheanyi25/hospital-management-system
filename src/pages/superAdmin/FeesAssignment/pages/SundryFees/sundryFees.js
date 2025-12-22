@@ -330,7 +330,6 @@ const SundryFeesAssignment = () => {
 					allStudentModes={allStudentModes}
 					allFaculties={allFaculties}
 					setFilter={setFilter}
-					filter={filter}
 					isLoadingLevels={isLoadingLevels}
 					levels={levels}
 					allLevels={allLevels}
@@ -343,8 +342,6 @@ const SundryFeesAssignment = () => {
 					isLoadingFeesToAssign={isLoadingFeesToAssign}
 					errors={errors}
 					isFacultiesLoading={isFacultiesLoading}
-					pageNumber={filter.pageNumber}
-					pageSize={filter?.pageSize}
 					faculties={faculties}
 					allPaymentPurpose={allPaymentPurpose}
 					isPaymentPurposeLoading

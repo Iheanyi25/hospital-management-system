@@ -22,9 +22,6 @@ export const ViewSundryFeesForm = ({
 	allServiceTypes,
 	allStudentModes,
 	isFacultiesLoading,
-	pageNumber,
-	pageSize,
-	searchTerm,
 	faculties,
 	allPaymentPurpose,
 	allStudentModesOfStudy,
@@ -45,9 +42,9 @@ export const ViewSundryFeesForm = ({
 			PaymentPurpose: formData.PaymentPurpose.value,
 			FacultyId: formData.FacultyId.value,
 			...hasModeOfStudyId,
-			pageNumber,
-			pageSize,
-			searchTerm
+			pageNumber: 1,
+			pageSize: state.pageSize,
+			searchTerm: ""
 		}));
 	};
 	return (

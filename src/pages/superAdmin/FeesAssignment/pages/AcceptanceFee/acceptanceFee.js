@@ -252,9 +252,6 @@ const AcceptanceFeeAssignment = () => {
 					setFilter={setFilter}
 					handleSubmit={handleSubmit}
 					isLoadingFeesToAssign={isLoadingFeesToAssign}
-					pageNumber={filter.pageNumber}
-					pageSize={filter?.pageSize}
-					searchTerm={searchTerm}
 				/>
 			</div>
 			<div className="d-flex justify-content-end align-items-center px-4 py-3 border">

@@ -19,9 +19,7 @@ export const ViewAcceptanceFeeForm = ({
 	allFaculties,
 	isFacultiesLoading,
 	faculties,
-	pageNumber,
-	pageSize,
-	searchTerm,
+	filter,
 	setValue
 }) => {
 	const { push } = useHistory();
@@ -31,18 +29,18 @@ export const ViewAcceptanceFeeForm = ({
 			sessionId: formData.sessionId.value,
 			studentTypeId: formData.studentTypeId.value,
 			facultyId: formData.facultyId.value,
-			pageNumber,
-			pageSize,
-			searchTerm
+			pageNumber: 1,
+			pageSize: state.pageSize,
+			searchTerm: ""
 		}));
 		push({
 			search: new URLSearchParams({
 				sessionId: formData.sessionId.value,
 				studentTypeId: formData.studentTypeId.value,
 				facultyId: formData.facultyId.value,
-				pageNumber,
-				pageSize,
-				searchTerm
+				pageNumber: filter.pageNumber,
+				pageSize: filter.pageSize,
+				searchTerm: filter.searchTerm
 			}).toString()
 		});
 	};
