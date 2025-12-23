@@ -16,7 +16,6 @@ export const ViewSchoolFeesForm = ({
 	allStudentTypes,
 	allServiceTypes,
 	allStudentModes,
-	allStudentModeEntry,
 	control,
 	setFilter,
 	handleSubmit,
@@ -26,8 +25,6 @@ export const ViewSchoolFeesForm = ({
 	faculties,
 	levels,
 	errors,
-	pageNumber,
-	pageSize,
 	allProgrammes,
 	allPaymentChannels,
 	isLoadingSchoolProgrammes,
@@ -36,7 +33,7 @@ export const ViewSchoolFeesForm = ({
 	isLoadingProgrammeTypes,
 	allStudentCategory,
 	setValue,
-	searchTerm
+	filter
 }) => {
 	const { push } = useHistory();
 	const onSubmit = (formData) => {
@@ -63,9 +60,9 @@ export const ViewSchoolFeesForm = ({
 			...hasSchoolProgrammeId,
 			...hasModeOfStudyId,
 			...hasProgrammeTypeId,
-			pageNumber,
-			pageSize,
-			searchTerm
+			pageNumber: 1,
+			pageSize: state.pageSize,
+			searchTerm: ""
 		}));
 		push({
 			search: new URLSearchParams({
@@ -81,9 +78,9 @@ export const ViewSchoolFeesForm = ({
 				...hasSchoolProgrammeId,
 				...hasModeOfStudyId,
 				...hasProgrammeTypeId,
-				pageNumber,
-				pageSize,
-				searchTerm
+				pageNumber: filter.pageNumber,
+				pageSize: filter.pageSize,
+				searchTerm: filter.searchTerm
 			}).toString()
 		});
 	};
