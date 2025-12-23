@@ -509,7 +509,6 @@ const SchoolFeesAssignment = () => {
 					allPaymentChannels={allPaymentChannels}
 					isLoadingSchoolProgrammes={isLoadingSchoolProgrammes}
 					isLoadingStudentModesOfStudy={isLoadingStudentModesOfStudy}
-					allStudentModesOfStudy={allStudentModesOfStudy}
 					isLoadingProgrammeTypes={isLoadingProgrammeTypes}
 					allProgrammeTypes={allProgrammeTypes}
 					control={control}
@@ -518,9 +517,6 @@ const SchoolFeesAssignment = () => {
 					errors={errors}
 					isFacultiesLoading={isFacultiesLoading}
 					faculties={faculties}
-					pageNumber={filter.pageNumber}
-					pageSize={filter?.pageSize}
-					searchTerm={searchTerm}
 				/>
 			</div>
 			<div className="d-flex justify-content-between align-items-center px-4 py-3 border">
