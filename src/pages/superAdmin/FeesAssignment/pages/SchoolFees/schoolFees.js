@@ -517,6 +517,7 @@ const SchoolFeesAssignment = () => {
 					errors={errors}
 					isFacultiesLoading={isFacultiesLoading}
 					faculties={faculties}
+					allStudentModesOfStudy={allStudentModesOfStudy}
 				/>
 			</div>
 			<div className="d-flex justify-content-between align-items-center px-4 py-3 border">

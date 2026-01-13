@@ -84,6 +84,7 @@ export const ViewSchoolFeesForm = ({
 			}).toString()
 		});
 	};
+
 	// const shouldShowProgramme =
 	// 	Number(watchData.StudentTypeId) === STUDENT_TYPES.POSTGRADUATE;
 
