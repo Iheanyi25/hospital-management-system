@@ -101,7 +101,7 @@ export const TMTable = ({
 									return (
 										<motion.tr
 											variants={list}
-											key={1}
+											key={i}
 											{...row.getRowProps()}
 										>
 											{row.cells.map((cell, index) => {
