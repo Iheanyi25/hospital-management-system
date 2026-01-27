@@ -74,7 +74,7 @@ export default function PersonalInfoPrintOut({ personalData }) {
 						<div>{contactAddress}</div>
 					</div>
 					<div>
-						<div>Parmanent address</div>
+						<div>Permanent address</div>
 						<div>{permanentAddress || "nil"}</div>
 					</div>
 				</div>
