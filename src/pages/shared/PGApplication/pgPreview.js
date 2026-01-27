@@ -64,7 +64,7 @@ export const PgPreview = ({ componentRef, formDetails }) => {
 			value: basicInformation?.contactAddress ?? "-"
 		},
 		{
-			title: "Parmanent Address",
+			title: "Permanent Address",
 			value: basicInformation?.permanentAddress ?? "-"
 		}
 	];
