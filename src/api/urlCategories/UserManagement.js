@@ -6,7 +6,7 @@ export const getAllUsersUrl = (filter) =>
 	`${baseUrl}/all-users?${generateUrlParams(filter)}`;
 
 export const getUsersUrl = (filter) =>
-	`${baseUrl}?${generateUrlParams(filter)}`;
+	`${baseUrl}/get-user?${generateUrlParams(filter)}`;
 
 export const createUserUrl = () => `${baseUrl}/create-user`;
 
@@ -16,7 +16,7 @@ export const toggleUserStatusUrl = (id) =>
 	`${baseUrl}/toggle-user-status?userId=${id}`;
 
 export const getUserProfileUrl = (staffProfile) =>
-	`${baseUrl}${staffProfile ? `?staffProfile=${staffProfile}` : ""}`;
+	`${baseUrl}/get-user${staffProfile ? `?staffProfile=${staffProfile}` : ""}`;
 
 export const updateUserProfileUrl = () => `${baseUrl}/update-user`;
 
