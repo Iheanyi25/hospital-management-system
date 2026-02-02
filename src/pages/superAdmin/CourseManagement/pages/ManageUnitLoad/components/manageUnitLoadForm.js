@@ -24,7 +24,8 @@ export const ManageUnitLoadForm = ({
 	isLoadingFaculties,
 	setValue,
 	allStudentModesOfStudy,
-	isLoadingStudentModesOfStudy
+	isLoadingStudentModesOfStudy,
+	setPageNumber,
 }) => {
 	const onSubmit = (formData) => {
 		const hasModeOfStudyId = formData?.ModeOfStudyId?.value
@@ -42,6 +43,7 @@ export const ManageUnitLoadForm = ({
 				yearOfStudyId: formData.yearOfStudyId.value
 			})
 		}));
+		setPageNumber(1);
 	};
 	return (
 		<form className="w-100" onSubmit={handleSubmit(onSubmit)}>
