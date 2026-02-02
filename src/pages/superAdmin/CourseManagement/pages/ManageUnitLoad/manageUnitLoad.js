@@ -20,6 +20,7 @@ import {
 import { PAGESIZE } from "../../../../../utils/constants";
 
 const ManageUnitLoad = () => {
+	const [pageNumber, setPageNumber] = useState(1);
 	const [editOpen, setEditOpen] = useState(false);
 	const [editData, setEditData] = useState({});
 	const [filter, setFilter] = useState({
@@ -31,7 +32,7 @@ const ManageUnitLoad = () => {
 		yearOfStudyId: "",
 		searchTerm: "",
 		pageSize: PAGESIZE.sm,
-		pageNumber: 1
+		
 	});
 
 	const {
@@ -49,7 +50,7 @@ const ManageUnitLoad = () => {
 			...(filter.yearOfStudyId && { levelId: filter.yearOfStudyId }),
 			searchTerm: filter.searchTerm,
 			pageSize: PAGESIZE.sm,
-			pageNumber: filter.pageNumber,
+			pageNumber
 		}),
 		{
 			enabled: !!filter.facultyId,
@@ -130,7 +131,7 @@ const ManageUnitLoad = () => {
 						}),
 						searchTerm: filter.searchTerm,
 						pageSize: PAGESIZE.sm,
-						pageNumber: filter.pageNumber
+						pageNumber
 					}}
 					filter={filter}
 					closeModal={() => setEditOpen(false)}
@@ -156,15 +157,16 @@ const ManageUnitLoad = () => {
 							isLoadingStudentModesOfStudy
 						}
 						allStudentModesOfStudy={allStudentModesOfStudy}
+						setPageNumber={setPageNumber}
 					/>
 					<ManageUnitLoadTable
 						data={unitLoads?.data?.items || []}
 						setEditOpen={setEditOpen}
 						setEditData={setEditData}
 						paginationProps={unitLoads?.data?.metaData || {}}
-						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
+						setPageNumber={setPageNumber}
 						setFilter={setFilter}
-						pageNumber={filter.pageNumber}
+						pageNumber={pageNumber}
 						pageSize={filter.pageSize}
 						loading={isFetchingUnitLoads}
 					/>
