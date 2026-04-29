@@ -66,7 +66,7 @@ const deleteRequest = (request) =>
 
 export const useReturnQueryOptions = (queryOptions) => {
 	const { push } = useHistory();
-	const {  logout } = useAuthAction();
+	const { logout } = useAuthAction();
 	return {
 		onError: (error) => {
 			if (
@@ -81,6 +81,16 @@ export const useReturnQueryOptions = (queryOptions) => {
 					"Request failed with status code 401"
 			) {
 				logout();
+			}
+
+			if (
+				error?.response?.status === 502 ||
+				error?.response?.status === 503
+			) {
+				push({
+					pathname: "/downtime",
+					state: { fromError: true }
+				});
 			}
 		},
 		retry: (_, error) =>
