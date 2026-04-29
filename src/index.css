@@ -34,7 +34,6 @@ html {
 	margin: 0;
 }
 
-
 * {
 	scrollbar-color: #a5adba transparent !important;
 	scrollbar-width: thin !important;
@@ -75,7 +74,7 @@ html {
 
 :root {
 	/* base colors */
-	--primary: #0871B5;
+	--primary: #0871b5;
 	--secondary: #00875a;
 	--danger: #de350b;
 
@@ -100,7 +99,7 @@ html {
 	--overlay: rgba(9, 30, 66, 0.54);
 	--light-red: rgba(255, 116, 82, 1);
 	--transparent-white: rgba(255, 255, 255, 0.4);
-	--transparent-grey: #7A869A;
+	--transparent-grey: #7a869a;
 
 	/* navigation */
 	--active-bg-link: #deebff;
@@ -126,6 +125,7 @@ html {
 	--purple-text-color: #5243aa;
 	--text-color-varation: rgba(171, 245, 209, 0.384);
 	--text-teal: #00a3bf;
+	--text-sub-500: #525866;
 	--text-neutral: #42526e;
 	--banner-color: #d18c00;
 	--timer-bg-color: #ff8b00;
@@ -138,7 +138,7 @@ html {
 	--neutral-10: #fafbfc;
 	--neutral-20: #f4f5f7;
 	--white-color: #ffffff;
-	--neutral-30: #5E6C84;
+	--neutral-30: #5e6c84;
 }
 
 h1,
@@ -290,5 +290,4 @@ button.clickable {
 	.col-3 {
 		width: 40% !important;
 	}
-
 }

@@ -331,6 +331,8 @@ const LazyVerifyRemitaStatus = lazy(() =>
 		"../../pages/superAdmin/InvoiceManagement/pages/VerifyRemitaStatus/pages/VerifyRemitaStatus"
 	)
 );
+const LazyDownTime = lazy(() => import("../../pages/shared/Downtime/DownTime"));
+
 export const sharedRoutes = [
 	{
 		path: "/",
@@ -817,5 +819,10 @@ export const sharedRoutes = [
 		router: SharedRouter,
 		exact: true,
 		title: "Invoice Management"
+	},
+	{
+		path: "/downtime",
+		component: LazyDownTime,
+		exact: true
 	}
 ];
