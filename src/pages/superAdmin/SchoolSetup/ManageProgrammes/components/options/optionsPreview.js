@@ -32,18 +32,31 @@ export const OptionsPreview = ({
 			data: formData
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: (res) => {
 				queryClient.invalidateQueries(
 					getAllPaginatedOptionsUrl(currentFilterState)
 				);
-				const successFlag = window.AJS.flag({
-					type: "success",
-					title: "Upload Successful",
-					body: `${fileData?.name} was uploaded successfully!`
-				});
-				setTimeout(() => {
-					successFlag.close();
-				}, 5000);
+				if (res.data.message) {
+					const infoFlag = window.AJS.flag({
+						
+						type: "info",
+						title: "Upload Info",
+						body: res.data.message
+					});
+					setTimeout(() => {
+						infoFlag.close();
+					}, 5000);
+				} else {
+					const successFlag = window.AJS.flag({
+						type: "success",
+						title: "Upload Successful",
+						body: `${fileData?.name} was uploaded successfully!`
+					});
+					setTimeout(() => {
+						successFlag.close();
+					}, 5000);
+				}
+
 				closeModals();
 			},
 			onError: (error) => {
