@@ -12,6 +12,7 @@ import {
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { UploadSuccess } from ".";
+import { handleUploadExcelSuccess } from "../../../../../../utils/handleUploadExcelSuccess";
 
 export const ListPreview = ({
 	setUploaded,
@@ -62,16 +63,7 @@ export const ListPreview = ({
 						searchTerm
 					})
 				);
-				const successFlag = window.AJS.flag({
-					type: "success",
-					title: "Upload In Progress",
-					body:
-						data?.data ||
-						`${fileData?.name} upload in progress, check back later`
-				});
-				setTimeout(() => {
-					successFlag.close();
-				}, 5000);
+				handleUploadExcelSuccess(data, fileData);
 				closeModals();
 			},
 			onError: (error) => {

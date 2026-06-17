@@ -12,6 +12,7 @@ import {
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { UploadSuccess } from "..";
+import { handleUploadExcelSuccess } from "../../../../../../utils/handleUploadExcelSuccess";
 
 export const FacultyPreview = ({
 	setUploaded,
@@ -31,18 +32,11 @@ export const FacultyPreview = ({
 			data: formData
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: (res) => {
 				queryClient.invalidateQueries(
 					getAllPaginatedFacultiesUrl(currentFilterState)
 				);
-				const successFlag = window.AJS.flag({
-					type: "success",
-					title: "Upload Successful",
-					body: `${fileData?.name} was uploaded successfully!`
-				});
-				setTimeout(() => {
-					successFlag.close();
-				}, 5000);
+				handleUploadExcelSuccess(res, fileData);
 				closeModals();
 			},
 			onError: (error) => {
@@ -150,5 +144,5 @@ const DisplyTable = ({ extractedDataRow }) => {
 
 const previewHeadersObj = {
 	SN: "SN",
-	Name: "Name",
+	Name: "Name"
 };
