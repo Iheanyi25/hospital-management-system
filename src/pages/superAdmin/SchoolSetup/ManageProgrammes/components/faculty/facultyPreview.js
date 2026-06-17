@@ -12,6 +12,7 @@ import {
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { UploadSuccess } from "..";
+import { handleUploadExcelSuccess } from "../../../../../../utils/handleUploadExcelSuccess";
 
 export const FacultyPreview = ({
 	setUploaded,
@@ -35,26 +36,7 @@ export const FacultyPreview = ({
 				queryClient.invalidateQueries(
 					getAllPaginatedFacultiesUrl(currentFilterState)
 				);
-				if (res.data.message) {
-					const infoFlag = window.AJS.flag({
-						
-						type: "info",
-						title: "Upload Info",
-						body: res.data.message
-					});
-					setTimeout(() => {
-						infoFlag.close();
-					}, 5000);
-				} else {
-					const successFlag = window.AJS.flag({
-						type: "success",
-						title: "Upload Successful",
-						body: `${fileData?.name} was uploaded successfully!`
-					});
-					setTimeout(() => {
-						successFlag.close();
-					}, 5000);
-				}
+				handleUploadExcelSuccess(res, fileData);
 
 				closeModals();
 			},
@@ -163,5 +145,5 @@ const DisplyTable = ({ extractedDataRow }) => {
 
 const previewHeadersObj = {
 	SN: "SN",
-	Name: "Name",
+	Name: "Name"
 };
