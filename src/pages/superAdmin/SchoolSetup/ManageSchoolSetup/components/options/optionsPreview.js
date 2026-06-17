@@ -12,6 +12,7 @@ import {
 } from "../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { UploadSuccess } from "..";
+import { handleUploadExcelSuccess } from "../../../../../../utils/handleUploadExcelSuccess";
 
 export const OptionsPreview = ({
 	setUploaded,
@@ -32,19 +33,11 @@ export const OptionsPreview = ({
 			data: formData
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: (res) => {
 				queryClient.invalidateQueries(
 					getAllPaginatedOptionsUrl(currentFilterState)
 				);
-				const successFlag = window.AJS.flag({
-					type: "success",
-					title: "Upload Successful",
-					body: `${fileData?.name} was uploaded successfully!`
-				});
-				setTimeout(() => {
-					successFlag.close();
-				}, 5000);
-				closeModals();
+				handleUploadExcelSuccess(res, fileData);
 			},
 			onError: (error) => {
 				const errorFlag = window.AJS.flag({

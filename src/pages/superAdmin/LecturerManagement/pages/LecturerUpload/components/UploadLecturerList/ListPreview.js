@@ -12,6 +12,7 @@ import {
 } from "../../../../../../../api/urls";
 import { useQueryClient } from "react-query";
 import { UploadSuccess } from ".";
+import { handleUploadExcelSuccess } from "../../../../../../../utils/handleUploadExcelSuccess";
 
 export const ListPreview = ({
 	setUploaded,
@@ -37,7 +38,7 @@ export const ListPreview = ({
 			data: formData
 		};
 		mutate(requestBody, {
-			onSuccess: () => {
+			onSuccess: (response) => {
 				queryClient.invalidateQueries(
 					getAdmissionList({
 						...filter,
@@ -46,14 +47,7 @@ export const ListPreview = ({
 						searchTerm
 					})
 				);
-				const successFlag = window.AJS.flag({
-					type: "success",
-					title: "Upload Successful",
-					body: `${fileData?.name} was uploaded successfully!`
-				});
-				setTimeout(() => {
-					successFlag.close();
-				}, 5000);
+				handleUploadExcelSuccess(response, fileData);
 				closeModals();
 			},
 			onError: (error) => {
