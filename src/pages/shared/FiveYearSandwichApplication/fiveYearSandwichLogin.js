@@ -85,11 +85,11 @@ const FiveYearSandwichLogin = () => {
 							className={`${styles.auth_label} my-3`}
 							htmlFor="rrr"
 						>
-							RRR Number
+							Reference Number
 						</label>
 						<TextField
 							id="email"
-							placeholder="Enter your RRR Number"
+							placeholder="Enter your Reference Number"
 							type="text"
 							name="rrr"
 							register={register}

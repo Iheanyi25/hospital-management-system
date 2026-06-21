@@ -43,7 +43,7 @@ const PGLogin = () => {
 					payload: diplomaApplicationInitialState(data?.data)
 				});
 				push({
-					pathname: "/diploma_preview",
+					pathname: "/diploma_preview"
 					// state: { rrr, fromPGReprintLogin: true }
 				});
 			} else {
@@ -90,11 +90,11 @@ const PGLogin = () => {
 							className={`${styles.auth_label} my-3`}
 							htmlFor="rrr"
 						>
-							RRR Number
+							Reference Number
 						</label>
 						<TextField
 							id="rrr"
-							placeholder="Enter your RRR"
+							placeholder="Enter your Reference Number"
 							type="text"
 							name="rrr"
 							register={register}

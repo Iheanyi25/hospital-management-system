@@ -108,12 +108,12 @@ export const SearchApplication = ({
 										className="font-weight-bold"
 										htmlFor="rrr"
 									>
-										RRR Number
+										Reference Number
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<TextField
-										placeholder="Input RRR"
+										placeholder="Input Reference Number"
 										name="rrr"
 										register={register}
 										autoComplete="off"
