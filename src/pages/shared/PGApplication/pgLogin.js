@@ -84,11 +84,11 @@ const PGLogin = () => {
 						className={`${styles.auth_label} my-3`}
 						htmlFor="rrr"
 					>
-						RRR Number
+						Reference Number
 					</label>
 					<TextField
 						id="rrr"
-						placeholder="Enter your RRR number"
+						placeholder="Enter your Reference Number"
 						type="text"
 						name="rrr"
 						register={register}

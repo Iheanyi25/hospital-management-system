@@ -2,7 +2,7 @@ import {
 	Breadcrumbs,
 	PageTitle,
 	Button,
-	Spinner,
+	Spinner
 } from "../../../../../../src/ui_elements";
 import styles from "./style.module.css";
 import logo from "../../../../../../src/assets/images/sideLogo.png";
@@ -106,7 +106,7 @@ const PrintAcceptanceFeeReceipt = () => {
 						<div className="border-top border-bottom py-2 mt-5 text-center">
 							<h3>OFFICIAL FEE RECEIPT</h3>
 							<h5 className="text-uppercase text-muted font-weight-normal">
-								rrr number:{data?.data?.rrr}
+								rrr number: {data?.data?.rrr}
 							</h5>
 						</div>
 						<div className="d-flex flex-wrap justify-content-between mt-4 px-4">

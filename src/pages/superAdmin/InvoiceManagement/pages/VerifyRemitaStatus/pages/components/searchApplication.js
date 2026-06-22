@@ -51,12 +51,12 @@ export const SearchApplication = ({ setMakeRequest, isLoading, setRrr }) => {
 										className="font-weight-bold"
 										htmlFor="rrr"
 									>
-										Remita Number
+										Reference Number
 									</label>
 								</div>
 								<div className="col-lg-9">
 									<TextField
-										placeholder="Enter Remita Number"
+										placeholder="Enter Reference Number"
 										name="rrr"
 										register={register}
 										type="text"
