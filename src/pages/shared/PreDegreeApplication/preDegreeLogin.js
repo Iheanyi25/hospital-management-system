@@ -93,11 +93,11 @@ const PreDegreeApplication = () => {
 							className={`${styles.auth_label} my-3`}
 							htmlFor="reg_no"
 						>
-							RRR Number
+							Reference Number
 						</label>
 						<TextField
 							id="reg_no"
-							placeholder="Enter RRR number"
+							placeholder="Enter Reference Number"
 							type="text"
 							name="rrr"
 							register={register}

@@ -104,7 +104,7 @@ const ViewAcceptanceInvoice = () => {
 						<div className="d-flex justify-content-center">
 							<DefaultScreen
 								title="An Error Occurred"
-								message="No Invoice with this Remita number was found"
+								message="No Invoice with this Reference number was found"
 							/>
 						</div>
 					) : (

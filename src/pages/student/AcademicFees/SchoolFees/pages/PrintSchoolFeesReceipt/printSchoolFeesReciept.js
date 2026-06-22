@@ -142,7 +142,7 @@ const PrintSchoolFeesReceipt = () => {
 						<div className="border-top border-bottom py-2 mt-5 text-center">
 							<h3>OFFICIAL FEE RECEIPT</h3>
 							<h5 className="text-uppercase text-muted font-weight-normal">
-								rrr number:{data?.data?.rrr}
+								rrr number: {data?.data?.rrr}
 							</h5>
 						</div>
 						<div className="d-flex flex-wrap justify-content-between mt-4 px-4">
@@ -150,7 +150,7 @@ const PrintSchoolFeesReceipt = () => {
 								<div className="row my-3">
 									<h5 className="col-sm-4">
 										{programDetails?.studentTypeId ===
-											STUDENT_TYPES.POSTGRADUATE
+										STUDENT_TYPES.POSTGRADUATE
 											? "Registration No/Entry No"
 											: "Matric/Jamb No:"}
 									</h5>

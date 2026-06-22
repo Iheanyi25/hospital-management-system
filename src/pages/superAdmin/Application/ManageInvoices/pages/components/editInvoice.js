@@ -103,7 +103,7 @@ export const EditInvoice = ({ closeModal, rrr, editInvoiceData }) => {
 		>
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="rrr">Remita Number</label>
+					<label htmlFor="rrr">Reference Number</label>
 				</div>
 				<div className="col-lg-9">
 					<TextField

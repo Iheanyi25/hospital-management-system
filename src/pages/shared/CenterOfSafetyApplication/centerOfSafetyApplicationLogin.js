@@ -86,11 +86,11 @@ const CenterOfSafetyApplicationLogin = () => {
 						className={`${styles.auth_label} my-3`}
 						htmlFor="reg_no"
 					>
-						RRR Number
+						Reference Number
 					</label>
 					<TextField
 						id="rrr"
-						placeholder="Enter your RRR Number"
+						placeholder="Enter your Reference Number"
 						type="text"
 						name="rrr"
 						register={register}
