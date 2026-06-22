@@ -14,7 +14,7 @@ import * as yup from "yup";
 export const Schema = yup.object().shape({
 	session: yup.mixed().required("please select a session"),
 	email: yup.string().email().required("please enter valid email"),
-	matricNumber: yup.string().required("please enter matric number"),
+	matricNumber: yup.string().required("please enter matric number")
 });
 
 export const EditStatus = ({
@@ -37,7 +37,7 @@ export const EditStatus = ({
 		defaultValues: {
 			session: findValueAndLabel(data?.sessionId, allSessions),
 			matricNumber: data?.regNumber,
-			email: data?.email,
+			email: data?.email
 		},
 		resolver: yupResolver(Schema)
 	});
@@ -91,12 +91,12 @@ export const EditStatus = ({
 		>
 			<div className="row mb-4">
 				<div className="col-lg-3 d-flex align-items-center">
-					<label htmlFor="rrr">Remita number</label>
+					<label htmlFor="rrr">Reference Number</label>
 				</div>
 				<div className="col-lg-9">
 					<TextField
 						id="rrr"
-						placeholder="Enter remita number"
+						placeholder="Enter reference number"
 						type="text"
 						name="rrr"
 						value={data?.rrr}
@@ -116,7 +116,9 @@ export const EditStatus = ({
 						name="matricNumber"
 						register={register}
 						error={errors.matricNumber}
-						errorText={errors.matricNumber && errors.matricNumber.message}
+						errorText={
+							errors.matricNumber && errors.matricNumber.message
+						}
 					/>
 				</div>
 			</div>
