@@ -31,6 +31,7 @@ import { getSearchAdmissionList } from "../../../../api/urlCategories/AdmissionL
 
 const ViewAdmissionList = () => {
 	const location = useLocation();
+	const [pageNumber, setPageNumber] = useState(1);
 	const isFacultyPage =
 		location.pathname === "/student_management/admission_list";
 	const [watchData, setWatchData] = useState({
@@ -47,7 +48,7 @@ const ViewAdmissionList = () => {
 		programmeId: "",
 		modeOfStudyId: "",
 		pageSize: PAGESIZE.sm,
-		pageNumber: 1
+		pageNumber
 	});
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounced = useDebouncedCallback(
@@ -269,9 +270,9 @@ const ViewAdmissionList = () => {
 						data={admissionList?.data?.items || []}
 						hasPerformedQuery={!!filter.departmentId}
 						paginationProps={admissionList?.data?.metaData || {}}
-						setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
+						setPageNumber={setPageNumber}
 						debouncedSearch={debounced}
-						pageNumber={filter.pageNumber}
+						pageNumber={pageNumber}
 						pageSize={filter?.pageSize}
 						searchTerm={searchTerm}
 						loading={isFetchingAdmissionList}
