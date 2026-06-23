@@ -54,7 +54,7 @@ export const ListPreview = ({
 			data: formData
 		};
 		mutate(requestBody, {
-			onSuccess: ({ data }) => {
+			onSuccess: ( data ) => {
 				queryClient.invalidateQueries(
 					getAdmissionList({
 						...filter,
