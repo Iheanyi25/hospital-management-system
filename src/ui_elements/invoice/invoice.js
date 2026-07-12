@@ -16,7 +16,7 @@ export const Invoice = ({ details, noRedirect = false }) => {
 			<div className="invoice-header d-flex justify-content-between align-items-center flex-wrap pb-4">
 				<img src={logo} alt="Logo" />
 				<div>
-					<h4>{`Remita Retrieval Reference # ${details?.rrr}`}</h4>
+					<h4>{`Reference Number # ${details?.rrr}`}</h4>
 					<h6>
 						Transaction Reference
 						<b>{`# ${details?.transactionRef}`}</b>
@@ -35,14 +35,12 @@ export const Invoice = ({ details, noRedirect = false }) => {
 							<h6 className="text-uppercase">
 								<b>{details?.fullName}</b>
 							</h6>
-							<h6>
-							{`${name}, ${location}`}
-							</h6>
+							<h6>{`${name}, ${location}`}</h6>
 						</div>
 						<div>
 							<h4>Pay To:</h4>
 							<h5 className="text-uppercase">
-							{`${name}, ${location}`}
+								{`${name}, ${location}`}
 							</h5>
 						</div>
 					</div>
@@ -56,7 +54,8 @@ export const Invoice = ({ details, noRedirect = false }) => {
 								if (!noRedirect) {
 									replace(
 										redirectLinks[
-											details.recieptItems[0].paymentPurposeId
+											details.recieptItems[0]
+												.paymentPurposeId
 										]
 									);
 								}

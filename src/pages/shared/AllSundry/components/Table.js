@@ -33,7 +33,7 @@ export const Table = ({
 				accessor: "fullName"
 			},
 			{
-				Header: "RRR",
+				Header: "Reference Number",
 				accessor: "rrr"
 			},
 			{
@@ -70,7 +70,8 @@ export const Table = ({
 						<Button
 							label="Reprint Receipt"
 							onClick={() =>
-								row.original.paymentStatus === "True" && push({
+								row.original.paymentStatus === "True" &&
+								push({
 									pathname: `/fee_receipt`,
 									state: { data: row.original.invoiceCode }
 								})
@@ -78,9 +79,7 @@ export const Table = ({
 							buttonClass={"standard"}
 							disabled={row.original.paymentStatus === "False"}
 						/>
-
 					</div>
-
 				)
 			}
 		],

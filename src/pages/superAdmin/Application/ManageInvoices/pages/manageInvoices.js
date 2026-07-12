@@ -54,7 +54,7 @@ const ManageInvoices = () => {
 		{ title: "Email", value: data?.data?.email },
 		{ title: "Phone number", value: data?.data?.mobileNumber },
 		{ title: "Application Type", value: data?.data?.paymentType },
-		{ title: "RRR", value: data?.data?.rrr },
+		{ title: "Reference Number", value: data?.data?.rrr },
 		{ title: "Amount", value: data?.data?.amount },
 		{ title: "Session", value: data?.data?.session },
 		{

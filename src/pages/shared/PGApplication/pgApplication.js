@@ -214,7 +214,10 @@ const PGApplication = () => {
 								title: "Mobile Number",
 								content: basicInformation?.mobileNumber
 							},
-							{ title: "Remita Ref No", content: programme?.rrr }
+							{
+								title: "Reference Number",
+								content: programme?.rrr
+							}
 						]}
 					/>
 				</div>

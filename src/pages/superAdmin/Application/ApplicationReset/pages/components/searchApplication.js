@@ -12,7 +12,7 @@ import styles from "../style.module.css";
 
 export const schema = yup.object().shape({
 	applicationTypeId: yup.mixed().required("please select application type"),
-	rrr: yup.string().required("please input your RRR")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 export const SearchApplication = ({

@@ -37,11 +37,9 @@ export const PaymentReportsTable = ({
 				accessor: "matricNumber"
 			},
 			{
-				Header: "Payment PIN",
+				Header: "Reference Number",
 				accessor: "rrr",
-				Cell: ({ cell: { row } }) => (
-					<>{row.original.rrr || "NONE"}</>
-				)
+				Cell: ({ cell: { row } }) => <>{row.original.rrr || "NONE"}</>
 			},
 			{
 				Header: "Department",
@@ -61,7 +59,7 @@ export const PaymentReportsTable = ({
 		],
 		[pageNumber, pageSize]
 	);
-	
+
 	return (
 		<div>
 			<TMTable

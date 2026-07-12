@@ -7,8 +7,8 @@ import styles from "../style.module.css";
 export const schema = yup.object().shape({
 	rrr: yup
 		.string()
-		.matches(/^\d+$/, "RRR must contain only numbers")
-		.required("Please input your RRR")
+		.matches(/^\d+$/, "Reference Number must contain only numbers")
+		.required("Please input your Reference Number")
 });
 
 export const SearchApplication = ({ setMakeRequest, isLoading, setRrr }) => {

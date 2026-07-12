@@ -80,14 +80,14 @@ const SundryPaymentHistory = () => {
 									>
 										<div className="col-lg-3 align-items-center">
 											<label htmlFor="invoiceNumber">
-												Invoice Number/RRR
+												Reference Number
 											</label>
 										</div>
 										<div className="d-flex col-lg-9">
 											<TextField
 												className="w-100"
 												placeholder={
-													"Enter invoice number or RRR"
+													"Enter Reference Number"
 												}
 												name="invoiceNumber"
 												type="text"
