@@ -21,7 +21,7 @@ export const Table = ({
 	const columns = useMemo(
 		() => [
 			{
-				Header: "Remita number",
+				Header: "Reference Number",
 				accessor: "rrr"
 			},
 			{

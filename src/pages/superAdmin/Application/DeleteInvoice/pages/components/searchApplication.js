@@ -6,7 +6,7 @@ import { Button, Jumbotron, TextField } from "../../../../../../ui_elements";
 import styles from "../style.module.css";
 
 export const schema = yup.object().shape({
-	rrr: yup.string().required("please input your RRR")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 export const SearchApplication = ({

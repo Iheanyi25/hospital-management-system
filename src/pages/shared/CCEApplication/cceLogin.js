@@ -13,7 +13,7 @@ import { useApiGet } from "../../../api/apiCall";
 import AuthPageWrapper from "../AuthPageWrapper";
 
 export const cceLoginSchema = yup.object().shape({
-	rrr: yup.string().required("please input your rrr")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 const CCELogin = () => {
@@ -96,11 +96,11 @@ const CCELogin = () => {
 							className={`${styles.auth_label} my-3`}
 							htmlFor="rrr"
 						>
-							RRR
+							Reference Number
 						</label>
 						<TextField
 							id="rrr"
-							placeholder="Enter your rrr"
+							placeholder="Enter your Reference Number"
 							type="text"
 							name="rrr"
 							register={register}

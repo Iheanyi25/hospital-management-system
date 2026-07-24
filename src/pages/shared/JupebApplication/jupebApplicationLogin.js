@@ -13,7 +13,7 @@ import AuthPageWrapper from "../AuthPageWrapper";
 import { jupebApplicationsInitialState } from "../../../store/reducers/jupebReducer";
 
 export const jupebApplicationsLoginSchema = yup.object().shape({
-	rrr: yup.string().required("please input your RRR")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 const JupebApplicationLogin = () => {

@@ -13,7 +13,7 @@ import { SAVE_FOUR_YEAR_SANDWICH_APPLICATION } from "../../../store/constant";
 import { fourYearSandwichApplicationInitialState } from "../../../store/reducers/fourYearSandwichReducer";
 
 export const verifyAccountSchema = yup.object().shape({
-	rrr: yup.string().required("please input your RRR")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 const FourYearSandwichLogin = () => {

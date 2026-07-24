@@ -13,7 +13,7 @@ import AuthPageWrapper from "../AuthPageWrapper";
 import { CSPGApplicationsInitialState } from "../../../store/reducers/CSPGReducer";
 
 export const CSPGApplicationsLoginSchema = yup.object().shape({
-	rrr: yup.string().required("please input your RRR")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 const CenterOfSafetyApplicationLogin = () => {

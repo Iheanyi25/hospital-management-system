@@ -18,5 +18,5 @@ export const UploadSchema = yup.object().shape({
 			checkForCorrectPhoneNumber
 		),
 	regNo: yup.string().required("please input your reg number"),
-	rrr: yup.string().required("RRR is required")
+	rrr: yup.string().required("Reference Number is required")
 });

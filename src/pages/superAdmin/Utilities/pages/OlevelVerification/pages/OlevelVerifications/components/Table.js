@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import { TMTable, Search, Button, Badge } from "../../../../../../../../ui_elements";
+import {
+	TMTable,
+	Search,
+	Button,
+	Badge
+} from "../../../../../../../../ui_elements";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export const Table = ({
@@ -57,8 +62,8 @@ export const Table = ({
 								row?.original?.status === "Verified"
 									? "success"
 									: row?.original?.status === "Unverified"
-										? "warning"
-										: "fail"
+									? "warning"
+									: "fail"
 						}}
 					/>
 				)
@@ -72,7 +77,7 @@ export const Table = ({
 				accessor: "year"
 			},
 			{
-				Header: "PIN",
+				Header: "Reference Number",
 				accessor: "rrr"
 			},
 			{

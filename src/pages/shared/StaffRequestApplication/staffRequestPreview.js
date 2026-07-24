@@ -41,7 +41,7 @@ const StaffRequestPreview = () => {
 					<h5
 						className={`text-uppercase font-weight-normal ${styles["text-neutral"]}`}
 					>
-						rrr number: {data?.data?.basicInformation?.rrr}
+						reference number: {data?.data?.basicInformation?.rrr}
 					</h5>
 				</>
 			}
