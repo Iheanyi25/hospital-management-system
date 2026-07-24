@@ -54,7 +54,7 @@ export const Table = ({
 				accessor: "fullname"
 			},
 			{
-				Header: "Payment PIN",
+				Header: "Reference Number",
 				accessor: "rrr"
 			},
 			{

@@ -13,7 +13,7 @@ import { SAVE_PG_INFO } from "../../../store/constant";
 import { pgApplicationInitialState } from "../../../store/reducers/pgReducer";
 
 export const verifyAccountSchema = yup.object().shape({
-	rrr: yup.string().required("please input your rrr")
+	rrr: yup.string().required("please input your Reference Number")
 });
 
 const PGLogin = () => {

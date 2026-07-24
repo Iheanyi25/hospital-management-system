@@ -13,7 +13,7 @@ import { SAVE_DIPLOMA_INFO } from "../../../store/constant";
 import { diplomaApplicationInitialState } from "../../../store/reducers/diplomaReducer";
 
 export const schema = yup.object().shape({
-	rrr: yup.string().required("Please enter RRR")
+	rrr: yup.string().required("Please enter Reference Number")
 });
 
 const PGLogin = () => {

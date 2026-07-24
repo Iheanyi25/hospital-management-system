@@ -28,7 +28,7 @@ export const Table = ({
 				)
 			},
 			{
-				Header: "Payment PIN",
+				Header: "Reference Number",
 				accessor: "rrr"
 			},
 			{
@@ -42,7 +42,7 @@ export const Table = ({
 			{
 				Header: "Email",
 				accessor: "email"
-			},
+			}
 		],
 		[pageNumber, pageSize]
 	);
@@ -55,26 +55,26 @@ export const Table = ({
 			additonalTitleData={
 				<div className="d-flex align-items-center">
 					{hasPerformedQuery && (
-							<div className="d-flex align-items-center">
-								<Search
-									placeholder="Search for report"
-									onChange={(e) => {
-										debouncedSearch(e.target.value);
-										setPageNumber(1);
-									}}
+						<div className="d-flex align-items-center">
+							<Search
+								placeholder="Search for report"
+								onChange={(e) => {
+									debouncedSearch(e.target.value);
+									setPageNumber(1);
+								}}
+							/>
+							{data.length > 0 && (
+								<Button
+									data-cy="download_sundry_report"
+									buttonClass="secondary"
+									label="Download Report"
+									customClass="ml-3"
+									loading={fileLoading}
+									onClick={() => setDownloadFile(true)}
 								/>
-								{data.length > 0 && (
-									<Button
-										data-cy="download_sundry_report"
-										buttonClass="secondary"
-										label="Download Report"
-										customClass="ml-3"
-										loading={fileLoading}
-										onClick={() => setDownloadFile(true)}
-									/>
-								)}
-							</div>
-						)}
+							)}
+						</div>
+					)}
 				</div>
 			}
 			setPageNumber={setPageNumber}

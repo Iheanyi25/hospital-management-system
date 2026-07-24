@@ -50,7 +50,7 @@ const ApplicationReset = () => {
 		},
 		{ title: "Application Type", value: data?.data?.application },
 		{ title: "Application", value: data?.data?.applicationNo },
-		{ title: "RRR", value: data?.data?.rrr },
+		{ title: "Reference Number", value: data?.data?.rrr },
 		{ title: "Department", value: data?.data?.department },
 		{ title: "Session", value: data?.data?.session }
 	];
