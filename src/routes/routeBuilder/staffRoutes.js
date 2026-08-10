@@ -2,6 +2,7 @@ import {
 	ApplicationsRouter,
 	CourseMangementRouter,
 	FeesAssignmentRouter,
+	FeesApprovalRouter,
 	InvoiceRouter,
 	HostelRouter,
 	LecturerManagementRouter,
@@ -129,6 +130,10 @@ const LazyOpenCloseCourseRegistration = lazy(() =>
 
 const LazySchoolFeesAssignment = lazy(() =>
 	import("../../pages/superAdmin/FeesAssignment/pages/SchoolFees/schoolFees")
+);
+
+const LazySchoolFeesApproval = lazy(() =>
+	import("../../pages/superAdmin/FeesApproval/pages/SchoolFees/schoolFees")
 );
 
 const LazySchoolFeesAssignmentEdit = lazy(() =>
@@ -755,6 +760,13 @@ export const staffRoutes = [
 		exact: true,
 		router: FeesAssignmentRouter,
 		title: "Fees assignment"
+	},
+	{
+		path: "/fees_approval/school_fees",
+		component: LazySchoolFeesApproval,
+		exact: true,
+		router: FeesApprovalRouter,
+		title: "Fees approval"
 	},
 	{
 		path: "/fees_assignment/school_fees/bulk",
