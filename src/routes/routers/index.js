@@ -1,6 +1,7 @@
 export * from "./mainRouter";
 export * from "./courseManagementRouter";
 export * from "./feesAssignmentRouter";
+export * from "./feesApprovalRouter";
 export * from "./userManagementRouter";
 export * from "./sharedRouter";
 export * from "./lecturerManagementRouter";
