@@ -34,7 +34,7 @@ export const EditInvoice = ({ closeModal, rrr, editInvoiceData }) => {
 		};
 
 		reset({
-			rrr: getObjectByTitle(editInvoiceData, "RRR"),
+			rrr: getObjectByTitle(editInvoiceData, "Reference Number"),
 			firstname: getObjectByTitle(editInvoiceData, "First Name"),
 			middlename: getObjectByTitle(editInvoiceData, "Middle Name"),
 			lastname: getObjectByTitle(editInvoiceData, "Last Name"),
@@ -108,7 +108,7 @@ export const EditInvoice = ({ closeModal, rrr, editInvoiceData }) => {
 				<div className="col-lg-9">
 					<TextField
 						id="rrr"
-						type="number"
+						type="text"
 						disabled
 						name="rrr"
 						register={register}
