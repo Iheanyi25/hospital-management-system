@@ -19,7 +19,12 @@ import {
 	getProgrammeTypesUrl,
 	getStudentCategoryUrl
 } from "../../../../../api/urls";
-import { Button, Spinner, CenteredDialog } from "../../../../../ui_elements";
+import {
+	Button,
+	Spinner,
+	CenteredDialog,
+	Badge
+} from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import { ViewSchoolFeesForm, SchoolFeesTable } from "./components";
 import ContainerStyles from "../../../CourseManagement/pages/AssignCourse/style.module.css";
@@ -308,6 +313,28 @@ const SchoolFeesAssignment = () => {
 				accessor: "serviceType"
 			},
 			{
+				Header: "Approval Status",
+				accessor: "approvalStatus",
+				Cell: ({ cell: { row } }) => (
+					<div>
+						<Badge
+							item={{
+								type:
+									row.original.approvalStatus?.toLowerCase() ===
+									"pending"
+										? "warning"
+										: "success",
+								title:
+									row.original.approvalStatus.toLowerCase() ===
+									"pending"
+										? "Pending approval"
+										: "Approved"
+							}}
+						/>
+					</div>
+				)
+			},
+			{
 				Header: "Action",
 				accessor: "buttons",
 				Cell: ({ cell: { row } }) => (
@@ -484,7 +511,11 @@ const SchoolFeesAssignment = () => {
 					allDepartments={allDepartments}
 					allStudentModesOfStudy={allStudentModesOfStudy}
 					allStudentTypes={allStudentTypes}
-					currentFilterState={{ ...filter, pageNumber: filter.pageNumber, searchTerm }}
+					currentFilterState={{
+						...filter,
+						pageNumber: filter.pageNumber,
+						searchTerm
+					}}
 					paymentPurposeId="SchoolFees"
 					closeModal={() => setCloneOpen(false)}
 				/>
@@ -561,7 +592,9 @@ const SchoolFeesAssignment = () => {
 				hasPerformedQuery={!!filter.SessionId}
 				paginationProps={feesToAssign?.data?.metaData || {}}
 				searchTerm={searchTerm}
-				setPageNumber={(page) => setFilter(prev => ({ ...prev, pageNumber: page }))}
+				setPageNumber={(page) =>
+					setFilter((prev) => ({ ...prev, pageNumber: page }))
+				}
 				pageNumber={filter.pageNumber}
 			/>
 		</section>

@@ -1,6 +1,7 @@
 const baseUrl = "Enum";
 
 export const getAdmissionTypesUrl = () => `${baseUrl}/student-admisssion-type`;
+export const getApprovalStatusUrl = () => `${baseUrl}/approval-status`;
 export const getBloodGroupsUrl = () => `${baseUrl}/BloodGroups`;
 export const getGenoTypesUrl = () => `${baseUrl}/GenoTypes`;
 export const getMedicalRecordsUrl = () => `${baseUrl}/MedicalRecords`;

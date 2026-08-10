@@ -49,6 +49,10 @@ export const getSchoolFeesAssignmentsUrl = (filter) =>
 	`${baseUrl}/school-fee-assignment?${generateUrlParams(filter)}`;
 export const updateSchoolFeesAssignmentsUrl = (schoolFeeAssignmentId) =>
 	`${baseUrl}/update-school-fee-assignment/${schoolFeeAssignmentId}`;
+export const getSchoolFeesAssignmentApprovalsUrl = (filter) =>
+	`${baseUrl}/school-fee-assignment-approvals?${generateUrlParams(filter)}`;
+export const approveFeeAssignmentUrl = () =>
+	`${baseUrl}/approve-fee-assignment`;
 export const getAcceptanceFeesUrl = (filter) =>
 	`${baseUrl}/acceptance-fees-assignment?${generateUrlParams(filter)}`;
 export const updateAcceptanceFeesUrl = (acceptanceFeeAssignmentId) =>

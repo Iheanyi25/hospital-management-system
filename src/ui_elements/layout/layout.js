@@ -29,6 +29,7 @@ const staffPaths = {
 	"approve courses": "/approve_courses",
 	"course management": "/course_management/manage_course",
 	"fees assignment": "/fees_assignment/school_fees",
+	"fees approval": "/fees_approval/school_fees",
 	"invoice management": "/invoice_management/invoice",
 	// "lecturer management": "/lecturer_management/lecturer_upload",
 	"notice board setup": "/notice_board_management",
