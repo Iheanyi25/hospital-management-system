@@ -22,7 +22,11 @@ const GenerateJambPaymentInvoice = () => {
 	const [makeRequest, setMakeRequest] = useState(false);
 	const [userFormData, setUserFormData] = useState({});
 	const { data: applicatiionData, isLoading: applicationTypesLoading } =
-		useApiGet(getApplicationTypesUrl());
+		useApiGet(getApplicationTypesUrl(),
+			{
+				refetchOnWindowFocus: false
+			}
+		);
 
 	const { data: sessions, isLoading: sessionLoading } = useApiGet(
 		getAllSessionsUrl(),
