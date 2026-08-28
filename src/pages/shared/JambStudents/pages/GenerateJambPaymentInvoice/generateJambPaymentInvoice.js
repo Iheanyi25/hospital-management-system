@@ -8,7 +8,7 @@ import {
 	getAllSessionsUrl,
 	getApplicationTypesUrl
 } from "../../../../../api/urls";
-import { Note, PaymentOptions, Spinner } from "../../../../../ui_elements";
+import { Note, Spinner } from "../../../../../ui_elements";
 import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 import {
 	HndDetailsForm,
@@ -22,11 +22,9 @@ const GenerateJambPaymentInvoice = () => {
 	const [makeRequest, setMakeRequest] = useState(false);
 	const [userFormData, setUserFormData] = useState({});
 	const { data: applicatiionData, isLoading: applicationTypesLoading } =
-		useApiGet(getApplicationTypesUrl(),
-			{
-				refetchOnWindowFocus: false
-			}
-		);
+		useApiGet(getApplicationTypesUrl(), {
+			refetchOnWindowFocus: false
+		});
 
 	const { data: sessions, isLoading: sessionLoading } = useApiGet(
 		getAllSessionsUrl(),
@@ -107,10 +105,6 @@ const GenerateJambPaymentInvoice = () => {
 					)}
 				</>
 			)}
-
-			<div className="mt-5">
-				<PaymentOptions />
-			</div>
 		</>
 	);
 };
