@@ -8,7 +8,7 @@
 // 	getAllSessionsUrl,
 // 	getApplicationTypesUrl
 // } from "../../../../../api/urls";
-// import { Note, PaymentOptions, Spinner } from "../../../../../ui_elements";
+// import { Note, Spinner } from "../../../../../ui_elements";
 // import { formatSelectItems } from "../../../../../utils/formatSelectItems";
 // import { UserDetailsForm } from "../../components";
 // import { JupebDetailsForm } from "../../components";
@@ -75,9 +75,6 @@
 // 					makeRequest={makeRequest}
 // 				/>
 // 			)}
-// 			<div className="mt-5">
-// 				<PaymentOptions />
-// 			</div>
 // 		</>
 // 	);
 // };
