@@ -1,7 +1,6 @@
 import React from "react";
 import "./generateInvoiceForm.css";
 import { Jumbotron, TextField, Button } from "../../ui_elements";
-import paymentImg from "../../assets/svgs/payment.svg";
 
 export const GenerateInvoiceForm = ({ details, onClick, loading }) => {
 	return (
@@ -43,11 +42,6 @@ export const GenerateInvoiceForm = ({ details, onClick, loading }) => {
 					))}
 				</form>
 			</Jumbotron>
-			<div
-				className={`d-flex justify-content-center mt-2 invoice_form_img_container`}
-			>
-				<img src={paymentImg} alt="Payment" />
-			</div>
 		</div>
 	);
 };
