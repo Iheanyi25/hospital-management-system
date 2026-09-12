@@ -1,0 +1,344 @@
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
+using HMS.Areas.Admin.Dtos;
+using HMS.Areas.Admin.Interfaces;
+using HMS.Areas.Patient.Dtos;
+using HMS.Areas.Patient.Interfaces;
+using HMS.Models;
+using HMS.Services.Helpers;
+using HMS.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+namespace HMS.Areas.Admin.Controllers
+{
+    [Route("api/Admin", Name = "Admin - Manage Accounts")]
+    [ApiController]
+    public class AccountController : Controller
+    {
+        private readonly IAccount _accountRepo;
+        private readonly IMapper _mapper;
+        private readonly IUser _user;
+        private readonly ITransactionLog _transaction;
+        private readonly IPatientProfile _patientRepository;
+
+        public AccountController(IAccount account, IUser user, IMapper mapper, ITransactionLog transaction, IPatientProfile patientRepository)
+        {
+            _accountRepo = account;
+            _mapper = mapper;
+            _user = user;
+            _transaction = transaction;
+            _patientRepository = patientRepository;
+        }
+
+        [HttpGet("GetAccount/{Id}")]
+        public async Task<IActionResult> GetAccountById(string Id)
+        {
+            if (Id == "")
+            {
+                return BadRequest();
+            }
+
+            var res = await _accountRepo.GetAccountByIdAsync(Id);
+
+            if (res == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { res, mwessage = "Account returned" });
+        }
+
+        [HttpGet("GetAccountByAccountNumber/{AccountNumber}")]
+        public async Task<IActionResult> GetAccountByAccountNumber(string AccountNumber)
+        {
+            if (AccountNumber == "")
+            {
+                return BadRequest();
+            }
+
+            var account = await _accountRepo.GetAccountByAccountNumber(AccountNumber);
+
+            if (account == null)
+            {
+                return BadRequest(new { message = "An Account with this Account Number was not found" });
+            }
+
+            return Ok(new { account, mwessage = "Account returned" });
+        }
+
+        [HttpGet("Account/GetAllAccounts")]
+        public async Task<IActionResult> AllAccounts([FromQuery] PaginationParameter paginationParameter)
+        {
+            var accounts = _accountRepo.GetAccountsPagination(paginationParameter);
+
+            var paginationDetails = new
+            {
+                accounts.TotalCount,
+                accounts.PageSize,
+                accounts.CurrentPage,
+                accounts.TotalPages,
+                accounts.HasNext,
+                accounts.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                accounts,
+                paginationDetails,
+                message = "Accounts Fetched"
+            });
+        }
+
+        [HttpGet("GetPatientsInAccount")]
+        public async Task<IActionResult> GetPatientsInAccount([FromQuery] PaginationParameter paginationParameter, string AccountId)
+        {
+            var patients = _accountRepo.GetPatientsInAccount(paginationParameter, AccountId);
+
+            var paginationDetails = new
+            {
+                patients.TotalCount,
+                patients.PageSize,
+                patients.CurrentPage,
+                patients.TotalPages,
+                patients.HasNext,
+                patients.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                patients,
+                paginationDetails,
+                message = "Accounts Fetched"
+            });
+        }
+
+        [HttpGet("Account/GetAccountTransactions")]
+        public async Task<IActionResult> GetAccountTransactions([FromQuery] PaginationParameter paginationParameter, string AccountId)
+        {
+            var account = await _accountRepo.GetAccountByIdAsync(AccountId);
+
+            if (account == null)
+            {
+                return BadRequest(new { message = "An Account with this Id was not found" });
+            }
+            var accountTransactions = _transaction.GetAccountTransactions(AccountId, paginationParameter);
+
+            var paginationDetails = new
+            {
+                accountTransactions.TotalCount,
+                accountTransactions.PageSize,
+                accountTransactions.CurrentPage,
+                accountTransactions.TotalPages,
+                accountTransactions.HasNext,
+                accountTransactions.HasPrevious
+            };
+
+            //This is optional
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationDetails));
+
+            return Ok(new
+            {
+                accountTransactions,
+                paginationDetails,
+                message = "Account Transactions"
+            });
+        }
+
+        [HttpPost("Account/FundAccount", Name = "AdminFundAccount")]
+        public async Task<IActionResult> FundAccount(AccountDtoForAdminFunding account)
+        {
+            string transactionType = "Credit";
+            string invoiceType = "Account";
+
+            DateTime transactionDate = DateTime.Now;
+            var accountInvoiceToCreate = new AccountInvoice();
+
+            if (account == null)
+            {
+                return BadRequest(new { message = "Invalid post attempt" });
+            }
+
+            var Account = await _accountRepo.GetAccountByIdAsync(account.AccountId);
+            var Initiator = await _user.GetUserByIdAsync(account.InitiatorId);
+            
+            if (Account == null)
+            {
+                return BadRequest(new { message = "An Account with this Id was not found" });
+            }
+            
+            if (Initiator == null)
+            {
+                return BadRequest(new { message = "Invalid InitiatorId" });
+            }
+           
+            var accountToUpdate = _mapper.Map<Account>(Account);
+            var previousAccountBalance = accountToUpdate.AccountBalance;
+            accountToUpdate.AccountBalance += account.Amount;
+
+            accountInvoiceToCreate = new AccountInvoice()
+            {
+                Amount = account.Amount,
+                GeneratedBy = account.InvoiceGeneratedBy,
+                PaymentMethod = account.PaymentMethod,
+                TransactionReference = account.TransactionReference,
+                AccountId = account.AccountId,
+            };
+
+            var accountInvoice = await _accountRepo.CreateAccountInvoice(accountInvoiceToCreate);
+
+            if (accountInvoice == null)
+            {
+                return BadRequest(new { response = "301", message = "Failed To Generate Invoice For Transaction" });
+            }
+
+            var res = await _accountRepo.UpdateAccount(accountToUpdate);
+      
+            if (!res)
+            {
+                return BadRequest(new { response = "301", message = "Failed To Fund Account" });
+            }
+
+            PatientDtoForView patient = await _patientRepository.GetPatientByAccountId(account.AccountId);
+
+            await _transaction.LogAccountTransactionAsync(account.Amount, transactionType, invoiceType, accountInvoice.Id, account.PaymentMethod, transactionDate, Account.Id, previousAccountBalance, account.InitiatorId, patient.Id);
+        
+            return Ok(new
+            {
+                accountToUpdate,
+                message = "Account Funded successfully"
+            });
+        }
+
+        [HttpPost("Account/FundAccountByLink", Name = "FundAccountByLink")]
+        public async Task<IActionResult> FundAccountByLink(AccountDtoForLinkFunding account)
+        {
+            string transactionType = "Credit";
+            string invoiceType = "Account";
+            
+            DateTime transactionDate = DateTime.Now;
+            var accountInvoiceToCreate = new AccountInvoice();
+
+            if (account == null)
+            {
+                return BadRequest(new { message = "Invalid post attempt" });
+            }
+
+            var Account = await _accountRepo.GetAccountByAccountNumber(account.AccountNumber);
+            //var user = await _user.GetUserByIdAsync(account.UserId);
+            if (Account == null)
+            {
+                return BadRequest(new { message = "An Account With This Account Number Was Not Found" });
+            }
+
+            var accountToUpdate = _mapper.Map<Account>(Account);
+            var previousAccountBalance = accountToUpdate.AccountBalance;
+            accountToUpdate.AccountBalance += account.Amount;
+
+            accountInvoiceToCreate = new AccountInvoice()
+            {
+                Amount = account.Amount,
+                GeneratedBy = account.Initiator,
+                PaymentMethod = account.PaymentMethod,
+                TransactionReference = account.TransactionReference,
+                AccountId = Account.Id,
+            };
+
+            PatientDtoForView patient = await _patientRepository.GetPatientByAccountId(Account.Id);
+
+            var accountInvoice = await _accountRepo.CreateAccountInvoice(accountInvoiceToCreate);
+
+            if (accountInvoice == null)
+            {
+                return BadRequest(new { response = "301", message = "Failed To Generate Invoice For Transaction" });
+            }
+
+            var res = await _accountRepo.UpdateAccount(accountToUpdate);
+
+            if (!res)
+            {
+                return BadRequest(new { response = "301", message = "Failed To Fund Account" });
+            }
+
+            await _transaction.LogLinkPaymentTransaction(account.Amount, transactionType, invoiceType, accountInvoiceToCreate.Id, account.PaymentMethod, transactionDate, Account.Id, previousAccountBalance, account.Initiator, patient.Id);
+
+            return Ok(new
+            {
+                accountToUpdate,
+                message = "Account Funded successfully"
+            });
+        }
+
+        [HttpPost("Account/CreateAccount", Name = "Account")]
+        public async Task<IActionResult> CreateAccount(AccountDtoForCreate account)
+        {
+            if (account == null)
+            {
+                return BadRequest(new { message = "Invalid post attempt" });
+            }
+
+            var accountToCreate = _mapper.Map<Account>(account);
+
+            var res = await _accountRepo.CreateAccount(accountToCreate);
+            if (!res)
+            {
+                return BadRequest(new { response = "301", message = "Account failed to create" });
+            }
+
+            return Ok(new
+            {
+                account,
+                message = "Account created successfully"
+            });
+        }
+
+        [HttpPost("Account/UpdateAccount", Name = "updateAccount")]
+        public async Task<IActionResult> EditAccount(AccountDtoForUpdate account)
+        {
+            if (account == null)
+            {
+                return BadRequest(new { message = "Invalid post attempt" });
+            }
+
+            var accountToUpdate = _mapper.Map<Account>(account);
+
+            var res = await _accountRepo.UpdateAccount(accountToUpdate);
+            if (!res)
+            {
+                return BadRequest(new { response = "301", message = "Account failed to update" });
+            }
+
+            return Ok(new
+            {
+                account,
+                message = "Account updated successfully"
+            });
+        }
+
+        [HttpPost("Account/DeleteAccount", Name = "deleteAccount")]
+        public async Task<IActionResult> DeleteAccount(AccountDtoForDelete account)
+        {
+            if (account == null)
+            {
+                return BadRequest(new { message = "Invalid post attempt" });
+            }
+
+            var accountToDelete = _mapper.Map<Account>(account);
+
+            var res = await _accountRepo.DeleteAccount(accountToDelete);
+            if (!res)
+            {
+                return BadRequest(new { response = "301", message = "Account failed to delete" });
+            }
+
+            return Ok(new { account, message = "Account Deleted" });
+        }
+    }
+}

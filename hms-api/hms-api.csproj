@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>HMS</RootNamespace>
+    <UserSecretsId>d9ff9728-9634-4900-8f5a-1a7c8687f60c</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Doctor\Data\**" />
+    <Compile Remove="Areas\Lab\Data\**" />
+    <Compile Remove="Areas\Pharmacy\Data\**" />
+    <Compile Remove="Controllers\Doctor\**" />
+    <Compile Remove="Controllers\Pharmacy\**" />
+    <Compile Remove="ViewModels\Doctor\**" />
+    <Compile Remove="ViewModels\Pharmacy\**" />
+    <Content Remove="Areas\Doctor\Data\**" />
+    <Content Remove="Areas\Lab\Data\**" />
+    <Content Remove="Areas\Pharmacy\Data\**" />
+    <Content Remove="Controllers\Doctor\**" />
+    <Content Remove="Controllers\Pharmacy\**" />
+    <Content Remove="ViewModels\Doctor\**" />
+    <Content Remove="ViewModels\Pharmacy\**" />
+    <EmbeddedResource Remove="Areas\Doctor\Data\**" />
+    <EmbeddedResource Remove="Areas\Lab\Data\**" />
+    <EmbeddedResource Remove="Areas\Pharmacy\Data\**" />
+    <EmbeddedResource Remove="Controllers\Doctor\**" />
+    <EmbeddedResource Remove="Controllers\Pharmacy\**" />
+    <EmbeddedResource Remove="ViewModels\Doctor\**" />
+    <EmbeddedResource Remove="ViewModels\Pharmacy\**" />
+    <None Remove="Areas\Doctor\Data\**" />
+    <None Remove="Areas\Lab\Data\**" />
+    <None Remove="Areas\Pharmacy\Data\**" />
+    <None Remove="Controllers\Doctor\**" />
+    <None Remove="Controllers\Pharmacy\**" />
+    <None Remove="ViewModels\Doctor\**" />
+    <None Remove="ViewModels\Pharmacy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="MailKit" Version="2.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="MimeKit" Version="2.10.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\Seeders\" />
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\.gitkeep" />
+  </ItemGroup>
+
+
+</Project>

@@ -1,0 +1,84 @@
+﻿using HMS.Models;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+
+namespace HMS.Areas.Admin.Dtos
+{
+    public class ServiceInvoiceDtoForView
+    {
+        public string Id { get; set; }
+        public string Fullname { get; set; }
+        public decimal Cost { get; set; }
+        public decimal AmountTotal { get; set; }
+        public decimal AmountToBePaidByPatient { get; set; }
+        public decimal AmountToBePaidByHMO { get; set; }
+        public  int NoofServices { get; set; }
+        public string PaymentStatus { get; set; }
+        public string PatientId { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string TransactionReference { get; set; }
+        public DateTime DateGenerated { get; set; }
+    }
+
+    public class ServiceRequestDtoForCreate
+    {
+        public string PatientId { get; set; }
+        public List<string> ServiceId { get; set; }
+        public string TransactionReference { get; set; }
+        public string GeneratedBy { get; set; }
+
+        //this Id can either be Appointment or Consultation Id
+        public string Id { get; set; }
+        public string IdType { get; set; }
+    }
+
+    public class ServiceRequestDtoForView
+    {
+        public string Id { get; set; }
+        public string ServiceName { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal Cost { get; set; }
+        public string Status { get; set; }
+        public Service Service { get; set; }
+        public ServiceInvoice ServiceInvoice { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string AppointmentId { get; set; }
+        public string ConsultationId { get; set; }
+        public string IdType { get; set; }
+    }
+
+    public class ServiceRequestPaymentDto
+    {
+        public string PatientId { get; set; }
+        public List<string> ServiceRequestId { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal TotalAmount { get; set; }
+        public string PaymentMethod { get; set; }
+        public string TransactionReference { get; set; }
+        public string InitiatorId { get; set; }
+    }
+
+    public class ServiceUploadResultDto
+    {
+        public string ServiceRequestId { get; set; }
+        public string Result { get; set; }
+        public List<IFormFile> Images { get; set; }
+        public string AdditionalComments { get; set; }
+    }
+
+    public class ServiceRequestResultDtoForView
+    {
+        public string Id { get; set; }
+        public string Result { get; set; }
+        public string AdditionalComments { get; set; }
+        public string ServiceRequestId { get; set; }
+        public virtual ServiceRequest ServiceRequest { get; set; }
+        public virtual ICollection<ServiceRequestResultImage> ServiceRequestResultImages { get; set; }
+    }
+}
