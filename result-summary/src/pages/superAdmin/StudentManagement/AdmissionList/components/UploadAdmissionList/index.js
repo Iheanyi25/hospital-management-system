@@ -1,7 +1,0 @@
-export * from "./UploadAdmissionList"
-export * from "./SingleUpload"
-export * from "./SingleUploadForm"
-export * from "./BulkUpload"
-export * from "./ListPreview"
-export * from "./ListUpload"
-export * from "./UploadSuccess"
