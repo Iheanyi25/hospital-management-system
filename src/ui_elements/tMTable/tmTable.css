@@ -1,0 +1,132 @@
+.res-tm-table {
+	width: 100%;
+	transform: none !important;
+	border-collapse: collapse;
+}
+
+.res-tm-table th {
+	padding: 16px 24px;
+}
+
+.res-tm-table td {
+	padding: 14px 24px;
+}
+
+.res-tm-table tr {
+	border: 1px solid var(--border-stoke) !important;
+}
+
+.res-tm-table tr:hover {
+	background: var(--disabled);
+	box-shadow: inset 0px -1px 0px var(--border-stoke);
+}
+.res-tm-table .res-table-col-headers:hover,
+.res-tm-table thead tr th {
+	background-color: var(--dark-bg-text-color);
+}
+
+.res-tm-table thead tr {
+	cursor: unset !important;
+}
+
+.res-table-title {
+	font-size: 1.2rem;
+	font-style: normal;
+	font-weight: bold;
+	color: var(--text-color);
+	border: 1px solid var(--border-stoke);
+	border-bottom: none;
+	padding: 16px 24px;
+	background-color: var(--white);
+}
+
+.res-table-col-headers {
+	max-height: 56px !important;
+	color: var(--gray);
+	font-weight: 500;
+	font-size: 0.8rem;
+	line-height: 12px;
+}
+
+.res-table-col-headers th {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 0.86rem;
+	line-height: 12px;
+	color: var(--gray);
+}
+
+.res-table-content td {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1rem;
+	line-height: 20px;
+}
+
+.res-table-avatar span {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 0.86rem;
+	line-height: 12px;
+	color: var(--dark-bg-text-color);
+}
+
+.res-employee-table-name {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 0.86rem;
+	line-height: 114%;
+	color: var(--text-color);
+}
+
+.res-employee-table-email {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 0.75rem;
+	line-height: 133%;
+	color: var(--gray);
+}
+
+#search-empty-state-container {
+	padding-top: 107px;
+	padding-bottom: 107px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
+	border: 1px solid var(--border-stoke);
+	border-top: none;
+	border-radius: 1px;
+}
+#search-empty-state-container h5 {
+	text-align: center;
+	font-weight: bold;
+	font-size: 0.86rem;
+	line-height: 12px;
+	color: var(--gray);
+	margin-top: 30px;
+}
+
+.search-message-style img {
+	height: 256px;
+	width: 256px;
+}
+
+.search-message-style h4 {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.43rem;
+	line-height: 24px;
+}
+
+@media all and (max-width: 768px) {
+	.res-tm-table th {
+		padding: 10px;
+	}
+
+	.res-tm-table td {
+		padding: 5px 20px;
+	}
+}

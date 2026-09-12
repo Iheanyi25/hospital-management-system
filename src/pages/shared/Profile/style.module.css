@@ -1,0 +1,101 @@
+.container label {
+	font-weight: 500;
+}
+.profile_img {
+	height: 96px;
+	width: 96px;
+	border-radius: 50%;
+}
+
+.profile_img > img {
+	height: inherit;
+	width: inherit;
+	border-radius: 50%;
+}
+
+.upload_button {
+	margin-left: 20px;
+	margin-bottom: 38px;
+}
+
+.sub_header {
+	font-size: 1.14rem;
+	line-height: 20px;
+}
+
+.key_comes_tabs {
+	position: sticky;
+	top: 40px;
+}
+
+.key_comes_sticky {
+	position: absolute;
+	transform: translateX(-50%);
+	left: 75px;
+	width: 100%;
+}
+
+.signature_text_style {
+	color: var(--primary);
+	cursor: pointer;
+}
+
+.ailment_container {
+	border-radius: 4px;
+	padding: 9.5px 12px;
+}
+
+.profile_img span {
+	font-size: 2.86rem;
+}
+
+.input {
+	display: none;
+}
+
+.welcome_text {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1rem;
+	line-height: 20px;
+	color: var(--alt-text-color-3);
+}
+
+.logo_container {
+	width: 469px;
+	margin: 0px auto;
+}
+
+.logo_container img {
+	width: 100%;
+}
+
+.printout_container {
+	border: 1px solid var(--light-gray);
+	padding: 24px 0px;
+	margin-top: 24px;
+	width: 100%;
+}
+
+.printout_header {
+	font-size: 1.143rem;
+	color: var(--text-color);
+}
+
+.text_size {
+	font-size: 1.29rem;
+}
+
+.info_container {
+	width: 579px;
+	margin: 0px auto;
+}
+
+@media (max-width: 1200px) {
+	.key_comes_sticky {
+		position: relative;
+		top: 0;
+		left: 0;
+		transform: none;
+	}
+}

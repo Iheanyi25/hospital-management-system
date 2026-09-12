@@ -1,0 +1,259 @@
+import {
+	Button,
+	CenteredDialog,
+	ConfirmationModal,
+	Search,
+	TMTable,
+	ToggleElement
+} from "../../../../../ui_elements";
+import styles from "./style.module.css";
+import { useCallback, useMemo, useState } from "react";
+import { EditCourse, UploadCourse } from "./components";
+import {
+	editUploadedCourseUrl,
+	getCoursesToManageUrl,
+	toggleCourseStatusUrl
+} from "../../../../../api/urls";
+import { useApiDelete, useApiGet, useApiPut } from "../../../../../api/apiCall";
+import { useQueryClient } from "react-query";
+import { PAGESIZE, SEARCH_DELAY } from "../../../../../utils/constants";
+import { useDebouncedCallback } from "use-debounce";
+
+const ManageCourse = () => {
+	const [open, setOpen] = useState(false);
+	const [editOpen, setEditOpen] = useState(false);
+	const [editData, setEditData] = useState({});
+	const [openDelete, setOpenDelete] = useState(false);
+	const pageSize = PAGESIZE.sm;
+	const [searchTerm, setSearchTerm] = useState("");
+	const debouncedSearch = useDebouncedCallback(
+		(value) => {
+			setSearchTerm(value);
+		},
+		// delay in ms
+		SEARCH_DELAY.sm
+	);
+	const [pageNumber, setPageNumber] = useState(1);
+	const { data, isLoading, isFetching, error } = useApiGet(
+		getCoursesToManageUrl({
+			pageSize,
+			pageNumber,
+			searchTerm
+		}),
+		{
+			keepPreviousData: true
+		}
+	);
+	const { mutate, isLoading: isDeleting } = useApiDelete();
+	const { mutate: toggle, isLoading: isPosting } = useApiPut();
+	const queryClient = useQueryClient();
+	const deleteCourse = () => {
+		const requestDet = {
+			url: editUploadedCourseUrl(editData.id)
+		};
+		mutate(requestDet, {
+			onSuccess: () => {
+				queryClient.invalidateQueries(
+					getCoursesToManageUrl({ pageSize, pageNumber, searchTerm })
+				);
+				setOpenDelete(false);
+				const successFlag = window.AJS.flag({
+					type: "success",
+					title: "Course Deletion Success!",
+					body: "Your course was deleted successfully"
+				});
+				setTimeout(() => {
+					successFlag.close();
+				}, 5000);
+			},
+			onError: ({ response }) => {
+				const errorFlag = window.AJS.flag({
+					type: "error",
+					title: "Course Deletion Failed!",
+					body:
+						response?.data?.message ||
+						`Course wasn't deleted successfully`
+				});
+				setTimeout(() => {
+					errorFlag.close();
+				}, 5000);
+			}
+		});
+	};
+
+	const toggleCourseActivation = useCallback(
+		(id, active) => {
+			const requestDet = {
+				url: toggleCourseStatusUrl(id)
+			};
+			toggle(requestDet, {
+				onSuccess: () => {
+					queryClient.invalidateQueries(
+						getCoursesToManageUrl({
+							pageSize,
+							pageNumber,
+							searchTerm
+						})
+					);
+					const successFlag = window.AJS.flag({
+						type: "success",
+						title: "Course Action Success!",
+						body: `Course was ${
+							active ? "deactivated" : "activated"
+						} successfully!`
+					});
+					setTimeout(() => {
+						successFlag.close();
+					}, 5000);
+				},
+				onError: ({ response }) => {
+					const errorFlag = window.AJS.flag({
+						type: "error",
+						title: "Course Action Success!",
+						body:
+							response?.data?.message ||
+							`Course wasn't ${
+								active ? "deactivated" : "activated"
+							} successfully!`
+					});
+					setTimeout(() => {
+						errorFlag.close();
+					}, 5000);
+				}
+			});
+		},
+		[pageNumber, queryClient, searchTerm, toggle, pageSize]
+	);
+
+	const columns = useMemo(
+		() => [
+			{
+				Header: "S/N",
+				accessor: "serialNo",
+				Cell: ({ cell: { row } }) => (
+					<div>
+						<span>
+							{pageSize * (pageNumber - 1) + (row.index + 1)}
+						</span>
+					</div>
+				)
+			},
+			{
+				Header: "Course code",
+				accessor: "courseCode"
+			},
+			{
+				Header: "Course title",
+				accessor: "name"
+			},
+			{
+				Header: "Status",
+				accessor: "active",
+				Cell: ({ cell: { row } }) => {
+					const { active, id } = row.original;
+					return (
+						<ToggleElement
+							id={`open-course-registration-${active}`}
+							checked={active}
+							label={active ? "Activated" : "Deactivated"}
+							onChange={() => toggleCourseActivation(id, active)}
+							isDisabled={isPosting}
+						/>
+					);
+				}
+			},
+			{
+				Header: "Action",
+				accessor: "buttons",
+				Cell: ({ cell: { row } }) => (
+					<div>
+						<Button
+							data-cy="edit_course"
+							label="Edit"
+							buttonClass="standard"
+							onClick={() => {
+								setEditData({
+									code: row.original.courseCode,
+									title: row.original.name,
+									id: row.original.id
+								});
+								setEditOpen(true);
+							}}
+						/>
+					</div>
+				)
+			}
+		],
+		[pageSize, pageNumber, isPosting, toggleCourseActivation]
+	);
+	if (error)
+		return "An error has occurred: " + error?.response?.data?.message;
+	return (
+		<div className={styles.container}>
+			<CenteredDialog
+				modalId="upload_courses"
+				isOpen={open}
+				closeModal={() => setOpen(false)}
+				formTitle="Upload Courses"
+			>
+				<UploadCourse
+					currentFilterState={{ pageSize, pageNumber, searchTerm }}
+					setUploadModal={setOpen}
+				/>
+			</CenteredDialog>
+			<CenteredDialog
+				modalId="edit_course"
+				isOpen={editOpen}
+				closeModal={() => setEditOpen(false)}
+				width={705}
+				formTitle="Edit course"
+			>
+				<EditCourse
+					data={editData}
+					closeModal={() => setEditOpen(false)}
+					currentFilterState={{ pageSize, pageNumber, searchTerm }}
+				/>
+			</CenteredDialog>
+			<ConfirmationModal
+				isOpen={openDelete}
+				closeModal={() => setOpenDelete(false)}
+				handleClick={deleteCourse}
+				formTitle="Delete course"
+				isLoading={isDeleting}
+			/>
+			<div className={styles.page_content}>
+				<div className="w-100">
+					<TMTable
+						columns={columns}
+						data={data?.data.items || []}
+						title="Course List"
+						additonalTitleData={
+							<div className="d-flex align-items-center">
+								<Search
+									placeholder="Search for course"
+									onChange={(e) => {
+										debouncedSearch(e.target.value);
+										setPageNumber(1);
+									}}
+								/>
+								<Button
+									data-cy="default"
+									buttonClass="primary"
+									label="Upload course"
+									customClass="ml-3"
+									onClick={() => setOpen(true)}
+								/>
+							</div>
+						}
+						loading={isLoading || isFetching || isPosting}
+						setPageNumber={setPageNumber}
+						pageNumber={pageNumber}
+						availablePages={data?.data?.metaData.totalPages}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default ManageCourse;

@@ -1,0 +1,19 @@
+.infinite-progress-bar {
+	position: absolute;
+	width: calc(100% * 2 / 9);
+	/* max-width: 400px; */
+	height: 100%;
+	display: flex;
+	animation: move 2s linear infinite;
+	background-color: white;
+	overflow: hidden;
+}
+
+@keyframes move {
+	0% {
+		transform: translatex(-100%, 0);
+	}
+	100% {
+		transform: translate(calc(5 / 2 * 100%), 0);
+	}
+}

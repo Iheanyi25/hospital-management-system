@@ -1,0 +1,31 @@
+.rse-search-container {
+	width: 240px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	position: relative;
+	border-radius: 4px;
+}
+
+.rse-search-container input {
+	padding: 12px;
+	background: var(--dark-bg-text-color);
+	width: 100%;
+	height: 100%;
+	border: 1px solid #dfe1e6;
+	box-sizing: border-box;
+	border-radius: 4px;
+	margin: 10px 0px;
+	padding-right: 35px;
+}
+.rse-search-container input::placeholder,
+.rse-search-container input::-moz-placeholder {
+	font-weight: 450;
+	line-height: 20px;
+	color: var(--gray);
+}
+
+.rse-search-container img {
+	position: absolute;
+	right: 11px;
+}

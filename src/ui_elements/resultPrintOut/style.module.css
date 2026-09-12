@@ -1,0 +1,130 @@
+
+/* result sheet */
+.section_container {
+	max-width: 1400px;
+	margin: 0 auto;
+	color: var(--text-color);
+}
+
+.img_container {
+	text-align: center;
+	padding-top: 35px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--disabled);
+}
+
+.header_container,
+.footer_container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin: 15px auto;
+}
+
+.footer_container {
+	margin-top: 0px;
+}
+
+​ .header_container > div {
+	display: flex;
+	width: 15%;
+}
+​ .header_container > div:first-child {
+	display: flex;
+	width: 30%;
+}
+​ .header_container > div:nth-child(2) {
+	display: flex;
+	width: 30%;
+}
+​ .footer_container > div {
+	display: flex;
+}
+
+.student_details_grid {
+	margin-bottom: 1rem;
+	display: flex;
+}
+
+.student_details_grid div:last-of-type {
+	margin-left: 10px;
+}
+​ .student_details_grid > div {
+	display: flex;
+}
+​ .student_details_grid > div:first-child {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 0.86rem;
+	line-height: 24px;
+	color: var(--light-blue);
+	margin-right: 1.5rem;
+	/* width: 6rem; */
+}
+​ .student_details_grid > div:nth-child(2) {
+	font-family: Circular Std;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 0.86rem;
+	line-height: 24px;
+	color: var(--light-blue);
+}
+
+.course_overview_table_header {
+	width: 100%;
+	height: 56px;
+	background-color: var(--light-green);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: Circular Std;
+	font-weight: bold;
+	font-size: 1.14rem;
+	line-height: 24px;
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+​ .course_table {
+	width: 100%;
+	table-layout: auto;
+	border-collapse: collapse;
+	text-align: left;
+	padding: 20px;
+}
+.course_table th,
+.course_table td {
+	border-bottom: 1px solid var(--border-stoke);
+	padding: 20px;
+}
+.course_table th {
+	font-size: 0.86rem;
+	color: var(--gray);
+	padding: 20px;
+}
+​ .course_table td {
+	font-weight: 450;
+	font-size: 1rem;
+	line-height: 20px;
+	color: var(--text-color);
+}
+​ .cours_table tr:first-of-type {
+	background-color: var(--text-color-varation);
+}
+​.lecturer_details_grid {
+	/* margin-bottom: 1rem; */
+	display: flex;
+	align-items: baseline;
+}
+.lecturer_details_grid div {
+	margin-top: 10px;
+}
+​ .lecturer_details_grid > div {
+	display: flex;
+	/* margin-bottom: 1rem; */
+}
+.lecturer_details_grid > div:first-child {
+	font-weight: 450;
+	font-size: 1rem;
+}

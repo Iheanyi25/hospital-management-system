@@ -1,0 +1,73 @@
+.container {
+	-webkit-print-color-adjust: exact;
+	-moz-print-color-adjust: exact;
+	-ms-print-color-adjust: exact;
+	print-color-adjust: exact;
+	border: 1px solid #dddddd;
+	padding: 10px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--neutral-20);
+}
+
+.logo {
+	width: 60px;
+	height: auto;
+	margin-right: 20px;
+}
+
+.schoolInfo {
+	flex: 1;
+	margin-bottom: 10px;
+	width: 50% !important;
+	text-transform: uppercase;
+}
+
+.container h1,
+.container h2,
+.container h3 {
+	font-size: 14px;
+	line-height: 1.2;
+	margin: 0;
+	font-weight: 700;
+}
+
+.container * {
+	text-transform: uppercase;
+}
+
+.headerGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, auto);
+	gap: 5px 140px;
+	width: 100%;
+	max-width: 600px;
+	margin-left: 100px;
+}
+
+.gridItem {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.gridItem span:first-of-type {
+	color: var(--text-neutral);
+	font-weight: normal;
+}
+
+.gridItem span {
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+@media print {
+	.container {
+		border: none;
+	}
+}

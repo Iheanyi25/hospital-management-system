@@ -1,0 +1,20 @@
+.long_card_container {
+	height: 80px;
+	padding: 30px 30px;
+	border: 1px solid var(--border-stoke);
+	border-radius: 1px;
+	background: var(--rse-color-background-default);
+}
+.long_card_container h5 {
+	font-weight: 450;
+	font-size: 1rem;
+	line-height: 20px;
+}
+
+.long_card_container a {
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 20px;
+	color: var(--rse-unn-color-button-primary-default);
+	text-decoration: none;
+}

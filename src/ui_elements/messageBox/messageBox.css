@@ -1,0 +1,75 @@
+.messageBox_container {
+	width: 100%;
+	padding: 20px 24px;
+	background-color: var(--light-text-color-2);
+	position: absolute;
+	top: 72px;
+	z-index: 3;
+	flex-wrap: wrap;
+}
+
+.messageBox_container svg * {
+	fill: var(--white-color);
+}
+
+.messageBox_text {
+	margin-left: 10px;
+}
+
+.messageBox_text h5 {
+	font-size: 1rem;
+	font-weight: 500;
+	color: var(--white-color);
+}
+
+.messageBox_text p {
+	font-size: 1rem;
+	font-weight: 450;
+	margin-top: 5px;
+	color: var(--white-color);
+}
+
+.messageBox_text p span a {
+	text-decoration: none;
+	color: var(--blue-custom);
+}
+
+.messageBox_spacer {
+	flex: 1;
+}
+
+.close_btn {
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+}
+
+.messageBox_button {
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-right: 10px;
+	cursor: pointer;
+	background-color: transparent;
+	color: var(--white-color);
+	border: 1px solid var(--white-color);
+	font-size: 1rem;
+}
+
+@media (max-width: 500px) {
+	.messageBox_button {
+		margin: 10px 0 0 34px;
+	}
+
+	.messageBox_container {
+		padding: 20px 16px;
+	}
+
+	.messageBox_text p {
+		text-align: start;
+	}
+
+	.close_btn {
+		position: absolute;
+		right: 17px;
+	}
+}

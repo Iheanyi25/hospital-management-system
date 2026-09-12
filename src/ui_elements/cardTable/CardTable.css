@@ -1,0 +1,8 @@
+.res-card-table-container {
+    background-color: var(--white-color);
+    border: 1px solid var(--border-stoke);
+}
+
+.card-table-main {
+    position: relative;
+}

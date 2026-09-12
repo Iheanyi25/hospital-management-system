@@ -1,0 +1,12 @@
+.page_content {
+	margin-top: 52px;
+}
+
+.img_container {
+	height: 96px;
+}
+
+.img_container img {
+	width: 70%;
+	height: 100%;
+}

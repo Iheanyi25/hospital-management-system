@@ -1,0 +1,48 @@
+.personnel_container {
+	padding: 0px 100px;
+}
+
+.courseTable_container {
+	width: 100%;
+	overflow-x: scroll;
+}
+
+.info_container {
+	margin-top: 20px;
+}
+
+.info {
+	width: fit-content;
+}
+
+.course_overview_table_header {
+	height: 56px;
+	background-color: var(--light-green);
+}
+
+.courseTable {
+	width: 100%;
+	table-layout: auto;
+	border-collapse: collapse;
+}
+
+.courseTable th,
+.courseTable td {
+	border-bottom: 1px solid var(--border-stoke);
+	padding: 20px;
+}
+
+.courseTable th {
+	font-size: 0.86rem;
+	color: rgba(153, 153, 153, 1);
+}
+
+.courseTable thead tr:first-of-type {
+	background-color: rgba(171, 245, 209, 0.384);
+}
+
+@media (max-width: 800px) {
+	.personnel_container {
+		padding: 0px 20px;
+	}
+}

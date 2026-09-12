@@ -1,0 +1,81 @@
+.auth_container {
+	display: flex;
+	justify-content: center;
+	min-height: 100vh;
+	width: 100vw;
+	background-color: var(--neutral-10);
+	text-align: center;
+	align-items: center;
+}
+
+.light {
+	position: absolute;
+	z-index: 20;
+	top: -30px;
+	left: 0;
+	width: 100%;
+}
+
+.auth_card {
+	width: 90vw;
+	max-width: 552px;
+	border: 1px solid var(--border-stoke);
+	border-radius: 8px;
+	position: relative;
+}
+.auth_card > div:first-of-type img {
+	cursor: pointer;
+}
+.auth_main_header {
+	font-size: 1.5rem;
+	color: var(--text-color);
+	line-height: 32px;
+	margin-top: 2rem;
+}
+
+.auth_sub_header {
+	font-size: 0.875rem;
+	color: var(--text-color);
+	line-height: 20px;
+	margin-top: 1rem;
+}
+
+.auth_label {
+	font-size: 1rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 16px;
+}
+.link_class {
+	font-size: 1rem;
+	background-color: transparent;
+	color: var(--primary);
+	font-weight: 450;
+	text-decoration: none !important;
+}
+
+.logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo img {
+	width: 100px;
+}
+
+.otp_input_style {
+	border: 1px solid var(--border-stoke);
+	border-radius: 4px;
+	height: 3.7rem;
+	width: 3.7rem !important;
+}
+.full {
+	width: 100% !important;
+}
+
+@media (max-width: 768px) {
+	.light {
+		top: -15px;
+	}
+}

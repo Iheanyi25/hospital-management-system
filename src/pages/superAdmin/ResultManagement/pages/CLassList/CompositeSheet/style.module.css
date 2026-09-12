@@ -1,0 +1,182 @@
+.filter_container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 2.4rem;
+}
+
+.composite_table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.result_summary_table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.result_summary_table td,
+.result_summary_table th {
+	border: 1px solid var(--border-stoke);
+	padding: 5.5px 12px;
+	height: 32px;
+	overflow: hidden;
+}
+
+.result_summary_table th {
+	text-align: center;
+	/* background-color: var(--primary);
+	color: var(--white-color); */
+}
+
+.composite_table td,
+.composite_table th {
+	border: 1px solid var(--border-stoke);
+	padding: 5.5px 5px;
+	height: 32px;
+	overflow: hidden;
+	font-size: 1.2rem;
+}
+
+.composite_table:last-of-type th {
+	font-size: 1.2rem;
+}
+
+.composite_table_approval {
+	width: 100%;
+	height: 87px;
+	margin-top: 10px;
+	border: 1px solid var(--border-stoke);
+}
+
+.unregistered_table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.unregistered_table thead th {
+	text-align: center;
+	/* background-color: var(--primary);
+	color: var(--white-color); */
+}
+
+.unregistered_table thead th,
+.unregistered_table tr td {
+	border: 1px solid var(--border-stoke);
+	padding: 10px;
+	font-size: 1.3rem;
+}
+
+.unregistered_table tr td:first-of-type {
+	max-width: 39px;
+}
+
+.unregistered_table_head td {
+	font-weight: 600;
+}
+
+.range_current_text {
+	font-size: 1rem;
+	margin-top: 10px;
+}
+
+.range_current_text:first-of-type {
+	margin-top: 16px;
+}
+
+.range_current_text span {
+	font-weight: 700;
+}
+
+.signature_container {
+	margin-top: 30px;
+	display: flex;
+	align-items: flex-end;
+	column-gap: 5px;
+	max-width: 520px;
+}
+
+.signature_container_space {
+	flex: 1;
+	height: 1px;
+	background-color: var(--border-stoke);
+}
+
+/* Senate Sheet */
+.senate_sheet_container {
+	max-width: 1190px;
+	background-color: var(--white-color);
+	padding: 100px 20px;
+	margin: 0px auto;
+}
+
+.senate_sheet_school_logo {
+	width: 325px;
+	margin: 38px auto;
+}
+
+.senate_sheet_school_logo img {
+	width: 100%;
+}
+
+.senate_level_header {
+	width: 100%;
+	max-width: 850px;
+	margin: 37px auto;
+	margin-bottom: 0px;
+}
+
+.senate_level_header:first-of-type {
+	margin-top: 73px !important;
+}
+
+.senate_result_section_header {
+	font-size: 1rem;
+}
+
+.senate_small_header {
+	width: 109px;
+	margin: 0px auto;
+}
+
+.senate_small_header img {
+	width: 100%;
+}
+
+.senate_result_section_body {
+	max-width: 1066.5px;
+	width: 100%;
+	margin: 35px auto;
+	border-top: 2px solid black;
+}
+
+.senate_result_section_body_p {
+	font-size: 1.29rem;
+}
+
+.senate_result_table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.senate_result_table tr td,
+.senate_result_table tr th {
+	border: 1px solid var(--border-stoke);
+	padding: 14px 12px;
+}
+
+.signature_container_senate_result {
+	margin-top: 30px;
+	display: flex;
+	align-items: flex-end;
+	column-gap: 5px;
+}
+
+.altBgTH th {
+	background-color: var(--light-green)!important;
+	color: unset;
+}
+
+.composite_table_max_width {
+	width: 50px !important;
+}

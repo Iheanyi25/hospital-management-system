@@ -1,0 +1,66 @@
+.app-container {
+	background-color: var(--neutral-10);
+	padding-bottom: 100px;
+}
+
+.children {
+	height: calc(100vh - 72px);
+	overflow-y: auto;
+	margin: 72px auto 0 auto;
+	max-width: 1440px;
+	padding: 50px 0px 50px 0px;
+	scroll-behavior: smooth;
+}
+
+.no-header-tab {
+	padding: 92px 0px 50px 0px !important;
+}
+
+.res-header {
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	z-index: 1000;
+	top: 0;
+}
+
+.res-side-menu--background {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	height: 100vh;
+	width: 100vw;
+	background: rgba(9, 30, 66, 0.54);
+	z-index: 1;
+}
+
+@keyframes slide {
+	0% {
+		left: -200px;
+	}
+	100% {
+		left: 0;
+	}
+}
+
+.res-side {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1001;
+	animation: slide 0.3s linear 0s 1;
+}
+
+.res-no-side {
+	display: none;
+}
+
+@media (min-width: 768px) {
+	.children{
+		padding: 50px 5% 50px 5%;
+	}
+	.no-header-tab {
+		padding: 92px 5% 50px 5% !important;
+	}
+}

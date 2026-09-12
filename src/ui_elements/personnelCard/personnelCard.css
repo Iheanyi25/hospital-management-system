@@ -1,0 +1,19 @@
+.personnel_card_align {
+	padding: 0px 54px;
+}
+.info-container {
+	margin-top: 9px;
+}
+
+.personnel-image {
+	width: 173px;
+}
+
+.info-avatar span {
+	font-size: 100px !important;
+}
+
+.forCourses {
+	display: flex;
+	justify-content: space-between;
+}

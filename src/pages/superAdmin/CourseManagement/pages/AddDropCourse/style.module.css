@@ -1,0 +1,21 @@
+.page_content {
+	margin-top: 74px;
+}
+.form {
+	display: flex;
+	justify-content: center;
+	padding: 5% 100px 0 100px;
+}
+
+.form_content label {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 16px;
+}
+
+.error_wrapper {
+	display: flex;
+	justify-content: center;
+	padding-top: 15%;
+}

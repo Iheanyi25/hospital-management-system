@@ -1,0 +1,184 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState, useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { useApiGet } from "../../../../../api/apiCall";
+import { getApplicationInvoiceData } from "../../../../../api/urls";
+import {
+	Jumbotron,
+	Button,
+	SMSelect,
+	TextField
+} from "../../../../../ui_elements";
+import { JambFormSchema } from "./schema";
+
+export const UniTransferDetailsForm = ({
+	allApplicationTypes,
+	setUserFormState,
+	setUserFormData,
+	userFormState,
+	state,
+	makeRequest,
+	setMakeRequest
+}) => {
+	const [applicationTypeId, setApplicationTypeId] = useState();
+	const [regNo, setRegNumber] = useState("");
+
+	const { push } = useHistory();
+
+	const {
+		control,
+		register,
+		handleSubmit,
+		getValues,
+		formState: { errors, isSubmitting }
+	} = useForm({
+		defaultValues: {
+			InvoiceTypeId: {
+				value: state?.application?.id,
+				label: state?.application?.name
+			}
+		},
+		resolver: yupResolver(JambFormSchema)
+	});
+
+	const {
+		data: invoiceData,
+		isFetching: isLoading,
+		error: requestError
+	} = useApiGet(
+		getApplicationInvoiceData({
+			applicationTypeId,
+			regNumber: regNo
+		}),
+		{
+			enabled: makeRequest,
+			refetchOnWindowFocus: true
+		}
+	);
+
+	useEffect(() => {
+		if (invoiceData?.success && makeRequest && !isLoading) {
+			setMakeRequest(false);
+			if (invoiceData?.data?.invoiceNumber) {
+				push({
+					pathname: `/uni_transfer_students_invoice`,
+					state: { data: invoiceData?.data }
+				});
+			} else {
+				setUserFormState(true);
+				setUserFormData(invoiceData?.data);
+			}
+		}
+		if (requestError && makeRequest && !isLoading) {
+			setMakeRequest(false);
+			setUserFormState(false);
+			const errorFlag = window.AJS.flag({
+				type: "error",
+				title: "Invalid Action!",
+				body:
+					requestError?.response?.data?.message ||
+					`Invalid action, please enter correct details`
+			});
+			setTimeout(() => {
+				errorFlag.close();
+			}, 5000);
+		}
+	}, [
+		invoiceData,
+		requestError,
+		makeRequest,
+		isLoading,
+		userFormState,
+		setUserFormData,
+		setUserFormState,
+		setMakeRequest,
+		push
+	]);
+
+	const onSubmit = () => {
+		setApplicationTypeId(getValues("InvoiceTypeId.value"));
+		setRegNumber(getValues("RegNo"));
+		setMakeRequest(true);
+	};
+
+	return (
+		<form onSubmit={handleSubmit(onSubmit)} className="w-100 mt-3">
+			<Jumbotron
+				headerText="Generate Payment Invoice"
+				footerContent={
+					<Button
+						data-cy="fetch_details"
+						type="submit"
+						buttonClass="primary"
+						label="Submit"
+						loading={isSubmitting || isLoading}
+					/>
+				}
+				footerStyle="d-flex justify-content-end"
+			>
+				<section className="p-4 container flex-wrap align-items-center justify-content-between">
+					<div className="row">
+						<div className="col-md-6">
+							<div className="row align-items-center">
+								<div className="col-lg-3 align-items-center">
+									<label
+										className="font-weight-bold"
+										htmlFor="setupCategoryId"
+									>
+										Invoice Type
+									</label>
+								</div>
+								<div className="col-lg-9">
+									<Controller
+										name="InvoiceTypeId"
+										control={control}
+										rules={{ required: true }}
+										render={({ field }) => (
+											<SMSelect
+												placeholder="Select a Invoice Type"
+												options={allApplicationTypes}
+												id="InvoiceTypeId"
+												searchable={true}
+												{...field}
+												disabled
+												isError={!!errors.InvoiceTypeId}
+												errorText={
+													errors.InvoiceTypeId &&
+													errors.InvoiceTypeId.message
+												}
+											/>
+										)}
+									/>
+								</div>
+							</div>
+						</div>
+
+						<div className={`col-md-6`}>
+							<div className={`row align-items-center`}>
+								<div className="col-lg-3 align-items-center">
+									<label htmlFor="regNo">Jamb Reg. No.</label>
+								</div>
+								<div className="d-flex col-lg-9">
+									<TextField
+										className="w-100"
+										placeholder="Enter Reg. No."
+										name="RegNo"
+										type="text"
+										register={register}
+										required
+										error={errors.RegNo}
+										errorText={
+											errors.RegNo && errors.RegNo.message
+										}
+										id="RegNo"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</Jumbotron>
+		</form>
+	);
+};

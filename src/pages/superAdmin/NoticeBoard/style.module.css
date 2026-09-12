@@ -1,0 +1,69 @@
+.tableContainer {
+	margin-top: 66px;
+}
+
+.add_notice_modal_header h3 {
+	font-size: 1.14rem;
+	font-weight: 700;
+	color: var(--light-alt-text-color);
+}
+
+.cancel_btn {
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+}
+
+.add_notice_body {
+	margin-top: 40px;
+}
+
+.delete_modal_container {
+	max-width: 584px;
+	width: 584px;
+	background-color: var(--white-color);
+    border-radius: 4px;
+}
+
+.delete_modal_header {
+	padding: 16px 24px;
+}
+
+.delete_modal_header h3 {
+	font-size: 1.14rem;
+	font-weight: 400;
+	color: var(--light-alt-text-color);
+}
+
+.delete_modal_body p {
+	color: var(--alt-text-color);
+	font-size: 1rem;
+}
+
+.delete_modal_body span {
+	color: var(--danger);
+}
+
+.delete_modal_footer {
+    padding: 16px 24px;
+}
+
+.notice_info h3 {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.notice_info p {
+    font-size: 0.86rem;
+    color: var(--light-text-color-3);
+}
+
+@media (max-width: 1130px) {
+	.add_notice_modal {
+		width: calc(98% - 80px);
+	}
+
+	.delete_modal_container {
+		width: 98%;
+	}
+}

@@ -1,0 +1,77 @@
+.page_content {
+	display: flex;
+	justify-content: center;
+	margin-top: 74px;
+}
+
+.form {
+	display: flex;
+	justify-content: center;
+	padding: 5% 100px 0 100px;
+}
+
+.form_content label {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 16px;
+}
+
+.profile_container h6 {
+	color: var(--gray);
+	font-size: 1rem;
+	font-weight: 400;
+}
+.details {
+	height: auto;
+}
+.header h4 {
+	font-size: 2rem;
+	font-weight: 600;
+}
+.header h6 {
+	color: var(--gray);
+	font-weight: 400;
+	font-size: 1rem;
+}
+
+.subject {
+	flex-basis: 50%;
+}
+.grade {
+	flex-basis: 20%;
+}
+.verified {
+	flex-basis: 10%;
+	margin-left: -30px;
+	color: var(--secondary);
+}
+.pending {
+	padding: 5px 10px;
+	background-color: var(--light-yellow-custom);
+	color: var(--purple-text-color);
+}
+.appVerified {
+	padding: 5px 10px;
+	background-color: var(--light-green);
+	color: var(--secondary);
+}
+
+.container {
+	width: 100%;
+}
+
+.profileImage {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+@media (max-width: 767px) {
+	.subject,
+	.grade,
+	.verified {
+		flex-basis: 100%;
+		margin-left: 0;
+	}
+}

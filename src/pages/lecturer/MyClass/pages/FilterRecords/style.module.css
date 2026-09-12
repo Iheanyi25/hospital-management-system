@@ -1,0 +1,9 @@
+.page_content {
+	margin-top: 52px;
+}
+
+@media screen and (max-width: 718px){
+	.page_content{
+		margin: 52px 1.5rem 0 1.5rem;
+	}
+}

@@ -1,0 +1,10 @@
+.accent {
+	background: var(--yellow-accent);
+	border-radius: 13px;
+	position: absolute;
+}
+@media (max-width: 768px) {
+	.accent {
+		opacity: 0.8;
+	}
+}

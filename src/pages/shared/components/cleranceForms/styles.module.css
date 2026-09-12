@@ -1,0 +1,251 @@
+.content {
+	margin-bottom: 68px;
+	width: 980px;
+	background-color: white;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+
+	min-height: 1384px;
+}
+
+.content p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.125rem;
+	line-height: 24px;
+	/* margin-bottom: 20px; */
+	text-align: justify;
+	color: #091e42;
+}
+
+.content span {
+	font-size: 1.14rem;
+	font-weight: 600;
+}
+
+.page_content {
+	padding: 24px 80px;
+}
+
+.page_content .passportColumn {
+	height: 200px;
+	width: 200px;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.page_content .passportColumn>img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.page_content>p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.14rem;
+	line-height: 24px;
+}
+
+.header>div:nth-child(2) {
+	background-color: var(--light-green);
+}
+
+.header img {
+	justify-self: center;
+	width: 659px;
+	margin-bottom: 26px;
+}
+
+.header h4 {
+	font-style: normal;
+	font-weight: bold;
+	font-size: 1.36rem;
+	line-height: 24px;
+}
+
+.body h4 {
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.125rem;
+	line-height: 24px;
+	text-align: center;
+	width: 87%;
+	margin-top: 34px;
+	margin-bottom: 10px;
+}
+
+.body p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.125rem;
+	line-height: 165%;
+	font-family: "CircularStd";
+	text-align: justify;
+	word-spacing: normal;
+}
+
+.body .listWrapper {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+}
+
+.body .listWrapper ul li {
+	list-style-type: lower-roman;
+	margin-top: 0.2rem;
+}
+
+.body .qualificationColumn {
+	width: 778px;
+	height: fit;
+	margin-top: 0.2rem;
+	margin-bottom: 1.5rem;
+	border: 1px solid #b3bac5;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.body .qualificationColumn>div:not(:last-of-type) {
+	border-right: 1px solid #b3bac5;
+}
+
+.body .qualificationColumn>div>h3 {
+	height: 45px;
+	box-shadow: 0px -1px 0px 0px #dddddd inset;
+	font-size: 1.125rem;
+	font-weight: 500;
+	color: #091e42;
+}
+
+.body .qualificationColumn>div>div>div {
+	height: 45px;
+	display: flex;
+	align-items: center;
+}
+
+.body .qualificationColumn>div>div>div:not(:last-of-type) {
+	border-bottom: 1px solid #b3bac5;
+}
+
+.body .qualificationColumn>div>div>div>span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 24px;
+	color: #091e42;
+}
+
+.body .qualificationColumn>div>div>div>span:not(:first-of-type) {
+	width: 30%;
+	height: 100%;
+}
+
+.body .qualificationColumn>div>div>div>span:not(:last-of-type) {
+	width: 70%;
+	border-right: 1px solid #b3bac5;
+	height: 100%;
+}
+
+.body .box {
+	border: 1px solid #091e42;
+	height: 34.84px;
+	width: 34.84px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.comment {
+	padding-top: 40px;
+	width: 100%;
+}
+
+.comment p {
+	font-style: normal;
+	font-weight: 450;
+	font-size: 1.125rem;
+	line-height: 24px;
+	color: #091e42;
+}
+
+.address {
+	text-decoration: underline;
+	max-width: 280px;
+	width: 100%;
+}
+
+
+.title h2 {
+	font-weight: 800;
+	font-size: 40px;
+	text-align: center;
+	color: var(--primary);
+}
+
+.title h3 {
+	font-weight: 600;
+	font-size: 22px;
+	text-align: center;
+}
+
+.title h5 {
+	font-weight: 700;
+	font-size: 25px;
+	text-align: center;
+	text-decoration: none !important;
+}
+
+.title i {
+	font-weight: 450;
+	font-size: 1rem;
+	text-align: center;
+	font-style: italic;
+}
+
+.notification_slip {
+	margin-bottom: 68px;
+	width: 980px;
+	background-color: white;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-left: 78px;
+	padding-right: 78px;
+	min-height: 1384px;
+}
+
+.notification_slip .header {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.notification_slip .header img {
+	max-width: 100px;
+}
+
+.notification_slip .content {
+	margin-bottom: 20px;
+	margin-top: 50px;
+}
+
+
+
+.instructions {
+	margin-top: 50px !important;
+}
+
+.notification_slip .instructions ol {
+	padding-left: 15px;
+}
+
+
+.checkTitle strong{
+	text-decoration: underline;
+	font-size: 18px;
+}
+
